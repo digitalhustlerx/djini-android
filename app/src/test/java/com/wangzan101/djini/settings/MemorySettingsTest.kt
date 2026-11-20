@@ -1,4 +1,4 @@
-package com.wangzan101.mika.settings
+package com.wangzan101.djini.settings
 
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -25,7 +25,7 @@ class MemorySettingsTest {
         assertFalse(MemorySettings(file).switches.value.learnSkills)
     }
 
-    // 「让 Mika 自己归纳着记」默认关;旧文件里没有这一项也是关;打开后记得住
+    // 「让 Djini 自己归纳着记」默认关;旧文件里没有这一项也是关;打开后记得住
     @Test fun inferMemoriesOffByDefaultAndSticks() {
         val file = File(tmp.root, "memory.json")
         assertFalse(MemorySettings(file).switches.value.inferMemories)

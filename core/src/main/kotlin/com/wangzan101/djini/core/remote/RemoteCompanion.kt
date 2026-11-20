@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.remote
+package com.wangzan101.djini.core.remote
 
-import com.wangzan101.mika.core.agent.TaskState
+import com.wangzan101.djini.core.agent.TaskState
 
 /**
  * Web 控制台要用的只读入口。和 [RemoteTasks] 分开:任务入口只认电脑交来的任务,

@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import android.content.Context
 import android.text.format.DateFormat as AndroidDateFormat
@@ -39,21 +39,21 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.chat.ConversationStore
-import com.wangzan101.mika.chat.ConversationSummary
-import com.wangzan101.mika.chat.FileLibrary
-import com.wangzan101.mika.chat.FileLibrarySnapshot
-import com.wangzan101.mika.chat.FileSource
-import com.wangzan101.mika.chat.LibraryFile
-import com.wangzan101.mika.task.DeviceImportStore
+import com.wangzan101.djini.R
+import com.wangzan101.djini.chat.ConversationStore
+import com.wangzan101.djini.chat.ConversationSummary
+import com.wangzan101.djini.chat.FileLibrary
+import com.wangzan101.djini.chat.FileLibrarySnapshot
+import com.wangzan101.djini.chat.FileSource
+import com.wangzan101.djini.chat.LibraryFile
+import com.wangzan101.djini.task.DeviceImportStore
 import kotlinx.coroutines.flow.catch
-import com.wangzan101.mika.ui.components.*
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
-import com.wangzan101.mika.ui.theme.MikaRadius
-import com.wangzan101.mika.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.components.*
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.MikaRadius
+import com.wangzan101.djini.ui.theme.MikaShapes
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -384,11 +384,11 @@ internal fun FileLibraryScreen(
                 Row(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 2.dp)) {
                     Text(
                         "$conversationLabel · $sourceLabel · $typeLabel", Modifier.weight(1f).testTag("file-library-scope"),
-                        style = MikaType.Hint, color = MikaTheme.colors.ink3, maxLines = 1, overflow = TextOverflow.Ellipsis,
+                        style = MikaType.Hint, color = DjiniTheme.colors.ink3, maxLines = 1, overflow = TextOverflow.Ellipsis,
                     )
                     Text(
                         stringResource(R.string.file_library_file_count, rows.size), Modifier.padding(start = 12.dp),
-                        style = MikaType.Hint, color = MikaTheme.colors.ink3, maxLines = 1,
+                        style = MikaType.Hint, color = DjiniTheme.colors.ink3, maxLines = 1,
                     )
                 }
             } else {
@@ -470,7 +470,7 @@ internal fun FileLibraryScreen(
             }
             if (loaded?.partial == true && loaded?.failed == false) {
                 Row(Modifier.fillMaxWidth().padding(horizontal = 16.dp), horizontalArrangement = Arrangement.SpaceBetween) {
-                    Text(stringResource(R.string.file_library_partial), Modifier.weight(1f).padding(vertical = 12.dp), style = MikaType.Hint, color = MikaTheme.colors.warn)
+                    Text(stringResource(R.string.file_library_partial), Modifier.weight(1f).padding(vertical = 12.dp), style = MikaType.Hint, color = DjiniTheme.colors.warn)
                     TextButton(onClick = { revision++ }) { Text(stringResource(R.string.file_library_retry)) }
                 }
             }
@@ -531,7 +531,7 @@ internal fun FileLibraryScreen(
                         Text(
                             stringResource(R.string.file_library_file_count, rows.size),
                             Modifier.fillMaxWidth().padding(top = 8.dp, bottom = 12.dp),
-                            style = MikaType.Hint, color = MikaTheme.colors.ink3, textAlign = TextAlign.Center,
+                            style = MikaType.Hint, color = DjiniTheme.colors.ink3, textAlign = TextAlign.Center,
                         )
                     }
                 }
@@ -675,7 +675,7 @@ internal val LibraryTitleStyle = MikaType.LargeTitle.copy(fontWeight = FontWeigh
 /** 文件库顶栏:返回、左对齐大标题、右边「多选」胶囊。 */
 @Composable
 private fun LibraryTopBar(canSelect: Boolean, working: Boolean, onBack: () -> Unit, onSelect: () -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Row(
         Modifier.fillMaxWidth().windowInsetsPadding(WindowInsets.statusBars)
             .heightIn(min = 64.dp).padding(start = 4.dp, end = 12.dp),
@@ -711,7 +711,7 @@ private fun LibrarySelectionTopBar(
     onCancel: () -> Unit,
     onSelectAll: () -> Unit,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Box(Modifier.fillMaxWidth().windowInsetsPadding(WindowInsets.statusBars).height(60.dp)) {
         Text(
             if (count == 0) stringResource(R.string.file_library_select_title) else stringResource(R.string.file_library_selected_count, count),
@@ -755,7 +755,7 @@ private fun LibraryFilterPill(
     modifier: Modifier = Modifier,
     content: @Composable ColumnScope.() -> Unit,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val shape = RoundedCornerShape(MikaRadius.Bubble)
     Box(modifier) {
         Row(
@@ -791,7 +791,7 @@ private fun LibraryFilterPill(
 /** 筛选菜单里的一行:选中时浅强调底、文字强调色、右端一个勾。 */
 @Composable
 private fun FilterMenuItem(label: String, selected: Boolean, onClick: () -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Row(
         Modifier.fillMaxWidth().clip(MikaShapes.Chip)
             .background(if (selected) c.accentSoft else Color.Transparent)
@@ -813,7 +813,7 @@ private fun FilterMenuItem(label: String, selected: Boolean, onClick: () -> Unit
 private fun LibraryDayHeader(label: String) {
     Text(
         label, Modifier.fillMaxWidth().padding(start = 10.dp, end = 10.dp, top = 13.dp, bottom = 5.dp),
-        style = MikaType.Label, color = MikaTheme.colors.ink3,
+        style = MikaType.Label, color = DjiniTheme.colors.ink3,
     )
 }
 
@@ -850,7 +850,7 @@ private fun LibraryFileRow(
     onToggle: () -> Unit,
     onMore: () -> Unit,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val shape = MikaShapes.Chip
     Column(Modifier.fillMaxWidth()) {
         if (divider && !selected) {
@@ -936,7 +936,7 @@ private fun LibraryFileRow(
 /** 文件来自已归档的对话:会话名旁边的小标签,和侧栏里的归档图标一个意思。 */
 @Composable
 private fun ArchivedTag() {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Row(
         Modifier.clip(RoundedCornerShape(MikaRadius.BubbleTail)).background(c.accentSoft).padding(horizontal = 5.dp, vertical = 1.dp)
             .testTag("file-library-archived"),
@@ -951,7 +951,7 @@ private fun ArchivedTag() {
 /** 文件类型块:上面一个图形,下面扩展名。 */
 @Composable
 internal fun FileTypeTile(name: String) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val (icon, label) = fileBadge(name)
     Column(
         Modifier.size(width = 48.dp, height = 54.dp).clip(MikaShapes.Chip).background(c.fill),
@@ -989,7 +989,7 @@ private fun LibraryBatchBar(
     onShare: () -> Unit,
     onAdd: () -> Unit,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val enabled = count > 0 && !working
     Column(Modifier.fillMaxWidth()) {
         Box(Modifier.fillMaxWidth().height(0.5.dp).background(c.hair))

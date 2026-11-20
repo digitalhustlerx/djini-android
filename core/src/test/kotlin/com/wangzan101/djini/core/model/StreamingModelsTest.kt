@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.model
+package com.wangzan101.djini.core.model
 
-import com.wangzan101.mika.core.agent.RetryPolicy
+import com.wangzan101.djini.core.agent.RetryPolicy
 import kotlinx.coroutines.test.runTest
 import okhttp3.OkHttpClient
 import okhttp3.mockwebserver.MockResponse

@@ -1,8 +1,8 @@
-package com.wangzan101.mika.core.tool
+package com.wangzan101.djini.core.tool
 
-import com.wangzan101.mika.core.observation.Observation
-import com.wangzan101.mika.core.risk.GateTarget
-import com.wangzan101.mika.core.action.Risk as ApprovalRisk
+import com.wangzan101.djini.core.observation.Observation
+import com.wangzan101.djini.core.risk.GateTarget
+import com.wangzan101.djini.core.action.Risk as ApprovalRisk
 import kotlinx.serialization.json.JsonObject
 
 /**
@@ -56,7 +56,7 @@ interface ToolInfo {
     val routable: Boolean
     /** 界面上的说法;没有时显示工具名。 */
     val label: String?
-    /** 沙箱里的 `mika phone <操作>` 能调它(手机能力、结果是文字);其余一律拒绝。 */
+    /** 沙箱里的 `djini phone <操作>` 能调它(手机能力、结果是文字);其余一律拒绝。 */
     val sandboxCallable: Boolean get() = false
 }
 
@@ -114,7 +114,7 @@ internal interface AgentTool : ToolInfo {
     val withScreens: Boolean get() = false
     /**
      * 撤掉也什么都不丢的调用(只是等待,或只问看图模型、不动界面):用户插话一到就撤掉,
-     * 结果报 [com.wangzan101.mika.core.run.SKIPPED_FOR_NEW_MESSAGE],模型先读这句话,还要的话再调一次。
+     * 结果报 [com.wangzan101.djini.core.run.SKIPPED_FOR_NEW_MESSAGE],模型先读这句话,还要的话再调一次。
      */
     val yieldsToSteer: Boolean get() = false
 

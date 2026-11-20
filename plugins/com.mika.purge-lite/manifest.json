@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "id": "com.mika.purge-lite",
+  "id": "com.djini.purge-lite",
   "name": "提示词体检",
   "version": "0.5.3",
   "kind": "capability",
-  "description": "拦截 Mika 的系统提示词,按 persona.conf 改写后再发给模型;另外能扫目录、读片段、打补丁、回滚。",
-  "author": "Mika",
+  "description": "拦截 Djini 的系统提示词,按 persona.conf 改写后再发给模型;另外能扫目录、读片段、打补丁、回滚。",
+  "author": "Djini",
   "minApp": "0.1.46",
   "permissions": [
     "run-scripts",

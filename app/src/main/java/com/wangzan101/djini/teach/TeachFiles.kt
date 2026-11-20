@@ -1,9 +1,9 @@
-package com.wangzan101.mika.teach
+package com.wangzan101.djini.teach
 
-import com.wangzan101.mika.core.teach.TeachCodec
-import com.wangzan101.mika.core.teach.TeachSession
-import com.wangzan101.mika.core.teach.TeachSkill
-import com.wangzan101.mika.core.teach.TeachTrace
+import com.wangzan101.djini.core.teach.TeachCodec
+import com.wangzan101.djini.core.teach.TeachSession
+import com.wangzan101.djini.core.teach.TeachSkill
+import com.wangzan101.djini.core.teach.TeachTrace
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.StandardCopyOption

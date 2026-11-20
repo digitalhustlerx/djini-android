@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.uistate
+package com.wangzan101.djini.core.uistate
 
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals

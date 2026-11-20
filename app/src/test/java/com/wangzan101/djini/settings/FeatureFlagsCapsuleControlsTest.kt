@@ -1,6 +1,6 @@
-package com.wangzan101.mika.settings
+package com.wangzan101.djini.settings
 
-import com.wangzan101.mika.capsule.CapsuleMode
+import com.wangzan101.djini.capsule.CapsuleMode
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch

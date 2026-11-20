@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.adb
+package com.wangzan101.djini.core.adb
 
 import java.net.InetSocketAddress
 import java.net.Socket

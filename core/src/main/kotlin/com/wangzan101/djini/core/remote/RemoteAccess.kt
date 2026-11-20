@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.remote
+package com.wangzan101.djini.core.remote
 
-import com.wangzan101.mika.core.mcp.McpRpc
+import com.wangzan101.djini.core.mcp.McpRpc
 import java.net.Inet4Address
 import java.net.Inet6Address
 import java.net.InetAddress

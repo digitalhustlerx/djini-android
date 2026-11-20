@@ -1,15 +1,15 @@
-package com.wangzan101.mika.knowledge
+package com.wangzan101.djini.knowledge
 
-import com.wangzan101.mika.core.screenmap.ScreenGraph
-import com.wangzan101.mika.core.screenmap.ScreenGraphCodec
-import com.wangzan101.mika.core.screenmap.ScreenMapStore
+import com.wangzan101.djini.core.screenmap.ScreenGraph
+import com.wangzan101.djini.core.screenmap.ScreenGraphCodec
+import com.wangzan101.djini.core.screenmap.ScreenMapStore
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.StandardCopyOption
 
 /**
  * 屏图落盘：`<dir>/knowledge/apps/<app>/screens.json`。原子写（临时文件 + ATOMIC_MOVE，旧文件在新文件就位前一直完好），
- * 读失败/损坏返回 null 不抛（先例 [com.wangzan101.mika.replay.FileRouteStore]）。全进程一把锁。
+ * 读失败/损坏返回 null 不抛（先例 [com.wangzan101.djini.replay.FileRouteStore]）。全进程一把锁。
  */
 class FileScreenMapStore(dir: File) : ScreenMapStore {
     private val root = File(dir, "knowledge/apps")

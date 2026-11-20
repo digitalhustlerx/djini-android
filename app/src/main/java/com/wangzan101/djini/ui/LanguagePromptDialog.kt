@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
@@ -42,14 +42,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.AppLanguage
-import com.wangzan101.mika.ui.components.MikaDialog
-import com.wangzan101.mika.ui.components.RadioRow
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaShapes
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.AppLanguage
+import com.wangzan101.djini.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.RadioRow
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
 
 /**
  * Filter matching a query against localized name, language tag, and common synonyms.
@@ -79,7 +79,7 @@ internal fun filterLanguages(query: String): List<AppLanguage> {
 }
 
 /**
- * Prompt shown once on update or next launch to allow users to pick Mika's reasoning and UI language.
+ * Prompt shown once on update or next launch to allow users to pick Djini's reasoning and UI language.
  * Dynamically scales its content height to the device screen height instead of using hardcoded dimensions.
  */
 @Composable
@@ -98,7 +98,7 @@ internal fun LanguagePromptDialog(
         (screenHeight * 0.45f).coerceIn(180.dp, 360.dp)
     }
     val focusManager = LocalFocusManager.current
-    val colors = MikaTheme.colors
+    val colors = DjiniTheme.colors
     val filtered = remember(query) { filterLanguages(query) }
 
     MikaDialog(

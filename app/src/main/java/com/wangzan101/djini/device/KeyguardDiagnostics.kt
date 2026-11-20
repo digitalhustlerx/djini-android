@@ -1,6 +1,6 @@
-package com.wangzan101.mika.device
+package com.wangzan101.djini.device
 
-import com.wangzan101.mika.core.device.CredentialKind
+import com.wangzan101.djini.core.device.CredentialKind
 
 /** 锁屏识别诊断只保留系统控件的技术属性;资源名和类名也限制字符与长度,不接纳屏上文字。 */
 internal object KeyguardDiagnostics {

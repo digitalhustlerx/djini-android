@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.eval
+package com.wangzan101.djini.core.eval
 
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue

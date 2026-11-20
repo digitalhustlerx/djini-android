@@ -1,4 +1,4 @@
-package com.wangzan101.mika.selfcheck
+package com.wangzan101.djini.selfcheck
 
 /**
  * 自检里按返回、等页面离开:按之前弹着输入法的那一下,安卓先拿去收起输入法(或先清掉没上屏的字),不算一次;

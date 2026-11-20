@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.proactive
+package com.wangzan101.djini.core.proactive
 
 /**
  * 解锁后补收:通知栏里还在的通知,只取锁屏之后(且在打开功能之后)发出的。

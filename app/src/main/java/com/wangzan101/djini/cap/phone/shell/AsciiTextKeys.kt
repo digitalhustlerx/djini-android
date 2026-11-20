@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.phone.shell
+package com.wangzan101.djini.cap.phone.shell
 
 /** 同步键盘注入的结果和 ASCII 范围;控制字符可能触发编辑器的其他动作,不作为文字输入。 */
 internal object AsciiTextKeys {

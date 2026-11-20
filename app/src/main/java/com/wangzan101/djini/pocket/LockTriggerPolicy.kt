@@ -1,6 +1,6 @@
-package com.wangzan101.mika.pocket
+package com.wangzan101.djini.pocket
 
-import com.wangzan101.mika.core.agent.TaskState
+import com.wangzan101.djini.core.agent.TaskState
 
 /** Only a stopped, waiting, or finished task needs a lock check. */
 internal object LockTriggerPolicy {

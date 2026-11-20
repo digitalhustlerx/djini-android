@@ -1,4 +1,4 @@
-package com.wangzan101.mika.proactive
+package com.wangzan101.djini.proactive
 
 import android.app.KeyguardManager
 import android.app.NotificationManager
@@ -14,30 +14,30 @@ import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
 import android.text.format.DateUtils
 import android.util.Log
-import com.wangzan101.mika.R
-import com.wangzan101.mika.core.proactive.CatchUp
-import com.wangzan101.mika.core.proactive.GrantResult
-import com.wangzan101.mika.core.proactive.ListenerGrant
-import com.wangzan101.mika.core.proactive.LiveUpdates
-import com.wangzan101.mika.core.proactive.NoticeDedup
-import com.wangzan101.mika.core.proactive.NoticeFilter
-import com.wangzan101.mika.core.proactive.NoticeHints
-import com.wangzan101.mika.core.proactive.NoticeInbox
-import com.wangzan101.mika.core.proactive.LearnLevel
-import com.wangzan101.mika.core.proactive.SourceTier
-import com.wangzan101.mika.core.proactive.NoticeRecord
-import com.wangzan101.mika.core.proactive.NoticeShapes
-import com.wangzan101.mika.core.proactive.NoticeView
-import com.wangzan101.mika.core.proactive.NoticeSource
-import com.wangzan101.mika.core.proactive.NoticeTalk
-import com.wangzan101.mika.core.proactive.TriageConsent
-import com.wangzan101.mika.core.proactive.TriageTarget
-import com.wangzan101.mika.core.shell.ShellCommandRunner
-import com.wangzan101.mika.i18n.AppLanguage
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.settings.FeatureFlags
-import com.wangzan101.mika.settings.KeystoreKeyCipher
-import com.wangzan101.mika.ui.classifierLanguage
+import com.wangzan101.djini.R
+import com.wangzan101.djini.core.proactive.CatchUp
+import com.wangzan101.djini.core.proactive.GrantResult
+import com.wangzan101.djini.core.proactive.ListenerGrant
+import com.wangzan101.djini.core.proactive.LiveUpdates
+import com.wangzan101.djini.core.proactive.NoticeDedup
+import com.wangzan101.djini.core.proactive.NoticeFilter
+import com.wangzan101.djini.core.proactive.NoticeHints
+import com.wangzan101.djini.core.proactive.NoticeInbox
+import com.wangzan101.djini.core.proactive.LearnLevel
+import com.wangzan101.djini.core.proactive.SourceTier
+import com.wangzan101.djini.core.proactive.NoticeRecord
+import com.wangzan101.djini.core.proactive.NoticeShapes
+import com.wangzan101.djini.core.proactive.NoticeView
+import com.wangzan101.djini.core.proactive.NoticeSource
+import com.wangzan101.djini.core.proactive.NoticeTalk
+import com.wangzan101.djini.core.proactive.TriageConsent
+import com.wangzan101.djini.core.proactive.TriageTarget
+import com.wangzan101.djini.core.shell.ShellCommandRunner
+import com.wangzan101.djini.i18n.AppLanguage
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.settings.FeatureFlags
+import com.wangzan101.djini.settings.KeystoreKeyCipher
+import com.wangzan101.djini.ui.classifierLanguage
 import java.io.File
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -73,7 +73,7 @@ class ProactiveRuntime(
     private val access: () -> AppGate,
     /** 「应用访问」变了就发一次(收集时先给现在的):禁用之后,已经收下的一并去掉;读不出来、又读得出来时重新看一遍。 */
     private val accessChanges: Flow<AppGate>,
-    /** 「由 Mika 助手授权」用的 shell 命令通道;只在用户点了按钮时才取,功能关着时不碰手机能力。 */
+    /** 「由 Djini 助手授权」用的 shell 命令通道;只在用户点了按钮时才取,功能关着时不碰手机能力。 */
     private val shellRunner: () -> ShellCommandRunner,
     /** 判定要用的模型、用量和「有任务在跑」;判定关着时不碰。 */
     private val triageHooks: TriageHooks,
@@ -148,7 +148,7 @@ class ProactiveRuntime(
         digest = { _learnDigest.value },
         journalStore = NoticeJournalFile(app.filesDir, KeystoreKeyCipher(NoticeJournalFile.KEY_ALIAS)),
         digestStore = DigestFile(app.filesDir, KeystoreKeyCipher(DigestFile.KEY_ALIAS)),
-        appLabel = { com.wangzan101.mika.confirm.ConfirmationNotifier.appLabel(app, it) },
+        appLabel = { com.wangzan101.djini.confirm.ConfirmationNotifier.appLabel(app, it) },
         contactStore = ContactPoolFile(app.filesDir, KeystoreKeyCipher(ContactPoolFile.KEY_ALIAS)),
         purges = prefs,
         log = { Log.i(TAG, it) },
@@ -181,7 +181,7 @@ class ProactiveRuntime(
     private fun wanted(): Boolean = flags.proactive()
 
     /**
-     * 功能开着时,进程起来、或用户从「完全退出」回来时调一次(MikaApp 只在开关开着时调)。
+     * 功能开着时,进程起来、或用户从「完全退出」回来时调一次(DjiniApp 只在开关开着时调)。
      * [paused] 为 true(完全退出期间)时只把组件状态对齐开关,不开始看守。
      */
     fun start(paused: Boolean) {
@@ -193,7 +193,7 @@ class ProactiveRuntime(
 
     /**
      * 「完全退出」时调:停下看守并请系统解绑,开关和白名单都不动。之后系统为别的服务把进程拉起来、
-     * 又把监听绑上时,[onConnected] 看到没在看守会再解绑;用户重新打开 Mika 时由 [start] 恢复。
+     * 又把监听绑上时,[onConnected] 看到没在看守会再解绑;用户重新打开 Djini 时由 [start] 恢复。
      */
     fun pause() {
         scope.launch {
@@ -233,7 +233,7 @@ class ProactiveRuntime(
     }
 
     /**
-     * 系统设置里有没有给 Mika 通知使用权。问通知服务本身,不读 `enabled_notification_listeners` 那个设置项:
+     * 系统设置里有没有给 Djini 通知使用权。问通知服务本身,不读 `enabled_notification_listeners` 那个设置项:
      * 真机上使用权被收回后那个设置项里还留着旧值。
      */
     fun authorized(): Boolean = runCatching {
@@ -243,7 +243,7 @@ class ProactiveRuntime(
     private val granting = Mutex()
 
     /**
-     * 用户在主动能力页点「由 Mika 助手授权」并确认后调:经内置助手(或已配对的连接)以 shell 身份给监听开通知使用权。
+     * 用户在主动能力页点「由 Djini 助手授权」并确认后调:经内置助手(或已配对的连接)以 shell 身份给监听开通知使用权。
      * 只由用户操作触发,不在后台自动调;用户离开页面也跑完(授权生效了要重绑)。同一时间只跑一次(后来的排队,轮到时已授权就直接算成功)。
      * 生效后照解锁的路子请系统重绑,不用离开页面。日志里只记结果类别和截短的命令输出,没有通知内容。
      */
@@ -327,13 +327,13 @@ class ProactiveRuntime(
         if (!tasksMayReadNotices(_enabled.value && FeatureFlags.get(app).proactive(), _learnDigest.value, _learnLevel.value)) return null
         return object : NoticeSource {
             override val zone: java.time.ZoneId get() = java.time.ZoneId.systemDefault()
-            override fun appLabel(packageName: String) = com.wangzan101.mika.confirm.ConfirmationNotifier.appLabel(app, packageName)
+            override fun appLabel(packageName: String) = com.wangzan101.djini.confirm.ConfirmationNotifier.appLabel(app, packageName)
             // 等太久、存着的那份读不出、任务跑着的时候被关掉:null,工具报读不出来(不是「什么都没收到」)
             override suspend fun read(fromMs: Long, toMs: Long): NoticeView? =
                 kotlinx.coroutines.withTimeoutOrNull(NOTICES_WAIT_MS) {
                     scope.async { learn.notices(fromMs, toMs, _learnLevel.value, ::learnTier) }.await()
                 }
-            override suspend fun digests(level: com.wangzan101.mika.core.proactive.DigestLevel): com.wangzan101.mika.core.proactive.DigestsView? =
+            override suspend fun digests(level: com.wangzan101.djini.core.proactive.DigestLevel): com.wangzan101.djini.core.proactive.DigestsView? =
                 kotlinx.coroutines.withTimeoutOrNull(NOTICES_WAIT_MS) {
                     scope.async { learn.digests(level, _learnLevel.value, ::learnTier) }.await()
                 }
@@ -382,7 +382,7 @@ class ProactiveRuntime(
     }
 
     /** 页面用:一句分段归纳是照着哪些通知写的。等太久(串行协程正忙着读写文件)算读不出来。 */
-    internal suspend fun learnRaw(note: com.wangzan101.mika.core.proactive.DigestNote): RawNotices =
+    internal suspend fun learnRaw(note: com.wangzan101.djini.core.proactive.DigestNote): RawNotices =
         kotlinx.coroutines.withTimeoutOrNull(NOTICES_WAIT_MS) { scope.async { learn.rawFor(note) }.await() } ?: RawNotices.Unavailable
 
     fun retryTriage() {
@@ -559,7 +559,7 @@ class ProactiveRuntime(
         }
     }
 
-    /** 包名这一关在读通知内容之前:不在白名单里(或是 Mika 自己、或被应用访问禁用)的连内容都不读。 */
+    /** 包名这一关在读通知内容之前:不在白名单里(或是 Djini 自己、或被应用访问禁用)的连内容都不读。 */
     private fun gatedRecord(sbn: StatusBarNotification): NoticeRecord? {
         val pkg = sbn.packageName ?: return null
         if (!BlockedApps.readable(pkg, allowed.current(), access())) return null
@@ -592,7 +592,7 @@ class ProactiveRuntime(
     }
 
     /**
-     * 清单里监听组件默认是停用的(没用过这个功能的人,系统「通知使用权」列表里没有 Mika);第一次打开功能时启用,
+     * 清单里监听组件默认是停用的(没用过这个功能的人,系统「通知使用权」列表里没有 Djini);第一次打开功能时启用,
      * 之后不再停用(停用会让系统收回使用权,见 [setEnabled])。
      */
     private fun enableComponent() {
@@ -604,16 +604,16 @@ class ProactiveRuntime(
         }.onFailure { Log.w(TAG, "cannot enable the notification listener", it) }
     }
 
-    // ---- 值得提醒(见 [NoticeHints]):只在内存里,胶囊上只给条数;点开时才写成对话里 Mika 的一条消息(见 [NoticeTalks]) ----
+    // ---- 值得提醒(见 [NoticeHints]):只在内存里,胶囊上只给条数;点开时才写成对话里 Djini 的一条消息(见 [NoticeTalks]) ----
 
     private val hintBoard = NoticeHints()
     /** 判为值得提醒、还在收件箱里的几条,和还没看过的条数。 */
     val hints: StateFlow<NoticeHints.State> = hintBoard.state
 
-    private val talks = NoticeTalks(com.wangzan101.mika.chat.ConversationStore.shared(app), prefs)
+    private val talks = NoticeTalks(com.wangzan101.djini.chat.ConversationStore.shared(app), prefs)
 
     /**
-     * 用户点开了提醒(悬浮窗上的数字,或主动能力页那一行):把还没看的几条写成 Mika 的一条消息,放进今天的提醒对话,
+     * 用户点开了提醒(悬浮窗上的数字,或主动能力页那一行):把还没看的几条写成 Djini 的一条消息,放进今天的提醒对话,
      * 设为当前对话,这几条记为看过(见 [NoticeTalks.open])。返回那个对话的 id;没有可开的、写不进去为 null。不调模型。
      */
     suspend fun openHintTalk(): String? {
@@ -636,8 +636,8 @@ class ProactiveRuntime(
     }
 
     /** App 名按包名从系统读(不用通知里的字);时间是当天的只写几点几分。 */
-    private fun talkItem(h: com.wangzan101.mika.core.proactive.NoticeHint, now: Long) = NoticeTalk.Item(
-        app = com.wangzan101.mika.confirm.ConfirmationNotifier.appLabel(app, h.packageName),
+    private fun talkItem(h: com.wangzan101.djini.core.proactive.NoticeHint, now: Long) = NoticeTalk.Item(
+        app = com.wangzan101.djini.confirm.ConfirmationNotifier.appLabel(app, h.packageName),
         time = DateUtils.formatSameDayTime(h.postedAtMs, now, java.text.DateFormat.SHORT, java.text.DateFormat.SHORT).toString(),
         title = h.title, text = h.text, reason = h.reason,
     )

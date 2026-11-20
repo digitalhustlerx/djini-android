@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.screenmap
+package com.wangzan101.djini.core.screenmap
 
 /** 认屏结果：认成哪个屏 [id]、置信度 [confidence]、命中了哪些骨架锚点 [matched]。 */
 data class Recognition(val id: String, val confidence: Double, val matched: Set<String>)

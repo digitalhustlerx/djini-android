@@ -1,18 +1,18 @@
-package com.wangzan101.mika.core.cap.phone
+package com.wangzan101.djini.core.cap.phone
 
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.prompt.Prompts
-import com.wangzan101.mika.core.run.SKIPPED_FOR_NEW_MESSAGE
-import com.wangzan101.mika.core.run.waitOrSteer
-import com.wangzan101.mika.core.tool.failCode
-import com.wangzan101.mika.core.tool.ArgError
-import com.wangzan101.mika.core.tool.Args
-import com.wangzan101.mika.core.tool.Risk
-import com.wangzan101.mika.core.tool.SubActions
-import com.wangzan101.mika.core.tool.ToolContext
-import com.wangzan101.mika.core.tool.ToolDef
-import com.wangzan101.mika.core.tool.ToolExecution
-import com.wangzan101.mika.core.tool.Verb
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.prompt.Prompts
+import com.wangzan101.djini.core.run.SKIPPED_FOR_NEW_MESSAGE
+import com.wangzan101.djini.core.run.waitOrSteer
+import com.wangzan101.djini.core.tool.failCode
+import com.wangzan101.djini.core.tool.ArgError
+import com.wangzan101.djini.core.tool.Args
+import com.wangzan101.djini.core.tool.Risk
+import com.wangzan101.djini.core.tool.SubActions
+import com.wangzan101.djini.core.tool.ToolContext
+import com.wangzan101.djini.core.tool.ToolDef
+import com.wangzan101.djini.core.tool.ToolExecution
+import com.wangzan101.djini.core.tool.Verb
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
@@ -20,8 +20,8 @@ import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.intOrNull
 import kotlinx.serialization.json.put
-import com.wangzan101.mika.core.uistate.screen
-import com.wangzan101.mika.core.uistate.session
+import com.wangzan101.djini.core.uistate.screen
+import com.wangzan101.djini.core.uistate.session
 
 /** 根据每一步读到的当前无障碍树重新定位目标,然后把动作交回统一执行入口。 */
 internal object PhoneRun : PhoneTool {

@@ -1,13 +1,13 @@
-package com.wangzan101.mika.cap.root
+package com.wangzan101.djini.cap.root
 
 import android.os.SystemClock
 import android.util.Base64
-import com.wangzan101.mika.core.cap.root.RootCommandClass
-import com.wangzan101.mika.core.cap.root.RootPort
-import com.wangzan101.mika.core.cap.root.RootRun
-import com.wangzan101.mika.core.shell.RootCommandSession
-import com.wangzan101.mika.core.shell.SuAnswer
-import com.wangzan101.mika.core.shell.SuProbe
+import com.wangzan101.djini.core.cap.root.RootCommandClass
+import com.wangzan101.djini.core.cap.root.RootPort
+import com.wangzan101.djini.core.cap.root.RootRun
+import com.wangzan101.djini.core.shell.RootCommandSession
+import com.wangzan101.djini.core.shell.SuAnswer
+import com.wangzan101.djini.core.shell.SuProbe
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runInterruptible
 import java.io.ByteArrayOutputStream
@@ -98,7 +98,7 @@ class RootCommands(
 
     /** 在单独的线程上读(不占公共线程池)。 */
     private fun <T> onThread(block: () -> T): CompletableFuture<T> = CompletableFuture<T>().also { f ->
-        Thread({ runCatching(block).fold({ f.complete(it) }, { f.completeExceptionally(it) }) }, "mika-root").apply { isDaemon = true }.start()
+        Thread({ runCatching(block).fold({ f.complete(it) }, { f.completeExceptionally(it) }) }, "djini-root").apply { isDaemon = true }.start()
     }
 
     /** 读完一个流,最多留 [MAX_BYTES],多的数着丢掉。 */

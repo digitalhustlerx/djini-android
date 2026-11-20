@@ -1,6 +1,6 @@
-package com.wangzan101.mika.voice
+package com.wangzan101.djini.voice
 
-import com.wangzan101.mika.settings.Provider
+import com.wangzan101.djini.settings.Provider
 
 /**
  * 手机自带识别的能力:系统说有没有([available])、是不是在本机上识别(不联网)、
@@ -14,7 +14,7 @@ data class SystemCapability(val available: Boolean, val onDevice: Boolean, val r
 /** 这一次实际要用的识别引擎;选择的东西不在了就给出 [Unavailable] 和原因,由界面提示。 */
 sealed interface SpeechEngineSpec {
     data class System(val onDevice: Boolean) : SpeechEngineSpec
-    data class Provider(val provider: com.wangzan101.mika.settings.Provider, val model: String, val method: TranscribeMethod) : SpeechEngineSpec
+    data class Provider(val provider: com.wangzan101.djini.settings.Provider, val model: String, val method: TranscribeMethod) : SpeechEngineSpec
     data class Doubao(val resourceId: String) : SpeechEngineSpec
     data class FunAsr(val url: String, val language: AsrLanguage = AsrLanguage.Auto) : SpeechEngineSpec
     data class Bailian(val model: String, val region: BailianRegion, val workspace: String = "", val language: AsrLanguage = AsrLanguage.Auto) : SpeechEngineSpec

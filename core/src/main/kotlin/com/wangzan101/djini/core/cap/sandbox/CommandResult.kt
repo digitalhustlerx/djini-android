@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.cap.sandbox
+package com.wangzan101.djini.core.cap.sandbox
 
 /**
  * 一条沙箱命令的结果。[output] 是合并后的标准输出与标准错误(最多 1 MB),

@@ -1,6 +1,6 @@
-package com.wangzan101.mika.cap.sandbox
+package com.wangzan101.djini.cap.sandbox
 
-import com.wangzan101.mika.core.workspace.WorkspaceFileGate
+import com.wangzan101.djini.core.workspace.WorkspaceFileGate
 import java.io.File
 
 /**

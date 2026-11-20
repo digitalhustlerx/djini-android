@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.export
+package com.wangzan101.djini.core.export
 
 /**
  * 一次导出的选择:对话编号、勾了哪些消息块、内容选项。
@@ -91,7 +91,7 @@ data class ExportAsset(
 
 data class QuotedText(val from: QuoteSource, val text: String)
 
-enum class QuoteSource { User, Mika }
+enum class QuoteSource { User, Djini }
 
 data class PageRef(val url: String, val title: String, val selection: String?)
 

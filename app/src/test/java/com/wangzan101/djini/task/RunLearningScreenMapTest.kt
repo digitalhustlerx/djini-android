@@ -1,13 +1,13 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.core.knowledge.GuideCatalog
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.replay.Anchors
-import com.wangzan101.mika.core.screenmap.ScreenGraph
-import com.wangzan101.mika.core.screenmap.ScreenMapStore
-import com.wangzan101.mika.settings.MemorySwitches
-import com.wangzan101.mika.core.assembly.knownTools
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.core.knowledge.GuideCatalog
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.replay.Anchors
+import com.wangzan101.djini.core.screenmap.ScreenGraph
+import com.wangzan101.djini.core.screenmap.ScreenMapStore
+import com.wangzan101.djini.settings.MemorySwitches
+import com.wangzan101.djini.core.assembly.knownTools
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull

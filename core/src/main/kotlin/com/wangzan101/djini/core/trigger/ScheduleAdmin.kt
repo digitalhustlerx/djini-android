@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.trigger
+package com.wangzan101.djini.core.trigger
 
 /** 本机用户的计划管理；宿主负责持久化和重新布置闹钟。 */
 interface ScheduleAdmin {

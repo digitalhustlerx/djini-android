@@ -1,6 +1,6 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
-import com.wangzan101.mika.core.run.RunPhase
+import com.wangzan101.djini.core.run.RunPhase
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse

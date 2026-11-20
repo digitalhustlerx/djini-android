@@ -1,7 +1,7 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.tr
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.tr
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
@@ -17,29 +17,29 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
-import com.wangzan101.mika.core.shell.AutoOnBlock
-import com.wangzan101.mika.core.shell.BuiltinShellStatus
-import com.wangzan101.mika.core.shell.HelperRestart
-import com.wangzan101.mika.core.shell.PermissionResult
-import com.wangzan101.mika.core.shell.RecoveryCapability
-import com.wangzan101.mika.core.shell.RecoveryConsent
-import com.wangzan101.mika.core.shell.RepairOutcome
-import com.wangzan101.mika.core.shell.RestoreOutcome
-import com.wangzan101.mika.cap.phone.PhoneServices
+import com.wangzan101.djini.core.shell.AutoOnBlock
+import com.wangzan101.djini.core.shell.BuiltinShellStatus
+import com.wangzan101.djini.core.shell.HelperRestart
+import com.wangzan101.djini.core.shell.PermissionResult
+import com.wangzan101.djini.core.shell.RecoveryCapability
+import com.wangzan101.djini.core.shell.RecoveryConsent
+import com.wangzan101.djini.core.shell.RepairOutcome
+import com.wangzan101.djini.core.shell.RestoreOutcome
+import com.wangzan101.djini.cap.phone.PhoneServices
 import kotlinx.coroutines.launch
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
-import com.wangzan101.mika.ui.components.GroupCard
-import com.wangzan101.mika.ui.components.ListRow
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.components.MikaSwitch
-import com.wangzan101.mika.ui.theme.MikaType
+import com.wangzan101.djini.ui.components.GroupCard
+import com.wangzan101.djini.ui.components.ListRow
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.components.MikaSwitch
+import com.wangzan101.djini.ui.theme.MikaType
 
 /**
  * 设置 › 恢复与修复 里手机操作的几个授权开关的文字(纯函数,便于测试)。和引导页一样说大白话,
- * 每一项都写清楚打开后 Mika 会做什么、怎么关;说明一直写在开关下面。都默认打开,配好手机操作后 Mika 自己补上。
+ * 每一项都写清楚打开后 Djini 会做什么、怎么关;说明一直写在开关下面。都默认打开,配好手机操作后 Djini 自己补上。
  */
 object RecoveryCopy {
     data class SwitchCopy(val title: String, val subtitle: String, val explain: String)
@@ -122,7 +122,7 @@ object RecoveryCopy {
     }
 }
 
-/** 接上真实状态的几个开关:选择存在 [com.wangzan101.mika.settings.RecoverySettings],执行走已配对的连接。 */
+/** 接上真实状态的几个开关:选择存在 [com.wangzan101.djini.settings.RecoverySettings],执行走已配对的连接。 */
 @Composable
 fun RecoverySwitches() {
     val context = LocalContext.current
@@ -183,13 +183,13 @@ fun RecoverySection(
             ListRow(icon, copy.title, if (busy == cap) RecoveryCopy.WORKING else copy.subtitle, first = i == 0) {
                 MikaSwitch(on, { want -> onToggle(cap, want) }, Modifier.testTag("recovery-${cap.name}"), enabled = busy == null)
             }
-            Note(copy.explain, MikaTheme.colors.ink3)
-            notes[cap]?.let { Note(it, MikaTheme.colors.bad) }
-            if (cap == RecoveryCapability.Accessibility) restartNote?.let { Note(it, MikaTheme.colors.ink3) }
+            Note(copy.explain, DjiniTheme.colors.ink3)
+            notes[cap]?.let { Note(it, DjiniTheme.colors.bad) }
+            if (cap == RecoveryCapability.Accessibility) restartNote?.let { Note(it, DjiniTheme.colors.ink3) }
             if (cap == RecoveryCapability.RestoreAfterReboot && consent.isApplied(cap)) {
-                RecoveryCopy.lastRestore(lastRestore)?.let { Note(it, MikaTheme.colors.warn) }
+                RecoveryCopy.lastRestore(lastRestore)?.let { Note(it, DjiniTheme.colors.warn) }
             }
-            if (cap == RecoveryCapability.AutoWirelessDebugging && consent.wants(cap)) autoOnNote?.let { Note(it, MikaTheme.colors.warn) }
+            if (cap == RecoveryCapability.AutoWirelessDebugging && consent.wants(cap)) autoOnNote?.let { Note(it, DjiniTheme.colors.warn) }
         }
     }
 }

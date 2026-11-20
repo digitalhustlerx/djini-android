@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.cap.sandbox
+package com.wangzan101.djini.core.cap.sandbox
 
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry
 import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream
@@ -154,7 +154,7 @@ class RootfsExtractorTest {
 
     @Test fun absoluteEntryRejected() {
         val d = dest()
-        assertUnsafe(tarGz(Reg("/tmp/mika-evil-${System.nanoTime()}", "x")), d)
+        assertUnsafe(tarGz(Reg("/tmp/djini-evil-${System.nanoTime()}", "x")), d)
     }
 
     @Test fun hardlinkOutsideRejected() {

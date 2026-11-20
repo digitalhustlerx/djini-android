@@ -1,7 +1,7 @@
-package com.wangzan101.mika.settings
+package com.wangzan101.djini.settings
 
-import com.wangzan101.mika.core.cap.phone.OperatingPace
-import com.wangzan101.mika.core.settings.SelfConfig
+import com.wangzan101.djini.core.cap.phone.OperatingPace
+import com.wangzan101.djini.core.settings.SelfConfig
 
 /**
  * 模型能改的那几项设置。[FeatureFlags] 是存储,这里只挑可逆的偏好交给模型:
@@ -55,7 +55,7 @@ class SelfConfigImpl(
                 null
             }
             KEY_CAPSULE -> {
-                val mode = com.wangzan101.mika.capsule.CapsuleMode.entries.firstOrNull { it.name.equals(v, true) }
+                val mode = com.wangzan101.djini.capsule.CapsuleMode.entries.firstOrNull { it.name.equals(v, true) }
                     ?: return "capsule is one of off, duringtasks, always"
                 flags.setCapsuleMode(mode)
                 null

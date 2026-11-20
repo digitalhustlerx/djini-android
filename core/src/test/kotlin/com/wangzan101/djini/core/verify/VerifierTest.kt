@@ -1,21 +1,21 @@
-package com.wangzan101.mika.core.verify
+package com.wangzan101.djini.core.verify
 
-import com.wangzan101.mika.core.agent.FakeModel
-import com.wangzan101.mika.core.model.ModelError
-import com.wangzan101.mika.core.model.ModelReply
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.Role
-import com.wangzan101.mika.core.model.StopReason
+import com.wangzan101.djini.core.agent.FakeModel
+import com.wangzan101.djini.core.model.ModelError
+import com.wangzan101.djini.core.model.ModelReply
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.Role
+import com.wangzan101.djini.core.model.StopReason
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
-import com.wangzan101.mika.core.model.ChatModel
-import com.wangzan101.mika.core.model.Capabilities
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.ToolSpec
+import com.wangzan101.djini.core.model.ChatModel
+import com.wangzan101.djini.core.model.Capabilities
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.ToolSpec
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -317,8 +317,8 @@ class VerifierTest {
 
     @Test fun screenshotSentWithModelImageEncoding() = runTest {
         val vision = FakeModel(text(PASS))
-        val shot = com.wangzan101.mika.core.vision.JvmTestImageOps.encode(1224, 2700) { _, _ -> 100 }
-        Verifier(FakeModel(text(PASS)), vision, com.wangzan101.mika.core.vision.JvmTestImageOps)
+        val shot = com.wangzan101.djini.core.vision.JvmTestImageOps.encode(1224, 2700) { _, _ -> 100 }
+        Verifier(FakeModel(text(PASS)), vision, com.wangzan101.djini.core.vision.JvmTestImageOps)
             .verify("查电量", CRITERIA, "电量 86%\n依据: 「86%」", evidence(shot = shot))
         val img = vision.requests.single().single().parts.filterIsInstance<Part.Image>().single()
         assertEquals("image/jpeg", img.mime)

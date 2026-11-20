@@ -1,8 +1,8 @@
-package com.wangzan101.mika.settings
+package com.wangzan101.djini.settings
 
-import com.wangzan101.mika.core.device.CredentialKind
-import com.wangzan101.mika.core.device.DeviceAccessStore
-import com.wangzan101.mika.core.device.DeviceCredential
+import com.wangzan101.djini.core.device.CredentialKind
+import com.wangzan101.djini.core.device.DeviceAccessStore
+import com.wangzan101.djini.core.device.DeviceCredential
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.serialization.json.Json

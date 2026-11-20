@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.assertIsNotEnabled
@@ -14,12 +14,12 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.ChineseUi
-import com.wangzan101.mika.chat.ConversationStore
-import com.wangzan101.mika.core.agent.AttachmentLines
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.core.agent.Turn
-import com.wangzan101.mika.takeover.Takeover
+import com.wangzan101.djini.ChineseUi
+import com.wangzan101.djini.chat.ConversationStore
+import com.wangzan101.djini.core.agent.AttachmentLines
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.core.agent.Turn
+import com.wangzan101.djini.takeover.Takeover
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob

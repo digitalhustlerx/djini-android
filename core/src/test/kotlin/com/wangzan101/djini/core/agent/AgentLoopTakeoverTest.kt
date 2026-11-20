@@ -1,15 +1,15 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
-import com.wangzan101.mika.core.model.ModelReply
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.Role
-import com.wangzan101.mika.core.model.StopReason
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.record.RunSink
-import com.wangzan101.mika.core.tool.FakeScreen
-import com.wangzan101.mika.core.tool.HandBack
-import com.wangzan101.mika.core.tool.HandBackOutcome
-import com.wangzan101.mika.core.verify.Verifier
+import com.wangzan101.djini.core.model.ModelReply
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.Role
+import com.wangzan101.djini.core.model.StopReason
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.record.RunSink
+import com.wangzan101.djini.core.tool.FakeScreen
+import com.wangzan101.djini.core.tool.HandBack
+import com.wangzan101.djini.core.tool.HandBackOutcome
+import com.wangzan101.djini.core.verify.Verifier
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.test.TestScope
@@ -26,14 +26,14 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import com.wangzan101.mika.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.assembly.toolDispatcher
 
 private var seq = 0
 private fun call(name: String, args: String = "{}") = Part.ToolCall("t${++seq}", name, args)
 private fun tools(vararg calls: Part.ToolCall) = ModelReply(calls.toList(), StopReason.ToolUse, null)
 private fun text(s: String) = ModelReply(listOf(Part.Text(s)), StopReason.EndTurn, null)
 private const val ANSWER = "付好了"
-private fun finish() = com.wangzan101.mika.core.testing.answerReply("付好了")
+private fun finish() = com.wangzan101.djini.core.testing.answerReply("付好了")
 private const val FAIL = """{"checks": [{"criterion": "已付款", "status": "unmet", "quote": null}], "verdict": "fail", "reason": "接管被跳过,没有付款"}"""
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -86,7 +86,7 @@ class AgentLoopTakeoverTest {
         val main = FakeModel(tools(takeover()), finish())
         val sink = ListSink()
         val (end, _) = handBack(HandBack(HandBackOutcome.complete, durationMs = 4200, inputCount = 3, stoppedAt = "订单详情"), main, sink = sink)
-        com.wangzan101.mika.core.testing.assertAnswered(ANSWER, end)
+        com.wangzan101.djini.core.testing.assertAnswered(ANSWER, end)
         val r = main.takeoverResult()
         assertTrue(r["ok"]!!.jsonPrimitive.boolean)
         assertEquals("complete", r.s("outcome"))
@@ -122,7 +122,7 @@ class AgentLoopTakeoverTest {
         assertEquals(waiting, l.state.value)
         assertTrue(main.requests.size == 1)
         l.resumeAfterTakeover(HandBack(HandBackOutcome.complete))
-        com.wangzan101.mika.core.testing.assertAnswered(ANSWER, run.await())
+        com.wangzan101.djini.core.testing.assertAnswered(ANSWER, run.await())
         assertEquals("complete", main.takeoverResult().s("outcome"))
     }
 

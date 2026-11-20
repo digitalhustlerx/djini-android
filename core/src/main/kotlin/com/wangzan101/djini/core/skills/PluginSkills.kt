@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.skills
+package com.wangzan101.djini.core.skills
 
-import com.wangzan101.mika.core.knowledge.GuideInfo
+import com.wangzan101.djini.core.knowledge.GuideInfo
 
 /** 插件技能的 kind;名字是 `<plugin-id>/<skill-name>`,只读,随插件启用/停用出现或消失。 */
 const val PLUGIN_KIND = "plugin"

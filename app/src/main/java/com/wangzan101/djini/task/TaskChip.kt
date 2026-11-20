@@ -1,12 +1,12 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
-import com.wangzan101.mika.R
-import com.wangzan101.mika.core.agent.TaskStage
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.core.assembly.knownTools
-import com.wangzan101.mika.core.run.RunOrigin
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.ui.ToolLabels
+import com.wangzan101.djini.R
+import com.wangzan101.djini.core.agent.TaskStage
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.core.assembly.knownTools
+import com.wangzan101.djini.core.run.RunOrigin
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.ui.ToolLabels
 
 private val tools by lazy { knownTools() }
 private val labels by lazy { ToolLabels(tools) }

@@ -1,9 +1,9 @@
-package com.wangzan101.mika.calls.briefing
+package com.wangzan101.djini.calls.briefing
 
-import com.wangzan101.mika.calls.CallTaskBrief
-import com.wangzan101.mika.calls.VolcRealtimeConfig
-import com.wangzan101.mika.calls.VolcRealtimeCredentials
-import com.wangzan101.mika.calls.VolcRealtimeEvent
+import com.wangzan101.djini.calls.CallTaskBrief
+import com.wangzan101.djini.calls.VolcRealtimeConfig
+import com.wangzan101.djini.calls.VolcRealtimeCredentials
+import com.wangzan101.djini.calls.VolcRealtimeEvent
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi

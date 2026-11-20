@@ -1,4 +1,4 @@
-package com.wangzan101.mika.capsule
+package com.wangzan101.djini.capsule
 
 import android.app.PendingIntent
 import android.content.ComponentName
@@ -9,11 +9,11 @@ import android.os.Build
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
 import android.widget.Toast
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.cap.phone.a11y.ScreenAccessibility
-import com.wangzan101.mika.settings.FeatureFlags
-import com.wangzan101.mika.task.TaskService
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.cap.phone.a11y.ScreenAccessibility
+import com.wangzan101.djini.settings.FeatureFlags
+import com.wangzan101.djini.task.TaskService
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.combine
 

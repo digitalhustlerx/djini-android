@@ -1,4 +1,4 @@
-package com.wangzan101.mika.browser
+package com.wangzan101.djini.browser
 
 /**
  * 浏览器页的网页视图挂在哪一处。网页标签只有一个(放在进程里),浏览器页却可能同时有几处:App 的界面不止一个实例时

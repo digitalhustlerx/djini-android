@@ -1,7 +1,7 @@
-package com.wangzan101.mika.calls.instructions
+package com.wangzan101.djini.calls.instructions
 
 import android.content.Context
-import com.wangzan101.mika.settings.KeystoreKeyCipher
+import com.wangzan101.djini.settings.KeystoreKeyCipher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.serialization.Serializable
@@ -125,8 +125,8 @@ class CallInstructionStore internal constructor(
         }
 
         fun create(context: Context): CallInstructionStore {
-            val prefs = context.applicationContext.getSharedPreferences("mika_call_instructions", Context.MODE_PRIVATE)
-            val cipher = KeystoreKeyCipher("mika-call-instructions")
+            val prefs = context.applicationContext.getSharedPreferences("djini_call_instructions", Context.MODE_PRIVATE)
+            val cipher = KeystoreKeyCipher("djini-call-instructions")
             return CallInstructionStore(object : CallInstructionBackend {
                 override fun read(): String? {
                     val encoded = prefs.getString("encrypted_rules_v1", null) ?: return null

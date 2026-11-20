@@ -1,7 +1,7 @@
-package com.wangzan101.mika.browser
+package com.wangzan101.djini.browser
 
-import com.wangzan101.mika.cap.web.SiteEntry
-import com.wangzan101.mika.cap.web.SiteRegistry
+import com.wangzan101.djini.cap.web.SiteEntry
+import com.wangzan101.djini.cap.web.SiteRegistry
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue

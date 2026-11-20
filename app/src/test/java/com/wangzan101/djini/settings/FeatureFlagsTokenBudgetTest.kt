@@ -1,6 +1,6 @@
-package com.wangzan101.mika.settings
+package com.wangzan101.djini.settings
 
-import com.wangzan101.mika.core.usage.TokenBudgetLimits
+import com.wangzan101.djini.core.usage.TokenBudgetLimits
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test

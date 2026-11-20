@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.web
+package com.wangzan101.djini.cap.web
 
 import kotlinx.serialization.json.JsonPrimitive
 import org.junit.Assert.assertEquals

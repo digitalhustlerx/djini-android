@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
@@ -43,15 +43,15 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.chat.Project
-import com.wangzan101.mika.ui.components.GlassBlurSupported
-import com.wangzan101.mika.ui.components.floatShadow
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaShapes
-import com.wangzan101.mika.ui.theme.MikaSize
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
+import com.wangzan101.djini.R
+import com.wangzan101.djini.chat.Project
+import com.wangzan101.djini.ui.components.GlassBlurSupported
+import com.wangzan101.djini.ui.components.floatShadow
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.MikaSize
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
@@ -92,7 +92,7 @@ internal fun ConversationMenu(
     onSelect: () -> Unit,
     onDismiss: () -> Unit,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     LongPressMenu(
         bounds, progress, pane = stringResource(R.string.drawer_actions), tag = "drawer-menu",
         entries = listOfNotNull(
@@ -124,7 +124,7 @@ internal fun ProjectMenu(
     onDelete: () -> Unit,
     onDismiss: () -> Unit,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     LongPressMenu(
         bounds, progress, pane = stringResource(R.string.drawer_project_actions), tag = "drawer-project-menu",
         entries = listOf(
@@ -171,7 +171,7 @@ internal fun LongPressMenu(
     alignEnd: Boolean = false,
     lifted: @Composable () -> Unit,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val insets = WindowInsets.safeDrawing
     val view = LocalView.current
     val close = stringResource(R.string.collapse)
@@ -230,7 +230,7 @@ internal fun LongPressMenu(
 /** 抬起的那一行:和侧栏里那一行一样的内容,换成白底圆角、带阴影。 */
 @Composable
 private fun LiftedRow(item: DrawerConversation) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Box(
         Modifier
             .floatShadow(c, NavShape)
@@ -244,7 +244,7 @@ private fun LiftedRow(item: DrawerConversation) {
 
 @Composable
 private fun MenuCard(content: @Composable () -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Column(
         Modifier.floatShadow(c, MikaShapes.Card).clip(MikaShapes.Card)
             .background(c.surface)

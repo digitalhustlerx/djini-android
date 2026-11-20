@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui.components
+package com.wangzan101.djini.ui.components
 
 import android.graphics.Insets
 import android.graphics.Point

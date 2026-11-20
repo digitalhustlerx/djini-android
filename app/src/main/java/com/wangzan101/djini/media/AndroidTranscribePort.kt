@@ -1,18 +1,18 @@
-package com.wangzan101.mika.media
+package com.wangzan101.djini.media
 
 import android.content.Context
 import android.webkit.MimeTypeMap
-import com.wangzan101.mika.cap.sandbox.SandboxDirs
-import com.wangzan101.mika.cap.sandbox.WorkspaceKey
-import com.wangzan101.mika.core.cap.transcribe.TranscribeError
-import com.wangzan101.mika.core.cap.transcribe.TranscribePort
-import com.wangzan101.mika.core.cap.transcribe.Transcript
-import com.wangzan101.mika.core.model.ClientHeaders
-import com.wangzan101.mika.core.model.ModelSession
-import com.wangzan101.mika.core.workspace.SandboxPaths
-import com.wangzan101.mika.settings.ProviderStore
-import com.wangzan101.mika.voice.SpeechChoice
-import com.wangzan101.mika.voice.Transcriber
+import com.wangzan101.djini.cap.sandbox.SandboxDirs
+import com.wangzan101.djini.cap.sandbox.WorkspaceKey
+import com.wangzan101.djini.core.cap.transcribe.TranscribeError
+import com.wangzan101.djini.core.cap.transcribe.TranscribePort
+import com.wangzan101.djini.core.cap.transcribe.Transcript
+import com.wangzan101.djini.core.model.ClientHeaders
+import com.wangzan101.djini.core.model.ModelSession
+import com.wangzan101.djini.core.workspace.SandboxPaths
+import com.wangzan101.djini.settings.ProviderStore
+import com.wangzan101.djini.voice.SpeechChoice
+import com.wangzan101.djini.voice.Transcriber
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -43,7 +43,7 @@ class AndroidTranscribePort(
         val store = ProviderStore.get(context)
         val provider = store.provider(choice.providerId) ?: throw TranscribeError.Unsupported("the configured speech provider was removed")
         if (!Transcriber.supports(provider)) throw TranscribeError.Unsupported("this provider cannot transcribe files; choose a provider speech model in Settings › Speech to text")
-        val transcriber = Transcriber(ProviderStore.modelHttp, ClientHeaders.of("Mika", provider.sessionHeader, ModelSession.fresh()))
+        val transcriber = Transcriber(ProviderStore.modelHttp, ClientHeaders.of("Djini", provider.sessionHeader, ModelSession.fresh()))
         val text = transcriber.transcribe(
             provider, store.providerKey(provider.id), choice.model, choice.method, bytes, language,
             mimeOf(path.substringAfterLast('.', "")), path.substringAfterLast('/'),

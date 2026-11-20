@@ -1,4 +1,4 @@
-package com.wangzan101.mika.teach
+package com.wangzan101.djini.teach
 
 import android.app.Notification
 import android.app.NotificationChannel
@@ -7,16 +7,16 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Icon
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.core.teach.TeachPhase
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.core.teach.TeachPhase
 
 /** 采集或暂停时的常驻通知。没有这条通知就不算在看；进程没了不会自己再采。 */
 object TeachNotifier {
-    const val PAUSE = "com.wangzan101.mika.teach.PAUSE"
-    const val RESUME = "com.wangzan101.mika.teach.RESUME"
-    const val END = "com.wangzan101.mika.teach.END"
-    const val DISCARD = "com.wangzan101.mika.teach.DISCARD"
+    const val PAUSE = "com.wangzan101.djini.teach.PAUSE"
+    const val RESUME = "com.wangzan101.djini.teach.RESUME"
+    const val END = "com.wangzan101.djini.teach.END"
+    const val DISCARD = "com.wangzan101.djini.teach.DISCARD"
     private const val CHANNEL = "teach"
     private const val ID = 7
 
@@ -61,7 +61,7 @@ object TeachNotifier {
 
     private fun open(context: Context): PendingIntent = PendingIntent.getActivity(
         context, 5,
-        com.wangzan101.mika.task.TaskService.openAppIntent(context).putExtra(com.wangzan101.mika.ui.MainActivity.EXTRA_OPEN_TEACH, true),
+        com.wangzan101.djini.task.TaskService.openAppIntent(context).putExtra(com.wangzan101.djini.ui.MainActivity.EXTRA_OPEN_TEACH, true),
         PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
     )
 }

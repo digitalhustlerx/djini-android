@@ -1,4 +1,4 @@
-"""Versioned public Mika API; no dependency on upstream Python internals."""
+"""Versioned public Djini API; no dependency on upstream Python internals."""
 import ipaddress
 import http.client
 import json
@@ -81,7 +81,7 @@ class MikaApi:
         data = None if payload is None else json.dumps(payload).encode()
         headers = {
             "Authorization": "Bearer " + self.token, "Accept": "application/json",
-            "Content-Type": "application/json", "User-Agent": "mika-feishu-connector/0.1"}
+            "Content-Type": "application/json", "User-Agent": "djini-feishu-connector/0.1"}
         writing = method == "POST" and not path.endswith("/wait")
         connect = PrivateHTTPSConnection if self.target.scheme == "https" else PrivateHTTPConnection
         conn = connect(self.target.hostname, self.target.port, timeout=self.timeout)

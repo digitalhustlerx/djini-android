@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -42,28 +42,28 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.browser.BrowserTab
-import com.wangzan101.mika.browser.FindState
-import com.wangzan101.mika.browser.RecentItem
-import com.wangzan101.mika.browser.SiteFace
-import com.wangzan101.mika.browser.StartPageModel
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.ui.components.Hairline
-import com.wangzan101.mika.ui.components.ListRow
-import com.wangzan101.mika.ui.components.MikaDialog
-import com.wangzan101.mika.ui.components.MikaSwitch
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaShapes
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
+import com.wangzan101.djini.R
+import com.wangzan101.djini.browser.BrowserTab
+import com.wangzan101.djini.browser.FindState
+import com.wangzan101.djini.browser.RecentItem
+import com.wangzan101.djini.browser.SiteFace
+import com.wangzan101.djini.browser.StartPageModel
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.ui.components.Hairline
+import com.wangzan101.djini.ui.components.ListRow
+import com.wangzan101.djini.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.MikaSwitch
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
 import kotlinx.coroutines.delay
 
 /** 起点页右上角的菜单:标签页、历史记录、清除浏览数据。 */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BrowserMenuSheet(tabsCount: Int, onDismiss: () -> Unit, onTabs: () -> Unit, onHistory: () -> Unit, onClearData: () -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
@@ -92,7 +92,7 @@ fun TabsSheet(
     onClose: (String) -> Unit,
     onNew: () -> Unit,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
@@ -152,7 +152,7 @@ fun HistorySheet(
     onRemove: (RecentItem) -> Unit,
     onClear: () -> Unit,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     var editing by rememberSaveable { mutableStateOf(false) }
     var clearing by remember { mutableStateOf(false) }
     ModalBottomSheet(
@@ -224,7 +224,7 @@ fun HistorySheet(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ClearDataSheet(onDismiss: () -> Unit, onClear: (history: Boolean, siteData: Boolean, cache: Boolean) -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     var history by rememberSaveable { mutableStateOf(true) }
     var siteData by rememberSaveable { mutableStateOf(true) }
     var cache by rememberSaveable { mutableStateOf(true) }
@@ -260,7 +260,7 @@ fun ClearDataSheet(onDismiss: () -> Unit, onClear: (history: Boolean, siteData: 
 /** 页内查找条:输入后自动搜,显示第几处/共几处,上一个、下一个、关闭。 */
 @Composable
 fun BrowserFindBar(find: FindState, onQuery: (String) -> Unit, onPrev: () -> Unit, onNext: () -> Unit, onClose: () -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     var text by remember(find.active) { mutableStateOf(find.query) }
     val focus = remember { FocusRequester() }
     LaunchedEffect(Unit) { focus.requestFocus() }
@@ -306,5 +306,5 @@ private fun FindAction(icon: androidx.compose.ui.graphics.vector.ImageVector, la
     Box(
         Modifier.size(36.dp).clip(CircleShape).clickable(role = Role.Button, onClickLabel = label, onClick = onClick),
         contentAlignment = Alignment.Center,
-    ) { Icon(icon, label, Modifier.size(17.dp), tint = MikaTheme.colors.ink3) }
+    ) { Icon(icon, label, Modifier.size(17.dp), tint = DjiniTheme.colors.ink3) }
 }

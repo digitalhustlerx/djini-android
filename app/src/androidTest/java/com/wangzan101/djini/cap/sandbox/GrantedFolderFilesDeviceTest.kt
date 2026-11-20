@@ -1,22 +1,22 @@
-package com.wangzan101.mika.cap.sandbox
+package com.wangzan101.djini.cap.sandbox
 
 import android.graphics.Bitmap
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.ChineseUi
-import com.wangzan101.mika.core.assembly.toolDispatcher
-import com.wangzan101.mika.core.cap.sandbox.FolderFiles
-import com.wangzan101.mika.core.cap.sandbox.SandboxStatus
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.uistate.ScreenPort
-import com.wangzan101.mika.core.run.*
-import com.wangzan101.mika.runAction
-import com.wangzan101.mika.core.workspace.SandboxError
-import com.wangzan101.mika.ui.DeviceDirectoriesScreen
-import com.wangzan101.mika.settings.DeviceDirectoryStore
-import com.wangzan101.mika.cap.phone.PhoneServices
+import com.wangzan101.djini.ChineseUi
+import com.wangzan101.djini.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.cap.sandbox.FolderFiles
+import com.wangzan101.djini.core.cap.sandbox.SandboxStatus
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.uistate.ScreenPort
+import com.wangzan101.djini.core.run.*
+import com.wangzan101.djini.runAction
+import com.wangzan101.djini.core.workspace.SandboxError
+import com.wangzan101.djini.ui.DeviceDirectoriesScreen
+import com.wangzan101.djini.settings.DeviceDirectoryStore
+import com.wangzan101.djini.cap.phone.PhoneServices
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.*
 import org.junit.Assert.*
@@ -55,7 +55,7 @@ class GrantedFolderFilesDeviceTest {
             compose.waitUntil(10_000) { compose.onAllNodesWithText(testName).fetchSemanticsNodes().isNotEmpty() }
             snapshot("authorized")
             val screen = Proxy.newProxyInstance(ScreenPort::class.java.classLoader, arrayOf(ScreenPort::class.java)) { _, m, _ ->
-                if (m.name == "getAppAccess") com.wangzan101.mika.core.access.AppAccessPolicy.ALLOW
+                if (m.name == "getAppAccess") com.wangzan101.djini.core.access.AppAccessPolicy.ALLOW
                 else throw AssertionError("Unexpected screen call: ${m.name}")
             } as ScreenPort
             val sb = AndroidSandbox(SandboxDirs(context), { SandboxStatus.Ready(false) }, { emptyList() }, folderFiles = folders)

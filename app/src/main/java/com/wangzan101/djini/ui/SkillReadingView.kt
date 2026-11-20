@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -16,11 +16,11 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
-import com.wangzan101.mika.ui.theme.MikaRadius
-import com.wangzan101.mika.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.MikaRadius
+import com.wangzan101.djini.ui.theme.MikaShapes
 
 internal data class ReadingSection(val title: MdBlock.Heading?, val blocks: List<MdBlock>)
 
@@ -39,7 +39,7 @@ internal fun readingSections(blocks: List<MdBlock>): List<ReadingSection> = buil
 
 @Composable
 internal fun SkillReadingView(markdown: String) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val body = MikaType.Body.copy(color = c.ink2)
     MarkdownDocument(markdown) { blocks ->
         Column(Modifier.fillMaxWidth().padding(top = 6.dp, bottom = 4.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
@@ -77,7 +77,7 @@ internal fun SkillReadingView(markdown: String) {
 
 @Composable
 private fun StepList(list: MdBlock.ListBlock, start: Int, style: TextStyle) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Column(verticalArrangement = Arrangement.spacedBy(9.dp)) {
         list.items.forEachIndexed { index, item ->
             Row(horizontalArrangement = Arrangement.spacedBy(9.dp)) {

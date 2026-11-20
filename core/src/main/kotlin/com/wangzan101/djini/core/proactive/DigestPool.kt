@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.proactive
+package com.wangzan101.djini.core.proactive
 
 import java.time.ZoneId
 import java.util.UUID

@@ -1,8 +1,8 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
-import com.wangzan101.mika.core.assembly.toolDispatcher
-import com.wangzan101.mika.core.testing.fakeModel
-import com.wangzan101.mika.core.tool.FakeScreen
+import com.wangzan101.djini.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.testing.fakeModel
+import com.wangzan101.djini.core.tool.FakeScreen
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test

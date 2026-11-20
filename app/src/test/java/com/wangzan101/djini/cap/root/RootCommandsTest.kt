@@ -1,6 +1,6 @@
-package com.wangzan101.mika.cap.root
+package com.wangzan101.djini.cap.root
 
-import com.wangzan101.mika.core.cap.root.RootRun
+import com.wangzan101.djini.core.cap.root.RootRun
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test

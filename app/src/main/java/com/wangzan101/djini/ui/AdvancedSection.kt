@@ -1,12 +1,12 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.tr
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.tr
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import com.wangzan101.mika.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.MikaDialog
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -23,29 +23,29 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.wangzan101.mika.core.cap.sandbox.SandboxStatus
-import com.wangzan101.mika.cap.sandbox.RootfsInstaller
-import com.wangzan101.mika.cap.sandbox.RuntimePreparer
-import com.wangzan101.mika.cap.sandbox.SandboxState
+import com.wangzan101.djini.core.cap.sandbox.SandboxStatus
+import com.wangzan101.djini.cap.sandbox.RootfsInstaller
+import com.wangzan101.djini.cap.sandbox.RuntimePreparer
+import com.wangzan101.djini.cap.sandbox.SandboxState
 import kotlinx.coroutines.launch
-import com.wangzan101.mika.ui.components.GroupCard
-import com.wangzan101.mika.ui.components.ListRow
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.components.TileTone
-import com.wangzan101.mika.ui.components.MikaSwitch
-import com.wangzan101.mika.ui.theme.MikaType
-import com.wangzan101.mika.ui.components.RowValue
-import com.wangzan101.mika.ui.components.RowChevron
-import com.wangzan101.mika.ui.components.GroupLabel
-import com.wangzan101.mika.MikaApp
-import com.wangzan101.mika.cap.sandbox.SandboxDirs
-import com.wangzan101.mika.cap.sandbox.SandboxUsage
-import com.wangzan101.mika.cap.sandbox.SandboxUsageReader
-import com.wangzan101.mika.cap.sandbox.WorkspaceKey
-import com.wangzan101.mika.cap.sandbox.WorkspaceUsage
-import com.wangzan101.mika.chat.WorkspaceResolver
-import com.wangzan101.mika.ui.terminal.TerminalLauncher
+import com.wangzan101.djini.ui.components.GroupCard
+import com.wangzan101.djini.ui.components.ListRow
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.components.TileTone
+import com.wangzan101.djini.ui.components.MikaSwitch
+import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.components.RowValue
+import com.wangzan101.djini.ui.components.RowChevron
+import com.wangzan101.djini.ui.components.GroupLabel
+import com.wangzan101.djini.DjiniApp
+import com.wangzan101.djini.cap.sandbox.SandboxDirs
+import com.wangzan101.djini.cap.sandbox.SandboxUsage
+import com.wangzan101.djini.cap.sandbox.SandboxUsageReader
+import com.wangzan101.djini.cap.sandbox.WorkspaceKey
+import com.wangzan101.djini.cap.sandbox.WorkspaceUsage
+import com.wangzan101.djini.chat.WorkspaceResolver
+import com.wangzan101.djini.ui.terminal.TerminalLauncher
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableIntStateOf
 import kotlinx.coroutines.Dispatchers
@@ -112,7 +112,7 @@ fun AdvancedSettings() {
     val state = remember { SandboxState.get(context) }
     val status by state.status.collectAsState()
     var network by remember { mutableStateOf(state.networkAllowed) }
-    val app = context.applicationContext as MikaApp
+    val app = context.applicationContext as DjiniApp
     val usageReader = remember {
         SandboxUsageReader(
             SandboxDirs(context),
@@ -179,9 +179,9 @@ fun AdvancedSection(
         ListRow(MikaIcons.Link, SandboxCopy.NETWORK_TITLE, SandboxCopy.NETWORK_SUBTITLE, first = true) {
             MikaSwitch(networkAllowed, onNetworkChange, Modifier.testTag("sandbox-network"))
         }
-        Note(SandboxCopy.NETWORK_EXPLAIN, if (networkAllowed) MikaTheme.colors.warn else MikaTheme.colors.ink3)
-        if (isolationIssue) Note(SandboxCopy.ISOLATION_UNAVAILABLE, MikaTheme.colors.bad)
-        ListRow(MikaIcons.Close, tr(R.string.sandbox_reset), SandboxCopy.resetSubtitle(status), titleColor = MikaTheme.colors.bad, tone = TileTone.Bad,
+        Note(SandboxCopy.NETWORK_EXPLAIN, if (networkAllowed) DjiniTheme.colors.warn else DjiniTheme.colors.ink3)
+        if (isolationIssue) Note(SandboxCopy.ISOLATION_UNAVAILABLE, DjiniTheme.colors.bad)
+        ListRow(MikaIcons.Close, tr(R.string.sandbox_reset), SandboxCopy.resetSubtitle(status), titleColor = DjiniTheme.colors.bad, tone = TileTone.Bad,
             onClick = if (status is SandboxStatus.Installing) null else ({ confirming = true }))
     }
 
@@ -192,7 +192,7 @@ fun AdvancedSection(
             onDismissRequest = { clearing = null },
             title = { Text(SandboxCopy.CLEAR_TITLE) },
             text = { Text(SandboxCopy.clearBody(w)) },
-            confirmButton = { TextButton({ clearing = null; onClearWorkspace(w) }) { Text(SandboxCopy.CLEAR, color = MikaTheme.colors.bad) } },
+            confirmButton = { TextButton({ clearing = null; onClearWorkspace(w) }) { Text(SandboxCopy.CLEAR, color = DjiniTheme.colors.bad) } },
             dismissButton = { TextButton({ clearing = null }) { Text(tr(R.string.cancel)) } },
         )
     }
@@ -201,7 +201,7 @@ fun AdvancedSection(
             onDismissRequest = { clearingAll = false },
             title = { Text(SandboxCopy.CLEAR_ALL_TITLE) },
             text = { Text(SandboxCopy.CLEAR_ALL_BODY) },
-            confirmButton = { TextButton({ clearingAll = false; onClearAll() }) { Text(SandboxCopy.CLEAR, color = MikaTheme.colors.bad) } },
+            confirmButton = { TextButton({ clearingAll = false; onClearAll() }) { Text(SandboxCopy.CLEAR, color = DjiniTheme.colors.bad) } },
             dismissButton = { TextButton({ clearingAll = false }) { Text(tr(R.string.cancel)) } },
         )
     }
@@ -211,7 +211,7 @@ fun AdvancedSection(
             onDismissRequest = { confirming = false },
             title = { Text(SandboxCopy.RESET_TITLE) },
             text = { Text(SandboxCopy.RESET_BODY) },
-            confirmButton = { TextButton({ confirming = false; onReset() }) { Text(tr(R.string.reset), color = MikaTheme.colors.bad) } },
+            confirmButton = { TextButton({ confirming = false; onReset() }) { Text(tr(R.string.reset), color = DjiniTheme.colors.bad) } },
             dismissButton = { TextButton({ confirming = false }) { Text(tr(R.string.cancel)) } },
         )
     }
@@ -233,7 +233,7 @@ private fun UsageGroup(
     onClear: (WorkspaceUsage) -> Unit,
     onClearAll: () -> Unit,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     GroupLabel(SandboxCopy.USAGE_TITLE)
     GroupCard {
         SandboxCopy.usageRows(u).forEachIndexed { i, (name, bytes) ->

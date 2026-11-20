@@ -1,4 +1,4 @@
-package com.wangzan101.mika.browser
+package com.wangzan101.djini.browser
 
 import okhttp3.OkHttpClient
 

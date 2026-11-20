@@ -1,6 +1,6 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
-import com.wangzan101.mika.cap.phone.shell.AppAudioKey
+import com.wangzan101.djini.cap.phone.shell.AppAudioKey
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
@@ -37,7 +37,7 @@ class AppMuterTest {
     private val muter = AppMuter(
         record,
         enabled = { enabled },
-        mutable = { it != "mika.self" && it != "system.ui" },
+        mutable = { it != "djini.self" && it != "system.ui" },
         onMainScreen = { pkg, user -> AppAudioKey.of(pkg, user) in onMain },
         failed = { failed += it },
     )
@@ -107,7 +107,7 @@ class AppMuterTest {
     }
 
     @Test fun neverTouchesOwnOrSystemOrMainScreenApps() {
-        muter.opened("mika.self", null)
+        muter.opened("djini.self", null)
         muter.opened("system.ui", null)
         onMain += "maps.app"
         muter.beforeOpen("maps.app", null)

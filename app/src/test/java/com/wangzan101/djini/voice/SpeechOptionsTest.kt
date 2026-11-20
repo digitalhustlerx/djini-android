@@ -1,9 +1,9 @@
-package com.wangzan101.mika.voice
+package com.wangzan101.djini.voice
 
-import com.wangzan101.mika.core.model.ListedModel
-import com.wangzan101.mika.i18n.ChineseTexts
-import com.wangzan101.mika.settings.Provider
-import com.wangzan101.mika.settings.ProviderConfig
+import com.wangzan101.djini.core.model.ListedModel
+import com.wangzan101.djini.i18n.ChineseTexts
+import com.wangzan101.djini.settings.Provider
+import com.wangzan101.djini.settings.ProviderConfig
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull

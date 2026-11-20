@@ -1,6 +1,6 @@
-package com.wangzan101.mika.cap.phone.shell
+package com.wangzan101.djini.cap.phone.shell
 
-import com.wangzan101.mika.cap.phone.shell.AppsAfterTask.Why
+import com.wangzan101.djini.cap.phone.shell.AppsAfterTask.Why
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
@@ -36,7 +36,7 @@ class AppsAfterTaskTest {
     }
 
     @Test fun ownPagesAndNonAppPagesAlwaysClose() {
-        val f = fates(task(1, "mika", own = true), task(2, "a.home", standard = false), keep = setOf("mika", "a.home"))
+        val f = fates(task(1, "djini", own = true), task(2, "a.home", standard = false), keep = setOf("djini", "a.home"))
         assertEquals(false to Why.Own, f[1])
         assertEquals(false to Why.NotApp, f[2])
     }

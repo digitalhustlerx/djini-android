@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.phone.a11y
+package com.wangzan101.djini.cap.phone.a11y
 
 import android.Manifest
 import android.content.ContentProviderOperation
@@ -6,9 +6,9 @@ import android.content.ContentUris
 import android.content.Context
 import android.content.pm.PackageManager
 import android.provider.CalendarContract
-import com.wangzan101.mika.core.uistate.ActionResult
-import com.wangzan101.mika.core.uistate.SystemAction
-import com.wangzan101.mika.core.uistate.SystemActionResult
+import com.wangzan101.djini.core.uistate.ActionResult
+import com.wangzan101.djini.core.uistate.SystemAction
+import com.wangzan101.djini.core.uistate.SystemActionResult
 import java.util.TimeZone
 
 /**

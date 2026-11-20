@@ -5,7 +5,7 @@
   "version": "0.2.0",
   "kind": "capability",
   "minApp": "0.1.33",
-  "author": "Mika 插件示例",
+  "author": "Djini 插件示例",
   "description": "飞书消息技能，加上通过自定义机器人 webhook 发消息的工具；需要 P1b 的工具接入。",
   "permissions": ["sandbox.run", "network"],
   "tools": [

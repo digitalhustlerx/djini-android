@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.phone.shell
+package com.wangzan101.djini.cap.phone.shell
 
 import android.os.Bundle
 import android.os.ParcelFileDescriptor

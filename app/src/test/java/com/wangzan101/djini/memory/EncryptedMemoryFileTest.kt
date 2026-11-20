@@ -1,10 +1,10 @@
-package com.wangzan101.mika.memory
+package com.wangzan101.djini.memory
 
-import com.wangzan101.mika.core.memory.MemoryItem
-import com.wangzan101.mika.core.memory.MemoryKind
-import com.wangzan101.mika.core.memory.MemorySource
-import com.wangzan101.mika.core.memory.MemoryStatus
-import com.wangzan101.mika.settings.AesGcmKeyCipher
+import com.wangzan101.djini.core.memory.MemoryItem
+import com.wangzan101.djini.core.memory.MemoryKind
+import com.wangzan101.djini.core.memory.MemorySource
+import com.wangzan101.djini.core.memory.MemoryStatus
+import com.wangzan101.djini.settings.AesGcmKeyCipher
 import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -79,7 +79,7 @@ class EncryptedMemoryFileTest {
     @Test fun transientKeystoreErrorRethrownFileKept() {
         file().save(items)
         val original = bin.readBytes()
-        val busy = object : com.wangzan101.mika.settings.KeyCipher {
+        val busy = object : com.wangzan101.djini.settings.KeyCipher {
             override fun encrypt(plain: ByteArray) = throw java.security.KeyStoreException("busy")
             override fun decrypt(data: ByteArray) = throw java.security.KeyStoreException("busy")
         }

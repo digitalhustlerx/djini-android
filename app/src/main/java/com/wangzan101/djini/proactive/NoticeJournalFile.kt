@@ -1,8 +1,8 @@
-package com.wangzan101.mika.proactive
+package com.wangzan101.djini.proactive
 
-import com.wangzan101.mika.core.proactive.NoticeJournal
-import com.wangzan101.mika.core.proactive.NoticeJournalData
-import com.wangzan101.mika.settings.KeyCipher
+import com.wangzan101.djini.core.proactive.NoticeJournal
+import com.wangzan101.djini.core.proactive.NoticeJournalData
+import com.wangzan101.djini.settings.KeyCipher
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -10,8 +10,8 @@ import java.nio.file.Files
 import java.nio.file.StandardCopyOption
 
 /**
- * 通知日志(当日消息归纳用的通知原文,见 [com.wangzan101.mika.core.proactive.NoticeJournal])整份加密成
- * `proactive/journal.bin`(AES-GCM,正式用 `KeystoreKeyCipher("mika-proactive-journal")`),和话题池、联系人各用各的密钥。
+ * 通知日志(当日消息归纳用的通知原文,见 [com.wangzan101.djini.core.proactive.NoticeJournal])整份加密成
+ * `proactive/journal.bin`(AES-GCM,正式用 `KeystoreKeyCipher("djini-proactive-journal")`),和话题池、联系人各用各的密钥。
  * 里面是通知的标题和正文,最多留两天。写临时文件后原子改名。
  *
  * 和话题池不同的一点:确实坏了的文件**直接删掉**,不改名另存——这是别人发来的原文,不留一份看不见、删不掉的副本。
@@ -56,6 +56,6 @@ class NoticeJournalFile(dir: File, private val cipher: KeyCipher, private val cl
         /** 这份存盘现在的写法是第几版;读到更新的就不碰(见 [StoreCodec])。改了写法、旧代码读了会出错或丢东西时加一。 */
         const val VERSION = 1
         const val FILE = "journal.bin"
-        const val KEY_ALIAS = "mika-proactive-journal"
+        const val KEY_ALIAS = "djini-proactive-journal"
     }
 }

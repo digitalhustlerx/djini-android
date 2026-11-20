@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.uistate
+package com.wangzan101.djini.core.uistate
 
 /**
  * 从一屏的可交互元素里认出「返回」控件,给 back 注入失效时的降级用。

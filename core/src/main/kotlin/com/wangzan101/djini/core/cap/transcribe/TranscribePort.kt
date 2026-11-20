@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.cap.transcribe
+package com.wangzan101.djini.core.cap.transcribe
 
 /** 把一个工作区音频转成文字。 */
 interface TranscribePort {
@@ -9,7 +9,7 @@ interface TranscribePort {
 /** 转写结果；[language] 是服务商/设置给的语言，不知道为 null。 */
 class Transcript(val text: String, val language: String? = null)
 
-/** 转写自己的错误；服务商的 HTTP 错误仍用 [com.wangzan101.mika.core.model.ModelError]。 */
+/** 转写自己的错误；服务商的 HTTP 错误仍用 [com.wangzan101.djini.core.model.ModelError]。 */
 sealed class TranscribeError(message: String) : Exception(message) {
     class Unsupported(message: String) : TranscribeError(message)
     class TooLarge(val bytes: Long) : TranscribeError("audio is too large")

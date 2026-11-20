@@ -1,11 +1,11 @@
-package com.wangzan101.mika.chat
+package com.wangzan101.djini.chat
 
 import android.content.Context
-import com.wangzan101.mika.cap.sandbox.SandboxDirs
-import com.wangzan101.mika.cap.sandbox.WorkspaceKey
-import com.wangzan101.mika.core.workspace.SandboxPaths
-import com.wangzan101.mika.core.workspace.SandboxError
-import com.wangzan101.mika.core.workspace.WorkspaceFileGate
+import com.wangzan101.djini.cap.sandbox.SandboxDirs
+import com.wangzan101.djini.cap.sandbox.WorkspaceKey
+import com.wangzan101.djini.core.workspace.SandboxPaths
+import com.wangzan101.djini.core.workspace.SandboxError
+import com.wangzan101.djini.core.workspace.WorkspaceFileGate
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.currentCoroutineContext

@@ -1,4 +1,4 @@
-package com.wangzan101.mika.pocket;
+package com.wangzan101.djini.pocket;
 
 /** A completion check must stay eligible and covered for the whole half second. */
 public final class CompletionLockGate {

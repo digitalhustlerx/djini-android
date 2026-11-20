@@ -1,4 +1,4 @@
-package com.wangzan101.mika.browser
+package com.wangzan101.djini.browser
 
 import android.app.DownloadManager
 import android.content.ContentResolver
@@ -10,8 +10,8 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.provider.MediaStore.MediaColumns
-import com.wangzan101.mika.cap.web.WebTab
-import com.wangzan101.mika.core.net.NetProxy
+import com.wangzan101.djini.cap.web.WebTab
+import com.wangzan101.djini.core.net.NetProxy
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -147,7 +147,7 @@ internal class AuthenticatedBrowserDownloads(context: Context) {
     }
 
     private companion object {
-        val DIRECTORY = "${Environment.DIRECTORY_DOWNLOADS}/Mika Browser/"
+        val DIRECTORY = "${Environment.DIRECTORY_DOWNLOADS}/Djini Browser/"
         val COLUMNS = arrayOf(MediaColumns._ID, MediaColumns.DISPLAY_NAME, MediaColumns.SIZE, MediaColumns.MIME_TYPE, MediaColumns.DATE_ADDED)
     }
 }

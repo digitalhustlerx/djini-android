@@ -1,8 +1,8 @@
-package com.wangzan101.mika.memory
+package com.wangzan101.djini.memory
 
-import com.wangzan101.mika.core.memory.ProfileBackend
-import com.wangzan101.mika.core.memory.ProfileEntry
-import com.wangzan101.mika.settings.KeyCipher
+import com.wangzan101.djini.core.memory.ProfileBackend
+import com.wangzan101.djini.core.memory.ProfileEntry
+import com.wangzan101.djini.settings.KeyCipher
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
 import java.io.File

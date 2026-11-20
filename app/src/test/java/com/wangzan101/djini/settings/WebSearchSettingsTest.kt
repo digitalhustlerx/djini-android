@@ -1,14 +1,14 @@
-package com.wangzan101.mika.settings
+package com.wangzan101.djini.settings
 
-import com.wangzan101.mika.core.search.DeepSeekSearch
-import com.wangzan101.mika.core.search.ExaSearch
-import com.wangzan101.mika.core.search.JinaSearch
-import com.wangzan101.mika.core.search.SearxngSearch
-import com.wangzan101.mika.core.search.WebSearch
-import com.wangzan101.mika.core.search.WebSearchProvider
-import com.wangzan101.mika.core.search.WebSearchResult
-import com.wangzan101.mika.core.search.YouSearch
-import com.wangzan101.mika.settings.FeatureFlagsCapsuleTest.MemoryPrefs
+import com.wangzan101.djini.core.search.DeepSeekSearch
+import com.wangzan101.djini.core.search.ExaSearch
+import com.wangzan101.djini.core.search.JinaSearch
+import com.wangzan101.djini.core.search.SearxngSearch
+import com.wangzan101.djini.core.search.WebSearch
+import com.wangzan101.djini.core.search.WebSearchProvider
+import com.wangzan101.djini.core.search.WebSearchResult
+import com.wangzan101.djini.core.search.YouSearch
+import com.wangzan101.djini.settings.FeatureFlagsCapsuleTest.MemoryPrefs
 import java.util.Base64
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse

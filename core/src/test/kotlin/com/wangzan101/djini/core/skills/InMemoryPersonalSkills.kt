@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.skills
+package com.wangzan101.djini.core.skills
 
 /** 测试用的内存实现,语义同 app 层的文件实现。 */
 class InMemoryPersonalSkills(vararg skills: PersonalSkill) : PersonalSkills {

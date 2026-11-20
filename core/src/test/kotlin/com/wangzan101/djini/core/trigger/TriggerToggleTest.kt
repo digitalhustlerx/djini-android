@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.trigger
+package com.wangzan101.djini.core.trigger
 
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue

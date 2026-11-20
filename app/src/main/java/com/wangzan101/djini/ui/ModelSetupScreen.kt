@@ -1,18 +1,18 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
-import com.wangzan101.mika.R
-import com.wangzan101.mika.core.chatgpt.ChatGptAuth
-import com.wangzan101.mika.core.oauth.OpenRouterAuth
-import com.wangzan101.mika.MikaApp
-import com.wangzan101.mika.voice.SystemSpeech
-import com.wangzan101.mika.settings.ChatGptSignIns
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.i18n.trPlural
+import com.wangzan101.djini.R
+import com.wangzan101.djini.core.chatgpt.ChatGptAuth
+import com.wangzan101.djini.core.oauth.OpenRouterAuth
+import com.wangzan101.djini.DjiniApp
+import com.wangzan101.djini.voice.SystemSpeech
+import com.wangzan101.djini.settings.ChatGptSignIns
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.i18n.trPlural
 import androidx.compose.ui.res.stringResource
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
@@ -37,7 +37,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import com.wangzan101.mika.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.MikaDialog
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -61,40 +61,40 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.wangzan101.mika.core.model.ApiKeyText
-import com.wangzan101.mika.core.model.ModelRole
-import com.wangzan101.mika.settings.ModelContextSettings
-import com.wangzan101.mika.settings.MODEL_READ_TIMEOUT_SECONDS
-import com.wangzan101.mika.settings.DecisionSettings
-import com.wangzan101.mika.settings.ModelOption
-import com.wangzan101.mika.settings.ModelOptions
-import com.wangzan101.mika.settings.ProviderConfig
-import com.wangzan101.mika.settings.ProviderPresets
-import com.wangzan101.mika.settings.ProviderStore
-import com.wangzan101.mika.settings.RoleChoice
-import com.wangzan101.mika.ui.components.ButtonKind
-import com.wangzan101.mika.ui.components.ButtonSize
-import com.wangzan101.mika.ui.components.CapabilityTag
-import com.wangzan101.mika.ui.components.FooterNote
-import com.wangzan101.mika.ui.components.GroupCard
-import com.wangzan101.mika.ui.components.GroupLabel
-import com.wangzan101.mika.ui.components.Hairline
-import com.wangzan101.mika.ui.components.InputRow
-import com.wangzan101.mika.ui.components.ListRow
-import com.wangzan101.mika.ui.components.RowChevron
-import com.wangzan101.mika.ui.components.RowValue
-import com.wangzan101.mika.ui.components.MikaButton
-import com.wangzan101.mika.ui.components.PageBackground
-import com.wangzan101.mika.ui.components.ProgressDots
-import com.wangzan101.mika.ui.components.SelectChip
-import com.wangzan101.mika.ui.components.TagTone
-import com.wangzan101.mika.ui.components.TileTone
-import com.wangzan101.mika.ui.components.TopBar
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaShapes
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
-import com.wangzan101.mika.settings.MAX_MAIN_FALLBACKS
+import com.wangzan101.djini.core.model.ApiKeyText
+import com.wangzan101.djini.core.model.ModelRole
+import com.wangzan101.djini.settings.ModelContextSettings
+import com.wangzan101.djini.settings.MODEL_READ_TIMEOUT_SECONDS
+import com.wangzan101.djini.settings.DecisionSettings
+import com.wangzan101.djini.settings.ModelOption
+import com.wangzan101.djini.settings.ModelOptions
+import com.wangzan101.djini.settings.ProviderConfig
+import com.wangzan101.djini.settings.ProviderPresets
+import com.wangzan101.djini.settings.ProviderStore
+import com.wangzan101.djini.settings.RoleChoice
+import com.wangzan101.djini.ui.components.ButtonKind
+import com.wangzan101.djini.ui.components.ButtonSize
+import com.wangzan101.djini.ui.components.CapabilityTag
+import com.wangzan101.djini.ui.components.FooterNote
+import com.wangzan101.djini.ui.components.GroupCard
+import com.wangzan101.djini.ui.components.GroupLabel
+import com.wangzan101.djini.ui.components.Hairline
+import com.wangzan101.djini.ui.components.InputRow
+import com.wangzan101.djini.ui.components.ListRow
+import com.wangzan101.djini.ui.components.RowChevron
+import com.wangzan101.djini.ui.components.RowValue
+import com.wangzan101.djini.ui.components.MikaButton
+import com.wangzan101.djini.ui.components.PageBackground
+import com.wangzan101.djini.ui.components.ProgressDots
+import com.wangzan101.djini.ui.components.SelectChip
+import com.wangzan101.djini.ui.components.TagTone
+import com.wangzan101.djini.ui.components.TileTone
+import com.wangzan101.djini.ui.components.TopBar
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.settings.MAX_MAIN_FALLBACKS
 
 /**
  * 配置模型:用途(主模型、看图模型、轻量模型)和服务商两块。首次上手时 [onboarding] 为真
@@ -116,12 +116,12 @@ fun ModelSetupScreen(
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
     val vm = remember {
-        val signIns = (context.applicationContext as? MikaApp)?.chatGptSignIn ?: ChatGptSignIns(scope)
+        val signIns = (context.applicationContext as? DjiniApp)?.chatGptSignIn ?: ChatGptSignIns(scope)
         ModelSetupViewModel(
             store, scope, browser = AndroidSignInBrowser(context.applicationContext), signIns = signIns,
-            speech = (context.applicationContext as? MikaApp)?.speech,
+            speech = (context.applicationContext as? DjiniApp)?.speech,
             systemSpeech = {
-                val silent = (context.applicationContext as? MikaApp)?.speech?.systemSilent?.value ?: false
+                val silent = (context.applicationContext as? DjiniApp)?.speech?.systemSilent?.value ?: false
                 SystemSpeech.capability(context.applicationContext, silent)
             },
         )
@@ -334,7 +334,7 @@ class ModelSetupActions(
  */
 @Composable
 fun ModelSetupContent(ui: ModelSetupUi, onboarding: Boolean, actions: ModelSetupActions, onBack: () -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     // 表单收起(测试通过存好了,或取消)后页面上没有要打字的地方,顺手收起键盘
     val focus = LocalFocusManager.current
     LaunchedEffect(ui.showForm) { if (!ui.showForm) focus.clearFocus() }
@@ -406,7 +406,7 @@ fun ModelSetupContent(ui: ModelSetupUi, onboarding: Boolean, actions: ModelSetup
 /** 服务商:每家一行(写明在给哪些用途干活),加「添加服务商」;没有服务商或点了添加时,表单就摊在这里。 */
 @Composable
 private fun ProvidersSection(ui: ModelSetupUi, actions: ModelSetupActions) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     if (ui.providers.isNotEmpty()) {
         GroupCard {
             ui.providers.forEachIndexed { i, p ->
@@ -442,7 +442,7 @@ private fun ProvidersSection(ui: ModelSetupUi, actions: ModelSetupActions) {
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun AddProviderForm(ui: ModelSetupUi, actions: ModelSetupActions) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val f = ui.form
     var showKey by remember { mutableStateOf(false) }
     var confirmUntested by remember { mutableStateOf(false) }
@@ -501,7 +501,7 @@ private fun AddProviderForm(ui: ModelSetupUi, actions: ModelSetupActions) {
             )
         }
         // ── API Key input — multi-line, large, prominent ──────────────────
-        val parsedKeys = remember(f.apiKey) { com.wangzan101.mika.core.model.KeyPoolManager.shared.parseKeys(f.apiKey) }
+        val parsedKeys = remember(f.apiKey) { com.wangzan101.djini.core.model.KeyPoolManager.shared.parseKeys(f.apiKey) }
         val poolActive = parsedKeys.size > 1
         Column(
             Modifier
@@ -542,7 +542,7 @@ private fun AddProviderForm(ui: ModelSetupUi, actions: ModelSetupActions) {
                 androidx.compose.foundation.text.BasicTextField(
                     value = f.apiKey,
                     onValueChange = { raw ->
-                        val accepted = com.wangzan101.mika.core.model.ApiKeyText.accept(raw)
+                        val accepted = com.wangzan101.djini.core.model.ApiKeyText.accept(raw)
                         actions.setApiKey(accepted.text)
                     },
                     modifier = Modifier.fillMaxWidth().testTag("setup-api-key"),
@@ -564,12 +564,12 @@ private fun AddProviderForm(ui: ModelSetupUi, actions: ModelSetupActions) {
                     Modifier.padding(top = 6.dp).testTag("setup-key-notice"),
                     style = MikaType.Caption, color = c.ok,
                 )
-                f.keyNotice == com.wangzan101.mika.core.model.ApiKeyText.Notice.IllegalCharacters -> Text(
+                f.keyNotice == com.wangzan101.djini.core.model.ApiKeyText.Notice.IllegalCharacters -> Text(
                     ModelSetupCopy.KEY_ILLEGAL,
                     Modifier.padding(top = 6.dp).testTag("setup-key-notice-illegal"),
                     style = MikaType.Caption, color = c.bad,
                 )
-                f.keyNotice == com.wangzan101.mika.core.model.ApiKeyText.Notice.InvisibleRemoved -> Text(
+                f.keyNotice == com.wangzan101.djini.core.model.ApiKeyText.Notice.InvisibleRemoved -> Text(
                     ModelSetupCopy.KEY_INVISIBLE_REMOVED,
                     Modifier.padding(top = 6.dp).testTag("setup-key-notice"),
                     style = MikaType.Caption, color = c.ink2,
@@ -643,7 +643,7 @@ private fun AddProviderForm(ui: ModelSetupUi, actions: ModelSetupActions) {
  */
 @Composable
 internal fun ApiKeyNoticeNote(notice: ApiKeyText.Notice, tag: String = "setup-key-notice") {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     when (notice) {
         ApiKeyText.Notice.None -> Unit
         ApiKeyText.Notice.InvisibleRemoved ->
@@ -656,7 +656,7 @@ internal fun ApiKeyNoticeNote(notice: ApiKeyText.Notice, tag: String = "setup-ke
 /** 自定义填的是某家的官方地址:建议改用那家的预设(不拦着),接口类型对不上时一并说;点一下就换过去,Key 留着。 */
 @Composable
 private fun PresetSuggestion(f: AddForm, label: String, onUse: () -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     FooterNote(ModelSetupCopy.presetSuggestion(f), Modifier.padding(top = 2.dp).testTag("setup-preset-hint"), color = c.warn)
     Text(
         ModelSetupCopy.usePreset(label),
@@ -665,7 +665,7 @@ private fun PresetSuggestion(f: AddForm, label: String, onUse: () -> Unit) {
     )
 }
 
-/** 第一次用 ChatGPT 登录成功后说明一次:Mika 里的用量走你的 ChatGPT 套餐。 */
+/** 第一次用 ChatGPT 登录成功后说明一次:Djini 里的用量走你的 ChatGPT 套餐。 */
 @Composable
 private fun ChatGptWelcome(onDismiss: () -> Unit) {
     MikaDialog(
@@ -677,8 +677,8 @@ private fun ChatGptWelcome(onDismiss: () -> Unit) {
 }
 
 /**
- * 登录要用的系统能力:授权页用系统浏览器打开;回调页(换完令牌之后才给出)写成功或失败的原因,再放一个回到 Mika 的链接(intent 链接,点了由浏览器打开 Mika);
- * 登录完(成功或失败)把 Mika 带回前台。安卓限制后台打开界面,带不回来时用户点回调页的链接或从最近任务回来。
+ * 登录要用的系统能力:授权页用系统浏览器打开;回调页(换完令牌之后才给出)写成功或失败的原因,再放一个回到 Djini 的链接(intent 链接,点了由浏览器打开 Djini);
+ * 登录完(成功或失败)把 Djini 带回前台。安卓限制后台打开界面,带不回来时用户点回调页的链接或从最近任务回来。
  */
 private class AndroidSignInBrowser(private val context: Context) : SignInBrowser {
     override fun open(url: String) {
@@ -737,7 +737,7 @@ private fun RolesSection(ui: ModelSetupUi, onPick: (ModelRole) -> Unit, onReason
                         Hairline(start = 0.dp)
                         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                             if (reasoning) ReasoningControl(ui, role, Modifier.weight(1f)) { onReasoning(role, it) }
-                            if (reasoning && context) Box(Modifier.width(0.5.dp).height(14.dp).background(MikaTheme.colors.hair))
+                            if (reasoning && context) Box(Modifier.width(0.5.dp).height(14.dp).background(DjiniTheme.colors.hair))
                             if (onContext != null && context) ModelContextControl(ui, role, onContext, Modifier.weight(1f))
                         }
                     }
@@ -782,7 +782,7 @@ private fun ImageModelSection(ui: ModelSetupUi, onImage: (() -> Unit)?) {
 @Composable
 private fun FallbackSection(ui: ModelSetupUi, role: ModelRole = ModelRole.Main, onPickFallback: (ModelRole, Int) -> Unit) {
     val fallbacks = ui.roles.fallbacks(role)
-    val slots = minOf(fallbacks.size + 1, com.wangzan101.mika.settings.MAX_FALLBACKS)
+    val slots = minOf(fallbacks.size + 1, com.wangzan101.djini.settings.MAX_FALLBACKS)
     val roleLabel = when (role) {
         ModelRole.Main   -> "Main"
         ModelRole.Vision -> "Vision"
@@ -809,7 +809,7 @@ private fun FallbackSection(ui: ModelSetupUi, role: ModelRole = ModelRole.Main, 
         }
     }
     if (hasAny) {
-        FooterNote("If your primary $roleLabel model hits rate limits or is unavailable, Mika switches to your backup models automatically so tasks never get interrupted.")
+        FooterNote("If your primary $roleLabel model hits rate limits or is unavailable, Djini switches to your backup models automatically so tasks never get interrupted.")
     }
 }
 
@@ -873,7 +873,7 @@ private fun ModelContextControl(ui: ModelSetupUi, role: ModelRole,
                 if (!badWindow && (trigger.isBlank() || settings.triggerTokens != null)) Text(stringResource(R.string.model_context_effective, limits.window, limits.trigger),
                     modifier = Modifier.testTag("context-effective"))
                 TextButton(onClick = { window = ""; trigger = ""; readTimeout = ""; saveFailed = false }) { Text(stringResource(R.string.reset)) }
-                if (saveFailed) Text(stringResource(R.string.model_context_save_failed), color = MikaTheme.colors.bad)
+                if (saveFailed) Text(stringResource(R.string.model_context_save_failed), color = DjiniTheme.colors.bad)
             }
         },
         confirmButton = { TextButton(onClick = {

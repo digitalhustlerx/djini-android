@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertCountEquals
@@ -9,9 +9,9 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.wangzan101.mika.ChineseUi
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.ui.theme.MikaTheme
+import com.wangzan101.djini.ChineseUi
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.ui.theme.DjiniTheme
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
@@ -27,7 +27,7 @@ class ScreensScreenTest {
     private val calls = mutableListOf<String>()
 
     private fun show(rows: List<ScreenRow>) = compose.setContent {
-        MikaTheme {
+        DjiniTheme {
             ScreensContent(rows, onBack = { calls += "back" }, onOpenConversation = { calls += "open $it" })
         }
     }

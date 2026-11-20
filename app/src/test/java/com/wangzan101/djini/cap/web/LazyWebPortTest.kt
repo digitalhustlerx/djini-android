@@ -1,14 +1,14 @@
-package com.wangzan101.mika.cap.web
+package com.wangzan101.djini.cap.web
 
-import com.wangzan101.mika.core.uistate.ActionResult
-import com.wangzan101.mika.core.uistate.ScreenSnapshot
-import com.wangzan101.mika.core.cap.web.DownloadInfo
-import com.wangzan101.mika.core.cap.web.EvalJs
-import com.wangzan101.mika.core.cap.web.NavResult
-import com.wangzan101.mika.core.cap.web.PageText
-import com.wangzan101.mika.core.cap.web.TabInfo
-import com.wangzan101.mika.core.cap.web.WebPort
-import com.wangzan101.mika.core.cap.web.WebTabCrashed
+import com.wangzan101.djini.core.uistate.ActionResult
+import com.wangzan101.djini.core.uistate.ScreenSnapshot
+import com.wangzan101.djini.core.cap.web.DownloadInfo
+import com.wangzan101.djini.core.cap.web.EvalJs
+import com.wangzan101.djini.core.cap.web.NavResult
+import com.wangzan101.djini.core.cap.web.PageText
+import com.wangzan101.djini.core.cap.web.TabInfo
+import com.wangzan101.djini.core.cap.web.WebPort
+import com.wangzan101.djini.core.cap.web.WebTabCrashed
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.test.runTest
@@ -96,8 +96,8 @@ class LazyWebPortTest {
 
     @Test
     fun interactionsWaitForTheFirstNavigation() = runTest {
-        val combo = com.wangzan101.mika.core.uistate.CdpKeys.parseCombo("Escape")!!
-        val at = com.wangzan101.mika.core.cap.web.WebPoint.Xy(1, 1)
+        val combo = com.wangzan101.djini.core.uistate.CdpKeys.parseCombo("Escape")!!
+        val at = com.wangzan101.djini.core.cap.web.WebPoint.Xy(1, 1)
         assertEquals("no_tab_open", (lazy.hover(at) as ActionResult.Failed).reason)
         assertEquals("no_tab_open", (lazy.pressCombo(combo) as ActionResult.Failed).reason)
         assertEquals(0, made)

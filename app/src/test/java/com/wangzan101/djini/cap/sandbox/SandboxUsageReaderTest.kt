@@ -1,8 +1,8 @@
-package com.wangzan101.mika.cap.sandbox
+package com.wangzan101.djini.cap.sandbox
 
-import com.wangzan101.mika.chat.ConversationSummary
-import com.wangzan101.mika.chat.Project
-import com.wangzan101.mika.core.workspace.SandboxTree
+import com.wangzan101.djini.chat.ConversationSummary
+import com.wangzan101.djini.chat.Project
+import com.wangzan101.djini.core.workspace.SandboxTree
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse

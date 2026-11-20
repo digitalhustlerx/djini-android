@@ -1,9 +1,9 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.R
-import com.wangzan101.mika.export.ExportConversationDialog
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.ui.components.DirectionalIcon
+import com.wangzan101.djini.R
+import com.wangzan101.djini.export.ExportConversationDialog
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.ui.components.DirectionalIcon
 import androidx.compose.ui.res.stringResource
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.PredictiveBackHandler
@@ -23,16 +23,16 @@ import androidx.compose.foundation.selection.toggleable
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.foundation.ExperimentalFoundationApi
-import com.wangzan101.mika.cap.sandbox.WorkspaceKey
-import com.wangzan101.mika.ui.components.MikaDialog
+import com.wangzan101.djini.cap.sandbox.WorkspaceKey
+import com.wangzan101.djini.ui.components.MikaDialog
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.mutableStateOf
-import com.wangzan101.mika.chat.DeleteBatch
-import com.wangzan101.mika.chat.DeleteImpact
-import com.wangzan101.mika.chat.Project
-import com.wangzan101.mika.chat.ProjectDeleteImpact
-import com.wangzan101.mika.i18n.trPlural
+import com.wangzan101.djini.chat.DeleteBatch
+import com.wangzan101.djini.chat.DeleteImpact
+import com.wangzan101.djini.chat.Project
+import com.wangzan101.djini.chat.ProjectDeleteImpact
+import com.wangzan101.djini.i18n.trPlural
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -96,12 +96,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.wangzan101.mika.chat.ConversationHit
-import com.wangzan101.mika.chat.ConversationSearch
-import com.wangzan101.mika.chat.ConversationSummary
-import com.wangzan101.mika.settings.Prerequisites
-import com.wangzan101.mika.ui.components.GlassBlurSupported
-import com.wangzan101.mika.ui.components.KeyboardDismissArea
+import com.wangzan101.djini.chat.ConversationHit
+import com.wangzan101.djini.chat.ConversationSearch
+import com.wangzan101.djini.chat.ConversationSummary
+import com.wangzan101.djini.settings.Prerequisites
+import com.wangzan101.djini.ui.components.GlassBlurSupported
+import com.wangzan101.djini.ui.components.KeyboardDismissArea
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.fillMaxSize
@@ -120,9 +120,9 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import kotlin.math.roundToInt
-import com.wangzan101.mika.ui.theme.MikaMotion
-import com.wangzan101.mika.ui.components.MikaLogo
-import com.wangzan101.mika.ui.components.keepsKeyboard
+import com.wangzan101.djini.ui.theme.MikaMotion
+import com.wangzan101.djini.ui.components.MikaLogo
+import com.wangzan101.djini.ui.components.keepsKeyboard
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
@@ -131,14 +131,14 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
-import com.wangzan101.mika.ui.components.cardSurface
-import com.wangzan101.mika.ui.components.lazyListScrollbar
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaSize
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
-import com.wangzan101.mika.ui.theme.MikaRadius
-import com.wangzan101.mika.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.components.cardSurface
+import com.wangzan101.djini.ui.components.lazyListScrollbar
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.MikaSize
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.MikaRadius
+import com.wangzan101.djini.ui.theme.MikaShapes
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.CancellationException
 import java.time.DayOfWeek
@@ -148,7 +148,7 @@ import java.time.ZoneId
 import java.time.format.TextStyle as DateTextStyle
 import java.time.temporal.TemporalAdjusters
 import java.util.Locale
-import com.wangzan101.mika.i18n.uiLocale
+import com.wangzan101.djini.i18n.uiLocale
 
 /** 侧栏里的一条对话。[id] 为 null 是还没存进对话列表的当前对话。 */
 data class DrawerConversation(
@@ -371,7 +371,7 @@ fun archivedAgo(at: Long, now: Long, zone: ZoneId = ZoneId.systemDefault()): Str
     else trPlural(R.plurals.drawer_archived_days_ago, days, days)
 }
 
-/** 侧栏顶上 Mika 名字下面那行状态,和它是不是好的(绿点)还是要处理(橙点)。 */
+/** 侧栏顶上 Djini 名字下面那行状态,和它是不是好的(绿点)还是要处理(橙点)。 */
 fun readiness(check: Prerequisites.Check): Pair<String, Boolean> = when {
     !check.canStartTask -> tr(R.string.chat_cannot_start) to false
     !check.phoneReady -> tr(R.string.drawer_phone_not_ready) to false
@@ -404,7 +404,7 @@ fun ChatDrawer(
     onSettings: () -> Unit,
     onOpen: (DrawerConversation) -> Unit,
     onAbout: () -> Unit = {},
-    /** 有新版本:「关于 Mika」带小红点。 */
+    /** 有新版本:「关于 Djini」带小红点。 */
     aboutDot: Boolean = false,
     /** 长按一条存过的对话:在它原地弹出操作菜单(置顶、改名、删除);带上那一行在窗口里的位置和大小。 */
     onActions: (DrawerConversation, Rect) -> Unit = { _, _ -> },
@@ -439,9 +439,9 @@ fun ChatDrawer(
     onNewInProject: (String) -> Unit = {},
     onProjectActions: (Project, Rect) -> Unit = { _, _ -> },
     modifier: Modifier = Modifier,
-    containerColor: Color = MikaTheme.colors.bg,
+    containerColor: Color = DjiniTheme.colors.bg,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     // 能勾的就是此刻列在侧栏里、已经存过的对话(还没存过的当前草稿没有编号,删不了);归档视图里是归档的那些
     val selectableIds = remember(sections, archived, archivedView) {
         drawerSelectableIds(sections, archived, archivedView)
@@ -464,7 +464,7 @@ fun ChatDrawer(
         ) {
             MikaLogo(36.dp, corner = 10.dp)
             Column(Modifier.weight(1f)) {
-                Text("Mika", style = MikaType.Title, color = c.ink)
+                Text("Djini", style = MikaType.Title, color = c.ink)
                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(5.dp)) {
                     Box(Modifier.size(6.dp).background(if (ok) c.ok else c.warnSolid, CircleShape))
                     Text(state, style = MikaType.Hint, fontWeight = FontWeight.Medium, color = c.ink3)
@@ -628,7 +628,7 @@ fun ChatDrawer(
         if (selecting) {
             SelectBar(selectedCount, allSelected, onSelectAll, archivedView, onArchiveSelected, onUnarchiveSelected, onDeleteSelected)
         } else {
-            // 设置固定在侧栏最底下靠左;有新版时右边才出现「更新」带红点,点它进「关于 Mika」
+            // 设置固定在侧栏最底下靠左;有新版时右边才出现「更新」带红点,点它进「关于 Djini」
             Row(
                 Modifier.fillMaxWidth().drawBehind { drawLine(c.hair, Offset(0f, 0f), Offset(size.width, 0f), 0.5.dp.toPx()) }
                     .padding(horizontal = 12.dp, vertical = 6.dp).testTag("drawer-footer"),
@@ -652,7 +652,7 @@ private fun HeaderAction(text: String, tag: String, color: Color, onClick: () ->
 /** 归档视图顶上的一行:返回普通侧栏,右边写着收起来了几条。 */
 @Composable
 private fun ArchiveHeader(count: Int, onBack: () -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Row(
         Modifier.fillMaxWidth().clip(NavShape).clickable(role = Role.Button, onClick = onBack)
             .padding(start = 12.dp, end = 20.dp, top = 8.dp, bottom = 4.dp)
@@ -674,14 +674,14 @@ private fun ArchiveEmpty() {
     Text(
         stringResource(R.string.drawer_archive_empty),
         Modifier.fillMaxWidth().padding(start = 24.dp, end = 24.dp, top = 22.dp, bottom = 16.dp),
-        style = MikaType.Body, color = MikaTheme.colors.ink3, textAlign = TextAlign.Center,
+        style = MikaType.Body, color = DjiniTheme.colors.ink3, textAlign = TextAlign.Center,
     )
 }
 
 /** 侧栏底部的「已归档」入口:进去看收起来的对话。 */
 @Composable
 private fun ArchiveEntry(count: Int, onClick: () -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Row(
         Modifier.fillMaxWidth().padding(start = 12.dp, end = 12.dp, top = 6.dp)
             .clip(NavShape).clickable(role = Role.Button, onClick = onClick)
@@ -703,7 +703,7 @@ private fun SelectBar(
     selectedCount: Int, allSelected: Boolean, onSelectAll: () -> Unit,
     archived: Boolean, onArchive: () -> Unit, onUnarchive: () -> Unit, onDelete: () -> Unit,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Row(
         Modifier.fillMaxWidth().drawBehind { drawLine(c.hair, Offset(0f, 0f), Offset(size.width, 0f), 0.5.dp.toPx()) }
             .padding(start = 20.dp, end = 8.dp, top = 2.dp, bottom = 2.dp).testTag("drawer-select-bar"),
@@ -735,7 +735,7 @@ private fun SelectBar(
 /** 批量归档的结果:归档了几个;有因为在跑任务或是当前对话没动的,照实说几个没归档。 */
 @Composable
 private fun ArchiveStatusBar(batch: ArchiveBatch) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val text = when {
         batch.archived <= 0 -> trPlural(R.plurals.drawer_archive_many_skipped, batch.skipped, batch.skipped)
         batch.skipped <= 0 -> trPlural(R.plurals.drawer_archive_many_done, batch.archived, batch.archived)
@@ -756,7 +756,7 @@ private fun ArchiveStatusBar(batch: ArchiveBatch) {
 /** 刚归档一条:底部写清收起了哪个对话,几秒内可以撤销。 */
 @Composable
 private fun ArchiveUndoBar(undo: ArchiveUndo, onUndo: () -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Row(
         Modifier.fillMaxWidth().drawBehind { drawLine(c.hair, Offset(0f, 0f), Offset(size.width, 0f), 0.5.dp.toPx()) }
             .padding(start = 20.dp, end = 8.dp, top = 2.dp, bottom = 2.dp).testTag("drawer-archive-undo"),
@@ -777,7 +777,7 @@ private fun ArchiveUndoBar(undo: ArchiveUndo, onUndo: () -> Unit) {
 /** 批量删除的进度和结果:删的时候是「正在删除 N 个对话…」,删完写成功几条、失败几条。 */
 @Composable
 private fun DeleteStatusBar(batch: DeleteBatch) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val deleted = batch.done - batch.failed
     val text = when {
         !batch.finished -> trPlural(R.plurals.drawer_delete_progress, batch.total, batch.total)
@@ -805,7 +805,7 @@ private fun NavEntry(
     icon: ImageVector, text: String, modifier: Modifier = Modifier.fillMaxWidth(),
     enabled: Boolean = true, dot: Boolean = false, onClick: () -> Unit,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Row(
         modifier.height(46.dp).clip(NavShape)
             .clickable(enabled = enabled, role = Role.Button, onClick = onClick)
@@ -825,7 +825,7 @@ private fun NavEntry(
 /** 侧栏搜索框右边的新对话按钮:中性圆底 + 深色加号,和顶栏 ✚ 一个样子。 */
 @Composable
 private fun NewConversationButton(enabled: Boolean, onClick: () -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Box(
         Modifier.size(38.dp).clip(CircleShape).background(c.fill)
             .clickable(enabled = enabled, role = Role.Button, onClickLabel = stringResource(R.string.chat_new), onClick = onClick)
@@ -839,7 +839,7 @@ private fun NewConversationButton(enabled: Boolean, onClick: () -> Unit) {
 /** 「进行中」的段标题,右边一个「后台屏 ›」进后台屏页(只有有任务在跑时才有这一段)。 */
 @Composable
 private fun RunningLabel(onScreens: () -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Row(Modifier.fillMaxWidth().padding(end = 12.dp), verticalAlignment = Alignment.Bottom) {
         Box(Modifier.weight(1f)) { SectionLabel(stringResource(R.string.drawer_running)) }
         Row(
@@ -859,7 +859,7 @@ private fun RunningLabel(onScreens: () -> Unit) {
 private fun SectionLabel(text: String) {
     Text(
         text, Modifier.padding(start = 24.dp, end = 24.dp, top = 14.dp, bottom = 6.dp),
-        style = SectionText, color = MikaTheme.colors.ink3,
+        style = SectionText, color = DjiniTheme.colors.ink3,
     )
 }
 
@@ -884,7 +884,7 @@ internal fun ConversationEntry(
     /** 非项目分组列表(进行中/搜索/归档)里把所属项目用小文件夹标出来。 */
     showProjectMark: Boolean = false,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val deletable = item.id != null
     val selectable = selecting && deletable
     val haptic = LocalHapticFeedback.current
@@ -929,7 +929,7 @@ internal fun ConversationEntry(
 /** 多选模式下每行左边的勾选框:没选是空心圆,选了是实心圆加一个白勾。 */
 @Composable
 private fun SelectMark(selected: Boolean) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Box(
         Modifier.size(20.dp).clip(CircleShape)
             .then(if (selected) Modifier.background(c.accent) else Modifier)
@@ -949,7 +949,7 @@ internal fun ConversationRowContent(
     showArchivedMark: Boolean = true,
     showProjectMark: Boolean = false,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val title = remember(item.title, terms, c.accent) { highlighted(item.title, terms, c.accent) }
     val showProjectName = showProjectMark && !item.projectName.isNullOrBlank()
     Column {
@@ -1042,7 +1042,7 @@ internal fun DeleteConversationDialog(title: String, impact: DeleteImpact, onCon
         text = { Text(body, Modifier.testTag("delete-conversation-body")) },
         confirmButton = {
             TextButton(onClick = onConfirm, Modifier.testTag("confirm-delete-conversation")) {
-                Text(stringResource(R.string.confirm_delete), color = MikaTheme.colors.bad)
+                Text(stringResource(R.string.confirm_delete), color = DjiniTheme.colors.bad)
             }
         },
         dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.cancel)) } },
@@ -1069,7 +1069,7 @@ internal fun DeleteManyConversationsDialog(
         text = { Text(body, Modifier.testTag("delete-many-conversation-body")) },
         confirmButton = {
             TextButton(onClick = onConfirm, Modifier.testTag("confirm-delete-many-conversation")) {
-                Text(stringResource(R.string.confirm_delete), color = MikaTheme.colors.bad)
+                Text(stringResource(R.string.confirm_delete), color = DjiniTheme.colors.bad)
             }
         },
         dismissButton = {
@@ -1083,7 +1083,7 @@ internal fun DeleteManyConversationsDialog(
 /** 侧栏「项目」段头与「新建项目」入口。 */
 @Composable
 private fun ProjectsHeader(enabled: Boolean, onNewProject: () -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Row(Modifier.fillMaxWidth().padding(end = 12.dp), verticalAlignment = Alignment.Bottom) {
         Box(Modifier.weight(1f)) { SectionLabel(stringResource(R.string.drawer_projects)) }
         Row(
@@ -1111,7 +1111,7 @@ private fun ProjectGroupHeader(
     onNewChat: () -> Unit,
     onActions: (Rect) -> Unit,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val haptic = LocalHapticFeedback.current
     val bounds = remember { mutableStateOf(Rect.Zero) }
     Row(
@@ -1204,7 +1204,7 @@ private fun DeleteProjectDialog(
         text = { Text(body, Modifier.testTag("delete-project-body")) },
         confirmButton = {
             TextButton(onClick = onConfirm, Modifier.testTag("confirm-delete-project")) {
-                Text(stringResource(R.string.confirm_delete), color = MikaTheme.colors.bad)
+                Text(stringResource(R.string.confirm_delete), color = DjiniTheme.colors.bad)
             }
         },
         dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.cancel)) } },
@@ -1250,7 +1250,7 @@ fun ChatWithDrawer(
     onScreens: () -> Unit = {},
     onSettings: () -> Unit,
     onAbout: () -> Unit = {},
-    /** 有新版本:侧栏「关于 Mika」带小红点。 */
+    /** 有新版本:侧栏「关于 Djini」带小红点。 */
     updateAvailable: Boolean = false,
     /** 从侧栏进去的页面刚退回来:当场打开侧栏,回到进去之前的样子。 */
     reopen: Boolean = false,
@@ -1438,8 +1438,8 @@ fun ChatWithDrawer(
     val menuOpen = acting != null || actingProject != null
     val projects by vm.projects.collectAsState()
     val collapsedProjects by vm.collapsedProjects.collectAsState()
-    val drawerColors = MikaTheme.colors
-    BoxWithConstraints(Modifier.fillMaxSize().clipToBounds().background(MikaTheme.colors.bg)) {
+    val drawerColors = DjiniTheme.colors
+    BoxWithConstraints(Modifier.fillMaxSize().clipToBounds().background(DjiniTheme.colors.bg)) {
         // 与参照一致占手机宽度的 85%;窄窗口也至少留 48dp 供点击/左滑收回。
         val drawerWidth = minOf(DrawerWidth, maxWidth * 0.85f, (maxWidth - 48.dp).coerceAtLeast(0.dp))
         ChatNavigationDrawer(
@@ -1669,7 +1669,7 @@ fun ChatWithDrawer(
                     // 参考图是柔和的四周阴影,减弱 Android 默认向下投射的重阴影。
                     ambientShadowColor = drawerColors.floatShadow
                     spotShadowColor = drawerColors.floatShadow.copy(alpha = 0.18f)
-                }.background(MikaTheme.colors.bg).drawWithContent {
+                }.background(DjiniTheme.colors.bg).drawWithContent {
                     drawContent()
                     val offset = drawer.currentOffset
                     val progress = if (drawerWidthPx > 0 && offset.isFinite())
@@ -1702,7 +1702,7 @@ fun ChatWithDrawer(
                 onArchive = { closeMenu { archiveWithUndo(id, item.title) } },
                 onUnarchive = { closeMenu { vm.unarchiveConversation(id) } },
                 onRename = { closeMenu { renaming = item } },
-                onTerminal = { closeMenu { activity?.let { a -> com.wangzan101.mika.ui.terminal.TerminalLauncher.open(a, id, item.title) } } },
+                onTerminal = { closeMenu { activity?.let { a -> com.wangzan101.djini.ui.terminal.TerminalLauncher.open(a, id, item.title) } } },
                 onExport = { closeMenu { exporting = item } },
                 onDelete = { closeMenu { confirming = item to vm.deleteImpact(id) } },
                 onSelect = { closeMenu { archiveUndo = null; selecting = true; selected = setOf(id) } },
@@ -1717,7 +1717,7 @@ fun ChatWithDrawer(
                 onTerminal = {
                     closeMenu {
                         activity?.let { a ->
-                            com.wangzan101.mika.ui.terminal.TerminalLauncher.openWorkspace(a, WorkspaceKey.Project(project.id), project.name)
+                            com.wangzan101.djini.ui.terminal.TerminalLauncher.openWorkspace(a, WorkspaceKey.Project(project.id), project.name)
                         }
                     }
                 },

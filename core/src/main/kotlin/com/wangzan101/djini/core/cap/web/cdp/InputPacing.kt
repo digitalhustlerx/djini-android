@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.cap.web.cdp
+package com.wangzan101.djini.core.cap.web.cdp
 
 import kotlin.math.PI
 import kotlin.math.abs
@@ -6,7 +6,7 @@ import kotlin.math.ceil
 import kotlin.math.cos
 import kotlin.math.hypot
 import kotlin.math.sin
-import com.wangzan101.mika.core.uistate.Pace
+import com.wangzan101.djini.core.uistate.Pace
 import kotlin.random.Random
 
 /**

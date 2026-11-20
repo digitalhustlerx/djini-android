@@ -1,4 +1,4 @@
-package com.wangzan101.mika.about
+package com.wangzan101.djini.about
 
 /**
  * 版本号比较,按「主.次.修订[-预发布][+构建]」的习惯:开头的 v 去掉,数字段逐个比(缺的当 0),

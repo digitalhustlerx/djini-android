@@ -1,17 +1,17 @@
-package com.wangzan101.mika.core.record
+package com.wangzan101.djini.core.record
 
-import com.wangzan101.mika.core.agent.AgentLoop
-import com.wangzan101.mika.core.agent.SystemPrompt
-import com.wangzan101.mika.core.prompt.PromptVersion
-import com.wangzan101.mika.core.testing.fakeModel
-import com.wangzan101.mika.core.tool.FakeScreen
-import com.wangzan101.mika.core.tool.ToolDispatcher
-import com.wangzan101.mika.core.cap.web.FakeWebPort
+import com.wangzan101.djini.core.agent.AgentLoop
+import com.wangzan101.djini.core.agent.SystemPrompt
+import com.wangzan101.djini.core.prompt.PromptVersion
+import com.wangzan101.djini.core.testing.fakeModel
+import com.wangzan101.djini.core.tool.FakeScreen
+import com.wangzan101.djini.core.tool.ToolDispatcher
+import com.wangzan101.djini.core.cap.web.FakeWebPort
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Test
-import com.wangzan101.mika.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.assembly.toolDispatcher
 
 /**
  * 运行记录里记下本任务提示词的版本:每组都展开时发给模型的系统提示词加工具定义的摘要,

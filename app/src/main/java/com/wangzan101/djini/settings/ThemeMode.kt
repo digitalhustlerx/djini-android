@@ -1,4 +1,4 @@
-package com.wangzan101.mika.settings
+package com.wangzan101.djini.settings
 
 /** 界面配色:跟随系统(默认)、一直浅色、一直深色。 */
 enum class ThemeMode {

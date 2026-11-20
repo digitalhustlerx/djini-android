@@ -1,7 +1,7 @@
-package com.wangzan101.mika.core.eval
+package com.wangzan101.djini.core.eval
 
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.testing.TOOLS
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.testing.TOOLS
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
@@ -86,7 +86,7 @@ class EvalClassesTest {
     }
 
     private var t = 0L
-    private fun screen(vararg names: String) = com.wangzan101.mika.core.testing.legacyScreenText(++t, 1, "com.example.shop", names.toList())
+    private fun screen(vararg names: String) = com.wangzan101.djini.core.testing.legacyScreenText(++t, 1, "com.example.shop", names.toList())
     private fun reply(tool: String, args: String = "{}") = RunEvent.ModelReply(++t, 1, "", tool, args, null, null, null)
 
     // 只认紧挨着接管、而且那一屏上看得出来的障碍
@@ -133,9 +133,9 @@ class EvalClassesTest {
 
     @Test fun writtenAppIsTheForegroundAppWhenTyping() {
         val ev = listOf(
-            com.wangzan101.mika.core.testing.legacyScreenText(++t, 1, "com.example.launcher", listOf("桌面")), reply("phone_launch_app", "{\"package\":\"com.example.notes\"}"),
-            com.wangzan101.mika.core.testing.legacyScreenText(++t, 2, "com.example.notes", listOf("新建")), reply("phone_type_text", "{\"text\":\"买牛奶\"}"),
-            com.wangzan101.mika.core.testing.legacyScreenText(++t, 3, "网站 example.com", listOf("搜索")), reply("phone_type_text", "{\"text\":\"x\"}"),
+            com.wangzan101.djini.core.testing.legacyScreenText(++t, 1, "com.example.launcher", listOf("桌面")), reply("phone_launch_app", "{\"package\":\"com.example.notes\"}"),
+            com.wangzan101.djini.core.testing.legacyScreenText(++t, 2, "com.example.notes", listOf("新建")), reply("phone_type_text", "{\"text\":\"买牛奶\"}"),
+            com.wangzan101.djini.core.testing.legacyScreenText(++t, 3, "网站 example.com", listOf("搜索")), reply("phone_type_text", "{\"text\":\"x\"}"),
         )
         assertEquals(listOf("com.example.notes"), RunFacts.appsWrittenIn(ev, TOOLS))
     }
@@ -147,12 +147,12 @@ class EvalClassesTest {
         val query = "2 activities found:\n  Activity #0:\n    priority=0\n    com.example.calendar/.Launcher\n  Activity #1:\n    org.other.cal/org.other.cal.Main\n"
         assertEquals(listOf("com.example.calendar", "org.other.cal"), AppCapabilities.packagesIn(query))
         assertTrue(AppCapabilities.commands(APP_CAPABILITIES.getValue("calendar").single()).all { "-c android.intent.category.APP_CALENDAR" in it })
-        // Agent 打开过的候选优先;没有候选时取 Agent 打开的第一个 App(Mika 自己不算)
-        assertEquals("org.other.cal", AppCapabilities.choose(listOf("com.example.calendar", "org.other.cal"), listOf("com.mika", "org.other.cal"), "com.mika"))
+        // Agent 打开过的候选优先;没有候选时取 Agent 打开的第一个 App(Djini 自己不算)
+        assertEquals("org.other.cal", AppCapabilities.choose(listOf("com.example.calendar", "org.other.cal"), listOf("com.djini", "org.other.cal"), "com.djini"))
         assertEquals("com.example.calendar", AppCapabilities.choose(listOf("com.example.calendar"), emptyList()))
         // 没有候选时只认 Agent 打字时在前台的那一个 App;只打开过、或在几个 App 里都打过字,说不准就不定
-        assertEquals("com.example.notes", AppCapabilities.choose(emptyList(), listOf("com.example.other"), "com.mika", written = listOf("com.mika", "com.example.notes")))
-        assertNull(AppCapabilities.choose(emptyList(), listOf("com.mika", "com.example.notes"), "com.mika"))
+        assertEquals("com.example.notes", AppCapabilities.choose(emptyList(), listOf("com.example.other"), "com.djini", written = listOf("com.djini", "com.example.notes")))
+        assertNull(AppCapabilities.choose(emptyList(), listOf("com.djini", "com.example.notes"), "com.djini"))
         assertNull(AppCapabilities.choose(emptyList(), emptyList(), written = listOf("com.a.notes", "com.b.notes")))
         assertNull(AppCapabilities.choose(emptyList(), emptyList()))
     }

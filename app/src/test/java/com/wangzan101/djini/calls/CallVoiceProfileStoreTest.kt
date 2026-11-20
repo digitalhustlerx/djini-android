@@ -1,6 +1,6 @@
-package com.wangzan101.mika.calls
+package com.wangzan101.djini.calls
 
-import com.wangzan101.mika.settings.KeyCipher
+import com.wangzan101.djini.settings.KeyCipher
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive

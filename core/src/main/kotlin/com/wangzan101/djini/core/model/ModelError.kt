@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.model
+package com.wangzan101.djini.core.model
 
-import com.wangzan101.mika.core.net.ProxyFailure
+import com.wangzan101.djini.core.net.ProxyFailure
 
 sealed class ModelError(message: String, cause: Throwable? = null) : Exception(message, cause) {
     class Auth : ModelError("API Key 无效或没有权限")
@@ -20,7 +20,7 @@ sealed class ModelError(message: String, cause: Throwable? = null) : Exception(m
     /**
      * 主动能力今天(本地日历日,各服务商合计)的已报告用量达到它自己的预算;不发请求。
      * [byCalls] 为真时到的是请求次数的上限,[limit]、[used] 是次数;否则是 Token。
-     * 只会出现在主动能力的后台调用里,调用方应安静停下,不当作用户任务的失败去提示。见 [com.wangzan101.mika.core.usage.ProactiveBudget]。
+     * 只会出现在主动能力的后台调用里,调用方应安静停下,不当作用户任务的失败去提示。见 [com.wangzan101.djini.core.usage.ProactiveBudget]。
      */
     class ProactiveBudgetExceeded(val limit: Long, val used: Long, val byCalls: Boolean = false) : ModelError("主动能力今日的预算已用完")
     class RateLimited(val retryAfterMs: Long?) : ModelError("请求太频繁,请稍后再试")
@@ -38,12 +38,12 @@ sealed class ModelError(message: String, cause: Throwable? = null) : Exception(m
      */
     class ModelNotAvailable(val model: String = "", val detail: String = "") :
         ModelError(if (model.isEmpty()) "这个账号用不了该模型(没开通或没权限)" else "这个账号用不了模型「$model」(没开通或没权限)")
-    /** 服务端明说这个模型不支持调用工具(带工具的请求被拒)。Mika 干活靠工具,它当不了主模型。 */
+    /** 服务端明说这个模型不支持调用工具(带工具的请求被拒)。Djini 干活靠工具,它当不了主模型。 */
     class ToolsUnsupported(val model: String = "") :
         ModelError(if (model.isEmpty()) "该模型不支持调用工具" else "模型「$model」不支持调用工具")
     class Network(cause: Throwable? = null) : ModelError("网络连接失败", cause)
     /**
-     * 走网络代理时代理那一段出的错(连不上代理,或代理拒了账号密码),不是服务商的问题。见 [com.wangzan101.mika.core.net.NetProxy]。
+     * 走网络代理时代理那一段出的错(连不上代理,或代理拒了账号密码),不是服务商的问题。见 [com.wangzan101.djini.core.net.NetProxy]。
      */
     class Proxy(val failure: ProxyFailure, cause: Throwable? = null) : ModelError(
         when (failure) {

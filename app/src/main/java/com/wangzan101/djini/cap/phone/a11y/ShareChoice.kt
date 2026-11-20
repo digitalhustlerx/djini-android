@@ -1,6 +1,6 @@
-package com.wangzan101.mika.cap.phone.a11y
+package com.wangzan101.djini.cap.phone.a11y
 
-import com.wangzan101.mika.settings.AppAccessStore
+import com.wangzan101.djini.settings.AppAccessStore
 
 /**
  * 用户主动分享被禁用应用的屏幕时,浮层上的三个选择对应什么:

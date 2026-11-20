@@ -1,4 +1,4 @@
-package com.wangzan101.mika.device
+package com.wangzan101.djini.device
 
 import android.app.KeyguardManager
 import android.content.Context
@@ -11,26 +11,26 @@ import android.util.Log
 import android.view.Display
 import android.view.accessibility.AccessibilityNodeInfo
 import android.view.accessibility.AccessibilityWindowInfo
-import com.wangzan101.mika.cap.phone.a11y.ScreenAccessibility
-import com.wangzan101.mika.core.device.CredentialKind
-import com.wangzan101.mika.core.device.DeviceAccess
-import com.wangzan101.mika.core.device.DeviceAccessPort
-import com.wangzan101.mika.core.device.DeviceCredential
-import com.wangzan101.mika.core.device.DeviceState
-import com.wangzan101.mika.settings.DeviceAccessSettings
-import com.wangzan101.mika.settings.KeystoreKeyCipher
-import com.wangzan101.mika.shell.IMikaShell
+import com.wangzan101.djini.cap.phone.a11y.ScreenAccessibility
+import com.wangzan101.djini.core.device.CredentialKind
+import com.wangzan101.djini.core.device.DeviceAccess
+import com.wangzan101.djini.core.device.DeviceAccessPort
+import com.wangzan101.djini.core.device.DeviceCredential
+import com.wangzan101.djini.core.device.DeviceState
+import com.wangzan101.djini.settings.DeviceAccessSettings
+import com.wangzan101.djini.settings.KeystoreKeyCipher
+import com.wangzan101.djini.shell.IDjiniShell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
 
 /** App 级唯一实例:设置页与经过认证的 MCP 共用,不经过模型、屏幕工具或运行记录。 */
-class AndroidDeviceAccess(context: Context, helper: () -> IMikaShell?) {
-    val settings = DeviceAccessSettings(File(context.filesDir, "settings"), KeystoreKeyCipher("mika-device-access"))
+class AndroidDeviceAccess(context: Context, helper: () -> IDjiniShell?) {
+    val settings = DeviceAccessSettings(File(context.filesDir, "settings"), KeystoreKeyCipher("djini-device-access"))
     val access = DeviceAccess(AndroidDeviceAccessPort(context, helper), settings)
 }
 
-internal class AndroidDeviceAccessPort(context: Context, private val helper: () -> IMikaShell?) : DeviceAccessPort {
+internal class AndroidDeviceAccessPort(context: Context, private val helper: () -> IDjiniShell?) : DeviceAccessPort {
     private val power = context.getSystemService(PowerManager::class.java)
     private val keyguard = context.getSystemService(KeyguardManager::class.java)
     private val user = context.getSystemService(UserManager::class.java)

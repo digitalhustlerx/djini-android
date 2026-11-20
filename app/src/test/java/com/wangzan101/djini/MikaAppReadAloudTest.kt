@@ -1,4 +1,4 @@
-package com.wangzan101.mika
+package com.wangzan101.djini
 
 import java.io.IOException
 import kotlinx.coroutines.CancellationException
@@ -10,7 +10,7 @@ import org.junit.Test
 
 class MikaAppReadAloudTest {
     @Test fun applicationEntryPropagatesSynthesisFailureAndAllowsRetry() = runTest {
-        val app = MikaApp()
+        val app = DjiniApp()
         val failure = IOException("voice service offline")
         var attempts = 0
         val synthesize: suspend (String) -> Unit = {
@@ -28,7 +28,7 @@ class MikaAppReadAloudTest {
     }
 
     @Test fun applicationEntryPreservesCancellation() = runTest {
-        val app = MikaApp()
+        val app = DjiniApp()
         val cancellation = CancellationException("stopped")
         try {
             app.speak("answer") { throw cancellation }

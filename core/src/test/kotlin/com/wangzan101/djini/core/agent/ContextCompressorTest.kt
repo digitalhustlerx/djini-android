@@ -1,35 +1,35 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
-import com.wangzan101.mika.core.model.Author
-import com.wangzan101.mika.core.assembly.toolDispatcher
-import com.wangzan101.mika.core.model.ChatModel
-import com.wangzan101.mika.core.testing.answerReply
-import com.wangzan101.mika.core.tool.FakeScreen
+import com.wangzan101.djini.core.model.Author
+import com.wangzan101.djini.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.model.ChatModel
+import com.wangzan101.djini.core.testing.answerReply
+import com.wangzan101.djini.core.tool.FakeScreen
 import kotlinx.coroutines.test.runTest
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.ModelReply
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.Role
-import com.wangzan101.mika.core.model.StopReason
-import com.wangzan101.mika.core.model.Usage
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.ModelReply
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.Role
+import com.wangzan101.djini.core.model.StopReason
+import com.wangzan101.djini.core.model.Usage
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import com.wangzan101.mika.core.testing.TOOLS
+import com.wangzan101.djini.core.testing.TOOLS
 
 class ContextCompressorTest {
     private var seq = 0
     private val pad = "x".repeat(400)
     private val head = listOf(
-        Message(Role.User, listOf(Part.Text("帮我查天气")), Author.Mika),
-        Message(Role.User, listOf(Part.Text(ContextBuilder.envelope(ContextKind.Memory, "记忆", "1. 喜欢摄氏度"))), Author.Mika),
+        Message(Role.User, listOf(Part.Text("帮我查天气")), Author.Djini),
+        Message(Role.User, listOf(Part.Text(ContextBuilder.envelope(ContextKind.Memory, "记忆", "1. 喜欢摄氏度"))), Author.Djini),
     )
 
     private fun round(name: String, args: String = "{}", result: String = """{"ok":true,"changed":true,"pad":"$pad"}"""): List<Message> {
         val id = "c${++seq}"
         return listOf(
-            Message(Role.Assistant, listOf(Part.ToolCall(id, name, args)), Author.Mika),
-            Message(Role.Tool, listOf(Part.ToolResult(id, result, isError = false)), Author.Mika),
+            Message(Role.Assistant, listOf(Part.ToolCall(id, name, args)), Author.Djini),
+            Message(Role.Tool, listOf(Part.ToolResult(id, result, isError = false)), Author.Djini),
         )
     }
 
@@ -135,11 +135,11 @@ class ContextCompressorTest {
             Message(Role.Assistant, listOf(
                 Part.ToolCall("p1", "task_progress", """{"updates":[]}"""),
                 Part.ToolCall("a1", "ask_user", """{"question":"Continue?"}"""),
-            ), Author.Mika),
+            ), Author.Djini),
             Message(Role.Tool, listOf(
                 Part.ToolResult("p1", """{"ok":true}""", isError = false),
                 Part.ToolResult("a1", """{"answer":"yes"}""", isError = false),
-            ), Author.Mika),
+            ), Author.Djini),
         )
         val h = head + taps(30) + ask + taps(20)
         val c = ContextCompressor(TOOLS).compress(h, contextTokens = justOver(h))
@@ -194,7 +194,7 @@ class ContextCompressorTest {
         // 字符数不是 token 数:这份开局原文约 8K 字符;假服务端报 972 输入 token,旧逻辑会把增量估算压到下限 0.5。
         val opening = listOf(Message(Role.User, listOf(Part.Text("x".repeat(8_000))), Author.User))
         caller.ask(opening, emptyList(), step = 1)
-        val reply = Message(Role.Assistant, first.parts, Author.Mika)
+        val reply = Message(Role.Assistant, first.parts, Author.Djini)
         caller.noteReply(reply, transport, first.usage)
 
         val elements = (1..400).joinToString(",") { i ->
@@ -209,7 +209,7 @@ class ContextCompressorTest {
             "test fixture must reproduce the old trigger bypass",
             972 + 20 + UsageMeter.estimate(TokenEstimate.of(screen), 0.5) < ContextLimits.of(32_768).trigger,
         )
-        val history = opening + reply + Message(Role.Tool, listOf(Part.ToolResult("open_settings", screen, false)), Author.Mika)
+        val history = opening + reply + Message(Role.Tool, listOf(Part.ToolResult("open_settings", screen, false)), Author.Djini)
         caller.ask(history, emptyList(), step = 2)
 
         val sent = transport.requests[1]
@@ -243,9 +243,9 @@ class ContextCompressorTest {
     }
 
     @Test fun pinnedMessagesKept() {
-        val knowledge = Message(Role.User, listOf(Part.Text(ContextBuilder.envelope(ContextKind.AppKnowledge, "天气 App", "…"))), Author.Mika)
+        val knowledge = Message(Role.User, listOf(Part.Text(ContextBuilder.envelope(ContextKind.AppKnowledge, "天气 App", "…"))), Author.Djini)
         val inputRound = round("ask_user", """{"prompt":"哪个城市?"}""", """{"ok":true}""") +
-            Message(Role.User, listOf(Part.Text("北京")), Author.Mika)
+            Message(Role.User, listOf(Part.Text("北京")), Author.Djini)
         // 追问的回答也可能直接作为工具结果
         val inputAsResult = round("ask_user", """{"prompt":"哪天?"}""", """{"ok":true,"answer":"明天"}""")
         val confirmRound = round("request_confirmation", """{"action":"send"}""", """{"ok":true,"approved":true}""")
@@ -264,7 +264,7 @@ class ContextCompressorTest {
     @Test fun domainKnowledgeAfterWebRoundStaysPinned() {
         val nav = round("web_navigate", """{"url":"https://shop.example.com/"}""",
             """{"ok":true,"surface":"web","tabId":"t1","url":"https://shop.example.com/","pad":"$pad"}""")
-        val siteKnowledge = Message(Role.User, listOf(Part.Text(ContextBuilder.envelope(ContextKind.SiteKnowledge, "好店", "网页做法…"))), Author.Mika)
+        val siteKnowledge = Message(Role.User, listOf(Part.Text(ContextBuilder.envelope(ContextKind.SiteKnowledge, "好店", "网页做法…"))), Author.Djini)
         val h = head + taps(2) + nav + siteKnowledge + taps(20)
         val c = ContextCompressor(TOOLS).compress(h, contextTokens = 1000)
         assertTrue(c.foldedSteps > 0)
@@ -275,14 +275,14 @@ class ContextCompressorTest {
     @Test fun pairingIntactAfterFold() {
         val skipped = Part.ToolCall("p2", "phone_tap", "{}")
         val parallel = listOf(
-            Message(Role.Assistant, listOf(Part.ToolCall("p1", "phone_observe", "{}"), skipped), Author.Mika),
+            Message(Role.Assistant, listOf(Part.ToolCall("p1", "phone_observe", "{}"), skipped), Author.Djini),
             Message(Role.Tool, listOf(Part.ToolResult("p1", """{"ok":true,"elements":[]}""", false),
-                Part.ToolResult("p2", """{"ok":false,"error":"parallel_tool_call_skipped"}""", true)), Author.Mika),
-            Message(Role.User, listOf(Part.Text("Current phone screenshot"), Part.Image("aaa")), Author.Mika),
+                Part.ToolResult("p2", """{"ok":false,"error":"parallel_tool_call_skipped"}""", true)), Author.Djini),
+            Message(Role.User, listOf(Part.Text("Current phone screenshot"), Part.Image("aaa")), Author.Djini),
         )
         val h = head + taps(3) + parallel + taps(3) + parallel.map { m ->
             Message(m.role, m.parts.map { p -> when (p) {
-                is Part.ToolCall -> p.copy(id = p.id + "b"); is Part.ToolResult -> p.copy(callId = p.callId + "b"); else -> p } }, Author.Mika)
+                is Part.ToolCall -> p.copy(id = p.id + "b"); is Part.ToolResult -> p.copy(callId = p.callId + "b"); else -> p } }, Author.Djini)
         } + taps(12)
         for (aggressive in listOf(false, true)) {
             val out = ContextCompressor(TOOLS).compress(h, contextTokens = 1000, aggressive = aggressive).messages
@@ -315,7 +315,7 @@ class ContextCompressorTest {
             round("phone_launch_app", """{"package":"com.x"}""", """{"ok":false,"error":"app_not_found","message":"…"}""") +
             round("phone_back") +
             round("phone_type_text", """{"text":"${"天气".repeat(30)}"}""", """{"ok":true}""") +
-            listOf(Message(Role.Assistant, listOf(Part.Text("我想想")), Author.Mika), Message(Role.User, listOf(Part.Text("nudge")), Author.Mika)) +
+            listOf(Message(Role.Assistant, listOf(Part.Text("我想想")), Author.Djini), Message(Role.User, listOf(Part.Text("nudge")), Author.Djini)) +
             round("phone_observe", "{}", """{"ok":true,"elements":[]}""") +
             taps(12)
         val s = ContextCompressor(TOOLS).compress(h, contextTokens = 100).let { summary(it.messages)!! }
@@ -353,8 +353,8 @@ class ContextCompressorTest {
     @Test fun resultOutcomes() {
         fun one(result: Part.ToolResult?): String {
             val id = "r${++seq}"
-            val r = listOf(Message(Role.Assistant, listOf(Part.ToolCall(id, "phone_tap", "{}")), Author.Mika)) +
-                listOfNotNull(result?.let { Message(Role.Tool, listOf(it.copy(callId = id)), Author.Mika) })
+            val r = listOf(Message(Role.Assistant, listOf(Part.ToolCall(id, "phone_tap", "{}")), Author.Djini)) +
+                listOfNotNull(result?.let { Message(Role.Tool, listOf(it.copy(callId = id)), Author.Djini) })
             val h = head + r + taps(12)
             return summary(ContextCompressor(TOOLS).compress(h, contextTokens = 100).messages)!!.lines()[2].substringAfter(" → ")
         }

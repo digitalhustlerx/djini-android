@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.risk
+package com.wangzan101.djini.core.risk
 
 /** 不可逆操作的种类(确认卡片、判定结果、申报共用)。 */
 @Suppress("EnumEntryName")

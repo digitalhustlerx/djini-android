@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.cap.web.cdp
+package com.wangzan101.djini.core.cap.web.cdp
 
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withTimeout
@@ -18,10 +18,10 @@ import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import com.wangzan101.mika.core.uistate.CdpKey
-import com.wangzan101.mika.core.uistate.CdpKeys
-import com.wangzan101.mika.core.uistate.KeyCombo
-import com.wangzan101.mika.core.uistate.KeyModifier
+import com.wangzan101.djini.core.uistate.CdpKey
+import com.wangzan101.djini.core.uistate.CdpKeys
+import com.wangzan101.djini.core.uistate.KeyCombo
+import com.wangzan101.djini.core.uistate.KeyModifier
 
 class CdpInputTest {
     private fun test(block: suspend kotlinx.coroutines.CoroutineScope.() -> Unit) = runBlocking { withTimeout(30_000) { block() } }

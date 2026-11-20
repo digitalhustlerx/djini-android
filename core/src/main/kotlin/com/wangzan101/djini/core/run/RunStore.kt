@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.run
+package com.wangzan101.djini.core.run
 
 /** 运行状态的最小持久化记录。运行中断后只告知并允许重跑，不从屏幕中途续跑。 */
 data class StoredRun(

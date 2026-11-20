@@ -1,15 +1,15 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import org.junit.Rule
-import com.wangzan101.mika.i18n.ChineseTexts
-import com.wangzan101.mika.core.shell.BuiltinShellFailure
-import com.wangzan101.mika.core.shell.BuiltinShellFix
-import com.wangzan101.mika.core.shell.BuiltinShellStatus
-import com.wangzan101.mika.core.shell.HelperRestart
-import com.wangzan101.mika.core.shell.RootGrant
-import com.wangzan101.mika.core.shell.SetupStep
-import com.wangzan101.mika.core.shell.SetupSuspect
-import com.wangzan101.mika.settings.Problem
+import com.wangzan101.djini.i18n.ChineseTexts
+import com.wangzan101.djini.core.shell.BuiltinShellFailure
+import com.wangzan101.djini.core.shell.BuiltinShellFix
+import com.wangzan101.djini.core.shell.BuiltinShellStatus
+import com.wangzan101.djini.core.shell.HelperRestart
+import com.wangzan101.djini.core.shell.RootGrant
+import com.wangzan101.djini.core.shell.SetupStep
+import com.wangzan101.djini.core.shell.SetupSuspect
+import com.wangzan101.djini.settings.Problem
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
@@ -202,7 +202,7 @@ class PhoneSetupCopyTest {
         assertTrue(PhoneSetupCopy.rootEntryLine(false).contains("已关闭"))
         assertTrue(PhoneSetupCopy.rootEntryLine(true).contains("已开启"))
         assertTrue(PhoneSetupCopy.ROOT_COMMANDS_WARNING.contains("其他 App 的数据"))
-        assertEquals("允许 Mika 执行 root 命令", PhoneSetupCopy.ROOT_COMMANDS)
+        assertEquals("允许 Djini 执行 root 命令", PhoneSetupCopy.ROOT_COMMANDS)
         assertEquals("用 root 启动手机助手", PhoneSetupCopy.ROOT_START)
     }
 

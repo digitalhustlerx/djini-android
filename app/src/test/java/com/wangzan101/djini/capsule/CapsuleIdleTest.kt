@@ -1,6 +1,6 @@
-package com.wangzan101.mika.capsule
+package com.wangzan101.djini.capsule
 
-import com.wangzan101.mika.chat.CurrentChat
+import com.wangzan101.djini.chat.CurrentChat
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

@@ -1,9 +1,9 @@
-package com.wangzan101.mika.settings
+package com.wangzan101.djini.settings
 
-import com.wangzan101.mika.core.shell.BuiltinShellFailure
-import com.wangzan101.mika.core.shell.BuiltinShellStatus
-import com.wangzan101.mika.core.shell.ShellTransport
-import com.wangzan101.mika.core.shell.ShizukuPlatformState
+import com.wangzan101.djini.core.shell.BuiltinShellFailure
+import com.wangzan101.djini.core.shell.BuiltinShellStatus
+import com.wangzan101.djini.core.shell.ShellTransport
+import com.wangzan101.djini.core.shell.ShizukuPlatformState
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue

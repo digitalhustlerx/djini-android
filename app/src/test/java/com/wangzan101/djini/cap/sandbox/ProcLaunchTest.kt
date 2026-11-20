@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.sandbox
+package com.wangzan101.djini.cap.sandbox
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -24,9 +24,9 @@ class ProcLaunchTest {
     }
 
     @Test fun environmentIsOnlyWhatWasGiven() = runBlocking {
-        val o = AndroidSandbox.launch(listOf("/bin/sh", "-c", "env"), env + ("MIKA_CONVERSATION" to "c1"), 10_000)
+        val o = AndroidSandbox.launch(listOf("/bin/sh", "-c", "env"), env + ("DJINI_CONVERSATION" to "c1"), 10_000)
         val keys = String(o.output).lines().filter { it.isNotBlank() }.map { it.substringBefore('=') }.toSet()
-        assertTrue(keys.toString(), keys.containsAll(setOf("PATH", "MIKA_CONVERSATION")))
+        assertTrue(keys.toString(), keys.containsAll(setOf("PATH", "DJINI_CONVERSATION")))
         assertFalse(keys.toString(), "HOME" in keys || "LD_PRELOAD" in keys)
     }
 

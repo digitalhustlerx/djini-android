@@ -1,4 +1,4 @@
-package com.wangzan101.mika.settings
+package com.wangzan101.djini.settings
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -12,9 +12,9 @@ class EnvVarStoreTest {
 
     @Test fun roundtripPersists() {
         val s = EnvVarStore(tmp.root)
-        s.set("MIKA_TRANSLATE_BASE", "https://x/chat/completions")
+        s.set("DJINI_TRANSLATE_BASE", "https://x/chat/completions")
         val s2 = EnvVarStore(tmp.root)
-        assertEquals("https://x/chat/completions", s2.all()["MIKA_TRANSLATE_BASE"])
+        assertEquals("https://x/chat/completions", s2.all()["DJINI_TRANSLATE_BASE"])
     }
 
     @Test fun removeAndClear() {

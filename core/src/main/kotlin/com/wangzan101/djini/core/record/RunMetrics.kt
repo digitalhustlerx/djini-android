@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.record
+package com.wangzan101.djini.core.record
 
-import com.wangzan101.mika.core.usage.DeepSeekCost
+import com.wangzan101.djini.core.usage.DeepSeekCost
 import kotlinx.serialization.Serializable
 
 /**

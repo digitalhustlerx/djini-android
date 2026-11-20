@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.adb
+package com.wangzan101.djini.core.adb
 
 import org.conscrypt.Conscrypt
 import java.net.InetAddress
@@ -13,7 +13,7 @@ object TestTls {
     val exporter = KeyingMaterialExporter { s, label, len -> Conscrypt.exportKeyingMaterial(s, label, null, len) }
 
     /** 测试共用的钥匙(生成 RSA-2048 较慢,一次就够)。 */
-    val client: AdbIdentity by lazy { AdbIdentity.generate("mika@test") }
+    val client: AdbIdentity by lazy { AdbIdentity.generate("djini@test") }
     val device: AdbIdentity by lazy { AdbIdentity.generate("device") }
 
     fun tls(identity: AdbIdentity) = AdbTls(identity, exporter, provider)

@@ -1,12 +1,12 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import android.app.TimePickerDialog
 import android.text.format.DateFormat
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.i18n.trPlural
-import com.wangzan101.mika.R
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.i18n.trPlural
+import com.wangzan101.djini.R
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.imePadding
@@ -21,25 +21,25 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
-import com.wangzan101.mika.settings.FeatureFlags
-import com.wangzan101.mika.settings.ThemeAccent
-import com.wangzan101.mika.settings.ThemeMode
+import com.wangzan101.djini.settings.FeatureFlags
+import com.wangzan101.djini.settings.ThemeAccent
+import com.wangzan101.djini.settings.ThemeMode
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import com.wangzan101.mika.ui.theme.accentTone
-import com.wangzan101.mika.ui.theme.SkinImage
-import com.wangzan101.mika.ui.components.SegmentedControl
-import com.wangzan101.mika.settings.SkinBlur
-import com.wangzan101.mika.settings.SkinSpec
+import com.wangzan101.djini.ui.theme.accentTone
+import com.wangzan101.djini.ui.theme.SkinImage
+import com.wangzan101.djini.ui.components.SegmentedControl
+import com.wangzan101.djini.settings.SkinBlur
+import com.wangzan101.djini.settings.SkinSpec
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.rememberCoroutineScope
 import kotlinx.coroutines.launch
-import com.wangzan101.mika.ui.components.MikaSwitch
+import com.wangzan101.djini.ui.components.MikaSwitch
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -49,16 +49,16 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
-import com.wangzan101.mika.core.shell.ShellTransport
-import com.wangzan101.mika.ui.components.SelectChip
-import com.wangzan101.mika.ui.components.MikaDialog
+import com.wangzan101.djini.core.shell.ShellTransport
+import com.wangzan101.djini.ui.components.SelectChip
+import com.wangzan101.djini.ui.components.MikaDialog
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import com.wangzan101.mika.i18n.AppLanguage
+import com.wangzan101.djini.i18n.AppLanguage
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -66,18 +66,18 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.wangzan101.mika.capsule.CapsuleCardScale
-import com.wangzan101.mika.capsule.CapsuleIdleOpacity
-import com.wangzan101.mika.capsule.CapsuleMode
-import com.wangzan101.mika.capsule.CapsuleTileService
-import com.wangzan101.mika.core.shell.BuiltinShellStatus
-import com.wangzan101.mika.settings.ChannelRow
-import com.wangzan101.mika.settings.Prerequisites
-import com.wangzan101.mika.settings.Problem
-import com.wangzan101.mika.settings.ScheduledQuietHours
-import com.wangzan101.mika.settings.SystemStatus
-import com.wangzan101.mika.settings.notificationOverview
-import com.wangzan101.mika.task.ParallelLimit
+import com.wangzan101.djini.capsule.CapsuleCardScale
+import com.wangzan101.djini.capsule.CapsuleIdleOpacity
+import com.wangzan101.djini.capsule.CapsuleMode
+import com.wangzan101.djini.capsule.CapsuleTileService
+import com.wangzan101.djini.core.shell.BuiltinShellStatus
+import com.wangzan101.djini.settings.ChannelRow
+import com.wangzan101.djini.settings.Prerequisites
+import com.wangzan101.djini.settings.Problem
+import com.wangzan101.djini.settings.ScheduledQuietHours
+import com.wangzan101.djini.settings.SystemStatus
+import com.wangzan101.djini.settings.notificationOverview
+import com.wangzan101.djini.task.ParallelLimit
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
@@ -86,23 +86,23 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.material3.Icon
-import com.wangzan101.mika.ui.theme.MikaShapes
-import com.wangzan101.mika.ui.components.FooterNote
-import com.wangzan101.mika.ui.components.DetailNote
-import com.wangzan101.mika.ui.components.GroupCard
-import com.wangzan101.mika.ui.components.GroupLabel
-import com.wangzan101.mika.ui.components.ListRow
-import com.wangzan101.mika.ui.components.PageScaffold
-import com.wangzan101.mika.ui.components.RadioRow
-import com.wangzan101.mika.ui.components.RowChevron
-import com.wangzan101.mika.ui.components.RowValue
-import com.wangzan101.mika.ui.components.TileTone
-import com.wangzan101.mika.ui.components.ValueTone
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
-import com.wangzan101.mika.core.cap.phone.OperatingPace
-import com.wangzan101.mika.core.usage.TokenBudgetLimits
+import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.components.FooterNote
+import com.wangzan101.djini.ui.components.DetailNote
+import com.wangzan101.djini.ui.components.GroupCard
+import com.wangzan101.djini.ui.components.GroupLabel
+import com.wangzan101.djini.ui.components.ListRow
+import com.wangzan101.djini.ui.components.PageScaffold
+import com.wangzan101.djini.ui.components.RadioRow
+import com.wangzan101.djini.ui.components.RowChevron
+import com.wangzan101.djini.ui.components.RowValue
+import com.wangzan101.djini.ui.components.TileTone
+import com.wangzan101.djini.ui.components.ValueTone
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.core.cap.phone.OperatingPace
+import com.wangzan101.djini.core.usage.TokenBudgetLimits
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import kotlin.math.roundToInt
@@ -265,7 +265,7 @@ fun PhoneOpsScreen(
                 val paired = status.wirelessPaired ?: (status.builtinShell != BuiltinShellStatus.NotPaired)
                 ListRow(
                     MikaIcons.Close, PhoneSetupCopy.UNPAIR, PhoneSetupCopy.UNPAIR_SUBTITLE,
-                    titleColor = if (paired) MikaTheme.colors.bad else MikaTheme.colors.ink3,
+                    titleColor = if (paired) DjiniTheme.colors.bad else DjiniTheme.colors.ink3,
                     tone = if (paired) TileTone.Bad else TileTone.Neutral,
                     onClick = if (paired) ({ confirmUnpair = true }) else null,
                 )
@@ -283,7 +283,7 @@ fun PhoneOpsScreen(
             title = { Text(PhoneSetupCopy.UNPAIR_TITLE) },
             text = { Text(PhoneSetupCopy.UNPAIR_BODY) },
             confirmButton = {
-                TextButton({ confirmUnpair = false; onUnpair() }) { Text(PhoneSetupCopy.UNPAIR_CONFIRM, color = MikaTheme.colors.bad) }
+                TextButton({ confirmUnpair = false; onUnpair() }) { Text(PhoneSetupCopy.UNPAIR_CONFIRM, color = DjiniTheme.colors.bad) }
             },
             dismissButton = { TextButton({ confirmUnpair = false }) { Text(stringResource(R.string.cancel)) } },
         )
@@ -430,7 +430,7 @@ fun DuringWorkScreen(
             ListRow(MikaIcons.Sun, stringResource(R.string.settings_keep_on), stringResource(R.string.settings_keep_on_sub), first = true, onClick = { onKeepScreenOn(!keepScreenOn) }) {
                 MikaSwitch(keepScreenOn, onKeepScreenOn, Modifier.testTag("work-keep-screen-on"))
             }
-            val pocketAvailable = remember { com.wangzan101.mika.pocket.PocketGuardManager.sensorsAvailable(context) }
+            val pocketAvailable = remember { com.wangzan101.djini.pocket.PocketGuardManager.sensorsAvailable(context) }
             ListRow(MikaIcons.Shield, stringResource(R.string.pocket_guard_title), stringResource(if (pocketAvailable) R.string.pocket_guard_summary else R.string.pocket_guard_unavailable), onClick = { if (pocketAvailable || pocketGuard) onPocketGuard(!pocketGuard) }) {
                 MikaSwitch(pocketGuard, onPocketGuard, Modifier.testTag("work-pocket-guard"), enabled = pocketAvailable || pocketGuard)
             }
@@ -490,7 +490,7 @@ fun DuringWorkScreen(
             onPick = { onTokenBudget(it); editingTokenBudget = false },
             onDismiss = { editingTokenBudget = false },
         )
-        // 允许 Mika 改自己的设置:默认关,打开后任务里才有 settings_list、settings_set
+        // 允许 Djini 改自己的设置:默认关,打开后任务里才有 settings_list、settings_set
         GroupCard {
             ListRow(
                 MikaIcons.Spark, stringResource(R.string.settings_self_config),
@@ -501,7 +501,7 @@ fun DuringWorkScreen(
                 MikaSwitch(selfConfig, onSelfConfig, Modifier.testTag("work-self-config"))
             }
         }
-        // 允许 Mika 操作自己的界面:默认关;打开后任务里才有 mika_open_screen/open_file/notify/copy
+        // 允许 Djini 操作自己的界面:默认关;打开后任务里才有 mika_open_screen/open_file/notify/copy
         GroupCard {
             ListRow(
                 MikaIcons.Screens, stringResource(R.string.settings_self_operate),
@@ -636,7 +636,7 @@ private fun ParallelRow(p: ParallelSetting, onMax: (Int) -> Unit) {
     ListRow(
         MikaIcons.Phone, stringResource(R.string.settings_parallel),
         subtitle = p.limit.reason ?: stringResource(R.string.settings_parallel_sub),
-        titleColor = if (supported) MikaTheme.colors.ink else MikaTheme.colors.ink3,
+        titleColor = if (supported) DjiniTheme.colors.ink else DjiniTheme.colors.ink3,
     ) {
         if (!supported) {
             RowValue(trPlural(R.plurals.settings_count_tasks, 1))
@@ -644,12 +644,12 @@ private fun ParallelRow(p: ParallelSetting, onMax: (Int) -> Unit) {
         }
         Text(
             "−", Modifier.clickable(enabled = p.max > 1) { onMax(p.max - 1) }.padding(horizontal = 10.dp, vertical = 4.dp),
-            style = MikaType.Title, color = if (p.max > 1) MikaTheme.colors.accent else MikaTheme.colors.ink3,
+            style = MikaType.Title, color = if (p.max > 1) DjiniTheme.colors.accent else DjiniTheme.colors.ink3,
         )
         RowValue(trPlural(R.plurals.settings_count_tasks, p.max))
         Text(
             "+", Modifier.clickable(enabled = p.max < 3) { onMax(p.max + 1) }.padding(horizontal = 10.dp, vertical = 4.dp),
-            style = MikaType.Title, color = if (p.max < 3) MikaTheme.colors.accent else MikaTheme.colors.ink3,
+            style = MikaType.Title, color = if (p.max < 3) DjiniTheme.colors.accent else DjiniTheme.colors.ink3,
         )
     }
 }
@@ -722,7 +722,7 @@ fun CapsuleScreen(
             Column(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 12.dp)) {
                 ListRow(
                     MikaIcons.Photo, CapsuleSettingsCopy.IDLE_OPACITY, CapsuleSettingsCopy.IDLE_OPACITY_DETAIL,
-                    first = true, titleColor = if (mode == CapsuleMode.Off) MikaTheme.colors.ink3 else androidx.compose.ui.graphics.Color.Unspecified,
+                    first = true, titleColor = if (mode == CapsuleMode.Off) DjiniTheme.colors.ink3 else androidx.compose.ui.graphics.Color.Unspecified,
                 ) { RowValue("${idleOpacity.percent}%") }
                 Slider(
                     value = CapsuleIdleOpacity.entries.indexOf(idleOpacity).toFloat(),
@@ -742,7 +742,7 @@ fun CapsuleScreen(
             Column(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 12.dp)) {
                 ListRow(
                     MikaIcons.Photo, CapsuleSettingsCopy.CARD_SIZE, CapsuleSettingsCopy.CARD_SIZE_DETAIL,
-                    first = true, titleColor = if (mode == CapsuleMode.Off) MikaTheme.colors.ink3 else androidx.compose.ui.graphics.Color.Unspecified,
+                    first = true, titleColor = if (mode == CapsuleMode.Off) DjiniTheme.colors.ink3 else androidx.compose.ui.graphics.Color.Unspecified,
                 ) { RowValue(CapsuleSettingsCopy.scaleLabel(cardScale)) }
                 Slider(
                     value = CapsuleCardScale.entries.indexOf(cardScale).toFloat(),
@@ -811,7 +811,7 @@ fun LanguageScreen(language: AppLanguage, onLanguage: (AppLanguage) -> Unit, onB
         }
         GroupLabel(stringResource(R.string.accent_group))
         GroupCard {
-            val dark = MikaTheme.colors.isDark
+            val dark = DjiniTheme.colors.isDark
             // 背景图片的颜色在当强调色时,这里选的暂时不用,行变灰
             val followingImage = skin.accentHue != null
             ThemeAccent.entries.forEachIndexed { idx, a ->
@@ -836,7 +836,7 @@ fun LanguageScreen(language: AppLanguage, onLanguage: (AppLanguage) -> Unit, onB
         GroupLabel(stringResource(R.string.language_title))
         var langQuery by remember { mutableStateOf("") }
         var langSearchFocused by remember { mutableStateOf(false) }
-        val c = MikaTheme.colors
+        val c = DjiniTheme.colors
         val filteredLanguages = remember(langQuery) { filterLanguages(langQuery) }
 
         LaunchedEffect(langSearchFocused, langQuery) {
@@ -961,7 +961,7 @@ fun RoutesScreen(count: Int?, onClear: () -> Unit, onBack: () -> Unit) {
             ) {
                 if (count != null && count > 0) Text(
                     stringResource(R.string.routes_clear_all), Modifier.clickable { confirmClear = true }.padding(4.dp),
-                    style = MikaType.Value, color = MikaTheme.colors.bad,
+                    style = MikaType.Value, color = DjiniTheme.colors.bad,
                 )
             }
         }

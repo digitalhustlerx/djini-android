@@ -1,9 +1,9 @@
-package com.wangzan101.mika.voice
+package com.wangzan101.djini.voice
 
-import com.wangzan101.mika.R
-import com.wangzan101.mika.core.model.ModelError
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.settings.Provider
+import com.wangzan101.djini.R
+import com.wangzan101.djini.core.model.ModelError
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.settings.Provider
 
 /**
  * 设置 › 模型 里「语音转文字」用到的纯逻辑:选择页怎么给服务商分组、用途卡片右边写什么。

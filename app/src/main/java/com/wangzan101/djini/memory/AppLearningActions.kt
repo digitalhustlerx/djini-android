@@ -1,8 +1,8 @@
-package com.wangzan101.mika.memory
+package com.wangzan101.djini.memory
 
 import android.content.Context
-import com.wangzan101.mika.chat.ConversationStore
-import com.wangzan101.mika.ui.LearningActions
+import com.wangzan101.djini.chat.ConversationStore
+import com.wangzan101.djini.ui.LearningActions
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

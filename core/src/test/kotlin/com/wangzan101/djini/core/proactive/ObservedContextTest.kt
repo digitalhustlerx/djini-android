@@ -1,7 +1,7 @@
-package com.wangzan101.mika.core.proactive
+package com.wangzan101.djini.core.proactive
 
-import com.wangzan101.mika.core.agent.TokenEstimate
-import com.wangzan101.mika.core.observation.Untrusted
+import com.wangzan101.djini.core.agent.TokenEstimate
+import com.wangzan101.djini.core.observation.Untrusted
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
@@ -28,7 +28,7 @@ class ObservedContextTest {
                 ObservedContext.Person("李四", group = false, relation = ContactRelation.Unknown, userSet = false),
             ),
         )!!
-        assertTrue(text.startsWith("Gathered by Mika from the user's notifications. The user did not say any of this"))
+        assertTrue(text.startsWith("Gathered by Djini from the user's notifications. The user did not say any of this"))
         for (title in listOf("Today so far:", "Yesterday:", "Noticed about the user over several days:")) assertTrue(title, "\n$title\n${Untrusted.OPEN}" in text)
         assertEquals(3, Regex(Regex.escape(Untrusted.OPEN)).findAll(text).count())
         assertEquals(3, Regex(Regex.escape(Untrusted.CLOSE)).findAll(text).count())
@@ -186,6 +186,6 @@ class ObservedContextTest {
         val text = ObservedContext.render(many, emptyList(), emptyList(), emptyList(), lastWeek = ObservedContext.Earlier(mon, mon + 6, listOf("上周的事")))!!
         assertTrue("Last week" in text && "上周的事" in text)
         assertTrue("这是今天第 1 件事" in text)
-        assertTrue(com.wangzan101.mika.core.agent.TokenEstimate.of(text) <= ObservedContext.MAX_TOKENS)
+        assertTrue(com.wangzan101.djini.core.agent.TokenEstimate.of(text) <= ObservedContext.MAX_TOKENS)
     }
 }

@@ -1,7 +1,7 @@
-package com.wangzan101.mika.confirm
+package com.wangzan101.djini.confirm
 
-import com.wangzan101.mika.core.cap.root.ROOT_CONFIRM_APP
-import com.wangzan101.mika.i18n.tr
+import com.wangzan101.djini.core.cap.root.ROOT_CONFIRM_APP
+import com.wangzan101.djini.i18n.tr
 import android.app.Notification
 import android.app.PendingIntent
 import android.content.Context
@@ -9,11 +9,11 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
-import com.wangzan101.mika.R
-import com.wangzan101.mika.task.alertQuietly
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.core.gate.ConfirmationRequest
-import com.wangzan101.mika.core.risk.IrrevAction
+import com.wangzan101.djini.R
+import com.wangzan101.djini.task.alertQuietly
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.core.gate.ConfirmationRequest
+import com.wangzan101.djini.core.risk.IrrevAction
 
 /**
  * 确认卡片和通知上的文字。字段都是模型写的:只当纯文本用(不解析任何标记);
@@ -84,7 +84,7 @@ object ConfirmationNotifier {
     fun requestKey(state: TaskState.WaitingConfirmation): Int = System.identityHashCode(state)
 
     /** 按钮 Intent 的 data:每次申报、每个按钮各不相同,系统不会把旧通知上的按钮换成新申报的。 */
-    fun intentData(key: Int, approve: Boolean) = "mika-confirm://request/$key/" + if (approve) "approve" else "decline"
+    fun intentData(key: Int, approve: Boolean) = "djini-confirm://request/$key/" + if (approve) "approve" else "decline"
 
     fun build(
         context: Context, channel: String, state: TaskState.WaitingConfirmation, service: Class<*>, approveAction: String, declineAction: String,

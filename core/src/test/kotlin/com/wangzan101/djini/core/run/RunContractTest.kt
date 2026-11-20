@@ -1,20 +1,20 @@
-package com.wangzan101.mika.core.run
+package com.wangzan101.djini.core.run
 
-import com.wangzan101.mika.core.agent.AgentLoop
-import com.wangzan101.mika.core.agent.FakeModel
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.core.model.Author
-import com.wangzan101.mika.core.model.Capabilities
-import com.wangzan101.mika.core.model.ChatModel
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.ModelReply
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.StopReason
-import com.wangzan101.mika.core.model.ToolSpec
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.record.RunSink
-import com.wangzan101.mika.core.tool.FakeScreen
-import com.wangzan101.mika.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.agent.AgentLoop
+import com.wangzan101.djini.core.agent.FakeModel
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.core.model.Author
+import com.wangzan101.djini.core.model.Capabilities
+import com.wangzan101.djini.core.model.ChatModel
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.ModelReply
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.StopReason
+import com.wangzan101.djini.core.model.ToolSpec
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.record.RunSink
+import com.wangzan101.djini.core.tool.FakeScreen
+import com.wangzan101.djini.core.assembly.toolDispatcher
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitCancellation
@@ -30,7 +30,7 @@ import java.time.ZoneId
 
 class RunContractTest {
     private fun spec() = RunSpec(RunId("r1"), "看看", "thread-1")
-    private fun done() = com.wangzan101.mika.core.testing.answerReply("完成")
+    private fun done() = com.wangzan101.djini.core.testing.answerReply("完成")
 
     @Test fun oldAndNewEntrySendTheSameOrdinaryRequest() = runTest {
         val oldModel = FakeModel(done())

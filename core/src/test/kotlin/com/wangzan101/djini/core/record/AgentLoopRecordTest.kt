@@ -1,25 +1,25 @@
-package com.wangzan101.mika.core.record
+package com.wangzan101.djini.core.record
 
-import com.wangzan101.mika.core.agent.AgentLoop
-import com.wangzan101.mika.core.agent.FakeModel
-import com.wangzan101.mika.core.model.ModelReply
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.observation.Place
-import com.wangzan101.mika.core.verify.EvidenceLedger
-import com.wangzan101.mika.core.model.StopReason
-import com.wangzan101.mika.core.model.Usage
-import com.wangzan101.mika.core.uistate.ActionResult
-import com.wangzan101.mika.core.uistate.ScreenPort
-import com.wangzan101.mika.core.uistate.ScreenSnapshot
-import com.wangzan101.mika.core.uistate.UiElement
-import com.wangzan101.mika.core.tool.FakeScreen
+import com.wangzan101.djini.core.agent.AgentLoop
+import com.wangzan101.djini.core.agent.FakeModel
+import com.wangzan101.djini.core.model.ModelReply
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.observation.Place
+import com.wangzan101.djini.core.verify.EvidenceLedger
+import com.wangzan101.djini.core.model.StopReason
+import com.wangzan101.djini.core.model.Usage
+import com.wangzan101.djini.core.uistate.ActionResult
+import com.wangzan101.djini.core.uistate.ScreenPort
+import com.wangzan101.djini.core.uistate.ScreenSnapshot
+import com.wangzan101.djini.core.uistate.UiElement
+import com.wangzan101.djini.core.tool.FakeScreen
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import com.wangzan101.mika.core.testing.TOOLS
-import com.wangzan101.mika.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.testing.TOOLS
+import com.wangzan101.djini.core.assembly.toolDispatcher
 
 private class ListSink : RunSink {
     val events = mutableListOf<RunEvent>()
@@ -45,7 +45,7 @@ class AgentLoopRecordTest {
         val m = FakeModel(
             reply(Part.Text("先看看"), call("phone_observe")),
             reply(call("phone_tap", """{"x":500,"y":500}""")),
-            com.wangzan101.mika.core.testing.answerReply("好了"),
+            com.wangzan101.djini.core.testing.answerReply("好了"),
         )
         val ev = run(m).events
         assertEquals(
@@ -72,26 +72,26 @@ class AgentLoopRecordTest {
     }
 
     @Test fun startRecordsWhoStartedTheRun() {
-        fun started(origin: com.wangzan101.mika.core.run.RunOrigin): RunEvent.TaskStarted {
+        fun started(origin: com.wangzan101.djini.core.run.RunOrigin): RunEvent.TaskStarted {
             val sink = ListSink()
-            val spec = com.wangzan101.mika.core.run.RunSpec(com.wangzan101.mika.core.run.RunId("r"), "查电量", "t",
-                provenance = com.wangzan101.mika.core.run.RunProvenance(origin, com.wangzan101.mika.core.run.Attendance.Reachable))
+            val spec = com.wangzan101.djini.core.run.RunSpec(com.wangzan101.djini.core.run.RunId("r"), "查电量", "t",
+                provenance = com.wangzan101.djini.core.run.RunProvenance(origin, com.wangzan101.djini.core.run.Attendance.Reachable))
             kotlinx.coroutines.runBlocking {
-                AgentLoop(FakeModel(com.wangzan101.mika.core.testing.answerReply("80%")), toolDispatcher(FakeScreen(), runSpec = spec), "BASE", sink = sink)
-                    .run(spec, com.wangzan101.mika.core.run.RunInbox())
+                AgentLoop(FakeModel(com.wangzan101.djini.core.testing.answerReply("80%")), toolDispatcher(FakeScreen(), runSpec = spec), "BASE", sink = sink)
+                    .run(spec, com.wangzan101.djini.core.run.RunInbox())
             }
             return sink.events.first() as RunEvent.TaskStarted
         }
-        assertEquals("mcp", started(com.wangzan101.mika.core.run.RunOrigin.Mcp).origin)
+        assertEquals("mcp", started(com.wangzan101.djini.core.run.RunOrigin.Mcp).origin)
         // 手机上发起的不写,记录和以前一样
-        assertNull(started(com.wangzan101.mika.core.run.RunOrigin.Ui).origin)
+        assertNull(started(com.wangzan101.djini.core.run.RunOrigin.Ui).origin)
         assertEquals("mcp", RunSummary(id = "x", goal = "g", startedAtMs = 0).with(RunEvent.TaskStarted(0, "g", "m", "mcp")).origin)
     }
 
     @Test fun tokensRecordedFromUsage() {
         val m = FakeModel(
             reply(call("phone_observe"), usage = Usage(1200, 80, 1000)),
-            com.wangzan101.mika.core.testing.answerReply("x"),
+            com.wangzan101.djini.core.testing.answerReply("x"),
         )
         val replies = run(m).events.filterIsInstance<RunEvent.ModelReply>()
         assertEquals(1200, replies[0].inputTokens); assertEquals(80, replies[0].outputTokens); assertEquals(1000, replies[0].cachedTokens)
@@ -103,7 +103,7 @@ class AgentLoopRecordTest {
         val screen = object : ScreenPort by FakeScreen() {
             override suspend fun snapshot() = ScreenSnapshot("s1", "com.x", els, 1080, 2400)
         }
-        val m = FakeModel(reply(call("phone_observe")), com.wangzan101.mika.core.testing.answerReply("x"))
+        val m = FakeModel(reply(call("phone_observe")), com.wangzan101.djini.core.testing.answerReply("x"))
         val r = run(m, screen).events.filterIsInstance<RunEvent.ToolResult>().first()
         // 记录是回放和调试的依据:超过普通字段上限的工具结果也要整条留下
         assertTrue("length ${r.resultJson.length}", r.resultJson.length > RunEvent.MAX_FIELD)
@@ -112,7 +112,7 @@ class AgentLoopRecordTest {
     }
 
     @Test fun screensHandedToSinkWithIds() {
-        val m = FakeModel(reply(call("phone_observe")), reply(call("phone_screenshot")), com.wangzan101.mika.core.testing.answerReply("x"))
+        val m = FakeModel(reply(call("phone_observe")), reply(call("phone_screenshot")), com.wangzan101.djini.core.testing.answerReply("x"))
         val sink = run(m, vision = true)
         assertEquals(listOf(1, 2), sink.screens.map { it.first })
         val saved = sink.events.filterIsInstance<RunEvent.Media>()
@@ -123,18 +123,18 @@ class AgentLoopRecordTest {
     }
 
     @Test fun textOnlyModelStillRecordsFrames() {
-        val m = FakeModel(reply(call("phone_observe")), com.wangzan101.mika.core.testing.answerReply("x"))
+        val m = FakeModel(reply(call("phone_observe")), com.wangzan101.djini.core.testing.answerReply("x"))
         val sink = run(m, frames = true)
         assertEquals(listOf(1), sink.screens.map { it.first })
         // 画面只进记录,不发给看不了图的模型
         assertTrue(m.requests[1].none { msg -> msg.parts.any { it is Part.Image } })
-        val noFrames = run(FakeModel(reply(call("phone_observe")), com.wangzan101.mika.core.testing.answerReply("x")))
+        val noFrames = run(FakeModel(reply(call("phone_observe")), com.wangzan101.djini.core.testing.answerReply("x")))
         assertTrue(noFrames.screens.isEmpty())
     }
 
     @Test fun passwordTypedIntoSecretFieldMasked() {
         val screen = FakeScreen().apply { result = ActionResult.Ok(secret = true) }
-        val m = FakeModel(reply(call("phone_type_text", """{"text":"hunter2"}""")), com.wangzan101.mika.core.testing.answerReply("x"))
+        val m = FakeModel(reply(call("phone_type_text", """{"text":"hunter2"}""")), com.wangzan101.djini.core.testing.answerReply("x"))
         val ev = run(m, screen).events
         val r = ev.filterIsInstance<RunEvent.ModelReply>().first()
         assertFalse(r.argsJson!!.contains("hunter2"))
@@ -143,14 +143,14 @@ class AgentLoopRecordTest {
     }
 
     @Test fun typedTextKeptOnlyWhenPortSaysNotSecret() {
-        val m = FakeModel(reply(call("phone_type_text", """{"text":"天气"}""")), com.wangzan101.mika.core.testing.answerReply("x"))
+        val m = FakeModel(reply(call("phone_type_text", """{"text":"天气"}""")), com.wangzan101.djini.core.testing.answerReply("x"))
         val r = run(m).events.filterIsInstance<RunEvent.ModelReply>().first()
         assertTrue(r.argsJson!!.contains("天气"))
     }
 
     @Test fun failedTypeTextMasked() {
         val screen = FakeScreen().apply { result = ActionResult.Failed("no_focus") }
-        val m = FakeModel(reply(call("phone_type_text", """{"text":"hunter2"}""")), com.wangzan101.mika.core.testing.answerReply("x"))
+        val m = FakeModel(reply(call("phone_type_text", """{"text":"hunter2"}""")), com.wangzan101.djini.core.testing.answerReply("x"))
         val ev = run(m, screen).events
         assertTrue(ev.none { it.toString().contains("hunter2") })
         assertTrue(ev.filterIsInstance<RunEvent.ModelReply>().first().argsJson!!.contains("***"))
@@ -174,9 +174,9 @@ class AgentLoopRecordTest {
             override fun event(e: RunEvent) { throw StackOverflowError("boom") }
             override fun media(mediaId: Int, png: ByteArray) { throw IllegalStateException() }
         }
-        val m = FakeModel(reply(call("phone_observe")), com.wangzan101.mika.core.testing.answerReply("ok"))
+        val m = FakeModel(reply(call("phone_observe")), com.wangzan101.djini.core.testing.answerReply("ok"))
         val end = kotlinx.coroutines.runBlocking { AgentLoop(m, toolDispatcher(FakeScreen(), true), "BASE", sink = sink).run("g") }
-        com.wangzan101.mika.core.testing.assertAnswered("ok", end)
+        com.wangzan101.djini.core.testing.assertAnswered("ok", end)
     }
 
     @Test fun eventsRoundTripAsJsonLines() {
@@ -216,7 +216,7 @@ class AgentLoopRecordTest {
         val screen = object : ScreenPort by FakeScreen() {
             override suspend fun snapshot() = ScreenSnapshot("s1", "com.x", els, 1080, 2400)
         }
-        val m = FakeModel(reply(call("phone_observe")), reply(call("phone_tap", """{"x":1,"y":1}""")), com.wangzan101.mika.core.testing.answerReply("x"))
+        val m = FakeModel(reply(call("phone_observe")), reply(call("phone_tap", """{"x":1,"y":1}""")), com.wangzan101.djini.core.testing.answerReply("x"))
         val texts = run(m, screen).events.filterIsInstance<RunEvent.Observed>()
         // 读界面记一份(和账本里那一条一样,带编号);tap 带回的那一屏也记(见 actionReturnedScreenIsRecorded)
         assertEquals(1, texts[0].step)
@@ -231,12 +231,12 @@ class AgentLoopRecordTest {
             val screen = object : ScreenPort by FakeScreen() {
                 override suspend fun snapshot() = ScreenSnapshot("s1", "com.x", els, 1080, 2400)
             }
-            val m = FakeModel(reply(call("phone_tap", """{"x":1,"y":1}""")), com.wangzan101.mika.core.testing.answerReply("明天晴 25 度"))
+            val m = FakeModel(reply(call("phone_tap", """{"x":1,"y":1}""")), com.wangzan101.djini.core.testing.answerReply("明天晴 25 度"))
             val sink = run(m, screen, vision = vision, inline = inline)
             val texts = sink.events.filterIsInstance<RunEvent.Observed>()
             assertEquals("inline=$inline vision=$vision", listOf("当前 App:com.x", "明天晴 25 度"), texts.single().text.lines())
             // 评测取证据的口径能找到只出现在动作带回的屏幕里的答案
-            assertTrue(com.wangzan101.mika.core.eval.Checks.grounded("明天晴 25 度", com.wangzan101.mika.core.eval.RunFacts.evidence(sink.events, TOOLS, "", "明天晴 25 度"), 1))
+            assertTrue(com.wangzan101.djini.core.eval.Checks.grounded("明天晴 25 度", com.wangzan101.djini.core.eval.RunFacts.evidence(sink.events, TOOLS, "", "明天晴 25 度"), 1))
         }
     }
 
@@ -247,7 +247,7 @@ class AgentLoopRecordTest {
         val screen = object : ScreenPort by FakeScreen() {
             override suspend fun snapshot() = ScreenSnapshot("s1", "com.x", els, 1080, 2400)
         }
-        val m = FakeModel(reply(call("phone_list_elements")), com.wangzan101.mika.core.testing.answerReply("x"))
+        val m = FakeModel(reply(call("phone_list_elements")), com.wangzan101.djini.core.testing.answerReply("x"))
         val t = run(m, screen).events.filterIsInstance<RunEvent.Observed>().single()
         assertFalse(key in t.text)
         assertTrue(t.text.length <= EvidenceLedger.READ_CHARS)
@@ -255,22 +255,22 @@ class AgentLoopRecordTest {
 
     // 新记录里每条进账的观察都记下了:离线重建的账本和运行时的一模一样(读界面、动作带回的界面、命令输出、工具事实)
     @Test fun recordedObservationsRebuildTheSameLedger() {
-        val sb = com.wangzan101.mika.core.cap.sandbox.FakeSandbox().apply {
-            next = { r -> com.wangzan101.mika.core.cap.sandbox.CommandResult(0, false, false, 10, "共 42 行 ${r.argv}", 0, false) }
+        val sb = com.wangzan101.djini.core.cap.sandbox.FakeSandbox().apply {
+            next = { r -> com.wangzan101.djini.core.cap.sandbox.CommandResult(0, false, false, 10, "共 42 行 ${r.argv}", 0, false) }
         }
         val m = FakeModel(
             reply(call("phone_observe")),
             reply(call("phone_launch_app", """{"package":"com.x"}""")),
             reply(call("phone_tap", """{"x":1,"y":1}""")),
             reply(call("run_command", """{"command":"wc -l data.csv"}""")),
-            com.wangzan101.mika.core.testing.answerReply("共 42 行"),
+            com.wangzan101.djini.core.testing.answerReply("共 42 行"),
         )
         val sink = ListSink()
         val tools = toolDispatcher(FakeScreen(), true, inlineScreen = true, sandbox = sb, workspace = { "w" })
         kotlinx.coroutines.runBlocking { AgentLoop(m, tools, "BASE", sink = sink).run("数一下行数") }
         val live = kotlinx.coroutines.runBlocking { tools.evidence(fresh = false) }.ledger.all
         assertTrue(live.size >= 3)
-        assertEquals(live, com.wangzan101.mika.core.eval.RunFacts.ledger(sink.events, TOOLS).all)
+        assertEquals(live, com.wangzan101.djini.core.eval.RunFacts.ledger(sink.events, TOOLS).all)
         // 每条都跟在读到它的那次调用的结果后面
         val ev = sink.events
         ev.forEachIndexed { i, e -> if (e is RunEvent.Observed) assertTrue(ev[i - 1] is RunEvent.ToolResult || ev[i - 1] is RunEvent.Observed) }
@@ -280,7 +280,7 @@ class AgentLoopRecordTest {
         val m = FakeModel(
             reply(call("handle_obstacle", """{"kind":"access_blocked","reason":"操作频繁"}""")),
             reply(call("handle_obstacle", """{"kind":"bogus"}""")),
-            com.wangzan101.mika.core.testing.answerReply("x"),
+            com.wangzan101.djini.core.testing.answerReply("x"),
         )
         val ev = run(m).events
         // 只有合法的上报记一条障碍,且紧跟它的工具结果

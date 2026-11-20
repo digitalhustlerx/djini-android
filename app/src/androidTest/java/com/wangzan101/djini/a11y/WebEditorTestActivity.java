@@ -1,4 +1,4 @@
-package com.wangzan101.mika.a11y;
+package com.wangzan101.djini.a11y;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;

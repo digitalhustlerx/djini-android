@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.access
+package com.wangzan101.djini.core.access
 
 /** 应用分类仅用于整理列表,不决定执行权限。名字按界面语言放在 app 侧资源里(values/strings_appaccess.xml)。 */
 enum class AppCategory {

@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.model
+package com.wangzan101.djini.core.model
 
 /** 每个逻辑请求中每把密钥最多尝试一次;预算、取消与网络错误仍由原 HTTP 调用处理。拒绝回调带上 HTTP 状态码,接线处据此区分 429 冷却与 401/403 耗尽。 */
 internal suspend fun requestWithKeyRotation(

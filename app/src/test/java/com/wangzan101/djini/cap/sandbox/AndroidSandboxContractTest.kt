@@ -1,9 +1,9 @@
-package com.wangzan101.mika.cap.sandbox
+package com.wangzan101.djini.cap.sandbox
 
-import com.wangzan101.mika.core.workspace.SandboxTree
-import com.wangzan101.mika.core.cap.sandbox.SandboxPathContract
-import com.wangzan101.mika.core.cap.sandbox.SandboxPort
-import com.wangzan101.mika.core.cap.sandbox.SandboxStatus
+import com.wangzan101.djini.core.workspace.SandboxTree
+import com.wangzan101.djini.core.cap.sandbox.SandboxPathContract
+import com.wangzan101.djini.core.cap.sandbox.SandboxPort
+import com.wangzan101.djini.core.cap.sandbox.SandboxStatus
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
 import org.junit.Test

@@ -1,8 +1,8 @@
-package com.wangzan101.mika.cap.web
+package com.wangzan101.djini.cap.web
 
-import com.wangzan101.mika.core.workspace.SandboxError
-import com.wangzan101.mika.core.workspace.SandboxPaths
-import com.wangzan101.mika.core.workspace.WorkspaceFileGate
+import com.wangzan101.djini.core.workspace.SandboxError
+import com.wangzan101.djini.core.workspace.SandboxPaths
+import com.wangzan101.djini.core.workspace.WorkspaceFileGate
 import java.io.File
 import java.util.UUID
 

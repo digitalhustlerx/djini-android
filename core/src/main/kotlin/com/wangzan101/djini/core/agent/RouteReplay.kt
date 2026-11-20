@@ -1,22 +1,22 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
-import com.wangzan101.mika.core.observation.Place
-import com.wangzan101.mika.core.observation.tag
-import com.wangzan101.mika.core.action.ActionExecutor
-import com.wangzan101.mika.core.model.Author
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.Role
-import com.wangzan101.mika.core.prompt.Feedback
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.record.RunSink
-import com.wangzan101.mika.core.replay.ReplayOutcome
-import com.wangzan101.mika.core.replay.Replayer
-import com.wangzan101.mika.core.replay.Route
-import com.wangzan101.mika.core.replay.RouteMatcher
-import com.wangzan101.mika.core.screenmap.ScreenMapStore
-import com.wangzan101.mika.core.tool.ToolDispatcher
-import com.wangzan101.mika.core.tool.Verb
+import com.wangzan101.djini.core.observation.Place
+import com.wangzan101.djini.core.observation.tag
+import com.wangzan101.djini.core.action.ActionExecutor
+import com.wangzan101.djini.core.model.Author
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.Role
+import com.wangzan101.djini.core.prompt.Feedback
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.record.RunSink
+import com.wangzan101.djini.core.replay.ReplayOutcome
+import com.wangzan101.djini.core.replay.Replayer
+import com.wangzan101.djini.core.replay.Route
+import com.wangzan101.djini.core.replay.RouteMatcher
+import com.wangzan101.djini.core.screenmap.ScreenMapStore
+import com.wangzan101.djini.core.tool.ToolDispatcher
+import com.wangzan101.djini.core.tool.Verb
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -118,10 +118,10 @@ internal class RouteReplay(
         if (read != null) {
             // 读屏做成一对工具调用与结果:裁剪和「模型看得到哪几屏」按读屏工具认它,各家接口对调用和结果的配对要求也都满足
             val id = "replay_handback"
-            history += Message(Role.Assistant, listOf(Part.Text(Feedback.format("replay.handback", "head" to head, "note" to REPLAY_SCREEN_HEADER)), Part.ToolCall(id, dumpTool, "{}")), Author.Mika)
-            history += Message(Role.Tool, listOf(Part.ToolResult(id, read.toString(), isError = false, looked?.observations.orEmpty().map { it.tag })), Author.Mika)
+            history += Message(Role.Assistant, listOf(Part.Text(Feedback.format("replay.handback", "head" to head, "note" to REPLAY_SCREEN_HEADER)), Part.ToolCall(id, dumpTool, "{}")), Author.Djini)
+            history += Message(Role.Tool, listOf(Part.ToolResult(id, read.toString(), isError = false, looked?.observations.orEmpty().map { it.tag })), Author.Djini)
             // 能看图的主模型:交还时和动作之后一样看到此刻的画面
-            tools.imageNow()?.let { (png, shotId) -> history += Message(Role.User, listOf(Part.Text(Feedback["action_frame_note"]), tools.modelImage(png, shotId)), Author.Mika) }
+            tools.imageNow()?.let { (png, shotId) -> history += Message(Role.User, listOf(Part.Text(Feedback["action_frame_note"]), tools.modelImage(png, shotId)), Author.Djini) }
         } else {
             history += ctx.notice(REPLAY_SOURCE, Feedback.format("replay.handback", "head" to head, "note" to REPLAY_NO_SCREEN))
         }

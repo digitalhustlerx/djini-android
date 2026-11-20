@@ -1,4 +1,4 @@
-package com.wangzan101.mika.calls.briefing
+package com.wangzan101.djini.calls.briefing
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -11,9 +11,9 @@ import android.media.AudioTrack
 import android.media.MediaRecorder
 import android.media.audiofx.AcousticEchoCanceler
 import android.os.SystemClock
-import com.wangzan101.mika.calls.CallPlaybackQueue
-import com.wangzan101.mika.calls.CallInputPacer
-import com.wangzan101.mika.calls.VolcRealtimeClient
+import com.wangzan101.djini.calls.CallPlaybackQueue
+import com.wangzan101.djini.calls.CallInputPacer
+import com.wangzan101.djini.calls.VolcRealtimeClient
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

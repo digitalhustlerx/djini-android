@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.uistate
+package com.wangzan101.djini.core.uistate
 
-import com.wangzan101.mika.core.access.AppAccessDenied
+import com.wangzan101.djini.core.access.AppAccessDenied
 
 /** 读屏的尽力而为兜底不能把权限拒绝降级成没有内容。 */
 internal fun Exception.rethrowAppAccess() {

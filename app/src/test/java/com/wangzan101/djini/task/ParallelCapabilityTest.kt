@@ -1,7 +1,7 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
 import org.junit.Rule
-import com.wangzan101.mika.i18n.ChineseTexts
+import com.wangzan101.djini.i18n.ChineseTexts
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull

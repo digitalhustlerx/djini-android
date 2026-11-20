@@ -1,12 +1,12 @@
-package com.wangzan101.mika.chat
+package com.wangzan101.djini.chat
 
-import com.wangzan101.mika.core.agent.AttachmentLines
-import com.wangzan101.mika.core.agent.QuoteMessage
-import com.wangzan101.mika.core.agent.Turn
-import com.wangzan101.mika.core.agent.AttachedPage
-import com.wangzan101.mika.core.userscreen.UserScreenMessage
-import com.wangzan101.mika.ui.ChatCopy
-import com.wangzan101.mika.ui.ChatTarget
+import com.wangzan101.djini.core.agent.AttachmentLines
+import com.wangzan101.djini.core.agent.QuoteMessage
+import com.wangzan101.djini.core.agent.Turn
+import com.wangzan101.djini.core.agent.AttachedPage
+import com.wangzan101.djini.core.userscreen.UserScreenMessage
+import com.wangzan101.djini.ui.ChatCopy
+import com.wangzan101.djini.ui.ChatTarget
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -59,7 +59,7 @@ class ConversationSearchTest {
         val store = ConversationStore(tmp.newFolder())
         val withFile = AttachmentLines.compose("看看这份合同", listOf("/workspace/inbox/合同.pdf" to "2 KB"))
         val onPage = AttachedPage.compose(AttachedPage.Page("https://example.com/a", "某页", "选中的那段"), "这页说的是什么")
-        val quoting = QuoteMessage.compose(QuoteMessage.Quote(QuoteMessage.From.Mika, "明天下午有雨"), "那后天呢")
+        val quoting = QuoteMessage.compose(QuoteMessage.Quote(QuoteMessage.From.Djini, "明天下午有雨"), "那后天呢")
         store.append("a", Turn(withFile, "好的", "succeeded", result = "done"))
         store.append("b", Turn(onPage, "讲的是天气", "succeeded"))
         store.append("c", Turn("查天气", "晴", "succeeded", steers = listOf(quoting)))

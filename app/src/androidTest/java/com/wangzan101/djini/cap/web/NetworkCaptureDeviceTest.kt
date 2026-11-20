@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.web
+package com.wangzan101.djini.cap.web
 
 import android.net.LocalSocket
 import android.net.LocalSocketAddress
@@ -10,16 +10,16 @@ import android.webkit.WebView
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.webkit.WebViewAssetLoader
-import com.wangzan101.mika.core.cap.web.cdp.CdpDiscovery
-import com.wangzan101.mika.core.cap.web.cdp.CdpSession
-import com.wangzan101.mika.core.cap.web.cdp.CdpStream
-import com.wangzan101.mika.core.cap.web.cdp.CdpTransport
-import com.wangzan101.mika.core.cap.web.cdp.evaluate
-import com.wangzan101.mika.core.uistate.ActionResult
-import com.wangzan101.mika.core.cap.web.CapturedResponse
-import com.wangzan101.mika.core.cap.web.WaitKind
-import com.wangzan101.mika.cap.web.cdp.NetworkTracker
-import com.wangzan101.mika.cap.web.cdp.WebDevtools
+import com.wangzan101.djini.core.cap.web.cdp.CdpDiscovery
+import com.wangzan101.djini.core.cap.web.cdp.CdpSession
+import com.wangzan101.djini.core.cap.web.cdp.CdpStream
+import com.wangzan101.djini.core.cap.web.cdp.CdpTransport
+import com.wangzan101.djini.core.cap.web.cdp.evaluate
+import com.wangzan101.djini.core.uistate.ActionResult
+import com.wangzan101.djini.core.cap.web.CapturedResponse
+import com.wangzan101.djini.core.cap.web.WaitKind
+import com.wangzan101.djini.cap.web.cdp.NetworkTracker
+import com.wangzan101.djini.cap.web.cdp.WebDevtools
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -37,7 +37,7 @@ import org.junit.runner.RunWith
 import java.io.ByteArrayInputStream
 import java.util.UUID
 import kotlin.coroutines.resume
-import com.wangzan101.mika.cap.phone.PhoneServices
+import com.wangzan101.djini.cap.phone.PhoneServices
 
 /**
  * 真机测试:网页标签经 DevTools 记网络、动作后等网络空闲、取 fetch 的 JSON 正文、web_wait_for 的各种条件。
@@ -133,7 +133,7 @@ class NetworkCaptureDeviceTest {
         val s = screen.snapshot()
         val r = screen.tapRef(s.elements.first { it.resourceId == "#load" }.ref, s.snapshotId) as ActionResult.Ok
         assertEquals(null, r.settled)
-        assertTrue(runCatching { screen.captures(null, null, false) }.exceptionOrNull() is com.wangzan101.mika.core.cap.web.DevtoolsUnavailable)
+        assertTrue(runCatching { screen.captures(null, null, false) }.exceptionOrNull() is com.wangzan101.djini.core.cap.web.DevtoolsUnavailable)
     }
 
     // ---------- 连接 ----------

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Mika's task API client. Standard library only; usable outside the source tree."""
+"""Djini's task API client. Standard library only; usable outside the source tree."""
 
 import argparse
 import base64
@@ -25,7 +25,7 @@ import uuid
 
 VERSION = "0.1.0"
 API = "/api/v1"
-DEFAULT_PACKAGE = "com.wangzan101.mika"
+DEFAULT_PACKAGE = "com.wangzan101.djini"
 MAX_RESPONSE = 4 * 1024 * 1024
 FILE_CHUNK = 128 * 1024
 MAX_ATTACH_BYTES = 200 * 1024 * 1024
@@ -33,7 +33,7 @@ MAX_ATTACH_FILES = 9
 HANDOFF = {"waiting_for_answer", "waiting_on_phone"}
 TERMINAL = {"done", "failed", "cancelled"}
 STATUSES = TERMINAL | HANDOFF | {"starting", "queued", "running", "paused"}
-RETRY_HINT = "Unlock the phone, open Mika once, then retry connect."
+RETRY_HINT = "Unlock the phone, open Djini once, then retry connect."
 
 
 class CliError(Exception):
@@ -58,7 +58,7 @@ class NoRedirect(urllib.request.HTTPRedirectHandler):
 
 def clean_token(value):
     if not isinstance(value, str) or not value or not re.fullmatch(r"[A-Za-z0-9._~+/=-]+", value):
-        raise CliError("credentials", "The connection token is missing or invalid; reconnect to Mika.")
+        raise CliError("credentials", "The connection token is missing or invalid; reconnect to Djini.")
     return value
 
 
@@ -86,7 +86,7 @@ class Client:
         req = urllib.request.Request(self.base + path, data=data, method=method, headers={
             "Authorization": "Bearer " + self.token,
             "Accept": accept, "Content-Type": "application/json",
-            "X-Mika-Client": "mika-cli/" + VERSION,
+            "X-Djini-Client": "djini-cli/" + VERSION,
         })
         try:
             with self.opener.open(req, timeout=timeout or self.timeout) as response:
@@ -124,7 +124,7 @@ class Client:
         except (urllib.error.URLError, OSError, http.client.HTTPException, ValueError):
             if mutation:
                 self.unknown(task_id)
-            raise CliError("connection", "Could not read a valid response from Mika; check the connection and run mika connect.") from None
+            raise CliError("connection", "Could not read a valid response from Djini; check the connection and run djini connect.") from None
         except KeyboardInterrupt:
             if mutation:
                 self.unknown(task_id)
@@ -141,12 +141,12 @@ class Client:
             info = self.request("GET")
         except CliError as exc:
             if exc.details.get("http_status") == 404:
-                raise CliError("incompatible_api", "This Mika APK does not provide task API v1. Install a build with CLI support; no MCP fallback is used.") from None
+                raise CliError("incompatible_api", "This Djini APK does not provide task API v1. Install a build with CLI support; no MCP fallback is used.") from None
             raise
         capabilities = info.get("capabilities")
         if (type(info.get("api_version")) is not int or info["api_version"] != 1
                 or not isinstance(capabilities, list) or "tasks" not in capabilities):
-            raise CliError("incompatible_api", "The phone does not advertise a compatible Mika task API v1.")
+            raise CliError("incompatible_api", "The phone does not advertise a compatible Djini task API v1.")
         return info
 
 
@@ -182,7 +182,7 @@ class Adb:
             raise CliError("adb", "ADB did not complete; check the selected phone's connection.") from None
         if result.returncode:
             # The official bootstrap script may print a token, including on failure.
-            raise CliError("adb", "ADB could not complete the operation. Check the selected device; open Mika and run mika connect.")
+            raise CliError("adb", "ADB could not complete the operation. Check the selected device; open Djini and run djini connect.")
         return result.stdout.strip()
 
     def start_server(self):
@@ -224,7 +224,7 @@ class Adb:
                 # The only phone is not ready; report its state rather than a selection problem.
                 self.device = devices[0]["device"]
             else:
-                raise CliError("device_selection", "Expected one online phone. Run mika devices and choose --device SERIAL.", devices=devices)
+                raise CliError("device_selection", "Expected one online phone. Run djini devices and choose --device SERIAL.", devices=devices)
         listed = next((d["state"] for d in devices if d["device"] == self.device), None)
         if listed not in {None, "device"}:
             raise device_state_error(listed)
@@ -254,7 +254,7 @@ def base_url(raw):
 def progress(args, message):
     # Progress is for a person watching; stdout stays machine-readable JSON.
     if getattr(args, "progress", False):
-        print("mika: " + message, file=sys.stderr, flush=True)
+        print("djini: " + message, file=sys.stderr, flush=True)
 
 
 @contextlib.contextmanager
@@ -285,27 +285,27 @@ def connection(args, secrets):
         except CliError as exc:
             if exc.code != "adb":
                 raise
-            raise CliError("adb", "Mika's phone bootstrap did not complete. " + RETRY_HINT) from None
+            raise CliError("adb", "Djini's phone bootstrap did not complete. " + RETRY_HINT) from None
     try:
         info = json.loads(adb.run("shell", "cat", phone_files + "/mcp-usb.json"))
         if not isinstance(info, dict):
             raise ValueError()
     except ValueError:
-        raise CliError("connection_info", "Mika's connection information is invalid. " + RETRY_HINT) from None
+        raise CliError("connection_info", "Djini's connection information is invalid. " + RETRY_HINT) from None
     except CliError as exc:
         if exc.code != "adb":
             raise
-        raise CliError("connection_info", "Mika's connection information could not be read. " + RETRY_HINT) from None
+        raise CliError("connection_info", "Djini's connection information could not be read. " + RETRY_HINT) from None
     token = clean_token(info.get("token"))
     secrets.append(token)
     boot = adb.run("shell", "settings", "get", "global", "boot_count")
     if not boot.isdigit() or info.get("boot") != boot:
-        raise CliError("stale_connection", "The phone has rebooted; run mika connect to obtain current connection information.")
+        raise CliError("stale_connection", "The phone has rebooted; run djini connect to obtain current connection information.")
     if type(info.get("api_version")) is not int or info["api_version"] != 1:
-        raise CliError("incompatible_api", "This Mika APK does not advertise task API v1; install a build with CLI support.")
+        raise CliError("incompatible_api", "This Djini APK does not advertise task API v1; install a build with CLI support.")
     port = info.get("port")
     if type(port) is not int or not 1 <= port <= 65535:
-        raise CliError("connection_info", "Mika's advertised port is invalid.")
+        raise CliError("connection_info", "Djini's advertised port is invalid.")
     local = adb.run("forward", "tcp:0", "tcp:" + str(port))
     if not local.isascii() or not local.isdigit() or not 1 <= int(local) <= 65535:
         raise CliError("adb", "ADB did not return a valid temporary forwarding port.")
@@ -316,7 +316,7 @@ def connection(args, secrets):
         try:
             adb.run("forward", "--remove", "tcp:" + local, timeout=5)
         except CliError:
-            print("mika: could not confirm removal of the temporary ADB forward on port " + local + ".", file=sys.stderr)
+            print("djini: could not confirm removal of the temporary ADB forward on port " + local + ".", file=sys.stderr)
 
 
 def text_input(text, filename, label):
@@ -335,21 +335,21 @@ def task_snapshot(result, client, *, mutation=False, task_id=None):
             or not isinstance(result.get("status"), str) or result["status"] not in STATUSES):
         if mutation:
             client.unknown(task_id)
-        raise CliError("protocol", "Mika returned an invalid task snapshot.")
+        raise CliError("protocol", "Djini returned an invalid task snapshot.")
     if task_id is not None and result["task_id"] != task_id:
         if mutation:
             client.unknown(task_id)
-        raise CliError("protocol", "Mika returned a different task ID.")
+        raise CliError("protocol", "Djini returned a different task ID.")
     return result
 
 
 def recent_tasks(client, limit):
     result = client.request("GET", "/tasks?limit=" + str(limit))
     if not isinstance(result.get("tasks"), list):
-        raise CliError("protocol", "Mika returned an invalid task list.")
+        raise CliError("protocol", "Djini returned an invalid task list.")
     for task in result["tasks"]:
         if not isinstance(task, dict):
-            raise CliError("protocol", "Mika returned an invalid task list.")
+            raise CliError("protocol", "Djini returned an invalid task list.")
         task_snapshot(task, client)
     return result
 
@@ -363,13 +363,13 @@ def incompatible(info, capability, remedy):
     if version:
         details["server_version"] = version
     raise CliError("incompatible_api",
-                   "The Mika app on the phone%s does not advertise '%s'. %s"
+                   "The Djini app on the phone%s does not advertise '%s'. %s"
                    % ((" (version %s)" % version) if version else "", capability, remedy), **details)
 
 
 def require_files(info):
     if "task_files" not in info["capabilities"]:
-        incompatible(info, "task_files", "Update Mika on the phone to attach and download files.")
+        incompatible(info, "task_files", "Update Djini on the phone to attach and download files.")
 
 
 def discard_upload(client, upload_id):
@@ -449,7 +449,7 @@ def run_with_files(client, args, info):
         request_id = request_id or str(uuid.uuid4())
     elif request_id is not None:
         incompatible(info, "task_recovery",
-                     "Rerun without --request-id to submit anyway, or update Mika on the phone to keep requests recoverable.")
+                     "Rerun without --request-id to submit anyway, or update Djini on the phone to keep requests recoverable.")
     ids = list(getattr(args, "attachments", []))  # The local desk has already staged these.
     paths = [Path(name) for name in getattr(args, "attach", [])]
     if ids or paths:
@@ -505,7 +505,7 @@ def save_result(client, task_id, file_id, output):
     try:
         if os.path.lexists(target):
             raise FileExistsError
-        with tempfile.TemporaryDirectory(prefix=".mika-download-", dir=target.parent) as directory:
+        with tempfile.TemporaryDirectory(prefix=".djini-download-", dir=target.parent) as directory:
             staged = Path(directory) / "file"
             with staged.open("xb") as stream:
                 for chunk in file_chunks(client, task_id, item):
@@ -552,7 +552,7 @@ def execute(args, secrets):
             args.text = text_input(args.text, args.text_file, args.action)
         if hasattr(args, "task_id") and not re.fullmatch(r"[A-Za-z0-9_-]+", args.task_id):
             name = "id" if args.action == "export" else "task_id"
-            raise CliError("arguments", name + " must be an ID returned by Mika.")
+            raise CliError("arguments", name + " must be an ID returned by Djini.")
     if args.command == "devices":
         if args.url or args.token_file:
             raise CliError("arguments", "devices lists ADB devices; it does not use --url or --token-file.")
@@ -570,7 +570,7 @@ def execute(args, secrets):
             return {"connection": "ok", **transport, "api_version": 1, "device_state": device, "model_configuration": "unverified"}
         action = args.action
         if action == "steer" and "task_steer" not in info.get("capabilities", []):
-            incompatible(info, "task_steer", "Update Mika on the phone to steer a running task.")
+            incompatible(info, "task_steer", "Update Djini on the phone to steer a running task.")
         path = "/tasks" + ("/" + args.task_id if hasattr(args, "task_id") else "")
         if action == "run":
             return run_with_files(client, args, info)
@@ -579,7 +579,7 @@ def execute(args, secrets):
             return save_result(client, args.task_id, args.file_id, args.output)
         if action == "export":
             if "run_export" not in info.get("capabilities", []):
-                incompatible(info, "run_export", "Update Mika on the phone to export runs.")
+                incompatible(info, "run_export", "Update Djini on the phone to export runs.")
             return export_record(client, args.task_id, args.events)
         if action == "list":
             return recent_tasks(client, args.limit)
@@ -609,15 +609,15 @@ def export_record(client, task_id, events):
                               accept="application/x-ndjson, application/json", expect="application/x-ndjson", max_bytes=limit)
         lines = [line for line in text.splitlines() if line.strip()]
         if not lines:
-            raise CliError("protocol", "Mika returned an invalid run export.")
+            raise CliError("protocol", "Djini returned an invalid run export.")
         try:
             header = json.loads(lines[0])
             parsed = [json.loads(line) for line in lines[1:]]
         except ValueError:
-            raise CliError("protocol", "Mika returned an invalid run export.") from None
+            raise CliError("protocol", "Djini returned an invalid run export.") from None
         check_export(header, events=False)
         if "events" in header or any(not isinstance(event, dict) or not isinstance(event.get("type"), str) for event in parsed):
-            raise CliError("protocol", "Mika returned an invalid run export.")
+            raise CliError("protocol", "Djini returned an invalid run export.")
         return RawExport(text if text.endswith("\n") else text + "\n")
     result = client.request("GET", "/tasks/" + task_id + "/export", max_bytes=limit)
     check_export(result, events=True)
@@ -627,17 +627,17 @@ def export_record(client, task_id, events):
 def check_export(result, events):
     required = ("exportFormat", "partial", "includesScreenshots", "task_id", "conversation_id", "run_id", "run")
     if not isinstance(result, dict) or any(key not in result for key in required):
-        raise CliError("protocol", "Mika returned an invalid run export.")
+        raise CliError("protocol", "Djini returned an invalid run export.")
     if (result["exportFormat"] != 1 or type(result["partial"]) is not bool or type(result["includesScreenshots"]) is not bool
             or result["includesScreenshots"] is not False):
-        raise CliError("protocol", "Mika returned an invalid run export.")
+        raise CliError("protocol", "Djini returned an invalid run export.")
     for key in ("task_id", "conversation_id", "run_id"):
         if result[key] is not None and not isinstance(result[key], str):
-            raise CliError("protocol", "Mika returned an invalid run export.")
+            raise CliError("protocol", "Djini returned an invalid run export.")
     if result["run"] is not None and not isinstance(result["run"], dict):
-        raise CliError("protocol", "Mika returned an invalid run export.")
+        raise CliError("protocol", "Djini returned an invalid run export.")
     if events and not isinstance(result.get("events"), list):
-        raise CliError("protocol", "Mika returned an invalid run export.")
+        raise CliError("protocol", "Djini returned an invalid run export.")
 
 
 def bounded_int(low, high):
@@ -681,10 +681,10 @@ def parser():
     common.add_argument("--request-timeout", type=request_timeout, default=argparse.SUPPRESS, help="HTTP timeout in seconds (default: 15; bounded waits get at least timeout + 5)")
     connection_options = Parser(add_help=False, parents=[common])
     connection_options.add_argument("--package", dest="mika_package", type=application_id, default=argparse.SUPPRESS,
-                                    help=f"Mika application ID for ADB (default: {DEFAULT_PACKAGE})")
-    p = Parser(prog="mika", description="Delegate tasks to Mika on Android using task API v1.",
+                                    help=f"Djini application ID for ADB (default: {DEFAULT_PACKAGE})")
+    p = Parser(prog="djini", description="Delegate tasks to Djini on Android using task API v1.",
                parents=[connection_options])
-    p.add_argument("--version", action="version", version="mika " + VERSION)
+    p.add_argument("--version", action="version", version="djini " + VERSION)
     sub = p.add_subparsers(dest="command", required=True)
     sub.add_parser("connect", help="Enable ADB computer access and verify task API", parents=[connection_options])
     sub.add_parser("doctor", help="Read connection and phone state without starting a task", parents=[connection_options])
@@ -753,12 +753,12 @@ def main(argv=None):
                 setattr(args, key, default)
         if hasattr(args, "mika_package"):
             if args.command in {"devices", "notification-doctor"}:
-                raise CliError("arguments", "Put the Mika --package option on connect, doctor, task or ui.")
+                raise CliError("arguments", "Put the Djini --package option on connect, doctor, task or ui.")
             if args.url:
-                raise CliError("arguments", "The Mika --package option cannot be used with --url.")
+                raise CliError("arguments", "The Djini --package option cannot be used with --url.")
         if args.command == "ui":
             if compact:
-                raise CliError("arguments", "The desk is interactive. Use mika ui without --json.")
+                raise CliError("arguments", "The desk is interactive. Use djini ui without --json.")
             if bool(args.url) != bool(args.token_file) or (args.url and args.device):
                 raise CliError("arguments", "Choose one ADB device or use --url with --token-file.")
             if args.url:

@@ -1,6 +1,6 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.ChineseUi
+import com.wangzan101.djini.ChineseUi
 import androidx.compose.ui.test.hasSetTextAction
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.assertTextContains
@@ -16,18 +16,18 @@ import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.performTextReplacement
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.wangzan101.mika.core.model.Capabilities
-import com.wangzan101.mika.core.model.ListedModel
-import com.wangzan101.mika.core.model.ModelRole
-import com.wangzan101.mika.settings.Provider
-import com.wangzan101.mika.settings.AesGcmKeyCipher
-import com.wangzan101.mika.settings.ModelContextSettings
-import com.wangzan101.mika.settings.ProviderStore
-import com.wangzan101.mika.settings.ProviderConfig
-import com.wangzan101.mika.settings.ProviderPresets
-import com.wangzan101.mika.settings.RoleChoice
-import com.wangzan101.mika.settings.RoleChoices
-import com.wangzan101.mika.ui.theme.MikaTheme
+import com.wangzan101.djini.core.model.Capabilities
+import com.wangzan101.djini.core.model.ListedModel
+import com.wangzan101.djini.core.model.ModelRole
+import com.wangzan101.djini.settings.Provider
+import com.wangzan101.djini.settings.AesGcmKeyCipher
+import com.wangzan101.djini.settings.ModelContextSettings
+import com.wangzan101.djini.settings.ProviderStore
+import com.wangzan101.djini.settings.ProviderConfig
+import com.wangzan101.djini.settings.ProviderPresets
+import com.wangzan101.djini.settings.RoleChoice
+import com.wangzan101.djini.settings.RoleChoices
+import com.wangzan101.djini.ui.theme.DjiniTheme
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import androidx.compose.runtime.getValue
@@ -68,10 +68,10 @@ class ModelSetupScreenTest {
     )
 
     private fun show(ui: ModelSetupUi, onboarding: Boolean = true) =
-        compose.setContent { MikaTheme { ModelSetupContent(ui, onboarding = onboarding, actions = actions, onBack = {}) } }
+        compose.setContent { DjiniTheme { ModelSetupContent(ui, onboarding = onboarding, actions = actions, onBack = {}) } }
 
     @Test fun welcomeStarts() {
-        compose.setContent { MikaTheme { WelcomeScreen { calls += "start" } } }
+        compose.setContent { DjiniTheme { WelcomeScreen { calls += "start" } } }
         compose.onNodeWithText(WelcomeCopy.TITLE).assertIsDisplayed()
         compose.onNodeWithTag("welcome-start").performClick()
         assertEquals(listOf("start"), calls)
@@ -155,7 +155,7 @@ class ModelSetupScreenTest {
         val store = ProviderStore(tmp.root, AesGcmKeyCipher { error("Fixture has no API key") })
         val provider = store.connect("Test", deepseek.kind, "https://example.test/v1", null, listOf(ListedModel("m")))
         store.use(ModelRole.Main, provider.id, "m", caps.copy(contextTokens = 32_000))
-        compose.setContent { MikaTheme { ModelSetupScreen(store, onboarding = false, onBack = {}, onDone = {}) } }
+        compose.setContent { DjiniTheme { ModelSetupScreen(store, onboarding = false, onBack = {}, onDone = {}) } }
         val open = compose.onNodeWithTag("context-main")
         val window = compose.onNodeWithTag("context-window")
         val trigger = compose.onNodeWithTag("context-trigger")
@@ -202,7 +202,7 @@ class ModelSetupScreenTest {
     @Test fun visionPickerOffersSameAsMainAndOffAndListsEveryModel() {
         val picked = mutableListOf<String>()
         compose.setContent {
-            MikaTheme {
+            DjiniTheme {
                 RolePickerContent(
                     connected(RoleChoices(main = "c1", vision = RoleChoice.Off)), ModelRole.Vision,
                     RolePickerActions(pick = { p, m -> picked += "$p $m" }, choose = { picked += "$it" }),
@@ -221,7 +221,7 @@ class ModelSetupScreenTest {
     }
 
     @Test fun lightPickerOffersOnlySameAsMain() {
-        compose.setContent { MikaTheme { RolePickerContent(connected(), ModelRole.Light, RolePickerActions(), onBack = {}) } }
+        compose.setContent { DjiniTheme { RolePickerContent(connected(), ModelRole.Light, RolePickerActions(), onBack = {}) } }
         compose.onNodeWithText(ModelsCopy.LIGHT_SAME_NOTE).assertIsDisplayed()
         compose.onNodeWithText(ModelsCopy.OFF).assertDoesNotExist()
         compose.onNodeWithText(ModelsCopy.roleHint(ModelRole.Light)).assertIsDisplayed()
@@ -230,7 +230,7 @@ class ModelSetupScreenTest {
     @Test fun pickerFiltersWhenThereAreManyModels() {
         val many = qwen.copy(models = (1..9).map { ListedModel("qwen-$it") })
         val ui = ModelSetupUi(form, providers = listOf(deepseek, many), configs = listOf(main), roles = RoleChoices(main = "c1"))
-        compose.setContent { MikaTheme { RolePickerContent(ui, ModelRole.Main, RolePickerActions(), onBack = {}) } }
+        compose.setContent { DjiniTheme { RolePickerContent(ui, ModelRole.Main, RolePickerActions(), onBack = {}) } }
         compose.onNodeWithTag("model-filter").performTextInput("qwen-9")
         // 筛选框里也有这几个字,只看不是输入框的那一行
         compose.onNode(hasText("qwen-9") and !hasSetTextAction()).assertIsDisplayed()
@@ -241,7 +241,7 @@ class ModelSetupScreenTest {
     @Test fun providerDetailPreviewsInUseModelsFirstAndLinksToAll() {
         val got = mutableListOf<String>()
         compose.setContent {
-            MikaTheme {
+            DjiniTheme {
                 ProviderDetailContent(
                     connected(RoleChoices(main = "c1", vision = RoleChoice.Model("c2"))), qwen,
                     ProviderDetailActions(showAll = { got += "all" }), onBack = {},
@@ -266,7 +266,7 @@ class ModelSetupScreenTest {
     @Test fun tappingAModelOpensUseAsSheetAndAssigns() {
         val used = mutableListOf<String>()
         compose.setContent {
-            MikaTheme {
+            DjiniTheme {
                 ProviderDetailContent(connected(), deepseek, ProviderDetailActions(use = { role, m -> used += "$role $m" }), onBack = {})
             }
         }
@@ -278,7 +278,7 @@ class ModelSetupScreenTest {
     }
 
     @Test fun useAsSheetMarksTheCurrentRole() {
-        compose.setContent { MikaTheme { ProviderDetailContent(connected(), deepseek, ProviderDetailActions(), onBack = {}) } }
+        compose.setContent { DjiniTheme { ProviderDetailContent(connected(), deepseek, ProviderDetailActions(), onBack = {}) } }
         compose.onNodeWithTag("model-deepseek-chat").performClick()
         compose.awaitOne(ModelsCopy.IN_USE).assertIsDisplayed()
         compose.awaitOne(ModelSetupCopy.CANCEL).performClick()
@@ -289,7 +289,7 @@ class ModelSetupScreenTest {
     @Test fun allModelsSearchesAndRefreshes() {
         val got = mutableListOf<String>()
         compose.setContent {
-            MikaTheme {
+            DjiniTheme {
                 AllModelsContent(
                     connected(RoleChoices(main = "c1", vision = RoleChoice.Model("c2"))), qwen,
                     ProviderDetailActions(refresh = { got += "refresh" }), onBack = {},
@@ -307,7 +307,7 @@ class ModelSetupScreenTest {
 
     @Test fun allModelsShowsRefreshInProgress() {
         val running = connected().copy(listing = mapOf(qwen.id to ListState.Running))
-        compose.setContent { MikaTheme { AllModelsContent(running, qwen, ProviderDetailActions(), onBack = {}) } }
+        compose.setContent { DjiniTheme { AllModelsContent(running, qwen, ProviderDetailActions(), onBack = {}) } }
         compose.onNodeWithText(ModelsCopy.LISTING).assertIsDisplayed()
         compose.onNodeWithContentDescription(ModelsCopy.REFRESH).assertIsNotEnabled()
     }
@@ -338,7 +338,7 @@ class ModelSetupScreenTest {
         val started = mutableListOf<String>()
         val actions = SignInSheetActions(start = { started += "start $it" }, cancel = { started += "cancel $it" }, useApiKey = { started += "key $it" })
         var ui by mutableStateOf(ModelSetupUi(form))
-        compose.setContent { MikaTheme { SignInSheetBody(ui, SignInKind.Xai, actions) } }
+        compose.setContent { DjiniTheme { SignInSheetBody(ui, SignInKind.Xai, actions) } }
         compose.onNodeWithText(ModelsCopy.signInTitle(SignInKind.Xai)).assertIsDisplayed()
         compose.onNodeWithTag("signin-risk").assertIsDisplayed()
         compose.onNodeWithTag("signin-start").performClick()
@@ -354,7 +354,7 @@ class ModelSetupScreenTest {
     @Test fun openRouterSheetShowsFailureAndCanRetry() {
         val started = mutableListOf<String>()
         val ui = ModelSetupUi(form, accountSignIn = AccountSignInUi(AccountProvider.OpenRouter, failure = "已取消登录。"))
-        compose.setContent { MikaTheme { SignInSheetBody(ui, SignInKind.OpenRouter, SignInSheetActions(start = { started += "$it" })) } }
+        compose.setContent { DjiniTheme { SignInSheetBody(ui, SignInKind.OpenRouter, SignInSheetActions(start = { started += "$it" })) } }
         compose.onNodeWithText(ModelsCopy.signInStart(SignInKind.OpenRouter)).assertIsDisplayed()
         compose.onNodeWithTag("signin-risk").assertDoesNotExist()
         compose.onNodeWithTag("signin-failed").assertTextContains("已取消登录。")
@@ -367,7 +367,7 @@ class ModelSetupScreenTest {
         val ui = ModelSetupUi(form, providers = listOf(deepseek, grok), configs = listOf(main), roles = RoleChoices(main = "c1"),
             xaiAccount = SubscriptionAccount("me@example.com", signedIn = true))
         compose.setContent {
-            MikaTheme {
+            DjiniTheme {
                 ProviderDetailContent(ui, grok, ProviderDetailActions(useAsMain = { got += "main" }, signOut = { got += "out" }), onBack = {})
             }
         }

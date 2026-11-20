@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.visual
+package com.wangzan101.djini.core.visual
 
 /** 动作前后两帧画面的粗比较用的格子与阈值(判动作效果的旁证)。 */
 object FrameTuning {

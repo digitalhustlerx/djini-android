@@ -1,16 +1,16 @@
-package com.wangzan101.mika.cap.phone.a11y
+package com.wangzan101.djini.cap.phone.a11y
 
 import android.hardware.display.DisplayManager
 import android.view.Display
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SdkSuppress
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.cap.phone.PhoneServices
-import com.wangzan101.mika.cap.phone.display.AgentDisplay
-import com.wangzan101.mika.cap.phone.shell.ShellService
-import com.wangzan101.mika.core.shell.HelperHandoff
-import com.wangzan101.mika.core.uistate.ActionResult
-import com.wangzan101.mika.core.uistate.Verification
+import com.wangzan101.djini.cap.phone.PhoneServices
+import com.wangzan101.djini.cap.phone.display.AgentDisplay
+import com.wangzan101.djini.cap.phone.shell.ShellService
+import com.wangzan101.djini.core.shell.HelperHandoff
+import com.wangzan101.djini.core.uistate.ActionResult
+import com.wangzan101.djini.core.uistate.Verification
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -64,11 +64,11 @@ class LegacyPhoneDeviceTest {
             assertTrue("tap result: $tapped", tapped is ActionResult.Ok)
             val revealed = screen.snapshot()
             val field = revealed.elements.first { it.editable && it.name == "真正的输入框" }
-            val typed = screen.typeText(field.ref, revealed.snapshotId, "Mika 兼容输入测试")
+            val typed = screen.typeText(field.ref, revealed.snapshotId, "Djini 兼容输入测试")
             assertTrue("type result: $typed", typed is ActionResult.Ok)
             assertEquals(Verification.MATCH, (typed as ActionResult.Ok).verification)
             val after = screen.snapshot()
-            assertTrue(after.elements.any { it.editable && it.name == "Mika 兼容输入测试" })
+            assertTrue(after.elements.any { it.editable && it.name == "Djini 兼容输入测试" })
         } finally {
             display.release()
         }

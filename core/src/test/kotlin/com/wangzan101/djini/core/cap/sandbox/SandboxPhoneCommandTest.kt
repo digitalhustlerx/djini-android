@@ -1,10 +1,10 @@
-package com.wangzan101.mika.core.cap.sandbox
+package com.wangzan101.djini.core.cap.sandbox
 
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.assembly.knownTools
-import com.wangzan101.mika.core.tool.Args
-import com.wangzan101.mika.core.tool.SubActions
-import com.wangzan101.mika.core.tool.ToolExecution
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.assembly.knownTools
+import com.wangzan101.djini.core.tool.Args
+import com.wangzan101.djini.core.tool.SubActions
+import com.wangzan101.djini.core.tool.ToolExecution
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.buildJsonObject
@@ -24,7 +24,7 @@ class SandboxPhoneCommandTest {
             calls += call
             ToolExecution(buildJsonObject { put("ok", true); put("value", "from-screen") })
         }
-        runner.runCommand(Args(RunCommand.def, buildJsonObject { put("command", "mika phone query '{}'" ) }), "task", "parent", sub, index)
+        runner.runCommand(Args(RunCommand.def, buildJsonObject { put("command", "djini phone query '{}'" ) }), "task", "parent", sub, index)
         val phone = sandbox.phoneHandler
         assertNotNull(phone)
         val result = phone!!.call("query", buildJsonObject { put("text", "设置") })
@@ -44,7 +44,7 @@ class SandboxPhoneCommandTest {
         val runner = SandboxTools(sandbox, { "task" }, false)
         val calls = mutableListOf<String>()
         val sub = SubActions { call -> calls += call.name; ToolExecution(buildJsonObject { put("ok", true) }) }
-        runner.runCommand(Args(RunCommand.def, buildJsonObject { put("command", "mika phone find '{}'") }), "task", "parent", sub, knownTools())
+        runner.runCommand(Args(RunCommand.def, buildJsonObject { put("command", "djini phone find '{}'") }), "task", "parent", sub, knownTools())
         val phone = sandbox.phoneHandler!!
         val opened = listOf("find", "extract", "dialog", "wait", "event", "gesture", "system_command", "query", "tap", "type", "key", "launch", "dump")
         for (op in opened) assertEquals(op, "true", phone.call(op, JsonObject(emptyMap()))["ok"]!!.jsonPrimitive.content)

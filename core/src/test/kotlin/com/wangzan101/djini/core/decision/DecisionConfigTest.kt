@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.decision
+package com.wangzan101.djini.core.decision
 
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json

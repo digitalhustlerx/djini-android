@@ -1,29 +1,29 @@
-package com.wangzan101.mika.core.uistate.tools
+package com.wangzan101.djini.core.uistate.tools
 
-import com.wangzan101.mika.core.gate.IrreversibleDetector
-import com.wangzan101.mika.core.prompt.Feedback
-import com.wangzan101.mika.core.uistate.ScreenFamily
-import com.wangzan101.mika.core.tool.Args
-import com.wangzan101.mika.core.tool.HINT_PROTECTED
-import com.wangzan101.mika.core.tool.HINT_DISPLAY_CAPTURE
-import com.wangzan101.mika.core.uistate.ScreenDiagnosis
-import com.wangzan101.mika.core.visual.Recall
-import com.wangzan101.mika.core.tool.Risk
-import com.wangzan101.mika.core.tool.ToolContext
-import com.wangzan101.mika.core.tool.ToolDef
-import com.wangzan101.mika.core.tool.ToolExecution
-import com.wangzan101.mika.core.tool.Verb
-import com.wangzan101.mika.core.tool.fail
-import com.wangzan101.mika.core.tool.okObj
-import com.wangzan101.mika.core.tool.str
-import com.wangzan101.mika.core.workspace.SandboxError
-import com.wangzan101.mika.core.uistate.screenText
+import com.wangzan101.djini.core.gate.IrreversibleDetector
+import com.wangzan101.djini.core.prompt.Feedback
+import com.wangzan101.djini.core.uistate.ScreenFamily
+import com.wangzan101.djini.core.tool.Args
+import com.wangzan101.djini.core.tool.HINT_PROTECTED
+import com.wangzan101.djini.core.tool.HINT_DISPLAY_CAPTURE
+import com.wangzan101.djini.core.uistate.ScreenDiagnosis
+import com.wangzan101.djini.core.visual.Recall
+import com.wangzan101.djini.core.tool.Risk
+import com.wangzan101.djini.core.tool.ToolContext
+import com.wangzan101.djini.core.tool.ToolDef
+import com.wangzan101.djini.core.tool.ToolExecution
+import com.wangzan101.djini.core.tool.Verb
+import com.wangzan101.djini.core.tool.fail
+import com.wangzan101.djini.core.tool.okObj
+import com.wangzan101.djini.core.tool.str
+import com.wangzan101.djini.core.workspace.SandboxError
+import com.wangzan101.djini.core.uistate.screenText
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.put
-import com.wangzan101.mika.core.uistate.lastSnapshot
-import com.wangzan101.mika.core.uistate.screen
-import com.wangzan101.mika.core.uistate.session
+import com.wangzan101.djini.core.uistate.lastSnapshot
+import com.wangzan101.djini.core.uistate.screen
+import com.wangzan101.djini.core.uistate.session
 
 /** 读这块屏:元素表(observe 按配置补截图)、单独截图。 */
 internal class Observe(f: ScreenFamily) : ScreenTool(f, "observe") {

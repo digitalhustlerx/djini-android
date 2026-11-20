@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import android.content.Context
 import androidx.activity.compose.BackHandler
@@ -14,13 +14,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.core.knowledge.FrontMatter
-import com.wangzan101.mika.skills.MarketEntry
-import com.wangzan101.mika.skills.SkillMarket
-import com.wangzan101.mika.ui.components.*
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
+import com.wangzan101.djini.R
+import com.wangzan101.djini.core.knowledge.FrontMatter
+import com.wangzan101.djini.skills.MarketEntry
+import com.wangzan101.djini.skills.SkillMarket
+import com.wangzan101.djini.ui.components.*
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -74,13 +74,13 @@ internal fun SkillMarketScreen(onBack: () -> Unit, onImport: (String) -> String?
                     }) { text ->
                         val body = remember(text) { FrontMatter.parse(text).second }
                         Column(Modifier.padding(16.dp)) {
-                            Text(entry.description, style = MikaType.Caption, color = MikaTheme.colors.ink2)
+                            Text(entry.description, style = MikaType.Caption, color = DjiniTheme.colors.ink2)
                             // Render section headings without making third-party links or images interactive.
                             for (line in body.lineSequence().filter { it.isNotBlank() }) {
                                 val heading = line.startsWith("## ")
                                 Text(if (heading) line.drop(3) else line,
                                     Modifier.padding(top = if (heading) 12.dp else 4.dp),
-                                    style = if (heading) MikaType.BodyStrong else MikaType.Body, color = MikaTheme.colors.ink)
+                                    style = if (heading) MikaType.BodyStrong else MikaType.Body, color = DjiniTheme.colors.ink)
                             }
                         }
                         problem?.let { EmptyNote(it) }

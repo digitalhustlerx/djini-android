@@ -1,6 +1,6 @@
-package com.wangzan101.mika.backup
+package com.wangzan101.djini.backup
 
-import com.wangzan101.mika.settings.KeyCipher
+import com.wangzan101.djini.settings.KeyCipher
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
@@ -19,7 +19,7 @@ import java.util.zip.ZipInputStream
 import java.util.zip.ZipOutputStream
 
 /**
- * A whole-data backup of Mika: a plain ZIP file, no password.
+ * A whole-data backup of Djini: a plain ZIP file, no password.
  *
  * Why this exists: secrets are AES-GCM encrypted with AndroidKeyStore keys, and uninstall
  * invalidates those keys, so raw files cannot be carried to a differently signed install.
@@ -78,25 +78,25 @@ class BackupEngine(
 
     /** Files under [filesDir] whose whole content is one [KeyCipher] ciphertext (IV + data). */
     private val encryptedFiles: Map<String, String> = mapOf(
-        "settings/net-proxy.bin" to "mika-net-proxy",
-        "settings/container-proxy.bin" to "mika-container-proxy",
-        "settings/mcp-token.bin" to "mika-mcp-token",
-        "settings/remote-relay.bin" to "mika-remote-relay",
-        "settings/device-access.bin" to "mika-device-access",
-        "settings/mcp-server-secrets.bin" to "mika-mcp-servers",
-        "settings/decision-model.bin" to "mika-decision-key",
-        "memory/memory.bin" to "mika-memory",
-        "memory/profile.bin" to "mika-memory",
-        "memory/task_memory/task_memory.bin" to "mika-memory",
-        "proactive/topics.bin" to "mika-proactive-topics",
-        "proactive/contacts.bin" to "mika-proactive-contacts",
-        "proactive/digest.bin" to "mika-proactive-digest",
-        "proactive/journal.bin" to "mika-proactive-journal",
-        "call-history-v2.enc" to "mika-call-history",
-        "wechat/account.enc" to "mika-wechat-account",
-        "workflows-v1.bin" to "mika-workflows",
-        "saved-checklists-v1.bin" to "mika-saved-checklists",
-        "sms-login-consent.txt" to "mika-sms-login-profiles",
+        "settings/net-proxy.bin" to "djini-net-proxy",
+        "settings/container-proxy.bin" to "djini-container-proxy",
+        "settings/mcp-token.bin" to "djini-mcp-token",
+        "settings/remote-relay.bin" to "djini-remote-relay",
+        "settings/device-access.bin" to "djini-device-access",
+        "settings/mcp-server-secrets.bin" to "djini-mcp-servers",
+        "settings/decision-model.bin" to "djini-decision-key",
+        "memory/memory.bin" to "djini-memory",
+        "memory/profile.bin" to "djini-memory",
+        "memory/task_memory/task_memory.bin" to "djini-memory",
+        "proactive/topics.bin" to "djini-proactive-topics",
+        "proactive/contacts.bin" to "djini-proactive-contacts",
+        "proactive/digest.bin" to "djini-proactive-digest",
+        "proactive/journal.bin" to "djini-proactive-journal",
+        "call-history-v2.enc" to "djini-call-history",
+        "wechat/account.enc" to "djini-wechat-account",
+        "workflows-v1.bin" to "djini-workflows",
+        "saved-checklists-v1.bin" to "djini-saved-checklists",
+        "sms-login-consent.txt" to "djini-sms-login-profiles",
     )
 
     /** Directories under [filesDir] that are deliberately not backed up (large, regenerable). */
@@ -107,16 +107,16 @@ class BackupEngine(
         const val MAX_BACKUP_BYTES: Long = 128L * 1024 * 1024
         private const val MANIFEST_PATH = "manifest.json"
         private const val PROVIDER_KEYS_PATH = "settings/provider-keys.json"
-        private const val PROVIDER_KEYS_ALIAS = "mika-provider-keys"
+        private const val PROVIDER_KEYS_ALIAS = "djini-provider-keys"
 
         fun create(context: android.content.Context): BackupEngine {
             val app = context.applicationContext
             return BackupEngine(
                 filesDir = app.filesDir,
                 sharedPrefsDir = File(app.applicationInfo.dataDir, "shared_prefs"),
-                cipherFor = { alias -> com.wangzan101.mika.settings.KeystoreKeyCipher(alias) },
-                appVersionName = com.wangzan101.mika.BuildConfig.VERSION_NAME,
-                appVersionCode = com.wangzan101.mika.BuildConfig.VERSION_CODE.toLong(),
+                cipherFor = { alias -> com.wangzan101.djini.settings.KeystoreKeyCipher(alias) },
+                appVersionName = com.wangzan101.djini.BuildConfig.VERSION_NAME,
+                appVersionCode = com.wangzan101.djini.BuildConfig.VERSION_CODE.toLong(),
             )
         }
     }

@@ -1,6 +1,6 @@
-package com.wangzan101.mika.workflow
+package com.wangzan101.djini.workflow
 
-import com.wangzan101.mika.settings.KeyCipher
+import com.wangzan101.djini.settings.KeyCipher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.serialization.Serializable

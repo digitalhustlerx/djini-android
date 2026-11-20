@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.phone.shell
+package com.wangzan101.djini.cap.phone.shell
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

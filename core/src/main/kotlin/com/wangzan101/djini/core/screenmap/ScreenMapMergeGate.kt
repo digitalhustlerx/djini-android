@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.screenmap
+package com.wangzan101.djini.core.screenmap
 
-import com.wangzan101.mika.core.record.RunEvent
+import com.wangzan101.djini.core.record.RunEvent
 
 /**
  * merge gate 自检（design D7）：两道必须为 0 的关卡，作为 `screen-map` 的自检/测试用，不是运行指标。

@@ -1,7 +1,7 @@
-package com.wangzan101.mika.backup
+package com.wangzan101.djini.backup
 
-import com.wangzan101.mika.settings.AesGcmKeyCipher
-import com.wangzan101.mika.settings.KeyCipher
+import com.wangzan101.djini.settings.AesGcmKeyCipher
+import com.wangzan101.djini.settings.KeyCipher
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotEquals
@@ -76,7 +76,7 @@ class BackupEngineTest {
             """<?xml version='1.0' encoding='utf-8' standalone='yes' ?><map><string name="speech_doubao_credentials_encrypted">${b64(exportCipher.encrypt("""{"apiKey":"db-key"}""".toByteArray()))}</string><string name="voice_settings">{"enabled":true}</string><boolean name="personal_start" value="false" /></map>""",
         )
         prefsDir.write(
-            "mika_call_history.xml",
+            "djini_call_history.xml",
             """<?xml version='1.0' encoding='utf-8' standalone='yes' ?><map><string name="encrypted_calls_v1">${b64(exportCipher.encrypt("""[{"id":"c1"}]""".toByteArray()))}</string></map>""",
         )
         prefsDir.write(
@@ -112,12 +112,12 @@ class BackupEngineTest {
         assertTrue(manifest.entries.any { it.path == "files/settings/providers.json" && !it.encrypted })
         assertTrue(manifest.entries.any { it.path == "files/settings/personas.json" && !it.encrypted })
         assertTrue(manifest.entries.any { it.path == "files/settings/provider-keys.json" && it.encrypted })
-        assertTrue(manifest.entries.any { it.path == "files/settings/decision-model.bin" && it.encrypted && it.alias == "mika-decision-key" })
-        assertTrue(manifest.entries.any { it.path == "files/memory/memory.bin" && it.encrypted && it.alias == "mika-memory" })
-        assertTrue(manifest.entries.any { it.path == "files/proactive/topics.bin" && it.alias == "mika-proactive-topics" })
-        assertTrue(manifest.entries.any { it.path == "files/workflows-v1.bin" && it.encrypted && it.alias == "mika-workflows" })
-        assertTrue(manifest.entries.any { it.path == "files/saved-checklists-v1.bin" && it.encrypted && it.alias == "mika-saved-checklists" })
-        assertTrue(manifest.entries.any { it.path == "files/sms-login-consent.txt" && it.encrypted && it.alias == "mika-sms-login-profiles" })
+        assertTrue(manifest.entries.any { it.path == "files/settings/decision-model.bin" && it.encrypted && it.alias == "djini-decision-key" })
+        assertTrue(manifest.entries.any { it.path == "files/memory/memory.bin" && it.encrypted && it.alias == "djini-memory" })
+        assertTrue(manifest.entries.any { it.path == "files/proactive/topics.bin" && it.alias == "djini-proactive-topics" })
+        assertTrue(manifest.entries.any { it.path == "files/workflows-v1.bin" && it.encrypted && it.alias == "djini-workflows" })
+        assertTrue(manifest.entries.any { it.path == "files/saved-checklists-v1.bin" && it.encrypted && it.alias == "djini-saved-checklists" })
+        assertTrue(manifest.entries.any { it.path == "files/sms-login-consent.txt" && it.encrypted && it.alias == "djini-sms-login-profiles" })
         assertTrue(manifest.skippedProviderKeys.isEmpty())
         assertTrue(manifest.skippedPrefs.isEmpty())
 
@@ -163,7 +163,7 @@ class BackupEngineTest {
         assertEquals("""{"apiKey":"db-key"}""", String(importCipher.decrypt(Base64.getDecoder().decode(doubao))))
         assertTrue(flags.contains("""voice_settings">{"enabled":true}</string>"""))
 
-        val callHistoryPrefs = File(dstPrefs, "mika_call_history.xml").readText()
+        val callHistoryPrefs = File(dstPrefs, "djini_call_history.xml").readText()
         val callHistoryEnc = callHistoryPrefs.substringAfter("encrypted_calls_v1\">").substringBefore("</string>")
         assertEquals("""[{"id":"c1"}]""", String(importCipher.decrypt(Base64.getDecoder().decode(callHistoryEnc))))
 

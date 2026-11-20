@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.replay
+package com.wangzan101.djini.core.replay
 
-import com.wangzan101.mika.core.tool.ToolIndex
+import com.wangzan101.djini.core.tool.ToolIndex
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json

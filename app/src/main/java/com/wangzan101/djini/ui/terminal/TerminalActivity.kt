@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui.terminal
+package com.wangzan101.djini.ui.terminal
 
 import android.app.Activity
 import android.content.Context
@@ -8,13 +8,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.LaunchedEffect
-import com.wangzan101.mika.MikaApp
-import com.wangzan101.mika.cap.sandbox.WorkspaceKey
-import com.wangzan101.mika.i18n.AppLanguage
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.animationsOff
-import com.wangzan101.mika.ui.theme.appearanceDark
-import com.wangzan101.mika.ui.theme.systemBarsFor
+import com.wangzan101.djini.DjiniApp
+import com.wangzan101.djini.cap.sandbox.WorkspaceKey
+import com.wangzan101.djini.i18n.AppLanguage
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.animationsOff
+import com.wangzan101.djini.ui.theme.appearanceDark
+import com.wangzan101.djini.ui.theme.systemBarsFor
 
 /**
  * 用户终端:一个独立页面,里面是这个对话工作区的 shell。不经过模型,不写运行记录;
@@ -32,11 +32,11 @@ class TerminalActivity : ComponentActivity() {
         val workspaceKey = intent.getStringExtra(EXTRA_WORKSPACE)?.let(WorkspaceKey::parse)
         if (conversationId == null && workspaceKey == null) { finish(); return }
         val title = intent.getStringExtra(EXTRA_TITLE)
-        val app = applicationContext as MikaApp
+        val app = applicationContext as DjiniApp
         setContent {
             val dark = appearanceDark()
             LaunchedEffect(dark) { systemBarsFor(dark) }
-            MikaTheme(dark = dark, reduceMotion = animationsOff(this)) {
+            DjiniTheme(dark = dark, reduceMotion = animationsOff(this)) {
                 TerminalRoute(app, conversationId, workspaceKey, title, onDone = ::finish)
             }
         }

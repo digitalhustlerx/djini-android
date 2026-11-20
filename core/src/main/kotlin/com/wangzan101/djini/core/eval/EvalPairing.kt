@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.eval
+package com.wangzan101.djini.core.eval
 
 /** 并行评测的分组:同一组的题同时跑。 */
 object EvalPairing {

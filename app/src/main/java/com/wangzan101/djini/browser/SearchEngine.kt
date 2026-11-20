@@ -1,7 +1,7 @@
-package com.wangzan101.mika.browser
+package com.wangzan101.djini.browser
 
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.tr
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.tr
 import java.net.URI
 import java.net.URLDecoder
 import java.net.URLEncoder
@@ -121,7 +121,7 @@ data class CustomSearchEngine private constructor(
             val authorityEnd = listOf(template.indexOf('/', hostStart), template.indexOf('?', hostStart), template.indexOf('#', hostStart))
                 .filter { it >= 0 }.minOrNull() ?: template.length
             if (template.indexOf(PLACEHOLDER) < authorityEnd) return false
-            return runCatching { URI(template.replace(PLACEHOLDER, "mika")).rawAuthority?.isNotBlank() == true }.getOrDefault(false)
+            return runCatching { URI(template.replace(PLACEHOLDER, "djini")).rawAuthority?.isNotBlank() == true }.getOrDefault(false)
         }
     }
 }

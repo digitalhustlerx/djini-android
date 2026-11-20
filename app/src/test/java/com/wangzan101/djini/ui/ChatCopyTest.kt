@@ -1,10 +1,10 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import org.junit.Rule
-import com.wangzan101.mika.i18n.ChineseTexts
-import com.wangzan101.mika.chat.BranchOrigin
-import com.wangzan101.mika.chat.ConversationSummary
-import com.wangzan101.mika.core.usage.DeepSeekCost
+import com.wangzan101.djini.i18n.ChineseTexts
+import com.wangzan101.djini.chat.BranchOrigin
+import com.wangzan101.djini.chat.ConversationSummary
+import com.wangzan101.djini.core.usage.DeepSeekCost
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
@@ -22,7 +22,7 @@ class ChatCopyTest {
         assertEquals(6, examples.map { it.title }.filter { it.isNotBlank() }.toSet().size)
         assertEquals(6, examples.map { it.prompt }.filter { it.isNotBlank() }.toSet().size)
         assertEquals(ChatCopy.ExampleKind.Web, examples.first().kind)
-        assertTrue(examples.first().prompt.contains("https://github.com/wangzan101/mika"))
+        assertTrue(examples.first().prompt.contains("https://github.com/wangzan101/djini"))
         // 短标题上卡片、完整提示词进输入框:两者分开存
         assertEquals(ChatCopy.examples.map { it.title }, ChatCopy.recommendationSeeds().map { it.first })
         assertEquals(ChatCopy.examples.map { it.prompt }, ChatCopy.recommendationSeeds().map { it.second })
@@ -56,7 +56,7 @@ class ChatCopyTest {
         assertEquals("a.pdf", ChatCopy.plainTitle("附件:/workspace/inbox/a.pdf(1 KB)"))
         assertEquals(ScreenCopy.TAG, ChatCopy.plainTitle("[[screen:s1]]"))
         // 在浏览器页上对着一页问的:页面说明不当标题
-        val paged = com.wangzan101.mika.core.agent.AttachedPage.compose(com.wangzan101.mika.core.agent.AttachedPage.Page("https://a.example/", "页"), "挑一个\n第二行")
+        val paged = com.wangzan101.djini.core.agent.AttachedPage.compose(com.wangzan101.djini.core.agent.AttachedPage.Page("https://a.example/", "页"), "挑一个\n第二行")
         assertEquals("挑一个", ChatCopy.plainTitle(paged))
     }
 
@@ -108,7 +108,7 @@ class ChatCopyTest {
 
     /** 在浏览器页上对着一页开始的对话:侧栏那一条带着网站(画成「网页」小标签和网站名),进行中、最近两段都是。 */
     @Test fun drawerMarksConversationsStartedFromAPage() {
-        val page = com.wangzan101.mika.chat.PageOrigin("https://shop.example.com/s?k=1", "shop.example.com", "搜索")
+        val page = com.wangzan101.djini.chat.PageOrigin("https://shop.example.com/s?k=1", "shop.example.com", "搜索")
         val all = listOf(ConversationSummary("a", "一", 0L, page = page), ConversationSummary("b", "二", 0L), ConversationSummary("c", "三", 0L, page = page))
         val s = drawerSections(all, CurrentConversation("x", false, "", ""), others = listOf("c"), { null }, canSwitch = true, now = 0L, zone = zone)
         assertEquals(listOf("shop.example.com", null), s.recent.map { it.site })
@@ -262,13 +262,13 @@ class ChatCopyTest {
     @Test fun placeholderFollowsTheComposer() {
         assertEquals(ChatCopy.EMPTY_PROMPT, ChatCopy.placeholder(ComposerMode.Idle, hasHistory = false))
         assertEquals("继续说点什么…", ChatCopy.placeholder(ComposerMode.Idle, hasHistory = true))
-        assertEquals("回答 Mika 的问题", ChatCopy.placeholder(ComposerMode.Answer, hasHistory = true))
+        assertEquals("回答 Djini 的问题", ChatCopy.placeholder(ComposerMode.Answer, hasHistory = true))
         assertEquals("补充或改要求…", ChatCopy.placeholder(ComposerMode.Busy, hasHistory = true))
     }
 
     @Test fun drawerSectionsGroupsProjectChatsAndIncludesThemInSelectableIds() {
-        val p1 = com.wangzan101.mika.chat.Project(id = "p1", name = "科研")
-        val p2 = com.wangzan101.mika.chat.Project(id = "p2", name = "空项目")
+        val p1 = com.wangzan101.djini.chat.Project(id = "p1", name = "科研")
+        val p2 = com.wangzan101.djini.chat.Project(id = "p2", name = "空项目")
         val all = listOf(
             ConversationSummary("c-p1-recent", "普通成员", 10L, projectId = p1.id),
             ConversationSummary("c-p1-pinned", "置顶成员", 5L, pinnedAt = 99L, projectId = p1.id),
@@ -294,13 +294,13 @@ class ChatCopyTest {
     }
 
     @Test fun sandboxCopyMarksProjectWorkspacesDistinctly() {
-        val projectWs = com.wangzan101.mika.cap.sandbox.WorkspaceUsage(
-            dirName = "p-proj1", conversationId = null, title = "Mika 开发", bytes = 1024L, busy = false, projectId = "proj1",
+        val projectWs = com.wangzan101.djini.cap.sandbox.WorkspaceUsage(
+            dirName = "p-proj1", conversationId = null, title = "Djini 开发", bytes = 1024L, busy = false, projectId = "proj1",
         )
-        val chatWs = com.wangzan101.mika.cap.sandbox.WorkspaceUsage(
+        val chatWs = com.wangzan101.djini.cap.sandbox.WorkspaceUsage(
             dirName = "c-chat1", conversationId = "chat1", title = "闲聊", bytes = 512L, busy = false, projectId = null,
         )
-        assertEquals("项目 · Mika 开发", SandboxCopy.workspaceTitle(projectWs))
+        assertEquals("项目 · Djini 开发", SandboxCopy.workspaceTitle(projectWs))
         assertEquals("闲聊", SandboxCopy.workspaceTitle(chatWs))
     }
 }

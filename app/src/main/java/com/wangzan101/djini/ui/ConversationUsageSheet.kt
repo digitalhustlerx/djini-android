@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
@@ -35,13 +35,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.chat.ConversationStore
-import com.wangzan101.mika.core.usage.ConversationUsage
-import com.wangzan101.mika.ui.components.GroupLabel
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
+import com.wangzan101.djini.R
+import com.wangzan101.djini.chat.ConversationStore
+import com.wangzan101.djini.core.usage.ConversationUsage
+import com.wangzan101.djini.ui.components.GroupLabel
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
@@ -49,7 +49,7 @@ import kotlinx.coroutines.flow.map
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun ConversationUsageSheet(id: String?, onDismiss: () -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val context = LocalContext.current
     val updates = remember(id, context) {
         val usage = if (id == null) flowOf(ConversationUsage()) else ConversationStore.shared(context).observeUsage(id)
@@ -79,7 +79,7 @@ internal fun ConversationUsageSheet(id: String?, onDismiss: () -> Unit) {
 
 @Composable
 private fun UsageDetails(usage: ConversationUsage) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val total = "${UsageCopy.compactTokens(usage.input + usage.output)} ${UsageCopy.UNIT}"
     Text(stringResource(if (usage.partial) R.string.chat_conversation_tokens_partial else R.string.chat_conversation_tokens, total),
         Modifier.padding(top = 16.dp), style = MikaType.BodyStrong, color = c.ink)
@@ -117,7 +117,7 @@ private fun CountRow(label: String, value: String, color: Color? = null) {
     Row(Modifier.fillMaxWidth().padding(vertical = 4.dp), verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         if (color != null) Spacer(Modifier.size(8.dp).background(color, CircleShape))
-        Text(label, Modifier.weight(1f), style = MikaType.Caption, color = MikaTheme.colors.ink2)
-        Text(value, style = MikaType.Label, color = MikaTheme.colors.ink)
+        Text(label, Modifier.weight(1f), style = MikaType.Caption, color = DjiniTheme.colors.ink2)
+        Text(value, style = MikaType.Label, color = DjiniTheme.colors.ink)
     }
 }

@@ -1,10 +1,10 @@
-package com.wangzan101.mika.core.gate
+package com.wangzan101.djini.core.gate
 
-import com.wangzan101.mika.core.risk.GateTarget
-import com.wangzan101.mika.core.uistate.ScreenSnapshot
-import com.wangzan101.mika.core.tool.FakeScreen
+import com.wangzan101.djini.core.risk.GateTarget
+import com.wangzan101.djini.core.uistate.ScreenSnapshot
+import com.wangzan101.djini.core.tool.FakeScreen
 import kotlinx.serialization.json.JsonObject
-import com.wangzan101.mika.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.assembly.toolDispatcher
 
 /** 测试里按工具名判:目标取工具声明的那个(和执行入口传给判定的一样)。 */
 private val declarations by lazy { toolDispatcher(FakeScreen()) }

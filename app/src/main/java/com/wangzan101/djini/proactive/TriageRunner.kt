@@ -1,18 +1,18 @@
-package com.wangzan101.mika.proactive
+package com.wangzan101.djini.proactive
 
-import com.wangzan101.mika.core.proactive.NoticeInbox
-import com.wangzan101.mika.core.proactive.NoticeTriage
-import com.wangzan101.mika.core.proactive.ProactiveCall
-import com.wangzan101.mika.core.proactive.TargetedModel
-import com.wangzan101.mika.core.proactive.TriageConsent
-import com.wangzan101.mika.core.proactive.TriageCounts
-import com.wangzan101.mika.core.proactive.TriageGate
-import com.wangzan101.mika.core.proactive.TriageMark
-import com.wangzan101.mika.core.proactive.TriagePlan
-import com.wangzan101.mika.core.proactive.TriagePlanner
-import com.wangzan101.mika.core.proactive.TriageResult
-import com.wangzan101.mika.core.proactive.TriageTarget
-import com.wangzan101.mika.core.usage.ProactiveBudget
+import com.wangzan101.djini.core.proactive.NoticeInbox
+import com.wangzan101.djini.core.proactive.NoticeTriage
+import com.wangzan101.djini.core.proactive.ProactiveCall
+import com.wangzan101.djini.core.proactive.TargetedModel
+import com.wangzan101.djini.core.proactive.TriageConsent
+import com.wangzan101.djini.core.proactive.TriageCounts
+import com.wangzan101.djini.core.proactive.TriageGate
+import com.wangzan101.djini.core.proactive.TriageMark
+import com.wangzan101.djini.core.proactive.TriagePlan
+import com.wangzan101.djini.core.proactive.TriagePlanner
+import com.wangzan101.djini.core.proactive.TriageResult
+import com.wangzan101.djini.core.proactive.TriageTarget
+import com.wangzan101.djini.core.usage.ProactiveBudget
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
@@ -27,7 +27,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 /**
- * 判定要用的、App 别处的东西,都由 MikaApp 经 lambda 给:判定关着时一样都不碰(服务商配置、用量账本)。
+ * 判定要用的、App 别处的东西,都由 DjiniApp 经 lambda 给:判定关着时一样都不碰(服务商配置、用量账本)。
  * [target] 是现在会用的服务商和模型(不建模型,给界面和门口的检查);[model] 建模型,连同建它用的那个目标
  * (同一次读配置,发请求前对着它查同意);[busy] 是「有任务在跑」。
  */

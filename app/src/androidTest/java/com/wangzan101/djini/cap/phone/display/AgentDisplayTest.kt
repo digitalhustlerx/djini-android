@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.phone.display
+package com.wangzan101.djini.cap.phone.display
 
 import android.hardware.display.DisplayManager
 import android.content.pm.ActivityInfo
@@ -11,18 +11,18 @@ import android.view.Display
 import android.view.KeyEvent
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport
-import com.wangzan101.mika.cap.phone.a11y.AndroidScreen
-import com.wangzan101.mika.shell.IMikaShell
-import com.wangzan101.mika.cap.phone.PhoneServices
-import com.wangzan101.mika.cap.phone.shell.BuiltinShellConnection
-import com.wangzan101.mika.cap.phone.shell.ShellService
-import com.wangzan101.mika.task.AppMuter
-import com.wangzan101.mika.task.AudioMute
-import com.wangzan101.mika.task.MarkerStore
-import com.wangzan101.mika.task.PrefsMarker
-import com.wangzan101.mika.task.ShellAudio
-import com.wangzan101.mika.core.uistate.ActionResult
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport
+import com.wangzan101.djini.cap.phone.a11y.AndroidScreen
+import com.wangzan101.djini.shell.IDjiniShell
+import com.wangzan101.djini.cap.phone.PhoneServices
+import com.wangzan101.djini.cap.phone.shell.BuiltinShellConnection
+import com.wangzan101.djini.cap.phone.shell.ShellService
+import com.wangzan101.djini.task.AppMuter
+import com.wangzan101.djini.task.AudioMute
+import com.wangzan101.djini.task.MarkerStore
+import com.wangzan101.djini.task.PrefsMarker
+import com.wangzan101.djini.task.ShellAudio
+import com.wangzan101.djini.core.uistate.ActionResult
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -45,7 +45,7 @@ class AgentDisplayTest {
     // 整个测试类共用一条连接,与 App 里长期持有一条连接的用法一致
     companion object {
         private const val SETTINGS = "com.android.settings"
-        private const val SHELL_PROCESS = "com.wangzan101.mika:helper"
+        private const val SHELL_PROCESS = "com.wangzan101.djini:helper"
         private lateinit var connection: BuiltinShellConnection
 
         @BeforeClass
@@ -63,12 +63,12 @@ class AgentDisplayTest {
             InstrumentationRegistry.getInstrumentation().runOnMainSync { connection.unbind() }
         }
 
-        private fun awaitShell(): IMikaShell =
+        private fun awaitShell(): IDjiniShell =
             DeviceSupport.awaitShell(connection)
     }
 
     private val context = InstrumentationRegistry.getInstrumentation().targetContext
-    private val shell: IMikaShell get() = awaitShell()
+    private val shell: IDjiniShell get() = awaitShell()
     private var display: AgentDisplay? = null
 
     @After
@@ -278,14 +278,14 @@ class AgentDisplayTest {
     @Test
     fun coldStartDoesNotKillAppWithTaskOnAnotherScreen() {
         val d = newDisplay()
-        // 用另一块虚拟屏代表「Mika 屏以外的任务」,不碰用户的主屏
+        // 用另一块虚拟屏代表「Djini 屏以外的任务」,不碰用户的主屏
         val other = AgentDisplay(shell, 720, 1600, 320, InstrumentationRegistry.getInstrumentation().targetContext.getSystemService(android.hardware.display.DisplayManager::class.java))
         try {
             assertEquals(ShellService.START_OK, shell.startApp(other.displayId, SETTINGS))
             assertNotNull(pollUntil(5_000) { shell.topTaskId(other.displayId).takeIf { it != -1 } })
             val pid = pollUntil(3_000) { shellCommand("pidof $SETTINGS").trim().takeIf { it.isNotEmpty() } }
             assertNotNull(pid)
-            // 另一块屏也是 Mika 的屏(代表另一个任务):直接拒绝、不强停,返回「被别的任务占用」
+            // 另一块屏也是 Djini 的屏(代表另一个任务):直接拒绝、不强停,返回「被别的任务占用」
             assertEquals(ShellService.START_IN_USE_BY_OTHER, shell.restartApp(d.displayId, SETTINGS))
             assertEquals("settings process was killed", pid, shellCommand("pidof $SETTINGS").trim())
         } finally {

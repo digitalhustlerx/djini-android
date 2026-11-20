@@ -1,6 +1,6 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.ChineseUi
+import com.wangzan101.djini.ChineseUi
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -16,16 +16,16 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.wangzan101.mika.core.usage.UsageCounts
-import com.wangzan101.mika.core.usage.UsageKey
-import com.wangzan101.mika.core.usage.UsageLedger
-import com.wangzan101.mika.core.usage.UsagePurpose
-import com.wangzan101.mika.core.usage.UsageQuery
-import com.wangzan101.mika.core.usage.UsageRange
-import com.wangzan101.mika.core.usage.UsageReport
-import com.wangzan101.mika.core.usage.UsageRow
-import com.wangzan101.mika.core.usage.UsageSnapshot
-import com.wangzan101.mika.ui.theme.MikaTheme
+import com.wangzan101.djini.core.usage.UsageCounts
+import com.wangzan101.djini.core.usage.UsageKey
+import com.wangzan101.djini.core.usage.UsageLedger
+import com.wangzan101.djini.core.usage.UsagePurpose
+import com.wangzan101.djini.core.usage.UsageQuery
+import com.wangzan101.djini.core.usage.UsageRange
+import com.wangzan101.djini.core.usage.UsageReport
+import com.wangzan101.djini.core.usage.UsageRow
+import com.wangzan101.djini.core.usage.UsageSnapshot
+import com.wangzan101.djini.ui.theme.DjiniTheme
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
@@ -65,7 +65,7 @@ class UsageScreenTest {
         onPreset: (UsagePreset) -> Unit = {}, onPickCustom: () -> Unit = {},
     ) {
         compose.setContent {
-            MikaTheme(dark = dark) { UsageContent(r, preset, today, null, onPreset, onPickCustom, onSelect = {}, onBack = {}) }
+            DjiniTheme(dark = dark) { UsageContent(r, preset, today, null, onPreset, onPickCustom, onSelect = {}, onBack = {}) }
         }
     }
 
@@ -134,7 +134,7 @@ class UsageScreenTest {
         var selected by mutableStateOf<String?>(null)
         val r = report()
         compose.setContent {
-            MikaTheme { UsageContent(r, UsagePreset.Week, today, selected, onPreset = {}, onPickCustom = {}, onSelect = { selected = it }, onBack = {}) }
+            DjiniTheme { UsageContent(r, UsagePreset.Week, today, selected, onPreset = {}, onPickCustom = {}, onSelect = { selected = it }, onBack = {}) }
         }
         compose.onNodeWithTag("usage-rank-provider-p1").performScrollTo().performClick()
         assertEquals("p1", selected)

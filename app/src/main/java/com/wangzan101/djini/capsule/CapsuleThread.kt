@@ -1,17 +1,17 @@
-package com.wangzan101.mika.capsule
+package com.wangzan101.djini.capsule
 
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.core.agent.Conversation
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.core.agent.Turn
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.tool.PACKAGE_NAME_RE
-import com.wangzan101.mika.ui.StatusCopy
-import com.wangzan101.mika.ui.answerParts
-import com.wangzan101.mika.task.SteerNote
-import com.wangzan101.mika.ui.steerLabel
-import com.wangzan101.mika.ui.steersAroundDraft
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.core.agent.Conversation
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.core.agent.Turn
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.tool.PACKAGE_NAME_RE
+import com.wangzan101.djini.ui.StatusCopy
+import com.wangzan101.djini.ui.answerParts
+import com.wangzan101.djini.task.SteerNote
+import com.wangzan101.djini.ui.steerLabel
+import com.wangzan101.djini.ui.steersAroundDraft
 
 /**
  * 对话卡片里的一条。[key] 在同一个对话里不变(有运行记录编号时按它,没有时按这一轮在对话里的位置):
@@ -27,7 +27,7 @@ sealed interface ThreadItem {
     data class Note(override val key: String, val text: String, val kind: CapsuleKind) : ThreadItem
 
     /**
-     * Mika 的回答全文(原样的 Markdown,卡片里排版);[streaming] 时还在往下写。
+     * Djini 的回答全文(原样的 Markdown,卡片里排版);[streaming] 时还在往下写。
      * [cut] 时是被插话打断的那段(和对话页一样淡色,下面一行「被你的新消息打断」)。
      */
     data class Answer(override val key: String, val text: String, val streaming: Boolean = false, val cut: Boolean = false) : ThreadItem
@@ -43,7 +43,7 @@ data class ChatThread(val items: List<ThreadItem>, val hasEarlier: Boolean = fal
 data class PastTurn(val turn: Turn, val places: List<String> = emptyList())
 
 /**
- * 对话卡片的来回怎么排(纯逻辑):已经记进对话的几轮(和对话页同一份 [com.wangzan101.mika.chat.ConversationStore])在前,
+ * 对话卡片的来回怎么排(纯逻辑):已经记进对话的几轮(和对话页同一份 [com.wangzan101.djini.chat.ConversationStore])在前,
  * 还没记进去的、这个对话里此刻的任务接在后面。操作过 App 的那一轮只留一行和回答,不放步骤、画面和来源。
  * 先只排最近 [PAGE] 轮,滚到顶再往前多排 [PAGE] 轮。
  */

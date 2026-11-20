@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
@@ -13,11 +13,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.ui.components.*
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.workflow.*
+import com.wangzan101.djini.R
+import com.wangzan101.djini.ui.components.*
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.workflow.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -67,7 +67,7 @@ internal fun WorkflowsScreen(runtime: WorkflowRuntime, onBack: () -> Unit, onOpe
         return
     }
     PageScaffold(run?.template?.title ?: template?.title ?: stringResource(R.string.workflows_title), back) {
-        if (error != null) FooterNote(workflowError(error!!), color = MikaTheme.colors.bad)
+        if (error != null) FooterNote(workflowError(error!!), color = DjiniTheme.colors.bad)
         if (!loaded) {
             if (error == null) CircularProgressIndicator(Modifier.padding(16.dp))
             else MikaButton(stringResource(R.string.retry), { perform { runtime.store.load() } })
@@ -76,7 +76,7 @@ internal fun WorkflowsScreen(runtime: WorkflowRuntime, onBack: () -> Unit, onOpe
                 modifier = Modifier.testTag("workflow-phase"))
             Text(stringResource(R.string.workflow_progress, run.completed, run.template.steps.size), Modifier.padding(vertical = 8.dp))
             if (saveError) {
-                FooterNote(stringResource(R.string.workflow_result_save_failed), color = MikaTheme.colors.bad)
+                FooterNote(stringResource(R.string.workflow_result_save_failed), color = DjiniTheme.colors.bad)
                 MikaButton(stringResource(R.string.retry), { perform { runtime.retrySave() } }, enabled = !busy)
             }
             when (run.phase) {
@@ -90,7 +90,7 @@ internal fun WorkflowsScreen(runtime: WorkflowRuntime, onBack: () -> Unit, onOpe
                             "start_failed" -> stringResource(R.string.workflow_start_failed)
                             "result_too_long" -> stringResource(R.string.workflow_result_too_long)
                             else -> current.problem
-                        }, color = MikaTheme.colors.bad)
+                        }, color = DjiniTheme.colors.bad)
                         if (onOpenConversation != null) MikaButton(stringResource(R.string.workflow_view_chat), { onOpenConversation(current.conversationId) }, kind = ButtonKind.Secondary)
                     }
                     MikaButton(stringResource(R.string.workflow_mark_done), { resolving = run }, modifier = Modifier.testTag("workflow-resolve"), enabled = !busy)
@@ -222,7 +222,7 @@ internal fun WorkflowsScreen(runtime: WorkflowRuntime, onBack: () -> Unit, onOpe
         }
         TextButton({ change(steps + WorkflowStep(title = "", instruction = "")) }, enabled = !busy && steps.size < WorkflowStore.MAX_STEPS,
             modifier = Modifier.testTag("workflow-add-step")) { Text(stringResource(R.string.workflow_add_step)) }
-        error?.let { FooterNote(workflowError(it), color = MikaTheme.colors.bad) }
+        error?.let { FooterNote(workflowError(it), color = DjiniTheme.colors.bad) }
         MikaButton(stringResource(R.string.save), {
             busy = true
             scope.launch {
@@ -244,7 +244,7 @@ internal fun WorkflowsScreen(runtime: WorkflowRuntime, onBack: () -> Unit, onOpe
         Column(Modifier.verticalScroll(rememberScrollState())) {
             OutlinedTextField(value, { value = it; error = null }, label = { Text(label) }, minLines = 3, maxLines = 8,
                 enabled = !busy, modifier = Modifier.fillMaxWidth().testTag("workflow-dialog-input"))
-            error?.let { FooterNote(workflowError(it), color = MikaTheme.colors.bad) }
+            error?.let { FooterNote(workflowError(it), color = DjiniTheme.colors.bad) }
         }
     }, confirmButton = { TextButton({
         busy = true

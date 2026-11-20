@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -8,9 +8,9 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.wangzan101.mika.ChineseUi
-import com.wangzan101.mika.ui.components.MikaNoticeDialog
-import com.wangzan101.mika.ui.theme.MikaTheme
+import com.wangzan101.djini.ChineseUi
+import com.wangzan101.djini.ui.components.MikaNoticeDialog
+import com.wangzan101.djini.ui.theme.DjiniTheme
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
@@ -25,7 +25,7 @@ class MikaDialogTest {
     fun noticeRendersMarkdownAndKeepsDismissAction() {
         var dismissed by mutableStateOf(false)
         compose.setContent {
-            MikaTheme {
+            DjiniTheme {
                 if (!dismissed) MikaNoticeDialog("已完成 **整理**\n\n- 第一项\n- 第二项", onDismiss = { dismissed = true })
             }
         }

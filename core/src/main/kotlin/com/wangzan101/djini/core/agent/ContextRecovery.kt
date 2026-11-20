@@ -1,9 +1,9 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
-import com.wangzan101.mika.core.model.Author
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.Role
+import com.wangzan101.djini.core.model.Author
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.Role
 
 /**
  * 压缩后的确定性兜底:用户原话(含插话)与固定知识/技能规则一条也不能消失。

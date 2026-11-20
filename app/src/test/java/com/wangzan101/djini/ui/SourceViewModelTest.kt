@@ -1,8 +1,8 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.verify.AnswerSource
-import com.wangzan101.mika.record.RunStore
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.verify.AnswerSource
+import com.wangzan101.djini.record.RunStore
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue

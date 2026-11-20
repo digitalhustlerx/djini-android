@@ -1,12 +1,12 @@
-# Use Mika from a computer
+# Use Djini from a computer
 
 [简体中文](computer.md) | English
 
-AI tools on your computer (or you, in a terminal) can hand a job to Mika on your phone, check progress, answer its follow-up questions and get the result back. The computer says what to get done; Mika on the phone decides how. This page helps you pick an entry point and a connection, then points you to the step-by-step guides.
+AI tools on your computer (or you, in a terminal) can hand a job to Djini on your phone, check progress, answer its follow-up questions and get the result back. The computer says what to get done; Djini on the phone decides how. This page helps you pick an entry point and a connection, then points you to the step-by-step guides.
 
 AI agents: go straight to the [agent quick path](agent-quickstart.en.md).
 
-On the phone: install the APK ([Releases](https://github.com/wangzan101/Mika/releases/latest)), open Mika once and add a model. If Mika only needs to chat, browse the web and work with files, Android 11 is enough; to let it operate phone apps, also finish the phone-control setup in the [setup guide](setup-guide.en.md) (Android 12+).
+On the phone: install the APK ([Releases](https://github.com/wangzan101/Djini/releases/latest)), open Djini once and add a model. If Djini only needs to chat, browse the web and work with files, Android 11 is enough; to let it operate phone apps, also finish the phone-control setup in the [setup guide](setup-guide.en.md) (Android 12+).
 
 ## Step 1: pick an entry point (CLI + Skill or MCP)
 
@@ -15,8 +15,8 @@ Both entry points reach the same task service on the phone. **Normally one is en
 | Your situation | Pick | Read |
 | --- | --- | --- |
 | Your computer agent can run commands and supports Skills | **Skill**: includes its own CLI script, so no separate CLI install and no MCP configuration | [Install the Skill](computer-install.en.md#skill-install) |
-| You want to submit tasks from a terminal or script | **CLI**: the `mika` command | [Install the CLI](computer-install.en.md#cli-install), [connection and task commands](cli.en.md) |
-| You use a client that speaks MCP | **MCP**: Mika acts as an MCP server | [Computer access (MCP)](mcp.en.md) |
+| You want to submit tasks from a terminal or script | **CLI**: the `djini` command | [Install the CLI](computer-install.en.md#cli-install), [connection and task commands](cli.en.md) |
+| You use a client that speaks MCP | **MCP**: Djini acts as an MCP server | [Computer access (MCP)](mcp.en.md) |
 
 Not sure? If your agent supports Skills, use the Skill; otherwise use MCP.
 
@@ -37,13 +37,13 @@ Each connection has its own switch and token, and both can be on at once. The co
 
 - **CLI or Skill**: install it with [install, update and remove](computer-install.en.md), then read [connection and task commands](cli.en.md).
 - **MCP**: follow [Computer access (MCP)](mcp.en.md), which covers both USB and Wi-Fi / VPN step by step.
-- **Let an AI agent on your computer set it up**: with the phone connected over USB, give it [Install with an AI agent on your computer](install-with-agent.en.md). It installs Mika on the phone first; if you also want computer access, it then sets up the entry point you chose.
+- **Let an AI agent on your computer set it up**: with the phone connected over USB, give it [Install with an AI agent on your computer](install-with-agent.en.md). It installs Djini on the phone first; if you also want computer access, it then sets up the entry point you chose.
 
-## Task desk (`mika ui`)
+## Task desk (`djini ui`)
 
 The optional [Feishu connector](feishu.en.md) can also create/link a bot and exchange tasks and results in private chats; its computer process must stay online.
 
-If you would rather not type commands, connect the phone and run `mika ui`. Your browser opens a task desk where you can start tasks, follow their steps, answer questions, add instructions and cancel tasks; recent tasks started from other entry points show up too. Reads pause while the tab is hidden by default and resume when you come back; steps that need you still have to be handled on the phone. The desk follows the browser's language: Simplified Chinese or English.
+If you would rather not type commands, connect the phone and run `djini ui`. Your browser opens a task desk where you can start tasks, follow their steps, answer questions, add instructions and cancel tasks; recent tasks started from other entry points show up too. Reads pause while the tab is hidden by default and resume when you come back; steps that need you still have to be handled on the phone. The desk follows the browser's language: Simplified Chinese or English.
 
 To get alerts while working in another window, open the phone connection details at the bottom left, turn on **Desktop notifications** and allow notifications in your browser. The desk alerts you when a task needs an answer or a phone takeover, finishes or fails. Click a notification to open the exact turn. Existing states and ordinary progress updates stay quiet.
 
@@ -57,8 +57,8 @@ Each turn’s **View process** can show saved run events and detailed Trace entr
 
 On a phone with task recovery, the desk matches a missing submission receipt by ID when the connection returns. Choose **Find task** if the task is outside the recent list. If the phone has no record yet, choose **Retry with the same ID**. The tab keeps the pending request across a reload until you recover it, retry successfully or dismiss it.
 
-- With several ADB devices, choose one in the page or start with `mika ui --device SERIAL`; Wi-Fi / private VPN connections use the usual `--url` and `--token-file`.
-- With only the Skill installed, run `python3 <skills-directory>/mika/scripts/mika_cli.py ui`.
+- With several ADB devices, choose one in the page or start with `djini ui --device SERIAL`; Wi-Fi / private VPN connections use the usual `--url` and `--token-file`.
+- With only the Skill installed, run `python3 <skills-directory>/djini/scripts/mika_cli.py ui`.
 - Attach files to a new task or a follow-up with **Attach files**, or paste a clipboard image into the composer. Select up to 9 files totalling 200 MiB. You can remove them before sending or send files without a message. The phone imports them into that conversation’s workspace and numbers duplicate names.
 - When a task exports a result file on the phone, its turn shows a download button with the file name and size. Select it to save a copy. A missing or changed result reports an error. Attachments and downloads require a compatible phone and desk.
 - If no browser opens, add `--no-open` and open the printed link in a browser on this computer.
@@ -69,9 +69,9 @@ On a phone with task recovery, the desk matches a missing submission receipt by 
 When a task is stuck, the result looks wrong, or another tool on the computer needs to debug it, pull that turn's redacted record over the same connection. It is the same event stream as the phone's process view, redacted again, and it does not include screenshot files.
 
 ```bash
-mika task export TASK_OR_RUN_ID --json
+djini task export TASK_OR_RUN_ID --json
 ```
 
-The JSON has `exportFormat` 1 and states `task_id`, `conversation_id` and run_id (`conversation_id` is the same value as `conversation` on `task status`). `partial: true` means the turn is still in progress and the events are what has been written so far. An unknown id fails with an explicit error. For one event per line: `mika task export ID --events`.
+The JSON has `exportFormat` 1 and states `task_id`, `conversation_id` and run_id (`conversation_id` is the same value as `conversation` on `task status`). `partial: true` means the turn is still in progress and the events are what has been written so far. An unknown id fails with an explicit error. For one event per line: `djini task export ID --events`.
 
 **View process** on the desk is still the progress observed in that page, not this full event stream. Downloading the same JSON from the desk, or attaching an OTLP Trace or screenshots, is left for later.

@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.knowledge
+package com.wangzan101.djini.core.knowledge
 
 /** 解析 APP.md 的头部:`key: value`、`key: [a, b]`、带引号字符串。值为 String 或 List<String>。 */
 object FrontMatter {

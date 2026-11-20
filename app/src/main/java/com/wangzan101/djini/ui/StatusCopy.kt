@@ -1,19 +1,19 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.i18n.trPlural
-import com.wangzan101.mika.core.agent.GoalChecklist
-import com.wangzan101.mika.core.agent.RunProgress
-import com.wangzan101.mika.settings.AccessibilityState
-import com.wangzan101.mika.settings.ChannelLevel
-import com.wangzan101.mika.settings.ChannelRow
-import com.wangzan101.mika.settings.NotificationSummary
-import com.wangzan101.mika.settings.Problem
-import com.wangzan101.mika.core.shell.BuiltinShellFailure
-import com.wangzan101.mika.core.shell.BuiltinShellFix
-import com.wangzan101.mika.core.shell.BuiltinShellStatus
-import com.wangzan101.mika.ui.components.ValueTone
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.i18n.trPlural
+import com.wangzan101.djini.core.agent.GoalChecklist
+import com.wangzan101.djini.core.agent.RunProgress
+import com.wangzan101.djini.settings.AccessibilityState
+import com.wangzan101.djini.settings.ChannelLevel
+import com.wangzan101.djini.settings.ChannelRow
+import com.wangzan101.djini.settings.NotificationSummary
+import com.wangzan101.djini.settings.Problem
+import com.wangzan101.djini.core.shell.BuiltinShellFailure
+import com.wangzan101.djini.core.shell.BuiltinShellFix
+import com.wangzan101.djini.core.shell.BuiltinShellStatus
+import com.wangzan101.djini.ui.components.ValueTone
 
 /** 设置页能直接做的修复动作。 */
 enum class Fix {
@@ -246,7 +246,7 @@ object StatusCopy {
     /** 跑技能脚本时:「正在运行脚本」。 */
     fun sandboxScript(network: Boolean): String = tr(R.string.sandbox_script) + if (network) " · $SANDBOX_ONLINE" else ""
 
-    /** 命令里 `mika progress` 报的进度。 */
+    /** 命令里 `djini progress` 报的进度。 */
     fun sandboxProgress(text: String, network: Boolean): String = sandboxLine("", text, 60, network)
 
     val SANDBOX_ONLINE: String get() = tr(R.string.sandbox_online)
@@ -255,8 +255,8 @@ object StatusCopy {
     val RUNTIME_PREPARING: String get() = tr(R.string.runtime_preparing)
 
     private fun sandboxLine(prefix: String, text: String, max: Int, network: Boolean): String {
-        // 和 `mika progress` 一样去掉控制字符、零宽与改写方向的字符,卡片上显示的就是实际的命令
-        val one = com.wangzan101.mika.cap.sandbox.BridgeProtocol.cleanProgress(text.replace(Regex("\\s+"), " "))
+        // 和 `djini progress` 一样去掉控制字符、零宽与改写方向的字符,卡片上显示的就是实际的命令
+        val one = com.wangzan101.djini.cap.sandbox.BridgeProtocol.cleanProgress(text.replace(Regex("\\s+"), " "))
         val cut = if (one.codePointCount(0, one.length) > max) one.substring(0, one.offsetByCodePoints(0, max)) + "…" else one
         return prefix + cut + if (network) " · $SANDBOX_ONLINE" else ""
     }

@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.model
+package com.wangzan101.djini.core.model
 
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
@@ -74,8 +74,8 @@ object ModelJson {
         val first = model.complete(system, messages, emptyList())
         val firstText = first.parts.filterIsInstance<Part.Text>().joinToString("") { it.text }
         parse(firstText)?.let { return it }
-        val retry = messages + Message(Role.Assistant, listOf(Part.Text(firstText.ifBlank { "(空)" })), Author.Mika) +
-            Message(Role.User, listOf(Part.Text(JSON_ONLY)), Author.Mika)
+        val retry = messages + Message(Role.Assistant, listOf(Part.Text(firstText.ifBlank { "(空)" })), Author.Djini) +
+            Message(Role.User, listOf(Part.Text(JSON_ONLY)), Author.Djini)
         val second = model.complete(system, retry, emptyList())
         return parse(second.parts.filterIsInstance<Part.Text>().joinToString("") { it.text })
     }

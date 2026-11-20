@@ -1,20 +1,20 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
-import com.wangzan101.mika.DeviceTaskState
+import com.wangzan101.djini.DeviceTaskState
 import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.provider.AlarmClock
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport.SETTINGS
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport.pollUntil
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport.sh
-import com.wangzan101.mika.core.agent.SpeedFlags
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.settings.FeatureFlags
-import com.wangzan101.mika.shell.IMikaShell
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport.SETTINGS
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport.pollUntil
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport.sh
+import com.wangzan101.djini.core.agent.SpeedFlags
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.settings.FeatureFlags
+import com.wangzan101.djini.shell.IDjiniShell
 import org.json.JSONObject
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -32,12 +32,12 @@ import java.util.concurrent.atomic.AtomicInteger
 
 /**
  * 真机测试:开关 parallelTasks 打开时,两个对话的任务同时跑,各占一块虚拟屏。
- * 需要安卓 14+、内置助手在运行、Mika 无障碍服务已开启。脚本模型按开始顺序分给两个任务。
+ * 需要安卓 14+、内置助手在运行、Djini 无障碍服务已开启。脚本模型按开始顺序分给两个任务。
  */
 @RunWith(AndroidJUnit4::class)
 class ParallelDeviceTest {
     private val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
-    private lateinit var shell: IMikaShell
+    private lateinit var shell: IDjiniShell
     private val models = listOf(ScriptedModel(), ScriptedModel())
     private val handedOut = AtomicInteger()
     private lateinit var priorFlags: SpeedFlags
@@ -122,7 +122,7 @@ class ParallelDeviceTest {
         assertNotNull(pollUntil(20_000) { ended(first) })
         assertNotNull(pollUntil(20_000) { ended(second) })
         assertNotNull(pollUntil(15_000) { DeviceTaskState.busy.value.takeIf { !it } })
-        assertFalse("Mika display left behind", "mika-agent" in sh("dumpsys display"))
+        assertFalse("Djini display left behind", "djini-agent" in sh("dumpsys display"))
     }
 
     /** 两个任务都要开设置:后开的那个拿到 app_in_use_by_other_task,不把设置从第一个任务手里抢走。 */
@@ -147,12 +147,12 @@ class ParallelDeviceTest {
     }
 
     /**
-     * Review Focus 5:两个任务进行中 Mika 进程被杀,下次启动两个包的 PLAY_AUDIO 都恢复,Mika 的虚拟屏都不在了。
-     * 测试跑在 Mika 进程里,杀进程会连测试一起结束,所以分两次运行,中间由外面杀进程:
+     * Review Focus 5:两个任务进行中 Djini 进程被杀,下次启动两个包的 PLAY_AUDIO 都恢复,Djini 的虚拟屏都不在了。
+     * 测试跑在 Djini 进程里,杀进程会连测试一起结束,所以分两次运行,中间由外面杀进程:
      * 第一次布置好、在 files/parallel-kill-test.json 留下记录(两个包原来的 PLAY_AUDIO 和开始前的开关),然后等着;
-     * 看到记录出现后在开发机上跑 `adb shell am force-stop <Mika 包名>`(这次报崩溃)。
+     * 看到记录出现后在开发机上跑 `adb shell am force-stop <Djini 包名>`(这次报崩溃)。
      * 第二次(进程重新拉起,启动时做恢复)按记录检查,并把开关还原成记录里的(第一次被杀时没跑收尾)。
-     * 注意:force-stop 会把 Mika 从已开启的无障碍服务里去掉(系统行为),第二次运行前要重新开启。
+     * 注意:force-stop 会把 Djini 从已开启的无障碍服务里去掉(系统行为),第二次运行前要重新开启。
      */
     private val killRecord get() = File(context.filesDir, "parallel-kill-test.json")
 
@@ -168,7 +168,7 @@ class ParallelDeviceTest {
                     if (pkg == FLAGS_KEY) continue
                     assertEquals(pkg, saved.getString(pkg), pollUntil(60_000) { shell.getAudioMode(pkg)?.takeIf { it == saved.getString(pkg) } })
                 }
-                assertFalse("Mika display left behind", "mika-agent" in sh("dumpsys display"))
+                assertFalse("Djini display left behind", "djini-agent" in sh("dumpsys display"))
             } finally {
                 // 收尾里也会还原;这里先还原,断言失败时开关也不留着开
                 FeatureFlags.get(context).setSpeed(priorFlags)
@@ -192,7 +192,7 @@ class ParallelDeviceTest {
         // 看到记录文件出现后在开发机上跑 adb shell am force-stop <包名>。等不到就清掉记录、按失败收尾
         Thread.sleep(KILL_WAIT_MS)
         record.delete()
-        error("Mika was not killed: run `adb shell am force-stop ${context.packageName}` after ${record.name} appears, then rerun this test")
+        error("Djini was not killed: run `adb shell am force-stop ${context.packageName}` after ${record.name} appears, then rerun this test")
     }
 
     private companion object {

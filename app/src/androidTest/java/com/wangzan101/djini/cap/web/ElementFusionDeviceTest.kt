@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.web
+package com.wangzan101.djini.cap.web
 
 import android.net.LocalSocket
 import android.net.LocalSocketAddress
@@ -9,15 +9,15 @@ import android.view.WindowManager
 import android.webkit.WebView
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.webkit.WebViewAssetLoader
-import com.wangzan101.mika.core.cap.web.cdp.CdpDiscovery
-import com.wangzan101.mika.core.cap.web.cdp.CdpSession
-import com.wangzan101.mika.core.cap.web.cdp.CdpStream
-import com.wangzan101.mika.core.cap.web.cdp.CdpTransport
-import com.wangzan101.mika.core.cap.web.cdp.evaluate
-import com.wangzan101.mika.core.uistate.ActionResult
-import com.wangzan101.mika.core.uistate.ScreenSnapshot
-import com.wangzan101.mika.core.uistate.UiElement
-import com.wangzan101.mika.cap.web.cdp.WebDevtools
+import com.wangzan101.djini.core.cap.web.cdp.CdpDiscovery
+import com.wangzan101.djini.core.cap.web.cdp.CdpSession
+import com.wangzan101.djini.core.cap.web.cdp.CdpStream
+import com.wangzan101.djini.core.cap.web.cdp.CdpTransport
+import com.wangzan101.djini.core.cap.web.cdp.evaluate
+import com.wangzan101.djini.core.uistate.ActionResult
+import com.wangzan101.djini.core.uistate.ScreenSnapshot
+import com.wangzan101.djini.core.uistate.UiElement
+import com.wangzan101.djini.cap.web.cdp.WebDevtools
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
@@ -40,7 +40,7 @@ import java.io.OutputStream
 import java.util.UUID
 import kotlin.coroutines.resume
 import kotlin.math.abs
-import com.wangzan101.mika.cap.phone.PhoneServices
+import com.wangzan101.djini.cap.phone.PhoneServices
 
 /**
  * 真机测试:有 DevTools 会话时,读屏把页面脚本的元素表和无障碍树合起来。

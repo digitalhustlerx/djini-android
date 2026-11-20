@@ -1,6 +1,6 @@
-package com.wangzan101.mika.proactive
+package com.wangzan101.djini.proactive
 
-import com.wangzan101.mika.core.proactive.LearnLevel
+import com.wangzan101.djini.core.proactive.LearnLevel
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

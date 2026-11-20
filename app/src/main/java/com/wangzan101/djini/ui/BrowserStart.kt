@@ -1,7 +1,7 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.tr
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.tr
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
@@ -61,30 +61,30 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.wangzan101.mika.browser.CustomSearchEngine
-import com.wangzan101.mika.browser.FavoriteSite
-import com.wangzan101.mika.browser.PageBookmark
-import com.wangzan101.mika.browser.RecentItem
-import com.wangzan101.mika.browser.SearchEngine
-import com.wangzan101.mika.browser.SearchEngineSpec
-import com.wangzan101.mika.browser.SiteFace
-import com.wangzan101.mika.browser.StartPageModel
-import com.wangzan101.mika.browser.Suggestion
-import com.wangzan101.mika.core.cap.web.WebUrlPolicy
-import com.wangzan101.mika.ui.components.BarIconButton
-import com.wangzan101.mika.ui.components.GroupCard
-import com.wangzan101.mika.ui.components.Hairline
-import com.wangzan101.mika.ui.components.MikaDialog
-import com.wangzan101.mika.ui.components.RadioRow
-import com.wangzan101.mika.ui.components.TopBar
-import com.wangzan101.mika.ui.components.cardSurface
-import com.wangzan101.mika.ui.components.keepsKeyboard
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaShapes
-import com.wangzan101.mika.ui.theme.MikaSpace
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
-import com.wangzan101.mika.ui.theme.MikaRadius
+import com.wangzan101.djini.browser.CustomSearchEngine
+import com.wangzan101.djini.browser.FavoriteSite
+import com.wangzan101.djini.browser.PageBookmark
+import com.wangzan101.djini.browser.RecentItem
+import com.wangzan101.djini.browser.SearchEngine
+import com.wangzan101.djini.browser.SearchEngineSpec
+import com.wangzan101.djini.browser.SiteFace
+import com.wangzan101.djini.browser.StartPageModel
+import com.wangzan101.djini.browser.Suggestion
+import com.wangzan101.djini.core.cap.web.WebUrlPolicy
+import com.wangzan101.djini.ui.components.BarIconButton
+import com.wangzan101.djini.ui.components.GroupCard
+import com.wangzan101.djini.ui.components.Hairline
+import com.wangzan101.djini.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.RadioRow
+import com.wangzan101.djini.ui.components.TopBar
+import com.wangzan101.djini.ui.components.cardSurface
+import com.wangzan101.djini.ui.components.keepsKeyboard
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.MikaSpace
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.MikaRadius
 
 val BROWSER_SEARCH_HINT: String get() = tr(R.string.browser_search_hint)
 val BROWSER_LOGIN_LEGEND: String get() = tr(R.string.browser_login_legend)
@@ -127,7 +127,7 @@ fun BrowserStart(
     onRemoveEngine: (CustomSearchEngine) -> Unit = {},
     now: Long = System.currentTimeMillis(),
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     var query by rememberSaveable { mutableStateOf("") }
     var editing by rememberSaveable { mutableStateOf(false) }
     var pickingEngine by rememberSaveable { mutableStateOf(false) }
@@ -207,7 +207,7 @@ fun BrowserStart(
 /** 大搜索框:52 高的白色胶囊,聚焦时一圈强调色;键盘上是「前往」。 */
 @Composable
 private fun BigSearchField(value: String, onChange: (String) -> Unit, onGo: () -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     var focused by remember { mutableStateOf(false) }
     Row(
         Modifier.fillMaxWidth().height(52.dp).keepsKeyboard().cardSurface(c, MikaShapes.Pill)
@@ -243,14 +243,14 @@ private val BigText = MikaType.Body
 @Composable
 private fun Caption(text: String) {
     Text(
-        text, Modifier.fillMaxWidth().padding(top = 8.dp), style = MikaType.Hint, color = MikaTheme.colors.ink3, textAlign = TextAlign.Center,
+        text, Modifier.fillMaxWidth().padding(top = 8.dp), style = MikaType.Hint, color = DjiniTheme.colors.ink3, textAlign = TextAlign.Center,
     )
 }
 
 /** 搜索框下的一行小字「用必应搜索」:点一下换搜索引擎。 */
 @Composable
 private fun EngineNote(engine: SearchEngineSpec, onClick: () -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Text(
         tr(R.string.browser_engine_note, engine.displayName),
         Modifier.fillMaxWidth().clip(MikaShapes.Pill)
@@ -270,7 +270,7 @@ private fun EnginePicker(
     onRemove: (CustomSearchEngine) -> Unit,
     onDismiss: () -> Unit,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val engines: List<SearchEngineSpec> = SearchEngine.entries + custom
     MikaDialog(
         onDismissRequest = onDismiss,
@@ -305,7 +305,7 @@ private fun EnginePicker(
 /** 加自定义搜索引擎:名字和一个用 %s 代表搜索词的网址模板;不合法时提示,不收起。 */
 @Composable
 private fun CustomEngineDialog(onSave: (CustomSearchEngine) -> Unit, onDismiss: () -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     var name by rememberSaveable { mutableStateOf("") }
     var url by rememberSaveable { mutableStateOf("") }
     var invalid by rememberSaveable { mutableStateOf(false) }
@@ -343,7 +343,7 @@ private fun CustomEngineDialog(onSave: (CustomSearchEngine) -> Unit, onDismiss: 
 /** 分组标题,右边可带一个小字链接([action])。 */
 @Composable
 private fun SectionHeader(title: String, action: String? = null, onAction: () -> Unit = {}) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Row(Modifier.fillMaxWidth().padding(top = 18.dp, bottom = 8.dp), verticalAlignment = Alignment.CenterVertically) {
         Text(title, Modifier.weight(1f), style = MikaType.Label, color = c.ink3)
         if (action != null) {
@@ -357,7 +357,7 @@ private fun SectionHeader(title: String, action: String? = null, onAction: () ->
 
 @Composable
 private fun Legend(text: String, dot: Boolean) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Row(Modifier.fillMaxWidth().padding(top = 14.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
         if (dot) Box(Modifier.size(9.dp).background(c.ok, CircleShape))
         Text(text, style = MikaType.Hint, color = c.ink3)
@@ -402,8 +402,8 @@ private fun SiteCell(
     onRemove: () -> Unit,
     onEdit: () -> Unit,
 ) {
-    val c = MikaTheme.colors
-    val reduce = MikaTheme.reduceMotion
+    val c = DjiniTheme.colors
+    val reduce = DjiniTheme.reduceMotion
     val angle = if (editing && !reduce) {
         rememberInfiniteTransition(label = "wiggle").animateFloat(
             -WIGGLE_DEG, WIGGLE_DEG, infiniteRepeatable(tween(WIGGLE_MS), RepeatMode.Reverse), label = "wiggle-angle",
@@ -445,7 +445,7 @@ private fun SiteCell(
 
 @Composable
 private fun AddCell(onAdd: () -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Column(
         Modifier.clip(MikaShapes.Chip).clickable(onClickLabel = tr(R.string.browser_add_favorite), role = Role.Button, onClick = onAdd)
             .padding(horizontal = 2.dp, vertical = 4.dp),
@@ -461,7 +461,7 @@ private fun AddCell(onAdd: () -> Unit) {
 
 @Composable
 private fun RecentCard(recent: List<RecentItem>, face: (String) -> SiteFace, now: Long, onOpen: (String) -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     GroupCard {
         if (recent.isEmpty()) {
             Text(tr(R.string.browser_no_recent), Modifier.fillMaxWidth().padding(16.dp), style = MikaType.Body, color = c.ink3)
@@ -480,7 +480,7 @@ private fun RecentCard(recent: List<RecentItem>, face: (String) -> SiteFace, now
 /** 起始页上的书签:最近加入的至多 [MAX_BOOKMARKS] 条;没有时说明怎么加。 */
 @Composable
 private fun BookmarkCard(bookmarks: List<PageBookmark>, face: (String) -> SiteFace, onOpen: (PageBookmark) -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     GroupCard {
         if (bookmarks.isEmpty()) {
             Text(tr(R.string.browser_bookmark_empty), Modifier.fillMaxWidth().padding(16.dp), style = MikaType.Body, color = c.ink3)
@@ -526,7 +526,7 @@ internal fun SmallRow(
     lead: @Composable () -> Unit,
     trailing: @Composable () -> Unit = {},
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Row(
         Modifier.fillMaxWidth().clickable(onClick = onClick).heightIn(min = 56.dp).padding(horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -543,7 +543,7 @@ internal fun SmallRow(
 
 @Composable
 private fun SearchMini(icon: ImageVector = MikaIcons.Search) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Box(Modifier.size(28.dp).background(c.neutralSoft, MiniShape), contentAlignment = Alignment.Center) {
         Icon(icon, null, Modifier.size(16.dp), tint = c.ink2)
     }

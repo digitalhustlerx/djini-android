@@ -1,23 +1,23 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.ModelReply
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.Role
-import com.wangzan101.mika.core.model.StopReason
-import com.wangzan101.mika.core.tool.FakeScreen
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.ModelReply
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.Role
+import com.wangzan101.djini.core.model.StopReason
+import com.wangzan101.djini.core.tool.FakeScreen
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import com.wangzan101.mika.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.assembly.toolDispatcher
 
 /** 能看图的主模型:动作后自动附图;历史里的画面在裁剪线之前换成可回看的占位。 */
 class AgentLoopFrameTest {
     private var seq = 0
     private fun call(name: String, args: String = "{}") = Part.ToolCall("f${++seq}", name, args)
     private fun tools(c: Part.ToolCall) = ModelReply(listOf(c), StopReason.ToolUse, null)
-    private fun finish() = com.wangzan101.mika.core.testing.answerReply("done")
+    private fun finish() = com.wangzan101.djini.core.testing.answerReply("done")
     private fun images(msgs: List<Message>) = msgs.flatMap { it.parts }.filterIsInstance<Part.Image>()
 
     @Test fun actionResultFollowedByFrameAndSentFramesAreKeptInOrder() = runTest {
@@ -69,7 +69,7 @@ class AgentLoopFrameTest {
     }
 
     @Test fun adaptiveBatchExecutesTwoActionsInOneModelRoundWithoutImages() = runTest {
-        val screen = FakeScreen().apply { result = com.wangzan101.mika.core.uistate.ActionResult.Ok(changed = true) }
+        val screen = FakeScreen().apply { result = com.wangzan101.djini.core.uistate.ActionResult.Ok(changed = true) }
         val batch = call("do_steps", """{"steps":[{"tool":"phone_back","args":{}},{"tool":"phone_back","args":{}}]}""")
         val m = FakeModel(tools(batch), finish())
         AgentLoop(m, toolDispatcher(screen, visionEnabled = true, adaptiveVision = true, inlineScreen = true), "BASE",

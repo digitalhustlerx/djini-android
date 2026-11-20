@@ -1,7 +1,7 @@
-package com.wangzan101.mika.core.remote
+package com.wangzan101.djini.core.remote
 
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.core.mcp.FakeRemoteTasks
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.core.mcp.FakeRemoteTasks
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.advanceTimeBy
@@ -114,10 +114,10 @@ class RemoteTaskServiceTest {
         val task = service.start("read")
         val states = listOf(null, TaskState.Idle, TaskState.WaitingInput("Which one?"),
             TaskState.WaitingTakeover("payment", "Use the phone"),
-            TaskState.WaitingConfirmation(com.wangzan101.mika.core.gate.ConfirmationRequest(
-                com.wangzan101.mika.core.risk.IrrevAction.order, "Shop", "item", "$25", "shop")),
-            TaskState.Held(com.wangzan101.mika.core.agent.GateReason("paused")),
-            TaskState.Succeeded("done"), TaskState.Failed("failed", com.wangzan101.mika.core.agent.FailKind.Environment), TaskState.Cancelled)
+            TaskState.WaitingConfirmation(com.wangzan101.djini.core.gate.ConfirmationRequest(
+                com.wangzan101.djini.core.risk.IrrevAction.order, "Shop", "item", "$25", "shop")),
+            TaskState.Held(com.wangzan101.djini.core.agent.GateReason("paused")),
+            TaskState.Succeeded("done"), TaskState.Failed("failed", com.wangzan101.djini.core.agent.FailKind.Environment), TaskState.Cancelled)
         for (state in states) {
             tasks.set(task.id, state)
             assertEquals("$state", RemoteTaskError.Code.CONFLICT,

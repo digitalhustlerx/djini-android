@@ -1,6 +1,6 @@
-package com.wangzan101.mika.terminal
+package com.wangzan101.djini.terminal
 
-import com.wangzan101.mika.core.cap.sandbox.SandboxShell
+import com.wangzan101.djini.core.cap.sandbox.SandboxShell
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

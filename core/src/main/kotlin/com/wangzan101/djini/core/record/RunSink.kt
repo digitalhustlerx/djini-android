@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.record
+package com.wangzan101.djini.core.record
 
 /** 运行记录的接收方。实现方自己吞掉写盘错误:记录失败不能影响任务。 */
 interface RunSink {

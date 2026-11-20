@@ -1,18 +1,18 @@
-package com.wangzan101.mika.teach
+package com.wangzan101.djini.teach
 
-import com.wangzan101.mika.core.knowledge.GuideCatalog
-import com.wangzan101.mika.core.knowledge.GuideView
-import com.wangzan101.mika.core.skills.SkillStatus
-import com.wangzan101.mika.core.teach.TeachDraft
-import com.wangzan101.mika.core.teach.TeachEventKind
-import com.wangzan101.mika.core.teach.TeachObservation
-import com.wangzan101.mika.core.teach.TeachPhase
-import com.wangzan101.mika.core.teach.TeachPublish
-import com.wangzan101.mika.core.teach.TeachSession
-import com.wangzan101.mika.core.teach.TeachSkill
-import com.wangzan101.mika.core.teach.TeachTrace
-import com.wangzan101.mika.i18n.ResFileTexts
-import com.wangzan101.mika.skills.PersonalSkillFiles
+import com.wangzan101.djini.core.knowledge.GuideCatalog
+import com.wangzan101.djini.core.knowledge.GuideView
+import com.wangzan101.djini.core.skills.SkillStatus
+import com.wangzan101.djini.core.teach.TeachDraft
+import com.wangzan101.djini.core.teach.TeachEventKind
+import com.wangzan101.djini.core.teach.TeachObservation
+import com.wangzan101.djini.core.teach.TeachPhase
+import com.wangzan101.djini.core.teach.TeachPublish
+import com.wangzan101.djini.core.teach.TeachSession
+import com.wangzan101.djini.core.teach.TeachSkill
+import com.wangzan101.djini.core.teach.TeachTrace
+import com.wangzan101.djini.i18n.ResFileTexts
+import com.wangzan101.djini.skills.PersonalSkillFiles
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -36,12 +36,12 @@ class TeachFilesTest {
         session = TeachTrace.reduce(
             session,
             TeachObservation(1_000, TeachEventKind.Text, "com.example.app", null, null, secret, "验证码", "otp", true, 0),
-            "com.wangzan101.mika",
+            "com.wangzan101.djini",
         )
         session = TeachTrace.reduce(
             session,
             TeachObservation(2_000, TeachEventKind.Click, "com.example.app", "com.example.Filter", "列表", null, "筛选", null, false, 0),
-            "com.wangzan101.mika",
+            "com.wangzan101.djini",
         )
         files.save(session)
         val raw = File(tmp.root, "teach/session.json").readText()

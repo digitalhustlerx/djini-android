@@ -1,10 +1,10 @@
-package com.wangzan101.mika.cap.web
+package com.wangzan101.djini.cap.web
 
 import android.view.WindowManager
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.webkit.WebViewAssetLoader
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -21,7 +21,7 @@ import org.junit.rules.TemporaryFolder
 import org.junit.runner.RunWith
 import kotlin.coroutines.resume
 
-/** 真机测试:退出一个网站只过期它的 Cookie;全部退出清空 Cookie 与网页存储。用 mika 网页配置。 */
+/** 真机测试:退出一个网站只过期它的 Cookie;全部退出清空 Cookie 与网页存储。用 djini 网页配置。 */
 @RunWith(AndroidJUnit4::class)
 class WebLoginTest {
     @get:Rule val tmp = TemporaryFolder()

@@ -1,28 +1,28 @@
-package com.wangzan101.mika.core.uistate.tools
+package com.wangzan101.djini.core.uistate.tools
 
-import com.wangzan101.mika.core.uistate.ScreenFamily
-import com.wangzan101.mika.core.risk.GateTarget
-import com.wangzan101.mika.core.uistate.DEFAULT_SWIPE_MS
-import com.wangzan101.mika.core.tool.ArgError
-import com.wangzan101.mika.core.tool.Args
-import com.wangzan101.mika.core.tool.COORD
-import com.wangzan101.mika.core.tool.Risk
-import com.wangzan101.mika.core.tool.ToolContext
-import com.wangzan101.mika.core.tool.ToolDef
-import com.wangzan101.mika.core.tool.ToolExecution
-import com.wangzan101.mika.core.tool.Verb
-import com.wangzan101.mika.core.tool.argStr
-import com.wangzan101.mika.core.tool.int
-import com.wangzan101.mika.core.tool.str
-import com.wangzan101.mika.core.uistate.toPx
+import com.wangzan101.djini.core.uistate.ScreenFamily
+import com.wangzan101.djini.core.risk.GateTarget
+import com.wangzan101.djini.core.uistate.DEFAULT_SWIPE_MS
+import com.wangzan101.djini.core.tool.ArgError
+import com.wangzan101.djini.core.tool.Args
+import com.wangzan101.djini.core.tool.COORD
+import com.wangzan101.djini.core.tool.Risk
+import com.wangzan101.djini.core.tool.ToolContext
+import com.wangzan101.djini.core.tool.ToolDef
+import com.wangzan101.djini.core.tool.ToolExecution
+import com.wangzan101.djini.core.tool.Verb
+import com.wangzan101.djini.core.tool.argStr
+import com.wangzan101.djini.core.tool.int
+import com.wangzan101.djini.core.tool.str
+import com.wangzan101.djini.core.uistate.toPx
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
-import com.wangzan101.mika.core.uistate.action
-import com.wangzan101.mika.core.uistate.lastOrSnapshot
-import com.wangzan101.mika.core.uistate.screen
+import com.wangzan101.djini.core.uistate.action
+import com.wangzan101.djini.core.uistate.lastOrSnapshot
+import com.wangzan101.djini.core.uistate.screen
 
 /** 滑动(横滑可能是「滑动删除」,要按目标判不可逆)。 */
 internal class Scroll(f: ScreenFamily) : ScreenTool(f, "scroll") {

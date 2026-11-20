@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
@@ -28,7 +28,7 @@ class DeviceFileBrowserTest {
     @Test
     fun crumbsIntoDirectoryBuildsIntermediateSegmentsFromSearchResult() {
         val base = listOf(DeviceBreadcrumb("Download", "/sdcard/Download"))
-        val entry = com.wangzan101.mika.core.cap.devicefiles.DeviceFileEntry(
+        val entry = com.wangzan101.djini.core.cap.devicefiles.DeviceFileEntry(
             name = "Invoices",
             path = "/sdcard/Download/Work/Invoices",
             isDirectory = true,

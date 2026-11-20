@@ -1,10 +1,10 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.awaitCancellation
-import com.wangzan101.mika.core.decision.DecisionModel
-import com.wangzan101.mika.core.decision.DecisionChoice
+import com.wangzan101.djini.core.decision.DecisionModel
+import com.wangzan101.djini.core.decision.DecisionChoice
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import org.junit.Assert.assertEquals
@@ -38,14 +38,14 @@ class IntentGateTest {
             DecisionModel { _, _, _, _ -> throw IllegalStateException("unavailable") },
         )
         for (decision in decisions) {
-            val judge = FakeModel(com.wangzan101.mika.core.testing.answerReply("DISCUSS"))
+            val judge = FakeModel(com.wangzan101.djini.core.testing.answerReply("DISCUSS"))
             assertEquals(IntentGate.Intent.Discuss, IntentGate(judge, decision = decision).assess("以后可以做吗", emptyList()))
             assertEquals(1, judge.requests.size)
         }
     }
 
     @Test fun decisionTimeoutFallsBackButCallerCancellationPropagates() = runTest {
-        val judge = FakeModel(com.wangzan101.mika.core.testing.answerReply("READ"))
+        val judge = FakeModel(com.wangzan101.djini.core.testing.answerReply("READ"))
         assertEquals(IntentGate.Intent.Read,
             IntentGate(judge, decision = DecisionModel { _, _, _, _ -> awaitCancellation() }).assess("查一下", emptyList()))
         val untouched = FakeModel()
@@ -59,12 +59,12 @@ class IntentGateTest {
     }
 
     @Test fun classifierSeesCurrentMessageAndRecentContextWithoutTools() = runTest {
-        val judge = FakeModel(com.wangzan101.mika.core.testing.answerReply("DISCUSS"))
+        val judge = FakeModel(com.wangzan101.djini.core.testing.answerReply("DISCUSS"))
         val decision = IntentGate(judge).assess("以后可以帮我同步发布，对吧？",
             listOf(Turn("打开两个 App 看看", "看过了", "succeeded")))
         assertEquals(IntentGate.Intent.Discuss, decision)
         assertTrue(judge.offeredTools.single().isEmpty())
-        val input = judge.requests.single().single().parts.single() as com.wangzan101.mika.core.model.Part.Text
+        val input = judge.requests.single().single().parts.single() as com.wangzan101.djini.core.model.Part.Text
         assertTrue(input.text.contains("The user's current message:\n以后可以帮我同步发布，对吧？"))
         // 上一轮的对话在当前的这句话之前
         assertTrue(input.text, "打开两个 App 看看" in input.text)
@@ -79,7 +79,7 @@ class IntentGateTest {
 
     @Test fun fallsBackToMainModelWhenLightJudgeFails() = runTest {
         val light = FakeModel(IllegalStateException("unavailable"))
-        val main = FakeModel(com.wangzan101.mika.core.testing.answerReply("READ"))
+        val main = FakeModel(com.wangzan101.djini.core.testing.answerReply("READ"))
         assertEquals(IntentGate.Intent.Read, IntentGate(light, main).assess("查一下订单", emptyList()))
         assertTrue(light.offeredTools.single().isEmpty())
         assertTrue(main.offeredTools.single().isEmpty())

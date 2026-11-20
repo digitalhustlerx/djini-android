@@ -1,11 +1,11 @@
-package com.wangzan101.mika.core.uistate
+package com.wangzan101.djini.core.uistate
 
-import com.wangzan101.mika.core.assembly.toolDispatcher
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.tool.FakeScreen
-import com.wangzan101.mika.core.tool.execute
-import com.wangzan101.mika.core.uistate.AppCopies.User
-import com.wangzan101.mika.core.uistate.AppCopies.Verdict
+import com.wangzan101.djini.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.tool.FakeScreen
+import com.wangzan101.djini.core.tool.execute
+import com.wangzan101.djini.core.uistate.AppCopies.User
+import com.wangzan101.djini.core.uistate.AppCopies.Verdict
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.int
 import kotlinx.serialization.json.jsonArray

@@ -1,6 +1,6 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.ChineseUi
+import com.wangzan101.djini.ChineseUi
 import androidx.compose.ui.test.assertIsOff
 import androidx.compose.ui.test.assertIsOn
 import androidx.compose.ui.test.junit4.createComposeRule
@@ -11,8 +11,8 @@ import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.wangzan101.mika.core.shell.RecoveryCapability
-import com.wangzan101.mika.core.shell.RecoveryConsent
+import com.wangzan101.djini.core.shell.RecoveryCapability
+import com.wangzan101.djini.core.shell.RecoveryConsent
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test

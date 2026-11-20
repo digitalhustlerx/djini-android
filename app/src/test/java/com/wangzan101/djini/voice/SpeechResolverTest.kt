@@ -1,7 +1,7 @@
-package com.wangzan101.mika.voice
+package com.wangzan101.djini.voice
 
-import com.wangzan101.mika.settings.Provider
-import com.wangzan101.mika.settings.ProviderConfig
+import com.wangzan101.djini.settings.Provider
+import com.wangzan101.djini.settings.ProviderConfig
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

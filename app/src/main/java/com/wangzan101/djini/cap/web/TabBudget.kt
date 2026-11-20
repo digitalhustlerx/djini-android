@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.web
+package com.wangzan101.djini.cap.web
 
 /**
  * 进程里所有任务的网页标签共用的上限(全局至多 [max] 个):每个任务一个标签池,各池作为 [Member] 加入。

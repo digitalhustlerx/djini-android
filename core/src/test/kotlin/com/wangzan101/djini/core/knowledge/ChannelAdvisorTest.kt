@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.knowledge
+package com.wangzan101.djini.core.knowledge
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -52,7 +52,7 @@ class ChannelAdvisorTest {
 
     @Test fun loggedInMarked() {
         val l = ChannelAdvisor.line(listOf(xhs), skills, ChannelFacts(emptySet(), setOf("m.xiaohongshu.com"), true))!!
-        assertTrue(l, l.endsWith("web: xiaohongshu.com, known way to do it on the web, signed in within Mika (m.xiaohongshu.com)"))
+        assertTrue(l, l.endsWith("web: xiaohongshu.com, known way to do it on the web, signed in within Djini (m.xiaohongshu.com)"))
         val other = ChannelAdvisor.line(listOf(xhs), skills, ChannelFacts(emptySet(), setOf("example.com"), true))!!
         assertFalse(other, "signed in" in other)
     }

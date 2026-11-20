@@ -1,15 +1,15 @@
-package com.wangzan101.mika.core.verify
+package com.wangzan101.djini.core.verify
 
-import com.wangzan101.mika.core.observation.ObsKind
-import com.wangzan101.mika.core.agent.FakeModel
-import com.wangzan101.mika.core.eval.Checks
-import com.wangzan101.mika.core.eval.RunFacts
-import com.wangzan101.mika.core.model.ModelReply
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.StopReason
-import com.wangzan101.mika.core.record.Redactor
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.testing.RECORDED_TOOLS
+import com.wangzan101.djini.core.observation.ObsKind
+import com.wangzan101.djini.core.agent.FakeModel
+import com.wangzan101.djini.core.eval.Checks
+import com.wangzan101.djini.core.eval.RunFacts
+import com.wangzan101.djini.core.model.ModelReply
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.StopReason
+import com.wangzan101.djini.core.record.Redactor
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.testing.RECORDED_TOOLS
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse

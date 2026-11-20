@@ -1,4 +1,4 @@
-package com.wangzan101.mika.proactive
+package com.wangzan101.djini.proactive
 
 /**
  * 判定和归纳共用的「请求位」:主动能力的后台请求一次只发一个。

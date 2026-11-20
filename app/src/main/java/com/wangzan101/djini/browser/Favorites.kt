@@ -1,7 +1,7 @@
-package com.wangzan101.mika.browser
+package com.wangzan101.djini.browser
 
-import com.wangzan101.mika.cap.web.SiteEntry
-import com.wangzan101.mika.core.cap.web.WebUrlPolicy
+import com.wangzan101.djini.cap.web.SiteEntry
+import com.wangzan101.djini.core.cap.web.WebUrlPolicy
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -14,7 +14,7 @@ import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import java.io.File
 
-/** 「常用网站」里的一格:打开时去的主机名、在 Mika 里是否登录着(这个网站的任一主机名登录着就算)。 */
+/** 「常用网站」里的一格:打开时去的主机名、在 Djini 里是否登录着(这个网站的任一主机名登录着就算)。 */
 data class FavoriteSite(val host: String, val loggedIn: Boolean)
 
 /** 用户对「常用网站」的改动:自己加的([pinned],按加入的先后)和从里面移除的([hidden])。 */
@@ -111,7 +111,7 @@ class BrowserFavorites(dir: File) {
             return out.values.take(limit)
         }
 
-        /** [host] 所在的网站在 Mika 里是否登录着(登记表里这个网站的任一主机名登录着)。 */
+        /** [host] 所在的网站在 Djini 里是否登录着(登记表里这个网站的任一主机名登录着)。 */
         fun loggedIn(registry: List<SiteEntry>, host: String): Boolean {
             val site = siteKey(host)
             return registry.any { it.loggedInByUser && siteKey(it.host) == site }

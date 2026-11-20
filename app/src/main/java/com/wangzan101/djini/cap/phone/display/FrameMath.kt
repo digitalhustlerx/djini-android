@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.phone.display
+package com.wangzan101.djini.cap.phone.display
 
 import kotlin.math.abs
 

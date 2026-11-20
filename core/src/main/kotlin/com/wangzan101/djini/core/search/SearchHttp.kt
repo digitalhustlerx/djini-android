@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.search
+package com.wangzan101.djini.core.search
 
-import com.wangzan101.mika.core.net.JsonHttp
+import com.wangzan101.djini.core.net.JsonHttp
 import kotlinx.serialization.json.JsonObject
 import okhttp3.OkHttpClient
 import okhttp3.Request

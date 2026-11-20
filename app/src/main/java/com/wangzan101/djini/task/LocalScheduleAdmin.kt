@@ -1,9 +1,9 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
 import android.content.Context
-import com.wangzan101.mika.core.trigger.ScheduleAdmin
-import com.wangzan101.mika.core.trigger.TriggerDefinition
-import com.wangzan101.mika.core.trigger.EditedSchedule
+import com.wangzan101.djini.core.trigger.ScheduleAdmin
+import com.wangzan101.djini.core.trigger.TriggerDefinition
+import com.wangzan101.djini.core.trigger.EditedSchedule
 
 class LocalScheduleAdmin internal constructor(
     private val plans: () -> List<TriggerDefinition>,

@@ -1,4 +1,4 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
 import android.content.pm.ApplicationInfo
 import android.hardware.display.DisplayManager
@@ -7,25 +7,25 @@ import android.util.Log
 import android.view.Display
 import android.view.KeyEvent
 import android.webkit.MimeTypeMap
-import com.wangzan101.mika.cap.phone.a11y.AndroidScreen
-import com.wangzan101.mika.cap.phone.a11y.AppCopyReader
-import com.wangzan101.mika.cap.phone.a11y.ScreenAccessibility
-import com.wangzan101.mika.cap.phone.display.AgentDisplay
-import com.wangzan101.mika.cap.phone.display.LazyAgentDisplay
-import com.wangzan101.mika.cap.phone.display.PipInput
-import com.wangzan101.mika.cap.phone.shell.AppAudioKey
-import com.wangzan101.mika.cap.sandbox.AndroidSandbox
-import com.wangzan101.mika.cap.sandbox.SandboxDirs
-import com.wangzan101.mika.cap.sandbox.WorkspaceKey
-import com.wangzan101.mika.core.agent.RunProgress
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.core.cap.sandbox.SandboxStatus
-import com.wangzan101.mika.core.workspace.SandboxPaths
-import com.wangzan101.mika.media.AudioShareExporter
-import com.wangzan101.mika.media.ShareableFile
-import com.wangzan101.mika.settings.FeatureFlags
-import com.wangzan101.mika.shell.IMikaShell
-import com.wangzan101.mika.takeover.Takeover
+import com.wangzan101.djini.cap.phone.a11y.AndroidScreen
+import com.wangzan101.djini.cap.phone.a11y.AppCopyReader
+import com.wangzan101.djini.cap.phone.a11y.ScreenAccessibility
+import com.wangzan101.djini.cap.phone.display.AgentDisplay
+import com.wangzan101.djini.cap.phone.display.LazyAgentDisplay
+import com.wangzan101.djini.cap.phone.display.PipInput
+import com.wangzan101.djini.cap.phone.shell.AppAudioKey
+import com.wangzan101.djini.cap.sandbox.AndroidSandbox
+import com.wangzan101.djini.cap.sandbox.SandboxDirs
+import com.wangzan101.djini.cap.sandbox.WorkspaceKey
+import com.wangzan101.djini.core.agent.RunProgress
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.core.cap.sandbox.SandboxStatus
+import com.wangzan101.djini.core.workspace.SandboxPaths
+import com.wangzan101.djini.media.AudioShareExporter
+import com.wangzan101.djini.media.ShareableFile
+import com.wangzan101.djini.settings.FeatureFlags
+import com.wangzan101.djini.shell.IDjiniShell
+import com.wangzan101.djini.takeover.Takeover
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -38,7 +38,7 @@ import kotlinx.coroutines.withContext
 
 /** 已接上的手机侧:shell、无障碍、虚拟屏、静音。 */
 internal class PhoneSide(
-    val shell: IMikaShell, val a11y: ScreenAccessibility, val screen: AndroidScreen,
+    val shell: IDjiniShell, val a11y: ScreenAccessibility, val screen: AndroidScreen,
     val display: LazyAgentDisplay, val audio: AppMuter,
 )
 
@@ -47,7 +47,7 @@ internal class PhoneSide(
  * 注入走后台线程:injectStroke 会按笔迹时长逐点 sleep,不能占着界面线程。
  */
 internal class PipInputImpl(
-    private val shell: IMikaShell,
+    private val shell: IDjiniShell,
     private val display: AgentDisplay,
 ) : PipInput {
     override suspend fun tap(fx: Float, fy: Float) {
@@ -151,10 +151,10 @@ internal class PhoneRuntime(
     }
 
     /**
-     * 这次任务的静音规则(见 [AppMuter]):Mika 自己不静;没有桌面入口的系统包不静(系统界面、选择框一类);
+     * 这次任务的静音规则(见 [AppMuter]):Djini 自己不静;没有桌面入口的系统包不静(系统界面、选择框一类);
      * 用户在主屏上看得见的不静;没静成的记下,任务进度上提示可能出声。
      */
-    fun appMuter(shell: IMikaShell, audio: AudioMute): AppMuter {
+    fun appMuter(shell: IDjiniShell, audio: AudioMute): AppMuter {
         val pm = service.packageManager
         val own = service.packageName
         fun system(pkg: String) = runCatching {
@@ -268,7 +268,7 @@ internal class PhoneRuntime(
 
     private companion object {
         const val TAG = "MikaTask"
-        /** Mika 屏上的前台 App 两次重读之间至少隔这么久。 */
+        /** Djini 屏上的前台 App 两次重读之间至少隔这么久。 */
         const val FOREGROUND_GAP_MS = 300L
     }
 }

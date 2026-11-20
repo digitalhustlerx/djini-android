@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.cap.web
+package com.wangzan101.djini.core.cap.web
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -6,7 +6,7 @@ import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import kotlin.math.abs
-import com.wangzan101.mika.core.uistate.WebInfo
+import com.wangzan101.djini.core.uistate.WebInfo
 
 class PageTreeTest {
     private val info = WebInfo("https://example.com/", "示例", "t1", 200)

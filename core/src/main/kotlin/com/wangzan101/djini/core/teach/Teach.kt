@@ -1,17 +1,17 @@
-package com.wangzan101.mika.core.teach
+package com.wangzan101.djini.core.teach
 
-import com.wangzan101.mika.core.knowledge.FrontMatter
-import com.wangzan101.mika.core.memory.SensitiveFilter
-import com.wangzan101.mika.core.model.Author
-import com.wangzan101.mika.core.model.ChatModel
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.Role
-import com.wangzan101.mika.core.prompt.Prompts
-import com.wangzan101.mika.core.skills.PersonalSkill
-import com.wangzan101.mika.core.skills.PersonalSkills
-import com.wangzan101.mika.core.skills.SkillDrafter
-import com.wangzan101.mika.core.skills.SkillStatus
+import com.wangzan101.djini.core.knowledge.FrontMatter
+import com.wangzan101.djini.core.memory.SensitiveFilter
+import com.wangzan101.djini.core.model.Author
+import com.wangzan101.djini.core.model.ChatModel
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.Role
+import com.wangzan101.djini.core.prompt.Prompts
+import com.wangzan101.djini.core.skills.PersonalSkill
+import com.wangzan101.djini.core.skills.PersonalSkills
+import com.wangzan101.djini.core.skills.SkillDrafter
+import com.wangzan101.djini.core.skills.SkillStatus
 import kotlinx.coroutines.CancellationException
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -101,7 +101,7 @@ fun teachGoalAccepted(goal: String): Boolean {
 
 object TeachTrace {
     /**
-     * 不在采集中、不是主屏、是 Mika 自己的界面、或没有包名：原样返回，不新增步骤。
+     * 不在采集中、不是主屏、是 Djini 自己的界面、或没有包名：原样返回，不新增步骤。
      */
     fun reduce(session: TeachSession, event: TeachObservation, ownPackage: String): TeachSession {
         if (!session.phase.collects()) return session
@@ -269,12 +269,12 @@ fun teachLine(step: TeachStep): String {
 object TeachSkill {
     const val SOURCE = "demonstrated"
     const val PREFIX = "teach:"
-    const val NOT_TRIAL_RUN = "Mika 还没有试跑成功。"
+    const val NOT_TRIAL_RUN = "Djini 还没有试跑成功。"
     const val NOT_ABSENT = "这次示范没走到的入口，不能据此认为那个入口不存在。"
     const val STOP_IF_UNMATCHED = "当前界面看不出上面写的入口或前置条件时，停止套用这份技能，改用平常的查看和询问。"
     /** 模型读到试用中的示范技能时加在正文前。 */
     const val USE_NOTE =
-        "[Demonstrated, not trial-run. Mika has not successfully replayed this. " +
+        "[Demonstrated, not trial-run. Djini has not successfully replayed this. " +
             "Apply it only when the current screen matches the entrance and preconditions written below. " +
             "If they do not match, stop using this skill and explore or ask. " +
             "An entrance that was not used in the demonstration is not evidence that it does not exist.]"
@@ -423,7 +423,7 @@ object TeachDraft {
     private suspend fun ask(model: ChatModel, session: TeachSession): String? = try {
         val reply = model.complete(
             Prompts.role("teach_skill"),
-            listOf(Message(Role.User, listOf(Part.Text(request(session))), Author.Mika)),
+            listOf(Message(Role.User, listOf(Part.Text(request(session))), Author.Djini)),
             emptyList(),
         )
         reply.parts.filterIsInstance<Part.Text>().joinToString("") { it.text }.trim().takeIf { it.isNotEmpty() }

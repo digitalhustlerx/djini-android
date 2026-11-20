@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui.theme
+package com.wangzan101.djini.ui.theme
 
 import android.content.Context
 import android.provider.Settings
@@ -28,11 +28,11 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
-import com.wangzan101.mika.settings.FeatureFlags
-import com.wangzan101.mika.settings.ThemeAccent
-import com.wangzan101.mika.settings.ThemeMode
+import com.wangzan101.djini.settings.FeatureFlags
+import com.wangzan101.djini.settings.ThemeAccent
+import com.wangzan101.djini.settings.ThemeMode
 
-/** 动效:时长和曲线。系统关了动画时([MikaTheme.reduceMotion])直接到位。 */
+/** 动效:时长和曲线。系统关了动画时([DjiniTheme.reduceMotion])直接到位。 */
 object MikaMotion {
     const val PAGE_MS = 220
     const val SWITCH_MS = 200
@@ -49,7 +49,7 @@ fun animationsOff(context: Context): Boolean =
 
 val LocalReduceMotion = staticCompositionLocalOf { false }
 
-object MikaTheme {
+object DjiniTheme {
     val colors: MikaColors
         @Composable @ReadOnlyComposable get() = LocalMikaColors.current
 
@@ -99,7 +99,7 @@ fun ComponentActivity.systemBarsFor(dark: Boolean) {
  * 同时把 Material 组件(弹窗、输入框、底部面板)的颜色对上。
  */
 @Composable
-fun MikaTheme(
+fun DjiniTheme(
     dark: Boolean = appearanceDark(),
     accent: ThemeAccent = appearanceAccent(),
     reduceMotion: Boolean = false,

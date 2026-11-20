@@ -1,18 +1,18 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
 import android.net.Uri
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.MikaApp
-import com.wangzan101.mika.cap.sandbox.SandboxDirs
-import com.wangzan101.mika.cap.sandbox.WorkspaceKey
-import com.wangzan101.mika.core.agent.AttachmentLines
-import com.wangzan101.mika.core.remote.PendingUploads
-import com.wangzan101.mika.core.remote.RemoteTask
-import com.wangzan101.mika.mcp.McpServerState
-import com.wangzan101.mika.ui.MainActivity
+import com.wangzan101.djini.DjiniApp
+import com.wangzan101.djini.cap.sandbox.SandboxDirs
+import com.wangzan101.djini.cap.sandbox.WorkspaceKey
+import com.wangzan101.djini.core.agent.AttachmentLines
+import com.wangzan101.djini.core.remote.PendingUploads
+import com.wangzan101.djini.core.remote.RemoteTask
+import com.wangzan101.djini.mcp.McpServerState
+import com.wangzan101.djini.ui.MainActivity
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -34,7 +34,7 @@ class RemoteTaskFilesDeviceTest {
     @get:Rule val ui = createAndroidComposeRule<MainActivity>()
 
     @Test fun computerCanDownloadTheExactFileExportedByItsTurn() {
-        val app = ApplicationProvider.getApplicationContext<MikaApp>()
+        val app = ApplicationProvider.getApplicationContext<DjiniApp>()
         val usb = app.mcp.usb.enabled.value
         val conversation = "mcp-" + UUID.randomUUID()
         val model = ScriptedModel().apply { intent = "ACT" }

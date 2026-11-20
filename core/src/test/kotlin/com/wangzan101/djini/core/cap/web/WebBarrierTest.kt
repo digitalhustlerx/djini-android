@@ -1,11 +1,11 @@
-package com.wangzan101.mika.core.cap.web
+package com.wangzan101.djini.core.cap.web
 
-import com.wangzan101.mika.core.tool.execute
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.uistate.ScreenDiagnosis
-import com.wangzan101.mika.core.uistate.ScreenFacts
-import com.wangzan101.mika.core.uistate.ScreenState
-import com.wangzan101.mika.core.tool.FakeScreen
+import com.wangzan101.djini.core.tool.execute
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.uistate.ScreenDiagnosis
+import com.wangzan101.djini.core.uistate.ScreenFacts
+import com.wangzan101.djini.core.uistate.ScreenState
+import com.wangzan101.djini.core.tool.FakeScreen
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.jsonPrimitive
 import org.junit.Assert.assertEquals
@@ -13,7 +13,7 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import com.wangzan101.mika.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.assembly.toolDispatcher
 
 class WebBarrierTest {
     private fun facts(

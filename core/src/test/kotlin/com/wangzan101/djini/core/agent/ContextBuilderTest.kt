@@ -1,16 +1,16 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
-import com.wangzan101.mika.core.observation.Place
-import com.wangzan101.mika.core.model.Author
-import com.wangzan101.mika.core.knowledge.KnowledgeEntry
-import com.wangzan101.mika.core.knowledge.Link
-import com.wangzan101.mika.core.knowledge.Surface
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.ModelReply
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.Role
-import com.wangzan101.mika.core.model.StopReason
-import com.wangzan101.mika.core.tool.FakeScreen
+import com.wangzan101.djini.core.observation.Place
+import com.wangzan101.djini.core.model.Author
+import com.wangzan101.djini.core.knowledge.KnowledgeEntry
+import com.wangzan101.djini.core.knowledge.Link
+import com.wangzan101.djini.core.knowledge.Surface
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.ModelReply
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.Role
+import com.wangzan101.djini.core.model.StopReason
+import com.wangzan101.djini.core.tool.FakeScreen
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -19,8 +19,8 @@ import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.time.ZoneId
-import com.wangzan101.mika.core.testing.TOOLS
-import com.wangzan101.mika.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.testing.TOOLS
+import com.wangzan101.djini.core.assembly.toolDispatcher
 
 class ContextBuilderTest {
     private fun app(name: String, body: String = "正文$name", pkg: String = "p.$name", links: List<Link> = emptyList()) =
@@ -34,16 +34,16 @@ class ContextBuilderTest {
         val m = ContextBuilder().notice("步数自查", "正文里有 </context> 也不会提前合上")
         val t = text(m)
         assertEquals(Role.User, m.role)
-        assertTrue(t, t.startsWith("<context kind=\"notice\" source=\"步数自查\" trust=\"${Trust.Mika.label}\">\n"))
+        assertTrue(t, t.startsWith("<context kind=\"notice\" source=\"步数自查\" trust=\"${Trust.Djini.label}\">\n"))
         assertTrue(t.endsWith("\n</context>"))
         assertEquals(1, Regex("</context>").findAll(t).count())
         assertEquals(ContextKind.Notice, ContextBuilder.kindOf(m))
         assertEquals("步数自查", ContextBuilder.sourceOf(m))
         assertEquals("正文里有 <\\/context> 也不会提前合上", ContextBuilder.bodyOf(m))
         // 用户原话、工具结果不是上下文
-        assertNull(ContextBuilder.kindOf(Message(Role.User, listOf(Part.Text("帮我查天气")), Author.Mika)))
-        assertNull(ContextBuilder.kindOf(Message(Role.Tool, listOf(Part.ToolResult("c", ContextBuilder.envelope(ContextKind.Notice, "x", "y"), false)), Author.Mika)))
-        assertNull(ContextBuilder.kindOf(Message(Role.User, listOf(Part.Text("<context kind=\"unknown\" source=\"x\">\n\n</context>")), Author.Mika)))
+        assertNull(ContextBuilder.kindOf(Message(Role.User, listOf(Part.Text("帮我查天气")), Author.Djini)))
+        assertNull(ContextBuilder.kindOf(Message(Role.Tool, listOf(Part.ToolResult("c", ContextBuilder.envelope(ContextKind.Notice, "x", "y"), false)), Author.Djini)))
+        assertNull(ContextBuilder.kindOf(Message(Role.User, listOf(Part.Text("<context kind=\"unknown\" source=\"x\">\n\n</context>")), Author.Djini)))
     }
 
     @Test fun startOrdersMessagesAndOnlyTaskIsPlain() {
@@ -129,7 +129,7 @@ class ContextBuilderTest {
         val b = ContextBuilder(zone = utc)
         val t0 = 1_793_000_000_000L // 2026-10-26 07:33 UTC,周一
         fun body(place: Place?, label: String? = null, mode: String? = null, step: Int = 3) =
-            ContextBuilder.bodyOf(Message(Role.User, listOf(b.runtimeState(place, label, mode, step, 60, t0)), Author.Mika))
+            ContextBuilder.bodyOf(Message(Role.User, listOf(b.runtimeState(place, label, mode, step, 60, t0)), Author.Djini))
         assertEquals("Current place: no screen or page read yet\nStep: 3 of at most 60\nLocal time: 2026-10-26 07:33 Monday", body(null))
         assertEquals("Current place: app 铁路12306 (com.MobileTicket)", body(Place.app("com.MobileTicket"), "铁路12306")!!.lines()[0])
         assertEquals("Current place: app com.x", body(Place.app("com.x"))!!.lines()[0])
@@ -142,7 +142,7 @@ class ContextBuilderTest {
     // 用户最近一句话的开头摆在生成处:模型照这句话的语言写给用户,读到的内容是别的语言也不跟着换
     @Test fun runtimeStateQuotesUserWordsForReplyLanguage() {
         val b = ContextBuilder(zone = utc)
-        fun last(words: String?) = ContextBuilder.bodyOf(Message(Role.User, listOf(b.runtimeState(null, null, null, 1, 60, 0, words)), Author.Mika))!!.lines().last()
+        fun last(words: String?) = ContextBuilder.bodyOf(Message(Role.User, listOf(b.runtimeState(null, null, null, 1, 60, 0, words)), Author.Djini))!!.lines().last()
         assertEquals("Write to the user in the language of their latest message: \"Open Settings and\ntell me the version\"".replace("\n", " "),
             last("  Open Settings and\n tell me the version "))
         val long = last("Open the Settings app and tell me which Android version this phone is running and how much storage is used.")
@@ -183,11 +183,11 @@ class ContextBuilderTest {
  */
 class RuntimeStateHistoryTest {
     private fun tools(vararg c: Part.ToolCall) = ModelReply(c.toList(), StopReason.ToolUse, null)
-    private val finish = com.wangzan101.mika.core.testing.answerReply("ok")
+    private val finish = com.wangzan101.djini.core.testing.answerReply("ok")
     /** 一次请求按消息逐条序列化;前缀关系按字符串判断。 */
     private fun wire(req: List<Message>) = req.joinToString("\n") { it.toString() }
 
-    private fun run(flags: SpeedFlags, vararg script: ModelReply, web: com.wangzan101.mika.core.cap.web.FakeWebPort? = null): FakeModel {
+    private fun run(flags: SpeedFlags, vararg script: ModelReply, web: com.wangzan101.djini.core.cap.web.FakeWebPort? = null): FakeModel {
         val m = FakeModel(*script, finish)
         runBlocking {
             AgentLoop(m, toolDispatcher(FakeScreen(), web = web), "BASE", maxSteps = 20, clock = { 0L },
@@ -231,7 +231,7 @@ class RuntimeStateHistoryTest {
     }
 
     @Test fun webSurfaceAlwaysShowsCurrentMode() {
-        val web = com.wangzan101.mika.core.cap.web.FakeWebPort()
+        val web = com.wangzan101.djini.core.cap.web.FakeWebPort()
         val go = tools(Part.ToolCall("n1", "web_navigate", """{"url":"https://shop.example.com/a"}"""))
         val desktop = run(SpeedFlags.OFF, go, web = web)
         assertTrue(desktop.requests[1].runtimeStates().last(), desktop.requests[1].runtimeStates().last().startsWith("Current place: website shop.example.com (desktop version)"))
@@ -244,13 +244,13 @@ class RuntimeStateHistoryTest {
     @Test fun foldKeepsPinnedContextWithoutItsStaleState() {
         val b = ContextBuilder(zone = ZoneId.of("UTC"))
         fun round(i: Int) = listOf(
-            Message(Role.Assistant, listOf(Part.ToolCall("c$i", "phone_tap", """{"target":"按钮$i"}""")), Author.Mika),
+            Message(Role.Assistant, listOf(Part.ToolCall("c$i", "phone_tap", """{"target":"按钮$i"}""")), Author.Djini),
             Message(Role.Tool, listOf(Part.ToolResult("c$i", """{"ok":true,"changed":true,"pad":"${"x".repeat(400)}"}""", false),
-                b.runtimeState(Place.app("com.x"), null, null, i + 1, 60, 0)), Author.Mika),
+                b.runtimeState(Place.app("com.x"), null, null, i + 1, 60, 0)), Author.Djini),
         )
         val knowledge = b.knowledge(KnowledgeEntry("a", "甲", Surface.Android, listOf("p.a"), emptyList(), emptyList(), null, "", "正文"), "", false)!!
         val withState = knowledge.copy(parts = knowledge.parts + b.runtimeState(Place.app("p.a"), null, null, 4, 60, 0))
-        val h = listOf(Message(Role.User, listOf(Part.Text("task")), Author.Mika)) + (1..3).flatMap(::round) + withState + (4..30).flatMap(::round)
+        val h = listOf(Message(Role.User, listOf(Part.Text("task")), Author.Djini)) + (1..3).flatMap(::round) + withState + (4..30).flatMap(::round)
         val c = ContextCompressor(TOOLS).compress(h, contextTokens = 1000)
         assertTrue(c.foldedSteps > 0)
         assertTrue(knowledge in c.messages)
@@ -261,8 +261,8 @@ class RuntimeStateHistoryTest {
     @Test fun systemPromptIsByteIdenticalWithinTask() = runBlocking {
         val m = FakeModel(tools(Part.ToolCall("o1", "phone_observe", "{}")), tools(Part.ToolCall("w1", "wait", """{"seconds":0.1}""")), finish)
         val systems = mutableListOf<String>()
-        val model = object : com.wangzan101.mika.core.model.ChatModel by m {
-            override suspend fun complete(system: String, messages: List<Message>, tools: List<com.wangzan101.mika.core.model.ToolSpec>): ModelReply {
+        val model = object : com.wangzan101.djini.core.model.ChatModel by m {
+            override suspend fun complete(system: String, messages: List<Message>, tools: List<com.wangzan101.djini.core.model.ToolSpec>): ModelReply {
                 systems += system
                 return m.complete(system, messages, tools)
             }
@@ -279,14 +279,14 @@ class RuntimeStateHistoryTest {
 /** 开局已列出全部技能:前台到了关联技能的 App 也不再补技能索引,开局那份不改。 */
 class ForegroundAddsNoSkillsIndexTest {
     @Test fun foregroundAppAddsNoSkillLines() = runBlocking {
-        val catalog = com.wangzan101.mika.core.knowledge.GuideCatalog.loadBundled()
-        val store = com.wangzan101.mika.core.knowledge.KnowledgeStore(com.wangzan101.mika.core.knowledge.KnowledgeStore.loadBundled())
-        val screen = object : com.wangzan101.mika.core.uistate.ScreenPort by FakeScreen() {
-            override suspend fun snapshot() = com.wangzan101.mika.core.uistate.ScreenSnapshot("s", "com.tencent.mm", emptyList(), 1080, 2400)
+        val catalog = com.wangzan101.djini.core.knowledge.GuideCatalog.loadBundled()
+        val store = com.wangzan101.djini.core.knowledge.KnowledgeStore(com.wangzan101.djini.core.knowledge.KnowledgeStore.loadBundled())
+        val screen = object : com.wangzan101.djini.core.uistate.ScreenPort by FakeScreen() {
+            override suspend fun snapshot() = com.wangzan101.djini.core.uistate.ScreenSnapshot("s", "com.tencent.mm", emptyList(), 1080, 2400)
         }
         fun tools(vararg c: Part.ToolCall) = ModelReply(c.toList(), StopReason.ToolUse, null)
         val m = FakeModel(tools(Part.ToolCall("o1", "phone_observe", "{}")), tools(Part.ToolCall("o2", "phone_observe", "{}")),
-            com.wangzan101.mika.core.testing.answerReply("ok"))
+            com.wangzan101.djini.core.testing.answerReply("ok"))
         AgentLoop(m, toolDispatcher(screen, skills = catalog), "B", knowledge = store, skills = catalog).run("看看")
         val first = m.requests.first().filter { ContextBuilder.kindOf(it) == ContextKind.SkillsIndex }
         val last = m.requests.last().filter { ContextBuilder.kindOf(it) == ContextKind.SkillsIndex }

@@ -1,16 +1,16 @@
-package com.wangzan101.mika.cap.phone.a11y
+package com.wangzan101.djini.cap.phone.a11y
 
 import android.app.Activity
 import android.content.Intent
 import android.view.KeyEvent
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.wangzan101.mika.cap.phone.shell.AsciiTextKeys
-import com.wangzan101.mika.core.assembly.toolDispatcher
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.tool.ToolDispatcher
-import com.wangzan101.mika.core.uistate.UiElement
-import com.wangzan101.mika.runAction
-import com.wangzan101.mika.shell.IMikaShell
+import com.wangzan101.djini.cap.phone.shell.AsciiTextKeys
+import com.wangzan101.djini.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.tool.ToolDispatcher
+import com.wangzan101.djini.core.uistate.UiElement
+import com.wangzan101.djini.runAction
+import com.wangzan101.djini.shell.IDjiniShell
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withTimeout
@@ -58,7 +58,7 @@ class UnseenClipboardDeviceTest {
         try {
             val screen = if (rejectPasteShortcut) {
                 val shell = DeviceSupport.shell()
-                val rejectingPaste = object : IMikaShell by shell {
+                val rejectingPaste = object : IDjiniShell by shell {
                     override fun injectCtrlKey(displayId: Int, keyCode: Int): Int = when (keyCode) {
                         KeyEvent.KEYCODE_A -> AsciiTextKeys.DISPATCHED
                         KeyEvent.KEYCODE_V -> AsciiTextKeys.NOT_SENT

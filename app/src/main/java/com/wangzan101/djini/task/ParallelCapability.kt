@@ -1,7 +1,7 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.tr
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.tr
 
 /** 此刻最多能同时跑几个任务;[reason] 说明为什么只能一个(设置页显示),没有限制时为空。 */
 data class ParallelLimit(val max: Int, val reason: String?)

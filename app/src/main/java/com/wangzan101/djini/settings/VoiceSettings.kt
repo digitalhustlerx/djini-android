@@ -1,8 +1,8 @@
-package com.wangzan101.mika.settings
+package com.wangzan101.djini.settings
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.wangzan101.mika.core.model.TtsCapabilities
+import com.wangzan101.djini.core.model.TtsCapabilities
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

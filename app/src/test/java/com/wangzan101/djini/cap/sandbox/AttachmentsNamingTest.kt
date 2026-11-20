@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.sandbox
+package com.wangzan101.djini.cap.sandbox
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -35,7 +35,7 @@ class AttachmentsNamingTest {
     @Test fun shareQuotaPerTask() {
         val q = ShareQuota(maxFiles = 2, maxBytes = 100)
         q.reserve(10); q.reserve(20)
-        val third = runCatching { q.reserve(1) }.exceptionOrNull() as com.wangzan101.mika.core.workspace.SandboxError
+        val third = runCatching { q.reserve(1) }.exceptionOrNull() as com.wangzan101.djini.core.workspace.SandboxError
         assertEquals("share_limit", third.code)
         // 失败的导出不占额度
         q.release(20)
@@ -45,6 +45,6 @@ class AttachmentsNamingTest {
         val bytes = ShareQuota(maxBytes = 100)
         bytes.reserve(90); bytes.settle(90, 50)
         bytes.reserve(50)
-        assertEquals("share_limit", (runCatching { bytes.reserve(1) }.exceptionOrNull() as com.wangzan101.mika.core.workspace.SandboxError).code)
+        assertEquals("share_limit", (runCatching { bytes.reserve(1) }.exceptionOrNull() as com.wangzan101.djini.core.workspace.SandboxError).code)
     }
 }

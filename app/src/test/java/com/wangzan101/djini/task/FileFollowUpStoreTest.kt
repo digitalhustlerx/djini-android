@@ -1,9 +1,9 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
-import com.wangzan101.mika.core.run.Attendance
-import com.wangzan101.mika.core.run.ChannelPeer
-import com.wangzan101.mika.core.run.RunOrigin
-import com.wangzan101.mika.core.run.RunProvenance
+import com.wangzan101.djini.core.run.Attendance
+import com.wangzan101.djini.core.run.ChannelPeer
+import com.wangzan101.djini.core.run.RunOrigin
+import com.wangzan101.djini.core.run.RunProvenance
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -15,7 +15,7 @@ class FileFollowUpStoreTest {
         source: QueuedSource = QueuedSource.Explicit) = QueuedFollowUp(id, conversation, text, 1L, source)
 
     @Test fun saveAndReloadKeepsOrderTextAndSource() {
-        val dir = Files.createTempDirectory("mika-followups").toFile()
+        val dir = Files.createTempDirectory("djini-followups").toFile()
         try {
             val file = dir.resolve("followups.json")
             val queue = FollowUpQueue(FileFollowUpQueueStore(file))
@@ -33,7 +33,7 @@ class FileFollowUpStoreTest {
     }
 
     @Test fun channelFollowUpKeepsItsIdentityAndUnlockPolicyAfterReload() {
-        val dir = Files.createTempDirectory("mika-followups").toFile()
+        val dir = Files.createTempDirectory("djini-followups").toFile()
         try {
             val file = dir.resolve("followups.json")
             val peer = ChannelPeer("wechat", "owner", "thread")
@@ -57,7 +57,7 @@ class FileFollowUpStoreTest {
     }
 
     @Test fun claimedIsNotPersistedSoACrashRequeuesIt() {
-        val dir = Files.createTempDirectory("mika-followups").toFile()
+        val dir = Files.createTempDirectory("djini-followups").toFile()
         try {
             val file = dir.resolve("followups.json")
             val queue = FollowUpQueue(FileFollowUpQueueStore(file))
@@ -74,7 +74,7 @@ class FileFollowUpStoreTest {
     }
 
     @Test fun corruptFileIsPreservedAndQueueStartsEmpty() {
-        val dir = Files.createTempDirectory("mika-followups").toFile()
+        val dir = Files.createTempDirectory("djini-followups").toFile()
         try {
             val file = dir.resolve("followups.json")
             file.writeText("not json")
@@ -92,7 +92,7 @@ class FileFollowUpStoreTest {
     }
 
     @Test fun dropConversationPersists() {
-        val dir = Files.createTempDirectory("mika-followups").toFile()
+        val dir = Files.createTempDirectory("djini-followups").toFile()
         try {
             val file = dir.resolve("followups.json")
             val queue = FollowUpQueue(FileFollowUpQueueStore(file))

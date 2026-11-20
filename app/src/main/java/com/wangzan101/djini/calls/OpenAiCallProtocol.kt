@@ -1,6 +1,6 @@
-package com.wangzan101.mika.calls
+package com.wangzan101.djini.calls
 
-import com.wangzan101.mika.calls.VolcRealtimeProtocol.string
+import com.wangzan101.djini.calls.VolcRealtimeProtocol.string
 import kotlinx.serialization.json.*
 
 /** OpenAI GA Realtime WebSocket messages. The phone audio bridge supplies 16 kHz PCM. */

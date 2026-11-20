@@ -1,23 +1,23 @@
-package com.wangzan101.mika.core.cap.transcribe
+package com.wangzan101.djini.core.cap.transcribe
 
-import com.wangzan101.mika.core.model.ModelError
-import com.wangzan101.mika.core.observation.ObsKind
-import com.wangzan101.mika.core.observation.Observation
-import com.wangzan101.mika.core.observation.Place
-import com.wangzan101.mika.core.prompt.Prompts
-import com.wangzan101.mika.core.tool.AgentTool
-import com.wangzan101.mika.core.tool.ArgError
-import com.wangzan101.mika.core.tool.Args
-import com.wangzan101.mika.core.tool.Concurrency
-import com.wangzan101.mika.core.tool.Risk
-import com.wangzan101.mika.core.tool.ToolContext
-import com.wangzan101.mika.core.tool.ToolDef
-import com.wangzan101.mika.core.tool.ToolExecution
-import com.wangzan101.mika.core.tool.Verb
-import com.wangzan101.mika.core.tool.fail
-import com.wangzan101.mika.core.tool.okObj
-import com.wangzan101.mika.core.tool.str
-import com.wangzan101.mika.core.workspace.SandboxPaths
+import com.wangzan101.djini.core.model.ModelError
+import com.wangzan101.djini.core.observation.ObsKind
+import com.wangzan101.djini.core.observation.Observation
+import com.wangzan101.djini.core.observation.Place
+import com.wangzan101.djini.core.prompt.Prompts
+import com.wangzan101.djini.core.tool.AgentTool
+import com.wangzan101.djini.core.tool.ArgError
+import com.wangzan101.djini.core.tool.Args
+import com.wangzan101.djini.core.tool.Concurrency
+import com.wangzan101.djini.core.tool.Risk
+import com.wangzan101.djini.core.tool.ToolContext
+import com.wangzan101.djini.core.tool.ToolDef
+import com.wangzan101.djini.core.tool.ToolExecution
+import com.wangzan101.djini.core.tool.Verb
+import com.wangzan101.djini.core.tool.fail
+import com.wangzan101.djini.core.tool.okObj
+import com.wangzan101.djini.core.tool.str
+import com.wangzan101.djini.core.workspace.SandboxPaths
 import kotlinx.coroutines.CancellationException
 import kotlinx.serialization.json.put
 
@@ -29,7 +29,7 @@ internal object AudioTranscribe : AgentTool {
     override val risk = Risk.Read
     override val offScreen = true
     override val concurrency = Concurrency.ParallelSafe
-    override val entry = com.wangzan101.mika.core.tool.Entry.Opens
+    override val entry = com.wangzan101.djini.core.tool.Entry.Opens
     override val def = ToolDef("audio_transcribe",
         Prompts.tool("audio_transcribe"),
         mapOf(
@@ -61,7 +61,7 @@ internal object AudioTranscribe : AgentTool {
         })
     }
 
-    override fun observations(o: kotlinx.serialization.json.JsonObject, r: ToolExecution, log: com.wangzan101.mika.core.tool.EvidenceLog): List<Observation> {
+    override fun observations(o: kotlinx.serialization.json.JsonObject, r: ToolExecution, log: com.wangzan101.djini.core.tool.EvidenceLog): List<Observation> {
         val text = (r.content["text"] as? kotlinx.serialization.json.JsonPrimitive)?.content ?: return emptyList()
         if (text.isBlank()) return emptyList()
         val path = (o["path"] as? kotlinx.serialization.json.JsonPrimitive)?.content ?: return emptyList()
@@ -72,7 +72,7 @@ internal object AudioTranscribe : AgentTool {
 private fun failure(e: Throwable): ToolExecution = when (e) {
     is TranscribeError.Unsupported -> fail("transcribe_unsupported", e.message ?: "No file transcription model is configured.")
     is TranscribeError.TooLarge -> fail("transcribe_too_large", "The audio is larger than 25 MB; split it into parts first.")
-    is TranscribeError.BadAudio -> fail("transcribe_bad_audio", e.message ?: "The file is not an audio file Mika can read.")
+    is TranscribeError.BadAudio -> fail("transcribe_bad_audio", e.message ?: "The file is not an audio file Djini can read.")
     is ModelError.Auth -> fail("transcribe_auth_failed", "The transcription service rejected the API key. Check Settings › Speech to text.", recoverable = false)
     is ModelError.QuotaExceeded -> fail("transcribe_quota_exceeded", "The transcription service's quota is used up. Tell the user; do not retry.", recoverable = false)
     is ModelError.RateLimited -> fail("transcribe_rate_limited", "The transcription service is rate limiting. Wait a little, then try once more.")

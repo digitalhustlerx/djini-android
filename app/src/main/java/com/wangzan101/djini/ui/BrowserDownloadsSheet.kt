@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import android.content.ActivityNotFoundException
 import android.content.Context
@@ -44,17 +44,17 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.browser.BrowserDownload
-import com.wangzan101.mika.browser.BrowserDownloads
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.ui.components.Hairline
-import com.wangzan101.mika.ui.components.MikaDialog
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
-import com.wangzan101.mika.ui.theme.MikaRadius
-import com.wangzan101.mika.ui.theme.MikaShapes
+import com.wangzan101.djini.R
+import com.wangzan101.djini.browser.BrowserDownload
+import com.wangzan101.djini.browser.BrowserDownloads
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.ui.components.Hairline
+import com.wangzan101.djini.ui.components.MikaDialog
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.MikaRadius
+import com.wangzan101.djini.ui.theme.MikaShapes
 import kotlinx.coroutines.delay
 
 /**
@@ -65,7 +65,7 @@ import kotlinx.coroutines.delay
 @Composable
 fun DownloadsSheet(downloads: BrowserDownloads, onDismiss: () -> Unit) {
     val context = LocalContext.current
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     var items by remember { mutableStateOf<List<BrowserDownload>>(emptyList()) }
     var loaded by remember { mutableStateOf(false) }
     var deleting by remember { mutableStateOf<BrowserDownload?>(null) }
@@ -141,7 +141,7 @@ private fun DownloadRow(
     onCancel: () -> Unit,
     onDelete: () -> Unit,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Column(
         Modifier.fillMaxWidth()
             .then(if (item.done) Modifier.clickable(role = Role.Button, onClick = onOpen) else Modifier)
@@ -178,7 +178,7 @@ private fun SheetAction(icon: ImageVector, label: String, onClick: () -> Unit) {
     Box(
         Modifier.size(36.dp).clip(CircleShape).clickable(role = Role.Button, onClickLabel = label, onClick = onClick),
         contentAlignment = Alignment.Center,
-    ) { Icon(icon, label, Modifier.size(17.dp), tint = MikaTheme.colors.ink3) }
+    ) { Icon(icon, label, Modifier.size(17.dp), tint = DjiniTheme.colors.ink3) }
 }
 
 private fun statusText(context: Context, item: BrowserDownload): String = when {

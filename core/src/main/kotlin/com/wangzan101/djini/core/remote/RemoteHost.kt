@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.remote
+package com.wangzan101.djini.core.remote
 
-import com.wangzan101.mika.core.device.DeviceAccess
+import com.wangzan101.djini.core.device.DeviceAccess
 import java.net.InetAddress
 import java.net.InetSocketAddress
 

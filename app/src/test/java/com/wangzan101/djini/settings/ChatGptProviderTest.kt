@@ -1,12 +1,12 @@
-package com.wangzan101.mika.settings
+package com.wangzan101.djini.settings
 
-import com.wangzan101.mika.core.chatgpt.ChatGptAuth
-import com.wangzan101.mika.core.chatgpt.ChatGptSession
-import com.wangzan101.mika.core.model.Capabilities
-import com.wangzan101.mika.core.model.ListFailure
-import com.wangzan101.mika.core.model.ListedModel
-import com.wangzan101.mika.core.model.ModelListResult
-import com.wangzan101.mika.core.model.ModelRole
+import com.wangzan101.djini.core.chatgpt.ChatGptAuth
+import com.wangzan101.djini.core.chatgpt.ChatGptSession
+import com.wangzan101.djini.core.model.Capabilities
+import com.wangzan101.djini.core.model.ListFailure
+import com.wangzan101.djini.core.model.ListedModel
+import com.wangzan101.djini.core.model.ModelListResult
+import com.wangzan101.djini.core.model.ModelRole
 import kotlinx.coroutines.test.runTest
 import okhttp3.OkHttpClient
 import okhttp3.mockwebserver.MockResponse
@@ -37,7 +37,7 @@ class ChatGptProviderTest {
 
     private fun store() = ProviderStore(
         tmp.root, AesGcmKeyCipher { key },
-        userAgent = "Mika/1.2.3",
+        userAgent = "Djini/1.2.3",
         modelLister = { kind, url, token, headers -> listCalls += Triple(kind, url, token); listHeaders += headers; ModelListResult.Ok(listOf(ListedModel("gpt-x"))) },
         chatGptAuth = ChatGptAuth(OkHttpClient(), auth.url("/").toString().trimEnd('/')),
     )
@@ -69,7 +69,7 @@ class ChatGptProviderTest {
         store().listModels(p)
         assertEquals(Triple(ProviderConfig.Kind.ChatGpt, ChatGptAuth.API_BASE, "secret-access"), listCalls.single())
         // 客户端标识照带;ChatGPT 没声明会话头,不发会话号
-        assertEquals(mapOf("User-Agent" to "Mika/1.2.3"), listHeaders.single())
+        assertEquals(mapOf("User-Agent" to "Djini/1.2.3"), listHeaders.single())
         assertNull(p.sessionHeader)
         // 再登录一次是更新同一家,不新添
         s.connectChatGpt(session().copy(accessToken = "secret-2"), emptyList())

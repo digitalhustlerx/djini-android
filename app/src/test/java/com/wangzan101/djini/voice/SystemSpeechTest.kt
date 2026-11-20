@@ -1,4 +1,4 @@
-package com.wangzan101.mika.voice
+package com.wangzan101.djini.voice
 
 import android.speech.SpeechRecognizer
 import org.junit.Assert.assertEquals
@@ -39,19 +39,19 @@ class SystemSpeechTest {
 
     @Test
     fun languageTagsFollowAppLanguage() {
-        assertEquals("zh-CN", SystemSpeech.speechTag(com.wangzan101.mika.i18n.AppLanguage.SimplifiedChinese, java.util.Locale.US))
-        assertEquals("zh-TW", SystemSpeech.speechTag(com.wangzan101.mika.i18n.AppLanguage.TraditionalChinese, java.util.Locale.US))
-        assertEquals("en-US", SystemSpeech.speechTag(com.wangzan101.mika.i18n.AppLanguage.English, java.util.Locale.CHINA))
-        assertEquals("ar-MA", SystemSpeech.speechTag(com.wangzan101.mika.i18n.AppLanguage.Arabic, java.util.Locale.US))
-        assertEquals("fr-FR", SystemSpeech.speechTag(com.wangzan101.mika.i18n.AppLanguage.System, java.util.Locale.FRANCE))
+        assertEquals("zh-CN", SystemSpeech.speechTag(com.wangzan101.djini.i18n.AppLanguage.SimplifiedChinese, java.util.Locale.US))
+        assertEquals("zh-TW", SystemSpeech.speechTag(com.wangzan101.djini.i18n.AppLanguage.TraditionalChinese, java.util.Locale.US))
+        assertEquals("en-US", SystemSpeech.speechTag(com.wangzan101.djini.i18n.AppLanguage.English, java.util.Locale.CHINA))
+        assertEquals("ar-MA", SystemSpeech.speechTag(com.wangzan101.djini.i18n.AppLanguage.Arabic, java.util.Locale.US))
+        assertEquals("fr-FR", SystemSpeech.speechTag(com.wangzan101.djini.i18n.AppLanguage.System, java.util.Locale.FRANCE))
         // 选的语言和系统不同时用这种语言最常见的地区;相同时沿用系统的地区
-        assertEquals("ja-JP", SystemSpeech.speechTag(com.wangzan101.mika.i18n.AppLanguage.Japanese, java.util.Locale.US))
-        assertEquals("pt-BR", SystemSpeech.speechTag(com.wangzan101.mika.i18n.AppLanguage.Portuguese, java.util.Locale.US))
-        assertEquals("pt-PT", SystemSpeech.speechTag(com.wangzan101.mika.i18n.AppLanguage.Portuguese, java.util.Locale.forLanguageTag("pt-PT")))
-        assertEquals("es-MX", SystemSpeech.speechTag(com.wangzan101.mika.i18n.AppLanguage.Spanish, java.util.Locale.forLanguageTag("es-MX")))
-        assertEquals("id-ID", SystemSpeech.speechTag(com.wangzan101.mika.i18n.AppLanguage.Indonesian, java.util.Locale.forLanguageTag("in-ID")))
+        assertEquals("ja-JP", SystemSpeech.speechTag(com.wangzan101.djini.i18n.AppLanguage.Japanese, java.util.Locale.US))
+        assertEquals("pt-BR", SystemSpeech.speechTag(com.wangzan101.djini.i18n.AppLanguage.Portuguese, java.util.Locale.US))
+        assertEquals("pt-PT", SystemSpeech.speechTag(com.wangzan101.djini.i18n.AppLanguage.Portuguese, java.util.Locale.forLanguageTag("pt-PT")))
+        assertEquals("es-MX", SystemSpeech.speechTag(com.wangzan101.djini.i18n.AppLanguage.Spanish, java.util.Locale.forLanguageTag("es-MX")))
+        assertEquals("id-ID", SystemSpeech.speechTag(com.wangzan101.djini.i18n.AppLanguage.Indonesian, java.util.Locale.forLanguageTag("in-ID")))
         // 中文按选的简繁定地区,不跟系统
-        assertEquals("zh-CN", SystemSpeech.speechTag(com.wangzan101.mika.i18n.AppLanguage.SimplifiedChinese, java.util.Locale.TAIWAN))
+        assertEquals("zh-CN", SystemSpeech.speechTag(com.wangzan101.djini.i18n.AppLanguage.SimplifiedChinese, java.util.Locale.TAIWAN))
         assertEquals("zh", SystemSpeech.isoCode("zh-TW"))
         assertEquals("en", SystemSpeech.isoCode("en-US"))
     }
@@ -59,9 +59,9 @@ class SystemSpeechTest {
     @Test
     fun appLanguageWithoutRegionFallsBackToItsUsualRegion() {
         // 在 App 里选了英语后进程默认语言是不带地区的 en:没有地区可沿用,不能只送 en
-        assertEquals("en-US", SystemSpeech.speechTag(com.wangzan101.mika.i18n.AppLanguage.English, java.util.Locale.forLanguageTag("en")))
-        assertEquals("ja-JP", SystemSpeech.speechTag(com.wangzan101.mika.i18n.AppLanguage.Japanese, java.util.Locale.forLanguageTag("ja")))
-        assertEquals("en-GB", SystemSpeech.speechTag(com.wangzan101.mika.i18n.AppLanguage.English, java.util.Locale.UK))
+        assertEquals("en-US", SystemSpeech.speechTag(com.wangzan101.djini.i18n.AppLanguage.English, java.util.Locale.forLanguageTag("en")))
+        assertEquals("ja-JP", SystemSpeech.speechTag(com.wangzan101.djini.i18n.AppLanguage.Japanese, java.util.Locale.forLanguageTag("ja")))
+        assertEquals("en-GB", SystemSpeech.speechTag(com.wangzan101.djini.i18n.AppLanguage.English, java.util.Locale.UK))
     }
 
     @Test
@@ -82,13 +82,13 @@ class SystemSpeechTest {
 
     @Test
     fun systemLanguageDropsScriptAndExtensions() {
-        val system = com.wangzan101.mika.i18n.AppLanguage.System
+        val system = com.wangzan101.djini.i18n.AppLanguage.System
         assertEquals("zh-CN", SystemSpeech.speechTag(system, java.util.Locale.forLanguageTag("zh-Hans-CN")))
         assertEquals("zh-TW", SystemSpeech.speechTag(system, java.util.Locale.forLanguageTag("zh-Hant-TW")))
         assertEquals("sr-RS", SystemSpeech.speechTag(system, java.util.Locale.forLanguageTag("sr-Latn-RS")))
         assertEquals("de-DE", SystemSpeech.speechTag(system, java.util.Locale.forLanguageTag("de-DE-u-co-phonebk")))
         assertEquals("ja", SystemSpeech.speechTag(system, java.util.Locale.forLanguageTag("ja")))
-        val english = com.wangzan101.mika.i18n.AppLanguage.English
+        val english = com.wangzan101.djini.i18n.AppLanguage.English
         assertEquals("en-GB", SystemSpeech.speechTag(english, java.util.Locale.forLanguageTag("en-Latn-GB")))
     }
 

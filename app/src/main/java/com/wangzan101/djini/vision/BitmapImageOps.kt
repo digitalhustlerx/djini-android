@@ -1,4 +1,4 @@
-package com.wangzan101.mika.vision
+package com.wangzan101.djini.vision
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -6,7 +6,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
-import com.wangzan101.mika.core.vision.ImageOps
+import com.wangzan101.djini.core.vision.ImageOps
 import java.io.ByteArrayOutputStream
 import kotlin.math.max
 import kotlin.math.roundToInt

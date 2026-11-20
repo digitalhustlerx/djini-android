@@ -1,14 +1,14 @@
-package com.wangzan101.mika.workflow
+package com.wangzan101.djini.workflow
 
 import android.graphics.Bitmap
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.ChineseUi
-import com.wangzan101.mika.settings.AesGcmKeyCipher
-import com.wangzan101.mika.settings.KeyCipher
-import com.wangzan101.mika.ui.WorkflowsScreen
+import com.wangzan101.djini.ChineseUi
+import com.wangzan101.djini.settings.AesGcmKeyCipher
+import com.wangzan101.djini.settings.KeyCipher
+import com.wangzan101.djini.ui.WorkflowsScreen
 import org.junit.After
 import org.junit.Assert.*
 import org.junit.Rule

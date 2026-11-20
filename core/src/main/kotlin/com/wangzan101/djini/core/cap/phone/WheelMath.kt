@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.cap.phone
+package com.wangzan101.djini.core.cap.phone
 
 import kotlin.math.abs
 import kotlin.math.roundToInt

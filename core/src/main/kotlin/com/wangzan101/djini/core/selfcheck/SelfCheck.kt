@@ -1,19 +1,19 @@
-package com.wangzan101.mika.core.selfcheck
+package com.wangzan101.djini.core.selfcheck
 
 /**
  * 兼容性自检的一项。列的顺序就是跑的顺序;[needs] 里有一项没过(失败或被跳过)这一项就跳过,并写明是缺了哪一项。
  * [key] 是报告里的英文名,[timeoutMs] 是这一项最多跑多久(整次自检另有总时限,见 [SelfCheckRunner.TOTAL_BUDGET_MS])。
  */
 enum class SelfCheck(val key: String, val timeoutMs: Long) {
-    /** 机型、系统版本、处理器架构、内存、屏幕、有没有无线调试、Mika 的版本。 */
+    /** 机型、系统版本、处理器架构、内存、屏幕、有没有无线调试、Djini 的版本。 */
     DEVICE("device", 5_000),
     /** 无障碍开着且已绑定、通知允许、电池不受限制。 */
     PERMISSIONS("permissions", 5_000),
     /** 内置助手在运行、怎么起来的、一次简单调用来回多久。 */
     HELPER("helper", 15_000),
-    /** 能建 Mika 的虚拟屏;安卓 14 起它有没有自己的焦点。 */
+    /** 能建 Djini 的虚拟屏;安卓 14 起它有没有自己的焦点。 */
     VIRTUAL_DISPLAY("virtual display", 10_000),
-    /** 在虚拟屏上打开 Mika 自己的自检页,再打开系统设置(只看不点),确认开在 Mika 的屏上、不在主屏。 */
+    /** 在虚拟屏上打开 Djini 自己的自检页,再打开系统设置(只看不点),确认开在 Djini 的屏上、不在主屏。 */
     APP_LAUNCH("app launch", 20_000),
     /** 自检页的控件树读得到、要的控件都在;虚拟屏的截图不是一片黑或一片空。 */
     SCREEN_READING("screen reading", 10_000),
@@ -83,7 +83,7 @@ enum class Advice {
     DisplayFailed,
     /** 安卓 14 以下虚拟屏没有自己的焦点,后台操作时主屏的输入焦点可能短暂丢失。 */
     FocusShared,
-    /** 页面没开到 Mika 的屏上。 */
+    /** 页面没开到 Djini 的屏上。 */
     LaunchFailed,
     /** 系统设置开到了主屏上。 */
     OpenedOnMainScreen,

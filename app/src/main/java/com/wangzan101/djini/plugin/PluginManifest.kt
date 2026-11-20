@@ -1,6 +1,6 @@
-package com.wangzan101.mika.plugin
+package com.wangzan101.djini.plugin
 
-import com.wangzan101.mika.BuildConfig
+import com.wangzan101.djini.BuildConfig
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject

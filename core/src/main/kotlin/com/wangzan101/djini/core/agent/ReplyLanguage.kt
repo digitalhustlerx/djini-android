@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
 import java.lang.Character.UnicodeScript
 

@@ -1,12 +1,12 @@
-package com.wangzan101.mika.cap.phone.setup
+package com.wangzan101.djini.cap.phone.setup
 
 import android.content.Context
 import android.content.ServiceConnection
 import android.content.pm.PackageManager
 import android.os.IBinder
-import com.wangzan101.mika.core.shell.BuiltinShellFailure
-import com.wangzan101.mika.core.shell.ShizukuPlatformState
-import com.wangzan101.mika.shell.IMikaShell
+import com.wangzan101.djini.core.shell.BuiltinShellFailure
+import com.wangzan101.djini.core.shell.ShizukuPlatformState
+import com.wangzan101.djini.shell.IDjiniShell
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -93,17 +93,17 @@ class ShizukuTransportTest {
         }
     } as IBinder
 
-    private fun fakeShell(): IMikaShell = Proxy.newProxyInstance(
-        IMikaShell::class.java.classLoader,
-        arrayOf(IMikaShell::class.java),
+    private fun fakeShell(): IDjiniShell = Proxy.newProxyInstance(
+        IDjiniShell::class.java.classLoader,
+        arrayOf(IDjiniShell::class.java),
     ) { proxy, method, args ->
         when (method.name) {
-            "toString" -> "FakeIMikaShell"
+            "toString" -> "FakeIDjiniShell"
             "hashCode" -> System.identityHashCode(proxy)
             "equals" -> args?.firstOrNull() === proxy
             else -> null
         }
-    } as IMikaShell
+    } as IDjiniShell
 
     @Test
     fun refreshMapsInstalledRunningPermissionAndSuiBinderAlive() {
@@ -180,7 +180,7 @@ class ShizukuTransportTest {
             permission = PackageManager.PERMISSION_GRANTED
         }
         val attached = mutableListOf<IBinder>()
-        val detached = mutableListOf<IMikaShell?>()
+        val detached = mutableListOf<IDjiniShell?>()
         var changed = 0
         val shell = fakeShell()
         val controller = ShizukuController(
@@ -217,7 +217,7 @@ class ShizukuTransportTest {
         assertNull(raceController.launchHelper())
         stopDuringAttach = true
         raceController.connection.onServiceConnected(null, fakeBinder())
-        assertEquals(listOf<IMikaShell?>(shell), detached)
+        assertEquals(listOf<IDjiniShell?>(shell), detached)
         assertEquals(listOf(true), bridge.unbindRemoveFlags)
 
         // Stopping and relaunching during attach() detaches the stale shell without clobbering the new bind or unbinding twice.
@@ -248,16 +248,16 @@ class ShizukuTransportTest {
         assertNull(relaunchController.launchHelper())
         stopAndRelaunchDuringAttach = true
         relaunchController.connection.onServiceConnected(null, fakeBinder())
-        assertEquals(listOf<IMikaShell?>(staleShell), detached)
+        assertEquals(listOf<IDjiniShell?>(staleShell), detached)
         assertEquals(1, bridge.unbindCalls)
         assertEquals(listOf(true), bridge.unbindRemoveFlags)
         assertEquals(2, bridge.bindCalls)
 
         nextShell = freshShell
         relaunchController.connection.onServiceConnected(null, fakeBinder())
-        assertEquals(listOf<IMikaShell?>(staleShell), detached)
+        assertEquals(listOf<IDjiniShell?>(staleShell), detached)
         relaunchController.stopHelper()
-        assertEquals(listOf<IMikaShell?>(staleShell, freshShell), detached)
+        assertEquals(listOf<IDjiniShell?>(staleShell, freshShell), detached)
         assertEquals(2, bridge.unbindCalls)
         assertEquals(listOf(true, true), bridge.unbindRemoveFlags)
 
@@ -268,7 +268,7 @@ class ShizukuTransportTest {
         assertNull(controller.launchHelper())
         controller.connection.onServiceConnected(null, fakeBinder())
         controller.stopHelper()
-        assertEquals(listOf<IMikaShell?>(shell), detached)
+        assertEquals(listOf<IDjiniShell?>(shell), detached)
         assertEquals(1, bridge.unbindCalls)
         assertEquals(listOf(true), bridge.unbindRemoveFlags)
 
@@ -279,7 +279,7 @@ class ShizukuTransportTest {
         controller.connection.onServiceConnected(null, fakeBinder())
         bridge.binderAlive = false
         controller.connection.onServiceDisconnected(null)
-        assertEquals(listOf<IMikaShell?>(shell), detached)
+        assertEquals(listOf<IDjiniShell?>(shell), detached)
         assertFalse(controller.state.value.running)
         assertEquals(beforeDisconnect + 1, changed)
     }
@@ -292,7 +292,7 @@ class ShizukuTransportTest {
             binderAlive = true
             permission = PackageManager.PERMISSION_GRANTED
         }
-        val detached = mutableListOf<IMikaShell?>()
+        val detached = mutableListOf<IDjiniShell?>()
         val shell = fakeShell()
         val dispatcher = StandardTestDispatcher(testScheduler)
         val controller = ShizukuController(
@@ -315,7 +315,7 @@ class ShizukuTransportTest {
         assertNull(controller.launchHelper())
         controller.connection.onServiceConnected(null, fakeBinder())
         controller.stopHelperAsync()
-        assertEquals(listOf<IMikaShell?>(shell), detached)
+        assertEquals(listOf<IDjiniShell?>(shell), detached)
         assertEquals(0, bridge.unbindCalls)
 
         advanceUntilIdle()

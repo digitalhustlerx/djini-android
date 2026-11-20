@@ -1,4 +1,4 @@
-package com.wangzan101.mika.about
+package com.wangzan101.djini.about
 
 import android.app.NotificationManager
 import android.content.Context
@@ -8,29 +8,29 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.PowerManager
 import android.provider.Settings
-import com.wangzan101.mika.BuildConfig
-import com.wangzan101.mika.MikaApp
-import com.wangzan101.mika.cap.phone.PhoneServices
-import com.wangzan101.mika.cap.phone.a11y.AppCopyReader
-import com.wangzan101.mika.cap.phone.a11y.launchableApps
-import com.wangzan101.mika.cap.phone.shell.ShellService
-import com.wangzan101.mika.cap.phone.shell.adb.AndroidAdb
-import com.wangzan101.mika.cap.phone.setup.DeveloperSettings
-import com.wangzan101.mika.cap.phone.setup.PairingChannel
-import com.wangzan101.mika.cap.sandbox.SandboxState
-import com.wangzan101.mika.core.cap.sandbox.SandboxStatus
-import com.wangzan101.mika.core.model.ModelRole
-import com.wangzan101.mika.core.shell.PairingDiscovery
-import com.wangzan101.mika.core.shell.PermissionCommands
-import com.wangzan101.mika.core.shell.SetupInputs
-import com.wangzan101.mika.core.shell.SetupStep
-import com.wangzan101.mika.i18n.AppLanguage
-import com.wangzan101.mika.record.RunStore
-import com.wangzan101.mika.settings.AccessibilityState
-import com.wangzan101.mika.settings.SystemStatus
-import com.wangzan101.mika.task.TaskService
-import com.wangzan101.mika.voice.SpeechChoice
-import com.wangzan101.mika.voice.SystemSpeech
+import com.wangzan101.djini.BuildConfig
+import com.wangzan101.djini.DjiniApp
+import com.wangzan101.djini.cap.phone.PhoneServices
+import com.wangzan101.djini.cap.phone.a11y.AppCopyReader
+import com.wangzan101.djini.cap.phone.a11y.launchableApps
+import com.wangzan101.djini.cap.phone.shell.ShellService
+import com.wangzan101.djini.cap.phone.shell.adb.AndroidAdb
+import com.wangzan101.djini.cap.phone.setup.DeveloperSettings
+import com.wangzan101.djini.cap.phone.setup.PairingChannel
+import com.wangzan101.djini.cap.sandbox.SandboxState
+import com.wangzan101.djini.core.cap.sandbox.SandboxStatus
+import com.wangzan101.djini.core.model.ModelRole
+import com.wangzan101.djini.core.shell.PairingDiscovery
+import com.wangzan101.djini.core.shell.PermissionCommands
+import com.wangzan101.djini.core.shell.SetupInputs
+import com.wangzan101.djini.core.shell.SetupStep
+import com.wangzan101.djini.i18n.AppLanguage
+import com.wangzan101.djini.record.RunStore
+import com.wangzan101.djini.settings.AccessibilityState
+import com.wangzan101.djini.settings.SystemStatus
+import com.wangzan101.djini.task.TaskService
+import com.wangzan101.djini.voice.SpeechChoice
+import com.wangzan101.djini.voice.SystemSpeech
 
 /** 引导页的输入:由系统状态加上引导页自己记的几项(用户确认过的、跳过的、回头重做的)组成。引导页和诊断信息共用这一份。 */
 fun SystemStatus.setupInputs(
@@ -60,7 +60,7 @@ object DiagnosticsCollector {
     private const val RECENT_RUNS = 3
 
     fun collect(context: Context, status: SystemStatus, setup: SetupInputs? = null): DiagnosticsSnapshot {
-        val app = context.applicationContext as MikaApp
+        val app = context.applicationContext as DjiniApp
         val phone = PhoneServices.of(app)
         val inputs = setup ?: status.setupInputs(phone.shellControl.pairingDiscovery.value, phone.pairing.repairing.value)
         return DiagnosticsSnapshot(
@@ -83,7 +83,7 @@ object DiagnosticsCollector {
                 lastError = phone.shellManager.engine.lastError,
                 appCopies = appCopies(app, phone),
                 adbKey = adbKey(app),
-                appsAfterTask = com.wangzan101.mika.task.AppsAfterTaskEnd.lastLine,
+                appsAfterTask = com.wangzan101.djini.task.AppsAfterTaskEnd.lastLine,
                 helperLaunchStage = phone.shellManager.lastHelperLaunchStage,
                 helperHandoffRejection = phone.hub.lastHandoffRejection,
             ),
@@ -107,7 +107,7 @@ object DiagnosticsCollector {
     }
 
     /** 内置助手连着时问它每份别的用户的判定,再数能打开的另一份有几个(只数,不列包名);问不到为 null。 */
-    private fun appCopies(app: MikaApp, phone: PhoneServices): String? = runCatching {
+    private fun appCopies(app: DjiniApp, phone: PhoneServices): String? = runCatching {
         val shell = phone.hub.shell.value ?: return null
         val summary = shell.appCopyUsers()?.getString(ShellService.KEY_COPY_SUMMARY) ?: return null
         val copies = AppCopyReader.read(shell, launchableApps(app.packageManager, app.packageName))
@@ -146,7 +146,7 @@ object DiagnosticsCollector {
         cm.allNetworks.any { cm.getNetworkCapabilities(it)?.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) == true }
     }.getOrNull()
 
-    private fun models(app: MikaApp): DiagnosticsSnapshot.Models {
+    private fun models(app: DjiniApp): DiagnosticsSnapshot.Models {
         val store = app.providers
         fun role(r: ModelRole) = store.configFor(r)?.let { DiagnosticsSnapshot.RoleModel(it.model, it.baseUrl) }
         val chatGpt = store.chatGptProvider()
@@ -162,7 +162,7 @@ object DiagnosticsCollector {
     }
 
     /** 语音转文字:选择、手机自带识别的能力和记号、手机上登记的识别服务(组件名、开不开放、要的权限)。 */
-    private fun speech(app: MikaApp): DiagnosticsSnapshot.Speech? = runCatching {
+    private fun speech(app: DjiniApp): DiagnosticsSnapshot.Speech? = runCatching {
         val settings = app.speech
         val cap = SystemSpeech.capability(app, settings.systemSilent.value)
         val choice = when (val c = settings.choice.value) {
@@ -181,21 +181,21 @@ object DiagnosticsCollector {
             silent = settings.systemSilent.value,
             remembered = settings.systemService,
             services = SystemSpeech.services(app).map { svc ->
-                // 它所在的应用自己有没有录音权限:识别服务说没有权限时,缺的常常是这一个,不是 Mika 的
-                val mic = when (com.wangzan101.mika.voice.SpeechServiceMic.state(app, svc.component.substringBefore('/'))) {
-                    com.wangzan101.mika.voice.ServiceMic.Granted -> "granted"
-                    com.wangzan101.mika.voice.ServiceMic.Missing -> "NOT granted"
-                    com.wangzan101.mika.voice.ServiceMic.NotRequested -> "not requested"
-                    com.wangzan101.mika.voice.ServiceMic.Unknown -> "unknown"
+                // 它所在的应用自己有没有录音权限:识别服务说没有权限时,缺的常常是这一个,不是 Djini 的
+                val mic = when (com.wangzan101.djini.voice.SpeechServiceMic.state(app, svc.component.substringBefore('/'))) {
+                    com.wangzan101.djini.voice.ServiceMic.Granted -> "granted"
+                    com.wangzan101.djini.voice.ServiceMic.Missing -> "NOT granted"
+                    com.wangzan101.djini.voice.ServiceMic.NotRequested -> "not requested"
+                    com.wangzan101.djini.voice.ServiceMic.Unknown -> "unknown"
                 }
                 svc.component + (if (svc.open) "" else " (not exported)") + (svc.permission?.let { " needs $it" } ?: "") + ", its own mic permission: $mic"
             },
-            defaultService = com.wangzan101.mika.voice.SpeechServiceMic.defaultService(app)?.flattenToShortString(),
+            defaultService = com.wangzan101.djini.voice.SpeechServiceMic.defaultService(app)?.flattenToShortString(),
         )
     }.getOrNull()
 
     /** 最近几次运行:结局和步数取小结,模型取概要;目标、回答、失败原话都不取。 */
-    private fun runs(app: MikaApp): List<DiagnosticsSnapshot.Run> = runCatching {
+    private fun runs(app: DjiniApp): List<DiagnosticsSnapshot.Run> = runCatching {
         val store = RunStore(app)
         val models = store.list().take(RECENT_RUNS * 2).associate { it.id to it.model }
         store.metrics.recent(RECENT_RUNS).reversed().map { m ->

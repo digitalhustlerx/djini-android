@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -28,23 +28,23 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.settings.ProviderConfig
-import com.wangzan101.mika.settings.ProviderStore
-import com.wangzan101.mika.ui.components.ButtonKind
-import com.wangzan101.mika.ui.components.ButtonSize
-import com.wangzan101.mika.ui.components.GroupCard
-import com.wangzan101.mika.ui.components.GroupLabel
-import com.wangzan101.mika.ui.components.ListRow
-import com.wangzan101.mika.ui.components.MikaButton
-import com.wangzan101.mika.ui.components.RowChevron
-import com.wangzan101.mika.ui.components.RowValue
-import com.wangzan101.mika.ui.components.ValueTone
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
-import com.wangzan101.mika.ui.theme.MikaRadius
-import com.wangzan101.mika.ui.theme.MikaShapes
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.settings.ProviderConfig
+import com.wangzan101.djini.settings.ProviderStore
+import com.wangzan101.djini.ui.components.ButtonKind
+import com.wangzan101.djini.ui.components.ButtonSize
+import com.wangzan101.djini.ui.components.GroupCard
+import com.wangzan101.djini.ui.components.GroupLabel
+import com.wangzan101.djini.ui.components.ListRow
+import com.wangzan101.djini.ui.components.MikaButton
+import com.wangzan101.djini.ui.components.RowChevron
+import com.wangzan101.djini.ui.components.RowValue
+import com.wangzan101.djini.ui.components.ValueTone
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.MikaRadius
+import com.wangzan101.djini.ui.theme.MikaShapes
 
 /** 「添加模型」里「用账号登录」那一组的三家。ChatGPT 的登录另有一套,xAI、OpenRouter 对应 [AccountProvider]。 */
 enum class SignInKind(val account: AccountProvider?, val label: String, val tag: String) {
@@ -123,7 +123,7 @@ class SignInSheetActions(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun SignInSheet(ui: ModelSetupUi, kind: SignInKind, actions: SignInSheetActions) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     ModalBottomSheet(
         onDismissRequest = actions.dismiss,
         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
@@ -150,7 +150,7 @@ internal fun SignInSheetBody(ui: ModelSetupUi, kind: SignInKind, actions: SignIn
 
 @Composable
 private fun IntroBody(kind: SignInKind, running: Boolean, failure: String?, busy: Boolean, actions: SignInSheetActions) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Text(ModelsCopy.signInTitle(kind), Modifier.fillMaxWidth(), style = MikaType.Title, color = c.ink, textAlign = TextAlign.Center)
     Text(ModelsCopy.signInBody(kind), Modifier.padding(top = 10.dp), style = MikaType.Caption, color = c.ink2)
     ModelsCopy.signInRisk(kind)?.let { Note(it, c.warnSoft, c.warn, Modifier.testTag("signin-risk")) }
@@ -184,7 +184,7 @@ private fun IntroBody(kind: SignInKind, running: Boolean, failure: String?, busy
 /** xAI 设备码:和浏览器确认页上一样的短码、有效期;复制并重新打开确认页;等待中可以取消。 */
 @Composable
 private fun DeviceCodeBody(s: AccountSignInUi, code: String, cancel: () -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val context = LocalContext.current
     Text(ModelsCopy.XAI_CODE_TITLE, Modifier.fillMaxWidth(), style = MikaType.Title, color = c.ink, textAlign = TextAlign.Center)
     Text(

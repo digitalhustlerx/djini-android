@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui.components
+package com.wangzan101.djini.ui.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,8 +14,8 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.wangzan101.mika.ui.theme.MikaColors
-import com.wangzan101.mika.ui.theme.MikaTheme
+import com.wangzan101.djini.ui.theme.MikaColors
+import com.wangzan101.djini.ui.theme.DjiniTheme
 
 /** 竖线步骤上一个点的状态:完成是灰点,当前是带光圈的蓝点,暂停是橙点,出错是红点。 */
 enum class StepState { Done, Current, Paused, Failed }
@@ -47,7 +47,7 @@ fun StepItem(
     dotY: Dp = 14.dp,
     content: @Composable ColumnScope.() -> Unit,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Row(modifier.height(IntrinsicSize.Min)) {
         Box(
             Modifier.width(GutterWidth).fillMaxHeight().drawBehind {

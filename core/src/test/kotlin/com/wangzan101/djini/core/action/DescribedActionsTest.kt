@@ -1,20 +1,20 @@
-package com.wangzan101.mika.core.action
+package com.wangzan101.djini.core.action
 
-import com.wangzan101.mika.core.assembly.toolDispatcher
-import com.wangzan101.mika.core.cap.web.FakeWebPort
-import com.wangzan101.mika.core.gate.ConfirmationGate
-import com.wangzan101.mika.core.guard.OperationGuards
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.record.RunSink
-import com.wangzan101.mika.core.risk.IrrevAction
-import com.wangzan101.mika.core.testing.button
-import com.wangzan101.mika.core.testing.field
-import com.wangzan101.mika.core.tool.FakeScreen
-import com.wangzan101.mika.core.tool.execute
-import com.wangzan101.mika.core.uistate.ActionResult
-import com.wangzan101.mika.core.uistate.PageDialog
-import com.wangzan101.mika.core.uistate.ScreenPort
-import com.wangzan101.mika.core.uistate.ScreenSnapshot
+import com.wangzan101.djini.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.cap.web.FakeWebPort
+import com.wangzan101.djini.core.gate.ConfirmationGate
+import com.wangzan101.djini.core.guard.OperationGuards
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.record.RunSink
+import com.wangzan101.djini.core.risk.IrrevAction
+import com.wangzan101.djini.core.testing.button
+import com.wangzan101.djini.core.testing.field
+import com.wangzan101.djini.core.tool.FakeScreen
+import com.wangzan101.djini.core.tool.execute
+import com.wangzan101.djini.core.uistate.ActionResult
+import com.wangzan101.djini.core.uistate.PageDialog
+import com.wangzan101.djini.core.uistate.ScreenPort
+import com.wangzan101.djini.core.uistate.ScreenSnapshot
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
@@ -41,9 +41,9 @@ private class Shop : ScreenPort by FakeScreen() {
 
 /** 按描述指目标:先在此刻那一屏里换成编号,之后判定、审批、执行和按编号的一样;对不上就不做。 */
 class DescribedActionsTest {
-    private val sink = object : RunSink { override fun event(e: com.wangzan101.mika.core.record.RunEvent) {} }
+    private val sink = object : RunSink { override fun event(e: com.wangzan101.djini.core.record.RunEvent) {} }
 
-    private fun executor(tools: com.wangzan101.mika.core.tool.ToolDispatcher) =
+    private fun executor(tools: com.wangzan101.djini.core.tool.ToolDispatcher) =
         ActionExecutor(tools, OperationGuards(), ConfirmationGate(), gate = {}, recorder = ActionRecorder(sink))
 
     private suspend fun run(e: ActionExecutor, tool: String, args: String): ActionOutcome = e.run(Part.ToolCall("c", tool, args), Origin.Model(1))

@@ -1,15 +1,15 @@
-package com.wangzan101.mika.cap.phone.a11y
+package com.wangzan101.djini.cap.phone.a11y
 
 import android.graphics.Bitmap
 import android.util.Log
 import android.view.Display
 import android.view.accessibility.AccessibilityWindowInfo
-import com.wangzan101.mika.core.uistate.ScreenSnapshot
-import com.wangzan101.mika.core.uistate.normalize
-import com.wangzan101.mika.core.userscreen.CapturedScreen
-import com.wangzan101.mika.core.userscreen.UserScreen
-import com.wangzan101.mika.core.userscreen.UserScreenText
-import com.wangzan101.mika.vision.BitmapImageOps
+import com.wangzan101.djini.core.uistate.ScreenSnapshot
+import com.wangzan101.djini.core.uistate.normalize
+import com.wangzan101.djini.core.userscreen.CapturedScreen
+import com.wangzan101.djini.core.userscreen.UserScreen
+import com.wangzan101.djini.core.userscreen.UserScreenText
+import com.wangzan101.djini.vision.BitmapImageOps
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -19,7 +19,7 @@ import java.io.ByteArrayOutputStream
 /**
  * 截下用户此刻在主屏上看着的那一屏,连同前台 App 和屏上的字(见 [UserScreenText]:先读无障碍树,不够用时认画面上的字)。
  * 屏上有防截屏窗口(截图报错,或截出来几乎全黑而屏上有 App 窗口)时不留画面,只记下是哪个 App、截不到。
- * Mika 自己的浮层要不要先藏起来由调用方定(见 [OverlayWindow.hiddenWhile]);读树时浮层、输入法本来就不算。
+ * Djini 自己的浮层要不要先藏起来由调用方定(见 [OverlayWindow.hiddenWhile]);读树时浮层、输入法本来就不算。
  */
 internal object MainScreenCapture {
     private const val TAG = "MikaScreenCapture"
@@ -29,7 +29,7 @@ internal object MainScreenCapture {
 
     sealed interface Result {
         class Captured(val shot: CapturedScreen) : Result
-        /** 前台是 Mika 自己:不截。 */
+        /** 前台是 Djini 自己:不截。 */
         data object Self : Result
         data object Unavailable : Result
     }
@@ -80,7 +80,7 @@ internal object MainScreenCapture {
                     val ocr = if (snap != null && UserScreenText.needsOcr(snap)) recognize(bmp) else null
                     val (lines, fromOcr) = snap?.let {
                         UserScreenText.lines(it, ocr, top = normalize(topInset, bmp.height), bottom = normalize(bmp.height - bottomInset, bmp.height))
-                    } ?: (emptyList<com.wangzan101.mika.core.userscreen.ScreenLine>() to false)
+                    } ?: (emptyList<com.wangzan101.djini.core.userscreen.ScreenLine>() to false)
                     Result.Captured(CapturedScreen(jpeg, UserScreen("", now, pkg, label, lines = lines, fromOcr = fromOcr)))
                 } finally {
                     bmp.recycle()

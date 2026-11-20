@@ -1,12 +1,12 @@
-package com.wangzan101.mika.cap.sandbox
+package com.wangzan101.djini.cap.sandbox
 
 import android.content.Context
-import com.wangzan101.mika.core.workspace.WorkspaceFileGate
+import com.wangzan101.djini.core.workspace.WorkspaceFileGate
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.LinkOption
 import java.security.MessageDigest
-import com.wangzan101.mika.core.workspace.SandboxTree
+import com.wangzan101.djini.core.workspace.SandboxTree
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

@@ -1,12 +1,12 @@
-package com.wangzan101.mika.chat
+package com.wangzan101.djini.chat
 
 import android.app.NotificationManager
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.MikaApp
-import com.wangzan101.mika.core.agent.Turn
-import com.wangzan101.mika.core.trigger.TriggerDefinition
-import com.wangzan101.mika.task.TriggerRuntime
+import com.wangzan101.djini.DjiniApp
+import com.wangzan101.djini.core.agent.Turn
+import com.wangzan101.djini.core.trigger.TriggerDefinition
+import com.wangzan101.djini.task.TriggerRuntime
 import java.util.UUID
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
@@ -19,7 +19,7 @@ import org.junit.runner.RunWith
 class ConversationScheduleDeletionDeviceTest {
     @Test
     fun deletedConversationKeepsItsPlanAndStartsFreshHistoryOnNextDelivery() = runBlocking {
-        val app = InstrumentationRegistry.getInstrumentation().targetContext.applicationContext as MikaApp
+        val app = InstrumentationRegistry.getInstrumentation().targetContext.applicationContext as DjiniApp
         val suffix = UUID.randomUUID().toString()
         val conversationId = "test-delete-schedule-$suffix"
         val planId = "test-plan-$suffix"

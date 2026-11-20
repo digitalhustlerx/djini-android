@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import android.content.ClipboardManager
 import androidx.activity.ComponentActivity
@@ -19,8 +19,8 @@ import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.R
-import com.wangzan101.mika.ui.theme.MikaTheme
+import com.wangzan101.djini.R
+import com.wangzan101.djini.ui.theme.DjiniTheme
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
@@ -42,7 +42,7 @@ class PersonalReplyCopyTest {
 
     @Test fun copyButtonCopiesOnlyThisReplyAsReadableText() {
         compose.setContent {
-            MikaTheme {
+            DjiniTheme {
                 Column {
                     PersonalReply("Another reply", false)
                     PersonalReply("# Heading\n\nSome **bold** text.\n\n```\nline 1\nline 2\n```", false)
@@ -73,7 +73,7 @@ class PersonalReplyCopyTest {
         }
         compose.setContent {
             CompositionLocalProvider(LocalTextToolbar provides toolbar) {
-                MikaTheme {
+                DjiniTheme {
                     Column {
                         PersonalReply("Previous reply", false)
                         PersonalReply("one **two** six ten", false)

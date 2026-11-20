@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.proactive
+package com.wangzan101.djini.core.proactive
 
-import com.wangzan101.mika.core.model.ChatModel
+import com.wangzan101.djini.core.model.ChatModel
 
 /** 判定实际会用的服务商和模型(轻量模型,没有用主模型);[providerName] 只给界面说是哪一家。 */
 data class TriageTarget(val providerId: String, val providerName: String, val model: String)

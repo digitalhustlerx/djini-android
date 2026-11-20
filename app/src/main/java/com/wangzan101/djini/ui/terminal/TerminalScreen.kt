@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui.terminal
+package com.wangzan101.djini.ui.terminal
 
 import android.view.ViewGroup
 import androidx.activity.compose.BackHandler
@@ -35,27 +35,27 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import com.wangzan101.mika.MikaApp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.cap.sandbox.WorkspaceKey
-import com.wangzan101.mika.chat.WorkspaceResolver
-import com.wangzan101.mika.core.workspace.SandboxError
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.terminal.TerminalSession
-import com.wangzan101.mika.ui.components.BarIconButton
-import com.wangzan101.mika.ui.components.MikaDialog
-import com.wangzan101.mika.ui.components.PageBackground
-import com.wangzan101.mika.ui.components.TopBar
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
-import com.wangzan101.mika.ui.theme.MikaRadius
+import com.wangzan101.djini.DjiniApp
+import com.wangzan101.djini.R
+import com.wangzan101.djini.cap.sandbox.WorkspaceKey
+import com.wangzan101.djini.chat.WorkspaceResolver
+import com.wangzan101.djini.core.workspace.SandboxError
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.terminal.TerminalSession
+import com.wangzan101.djini.ui.components.BarIconButton
+import com.wangzan101.djini.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.PageBackground
+import com.wangzan101.djini.ui.components.TopBar
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.MikaRadius
 import kotlinx.coroutines.flow.MutableStateFlow
 
 /** 终端页的入口:打开(或附着)这个工作区或对话的会话,把状态交给 [TerminalScreen]。 */
 @Composable
 internal fun TerminalRoute(
-    app: MikaApp,
+    app: DjiniApp,
     conversationId: String?,
     workspaceKey: WorkspaceKey?,
     title: String?,
@@ -136,7 +136,7 @@ private fun TerminalScreen(
     onClose: () -> Unit,
     onBack: () -> Unit,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val context = LocalContext.current
     var confirmClose by remember { mutableStateOf(false) }
     val finished = phase != TerminalSession.Phase.Running
@@ -261,13 +261,13 @@ private fun ErrorBox(error: SandboxError, onRetry: () -> Unit) {
     Column(Modifier.fillMaxSize().padding(24.dp)) {
         Text(errorText(error), style = MikaType.Body, color = ConsoleFg)
         Spacer(Modifier.height(16.dp))
-        TextButton(onClick = onRetry) { Text(tr(R.string.terminal_retry), color = MikaTheme.colors.accent) }
+        TextButton(onClick = onRetry) { Text(tr(R.string.terminal_retry), color = DjiniTheme.colors.accent) }
     }
 }
 
 @Composable
 private fun ResultBanner(phase: TerminalSession.Phase, exitCode: Int?, onRetry: () -> Unit, modifier: Modifier = Modifier) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Row(
         modifier.fillMaxWidth().background(c.surface.copy(alpha = 0.96f)).padding(horizontal = 16.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -289,7 +289,7 @@ private fun ExtraKeys(
     onKeyboard: () -> Unit,
     onStop: () -> Unit,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Row(
         Modifier.fillMaxWidth().background(c.surface).navigationBarsPadding().padding(horizontal = 6.dp, vertical = 4.dp),
         horizontalArrangement = Arrangement.spacedBy(3.dp),
@@ -310,7 +310,7 @@ private fun ExtraKeys(
 
 @Composable
 private fun Key(text: String, onClick: () -> Unit, bad: Boolean = false) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Text(
         text,
         Modifier

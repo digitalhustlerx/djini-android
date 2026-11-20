@@ -1,6 +1,6 @@
-package com.wangzan101.mika.cap.phone.a11y
+package com.wangzan101.djini.cap.phone.a11y
 
-import com.wangzan101.mika.cap.phone.display.FrameMath
+import com.wangzan101.djini.cap.phone.display.FrameMath
 
 /**
  * 认屏上文字(OCR)前后对画面的要求。自绘界面几乎不发无障碍事件,「事件安静」不等于画完:

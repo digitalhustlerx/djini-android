@@ -1,6 +1,6 @@
-package com.wangzan101.mika.i18n
+package com.wangzan101.djini.i18n
 
-import com.wangzan101.mika.R
+import com.wangzan101.djini.R
 import org.junit.rules.ExternalResource
 import org.w3c.dom.Element
 import java.io.File

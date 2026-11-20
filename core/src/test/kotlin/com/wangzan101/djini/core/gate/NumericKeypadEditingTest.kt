@@ -1,11 +1,11 @@
-package com.wangzan101.mika.core.gate
+package com.wangzan101.djini.core.gate
 
-import com.wangzan101.mika.core.action.ClassifiedRisk
-import com.wangzan101.mika.core.risk.GateTarget
-import com.wangzan101.mika.core.risk.IrrevAction
-import com.wangzan101.mika.core.tool.Verb
-import com.wangzan101.mika.core.uistate.ScreenSnapshot
-import com.wangzan101.mika.core.uistate.UiElement
+import com.wangzan101.djini.core.action.ClassifiedRisk
+import com.wangzan101.djini.core.risk.GateTarget
+import com.wangzan101.djini.core.risk.IrrevAction
+import com.wangzan101.djini.core.tool.Verb
+import com.wangzan101.djini.core.uistate.ScreenSnapshot
+import com.wangzan101.djini.core.uistate.UiElement
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonObject

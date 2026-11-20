@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.memory
+package com.wangzan101.djini.core.memory
 
 /** 跨会话任务摘要的检索:按关键词、App 包名、时间范围筛,给回最相关的几条(最新的在前)。 */
 class TaskMemoryIndex(private val items: List<TaskMemory>) {

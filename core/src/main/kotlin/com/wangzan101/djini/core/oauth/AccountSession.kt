@@ -1,7 +1,7 @@
-package com.wangzan101.mika.core.oauth
+package com.wangzan101.djini.core.oauth
 
-import com.wangzan101.mika.core.model.BearerToken
-import com.wangzan101.mika.core.model.ModelError
+import com.wangzan101.djini.core.model.BearerToken
+import com.wangzan101.djini.core.model.ModelError
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.serialization.Serializable

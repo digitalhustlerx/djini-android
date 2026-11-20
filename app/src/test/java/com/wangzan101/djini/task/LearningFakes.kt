@@ -1,18 +1,18 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
-import com.wangzan101.mika.core.memory.MemoryItem
-import com.wangzan101.mika.core.memory.MemoryPersistence
-import com.wangzan101.mika.core.memory.MemoryStore
-import com.wangzan101.mika.core.model.Capabilities
-import com.wangzan101.mika.core.model.ChatModel
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.ModelReply
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.StopReason
-import com.wangzan101.mika.core.model.ToolSpec
-import com.wangzan101.mika.core.skills.PersonalSkill
-import com.wangzan101.mika.core.skills.PersonalSkills
-import com.wangzan101.mika.core.skills.SkillStatus
+import com.wangzan101.djini.core.memory.MemoryItem
+import com.wangzan101.djini.core.memory.MemoryPersistence
+import com.wangzan101.djini.core.memory.MemoryStore
+import com.wangzan101.djini.core.model.Capabilities
+import com.wangzan101.djini.core.model.ChatModel
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.ModelReply
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.StopReason
+import com.wangzan101.djini.core.model.ToolSpec
+import com.wangzan101.djini.core.skills.PersonalSkill
+import com.wangzan101.djini.core.skills.PersonalSkills
+import com.wangzan101.djini.core.skills.SkillStatus
 
 /** 按顺序回复固定文字的模型;记下每次请求。 */
 class TextModel(vararg replies: String) : ChatModel {

@@ -1,17 +1,17 @@
-package com.wangzan101.mika.core.eval
+package com.wangzan101.djini.core.eval
 
-import com.wangzan101.mika.core.observation.ObsKind
-import com.wangzan101.mika.core.observation.PlaceKind
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.verify.EvidenceLedger
+import com.wangzan101.djini.core.observation.ObsKind
+import com.wangzan101.djini.core.observation.PlaceKind
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.verify.EvidenceLedger
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.contentOrNull
-import com.wangzan101.mika.core.tool.ToolIndex
-import com.wangzan101.mika.core.tool.Verb
+import com.wangzan101.djini.core.tool.ToolIndex
+import com.wangzan101.djini.core.tool.Verb
 
 /** 从一次运行的事件里取评测要用的事实。 */
 object RunFacts {
@@ -87,7 +87,7 @@ object RunFacts {
 
     /** 旧记录里交结果的工具名(现在不带调用的回复就是回答)。 */
     const val LEGACY_FINISH = "finish"
-    private val OUTWARD_RISKS = com.wangzan101.mika.core.action.ActionRisk.entries.filter { it.outward }.map { it.name }.toSet()
+    private val OUTWARD_RISKS = com.wangzan101.djini.core.action.ActionRisk.entries.filter { it.outward }.map { it.name }.toSet()
 
     private const val TAKEOVER_STATE = "waiting_takeover"
     private val READ = ObsKind.Read.wire

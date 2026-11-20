@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,11 +10,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.core.usage.TokenBudgetLimits
-import com.wangzan101.mika.ui.components.MikaDialog
-import com.wangzan101.mika.ui.components.RadioRow
-import com.wangzan101.mika.ui.theme.MikaTheme
+import com.wangzan101.djini.R
+import com.wangzan101.djini.core.usage.TokenBudgetLimits
+import com.wangzan101.djini.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.RadioRow
+import com.wangzan101.djini.ui.theme.DjiniTheme
 import java.text.NumberFormat
 
 /** 设置与运行记录里都显示完整数字，避免紧凑格式把预算四舍五入成另一个值。 */
@@ -66,7 +66,7 @@ internal fun TokenBudgetDialog(
                         Modifier.padding(top = 4.dp),
                     )
                 }
-                saveError?.let { Text(it, Modifier.padding(top = 4.dp), color = MikaTheme.colors.bad) }
+                saveError?.let { Text(it, Modifier.padding(top = 4.dp), color = DjiniTheme.colors.bad) }
             }
         },
         confirmButton = {

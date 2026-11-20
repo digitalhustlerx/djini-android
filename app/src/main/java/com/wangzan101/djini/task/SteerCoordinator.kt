@@ -1,10 +1,10 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
-import com.wangzan101.mika.core.agent.AgentLoop
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.run.InputReceipt
-import com.wangzan101.mika.core.run.RunInbox
+import com.wangzan101.djini.core.agent.AgentLoop
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.run.InputReceipt
+import com.wangzan101.djini.core.run.RunInbox
 import java.util.UUID
 
 /**

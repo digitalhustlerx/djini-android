@@ -1,9 +1,9 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.core.record.PlaybackMark
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.i18n.ChineseTexts
-import com.wangzan101.mika.record.RunStore
+import com.wangzan101.djini.core.record.PlaybackMark
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.i18n.ChineseTexts
+import com.wangzan101.djini.record.RunStore
 import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test

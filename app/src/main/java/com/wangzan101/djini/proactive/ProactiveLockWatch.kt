@@ -1,4 +1,4 @@
-package com.wangzan101.mika.proactive
+package com.wangzan101.djini.proactive
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
  * 状态每次都从系统读([read]:屏幕亮不亮、锁屏界面在不在),SCREEN_OFF / SCREEN_ON / USER_PRESENT 广播只当
  * 「该重新看一眼」,由 [ProactiveRuntime] 转来调 [refresh]。熄屏时只等广播,什么都不定时做。
  * 唯一要轮询的是「亮着但锁屏界面还在」:有的解锁路子先发 USER_PRESENT、锁屏界面过一会才退下,之后不再有广播
- * (见 [com.wangzan101.mika.task.LockState] 上面的说明)。只在读到这种状态、且在看守([start] 之后)时
+ * (见 [com.wangzan101.djini.task.LockState] 上面的说明)。只在读到这种状态、且在看守([start] 之后)时
  * 每 [POLL_MS] 再读一次;读到别的(熄屏或已解锁)就停掉轮询。要不要轮询由纯函数 [shouldPoll] 决定。
  *
  * 所有方法都要在 [scope] 那条串行的协程上调(广播也先丢到那里),所以不另加锁。

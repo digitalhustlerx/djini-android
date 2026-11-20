@@ -1,12 +1,12 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.about.CheckStatus
-import com.wangzan101.mika.about.MikaLinks
-import com.wangzan101.mika.about.UpdateState
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.about.CheckStatus
+import com.wangzan101.djini.about.MikaLinks
+import com.wangzan101.djini.about.UpdateState
 
-/** 关于页的文字,以及「检查更新」一行、设置首页「关于 Mika」一行、侧栏入口上的提示怎么显示。 */
+/** 关于页的文字,以及「检查更新」一行、设置首页「关于 Djini」一行、侧栏入口上的提示怎么显示。 */
 object AboutCopy {
     val TITLE: String get() = tr(R.string.settings_about)
     val TAGLINE: String get() = tr(R.string.about_tagline)
@@ -87,11 +87,11 @@ object AboutCopy {
         else -> CheckValue(null)
     }
 
-    /** 设置首页「关于 Mika」一行右边:有新版写「x 可更新」带红点,不然写当前版本号。 */
+    /** 设置首页「关于 Djini」一行右边:有新版写「x 可更新」带红点,不然写当前版本号。 */
     fun settingsValue(updateVersion: String?, versionName: String): CheckValue =
         if (updateVersion != null) CheckValue(available(updateVersion), dot = true, highlight = true)
         else CheckValue(versionName.takeIf { it.isNotEmpty() })
 
-    /** 侧栏「关于 Mika」上的红点。 */
+    /** 侧栏「关于 Djini」上的红点。 */
     fun drawerDot(s: UpdateState): Boolean = s.hasUpdate
 }

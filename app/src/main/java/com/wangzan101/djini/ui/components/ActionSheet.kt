@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui.components
+package com.wangzan101.djini.ui.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,9 +14,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
-import com.wangzan101.mika.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.MikaShapes
 
 /** 操作面板里的一项;[icon] 放在文字左边;[destructive] 为真时文字用出错红。 */
 class SheetAction(
@@ -33,7 +33,7 @@ class SheetAction(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ActionSheet(title: String?, actions: List<SheetAction>, onDismiss: () -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),

@@ -1,4 +1,4 @@
-package com.wangzan101.mika.voice
+package com.wangzan101.djini.voice
 
 import android.Manifest
 import android.content.pm.PackageInfo
@@ -49,7 +49,7 @@ class SpeechServiceMicTest {
         asked.clear()
         assertNull(missing(true, null, ServiceMic.Missing))
         assertNull(missing(true, " ", ServiceMic.Missing))
-        // Mika 自己就没有录音权限:先解决自己的,不去说别人
+        // Djini 自己就没有录音权限:先解决自己的,不去说别人
         assertNull(missing(false, "a.svc", ServiceMic.Missing))
         assertEquals(emptyList<String>(), asked)
     }

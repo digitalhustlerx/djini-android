@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.ui.semantics.SemanticsActions
 import androidx.compose.ui.test.SemanticsNodeInteraction
@@ -12,8 +12,8 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performSemanticsAction
 import androidx.compose.ui.test.performTextInput
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.AppLanguage
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.AppLanguage
 
 /**
  * 界面测试的几个步骤,不依赖前一个测试留下的状态:每个测试的活动是新开的,但上一个测试的窗口(活动、弹窗)

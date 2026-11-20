@@ -1,10 +1,10 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
 import org.junit.Rule
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.ChineseTexts
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.core.agent.TaskState
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.ChineseTexts
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.core.agent.TaskState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.cancelChildren

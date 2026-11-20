@@ -1,18 +1,18 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.tr
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.tr
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import com.wangzan101.mika.core.agent.SpeedFlags
-import com.wangzan101.mika.ui.components.FooterNote
-import com.wangzan101.mika.ui.components.GroupCard
-import com.wangzan101.mika.ui.components.GroupLabel
-import com.wangzan101.mika.ui.components.ListRow
-import com.wangzan101.mika.ui.components.MikaSwitch
-import com.wangzan101.mika.ui.components.PageScaffold
-import com.wangzan101.mika.ui.components.RowChevron
+import com.wangzan101.djini.core.agent.SpeedFlags
+import com.wangzan101.djini.ui.components.FooterNote
+import com.wangzan101.djini.ui.components.GroupCard
+import com.wangzan101.djini.ui.components.GroupLabel
+import com.wangzan101.djini.ui.components.ListRow
+import com.wangzan101.djini.ui.components.MikaSwitch
+import com.wangzan101.djini.ui.components.PageScaffold
+import com.wangzan101.djini.ui.components.RowChevron
 
 /** 一个工程开关:[id] 用作测试标签,[change] 算出改过这一项之后的整组开关。 */
 data class DevSwitch(

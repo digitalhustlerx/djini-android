@@ -1,13 +1,13 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
-import com.wangzan101.mika.R
-import com.wangzan101.mika.chat.SharedFile
-import com.wangzan101.mika.core.run.Channel
-import com.wangzan101.mika.core.run.ChannelPeer
-import com.wangzan101.mika.core.run.Delivery
-import com.wangzan101.mika.core.run.DeliveryState
-import com.wangzan101.mika.core.run.Outbox
-import com.wangzan101.mika.i18n.tr
+import com.wangzan101.djini.R
+import com.wangzan101.djini.chat.SharedFile
+import com.wangzan101.djini.core.run.Channel
+import com.wangzan101.djini.core.run.ChannelPeer
+import com.wangzan101.djini.core.run.Delivery
+import com.wangzan101.djini.core.run.DeliveryState
+import com.wangzan101.djini.core.run.Outbox
+import com.wangzan101.djini.i18n.tr
 
 /** Text and exported images have independent receipts; an uncertain image is never resent on recovery. */
 internal object ResultDelivery {

@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.skills
+package com.wangzan101.djini.core.skills
 
 /** pending 草稿;trial 已收下、还没用它办成过事;active 用它办成过(见 LearnGate);suspended 最近不灵。 */
 @Suppress("EnumEntryName")

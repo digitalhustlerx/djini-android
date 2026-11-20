@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.device
+package com.wangzan101.djini.core.device
 
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.sync.Mutex

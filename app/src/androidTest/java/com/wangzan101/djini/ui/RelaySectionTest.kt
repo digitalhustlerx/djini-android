@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.test.assertIsDisplayed
@@ -11,11 +11,11 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performTextInput
-import com.wangzan101.mika.ChineseUi
-import com.wangzan101.mika.core.remote.RelayState
-import com.wangzan101.mika.settings.RelayConfig
-import com.wangzan101.mika.ui.components.PageScaffold
-import com.wangzan101.mika.ui.theme.MikaTheme
+import com.wangzan101.djini.ChineseUi
+import com.wangzan101.djini.core.remote.RelayState
+import com.wangzan101.djini.settings.RelayConfig
+import com.wangzan101.djini.ui.components.PageScaffold
+import com.wangzan101.djini.ui.theme.DjiniTheme
 import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
@@ -32,7 +32,7 @@ class RelaySectionTest {
     private var copied = 0
 
     private fun page() {
-        compose.setContent { MikaTheme {
+        compose.setContent { DjiniTheme {
             PageScaffold("远程", {}) {
                 RelayControls(config.value, state.value, false, false,
                     { url, code -> paired = url to code }, changes::add, { unpaired++ }, { copied++ }, { copied++ },
@@ -78,6 +78,6 @@ class RelaySectionTest {
         compose.runOnIdle { state.value = RelayState.Unauthorized }
         compose.onNodeWithText("配对已失效或被撤销，请重新配对网关").assertIsDisplayed()
         compose.runOnIdle { state.value = RelayState.Incompatible }
-        compose.onNodeWithText("请将 Mika 与网关更新到匹配的版本").assertIsDisplayed()
+        compose.onNodeWithText("请将 Djini 与网关更新到匹配的版本").assertIsDisplayed()
     }
 }

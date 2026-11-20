@@ -10,7 +10,7 @@ def default_config():
         base = Path(os.environ.get("LOCALAPPDATA", Path.home() / "AppData/Local"))
     else:
         base = Path(os.environ.get("XDG_CONFIG_HOME", Path.home() / ".config"))
-    return base / "mika-feishu" / "config.json"
+    return base / "djini-feishu" / "config.json"
 
 
 def save_config(config, path):
@@ -49,7 +49,7 @@ def load_config(path):
     config = read_config(path)
     for key in ("feishu_app_id", "feishu_app_secret", "mika_url", "mika_token"):
         if not isinstance(config.get(key), str) or not config[key].strip():
-            raise ValueError("Missing " + key + "; run mika-feishu setup")
+            raise ValueError("Missing " + key + "; run djini-feishu setup")
     users = config.get("allowed_open_ids", [])
     if not isinstance(users, list) or any(not isinstance(u, str) or not u.startswith("ou_") for u in users):
         raise ValueError("allowed_open_ids must contain Feishu open IDs")

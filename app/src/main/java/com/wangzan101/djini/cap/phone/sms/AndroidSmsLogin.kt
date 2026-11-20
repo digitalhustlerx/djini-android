@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.phone.sms
+package com.wangzan101.djini.cap.phone.sms
 
 import android.Manifest
 import android.content.BroadcastReceiver
@@ -8,12 +8,12 @@ import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.provider.Telephony
 import androidx.core.content.ContextCompat
-import com.wangzan101.mika.cap.phone.a11y.AndroidScreen
-import com.wangzan101.mika.cap.phone.a11y.ScreenAccessibility
-import com.wangzan101.mika.core.cap.phone.sms.*
-import com.wangzan101.mika.core.uistate.ScreenPort
-import com.wangzan101.mika.settings.AppAccessStore
-import com.wangzan101.mika.settings.SmsLoginSettings
+import com.wangzan101.djini.cap.phone.a11y.AndroidScreen
+import com.wangzan101.djini.cap.phone.a11y.ScreenAccessibility
+import com.wangzan101.djini.core.cap.phone.sms.*
+import com.wangzan101.djini.core.uistate.ScreenPort
+import com.wangzan101.djini.settings.AppAccessStore
+import com.wangzan101.djini.settings.SmsLoginSettings
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.selects.select

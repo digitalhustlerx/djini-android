@@ -1,12 +1,12 @@
-package com.wangzan101.mika.core.export
+package com.wangzan101.djini.core.export
 
-import com.wangzan101.mika.core.agent.AttachmentLines
-import com.wangzan101.mika.core.agent.AttachedPage
-import com.wangzan101.mika.core.agent.Conversation
-import com.wangzan101.mika.core.agent.QuoteMessage
-import com.wangzan101.mika.core.export.json.JsonExportBackend
-import com.wangzan101.mika.core.export.markdown.MarkdownExportBackend
-import com.wangzan101.mika.core.userscreen.UserScreenMessage
+import com.wangzan101.djini.core.agent.AttachmentLines
+import com.wangzan101.djini.core.agent.AttachedPage
+import com.wangzan101.djini.core.agent.Conversation
+import com.wangzan101.djini.core.agent.QuoteMessage
+import com.wangzan101.djini.core.export.json.JsonExportBackend
+import com.wangzan101.djini.core.export.markdown.MarkdownExportBackend
+import com.wangzan101.djini.core.userscreen.UserScreenMessage
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonArray
@@ -91,7 +91,7 @@ class ExportTest {
             val text = File(root, "document.md").readText()
             assertTrue(text.contains("# 标题"))
             assertTrue(text.contains("## User"))
-            assertTrue(text.contains("## Mika"))
+            assertTrue(text.contains("## Djini"))
             assertTrue(text.contains("![screen-s1.jpg](assets/screen-s1.jpg)"))
             assertTrue(text.contains("[a.txt](assets/a.txt)"))
             assertTrue(text.contains("### Tool steps"))
@@ -108,7 +108,7 @@ class ExportTest {
         try {
             JsonExportBackend().render(doc(ExportContent(includeToolSteps = true)), ExportPresentation(), Reader, DirectoryExportSink(root)) {}
             val rootJson = Json.parseToJsonElement(File(root, "document.json").readText()).jsonObject
-            assertEquals("mika.conversation-export", rootJson["format"]!!.jsonPrimitive.content)
+            assertEquals("djini.conversation-export", rootJson["format"]!!.jsonPrimitive.content)
             val types = rootJson["blocks"]!!.jsonArray.map { it.jsonObject["type"]!!.jsonPrimitive.content }
             assertEquals(listOf("user", "steer", "answer"), types)
             val answer = rootJson["blocks"]!!.jsonArray.last().jsonObject
@@ -384,7 +384,7 @@ class ExportTest {
         private fun userText(): String {
             var text = "请看看 sk-1234567890abcdef"
             text = UserScreenMessage.compose("s1", text)
-            text = QuoteMessage.compose(QuoteMessage.Quote(QuoteMessage.From.Mika, "old"), text)
+            text = QuoteMessage.compose(QuoteMessage.Quote(QuoteMessage.From.Djini, "old"), text)
             text = AttachedPage.compose(AttachedPage.Page("https://example.com/p", "T", "sel"), text)
             return AttachmentLines.compose(text, listOf("/workspace/inbox/a.txt" to "2 KB"))
         }

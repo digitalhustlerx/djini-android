@@ -1,36 +1,36 @@
-package com.wangzan101.mika.core.cap.phone
+package com.wangzan101.djini.core.cap.phone
 
-import com.wangzan101.mika.core.tool.Entry
-import com.wangzan101.mika.core.observation.ObsKind
-import com.wangzan101.mika.core.observation.Observation
-import com.wangzan101.mika.core.prompt.Feedback
-import com.wangzan101.mika.core.prompt.Prompts
-import com.wangzan101.mika.core.tool.ArgError
-import com.wangzan101.mika.core.tool.Args
-import com.wangzan101.mika.core.tool.EvidenceLog
-import com.wangzan101.mika.core.tool.Risk
-import com.wangzan101.mika.core.tool.ToolContext
-import com.wangzan101.mika.core.tool.ToolDef
-import com.wangzan101.mika.core.tool.ToolExecution
-import com.wangzan101.mika.core.tool.Verb
-import com.wangzan101.mika.core.tool.argStr
-import com.wangzan101.mika.core.tool.bool
-import com.wangzan101.mika.core.tool.int
-import com.wangzan101.mika.core.tool.failCode
-import com.wangzan101.mika.core.tool.ok
-import com.wangzan101.mika.core.tool.str
+import com.wangzan101.djini.core.tool.Entry
+import com.wangzan101.djini.core.observation.ObsKind
+import com.wangzan101.djini.core.observation.Observation
+import com.wangzan101.djini.core.prompt.Feedback
+import com.wangzan101.djini.core.prompt.Prompts
+import com.wangzan101.djini.core.tool.ArgError
+import com.wangzan101.djini.core.tool.Args
+import com.wangzan101.djini.core.tool.EvidenceLog
+import com.wangzan101.djini.core.tool.Risk
+import com.wangzan101.djini.core.tool.ToolContext
+import com.wangzan101.djini.core.tool.ToolDef
+import com.wangzan101.djini.core.tool.ToolExecution
+import com.wangzan101.djini.core.tool.Verb
+import com.wangzan101.djini.core.tool.argStr
+import com.wangzan101.djini.core.tool.bool
+import com.wangzan101.djini.core.tool.int
+import com.wangzan101.djini.core.tool.failCode
+import com.wangzan101.djini.core.tool.ok
+import com.wangzan101.djini.core.tool.str
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.put
-import com.wangzan101.mika.core.tool.LinkPolicy
-import com.wangzan101.mika.core.uistate.ActionResult
-import com.wangzan101.mika.core.uistate.APP_IN_USE_BY_OTHER_TASK
-import com.wangzan101.mika.core.uistate.AppWait
-import com.wangzan101.mika.core.uistate.action
-import com.wangzan101.mika.core.uistate.session
+import com.wangzan101.djini.core.tool.LinkPolicy
+import com.wangzan101.djini.core.uistate.ActionResult
+import com.wangzan101.djini.core.uistate.APP_IN_USE_BY_OTHER_TASK
+import com.wangzan101.djini.core.uistate.AppWait
+import com.wangzan101.djini.core.uistate.action
+import com.wangzan101.djini.core.uistate.session
 
 /** 列出、打开手机上的 App:永远作用于手机。 */
 internal object ListApps : PhoneTool {
@@ -187,7 +187,7 @@ internal object AppAfterTask : PhoneTool {
 }
 
 /**
- * 把一段文字分享给一个 App(ACTION_SEND text/plain),在 Mika 的屏上打开它的分享页:收件人、发出都在那一页上点,
+ * 把一段文字分享给一个 App(ACTION_SEND text/plain),在 Djini 的屏上打开它的分享页:收件人、发出都在那一页上点,
  * 这里不发出任何东西。读不到的界面里打不进字时,经分享把字带进去。
  */
 internal object ShareText : PhoneTool {

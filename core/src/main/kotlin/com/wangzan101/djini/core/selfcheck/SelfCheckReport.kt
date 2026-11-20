@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.selfcheck
+package com.wangzan101.djini.core.selfcheck
 
 import java.net.URLEncoder
 import java.util.Locale
@@ -9,7 +9,7 @@ import java.util.Locale
  * 最后整段交给 [sanitize](App 里是「复制诊断信息」那一套脱敏),每一项的事实先压成一行、截短。
  */
 object SelfCheckReport {
-    const val HEADER = "Mika self-check"
+    const val HEADER = "Djini self-check"
     private const val MAX_DETAIL = 200
 
     fun render(state: SelfCheckState, sanitize: (String) -> String = { it }): String = sanitize(buildString {

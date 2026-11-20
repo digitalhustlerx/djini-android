@@ -1,8 +1,8 @@
-package com.wangzan101.mika.confirm
+package com.wangzan101.djini.confirm
 
 import org.junit.Rule
-import com.wangzan101.mika.ChineseUi
-import com.wangzan101.mika.DeviceTaskState
+import com.wangzan101.djini.ChineseUi
+import com.wangzan101.djini.DeviceTaskState
 import android.app.Notification
 import android.app.NotificationManager
 import android.content.Context
@@ -10,16 +10,16 @@ import android.content.Intent
 import android.view.Display
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport.SETTINGS
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport.pollUntil
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport.sh
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.Role
-import com.wangzan101.mika.shell.IMikaShell
-import com.wangzan101.mika.task.ScriptedModel
-import com.wangzan101.mika.task.TaskService
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport.SETTINGS
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport.pollUntil
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport.sh
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.Role
+import com.wangzan101.djini.shell.IDjiniShell
+import com.wangzan101.djini.task.ScriptedModel
+import com.wangzan101.djini.task.TaskService
 import android.util.Log
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -27,20 +27,20 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import com.wangzan101.mika.task.testTasks
-import com.wangzan101.mika.task.TaskEnvironment
+import com.wangzan101.djini.task.testTasks
+import com.wangzan101.djini.task.TaskEnvironment
 
 /**
  * 真机测试:脚本模型在虚拟屏的设置里申报一次花钱的操作(只是申报,从不真的去做;只有花钱要同意,申报都带金额),
  * 检查高优先级通知的标题、正文和「同意」「不同意」按钮,以及不同意、同意、评测自动拒绝三条路。
- * 需要内置助手在运行、Mika 无障碍服务已开启。
+ * 需要内置助手在运行、Djini 无障碍服务已开启。
  */
 @RunWith(AndroidJUnit4::class)
 class ConfirmationDeviceTest {
     @get:Rule(order = Int.MIN_VALUE) val chinese = ChineseUi()
 
     private val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
-    private lateinit var shell: IMikaShell
+    private lateinit var shell: IDjiniShell
     // 界面发起的任务在第一个工具调用前另问一次意图(没配轻量模型时问的就是这个模型):固定答 ACT,不占脚本
     private val model = ScriptedModel().apply { intent = "ACT" }
     private var appTask = -1

@@ -1,44 +1,44 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.i18n.ChineseTexts
-import com.wangzan101.mika.task.TaskGate
+import com.wangzan101.djini.i18n.ChineseTexts
+import com.wangzan101.djini.task.TaskGate
 
-import com.wangzan101.mika.cap.sandbox.ImportResult
-import com.wangzan101.mika.chat.BranchCopyResult
-import com.wangzan101.mika.chat.BranchOrigin
-import com.wangzan101.mika.chat.BranchWorkspace
-import com.wangzan101.mika.chat.RetryAttachmentResult
-import com.wangzan101.mika.chat.RetryAttachmentStatus
-import com.wangzan101.mika.chat.ConversationStore
-import com.wangzan101.mika.chat.CurrentChat
-import com.wangzan101.mika.chat.DeleteBatch
-import com.wangzan101.mika.chat.SharedDraft
-import com.wangzan101.mika.chat.SharedDraftStore
-import com.wangzan101.mika.confirm.ConfirmationNotifier
-import com.wangzan101.mika.core.agent.FailKind
-import com.wangzan101.mika.core.agent.GateReason
-import com.wangzan101.mika.core.agent.QuoteMessage
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.core.gate.ConfirmationRequest
-import com.wangzan101.mika.core.risk.IrrevAction
-import com.wangzan101.mika.core.agent.Turn
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.settings.AccessibilityState
-import com.wangzan101.mika.settings.Prerequisites
-import com.wangzan101.mika.settings.PersonaStore
-import com.wangzan101.mika.settings.Problem
-import com.wangzan101.mika.core.shell.BuiltinShellStatus
-import com.wangzan101.mika.settings.SystemStatus
-import com.wangzan101.mika.takeover.Takeover
-import com.wangzan101.mika.task.SteerNote
-import com.wangzan101.mika.task.SteerState
-import com.wangzan101.mika.task.QueuedFollowUp
-import com.wangzan101.mika.task.QueuedSource
-import com.wangzan101.mika.ui.PipPhysics.Corner
-import com.wangzan101.mika.core.agent.AttachedPage
-import com.wangzan101.mika.core.userscreen.UserScreenMessage
+import com.wangzan101.djini.cap.sandbox.ImportResult
+import com.wangzan101.djini.chat.BranchCopyResult
+import com.wangzan101.djini.chat.BranchOrigin
+import com.wangzan101.djini.chat.BranchWorkspace
+import com.wangzan101.djini.chat.RetryAttachmentResult
+import com.wangzan101.djini.chat.RetryAttachmentStatus
+import com.wangzan101.djini.chat.ConversationStore
+import com.wangzan101.djini.chat.CurrentChat
+import com.wangzan101.djini.chat.DeleteBatch
+import com.wangzan101.djini.chat.SharedDraft
+import com.wangzan101.djini.chat.SharedDraftStore
+import com.wangzan101.djini.confirm.ConfirmationNotifier
+import com.wangzan101.djini.core.agent.FailKind
+import com.wangzan101.djini.core.agent.GateReason
+import com.wangzan101.djini.core.agent.QuoteMessage
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.core.gate.ConfirmationRequest
+import com.wangzan101.djini.core.risk.IrrevAction
+import com.wangzan101.djini.core.agent.Turn
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.settings.AccessibilityState
+import com.wangzan101.djini.settings.Prerequisites
+import com.wangzan101.djini.settings.PersonaStore
+import com.wangzan101.djini.settings.Problem
+import com.wangzan101.djini.core.shell.BuiltinShellStatus
+import com.wangzan101.djini.settings.SystemStatus
+import com.wangzan101.djini.takeover.Takeover
+import com.wangzan101.djini.task.SteerNote
+import com.wangzan101.djini.task.SteerState
+import com.wangzan101.djini.task.QueuedFollowUp
+import com.wangzan101.djini.task.QueuedSource
+import com.wangzan101.djini.ui.PipPhysics.Corner
+import com.wangzan101.djini.core.agent.AttachedPage
+import com.wangzan101.djini.core.userscreen.UserScreenMessage
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -64,7 +64,7 @@ class ChatViewModelTest {
     @Test fun readAloudReportsFailureAndAllowsRetry() = runTest {
         val errors = mutableListOf<String>()
         var attempts = 0
-        val app = com.wangzan101.mika.MikaApp()
+        val app = com.wangzan101.djini.DjiniApp()
         val vm = ChatViewModel(backgroundScope, state, stage, actions, ConversationStore(tmp.newFolder()),
             speakText = { text -> app.speak(text) { if (++attempts == 1) throw java.io.IOException("offline") } },
             voiceFailed = errors::add)
@@ -161,7 +161,7 @@ class ChatViewModelTest {
         runCurrent()
     }
 
-    // 通知提醒那一轮(Mika 直接写进对话的,没跑过任务):没有用户气泡,也没有运行记录可看;同一天点开两次就有两轮,各是各的
+    // 通知提醒那一轮(Djini 直接写进对话的,没跑过任务):没有用户气泡,也没有运行记录可看;同一天点开两次就有两轮,各是各的
     @Test fun noticeTurnsHaveNoUserBubbleAndNoRunToOpen() = runTest {
         val store = ConversationStore(tmp.newFolder())
         store.append("talk", Turn("", "我从通知里挑出 1 条", "succeeded", runId = "notice:n1"))
@@ -192,7 +192,7 @@ class ChatViewModelTest {
         runCurrent()
         vm.openConversation("original")
         vm.input("draft to keep")
-        vm.quote(QuoteMessage.From.Mika, "quoted result")
+        vm.quote(QuoteMessage.From.Djini, "quoted result")
         active.value = listOf("step")
         emit(TaskState.Running(1, "working"))
         vm.openWorkflowConversation("step")
@@ -213,7 +213,7 @@ class ChatViewModelTest {
             runCurrent()
             vm.openConversation("a")
             vm.input("draft A")
-            vm.quote(QuoteMessage.From.Mika, "answer A")
+            vm.quote(QuoteMessage.From.Djini, "answer A")
             vm.attach(listOf("content://files/a.pdf"))
             runCurrent()
             vm.openConversation("b")
@@ -377,7 +377,7 @@ class ChatViewModelTest {
             assertEquals("a", id)
             gate.await()
             if (path.contains("bad")) throw IllegalStateException()
-            com.wangzan101.mika.core.cap.devicefiles.DeviceFileImport("/workspace/inbox/good.pdf", 12)
+            com.wangzan101.djini.core.cap.devicefiles.DeviceFileImport("/workspace/inbox/good.pdf", 12)
         }
         runCurrent()
         assertTrue(vm.ui.value.importing)
@@ -401,7 +401,7 @@ class ChatViewModelTest {
         val copied = mutableListOf<String>()
         vm.importDeviceAttachments("a", listOf("/one", "/two")) { path, _ ->
             copied += path
-            com.wangzan101.mika.core.cap.devicefiles.DeviceFileImport("/workspace/inbox/one", 1)
+            com.wangzan101.djini.core.cap.devicefiles.DeviceFileImport("/workspace/inbox/one", 1)
         }
         runCurrent()
         assertEquals(listOf("/one"), copied)
@@ -418,7 +418,7 @@ class ChatViewModelTest {
         vm.openConversation("a")
         vm.importDeviceAttachments("a", listOf("/file")) { _, _ ->
             gate.await()
-            com.wangzan101.mika.core.cap.devicefiles.DeviceFileImport("/workspace/inbox/file", 1)
+            com.wangzan101.djini.core.cap.devicefiles.DeviceFileImport("/workspace/inbox/file", 1)
         }
         runCurrent()
         vm.deleteConversation("a")
@@ -730,7 +730,7 @@ class ChatViewModelTest {
         val vm = ChatViewModel(backgroundScope, state, stage, actions, store, sharedDrafts = shared)
         runCurrent()
         shared.imageFile("one.jpg")!!.writeBytes(byteArrayOf(1))
-        val image = com.wangzan101.mika.chat.SharedDraftImage("one.jpg", "one.jpg", 1)
+        val image = com.wangzan101.djini.chat.SharedDraftImage("one.jpg", "one.jpg", 1)
         vm.openSharedDraft(SharedDraft("", "first share", image))
         val first = vm.ui.value.conversationId!!
         vm.input("edited share")
@@ -1012,8 +1012,8 @@ class ChatViewModelTest {
             RunEvent.Media(1, 1, 1, "com.chat"),
             RunEvent.Media(2, 2, 3, "网站 www.12306.cn"),
             RunEvent.Sources(3, listOf(
-                com.wangzan101.mika.core.verify.AnswerSource(1, "screen", "com.chat", null, 1, listOf(1)),
-                com.wangzan101.mika.core.verify.AnswerSource(4, "web", "https://www.12306.cn/index", "车次查询", 3, emptyList()),
+                com.wangzan101.djini.core.verify.AnswerSource(1, "screen", "com.chat", null, 1, listOf(1)),
+                com.wangzan101.djini.core.verify.AnswerSource(4, "web", "https://www.12306.cn/index", "车次查询", 3, emptyList()),
             )),
         )
         val source = evidenceSource(events) { if (it == "com.chat") "聊天" else it }
@@ -1227,22 +1227,22 @@ class ChatViewModelTest {
         val vm = ChatViewModel(
             backgroundScope, state, stage, actions, conversations,
             sharedDrafts = drafts,
-            sharedDraftUri = { "content://mika.shared/$it" },
+            sharedDraftUri = { "content://djini.shared/$it" },
             importAttachments = { _, uris ->
                 imported += uris
-                com.wangzan101.mika.cap.sandbox.ImportResult(listOf("/workspace/inbox/shared.jpg" to 3L), emptyList())
+                com.wangzan101.djini.cap.sandbox.ImportResult(listOf("/workspace/inbox/shared.jpg" to 3L), emptyList())
             },
         )
         runCurrent()
-        val image = com.wangzan101.mika.chat.SharedDraftImage("shared.jpg", "photo.jpg", 3)
+        val image = com.wangzan101.djini.chat.SharedDraftImage("shared.jpg", "photo.jpg", 3)
         assertTrue(vm.openSharedDraft(SharedDraft("", "说明这张图", image)))
-        assertEquals(listOf("content://mika.shared/shared.jpg"), vm.ui.value.attachments.map { it.uri })
+        assertEquals(listOf("content://djini.shared/shared.jpg"), vm.ui.value.attachments.map { it.uri })
         assertTrue(imported.isEmpty())
         assertTrue(calls.isEmpty())
 
         assertTrue(vm.send("说明这张图", ok))
         runCurrent()
-        assertEquals(listOf(listOf("content://mika.shared/shared.jpg")), imported)
+        assertEquals(listOf(listOf("content://djini.shared/shared.jpg")), imported)
         assertEquals(listOf("start:说明这张图\n附件:/workspace/inbox/shared.jpg(3 B)"), calls)
         assertNull(drafts.read())
         assertFalse(drafts.imageFile("shared.jpg")!!.exists())
@@ -1257,31 +1257,31 @@ class ChatViewModelTest {
         val vm = ChatViewModel(
             backgroundScope, state, stage, actions, conversations,
             sharedDrafts = drafts,
-            sharedDraftUri = { "content://mika.shared/$it" },
+            sharedDraftUri = { "content://djini.shared/$it" },
             importAttachments = { _, _ ->
                 releaseImport.await()
-                com.wangzan101.mika.cap.sandbox.ImportResult(listOf("/workspace/inbox/first.jpg" to 1L), emptyList())
+                com.wangzan101.djini.cap.sandbox.ImportResult(listOf("/workspace/inbox/first.jpg" to 1L), emptyList())
             },
         )
         runCurrent()
-        val first = com.wangzan101.mika.chat.SharedDraftImage("first.jpg", "first.jpg", 1)
+        val first = com.wangzan101.djini.chat.SharedDraftImage("first.jpg", "first.jpg", 1)
         assertTrue(vm.openSharedDraft(SharedDraft("", "第一份", first)))
         val firstId = vm.ui.value.conversationId
         assertTrue(vm.send("第一份", ok))
         assertTrue(vm.ui.value.importing)
 
-        val second = com.wangzan101.mika.chat.SharedDraftImage("second.jpg", "second.jpg", 1)
+        val second = com.wangzan101.djini.chat.SharedDraftImage("second.jpg", "second.jpg", 1)
         assertTrue(vm.openSharedDraft(SharedDraft("", "", second)))
         val secondId = vm.ui.value.conversationId
         releaseImport.complete(Unit)
         runCurrent()
         assertEquals(secondId, vm.ui.value.conversationId)
         assertEquals(second, vm.ui.value.sharedDraft?.image)
-        assertEquals(listOf("content://mika.shared/second.jpg"), vm.ui.value.attachments.map { it.uri })
+        assertEquals(listOf("content://djini.shared/second.jpg"), vm.ui.value.attachments.map { it.uri })
         assertTrue(calls.isEmpty())
 
         // 纯图片草稿移除图片后彻底消失,不留下空白分享元数据。
-        vm.removeAttachment("content://mika.shared/second.jpg")
+        vm.removeAttachment("content://djini.shared/second.jpg")
         assertNull(vm.ui.value.sharedDraft)
         assertTrue(vm.ui.value.attachments.isEmpty())
         assertEquals(listOf(firstId), drafts.readAll().map { it.conversationId })
@@ -1372,17 +1372,17 @@ class ChatViewModelTest {
         val vm = ChatViewModel(
             backgroundScope, state, stage, actions, conversations,
             sharedDrafts = drafts,
-            sharedDraftUri = { "content://mika.shared/$it" },
+            sharedDraftUri = { "content://djini.shared/$it" },
         )
         runCurrent()
 
-        val oldImage = com.wangzan101.mika.chat.SharedDraftImage("old.jpg", "old.jpg", 1)
+        val oldImage = com.wangzan101.djini.chat.SharedDraftImage("old.jpg", "old.jpg", 1)
         assertTrue(vm.openSharedDraft(SharedDraft("", "原有草稿", oldImage), inCurrentConversation = true))
         val currentId = vm.ui.value.conversationId!!
-        vm.quote(QuoteMessage.From.Mika, "被引用的回复")
+        vm.quote(QuoteMessage.From.Djini, "被引用的回复")
 
         // 已有草稿时收到后台分享:先挂入 pendingSharedDraft 等用户选择,原草稿不动。
-        val cancelledImage = com.wangzan101.mika.chat.SharedDraftImage("cancelled.jpg", "cancelled.jpg", 1)
+        val cancelledImage = com.wangzan101.djini.chat.SharedDraftImage("cancelled.jpg", "cancelled.jpg", 1)
         assertTrue(vm.openSharedDraft(SharedDraft("", "将被取消的分享", cancelledImage), inCurrentConversation = true))
         assertEquals("将被取消的分享", vm.ui.value.pendingSharedDraft?.text)
         assertEquals("原有草稿", vm.ui.value.input)
@@ -1403,14 +1403,14 @@ class ChatViewModelTest {
         assertFalse(drafts.imageFile("cancelled.jpg")!!.exists())
 
         // 再次后台分享:若弹窗期间进程被回收重建,cleanup 不会误删待确认图片,重建后仍可点「替换」。
-        val replacedImage = com.wangzan101.mika.chat.SharedDraftImage("replaced.jpg", "replaced.jpg", 1)
+        val replacedImage = com.wangzan101.djini.chat.SharedDraftImage("replaced.jpg", "replaced.jpg", 1)
         assertTrue(vm.openSharedDraft(SharedDraft("", "确认替换的分享", replacedImage), inCurrentConversation = true))
         drafts.cleanup()
         assertTrue(drafts.imageFile("replaced.jpg")!!.exists())
         val restored = ChatViewModel(
             backgroundScope, state, stage, actions, conversations,
             sharedDrafts = drafts,
-            sharedDraftUri = { "content://mika.shared/$it" },
+            sharedDraftUri = { "content://djini.shared/$it" },
         )
         runCurrent()
         assertEquals("确认替换的分享", restored.ui.value.pendingSharedDraft?.text)
@@ -1419,7 +1419,7 @@ class ChatViewModelTest {
         assertEquals(currentId, restored.ui.value.conversationId)
         assertEquals("确认替换的分享", restored.ui.value.input)
         assertNull(restored.ui.value.quote)
-        assertEquals(listOf("content://mika.shared/replaced.jpg"), restored.ui.value.attachments.map { it.uri })
+        assertEquals(listOf("content://djini.shared/replaced.jpg"), restored.ui.value.attachments.map { it.uri })
         assertFalse(drafts.imageFile("old.jpg")!!.exists())
         assertTrue(drafts.imageFile("replaced.jpg")!!.exists())
     }
@@ -1432,7 +1432,7 @@ class ChatViewModelTest {
         val vm = ChatViewModel(
             backgroundScope, state, stage, actions, conversations,
             sharedDrafts = drafts,
-            sharedDraftUri = { "content://mika.shared/$it" },
+            sharedDraftUri = { "content://djini.shared/$it" },
             importAttachments = { _, _ -> ImportResult(listOf("/workspace/inbox/answer.jpg" to 2L), emptyList()) },
         )
         runCurrent()
@@ -1444,10 +1444,10 @@ class ChatViewModelTest {
         assertEquals(FollowUpMode.Queue, vm.ui.value.followUpMode)
 
         // 任务运行中收到后台图片分享:自动切换到排队模式。
-        val image = com.wangzan101.mika.chat.SharedDraftImage("busy.jpg", "busy.jpg", 2)
+        val image = com.wangzan101.djini.chat.SharedDraftImage("busy.jpg", "busy.jpg", 2)
         assertTrue(vm.openSharedDraft(SharedDraft("", "排队看这张图", image), inCurrentConversation = true))
         assertEquals(FollowUpMode.Queue, vm.ui.value.followUpMode)
-        assertEquals(listOf("content://mika.shared/busy.jpg"), vm.ui.value.attachments.map { it.uri })
+        assertEquals(listOf("content://djini.shared/busy.jpg"), vm.ui.value.attachments.map { it.uri })
 
         // 用户改了文字后手动切回插话模式:图片副本被清理,改过的文字仍保留在草稿存储中。
         vm.input("改成纯文字插话")
@@ -1465,7 +1465,7 @@ class ChatViewModelTest {
         state.value = TaskState.WaitingInput("选哪个?", listOf("A", "B"))
         runCurrent()
         assertEquals(ComposerMode.Answer, vm.ui.value.composer)
-        val answerImg = com.wangzan101.mika.chat.SharedDraftImage("answer.jpg", "answer.jpg", 2)
+        val answerImg = com.wangzan101.djini.chat.SharedDraftImage("answer.jpg", "answer.jpg", 2)
         assertTrue(vm.openSharedDraft(SharedDraft("", "", answerImg), inCurrentConversation = true))
         assertEquals(FollowUpMode.Queue, vm.ui.value.followUpMode)
         assertTrue(vm.send("", ok))
@@ -1484,7 +1484,7 @@ class ChatViewModelTest {
         val vm = ChatViewModel(
             backgroundScope, state, stage, actions, conversations,
             sharedDrafts = drafts,
-            sharedDraftUri = { "content://mika.shared/$it" },
+            sharedDraftUri = { "content://djini.shared/$it" },
             importAttachments = { _, _ ->
                 releaseImport.await()
                 firstFileExistedDuringImport = drafts.imageFile("first.jpg")!!.exists()
@@ -1493,13 +1493,13 @@ class ChatViewModelTest {
         )
         runCurrent()
 
-        val first = com.wangzan101.mika.chat.SharedDraftImage("first.jpg", "first.jpg", 1)
+        val first = com.wangzan101.djini.chat.SharedDraftImage("first.jpg", "first.jpg", 1)
         assertTrue(vm.openSharedDraft(SharedDraft("", "看图", first), inCurrentConversation = true))
         assertTrue(vm.send("看图", ok))
         assertTrue(vm.ui.value.importing)
 
         // 正在异步导入上一条分享图片时收到同会话新分享:不弹过期替换确认框,也不提前删掉正在导入的 first.jpg。
-        val second = com.wangzan101.mika.chat.SharedDraftImage("second.jpg", "second.jpg", 1)
+        val second = com.wangzan101.djini.chat.SharedDraftImage("second.jpg", "second.jpg", 1)
         assertTrue(vm.openSharedDraft(SharedDraft("", "看图", second), inCurrentConversation = true))
         assertNull(vm.ui.value.pendingSharedDraft)
         assertTrue(drafts.imageFile("first.jpg")!!.exists())
@@ -1510,7 +1510,7 @@ class ChatViewModelTest {
         assertFalse(drafts.imageFile("first.jpg")!!.exists())
         assertTrue(drafts.imageFile("second.jpg")!!.exists())
         assertEquals("看图", vm.ui.value.input)
-        assertEquals(listOf("content://mika.shared/second.jpg"), vm.ui.value.attachments.map { it.uri })
+        assertEquals(listOf("content://djini.shared/second.jpg"), vm.ui.value.attachments.map { it.uri })
         assertEquals(FollowUpMode.Queue, vm.ui.value.followUpMode)
     }
 
@@ -1522,7 +1522,7 @@ class ChatViewModelTest {
         val vm = ChatViewModel(
             backgroundScope, state, stage, actions, conversations,
             sharedDrafts = drafts,
-            sharedDraftUri = { "content://mika.shared/$it" },
+            sharedDraftUri = { "content://djini.shared/$it" },
             importAttachments = { _, _ ->
                 releaseImport.await()
                 ImportResult(listOf("/workspace/inbox/shot.jpg" to 1L), emptyList())
@@ -1530,7 +1530,7 @@ class ChatViewModelTest {
         )
         runCurrent()
 
-        val shot = com.wangzan101.mika.chat.SharedDraftImage("shot.jpg", "shot.jpg", 1)
+        val shot = com.wangzan101.djini.chat.SharedDraftImage("shot.jpg", "shot.jpg", 1)
         assertTrue(vm.openSharedDraft(SharedDraft("", "看图", shot), inCurrentConversation = true))
         assertTrue(vm.send("看图", ok))
         assertTrue(vm.ui.value.importing)
@@ -1806,7 +1806,7 @@ class ChatViewModelTest {
                 ImportResult(
                     listOf("/workspace/inbox/报表 (1).csv" to 2048L),
                     if (uris.size > 1) listOf("big.iso") else emptyList(),
-                    if (uris.size > 1) listOf(com.wangzan101.mika.cap.sandbox.AttachmentFailure("big.iso", com.wangzan101.mika.cap.sandbox.AttachmentFailureReason.TOO_LARGE)) else emptyList(),
+                    if (uris.size > 1) listOf(com.wangzan101.djini.cap.sandbox.AttachmentFailure("big.iso", com.wangzan101.djini.cap.sandbox.AttachmentFailureReason.TOO_LARGE)) else emptyList(),
                 )
             },
             describeAttachments = { uris -> uris.map { PendingAttachment(it, if (it.endsWith("1")) "报表.csv" else "big.iso", 10L) } },
@@ -1836,7 +1836,7 @@ class ChatViewModelTest {
         assertEquals("汇总一下", vm.ui.value.input)
         assertEquals(listOf("content://x/1", "content://x/2"), vm.ui.value.attachments.map { it.uri })
         assertEquals(listOf("big.iso"), vm.ui.value.rejectedAttachments.map { it.name })
-        assertEquals(com.wangzan101.mika.cap.sandbox.AttachmentFailureReason.TOO_LARGE, vm.ui.value.rejectedAttachments.single().reason)
+        assertEquals(com.wangzan101.djini.cap.sandbox.AttachmentFailureReason.TOO_LARGE, vm.ui.value.rejectedAttachments.single().reason)
         assertFalse(vm.ui.value.importing)
 
         // 用户明确移除失败项后,发送剩余附件。
@@ -1858,7 +1858,7 @@ class ChatViewModelTest {
         val vm = ChatViewModel(
             backgroundScope, state, stage, actions, ConversationStore(tmp.newFolder()),
             sandboxReady = MutableStateFlow(true),
-            importAttachments = { _, _ -> com.wangzan101.mika.cap.sandbox.ImportResult(listOf("/workspace/inbox/a.jpg" to 3L * 1024 * 1024), emptyList()) },
+            importAttachments = { _, _ -> com.wangzan101.djini.cap.sandbox.ImportResult(listOf("/workspace/inbox/a.jpg" to 3L * 1024 * 1024), emptyList()) },
         ).also { runCurrent() }
         assertTrue(vm.toggleAttachment(PendingAttachment("content://m/1", "a.jpg", 1L)))
         assertTrue(vm.send("", ok))
@@ -1870,7 +1870,7 @@ class ChatViewModelTest {
         val vm = ChatViewModel(
             backgroundScope, state, stage, actions, ConversationStore(tmp.newFolder()),
             sandboxReady = MutableStateFlow(true), followUps = followUpFlow,
-            importAttachments = { _, _ -> com.wangzan101.mika.cap.sandbox.ImportResult(listOf("/workspace/inbox/a.jpg" to 1024), emptyList()) },
+            importAttachments = { _, _ -> com.wangzan101.djini.cap.sandbox.ImportResult(listOf("/workspace/inbox/a.jpg" to 1024), emptyList()) },
         ).also { runCurrent() }
         vm.send("当前任务", ok)
         emit(TaskState.Running(1, "在做"))
@@ -1934,7 +1934,7 @@ class ChatViewModelTest {
         val vm = ChatViewModel(
             backgroundScope, state, stage, actions, ConversationStore(tmp.newFolder()),
             sandboxReady = MutableStateFlow(true),
-            importAttachments = { _, _ -> com.wangzan101.mika.cap.sandbox.ImportResult(emptyList(), listOf("huge.mov")) },
+            importAttachments = { _, _ -> com.wangzan101.djini.cap.sandbox.ImportResult(emptyList(), listOf("huge.mov")) },
         ).also { runCurrent() }
         vm.toggleAttachment(PendingAttachment("content://m/1", "huge.mov", 1L))
         vm.send("", ok)
@@ -1964,12 +1964,12 @@ class ChatViewModelTest {
     }
 
     @Test fun sharedFilesShowOnTheLiveExchangeAndAreRestored() = runTest {
-        val files = MutableStateFlow<List<com.wangzan101.mika.chat.SharedFile>>(emptyList())
+        val files = MutableStateFlow<List<com.wangzan101.djini.chat.SharedFile>>(emptyList())
         val store = ConversationStore(tmp.newFolder())
         val vm = ChatViewModel(backgroundScope, state, stage, actions, store, sharedFiles = files).also { runCurrent() }
         vm.send("导出表格", ok)
         emit(TaskState.Running(1, "整理"))
-        val f = com.wangzan101.mika.chat.SharedFile("表.xlsx", 5000, "Download/Mika/表.xlsx", "content://media/1")
+        val f = com.wangzan101.djini.chat.SharedFile("表.xlsx", 5000, "Download/Djini/表.xlsx", "content://media/1")
         files.value = listOf(f)
         runCurrent()
         assertEquals(listOf(f), vm.ui.value.exchanges.last().files)
@@ -1994,7 +1994,7 @@ class ChatViewModelTest {
 
     private fun TestScope.parallelVm(
         store: ConversationStore,
-        files: MutableStateFlow<List<com.wangzan101.mika.chat.SharedFile>> = MutableStateFlow(emptyList()),
+        files: MutableStateFlow<List<com.wangzan101.djini.chat.SharedFile>> = MutableStateFlow(emptyList()),
         sandbox: MutableStateFlow<Boolean> = MutableStateFlow(false),
     ) = ChatViewModel(
         backgroundScope, state, stage, actions, store, serviceBusy = MutableStateFlow(true),
@@ -2203,7 +2203,7 @@ class ChatViewModelTest {
     }
 
     private val learnCalls = mutableListOf<String>()
-    private val savedNotes = mutableListOf<com.wangzan101.mika.memory.RunNotes>()
+    private val savedNotes = mutableListOf<com.wangzan101.djini.memory.RunNotes>()
     private val learning = object : LearningActions {
         override suspend fun undo(token: String): Boolean { learnCalls += "undo:$token"; return token != "expired" }
         override suspend fun approve(pendingId: String): Boolean { learnCalls += "approve:$pendingId"; return true }
@@ -2211,12 +2211,12 @@ class ChatViewModelTest {
         override fun viewSkill(draftId: String) { learnCalls += "view:$draftId" }
         override suspend fun restoreSkill(name: String) { learnCalls += "restore:$name" }
         override suspend fun deleteSkill(name: String) { learnCalls += "delete:$name" }
-        override suspend fun save(notes: com.wangzan101.mika.memory.RunNotes) { savedNotes += notes }
+        override suspend fun save(notes: com.wangzan101.djini.memory.RunNotes) { savedNotes += notes }
     }
-    private val notesFlow = MutableStateFlow<Map<String, com.wangzan101.mika.memory.RunNotes>>(emptyMap())
-    private fun item(id: String, content: String) = com.wangzan101.mika.core.memory.MemoryItem(
-        id, com.wangzan101.mika.core.memory.MemoryKind.preference, content, emptyList(),
-        com.wangzan101.mika.core.memory.MemorySource("manual", atMs = 0), com.wangzan101.mika.core.memory.MemoryStatus.active, createdAt = 0, updatedAt = 0,
+    private val notesFlow = MutableStateFlow<Map<String, com.wangzan101.djini.memory.RunNotes>>(emptyMap())
+    private fun item(id: String, content: String) = com.wangzan101.djini.core.memory.MemoryItem(
+        id, com.wangzan101.djini.core.memory.MemoryKind.preference, content, emptyList(),
+        com.wangzan101.djini.core.memory.MemorySource("manual", atMs = 0), com.wangzan101.djini.core.memory.MemoryStatus.active, createdAt = 0, updatedAt = 0,
     )
     private val items = MutableStateFlow(listOf(item("a", "用户点外卖不要香菜"), item("b", "用户喝咖啡不加糖"), item("p1", "点外卖先比价")))
 
@@ -2228,12 +2228,12 @@ class ChatViewModelTest {
         }
     }
 
-    private val remembered = com.wangzan101.mika.core.memory.MemoryNote(com.wangzan101.mika.core.memory.NoteKind.added, "a", "t1", null)
-    private val procedure = com.wangzan101.mika.core.memory.MemoryNote(com.wangzan101.mika.core.memory.NoteKind.pending, "p1", "t2", "p1")
+    private val remembered = com.wangzan101.djini.core.memory.MemoryNote(com.wangzan101.djini.core.memory.NoteKind.added, "a", "t1", null)
+    private val procedure = com.wangzan101.djini.core.memory.MemoryNote(com.wangzan101.djini.core.memory.NoteKind.pending, "p1", "t2", "p1")
 
     @Test fun memoryNotesShownUnderResult() = runTest {
         val vm = vmWithHistory()
-        notesFlow.value = mapOf("r1" to com.wangzan101.mika.memory.RunNotes("c1", "r1", listOf(remembered)))
+        notesFlow.value = mapOf("r1" to com.wangzan101.djini.memory.RunNotes("c1", "r1", listOf(remembered)))
         runCurrent()
         val note = vm.ui.value.exchanges.single().memoryNotes.single()
         assertEquals("记住了:用户点外卖不要香菜", vm.noteText(note))
@@ -2250,7 +2250,7 @@ class ChatViewModelTest {
     @Test fun undoRemovesNote() = runTest {
         val vm = vmWithHistory()
         val expired = remembered.copy(undoToken = "expired")
-        notesFlow.value = mapOf("r1" to com.wangzan101.mika.memory.RunNotes("c1", "r1", listOf(remembered, expired)))
+        notesFlow.value = mapOf("r1" to com.wangzan101.djini.memory.RunNotes("c1", "r1", listOf(remembered, expired)))
         runCurrent()
         vm.undoNote("r1", remembered); runCurrent()
         assertEquals(listOf("undo:t1"), learnCalls)
@@ -2264,7 +2264,7 @@ class ChatViewModelTest {
     @Test fun pendingProcedureShowsYesNo() = runTest {
         val vm = vmWithHistory()
         val second = procedure.copy(undoToken = "expired", pendingId = "p2", memoryId = "p2")
-        notesFlow.value = mapOf("r1" to com.wangzan101.mika.memory.RunNotes("c1", "r1", listOf(procedure, second)))
+        notesFlow.value = mapOf("r1" to com.wangzan101.djini.memory.RunNotes("c1", "r1", listOf(procedure, second)))
         runCurrent()
         assertEquals("要我以后都这样做吗?点外卖先比价", vm.noteText(procedure))
         vm.approveNote("r1", procedure); runCurrent()
@@ -2277,7 +2277,7 @@ class ChatViewModelTest {
 
     @Test fun usedMemoryCountShown() = runTest {
         val vm = vmWithHistory()
-        notesFlow.value = mapOf("r1" to com.wangzan101.mika.memory.RunNotes("c1", "r1", usedMemory = listOf("a", "b")))
+        notesFlow.value = mapOf("r1" to com.wangzan101.djini.memory.RunNotes("c1", "r1", usedMemory = listOf("a", "b")))
         runCurrent()
         val ex = vm.ui.value.exchanges.single()
         assertEquals(listOf("用户点外卖不要香菜", "用户喝咖啡不加糖"), vm.usedMemoryTexts(ex.usedMemory))
@@ -2288,9 +2288,9 @@ class ChatViewModelTest {
 
     @Test fun suspendedSkillRestoreAndView() = runTest {
         val vm = vmWithHistory()
-        val learned = com.wangzan101.mika.core.skills.SkillNote("Mika 学会了一项技能:发微信", draftId = "d1")
-        val suspended = com.wangzan101.mika.core.skills.SkillNote("这项技能最近不灵,先停用了", suspended = "wechat-msg")
-        notesFlow.value = mapOf("r1" to com.wangzan101.mika.memory.RunNotes("c1", "r1", skillNotes = listOf(learned, suspended)))
+        val learned = com.wangzan101.djini.core.skills.SkillNote("Djini 学会了一项技能:发微信", draftId = "d1")
+        val suspended = com.wangzan101.djini.core.skills.SkillNote("这项技能最近不灵,先停用了", suspended = "wechat-msg")
+        notesFlow.value = mapOf("r1" to com.wangzan101.djini.memory.RunNotes("c1", "r1", skillNotes = listOf(learned, suspended)))
         runCurrent()
         vm.viewSkill(learned)
         vm.restoreSkill("r1", suspended); runCurrent()
@@ -2335,17 +2335,17 @@ class ChatViewModelTest {
 
     // 导出的文件和成功标准一样是每个任务各自的:服务显示的是别的对话的任务时,不挂到屏上这个对话的卡片上
     @Test fun sharedFilesFollowScreenConversation() = runTest {
-        val files = MutableStateFlow<List<com.wangzan101.mika.chat.SharedFile>>(emptyList())
+        val files = MutableStateFlow<List<com.wangzan101.djini.chat.SharedFile>>(emptyList())
         val vm = parallelVm(ConversationStore(tmp.newFolder()), files)
         active.value = listOf("a", "b")
         vm.switchTo("a")
         show("a", TaskState.Running(1, "整理"))
-        val mine = com.wangzan101.mika.chat.SharedFile("a.csv", 1, "Download/Mika/a.csv", "content://media/1")
+        val mine = com.wangzan101.djini.chat.SharedFile("a.csv", 1, "Download/Djini/a.csv", "content://media/1")
         files.value = listOf(mine)
         runCurrent()
         assertEquals(listOf(mine), vm.ui.value.exchanges.last().files)
         show("b", TaskState.Running(1, "查快递"))
-        files.value = listOf(com.wangzan101.mika.chat.SharedFile("b.csv", 1, "Download/Mika/b.csv", "content://media/2"))
+        files.value = listOf(com.wangzan101.djini.chat.SharedFile("b.csv", 1, "Download/Djini/b.csv", "content://media/2"))
         runCurrent()
         assertEquals(listOf(mine), vm.ui.value.exchanges.last().files)
     }
@@ -2446,10 +2446,10 @@ class ChatViewModelTest {
     // 那一问一答的原话、步骤(包括切走期间的)、文件都要在,不能另起一条空原话的
     @Test fun switchingBackRestoresTheRunningExchange() = runTest {
         val runStates = mapOf("a" to MutableStateFlow<TaskState>(TaskState.Running(0, "")), "b" to MutableStateFlow<TaskState>(TaskState.Running(0, "")))
-        val fileA = com.wangzan101.mika.chat.SharedFile("a.csv", 1, "Download/Mika/a.csv", "content://media/1")
+        val fileA = com.wangzan101.djini.chat.SharedFile("a.csv", 1, "Download/Djini/a.csv", "content://media/1")
         val runFiles = mapOf("a" to listOf(fileA), "b" to emptyList())
         val goals = mapOf("a" to "第一个任务", "b" to "第二个任务")
-        val files = MutableStateFlow<List<com.wangzan101.mika.chat.SharedFile>>(emptyList())
+        val files = MutableStateFlow<List<com.wangzan101.djini.chat.SharedFile>>(emptyList())
         // 和服务一样:换显示时先抄文件,再抄带对话编号的状态
         val immediate = object : TaskActions by actions {
             override fun show(conversationId: String) {
@@ -2636,7 +2636,7 @@ class ChatViewModelTest {
         vm.send("当前任务", ok)
         emit(TaskState.Running(1, "在做"))
         vm.setFollowUpMode(FollowUpMode.Steer)
-        val quote = QuoteMessage.Quote(QuoteMessage.From.Mika, "明天有雨")
+        val quote = QuoteMessage.Quote(QuoteMessage.From.Djini, "明天有雨")
         vm.quote(quote.from, quote.text)
         vm.send("改这句话", ok)
         val id = steerIds.single()
@@ -2705,7 +2705,7 @@ class ChatViewModelTest {
         assertEquals(listOf(SteerState.Received, SteerState.Withdrawn), vm.ui.value.exchanges.single().steers.map { it.state })
         // 只有字和引用的照旧能编辑
         assertTrue(editableSteer("改这句话"))
-        assertTrue(editableSteer(QuoteMessage.compose(QuoteMessage.Quote(QuoteMessage.From.Mika, "明天有雨"), "改这句话")))
+        assertTrue(editableSteer(QuoteMessage.compose(QuoteMessage.Quote(QuoteMessage.From.Djini, "明天有雨"), "改这句话")))
     }
 
     @Test fun withdrawingBeforeTheTaskStartsPreventsLaterDelivery() = runTest {
@@ -2856,7 +2856,7 @@ class ChatViewModelTest {
         // 点开一步、运行过程页用的是同一份说法
         assertEquals("不是你亲口说的,没有写入", ChatCopy.effectLabel("quote_not_from_user"))
         assertEquals("没成功", ChatCopy.effectLabel("memory_full"))
-        // 开着「让 Mika 自己归纳着记」、但这句话没让它记
+        // 开着「让 Djini 自己归纳着记」、但这句话没让它记
         assertEquals("这句话没让它记,没有写入", ChatCopy.effectLabel("inference_not_requested"))
     }
 
@@ -2917,8 +2917,8 @@ class ChatViewModelTest {
     // 引用随下一句话发出去:新任务和插话都带上,发完就清掉;只有引用没写话时不发
     @Test fun quoteGoesWithTheNextMessage() = runTest {
         val vm = vm()
-        vm.quote(QuoteMessage.From.Mika, "  明天有小雨 ")
-        assertEquals(QuoteMessage.Quote(QuoteMessage.From.Mika, "明天有小雨"), vm.ui.value.quote)
+        vm.quote(QuoteMessage.From.Djini, "  明天有小雨 ")
+        assertEquals(QuoteMessage.Quote(QuoteMessage.From.Djini, "明天有小雨"), vm.ui.value.quote)
         assertFalse(vm.send("  ", ok))
         assertTrue(calls.isEmpty())
 
@@ -2938,7 +2938,7 @@ class ChatViewModelTest {
         assertNull(vm.ui.value.quote)
 
         // 去掉引用:照常只发话
-        vm.quote(QuoteMessage.From.Mika, "x")
+        vm.quote(QuoteMessage.From.Djini, "x")
         vm.clearQuote()
         vm.send("再快一点", ok)
         assertEquals("steer:再快一点", calls.last())
@@ -2950,10 +2950,10 @@ class ChatViewModelTest {
         val id = store.newConversation()
         store.append(id, Turn("查天气", "晴", "succeeded"))
         val vm = vm(store)
-        vm.quote(QuoteMessage.From.Mika, "晴")
+        vm.quote(QuoteMessage.From.Djini, "晴")
         vm.openConversation(id)
         assertNull(vm.ui.value.quote)
-        vm.quote(QuoteMessage.From.Mika, "晴")
+        vm.quote(QuoteMessage.From.Djini, "晴")
         vm.newConversation()
         assertNull(vm.ui.value.quote)
     }
@@ -2962,7 +2962,7 @@ class ChatViewModelTest {
     @Test fun quotedTurnsSurviveReopening() = runTest {
         val store = ConversationStore(tmp.newFolder())
         val id = store.newConversation()
-        val quoted = QuoteMessage.compose(QuoteMessage.Quote(QuoteMessage.From.Mika, "晴"), "那后天呢")
+        val quoted = QuoteMessage.compose(QuoteMessage.Quote(QuoteMessage.From.Djini, "晴"), "那后天呢")
         store.append(id, Turn("查天气", "晴", "succeeded"))
         store.append(id, Turn(quoted, "多云", "succeeded", steers = listOf(QuoteMessage.compose(QuoteMessage.Quote(QuoteMessage.From.You, "查天气"), "顺便看风"))))
         val vm = vm(store)
@@ -2970,7 +2970,7 @@ class ChatViewModelTest {
         val (old, new) = vm.ui.value.exchanges
         assertNull(QuoteMessage.parse(old.goal).quote)
         assertEquals("查天气", QuoteMessage.parse(old.goal).words)
-        assertEquals(QuoteMessage.Quote(QuoteMessage.From.Mika, "晴"), QuoteMessage.parse(new.goal).quote)
+        assertEquals(QuoteMessage.Quote(QuoteMessage.From.Djini, "晴"), QuoteMessage.parse(new.goal).quote)
         assertEquals("那后天呢", QuoteMessage.parse(new.goal).words)
         assertEquals("顺便看风", QuoteMessage.parse(new.steers.single().text).words)
         assertEquals("查天气", ChatCopy.title(vm.ui.value.exchanges))
@@ -3219,7 +3219,7 @@ class ChatViewModelTest {
         assertEquals(listOf("胶囊里说的"), vm.ui.value.exchanges.map { it.goal })
     }
 
-    // 别处在新对话里开始的任务:侧栏列在进行中;打开它(回到 Mika)就看到那句话和在跑的状态
+    // 别处在新对话里开始的任务:侧栏列在进行中;打开它(回到 Djini)就看到那句话和在跑的状态
     @Test fun runInNewConversationElsewhereOpensWithMessage() = runTest {
         for (parallel in listOf(false, true)) {
             val store = ConversationStore(tmp.newFolder())
@@ -3253,7 +3253,7 @@ class ChatViewModelTest {
     @Test fun waitingForAnotherTasksAppIsStillWorking() = runTest {
         val vm = vm()
         vm.send("给张三发消息", ok)
-        emit(TaskState.Running(2, "打开聊天", tool = "phone_launch_app", progress = com.wangzan101.mika.core.agent.RunProgress.WaitingForApp("聊天")))
+        emit(TaskState.Running(2, "打开聊天", tool = "phone_launch_app", progress = com.wangzan101.djini.core.agent.RunProgress.WaitingForApp("聊天")))
         val ex = vm.ui.value.exchanges.single()
         assertEquals(ExchangeStatus.Working, ex.status)
         assertEquals("等另一个任务用完聊天", ex.line)
@@ -3836,8 +3836,8 @@ class ChatViewModelTest {
 
     @Test fun projectDraftPersistsOnSendAndDeletesWithProject() = runTest {
         val conversations = ConversationStore(tmp.newFolder("chats"))
-        val projects = com.wangzan101.mika.chat.ProjectStore(tmp.newFolder("projects"))
-        val resolver = com.wangzan101.mika.chat.WorkspaceResolver(conversations, projects)
+        val projects = com.wangzan101.djini.chat.ProjectStore(tmp.newFolder("projects"))
+        val resolver = com.wangzan101.djini.chat.WorkspaceResolver(conversations, projects)
         val p1 = projects.create("科研").getOrThrow()
         var deletedProjectId: String? = null
         val vm = ChatViewModel(
@@ -3852,7 +3852,7 @@ class ChatViewModelTest {
         assertEquals(p1.id, vm.ui.value.projectId)
         vm.input("先建个草稿")
         val draftId = vm.ui.value.conversationId!!
-        assertEquals(com.wangzan101.mika.cap.sandbox.WorkspaceKey.Project(p1.id), resolver.resolve(draftId))
+        assertEquals(com.wangzan101.djini.cap.sandbox.WorkspaceKey.Project(p1.id), resolver.resolve(draftId))
         assertTrue(vm.send("先建个草稿", ok))
         assertEquals(p1.id, conversations.projectId(draftId))
 

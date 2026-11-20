@@ -1,10 +1,10 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
-import com.wangzan101.mika.core.model.Author
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.Role
-import com.wangzan101.mika.core.testing.TOOLS
+import com.wangzan101.djini.core.model.Author
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.Role
+import com.wangzan101.djini.core.testing.TOOLS
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -14,13 +14,13 @@ class ContextRecoveryTest {
     private val state = ContextBuilder.envelope(ContextKind.RuntimeState, "运行时", "当前界面:App com.x\n步数:第 3 步")
 
     private fun round(n: Int) = listOf(
-        Message(Role.Assistant, listOf(Part.ToolCall("c$n", "phone_tap", """{"target":"按钮$n"}""")), Author.Mika),
-        Message(Role.Tool, listOf(Part.ToolResult("c$n", """{"ok":true,"pad":"${"x".repeat(400)}"}""", false)), Author.Mika),
+        Message(Role.Assistant, listOf(Part.ToolCall("c$n", "phone_tap", """{"target":"按钮$n"}""")), Author.Djini),
+        Message(Role.Tool, listOf(Part.ToolResult("c$n", """{"ok":true,"pad":"${"x".repeat(400)}"}""", false)), Author.Djini),
     )
 
     @Test fun restoresDuplicateUserLinesAndPinnedRule() {
         val user = Message(Role.User, listOf(Part.Text("再看一次")), Author.User)
-        val rule = Message(Role.User, listOf(Part.Text(ContextBuilder.envelope(ContextKind.Memory, "用户", "只读"))), Author.Mika)
+        val rule = Message(Role.User, listOf(Part.Text(ContextBuilder.envelope(ContextKind.Memory, "用户", "只读"))), Author.Djini)
         assertEquals(listOf(user, user, rule), ContextRecovery.ensure(listOf(user, user, rule), listOf(user)))
     }
 
@@ -43,7 +43,7 @@ class ContextRecoveryTest {
 
     @Test fun genuinelyMissingMessageGoesBackToItsPosition() {
         val steer = Message(Role.User, listOf(Part.Text("<user_interjection>\n换个城市"), Part.Text(state)), Author.User)
-        val summary = Message(Role.User, listOf(Part.Text(ContextBuilder.envelope(ContextKind.Notice, "之前的步骤", ContextCompressor.HEADER))), Author.Mika)
+        val summary = Message(Role.User, listOf(Part.Text(ContextBuilder.envelope(ContextKind.Notice, "之前的步骤", ContextCompressor.HEADER))), Author.Djini)
         val full = listOf(task) + round(1) + steer + round(2) + round(3)
         val compressed = listOf(task, summary) + round(2) + round(3)
         val sent = ContextRecovery.ensure(full, compressed)

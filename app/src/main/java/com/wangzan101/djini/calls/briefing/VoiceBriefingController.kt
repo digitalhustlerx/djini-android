@@ -1,17 +1,17 @@
-package com.wangzan101.mika.calls.briefing
+package com.wangzan101.djini.calls.briefing
 
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.telecom.TelecomManager
-import com.wangzan101.mika.calls.CallPlaybackTruncation
-import com.wangzan101.mika.calls.CallTaskBrief
-import com.wangzan101.mika.calls.VolcRealtimeClient
-import com.wangzan101.mika.calls.VolcRealtimeConfig
-import com.wangzan101.mika.calls.VolcRealtimeCredentials
-import com.wangzan101.mika.calls.VolcRealtimeEvent
-import com.wangzan101.mika.calls.VolcRealtimeSession
-import com.wangzan101.mika.calls.VolcRealtimeProtocol
+import com.wangzan101.djini.calls.CallPlaybackTruncation
+import com.wangzan101.djini.calls.CallTaskBrief
+import com.wangzan101.djini.calls.VolcRealtimeClient
+import com.wangzan101.djini.calls.VolcRealtimeConfig
+import com.wangzan101.djini.calls.VolcRealtimeCredentials
+import com.wangzan101.djini.calls.VolcRealtimeEvent
+import com.wangzan101.djini.calls.VolcRealtimeSession
+import com.wangzan101.djini.calls.VolcRealtimeProtocol
 import java.util.concurrent.atomic.AtomicReference
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope

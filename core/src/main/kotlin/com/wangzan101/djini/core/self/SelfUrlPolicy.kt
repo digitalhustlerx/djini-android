@@ -1,9 +1,9 @@
-package com.wangzan101.mika.core.self
+package com.wangzan101.djini.core.self
 
 /**
  * 用户浏览器能代开的地址:只 http/https、不要账号密码、长度有限。
  * 核心不引用网页能力(依赖方向:能力 → 核心),所以这里只做基本检查;
- * App 侧打开时 [com.wangzan101.mika.core.self.SelfPort] 的实现还会经浏览器自己的 WebUrlPolicy 再查一遍。
+ * App 侧打开时 [com.wangzan101.djini.core.self.SelfPort] 的实现还会经浏览器自己的 WebUrlPolicy 再查一遍。
  */
 object SelfUrlPolicy {
     const val MAX_URL = 2048

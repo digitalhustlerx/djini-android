@@ -1,26 +1,26 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
-import com.wangzan101.mika.core.model.ChatModel
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.ModelReply
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.Role
-import com.wangzan101.mika.core.model.StopReason
-import com.wangzan101.mika.core.model.ToolSpec
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.replay.Events
-import com.wangzan101.mika.core.replay.MemRoutes
-import com.wangzan101.mika.core.replay.Notes
-import com.wangzan101.mika.core.replay.PagedScreen
-import com.wangzan101.mika.core.replay.RouteMatcher
-import com.wangzan101.mika.core.replay.ui
-import com.wangzan101.mika.core.verify.Verifier
+import com.wangzan101.djini.core.model.ChatModel
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.ModelReply
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.Role
+import com.wangzan101.djini.core.model.StopReason
+import com.wangzan101.djini.core.model.ToolSpec
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.replay.Events
+import com.wangzan101.djini.core.replay.MemRoutes
+import com.wangzan101.djini.core.replay.Notes
+import com.wangzan101.djini.core.replay.PagedScreen
+import com.wangzan101.djini.core.replay.RouteMatcher
+import com.wangzan101.djini.core.replay.ui
+import com.wangzan101.djini.core.verify.Verifier
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import com.wangzan101.mika.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.assembly.toolDispatcher
 
 class AgentLoopReplayTest {
     private var seq = 0

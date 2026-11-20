@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.mutableStateOf
@@ -11,11 +11,11 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.wangzan101.mika.ChineseUi
-import com.wangzan101.mika.core.remote.RemoteActivity
-import com.wangzan101.mika.core.remote.RelayState
-import com.wangzan101.mika.mcp.McpServerState
-import com.wangzan101.mika.ui.theme.MikaTheme
+import com.wangzan101.djini.ChineseUi
+import com.wangzan101.djini.core.remote.RemoteActivity
+import com.wangzan101.djini.core.remote.RelayState
+import com.wangzan101.djini.mcp.McpServerState
+import com.wangzan101.djini.ui.theme.DjiniTheme
 import org.json.JSONObject
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -42,7 +42,7 @@ class ComputerAccessScreenTest {
     private fun page(initial: ComputerAccessUi = example) {
         state.value = initial
         compose.setContent {
-            MikaTheme {
+            DjiniTheme {
                 ComputerAccessPage(state.value, {}, usbChanges::add, networkChanges::add, portChanges::add, copied::add, {},
                     deviceSettings = { Text("Device settings slot") }, relayGuide = { mcp -> Text(if (mcp) "Remote MCP guide" else "Remote CLI guide") })
             }
@@ -93,9 +93,9 @@ class ComputerAccessScreenTest {
         compose.onNodeWithText("Device settings slot").assertDoesNotExist()
         tap("复制安装指引")
         compose.onAllNodesWithText("复制命令")[0].performScrollTo().performClick()
-        compose.onNodeWithText("mika doctor").assertDoesNotExist()
+        compose.onNodeWithText("djini doctor").assertDoesNotExist()
         assertTrue(copied[0].contains("docs/cli.md"))
-        assertEquals(listOf("mika connect"), copied.drop(1))
+        assertEquals(listOf("djini connect"), copied.drop(1))
         networkGuide()
         assertTrue(networkChanges.isEmpty())
         assertTrue(usbChanges.isEmpty())
@@ -108,10 +108,10 @@ class ComputerAccessScreenTest {
         compose.onNodeWithTag("computer-network").performClick()
         tap("http://100.64.0.2:8765")
         compose.onNodeWithTag("computer-copy-cli-network").performScrollTo().performClick()
-        assertEquals("mika connect --url http://100.64.0.2:8765 --token-file /path/to/token", copied.single())
+        assertEquals("djini connect --url http://100.64.0.2:8765 --token-file /path/to/token", copied.single())
         assertFalse(copied.single().contains(example.token!!))
         assertFalse(copied.single().contains("/mcp"))
-        compose.onNodeWithText("mika doctor").assertDoesNotExist()
+        compose.onNodeWithText("djini doctor").assertDoesNotExist()
         compose.onNodeWithTag("computer-mcp").performScrollTo().performClick()
         compose.onNodeWithText("http://100.64.0.2:8765/mcp").assertExists()
         compose.onNodeWithTag("computer-cli").performScrollTo().performClick()
@@ -158,7 +158,7 @@ class ComputerAccessScreenTest {
         compose.onNodeWithText(example.token!!, substring = true).assertDoesNotExist()
         compose.onNodeWithText("<token>", substring = true).assertExists()
         compose.onNodeWithTag("computer-copy-config").performScrollTo().performClick()
-        val config = JSONObject(copied.single()).getJSONObject("mcpServers").getJSONObject("mika")
+        val config = JSONObject(copied.single()).getJSONObject("mcpServers").getJSONObject("djini")
         assertEquals("http://100.64.0.2:8765/mcp", config.getString("url"))
         assertEquals("Bearer ${example.token}", config.getJSONObject("headers").getString("Authorization"))
         assertTrue(networkChanges.isEmpty())

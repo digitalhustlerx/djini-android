@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,10 +15,10 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
-import com.wangzan101.mika.R
-import com.wangzan101.mika.settings.TaskTemplate
-import com.wangzan101.mika.ui.components.MikaDialog
-import com.wangzan101.mika.ui.theme.MikaTheme
+import com.wangzan101.djini.R
+import com.wangzan101.djini.settings.TaskTemplate
+import com.wangzan101.djini.ui.components.MikaDialog
+import com.wangzan101.djini.ui.theme.DjiniTheme
 
 /** Filling a task is local draft editing. The stored template and execution service stay untouched. */
 @Composable
@@ -41,7 +41,7 @@ internal fun TaskFillDialog(title: String, prompt: String, onDismiss: () -> Unit
                     )
                 }
                 if (fields.size > TaskTemplate.MAX_FIELDS) Text(
-                    stringResource(R.string.task_fields_too_many, TaskTemplate.MAX_FIELDS), color = MikaTheme.colors.bad,
+                    stringResource(R.string.task_fields_too_many, TaskTemplate.MAX_FIELDS), color = DjiniTheme.colors.bad,
                 )
             }
         },

@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.record
+package com.wangzan101.djini.core.record
 
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject
@@ -7,7 +7,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import com.wangzan101.mika.core.testing.verb
+import com.wangzan101.djini.core.testing.verb
 
 class RedactorTest {
     /** Google 新格式的认证 Key(AQ. 开头)和旧的 AIza 一样,经 Redactor 的每条路都遮住。 */
@@ -63,12 +63,12 @@ class RedactorTest {
     }
 
     @Test fun scriptStringLiteralsAllMasked() {
-        // 不管字怎么交出去:直接给 mika.type、先存变量、拼接、写进 DOM
-        val c = scriptCode("const s = await mika.snapshot();\nawait mika.type(find(s, '密码'), 'hunter2');\nconst pw = \"abc\" + 'def';\n" +
-            "document.querySelector('#p').value = pw;\nawait mika.type(s.elements[0], `x${'$'}{pw}y${'$'}{'zz'}`);")
+        // 不管字怎么交出去:直接给 djini.type、先存变量、拼接、写进 DOM
+        val c = scriptCode("const s = await djini.snapshot();\nawait djini.type(find(s, '密码'), 'hunter2');\nconst pw = \"abc\" + 'def';\n" +
+            "document.querySelector('#p').value = pw;\nawait djini.type(s.elements[0], `x${'$'}{pw}y${'$'}{'zz'}`);")
         for (secret in listOf("hunter2", "abc", "def", "密码", "#p", "zz", "`x")) assertFalse(secret, secret in c)
         // 只留形状:引号种类、模板里表达式的位置、代码本身
-        assertTrue(c, "mika.type(find(s, '***'), '***')" in c)
+        assertTrue(c, "djini.type(find(s, '***'), '***')" in c)
         assertTrue(c, "\"***\" + '***'" in c)
         assertTrue(c, "`***${'$'}{pw}***${'$'}{'***'}***`" in c)
         assertEquals("const a = '';", scriptCode("const a = '';"))

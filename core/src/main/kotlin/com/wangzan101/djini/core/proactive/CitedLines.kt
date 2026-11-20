@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.proactive
+package com.wangzan101.djini.core.proactive
 
-import com.wangzan101.mika.core.model.ModelJson.field
+import com.wangzan101.djini.core.model.ModelJson.field
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive

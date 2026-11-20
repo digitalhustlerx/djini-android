@@ -1,6 +1,6 @@
-package com.wangzan101.mika.browser
+package com.wangzan101.djini.browser
 
-import com.wangzan101.mika.core.cap.web.WebUrlPolicy
+import com.wangzan101.djini.core.cap.web.WebUrlPolicy
 
 /**
  * 地址栏和首页搜索框里输入的一句话 → 要打开的网址。

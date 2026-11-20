@@ -1,23 +1,23 @@
-package com.wangzan101.mika.core.cap.web
+package com.wangzan101.djini.core.cap.web
 
-import com.wangzan101.mika.core.prompt.Feedback
-import com.wangzan101.mika.core.prompt.Prompts
-import com.wangzan101.mika.core.tool.Args
-import com.wangzan101.mika.core.tool.Risk
-import com.wangzan101.mika.core.tool.ToolContext
-import com.wangzan101.mika.core.tool.ToolDef
-import com.wangzan101.mika.core.tool.ToolExecution
-import com.wangzan101.mika.core.tool.Verb
-import com.wangzan101.mika.core.tool.argStr
-import com.wangzan101.mika.core.tool.failCode
-import com.wangzan101.mika.core.tool.ok
-import com.wangzan101.mika.core.tool.str
+import com.wangzan101.djini.core.prompt.Feedback
+import com.wangzan101.djini.core.prompt.Prompts
+import com.wangzan101.djini.core.tool.Args
+import com.wangzan101.djini.core.tool.Risk
+import com.wangzan101.djini.core.tool.ToolContext
+import com.wangzan101.djini.core.tool.ToolDef
+import com.wangzan101.djini.core.tool.ToolExecution
+import com.wangzan101.djini.core.tool.Verb
+import com.wangzan101.djini.core.tool.argStr
+import com.wangzan101.djini.core.tool.failCode
+import com.wangzan101.djini.core.tool.ok
+import com.wangzan101.djini.core.tool.str
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 
 /**
- * 留下的那一页为什么关了;[wire] 记进对话。到时间、内存不够被系统收回、渲染进程崩了、用户关的、留了另一页、Mika 退出了。
+ * 留下的那一页为什么关了;[wire] 记进对话。到时间、内存不够被系统收回、渲染进程崩了、用户关的、留了另一页、Djini 退出了。
  */
 enum class KeptPageClose(val wire: String) {
     Expired("expired"), Memory("memory"), Crashed("crashed"), User("user"), Replaced("replaced"), AppExit("app_exit");

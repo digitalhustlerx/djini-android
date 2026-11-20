@@ -1,21 +1,21 @@
-package com.wangzan101.mika.core.tool
+package com.wangzan101.djini.core.tool
 
-import com.wangzan101.mika.core.agent.AgentLoop
-import com.wangzan101.mika.core.agent.SystemPrompt
-import com.wangzan101.mika.core.agent.Turn
-import com.wangzan101.mika.core.assembly.toolDispatcher
-import com.wangzan101.mika.core.cap.sandbox.FakeSandbox
-import com.wangzan101.mika.core.cap.sandbox.SandboxStatus
-import com.wangzan101.mika.core.cap.web.FakeWebPort
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.ToolSpec
-import com.wangzan101.mika.core.prompt.Prompts
-import com.wangzan101.mika.core.run.Attendance
-import com.wangzan101.mika.core.run.RunId
-import com.wangzan101.mika.core.run.RunOrigin
-import com.wangzan101.mika.core.run.RunProvenance
-import com.wangzan101.mika.core.run.RunSpec
-import com.wangzan101.mika.core.testing.fakeModel
+import com.wangzan101.djini.core.agent.AgentLoop
+import com.wangzan101.djini.core.agent.SystemPrompt
+import com.wangzan101.djini.core.agent.Turn
+import com.wangzan101.djini.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.cap.sandbox.FakeSandbox
+import com.wangzan101.djini.core.cap.sandbox.SandboxStatus
+import com.wangzan101.djini.core.cap.web.FakeWebPort
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.ToolSpec
+import com.wangzan101.djini.core.prompt.Prompts
+import com.wangzan101.djini.core.run.Attendance
+import com.wangzan101.djini.core.run.RunId
+import com.wangzan101.djini.core.run.RunOrigin
+import com.wangzan101.djini.core.run.RunProvenance
+import com.wangzan101.djini.core.run.RunSpec
+import com.wangzan101.djini.core.testing.fakeModel
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.jsonPrimitive
 import org.junit.Assert.assertEquals
@@ -147,7 +147,7 @@ class ToolGroupsTest {
         // 带着工作区里的文件(附件一行写着 /workspace/ 下的路径)
         assertEquals(listOf("sandbox"), all().preload("总结一下\n附件:/workspace/inbox/a.pdf(12 KB)", emptyList()))
         // 从浏览器页上对着一页问的:那一页已是当前标签
-        val page = com.wangzan101.mika.core.agent.AttachedPage.compose(com.wangzan101.mika.core.agent.AttachedPage.Page("https://shop.example.com/", "店"), "挑一个")
+        val page = com.wangzan101.djini.core.agent.AttachedPage.compose(com.wangzan101.djini.core.agent.AttachedPage.Page("https://shop.example.com/", "店"), "挑一个")
         assertEquals(listOf("web"), all().preload(page, emptyList()))
         // 设备不支持沙箱:不展开
         val none = toolDispatcher(FakeScreen(), sandbox = FakeSandbox(SandboxStatus.Unsupported("x86")), workspace = { "w" })

@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import android.graphics.Bitmap
 import androidx.compose.runtime.getValue

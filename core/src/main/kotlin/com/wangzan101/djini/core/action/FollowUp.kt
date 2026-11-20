@@ -1,8 +1,8 @@
-package com.wangzan101.mika.core.action
+package com.wangzan101.djini.core.action
 
-import com.wangzan101.mika.core.gate.ConfirmationRequest
-import com.wangzan101.mika.core.guard.GuardVerdict
-import com.wangzan101.mika.core.tool.ToolExecution
+import com.wangzan101.djini.core.gate.ConfirmationRequest
+import com.wangzan101.djini.core.guard.GuardVerdict
+import com.wangzan101.djini.core.tool.ToolExecution
 import kotlinx.serialization.json.JsonObject
 
 /** 调用方在执行入口里插的几处(只有模型单步用):等用户的结局、交给模型前的最后加工。 */

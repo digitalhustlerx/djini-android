@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 /** 让还没输出完的行也能按 Markdown 预览；这些临时字符不会进入消息记录。 */
 internal object StreamingMarkdown {

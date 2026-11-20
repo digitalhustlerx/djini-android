@@ -1,6 +1,6 @@
-package com.wangzan101.mika.settings
+package com.wangzan101.djini.settings
 
-import com.wangzan101.mika.core.docs.ReadmeSections
+import com.wangzan101.djini.core.docs.ReadmeSections
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.io.File

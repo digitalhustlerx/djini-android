@@ -1,13 +1,13 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.core.model.ListedModel
-import com.wangzan101.mika.core.model.ModelListResult
-import com.wangzan101.mika.core.oauth.OpenRouterAuth
-import com.wangzan101.mika.i18n.ChineseTexts
-import com.wangzan101.mika.settings.AesGcmKeyCipher
-import com.wangzan101.mika.settings.ChatGptSignIns
-import com.wangzan101.mika.settings.ProviderConfig
-import com.wangzan101.mika.settings.ProviderStore
+import com.wangzan101.djini.core.model.ListedModel
+import com.wangzan101.djini.core.model.ModelListResult
+import com.wangzan101.djini.core.oauth.OpenRouterAuth
+import com.wangzan101.djini.i18n.ChineseTexts
+import com.wangzan101.djini.settings.AesGcmKeyCipher
+import com.wangzan101.djini.settings.ChatGptSignIns
+import com.wangzan101.djini.settings.ProviderConfig
+import com.wangzan101.djini.settings.ProviderStore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob

@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.phone.a11y
+package com.wangzan101.djini.cap.phone.a11y
 
 import android.content.res.Resources
 import android.graphics.Rect
@@ -7,14 +7,14 @@ import android.view.KeyEvent
 import android.view.ViewConfiguration
 import android.view.accessibility.AccessibilityNodeInfo
 import android.view.accessibility.AccessibilityWindowInfo
-import com.wangzan101.mika.core.cap.phone.GesturePacing
-import com.wangzan101.mika.core.uistate.ActionResult
-import com.wangzan101.mika.core.uistate.Verification
-import com.wangzan101.mika.core.uistate.TextField
-import com.wangzan101.mika.core.uistate.typeAndVerify
-import com.wangzan101.mika.core.uistate.UnseenField
-import com.wangzan101.mika.core.uistate.normalize
-import com.wangzan101.mika.cap.phone.shell.AsciiTextKeys
+import com.wangzan101.djini.core.cap.phone.GesturePacing
+import com.wangzan101.djini.core.uistate.ActionResult
+import com.wangzan101.djini.core.uistate.Verification
+import com.wangzan101.djini.core.uistate.TextField
+import com.wangzan101.djini.core.uistate.typeAndVerify
+import com.wangzan101.djini.core.uistate.UnseenField
+import com.wangzan101.djini.core.uistate.normalize
+import com.wangzan101.djini.cap.phone.shell.AsciiTextKeys
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.ensureActive
@@ -301,7 +301,7 @@ internal class TextInput(private val screen: AndroidScreen) {
 
     /**
      * 树里没有拿着焦点的输入框:输入框可能在 App 自己画的界面里,树读不到它,焦点在它上面。
-     * 先全选(替换原有的字,和对着节点设字一样),再经剪贴板粘贴,按键只发到 Mika 的屏;之后比打字前后屏上读到的文字
+     * 先全选(替换原有的字,和对着节点设字一样),再经剪贴板粘贴,按键只发到 Djini 的屏;之后比打字前后屏上读到的文字
      * 核对([UnseenField.typed])。不要求弹着输入法:按键发到这块屏拿着焦点的窗口,框不经输入法也收得到;
      * 没弹输入法而前后一点没变,就请模型先点输入框。弹着输入法时键盘上的字不算屏上的字。
      */

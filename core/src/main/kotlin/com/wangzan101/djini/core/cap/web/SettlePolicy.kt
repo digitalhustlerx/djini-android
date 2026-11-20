@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.cap.web
+package com.wangzan101.djini.core.cap.web
 
 import kotlinx.coroutines.delay
 

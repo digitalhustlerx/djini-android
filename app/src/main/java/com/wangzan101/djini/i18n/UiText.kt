@@ -1,7 +1,7 @@
-package com.wangzan101.mika.i18n
+package com.wangzan101.djini.i18n
 
 import android.content.res.Resources
-import com.wangzan101.mika.R
+import com.wangzan101.djini.R
 import java.util.Locale
 import androidx.annotation.PluralsRes
 import androidx.annotation.StringRes

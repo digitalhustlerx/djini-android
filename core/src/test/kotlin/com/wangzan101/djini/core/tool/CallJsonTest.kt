@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.tool
+package com.wangzan101.djini.core.tool
 
-import com.wangzan101.mika.core.observation.Place
+import com.wangzan101.djini.core.observation.Place
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject

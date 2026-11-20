@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui.components
+package com.wangzan101.djini.ui.components
 
 import android.os.Build
 import androidx.compose.foundation.background
@@ -43,14 +43,14 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInRoot
 import androidx.compose.ui.unit.dp
-import com.wangzan101.mika.ui.theme.MikaColors
-import com.wangzan101.mika.ui.theme.MikaShapes
-import com.wangzan101.mika.ui.theme.MikaSize
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
-import com.wangzan101.mika.ui.theme.LocalSkinBackdrop
-import com.wangzan101.mika.ui.theme.SkinBackdrop
-import com.wangzan101.mika.ui.theme.rememberSkinBackdrop
+import com.wangzan101.djini.ui.theme.MikaColors
+import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.MikaSize
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.LocalSkinBackdrop
+import com.wangzan101.djini.ui.theme.SkinBackdrop
+import com.wangzan101.djini.ui.theme.rememberSkinBackdrop
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.BlendMode
@@ -67,7 +67,7 @@ fun PageBackground(modifier: Modifier = Modifier, content: @Composable BoxScope.
     val backdrop = rememberSkinBackdrop()
     // 有没有图都是同一个结构:图是异步读的,换结构会让里面的页面整个重建、丢掉状态
     Box(
-        modifier.fillMaxSize().background(MikaTheme.colors.bg).then(
+        modifier.fillMaxSize().background(DjiniTheme.colors.bg).then(
             if (backdrop == null) Modifier else Modifier
                 .onGloballyPositioned { backdrop.pageOrigin = it.positionInRoot(); backdrop.pageSize = it.size }
                 .drawBehind { backdrop.draw(this, backdrop.pageOrigin) },
@@ -84,7 +84,7 @@ fun PageBackground(modifier: Modifier = Modifier, content: @Composable BoxScope.
  */
 fun Modifier.pageBackground(color: Color, fade: Brush? = null): Modifier = composed {
     val backdrop = LocalSkinBackdrop.current
-    if (backdrop == null || color != MikaTheme.colors.bg) return@composed if (fade != null) background(fade) else background(color)
+    if (backdrop == null || color != DjiniTheme.colors.bg) return@composed if (fade != null) background(fade) else background(color)
     var origin by remember { mutableStateOf(Offset.Zero) }
     val placed = onGloballyPositioned { origin = it.positionInRoot() }
     if (fade == null) {
@@ -114,7 +114,7 @@ fun Modifier.floatShadow(colors: MikaColors, shape: Shape): Modifier =
 /** 一张卡片,内容裁在圆角里(行的按压效果不出角)。 */
 @Composable
 fun MikaCard(modifier: Modifier = Modifier, shape: Shape = MikaShapes.Card, content: @Composable ColumnScope.() -> Unit) {
-    Column(modifier.fillMaxWidth().cardSurface(MikaTheme.colors, shape).clip(shape), content = content)
+    Column(modifier.fillMaxWidth().cardSurface(DjiniTheme.colors, shape).clip(shape), content = content)
 }
 
 /**
@@ -136,7 +136,7 @@ fun StateCard(
     modifier: Modifier = Modifier,
     trailing: @Composable RowScope.() -> Unit = {},
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     MikaCard(modifier.padding(bottom = 12.dp)) {
         Row(
             Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 14.dp),
@@ -197,7 +197,7 @@ fun GlassBar(
     shape: Shape = MikaShapes.Composer,
     content: @Composable RowScope.() -> Unit,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     var origin by remember { mutableStateOf(Offset.Zero) }
     Box(
         modifier.floatShadow(c, shape).clip(shape)
@@ -235,7 +235,7 @@ fun GlassSurface(
     shape: Shape = MikaShapes.Pill,
     content: @Composable BoxScope.() -> Unit,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     var origin by remember { mutableStateOf(Offset.Zero) }
     Box(
         modifier.floatShadow(c, shape).clip(shape)

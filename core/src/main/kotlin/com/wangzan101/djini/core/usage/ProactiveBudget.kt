@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.usage
+package com.wangzan101.djini.core.usage
 
-import com.wangzan101.mika.core.model.ModelError
+import com.wangzan101.djini.core.model.ModelError
 
 /**
  * 主动能力(后台自己发的便宜调用,如给通知分拣)的每日 Token 预算:各服务商合计,按本地日历日算,

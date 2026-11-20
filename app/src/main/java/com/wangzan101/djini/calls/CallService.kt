@@ -1,4 +1,4 @@
-package com.wangzan101.mika.calls
+package com.wangzan101.djini.calls
 
 import android.app.Notification
 import android.app.NotificationChannel
@@ -8,9 +8,9 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import com.wangzan101.mika.MikaApp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.ui.MainActivity
+import com.wangzan101.djini.DjiniApp
+import com.wangzan101.djini.R
+import com.wangzan101.djini.ui.MainActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -41,7 +41,7 @@ internal class CallNotifications(private val context: Context) {
     fun show(callId: String, message: String, ringing: Boolean): Boolean = runCatching {
         if (!ready()) return false
         val takeOverIntent = Intent(context, CallNotificationAction::class.java)
-            .setAction(ACTION).setData(Uri.fromParts("mika-call", callId, null))
+            .setAction(ACTION).setData(Uri.fromParts("djini-call", callId, null))
         val takeOver = PendingIntent.getBroadcast(context, 0, takeOverIntent, PendingIntent.FLAG_IMMUTABLE)
         val openCalls = PendingIntent.getActivity(context, ID, Intent(context, MainActivity::class.java)
             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -132,9 +132,9 @@ internal class CallNotifications(private val context: Context) {
     }
 
     companion object {
-        const val ACTION = "com.wangzan101.mika.calls.TAKEOVER"
-        const val ACTION_CANCEL_LOCKED_DIAL = "com.wangzan101.mika.calls.CANCEL_LOCKED_DIAL"
-        const val LOCKED_DIAL_SCHEME = "mika-locked-dial"
+        const val ACTION = "com.wangzan101.djini.calls.TAKEOVER"
+        const val ACTION_CANCEL_LOCKED_DIAL = "com.wangzan101.djini.calls.CANCEL_LOCKED_DIAL"
+        const val LOCKED_DIAL_SCHEME = "djini-locked-dial"
         const val CHANNEL = "mika_ai_calls"
         const val COMPLETED_CHANNEL = "mika_ai_call_completed"
         private const val ID = 90_117
@@ -146,10 +146,10 @@ class CallNotificationAction : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         val action = intent.action
         val uri = intent.data ?: return
-        if (!((action == CallNotifications.ACTION && uri.scheme == "mika-call") ||
+        if (!((action == CallNotifications.ACTION && uri.scheme == "djini-call") ||
                 (action == CallNotifications.ACTION_CANCEL_LOCKED_DIAL && uri.scheme == CallNotifications.LOCKED_DIAL_SCHEME))) return
         val id = uri.schemeSpecificPart ?: return
-        val app = context.applicationContext as? MikaApp ?: return
+        val app = context.applicationContext as? DjiniApp ?: return
         val pending = goAsync()
         CoroutineScope(Dispatchers.Main).launch {
             try {

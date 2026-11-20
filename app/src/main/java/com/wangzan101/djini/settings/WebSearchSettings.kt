@@ -1,14 +1,14 @@
-package com.wangzan101.mika.settings
+package com.wangzan101.djini.settings
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.wangzan101.mika.core.search.DeepSeekSearch
-import com.wangzan101.mika.core.search.ExaSearch
-import com.wangzan101.mika.core.search.JinaSearch
-import com.wangzan101.mika.core.search.SearxngSearch
-import com.wangzan101.mika.core.search.WebSearch
-import com.wangzan101.mika.core.search.WebSearchProvider
-import com.wangzan101.mika.core.search.YouSearch
+import com.wangzan101.djini.core.search.DeepSeekSearch
+import com.wangzan101.djini.core.search.ExaSearch
+import com.wangzan101.djini.core.search.JinaSearch
+import com.wangzan101.djini.core.search.SearxngSearch
+import com.wangzan101.djini.core.search.WebSearch
+import com.wangzan101.djini.core.search.WebSearchProvider
+import com.wangzan101.djini.core.search.YouSearch
 import java.util.Base64
 
 /** 一家搜索服务自己的设置:地址(只有要填地址的那几家用)和密钥。 */
@@ -45,7 +45,7 @@ data class WebSearchConfig(
 
 class WebSearchSettings(
     private val prefs: SharedPreferences,
-    private val cipher: KeyCipher = KeystoreKeyCipher("mika-web-search-key"),
+    private val cipher: KeyCipher = KeystoreKeyCipher("djini-web-search-key"),
     private val groundingStatus: () -> GroundingStatus = { GroundingStatus() },
     private val googleSearch: () -> WebSearch? = { null },
 ) {

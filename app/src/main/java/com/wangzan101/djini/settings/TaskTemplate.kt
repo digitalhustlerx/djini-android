@@ -1,4 +1,4 @@
-package com.wangzan101.mika.settings
+package com.wangzan101.djini.settings
 
 /** Explicitly enabled saved tasks only. Values are substituted once, never interpreted as more fields. */
 object TaskTemplate {

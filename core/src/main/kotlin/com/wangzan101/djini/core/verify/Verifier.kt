@@ -1,15 +1,15 @@
-package com.wangzan101.mika.core.verify
+package com.wangzan101.djini.core.verify
 
-import com.wangzan101.mika.core.model.Author
-import com.wangzan101.mika.core.observation.ObsKind
-import com.wangzan101.mika.core.observation.Observation
-import com.wangzan101.mika.core.model.ChatModel
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.ModelJson
-import com.wangzan101.mika.core.model.ModelJson.field
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.Role
-import com.wangzan101.mika.core.prompt.Prompts
+import com.wangzan101.djini.core.model.Author
+import com.wangzan101.djini.core.observation.ObsKind
+import com.wangzan101.djini.core.observation.Observation
+import com.wangzan101.djini.core.model.ChatModel
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.ModelJson
+import com.wangzan101.djini.core.model.ModelJson.field
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.Role
+import com.wangzan101.djini.core.prompt.Prompts
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.withTimeoutOrNull
 import kotlinx.serialization.json.Json
@@ -19,8 +19,8 @@ import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.put
-import com.wangzan101.mika.core.vision.ImageOps
-import com.wangzan101.mika.core.vision.ModelImage
+import com.wangzan101.djini.core.vision.ImageOps
+import com.wangzan101.djini.core.vision.ModelImage
 
 /**
  * 核查时对照的标准:[items] 是做成之后应当看得到的事实;[kind] 为 read / irreversible(做过发送、提交、下单、删除、付款一类收不回的事)。
@@ -55,7 +55,7 @@ data class Verification(
 }
 
 /**
- * 交给核查器的证据。[fresh] 是回答之后由最近在用的那个能力重新看的一眼([com.wangzan101.mika.core.capability.Capability.freshLook]:
+ * 交给核查器的证据。[fresh] 是回答之后由最近在用的那个能力重新看的一眼([com.wangzan101.djini.core.capability.Capability.freshLook]:
  * 界面状态、网页正文的开头……),[freshImage] 是同一时刻的画面(只在要附图时有);
  * [ledger] 是本次任务读到的全部观察(证据账本,见 [EvidenceLedger];核查时按回答挑出相关的条目),
  * [actions] 是精简的动作清单(「第3步 tap(搜索) 生效」)。
@@ -163,7 +163,7 @@ class Verifier(
         return try {
             withTimeoutOrNull(timeoutMs(body.length, if (image != null) 1 else 0)) {
                 // 回复走容错解析;读不出来时再问一次、只要 JSON;还不行才算解析不了
-                ModelJson.completeParsed(model, PROMPT, listOf(Message(Role.User, parts, Author.Mika)), ::parse).also { unparsed = it == null }
+                ModelJson.completeParsed(model, PROMPT, listOf(Message(Role.User, parts, Author.Djini)), ::parse).also { unparsed = it == null }
             }?.let { Asked.Done(it) } ?: if (unparsed) Asked.Failed("核查器的回复无法解析") else Asked.TimedOut
         } catch (e: CancellationException) {
             throw e

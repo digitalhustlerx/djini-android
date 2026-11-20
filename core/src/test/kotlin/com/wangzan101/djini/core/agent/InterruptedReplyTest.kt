@@ -1,25 +1,25 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
-import com.wangzan101.mika.core.assembly.toolDispatcher
-import com.wangzan101.mika.core.model.Author
-import com.wangzan101.mika.core.model.Capabilities
-import com.wangzan101.mika.core.model.ChatModel
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.ModelReply
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.Role
-import com.wangzan101.mika.core.model.ToolSpec
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.record.RunSink
-import com.wangzan101.mika.core.run.InputReceipt
-import com.wangzan101.mika.core.run.RunId
-import com.wangzan101.mika.core.run.RunInbox
-import com.wangzan101.mika.core.run.RunInput
-import com.wangzan101.mika.core.run.RunSpec
-import com.wangzan101.mika.core.testing.InterruptibleStream
-import com.wangzan101.mika.core.testing.answerReply
-import com.wangzan101.mika.core.testing.fakeModel
-import com.wangzan101.mika.core.tool.FakeScreen
+import com.wangzan101.djini.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.model.Author
+import com.wangzan101.djini.core.model.Capabilities
+import com.wangzan101.djini.core.model.ChatModel
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.ModelReply
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.Role
+import com.wangzan101.djini.core.model.ToolSpec
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.record.RunSink
+import com.wangzan101.djini.core.run.InputReceipt
+import com.wangzan101.djini.core.run.RunId
+import com.wangzan101.djini.core.run.RunInbox
+import com.wangzan101.djini.core.run.RunInput
+import com.wangzan101.djini.core.run.RunSpec
+import com.wangzan101.djini.core.testing.InterruptibleStream
+import com.wangzan101.djini.core.testing.answerReply
+import com.wangzan101.djini.core.testing.fakeModel
+import com.wangzan101.djini.core.tool.FakeScreen
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitCancellation
@@ -64,7 +64,7 @@ class InterruptedReplyTest {
     }
 
     private fun List<Message>.mikaTexts() =
-        filter { it.role == Role.Assistant && it.author == Author.Mika }.map { m -> m.parts.filterIsInstance<Part.Text>().joinToString("") { it.text } }
+        filter { it.role == Role.Assistant && it.author == Author.Djini }.map { m -> m.parts.filterIsInstance<Part.Text>().joinToString("") { it.text } }
 
     @Test fun keepsTheTextTheUserSawRightBeforeTheSteer() = runTest {
         val events = Events()

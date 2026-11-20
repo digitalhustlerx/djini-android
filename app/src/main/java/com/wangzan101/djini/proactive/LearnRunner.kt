@@ -1,52 +1,52 @@
-package com.wangzan101.mika.proactive
+package com.wangzan101.djini.proactive
 
 import android.service.notification.NotificationListenerService
-import com.wangzan101.mika.core.proactive.ContactDrop
-import com.wangzan101.mika.core.proactive.ContactPool
-import com.wangzan101.mika.core.proactive.ContactPoolData
-import com.wangzan101.mika.core.proactive.ContactRelation
-import com.wangzan101.mika.core.proactive.ContactType
-import com.wangzan101.mika.core.proactive.DayDigest
-import com.wangzan101.mika.core.model.ChatModel
-import com.wangzan101.mika.core.proactive.DayResult
-import com.wangzan101.mika.core.proactive.DigestData
-import com.wangzan101.mika.core.proactive.DigestNote
-import com.wangzan101.mika.core.proactive.DigestPool
-import com.wangzan101.mika.core.proactive.ExistingTopic
-import com.wangzan101.mika.core.proactive.LearnBuffer
-import com.wangzan101.mika.core.proactive.LearnDrop
-import com.wangzan101.mika.core.proactive.LearnOutcome
-import com.wangzan101.mika.core.proactive.LearnResult
-import com.wangzan101.mika.core.proactive.LearnTuning
-import com.wangzan101.mika.core.proactive.NoticeEntry
-import com.wangzan101.mika.core.proactive.ProactiveCall
-import com.wangzan101.mika.core.proactive.NoticeJournal
-import com.wangzan101.mika.core.proactive.NoticeJournalData
-import com.wangzan101.mika.core.proactive.NoticeDay
-import com.wangzan101.mika.core.proactive.LearnLevel
-import com.wangzan101.mika.core.proactive.NoticeLearn
-import com.wangzan101.mika.core.proactive.ObservedContext
-import com.wangzan101.mika.core.proactive.SourceTier
-import com.wangzan101.mika.core.proactive.NoticeNotes
-import com.wangzan101.mika.core.proactive.NoticeView
-import com.wangzan101.mika.core.proactive.DigestLevel
-import com.wangzan101.mika.core.proactive.DigestLine
-import com.wangzan101.mika.core.proactive.DigestView
-import com.wangzan101.mika.core.proactive.DigestViewLine
-import com.wangzan101.mika.core.proactive.DigestsView
-import com.wangzan101.mika.core.proactive.NoticeSpan
-import com.wangzan101.mika.core.proactive.SpanDigest
-import com.wangzan101.mika.core.proactive.SpanKind
-import com.wangzan101.mika.core.proactive.NotesResult
-import com.wangzan101.mika.core.proactive.NoticeMessage
-import com.wangzan101.mika.core.proactive.NoticeRecord
-import com.wangzan101.mika.core.proactive.ObservedContact
-import com.wangzan101.mika.core.proactive.ObservedTopic
-import com.wangzan101.mika.core.proactive.TopicPool
-import com.wangzan101.mika.core.proactive.TopicPoolData
-import com.wangzan101.mika.core.proactive.TriageConsent
-import com.wangzan101.mika.core.proactive.TriageGate
-import com.wangzan101.mika.core.usage.ProactiveBudget
+import com.wangzan101.djini.core.proactive.ContactDrop
+import com.wangzan101.djini.core.proactive.ContactPool
+import com.wangzan101.djini.core.proactive.ContactPoolData
+import com.wangzan101.djini.core.proactive.ContactRelation
+import com.wangzan101.djini.core.proactive.ContactType
+import com.wangzan101.djini.core.proactive.DayDigest
+import com.wangzan101.djini.core.model.ChatModel
+import com.wangzan101.djini.core.proactive.DayResult
+import com.wangzan101.djini.core.proactive.DigestData
+import com.wangzan101.djini.core.proactive.DigestNote
+import com.wangzan101.djini.core.proactive.DigestPool
+import com.wangzan101.djini.core.proactive.ExistingTopic
+import com.wangzan101.djini.core.proactive.LearnBuffer
+import com.wangzan101.djini.core.proactive.LearnDrop
+import com.wangzan101.djini.core.proactive.LearnOutcome
+import com.wangzan101.djini.core.proactive.LearnResult
+import com.wangzan101.djini.core.proactive.LearnTuning
+import com.wangzan101.djini.core.proactive.NoticeEntry
+import com.wangzan101.djini.core.proactive.ProactiveCall
+import com.wangzan101.djini.core.proactive.NoticeJournal
+import com.wangzan101.djini.core.proactive.NoticeJournalData
+import com.wangzan101.djini.core.proactive.NoticeDay
+import com.wangzan101.djini.core.proactive.LearnLevel
+import com.wangzan101.djini.core.proactive.NoticeLearn
+import com.wangzan101.djini.core.proactive.ObservedContext
+import com.wangzan101.djini.core.proactive.SourceTier
+import com.wangzan101.djini.core.proactive.NoticeNotes
+import com.wangzan101.djini.core.proactive.NoticeView
+import com.wangzan101.djini.core.proactive.DigestLevel
+import com.wangzan101.djini.core.proactive.DigestLine
+import com.wangzan101.djini.core.proactive.DigestView
+import com.wangzan101.djini.core.proactive.DigestViewLine
+import com.wangzan101.djini.core.proactive.DigestsView
+import com.wangzan101.djini.core.proactive.NoticeSpan
+import com.wangzan101.djini.core.proactive.SpanDigest
+import com.wangzan101.djini.core.proactive.SpanKind
+import com.wangzan101.djini.core.proactive.NotesResult
+import com.wangzan101.djini.core.proactive.NoticeMessage
+import com.wangzan101.djini.core.proactive.NoticeRecord
+import com.wangzan101.djini.core.proactive.ObservedContact
+import com.wangzan101.djini.core.proactive.ObservedTopic
+import com.wangzan101.djini.core.proactive.TopicPool
+import com.wangzan101.djini.core.proactive.TopicPoolData
+import com.wangzan101.djini.core.proactive.TriageConsent
+import com.wangzan101.djini.core.proactive.TriageGate
+import com.wangzan101.djini.core.usage.ProactiveBudget
 import java.time.Instant
 import java.time.ZoneId
 import kotlinx.coroutines.CancellationException
@@ -403,7 +403,7 @@ internal class LearnRunner(
         if (on() && digest()) {
             // 通知原文里的:和按 App 删一样先记下来(见 [LearnPurges.journalPurges])。这会儿读不出来的、去掉了没存上的,
             // 读得出来时补做——不然它们还算没归纳过,下一次分段归纳又发给模型
-            val keyId = com.wangzan101.mika.core.proactive.NoticeDedup.idOf(key)
+            val keyId = com.wangzan101.djini.core.proactive.NoticeDedup.idOf(key)
             val mark = MARK_KEY + keyId + KEY_SINCE + sinceMs
             val j = loadedJournal()
             if (j == null) {
@@ -647,7 +647,7 @@ internal class LearnRunner(
         }
     }
 
-    /** 用户设关系;null 是交回给 Mika 判断。 */
+    /** 用户设关系;null 是交回给 Djini 判断。 */
     fun setContactRelation(id: String, relation: ContactRelation?) {
         loadedContacts()?.let { if (it.setRelation(id, relation)) saveContacts(it) }
     }
@@ -999,7 +999,7 @@ internal class LearnRunner(
 
     /**
      * 要拿归纳去用(给任务、挑该做哪一份)之前:过了留存期的先去掉,有去掉的就存。
-     * 到期不靠定时器(息屏不干活),谁来读谁先清——不然不开「Mika 知道了什么」那一页,过期的归纳照样会被带进任务。
+     * 到期不靠定时器(息屏不干活),谁来读谁先清——不然不开「Djini 知道了什么」那一页,过期的归纳照样会被带进任务。
      */
     private fun freshDigest(): DigestPool? = loadedDigest()?.also { if (it.expire(dayOf(clock()))) saveDigest(it) }
 
@@ -1797,7 +1797,7 @@ internal class LearnRunner(
         private const val MARK_KEY = ":key:"
         private const val KEY_SINCE = "@"
         /** 那一阵有多长:认状态显示时往回看的窗口。 */
-        private const val LIVE_WINDOW_MS = com.wangzan101.mika.core.proactive.LiveUpdates.WINDOW_MS
+        private const val LIVE_WINDOW_MS = com.wangzan101.djini.core.proactive.LiveUpdates.WINDOW_MS
         /** 一次合并:后面是并掉的话题 id、[MERGE_INTO]、并进去的话题 id。话题、联系人两份上都可能记着。 */
         private const val MARK_MERGE = ":merge:"
         private const val MERGE_INTO = ">"

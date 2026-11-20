@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.tool
+package com.wangzan101.djini.core.tool
 
 /** 交给模型的命令输出(沙箱、root 命令共用):开头 + 结尾,中间写明省略了多少字。 */
 object OutputClip {

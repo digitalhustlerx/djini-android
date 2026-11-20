@@ -1,27 +1,27 @@
-package com.wangzan101.mika.core.uistate
+package com.wangzan101.djini.core.uistate
 
-import com.wangzan101.mika.core.net.UrlHost
-import com.wangzan101.mika.core.prompt.Feedback
-import com.wangzan101.mika.core.replay.Anchors
-import com.wangzan101.mika.core.replay.Selector
-import com.wangzan101.mika.core.tool.AgentTool
-import com.wangzan101.mika.core.tool.LOCATED_REF
-import com.wangzan101.mika.core.tool.SurfaceLayer
-import com.wangzan101.mika.core.tool.ToolContext
-import com.wangzan101.mika.core.tool.ToolDispatcher
-import com.wangzan101.mika.core.tool.ToolConfig
-import com.wangzan101.mika.core.tool.ToolExecution
-import com.wangzan101.mika.core.tool.ToolIndex
-import com.wangzan101.mika.core.tool.Until
-import com.wangzan101.mika.core.tool.UntilOutcome
-import com.wangzan101.mika.core.tool.Verb
-import com.wangzan101.mika.core.tool.argStr
-import com.wangzan101.mika.core.tool.fail
-import com.wangzan101.mika.core.tool.failCode
-import com.wangzan101.mika.core.tool.writesScreen
-import com.wangzan101.mika.core.visual.Shots
-import com.wangzan101.mika.core.vision.LocateResult
-import com.wangzan101.mika.core.vision.Locator
+import com.wangzan101.djini.core.net.UrlHost
+import com.wangzan101.djini.core.prompt.Feedback
+import com.wangzan101.djini.core.replay.Anchors
+import com.wangzan101.djini.core.replay.Selector
+import com.wangzan101.djini.core.tool.AgentTool
+import com.wangzan101.djini.core.tool.LOCATED_REF
+import com.wangzan101.djini.core.tool.SurfaceLayer
+import com.wangzan101.djini.core.tool.ToolContext
+import com.wangzan101.djini.core.tool.ToolDispatcher
+import com.wangzan101.djini.core.tool.ToolConfig
+import com.wangzan101.djini.core.tool.ToolExecution
+import com.wangzan101.djini.core.tool.ToolIndex
+import com.wangzan101.djini.core.tool.Until
+import com.wangzan101.djini.core.tool.UntilOutcome
+import com.wangzan101.djini.core.tool.Verb
+import com.wangzan101.djini.core.tool.argStr
+import com.wangzan101.djini.core.tool.fail
+import com.wangzan101.djini.core.tool.failCode
+import com.wangzan101.djini.core.tool.writesScreen
+import com.wangzan101.djini.core.visual.Shots
+import com.wangzan101.djini.core.vision.LocateResult
+import com.wangzan101.djini.core.vision.Locator
 import kotlinx.coroutines.CancellationException
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
@@ -142,7 +142,7 @@ internal class Interfaces(
         val session: ScreenSession,
         val probe: ScreenSession.EffectProbe?,
         val aimed: Pair<UiElement?, List<Int>?>?,
-        val playback: com.wangzan101.mika.core.record.PlaybackCapture? = null,
+        val playback: com.wangzan101.djini.core.record.PlaybackCapture? = null,
     ) {
         /** 这次调用由界面一侧报实际效果(effect)。 */
         val reportsEffect: Boolean get() = probe != null
@@ -170,8 +170,8 @@ internal class Interfaces(
             val checked = gateView.gateArgs(session, tool.verb, o)
             val snap = gateView.snapshotFor(session, o) ?: probe?.before
             val element = aimed?.first ?: snap?.elements?.firstOrNull { it.ref == o.argStr("ref") }
-            com.wangzan101.mika.core.record.PlaybackCapture(frame, null,
-                com.wangzan101.mika.core.record.PlaybackMark.of(tool.verb, checked, element, snap))
+            com.wangzan101.djini.core.record.PlaybackCapture(frame, null,
+                com.wangzan101.djini.core.record.PlaybackMark.of(tool.verb, checked, element, snap))
         } else null
         return Prep(session, probe, aimed, playback)
     }
@@ -209,7 +209,7 @@ internal class Interfaces(
         if (tool.writesScreen && result.content["error"] != JsonPrimitive("invalid_arguments")) session.clearLocated()
         if (config.recordFrames && tool.writesScreen && result.content["error"] != JsonPrimitive("invalid_arguments")) {
             // 重新核对当前页权限和防截屏状态；只采集这次动作所在的屏。
-            result = result.with(playback = com.wangzan101.mika.core.record.PlaybackCapture(
+            result = result.with(playback = com.wangzan101.djini.core.record.PlaybackCapture(
                 prep.playback?.before, result.frame ?: result.image ?: session.playbackFrame(), if (ok) prep.playback?.mark else null))
         }
         return result

@@ -1,7 +1,7 @@
-package com.wangzan101.mika.calls
+package com.wangzan101.djini.calls
 
-import com.wangzan101.mika.calls.LockedDialGate.Decision
-import com.wangzan101.mika.calls.LockedDialGate.Rejection
+import com.wangzan101.djini.calls.LockedDialGate.Decision
+import com.wangzan101.djini.calls.LockedDialGate.Rejection
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit

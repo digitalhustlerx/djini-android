@@ -1,10 +1,10 @@
-package com.wangzan101.mika.media
+package com.wangzan101.djini.media
 
 import android.content.ContextWrapper
-import com.wangzan101.mika.core.model.TtsCapabilities
-import com.wangzan101.mika.core.model.TtsModel
-import com.wangzan101.mika.core.model.TtsRequest
-import com.wangzan101.mika.core.model.TtsResponse
+import com.wangzan101.djini.core.model.TtsCapabilities
+import com.wangzan101.djini.core.model.TtsModel
+import com.wangzan101.djini.core.model.TtsRequest
+import com.wangzan101.djini.core.model.TtsResponse
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test

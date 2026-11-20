@@ -1,8 +1,8 @@
-package com.wangzan101.mika.core.mcp
+package com.wangzan101.djini.core.mcp
 
-import com.wangzan101.mika.core.remote.RemoteAccess
-import com.wangzan101.mika.core.remote.HttpRequest
-import com.wangzan101.mika.core.remote.RemoteOwnership
+import com.wangzan101.djini.core.remote.RemoteAccess
+import com.wangzan101.djini.core.remote.HttpRequest
+import com.wangzan101.djini.core.remote.RemoteOwnership
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue

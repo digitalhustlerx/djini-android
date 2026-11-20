@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -38,9 +38,9 @@ class SystemPromptLanguageTest {
 
     @Test
     fun testWithLanguageAppendsToPrompt() {
-        val base = "You are Mika."
+        val base = "You are Djini."
         val withEn = SystemPrompt.withLanguage(base, "en")
-        assertTrue(withEn.startsWith("You are Mika."))
+        assertTrue(withEn.startsWith("You are Djini."))
         assertTrue(withEn.contains("Communication & Reasoning Language"))
     }
 }

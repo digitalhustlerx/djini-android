@@ -1,4 +1,4 @@
-package com.wangzan101.mika.settings
+package com.wangzan101.djini.settings
 
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList

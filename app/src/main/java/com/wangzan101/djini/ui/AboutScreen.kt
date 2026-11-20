@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.ui.res.stringResource
 import android.widget.Toast
@@ -51,32 +51,32 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.about.CheckStatus
-import com.wangzan101.mika.about.MikaLinks
-import com.wangzan101.mika.about.QrImage
-import com.wangzan101.mika.about.ReleaseInfo
-import com.wangzan101.mika.about.UpdateState
-import com.wangzan101.mika.ui.components.ButtonKind
-import com.wangzan101.mika.ui.components.GroupCard
-import com.wangzan101.mika.ui.components.ListRow
-import com.wangzan101.mika.ui.components.MikaSwitch
-import com.wangzan101.mika.ui.components.MikaButton
-import com.wangzan101.mika.ui.components.PageScaffold
-import com.wangzan101.mika.ui.components.RowChevron
-import com.wangzan101.mika.ui.components.RowValue
-import com.wangzan101.mika.ui.components.ValueTone
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
-import com.wangzan101.mika.ui.theme.MikaRadius
-import com.wangzan101.mika.ui.theme.MikaShapes
+import com.wangzan101.djini.R
+import com.wangzan101.djini.about.CheckStatus
+import com.wangzan101.djini.about.MikaLinks
+import com.wangzan101.djini.about.QrImage
+import com.wangzan101.djini.about.ReleaseInfo
+import com.wangzan101.djini.about.UpdateState
+import com.wangzan101.djini.ui.components.ButtonKind
+import com.wangzan101.djini.ui.components.GroupCard
+import com.wangzan101.djini.ui.components.ListRow
+import com.wangzan101.djini.ui.components.MikaSwitch
+import com.wangzan101.djini.ui.components.MikaButton
+import com.wangzan101.djini.ui.components.PageScaffold
+import com.wangzan101.djini.ui.components.RowChevron
+import com.wangzan101.djini.ui.components.RowValue
+import com.wangzan101.djini.ui.components.ValueTone
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.MikaRadius
+import com.wangzan101.djini.ui.theme.MikaShapes
 
 /** 关于页上点开的底部面板。 */
 private enum class AboutSheet { Update, Changelog, Feedback, Group, Diagnostics }
 
 /**
- * 关于 Mika:顶上图标、名字、一句话介绍、版本(Beta 标记、构建编号);下面是检查更新与更新记录、
+ * 关于 Djini:顶上图标、名字、一句话介绍、版本(Beta 标记、构建编号);下面是检查更新与更新记录、
  * 反馈问题、开源仓库与使用说明;一段数据说明;最底下许可证与作者。
  * 外部链接都交给 [onOpenUrl](系统浏览器);手动检查的结果到了([UpdateState.manualRounds] 变了)才提示。
  * [diagnostics] 写出诊断信息(反馈面板里「复制诊断信息」点开预览时在后台线程调)。
@@ -101,7 +101,7 @@ fun AboutScreen(
     onMirrorEnabled: (Boolean) -> Unit = {},
     onOpenMirrors: () -> Unit = {},
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val context = LocalContext.current
     var sheet by rememberSaveable { mutableStateOf<AboutSheet?>(null) }
     // 点了「检查更新」后等这一轮结果:有新版直接弹出说明,没有就提示一句
@@ -216,7 +216,7 @@ fun AboutScreen(
 
 @Composable
 private fun Hero(versionName: String, build: String, beta: Boolean) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Column(
         Modifier.fillMaxWidth().padding(top = 14.dp, bottom = 18.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -225,7 +225,7 @@ private fun Hero(versionName: String, build: String, beta: Boolean) {
             painterResource(R.drawable.mika_launcher_art), contentDescription = null,
             Modifier.size(72.dp).clip(RoundedCornerShape(MikaRadius.Bubble)),
         )
-        Text("Mika", Modifier.padding(top = 12.dp), style = MikaType.Title, fontWeight = FontWeight.Bold, color = c.ink)
+        Text("Djini", Modifier.padding(top = 12.dp), style = MikaType.Title, fontWeight = FontWeight.Bold, color = c.ink)
         Text(AboutCopy.TAGLINE, Modifier.padding(top = 4.dp), style = MikaType.Caption, color = c.ink2, textAlign = TextAlign.Center)
         Row(Modifier.padding(top = 10.dp).testTag("about-version"), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
             Text(AboutCopy.version(versionName), style = MikaType.Hint, color = c.ink3)
@@ -244,7 +244,7 @@ private fun Hero(versionName: String, build: String, beta: Boolean) {
 @Composable
 internal fun TrailingValue(v: AboutCopy.CheckValue) {
     if (v.spinner) {
-        CircularProgressIndicator(Modifier.size(16.dp).testTag("update-spinner"), color = MikaTheme.colors.accent, strokeWidth = 2.dp)
+        CircularProgressIndicator(Modifier.size(16.dp).testTag("update-spinner"), color = DjiniTheme.colors.accent, strokeWidth = 2.dp)
         return
     }
     if (v.dot) UpdateDot()
@@ -254,12 +254,12 @@ internal fun TrailingValue(v: AboutCopy.CheckValue) {
 /** 有新版本时的小红点。 */
 @Composable
 internal fun UpdateDot(modifier: Modifier = Modifier) {
-    Box(modifier.size(8.dp).background(MikaTheme.colors.bad, CircleShape).testTag("update-dot"))
+    Box(modifier.size(8.dp).background(DjiniTheme.colors.bad, CircleShape).testTag("update-dot"))
 }
 
 @Composable
 private fun ExternalMark() {
-    Icon(MikaIcons.External, null, Modifier.size(15.dp), tint = MikaTheme.colors.ink3)
+    Icon(MikaIcons.External, null, Modifier.size(15.dp), tint = DjiniTheme.colors.ink3)
 }
 
 // ---------- 底部面板 ----------
@@ -267,7 +267,7 @@ private fun ExternalMark() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun AboutSheetFrame(title: String, sub: String?, tag: String, onDismiss: () -> Unit, content: @Composable ColumnScope.() -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
@@ -289,7 +289,7 @@ private fun AboutSheetFrame(title: String, sub: String?, tag: String, onDismiss:
 /** 更新说明(Markdown),浅底、太长时在框里滚。 */
 @Composable
 private fun NotesBox(notes: String) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Box(
         Modifier.padding(top = 12.dp).fillMaxWidth().heightIn(max = 280.dp)
             .background(c.fill, MikaShapes.Chip).verticalScroll(rememberScrollState()).padding(12.dp),
@@ -307,14 +307,14 @@ internal fun UpdateSheet(r: ReleaseInfo, current: String, beta: Boolean, onOpenU
         Text(
             AboutCopy.UPDATE_LATER,
             Modifier.fillMaxWidth().padding(top = 8.dp).clip(MikaShapes.Tile).clickable(onClick = onDismiss).padding(vertical = 10.dp),
-            style = MikaType.Caption, color = MikaTheme.colors.ink3, textAlign = TextAlign.Center,
+            style = MikaType.Caption, color = DjiniTheme.colors.ink3, textAlign = TextAlign.Center,
         )
     }
 }
 
 @Composable
 private fun ChangelogSheet(latest: ReleaseInfo?, onOpenAll: () -> Unit, onDismiss: () -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     AboutSheetFrame(AboutCopy.CHANGELOG, null, "changelog-sheet", onDismiss) {
         if (latest == null) {
             Text(AboutCopy.CHANGELOG_EMPTY, Modifier.padding(top = 10.dp), style = MikaType.Caption, color = c.ink3)
@@ -351,7 +351,7 @@ private fun FeedbackOption(icon: ImageVector, title: String, sub: String, first:
  */
 @Composable
 internal fun GroupSheet(onSave: () -> Unit, onDismiss: () -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val qrHeight = (LocalConfiguration.current.screenHeightDp * 0.34f).coerceAtMost(280f).dp
     val qr = painterResource(QrImage.RES)
     AboutSheetFrame(AboutCopy.GROUP_SHEET_TITLE, AboutCopy.GROUP_SHEET_SUB, "group-sheet", onDismiss) {

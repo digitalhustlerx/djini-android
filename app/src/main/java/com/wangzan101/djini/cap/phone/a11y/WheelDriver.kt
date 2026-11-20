@@ -1,14 +1,14 @@
-package com.wangzan101.mika.cap.phone.a11y
+package com.wangzan101.djini.cap.phone.a11y
 
 import android.graphics.Rect
 import android.os.Build
 import android.os.Bundle
 import android.view.accessibility.AccessibilityNodeInfo
-import com.wangzan101.mika.core.cap.phone.WheelDrags
-import com.wangzan101.mika.core.cap.phone.WheelMath
-import com.wangzan101.mika.core.cap.phone.WheelSteps
-import com.wangzan101.mika.core.uistate.VisibleTextLine
-import com.wangzan101.mika.core.uistate.WheelOutcome
+import com.wangzan101.djini.core.cap.phone.WheelDrags
+import com.wangzan101.djini.core.cap.phone.WheelMath
+import com.wangzan101.djini.core.cap.phone.WheelSteps
+import com.wangzan101.djini.core.uistate.VisibleTextLine
+import com.wangzan101.djini.core.uistate.WheelOutcome
 import kotlinx.coroutines.delay
 import kotlin.math.abs
 import kotlin.math.roundToInt

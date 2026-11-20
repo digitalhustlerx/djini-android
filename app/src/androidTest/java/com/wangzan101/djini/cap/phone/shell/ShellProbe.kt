@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.phone.shell
+package com.wangzan101.djini.cap.phone.shell
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -6,7 +6,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
 import java.util.concurrent.CopyOnWriteArrayList
-import com.wangzan101.mika.shell.ShellProbeActivity
+import com.wangzan101.djini.shell.ShellProbeActivity
 
 /** 探针页发来的一条记录。 */
 data class ProbeEvent(
@@ -20,7 +20,7 @@ data class ProbeEvent(
     val keyCode: Int,
 )
 
-/** 在 Mika 进程里收 [ShellProbeActivity] 的广播。用完 close。 */
+/** 在 Djini 进程里收 [ShellProbeActivity] 的广播。用完 close。 */
 class ShellProbe(private val context: Context) : AutoCloseable {
     private val events = CopyOnWriteArrayList<ProbeEvent>()
     private val receiver = object : BroadcastReceiver() {
@@ -67,8 +67,8 @@ class ShellProbe(private val context: Context) : AutoCloseable {
 
     companion object {
         const val BROADCAST = ShellProbeActivity.BROADCAST
-        const val COMPONENT = "com.wangzan101.mika.test/com.wangzan101.mika.shell.ShellProbeActivity"
-        const val LINK = "mika-parity://probe"
+        const val COMPONENT = "com.wangzan101.djini.test/com.wangzan101.djini.shell.ShellProbeActivity"
+        const val LINK = "djini-parity://probe"
 
         const val RESUMED = ShellProbeActivity.RESUMED
         const val FOCUSED = ShellProbeActivity.FOCUSED

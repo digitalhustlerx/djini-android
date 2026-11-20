@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.prompt
+package com.wangzan101.djini.core.prompt
 
 import java.util.concurrent.ConcurrentHashMap
 

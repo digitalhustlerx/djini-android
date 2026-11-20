@@ -1,9 +1,9 @@
-package com.wangzan101.mika.core.verify
+package com.wangzan101.djini.core.verify
 
-import com.wangzan101.mika.core.agent.FakeModel
-import com.wangzan101.mika.core.model.ModelReply
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.StopReason
+import com.wangzan101.djini.core.agent.FakeModel
+import com.wangzan101.djini.core.model.ModelReply
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.StopReason
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse

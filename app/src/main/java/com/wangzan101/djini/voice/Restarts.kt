@@ -1,4 +1,4 @@
-package com.wangzan101.mika.voice
+package com.wangzan101.djini.voice
 
 /**
  * 按住期间识别服务结束了一段却没听到字(没匹配上、没开口、空结果)时,要不要重开、隔多久。

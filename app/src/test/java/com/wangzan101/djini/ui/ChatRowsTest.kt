@@ -1,8 +1,8 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.chat.SharedFile
-import com.wangzan101.mika.task.SteerNote
-import com.wangzan101.mika.task.SteerState
+import com.wangzan101.djini.chat.SharedFile
+import com.wangzan101.djini.task.SteerNote
+import com.wangzan101.djini.task.SteerState
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test

@@ -1,7 +1,7 @@
-package com.wangzan101.mika.core.userscreen
+package com.wangzan101.djini.core.userscreen
 
-import com.wangzan101.mika.core.observation.Untrusted
-import com.wangzan101.mika.core.prompt.Feedback
+import com.wangzan101.djini.core.observation.Untrusted
+import com.wangzan101.djini.core.prompt.Feedback
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter

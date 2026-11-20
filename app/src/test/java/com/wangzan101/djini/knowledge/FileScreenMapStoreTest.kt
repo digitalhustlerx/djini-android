@@ -1,7 +1,7 @@
-package com.wangzan101.mika.knowledge
+package com.wangzan101.djini.knowledge
 
-import com.wangzan101.mika.core.screenmap.ScreenGraph
-import com.wangzan101.mika.core.screenmap.ScreenNode
+import com.wangzan101.djini.core.screenmap.ScreenGraph
+import com.wangzan101.djini.core.screenmap.ScreenNode
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue

@@ -1,23 +1,23 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
-import com.wangzan101.mika.core.knowledge.GuideCatalog
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.ModelReply
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.Role
-import com.wangzan101.mika.core.model.StopReason
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.record.RunSink
-import com.wangzan101.mika.core.skills.InMemoryPersonalSkills
-import com.wangzan101.mika.core.skills.PersonalSkill
-import com.wangzan101.mika.core.skills.SkillStatus
-import com.wangzan101.mika.core.skills.personalSkill
-import com.wangzan101.mika.core.tool.FakeScreen
+import com.wangzan101.djini.core.knowledge.GuideCatalog
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.ModelReply
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.Role
+import com.wangzan101.djini.core.model.StopReason
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.record.RunSink
+import com.wangzan101.djini.core.skills.InMemoryPersonalSkills
+import com.wangzan101.djini.core.skills.PersonalSkill
+import com.wangzan101.djini.core.skills.SkillStatus
+import com.wangzan101.djini.core.skills.personalSkill
+import com.wangzan101.djini.core.tool.FakeScreen
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import com.wangzan101.mika.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.assembly.toolDispatcher
 
 class AgentLoopSkillTest {
     private class ListSink : RunSink {
@@ -27,7 +27,7 @@ class AgentLoopSkillTest {
 
     private fun call(name: String, args: String = "{}") = Part.ToolCall("k$name${args.hashCode()}", name, args)
     private fun reply(vararg c: Part.ToolCall) = ModelReply(c.toList(), StopReason.ToolUse, null)
-    private val finish = com.wangzan101.mika.core.testing.answerReply("ok")
+    private val finish = com.wangzan101.djini.core.testing.answerReply("ok")
     private val bundled = GuideCatalog.loadBundled()
 
     private class Run(val requests: List<List<Message>>, val events: List<RunEvent>)

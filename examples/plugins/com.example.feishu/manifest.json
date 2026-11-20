@@ -5,7 +5,7 @@
   "version": "0.1.0",
   "kind": "capability",
   "minApp": "0.1.33",
-  "author": "Mika 插件示例",
+  "author": "Djini 插件示例",
   "description": "飞书消息技能：读消息、回消息、发到群或个人；当前版本只装技能。",
   "skills": [
     {

@@ -1,13 +1,13 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
-import com.wangzan101.mika.core.agent.GateReason
-import com.wangzan101.mika.core.agent.RunProgress
-import com.wangzan101.mika.core.agent.TaskStage
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.core.gate.ConfirmationRequest
-import com.wangzan101.mika.core.risk.IrrevAction
-import com.wangzan101.mika.core.run.RunOrigin
-import com.wangzan101.mika.i18n.ChineseTexts
+import com.wangzan101.djini.core.agent.GateReason
+import com.wangzan101.djini.core.agent.RunProgress
+import com.wangzan101.djini.core.agent.TaskStage
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.core.gate.ConfirmationRequest
+import com.wangzan101.djini.core.risk.IrrevAction
+import com.wangzan101.djini.core.run.RunOrigin
+import com.wangzan101.djini.i18n.ChineseTexts
 import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test

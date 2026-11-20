@@ -197,7 +197,7 @@
     <string name="chat_copy">کپی</string>
     <string name="share_card_question">پرسش</string>
     <string name="share_card_answer">پاسخ</string>
-    <string name="share_card_made_by">توسط Mika انجام شد</string>
+    <string name="share_card_made_by">توسط Djini انجام شد</string>
     <string name="chat_quote">نقل‌قول</string>
     <string name="chat_select_text">انتخاب متن</string>
     <string name="chat_copied">کپی شد</string>
@@ -239,7 +239,7 @@
     <string name="chat_placeholder_queue">کار بعدی را بنویسید…</string>
     <string name="voice_placeholder_queue">کار بعدی را بگویید…</string>
     <string name="steer_received_paused">متوجه شدم؛ هنگام ادامهٔ کار اعمال می‌شود</string>
-    <string name="chat_example_github_star">نشانی https://github.com/wangzan101/mika را باز کن و به پروژه ستاره بده.</string>
+    <string name="chat_example_github_star">نشانی https://github.com/wangzan101/djini را باز کن و به پروژه ستاره بده.</string>
     <string name="drawer_search_clear">پاک کردن جست‌وجو</string>
     <string name="drawer_search_empty">هیچ گفتگویی با «%1$s» مطابقت ندارد</string>
     <string name="drawer_search_empty_hint">در عنوان‌ها و متن گفتگوها جست‌وجو می‌کند</string>

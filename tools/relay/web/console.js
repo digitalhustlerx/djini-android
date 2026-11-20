@@ -12,7 +12,7 @@ const tx = navigator.language.toLowerCase().startsWith("zh")
       tokenRejected: "令牌不对，或手机的远程访问没有打开。",
       needsYou: "需要你", step: "第 {n} 步", turns: "{n} 轮",
       updated: "更新于 {t}", answerEmpty: "（没有回答）", screen: "[屏幕]",
-      unsupported: "手机上的 Mika 还没有只读控制台接口。升级到包含该接口的版本后再打开这一页。",
+      unsupported: "手机上的 djini 还没有只读控制台接口。升级到包含该接口的版本后再打开这一页。",
       unsupportedShort: "手机端需要升级",
     }
   : {
@@ -26,7 +26,7 @@ const tx = navigator.language.toLowerCase().startsWith("zh")
       tokenRejected: "The token was rejected, or remote access is off.",
       needsYou: "Needs you", step: "Step {n}", turns: "{n} turns",
       updated: "Updated {t}", answerEmpty: "(no answer)", screen: "[screen]",
-      unsupported: "This Mika build does not expose the read-only console endpoints yet. Update the phone app to a build that includes them, then reload this page.",
+      unsupported: "This djini build does not expose the read-only console endpoints yet. Update the phone app to a build that includes them, then reload this page.",
       unsupportedShort: "Phone update required",
     };
 
@@ -318,7 +318,7 @@ function renderTurn(turn) {
   const wrap = el("div", "turn");
   wrap.appendChild(el("div", "bubble user", clean(turn.user_text)));
   for (const steer of turn.steers || []) wrap.appendChild(el("div", "steer", clean(steer)));
-  const answer = el("div", "bubble mika" + (turn.status === "failed" ? " failed" : ""), clean(turn.outcome) || tx.answerEmpty);
+  const answer = el("div", "bubble djini" + (turn.status === "failed" ? " failed" : ""), clean(turn.outcome) || tx.answerEmpty);
   wrap.appendChild(answer);
   const meta = el("div", "turn-meta");
   const chip = el("span", "status " + statusClass(turn.status), statusText[turn.status] || turn.status);

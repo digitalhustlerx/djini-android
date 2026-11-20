@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.wechat
+package com.wangzan101.djini.core.wechat
 
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject

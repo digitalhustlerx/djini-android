@@ -1,13 +1,13 @@
-package com.wangzan101.mika.core.tool
+package com.wangzan101.djini.core.tool
 
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.vision.FRAME_A
-import com.wangzan101.mika.core.vision.FRAME_B
-import com.wangzan101.mika.core.vision.JvmTestImageOps
-import com.wangzan101.mika.core.vision.LocScreen
-import com.wangzan101.mika.core.vision.VisionService
-import com.wangzan101.mika.core.vision.says
-import com.wangzan101.mika.core.vision.uiEl
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.vision.FRAME_A
+import com.wangzan101.djini.core.vision.FRAME_B
+import com.wangzan101.djini.core.vision.JvmTestImageOps
+import com.wangzan101.djini.core.vision.LocScreen
+import com.wangzan101.djini.core.vision.VisionService
+import com.wangzan101.djini.core.vision.says
+import com.wangzan101.djini.core.vision.uiEl
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
@@ -18,9 +18,9 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import com.wangzan101.mika.core.assembly.toolDispatcher
-import com.wangzan101.mika.core.uistate.interfaces
-import com.wangzan101.mika.core.uistate.ScreenDiagnosis
+import com.wangzan101.djini.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.uistate.interfaces
+import com.wangzan101.djini.core.uistate.ScreenDiagnosis
 
 class ToolDispatcherVisionTest {
     private var seq = 0
@@ -75,9 +75,9 @@ class ToolDispatcherVisionTest {
 
     @Test fun unbackedPointOnAnEmptyTreeIsTappableAndSaysSo() = runTest {
         // 定位准度没验证过的看图模型,树里什么都没有:点照样能点,结果说明它没佐证、要看效果
-        val model = com.wangzan101.mika.core.agent.FakeModel(
+        val model = com.wangzan101.djini.core.agent.FakeModel(
             *listOf("""{"bbox_2d":[0,880,1000,940],"seen":"输入框"}""", "是").map {
-                com.wangzan101.mika.core.model.ModelReply(listOf(Part.Text(it)), com.wangzan101.mika.core.model.StopReason.EndTurn, null)
+                com.wangzan101.djini.core.model.ModelReply(listOf(Part.Text(it)), com.wangzan101.djini.core.model.StopReason.EndTurn, null)
             }.toTypedArray(), groundingVerified = false)
         val s = LocScreen()
         val d = toolDispatcher(s, vision = VisionService(model, JvmTestImageOps))
@@ -85,7 +85,7 @@ class ToolDispatcherVisionTest {
         assertEquals(found.toString(), "true", found.s("unverified"))
         val r = d.tapRef(found.s("ref") to found.s("snapshotId"))
         assertEquals(r.toString(), "true", r.s("unverifiedPoint"))
-        assertTrue(r.s("hint"), com.wangzan101.mika.core.prompt.Feedback["located.unverified"] in r.s("hint"))
+        assertTrue(r.s("hint"), com.wangzan101.djini.core.prompt.Feedback["located.unverified"] in r.s("hint"))
         assertEquals(1, s.taps.size)
     }
 
@@ -152,7 +152,7 @@ class ToolDispatcherVisionTest {
         assertEquals("protected_content", prot.s("error"))
         val empty = dispatcher(LocScreen(emptyList(), null, hasWindow = false)).execute(call("phone_describe", """{"task":"x","reason":"y"}""")).content
         assertEquals("no_app_open", empty.s("error"))
-        val broken = dispatcher(LocScreen(), com.wangzan101.mika.core.model.ModelError.Network()).execute(call("phone_describe", """{"task":"x","reason":"y"}""")).content
+        val broken = dispatcher(LocScreen(), com.wangzan101.djini.core.model.ModelError.Network()).execute(call("phone_describe", """{"task":"x","reason":"y"}""")).content
         assertEquals("vision_unavailable", broken.s("error"))
     }
 

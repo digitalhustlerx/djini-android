@@ -1,11 +1,11 @@
-package com.wangzan101.mika.wechat
+package com.wangzan101.djini.wechat
 
-import com.wangzan101.mika.cap.sandbox.JVM_GATE
-import com.wangzan101.mika.core.run.ChannelPeer
-import com.wangzan101.mika.core.run.Delivery
-import com.wangzan101.mika.core.wechat.WechatImage
-import com.wangzan101.mika.core.wechat.WechatImages
-import com.wangzan101.mika.core.workspace.SandboxTree
+import com.wangzan101.djini.cap.sandbox.JVM_GATE
+import com.wangzan101.djini.core.run.ChannelPeer
+import com.wangzan101.djini.core.run.Delivery
+import com.wangzan101.djini.core.wechat.WechatImage
+import com.wangzan101.djini.core.wechat.WechatImages
+import com.wangzan101.djini.core.workspace.SandboxTree
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.cancelAndJoin

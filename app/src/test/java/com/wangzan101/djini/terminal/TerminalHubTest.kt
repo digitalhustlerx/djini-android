@@ -1,13 +1,13 @@
-package com.wangzan101.mika.terminal
+package com.wangzan101.djini.terminal
 
-import com.wangzan101.mika.cap.sandbox.WorkspaceKey
-import com.wangzan101.mika.chat.ConversationStore
-import com.wangzan101.mika.chat.ProjectStore
-import com.wangzan101.mika.chat.WorkspaceResolver
-import com.wangzan101.mika.core.cap.sandbox.SandboxShell
-import com.wangzan101.mika.core.cap.sandbox.SandboxStatus
-import com.wangzan101.mika.core.agent.Turn
-import com.wangzan101.mika.core.workspace.SandboxError
+import com.wangzan101.djini.cap.sandbox.WorkspaceKey
+import com.wangzan101.djini.chat.ConversationStore
+import com.wangzan101.djini.chat.ProjectStore
+import com.wangzan101.djini.chat.WorkspaceResolver
+import com.wangzan101.djini.core.cap.sandbox.SandboxShell
+import com.wangzan101.djini.core.cap.sandbox.SandboxStatus
+import com.wangzan101.djini.core.agent.Turn
+import com.wangzan101.djini.core.workspace.SandboxError
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

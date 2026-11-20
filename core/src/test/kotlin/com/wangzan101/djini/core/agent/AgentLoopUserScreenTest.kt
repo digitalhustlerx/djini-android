@@ -1,19 +1,19 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
-import com.wangzan101.mika.core.assembly.toolDispatcher
-import com.wangzan101.mika.core.model.ModelReply
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.StopReason
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.record.RunSink
-import com.wangzan101.mika.core.run.RunId
-import com.wangzan101.mika.core.run.RunSpec
-import com.wangzan101.mika.core.testing.answerReply
-import com.wangzan101.mika.core.tool.FakeScreen
-import com.wangzan101.mika.core.userscreen.ScreenLine
-import com.wangzan101.mika.core.userscreen.UserScreen
-import com.wangzan101.mika.core.userscreen.UserScreenMessage
-import com.wangzan101.mika.core.userscreen.UserScreenSource
+import com.wangzan101.djini.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.model.ModelReply
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.StopReason
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.record.RunSink
+import com.wangzan101.djini.core.run.RunId
+import com.wangzan101.djini.core.run.RunSpec
+import com.wangzan101.djini.core.testing.answerReply
+import com.wangzan101.djini.core.tool.FakeScreen
+import com.wangzan101.djini.core.userscreen.ScreenLine
+import com.wangzan101.djini.core.userscreen.UserScreen
+import com.wangzan101.djini.core.userscreen.UserScreenMessage
+import com.wangzan101.djini.core.userscreen.UserScreenSource
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -49,7 +49,7 @@ class AgentLoopUserScreenTest {
         val goal = UserScreenMessage.compose("s1", "")
         loop(model, goal, vision = true).run(goal)
         val msgs = model.requests.first().withoutRuntime()
-        val said = msgs.first { it.author == com.wangzan101.mika.core.model.Author.User }
+        val said = msgs.first { it.author == com.wangzan101.djini.core.model.Author.User }
         assertEquals("The user just captured the screen they are looking at (聊天, Oct 28 04:02), with no words.", (said.parts.first() as Part.Text).text)
         assertEquals(1, said.parts.count { it is Part.Image })
         val detail = msgs[msgs.indexOf(said) + 1]
@@ -66,7 +66,7 @@ class AgentLoopUserScreenTest {
         val goal = UserScreenMessage.compose("s1", "第二句是谁说的")
         loop(model, goal, vision = false).run(goal)
         val msgs = model.requests.first().withoutRuntime()
-        val said = msgs.first { it.author == com.wangzan101.mika.core.model.Author.User }
+        val said = msgs.first { it.author == com.wangzan101.djini.core.model.Author.User }
         assertEquals("The user just captured the screen they are looking at (聊天, Oct 28 04:02), with these words: 第二句是谁说的", (said.parts.single() as Part.Text).text)
         val body = ContextBuilder.bodyOf(msgs[msgs.indexOf(said) + 1])!!
         assertFalse(body.contains("without words"))
@@ -93,7 +93,7 @@ class AgentLoopUserScreenTest {
         assertFalse(hint, "latest message" in hint)
     }
 
-    private fun List<com.wangzan101.mika.core.model.Message>.runtimeHint(): String =
+    private fun List<com.wangzan101.djini.core.model.Message>.runtimeHint(): String =
         flatMap { it.parts }.filterIsInstance<Part.Text>().last { ContextBuilder.kindOf(it.text) == ContextKind.RuntimeState }.text
 
     @Test fun blockedScreenSaysItCouldNotBeCaptured() = runBlocking {
@@ -101,7 +101,7 @@ class AgentLoopUserScreenTest {
         val goal = UserScreenMessage.compose("s2", "")
         loop(model, goal, vision = true).run(goal)
         val msgs = model.requests.first().withoutRuntime()
-        val said = msgs.first { it.author == com.wangzan101.mika.core.model.Author.User }
+        val said = msgs.first { it.author == com.wangzan101.djini.core.model.Author.User }
         assertTrue((said.parts.single() as Part.Text).text.contains("does not allow screenshots"))
         assertTrue(ContextBuilder.bodyOf(msgs[msgs.indexOf(said) + 1])!!.contains("did not allow screenshots"))
     }

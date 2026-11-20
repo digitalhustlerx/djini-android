@@ -1,9 +1,9 @@
-package com.wangzan101.mika.core.mcp
+package com.wangzan101.djini.core.mcp
 
-import com.wangzan101.mika.core.remote.RemoteHost
-import com.wangzan101.mika.core.remote.HttpResponse
-import com.wangzan101.mika.core.remote.HttpRequest
-import com.wangzan101.mika.core.device.*
+import com.wangzan101.djini.core.remote.RemoteHost
+import com.wangzan101.djini.core.remote.HttpResponse
+import com.wangzan101.djini.core.remote.HttpRequest
+import com.wangzan101.djini.core.device.*
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
@@ -67,7 +67,7 @@ class McpDeviceToolsTest {
     }
 
     @Test fun requestsWithoutDeviceAccessNeverSeeOrReachScreenTools() {
-        val endpoints = com.wangzan101.mika.core.remote.RemoteEndpoints(FakeRemoteTasks(), "test", device = DeviceAccess(port, store))
+        val endpoints = com.wangzan101.djini.core.remote.RemoteEndpoints(FakeRemoteTasks(), "test", device = DeviceAccess(port, store))
         fun post(json: String, deviceAccess: Boolean) = endpoints.handle(HttpRequest("POST", "/mcp",
             mapOf("content-type" to "application/json"), json.toByteArray(), java.net.InetAddress.getByAddress(byteArrayOf(0, 0, 0, 0))),
             deviceAccess).body.toString(Charsets.UTF_8)

@@ -1,4 +1,4 @@
-package com.wangzan101.mika.shell;
+package com.wangzan101.djini.shell;
 
 import android.media.AudioAttributes;
 import android.media.AudioFormat;

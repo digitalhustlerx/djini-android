@@ -1,11 +1,11 @@
-package com.wangzan101.mika.core.cap.devicefiles
+package com.wangzan101.djini.core.cap.devicefiles
 
-import com.wangzan101.mika.core.assembly.toolDispatcher
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.run.*
-import com.wangzan101.mika.core.tool.ActionPass
-import com.wangzan101.mika.core.tool.FakeScreen
-import com.wangzan101.mika.core.workspace.SandboxError
+import com.wangzan101.djini.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.run.*
+import com.wangzan101.djini.core.tool.ActionPass
+import com.wangzan101.djini.core.tool.FakeScreen
+import com.wangzan101.djini.core.workspace.SandboxError
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
@@ -45,7 +45,7 @@ class DeviceFilesTest {
         assertTrue("copy_device_file" in names(spec()))
         assertFalse("copy_device_file" in names(spec(readOnly = true)))
         for (origin in listOf(RunOrigin.Channel, RunOrigin.Trigger, RunOrigin.Mcp)) assertFalse("list_device_files" in names(spec(origin)))
-        val child = toolDispatcher(FakeScreen(), web = com.wangzan101.mika.core.cap.web.FakeWebPort(), deviceFiles = port, runSpec = spec(RunOrigin.Child))
+        val child = toolDispatcher(FakeScreen(), web = com.wangzan101.djini.core.cap.web.FakeWebPort(), deviceFiles = port, runSpec = spec(RunOrigin.Child))
         assertFalse(child.definitions().any { it.name == "list_device_files" })
         assertFalse("list_device_files" in names(spec(attendance = Attendance.Unattended)))
     }

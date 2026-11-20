@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.cap.root
+package com.wangzan101.djini.core.cap.root
 
 /**
  * 一条 root 命令会不会改动东西:只读的直接跑,会改的询问时先问用户。拿不准一律当作会改:

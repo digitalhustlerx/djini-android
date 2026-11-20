@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import android.app.UiAutomation
 import android.content.Intent
@@ -16,19 +16,19 @@ import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.performTouchInput
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.ChineseUi
-import com.wangzan101.mika.MikaApp
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport.pollUntil
-import com.wangzan101.mika.core.agent.QuoteMessage
-import com.wangzan101.mika.core.model.ChatModel
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.ModelReply
-import com.wangzan101.mika.core.model.ToolSpec
-import com.wangzan101.mika.settings.FeatureFlags
-import com.wangzan101.mika.task.ScriptedModel
-import com.wangzan101.mika.task.SteerState
-import com.wangzan101.mika.task.TaskEnvironment
-import com.wangzan101.mika.task.TaskService
+import com.wangzan101.djini.ChineseUi
+import com.wangzan101.djini.DjiniApp
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport.pollUntil
+import com.wangzan101.djini.core.agent.QuoteMessage
+import com.wangzan101.djini.core.model.ChatModel
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.ModelReply
+import com.wangzan101.djini.core.model.ToolSpec
+import com.wangzan101.djini.settings.FeatureFlags
+import com.wangzan101.djini.task.ScriptedModel
+import com.wangzan101.djini.task.SteerState
+import com.wangzan101.djini.task.TaskEnvironment
+import com.wangzan101.djini.task.TaskService
 import java.io.File
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlinx.coroutines.CompletableDeferred
@@ -49,7 +49,7 @@ class SteerEditingDeviceTest {
     @get:Rule(order = Int.MIN_VALUE) val chinese = ChineseUi()
     @get:Rule val compose = createAndroidComposeRule<MainActivity>()
     private val context = InstrumentationRegistry.getInstrumentation().targetContext
-    private val app get() = context.applicationContext as MikaApp
+    private val app get() = context.applicationContext as DjiniApp
     private val vm get() = app.chat
     private val script = ScriptedModel()
     private val release = CompletableDeferred<Unit>()
@@ -163,7 +163,7 @@ class SteerEditingDeviceTest {
     // 电脑追加的插话只归当前任务:手机上长按只有复制、引用、选择文字,撤回也被拒,照常交给模型
     @Test fun remoteSteersOfferNoWithdrawOrEdit() {
         val started = app.remoteTasks.start("请核对今天的资料", conversation)
-        val task = (started as com.wangzan101.mika.core.remote.StartOutcome.Started).task
+        val task = (started as com.wangzan101.djini.core.remote.StartOutcome.Started).task
         script.awaitCall()
         val id = checkNotNull(app.remoteTasks.steer(task.id, "电脑追加的要求"))
         compose.waitUntil(5_000) { vm.ui.value.exchanges.lastOrNull()?.steers?.any { it.id == id && it.state == SteerState.Received } == true }

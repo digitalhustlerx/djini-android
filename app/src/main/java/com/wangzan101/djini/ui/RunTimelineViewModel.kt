@@ -1,10 +1,10 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.record.RunMetrics
-import com.wangzan101.mika.record.RunStore
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.record.RunMetrics
+import com.wangzan101.djini.record.RunStore
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
@@ -12,8 +12,8 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.contentOrNull
 import java.io.File
-import com.wangzan101.mika.core.assembly.knownTools
-import com.wangzan101.mika.ui.components.TileTone
+import com.wangzan101.djini.core.assembly.knownTools
+import com.wangzan101.djini.ui.components.TileTone
 
 enum class TagTone { Ok, Warn, Bad }
 
@@ -255,7 +255,7 @@ class RunTimelineViewModel(
             val code = (parsed?.get("error") as? JsonPrimitive)?.contentOrNull
                 ?: ERROR.find(json)?.groupValues?.get(1)
             val message = (parsed?.get("message") as? JsonPrimitive)?.contentOrNull?.trim()?.takeIf { it.isNotEmpty() }
-            val reason = ERROR_LABELS[code] ?: message?.let { com.wangzan101.mika.core.record.Redactor.text(it).take(240) }
+            val reason = ERROR_LABELS[code] ?: message?.let { com.wangzan101.djini.core.record.Redactor.text(it).take(240) }
                 ?: code?.takeIf { it.isNotBlank() }?.take(100)
             return reason?.let { tr(R.string.result_error_detail, it) }
         }

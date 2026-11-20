@@ -1,12 +1,12 @@
-package com.wangzan101.mika.cap.web.cdp
+package com.wangzan101.djini.cap.web.cdp
 
 import android.net.LocalSocket
 import android.net.LocalSocketAddress
 import android.os.ParcelFileDescriptor
 import android.system.Os
 import android.system.OsConstants
-import com.wangzan101.mika.core.cap.web.cdp.CdpStream
-import com.wangzan101.mika.core.cap.web.cdp.CdpTransport
+import com.wangzan101.djini.core.cap.web.cdp.CdpStream
+import com.wangzan101.djini.core.cap.web.cdp.CdpTransport
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException

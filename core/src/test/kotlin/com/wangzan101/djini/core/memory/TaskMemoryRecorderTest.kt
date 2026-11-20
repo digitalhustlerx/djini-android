@@ -1,8 +1,8 @@
-package com.wangzan101.mika.core.memory
+package com.wangzan101.djini.core.memory
 
-import com.wangzan101.mika.core.observation.ObsKind
-import com.wangzan101.mika.core.observation.Place
-import com.wangzan101.mika.core.record.RunEvent
+import com.wangzan101.djini.core.observation.ObsKind
+import com.wangzan101.djini.core.observation.Place
+import com.wangzan101.djini.core.record.RunEvent
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue

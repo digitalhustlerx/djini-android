@@ -1,26 +1,26 @@
-package com.wangzan101.mika.core.cap.phone
+package com.wangzan101.djini.core.cap.phone
 
-import com.wangzan101.mika.core.capability.Capability
-import com.wangzan101.mika.core.capability.CapabilityKey
-import com.wangzan101.mika.core.capability.CapabilityStatus
-import com.wangzan101.mika.core.capability.Paced
-import com.wangzan101.mika.core.uistate.DwellStop
-import com.wangzan101.mika.core.uistate.IdleScroll
-import com.wangzan101.mika.core.uistate.PlacePace
-import com.wangzan101.mika.core.uistate.dwellStopped
-import com.wangzan101.mika.core.capability.PromptEnv
-import com.wangzan101.mika.core.uistate.Surface
-import com.wangzan101.mika.core.observation.Look
-import com.wangzan101.mika.core.prompt.Prompts
-import com.wangzan101.mika.core.uistate.ScreenPort
-import com.wangzan101.mika.core.tool.AgentTool
-import com.wangzan101.mika.core.tool.ArgError
-import com.wangzan101.mika.core.tool.PACKAGE_NAME_RE
-import com.wangzan101.mika.core.tool.ToolContext
-import com.wangzan101.mika.core.tool.Verb
-import com.wangzan101.mika.core.uistate.EffectKind
-import com.wangzan101.mika.core.uistate.ScreenSnapshot
-import com.wangzan101.mika.core.uistate.sessions
+import com.wangzan101.djini.core.capability.Capability
+import com.wangzan101.djini.core.capability.CapabilityKey
+import com.wangzan101.djini.core.capability.CapabilityStatus
+import com.wangzan101.djini.core.capability.Paced
+import com.wangzan101.djini.core.uistate.DwellStop
+import com.wangzan101.djini.core.uistate.IdleScroll
+import com.wangzan101.djini.core.uistate.PlacePace
+import com.wangzan101.djini.core.uistate.dwellStopped
+import com.wangzan101.djini.core.capability.PromptEnv
+import com.wangzan101.djini.core.uistate.Surface
+import com.wangzan101.djini.core.observation.Look
+import com.wangzan101.djini.core.prompt.Prompts
+import com.wangzan101.djini.core.uistate.ScreenPort
+import com.wangzan101.djini.core.tool.AgentTool
+import com.wangzan101.djini.core.tool.ArgError
+import com.wangzan101.djini.core.tool.PACKAGE_NAME_RE
+import com.wangzan101.djini.core.tool.ToolContext
+import com.wangzan101.djini.core.tool.Verb
+import com.wangzan101.djini.core.uistate.EffectKind
+import com.wangzan101.djini.core.uistate.ScreenSnapshot
+import com.wangzan101.djini.core.uistate.sessions
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.contentOrNull
@@ -39,7 +39,7 @@ internal class PhoneCapability(
     appTempo: (String) -> AppTempo = { AppTempo.NORMAL },
     appCapped: (String) -> Boolean = { false },
     idle: IdleScroll? = null,
-    val smsLogin: com.wangzan101.mika.core.cap.phone.sms.SmsLoginPort? = null,
+    val smsLogin: com.wangzan101.djini.core.cap.phone.sms.SmsLoginPort? = null,
 ) : Capability {
     val dwell = AppDwell(pacing, appTempo, appCapped, idle)
 

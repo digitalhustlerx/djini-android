@@ -1,19 +1,19 @@
-package com.wangzan101.mika.core.replay
+package com.wangzan101.djini.core.replay
 
-import com.wangzan101.mika.core.action.ActionExecutor
-import com.wangzan101.mika.core.action.ActionOutcome
-import com.wangzan101.mika.core.action.Origin
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.record.Redactor
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.record.RunSink
-import com.wangzan101.mika.core.uistate.ScreenSnapshot
-import com.wangzan101.mika.core.uistate.UiElement
-import com.wangzan101.mika.core.uistate.interfaces
-import com.wangzan101.mika.core.tool.ToolDispatcher
-import com.wangzan101.mika.core.screenmap.ScreenGraph
-import com.wangzan101.mika.core.screenmap.ScreenMapRender
-import com.wangzan101.mika.core.screenmap.ScreenRecognizer
+import com.wangzan101.djini.core.action.ActionExecutor
+import com.wangzan101.djini.core.action.ActionOutcome
+import com.wangzan101.djini.core.action.Origin
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.record.Redactor
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.record.RunSink
+import com.wangzan101.djini.core.uistate.ScreenSnapshot
+import com.wangzan101.djini.core.uistate.UiElement
+import com.wangzan101.djini.core.uistate.interfaces
+import com.wangzan101.djini.core.tool.ToolDispatcher
+import com.wangzan101.djini.core.screenmap.ScreenGraph
+import com.wangzan101.djini.core.screenmap.ScreenMapRender
+import com.wangzan101.djini.core.screenmap.ScreenRecognizer
 import kotlinx.coroutines.CancellationException
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
@@ -21,7 +21,7 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.contentOrNull
 import kotlin.math.hypot
-import com.wangzan101.mika.core.tool.Verb
+import com.wangzan101.djini.core.tool.Verb
 
 sealed interface ReplayOutcome {
     /** 走完(或核对通过)的步数。 */
@@ -101,7 +101,7 @@ class Replayer(
                         return ReplayOutcome.StoppedForConfirmation(i)
                     }
                     "target_unresolved" -> return diverged("cannot tell which element the tap would hit", seen)
-                    "own_app" -> return diverged("it acts on Mika itself", seen)
+                    "own_app" -> return diverged("it acts on Djini itself", seen)
                     // #217:非 Ui/无人值守来源回放到付款步,审批策略自动拒绝——这轮永远等
                     // 不来同意,不是「等确认」,交还模型向用户说明后按未完成收尾。
                     "approval_unavailable" -> return diverged(

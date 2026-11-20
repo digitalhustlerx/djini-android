@@ -1,4 +1,4 @@
-package com.wangzan101.mika.settings
+package com.wangzan101.djini.settings
 
 /** 背景图片的模糊程度。 */
 enum class SkinBlur {

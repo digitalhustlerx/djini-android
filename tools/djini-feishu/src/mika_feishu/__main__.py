@@ -16,7 +16,7 @@ def state_file(config):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Connect a Feishu bot to Mika on your phone")
+    parser = argparse.ArgumentParser(description="Connect a Feishu bot to Djini on your phone")
     parser.add_argument("--config", type=Path, default=default_config())
     commands = parser.add_subparsers(dest="command", required=True)
     setup_parser = commands.add_parser("setup", help="Scan to create/link a bot, or enter credentials manually")

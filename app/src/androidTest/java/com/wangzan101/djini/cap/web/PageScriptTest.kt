@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.web
+package com.wangzan101.djini.cap.web
 
 import android.view.WindowManager
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -287,15 +287,15 @@ class PageScriptTest {
     fun digestGivesPartsDialogsAndDeclaredTimes() = runBlocking<Unit> {
         open("digest.html")
         val raw = page.digest()!!
-        val d = com.wangzan101.mika.core.cap.web.PageDigest.parse(raw)
+        val d = com.wangzan101.djini.core.cap.web.PageDigest.parse(raw)
         assertEquals(1, d.dialogs.size)
         assertTrue(d.dialogs[0].joinToString(" ").contains("We use cookies"))
-        val r = com.wangzan101.mika.core.cap.web.PageDigest.render(d, unfold = false)
+        val r = com.wangzan101.djini.core.cap.web.PageDigest.render(d, unfold = false)
         assertTrue(r.text, r.text.contains("# Rain expected tomorrow"))
         assertTrue(r.text, r.text.contains("<<collapsed"))
         assertFalse(r.text, r.text.contains("Story four"))
         assertTrue(r.links.any { it.second == "https://agency.example.org/report" })
-        val (published, updated) = com.wangzan101.mika.core.cap.web.PageDigest.dates(d.signals)
+        val (published, updated) = com.wangzan101.djini.core.cap.web.PageDigest.dates(d.signals)
         assertEquals("2026-10-20T08:30:00+08:00", published)
         assertEquals("2026-10-21T09:00:00Z", updated)
         assertTrue(page.contentSample()!!.first > 0)

@@ -1,6 +1,6 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
-import com.wangzan101.mika.i18n.tr
+import com.wangzan101.djini.i18n.tr
 import android.app.AlarmManager
 import android.app.Notification
 import android.app.NotificationManager
@@ -12,23 +12,23 @@ import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import android.util.Log
-import com.wangzan101.mika.MikaApp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.chat.ConversationStore
-import com.wangzan101.mika.core.agent.Turn
-import com.wangzan101.mika.ui.MainActivity
-import com.wangzan101.mika.core.trigger.Scheduled
-import com.wangzan101.mika.core.trigger.TriggerDefinition
-import com.wangzan101.mika.core.trigger.TriggerEngine
-import com.wangzan101.mika.core.trigger.ConditionOutcome
-import com.wangzan101.mika.core.trigger.TriggerSnapshot
-import com.wangzan101.mika.core.trigger.TriggerWindowState
-import com.wangzan101.mika.core.trigger.rescheduledTo
-import com.wangzan101.mika.core.trigger.EditedSchedule
-import com.wangzan101.mika.core.trigger.afterCheck
-import com.wangzan101.mika.core.trigger.conditionCheckGoal
-import com.wangzan101.mika.core.trigger.revertFire
-import com.wangzan101.mika.settings.FeatureFlags
+import com.wangzan101.djini.DjiniApp
+import com.wangzan101.djini.R
+import com.wangzan101.djini.chat.ConversationStore
+import com.wangzan101.djini.core.agent.Turn
+import com.wangzan101.djini.ui.MainActivity
+import com.wangzan101.djini.core.trigger.Scheduled
+import com.wangzan101.djini.core.trigger.TriggerDefinition
+import com.wangzan101.djini.core.trigger.TriggerEngine
+import com.wangzan101.djini.core.trigger.ConditionOutcome
+import com.wangzan101.djini.core.trigger.TriggerSnapshot
+import com.wangzan101.djini.core.trigger.TriggerWindowState
+import com.wangzan101.djini.core.trigger.rescheduledTo
+import com.wangzan101.djini.core.trigger.EditedSchedule
+import com.wangzan101.djini.core.trigger.afterCheck
+import com.wangzan101.djini.core.trigger.conditionCheckGoal
+import com.wangzan101.djini.core.trigger.revertFire
+import com.wangzan101.djini.settings.FeatureFlags
 import java.io.File
 import java.time.ZoneId
 import kotlinx.coroutines.CoroutineScope
@@ -162,8 +162,8 @@ object TriggerRuntime {
 
     @Synchronized fun list(context: Context): List<TriggerDefinition> = store(context).all()
 
-    /** 这个计划在 [key] 这一次之前接连失败了几次,见 [com.wangzan101.mika.core.trigger.failureStreakBefore]。 */
-    @Synchronized fun failureStreakBefore(context: Context, key: String): Int = com.wangzan101.mika.core.trigger.failureStreakBefore(store(context).windows(), key)
+    /** 这个计划在 [key] 这一次之前接连失败了几次,见 [com.wangzan101.djini.core.trigger.failureStreakBefore]。 */
+    @Synchronized fun failureStreakBefore(context: Context, key: String): Int = com.wangzan101.djini.core.trigger.failureStreakBefore(store(context).windows(), key)
 
     fun canScheduleExactly(context: Context): Boolean = Build.VERSION.SDK_INT < Build.VERSION_CODES.S ||
         context.getSystemService(AlarmManager::class.java).canScheduleExactAlarms()
@@ -234,7 +234,7 @@ object TriggerRuntime {
     }
 
     private fun engine(context: Context, store: FileTriggerStore) = TriggerEngine(store,
-        { at -> arm(context, at) }, isIdle = { !((context.applicationContext as MikaApp).taskState.busy.value) }) { trigger, window ->
+        { at -> arm(context, at) }, isIdle = { !((context.applicationContext as DjiniApp).taskState.busy.value) }) { trigger, window ->
             if (trigger.reminderText != null) deliverReminder(context, store, trigger, window.key)
             else try { TaskService.startTrigger(context, trigger.goal, trigger.threadId, window.key,
                     trigger.conditionCheckGoal(ZoneId.systemDefault()), trigger.conditionGoal) }
@@ -268,7 +268,7 @@ object TriggerRuntime {
     }
 
     private fun hasSavedResult(context: Context, key: String): Boolean =
-        (context.applicationContext as MikaApp).runStore.all().any {
+        (context.applicationContext as DjiniApp).runStore.all().any {
             it.triggerWindowKey == key && it.reply != null
         }
 
@@ -311,7 +311,7 @@ object TriggerRuntime {
         }
     }
 
-    private const val ACTION = "com.wangzan101.mika.task.TRIGGER_ALARM"
+    private const val ACTION = "com.wangzan101.djini.task.TRIGGER_ALARM"
     private const val PREFS = "triggers"
     private const val PROMPTED = "exact_alarm_prompted"
     private const val KEY_DEVICE_ZONE = "device_timezone"
@@ -327,7 +327,7 @@ object ExactAlarmGuide {
 
 class TriggerAlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
-        if (intent.action != "com.wangzan101.mika.task.TRIGGER_ALARM") return
+        if (intent.action != "com.wangzan101.djini.task.TRIGGER_ALARM") return
         val pending = goAsync()
         CoroutineScope(Dispatchers.IO).launch {
             try { TriggerRuntime.fire(context.applicationContext) }

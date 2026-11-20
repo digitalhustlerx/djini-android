@@ -1,13 +1,13 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
-import com.wangzan101.mika.core.model.Capabilities
-import com.wangzan101.mika.core.model.OpenAiCompatModel
-import com.wangzan101.mika.core.cap.sandbox.CommandResult
-import com.wangzan101.mika.core.cap.sandbox.FakeSandbox
-import com.wangzan101.mika.core.uistate.ScreenPort
-import com.wangzan101.mika.core.testing.Screen
-import com.wangzan101.mika.core.testing.ScriptedScreen
-import com.wangzan101.mika.core.testing.label
+import com.wangzan101.djini.core.model.Capabilities
+import com.wangzan101.djini.core.model.OpenAiCompatModel
+import com.wangzan101.djini.core.cap.sandbox.CommandResult
+import com.wangzan101.djini.core.cap.sandbox.FakeSandbox
+import com.wangzan101.djini.core.uistate.ScreenPort
+import com.wangzan101.djini.core.testing.Screen
+import com.wangzan101.djini.core.testing.ScriptedScreen
+import com.wangzan101.djini.core.testing.label
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
@@ -33,7 +33,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.time.ZoneOffset
 import java.util.concurrent.CopyOnWriteArrayList
-import com.wangzan101.mika.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.assembly.toolDispatcher
 
 /**
  * 30 步的假任务(读屏、点、跑命令轮流),经真的 OpenAI 兼容适配器发到假服务端,按线上字节比对相邻两次请求:

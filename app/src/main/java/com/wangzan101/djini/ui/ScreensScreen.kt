@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -40,25 +40,25 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.wangzan101.mika.R
-import com.wangzan101.mika.cap.phone.PhoneServices
-import com.wangzan101.mika.capsule.previewFrames
-import com.wangzan101.mika.capsule.sameFrame
-import com.wangzan101.mika.confirm.ConfirmationNotifier
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.task.TaskCenterState
-import com.wangzan101.mika.ui.components.EmptyNote
-import com.wangzan101.mika.ui.components.FooterNote
-import com.wangzan101.mika.ui.components.GroupCard
-import com.wangzan101.mika.ui.components.ListRow
-import com.wangzan101.mika.ui.components.PageScaffold
-import com.wangzan101.mika.ui.components.RowValue
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
-import com.wangzan101.mika.ui.theme.MikaRadius
-import com.wangzan101.mika.ui.theme.MikaShapes
+import com.wangzan101.djini.R
+import com.wangzan101.djini.cap.phone.PhoneServices
+import com.wangzan101.djini.capsule.previewFrames
+import com.wangzan101.djini.capsule.sameFrame
+import com.wangzan101.djini.confirm.ConfirmationNotifier
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.task.TaskCenterState
+import com.wangzan101.djini.ui.components.EmptyNote
+import com.wangzan101.djini.ui.components.FooterNote
+import com.wangzan101.djini.ui.components.GroupCard
+import com.wangzan101.djini.ui.components.ListRow
+import com.wangzan101.djini.ui.components.PageScaffold
+import com.wangzan101.djini.ui.components.RowValue
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.MikaRadius
+import com.wangzan101.djini.ui.theme.MikaShapes
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -149,7 +149,7 @@ fun ScreensContent(
 /** 一个任务:在做什么、正在用哪个 App、状态;点这一行回到它的对话,点「看画面」展开实时画面。 */
 @Composable
 private fun ScreenCard(row: ScreenRow, frames: StateFlow<Bitmap?>?, onOpenConversation: (String) -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     var open by rememberSaveable(row.key) { mutableStateOf(false) }
     GroupCard(Modifier.padding(top = 8.dp)) {
         ListRow(
@@ -193,7 +193,7 @@ private fun LiveFrame(source: StateFlow<Bitmap?>) {
 private fun FrameZoom(frame: Bitmap, onDismiss: () -> Unit) {
     Dialog(onDismissRequest = onDismiss, properties = DialogProperties(usePlatformDefaultWidth = false)) {
         Box(
-            Modifier.fillMaxSize().background(MikaTheme.colors.bg.copy(alpha = 0.96f)).clickable { onDismiss() }
+            Modifier.fillMaxSize().background(DjiniTheme.colors.bg.copy(alpha = 0.96f)).clickable { onDismiss() }
                 .testTag("screens-zoom-dialog"),
             contentAlignment = Alignment.Center,
         ) {

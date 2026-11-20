@@ -1,12 +1,12 @@
-package com.wangzan101.mika.core.userscreen
+package com.wangzan101.djini.core.userscreen
 
-import com.wangzan101.mika.core.uistate.ScreenSnapshot
-import com.wangzan101.mika.core.uistate.TreeAdequacy
-import com.wangzan101.mika.core.uistate.TreeQuality
-import com.wangzan101.mika.core.uistate.VisibleText
-import com.wangzan101.mika.core.uistate.VisibleTextLine
-import com.wangzan101.mika.core.uistate.UiElement
-import com.wangzan101.mika.core.uistate.normalize
+import com.wangzan101.djini.core.uistate.ScreenSnapshot
+import com.wangzan101.djini.core.uistate.TreeAdequacy
+import com.wangzan101.djini.core.uistate.TreeQuality
+import com.wangzan101.djini.core.uistate.VisibleText
+import com.wangzan101.djini.core.uistate.VisibleTextLine
+import com.wangzan101.djini.core.uistate.UiElement
+import com.wangzan101.djini.core.uistate.normalize
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject

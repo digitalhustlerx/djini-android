@@ -1,11 +1,11 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
-import com.wangzan101.mika.core.remote.RunExportLookup
-import com.wangzan101.mika.core.remote.RunExportRecord
-import com.wangzan101.mika.core.remote.RunExportSource
-import com.wangzan101.mika.core.remote.RunRecordExport
-import com.wangzan101.mika.core.remote.RemoteTask
-import com.wangzan101.mika.record.RunStore
+import com.wangzan101.djini.core.remote.RunExportLookup
+import com.wangzan101.djini.core.remote.RunExportRecord
+import com.wangzan101.djini.core.remote.RunExportSource
+import com.wangzan101.djini.core.remote.RunRecordExport
+import com.wangzan101.djini.core.remote.RemoteTask
+import com.wangzan101.djini.record.RunStore
 
 /** 电脑任务编号和它的运行记录怎么对上。只认 [RemoteTaskHub] 里登记过的任务。 */
 interface RemoteRunIndex {

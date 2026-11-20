@@ -1,23 +1,23 @@
-package com.wangzan101.mika.core.action
+package com.wangzan101.djini.core.action
 
-import com.wangzan101.mika.core.tool.execute
-import com.wangzan101.mika.core.guard.OperationGuards
-import com.wangzan101.mika.core.gate.ConfirmationGate
-import com.wangzan101.mika.core.risk.IrrevAction
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.record.RunSink
-import com.wangzan101.mika.core.uistate.ScreenPort
-import com.wangzan101.mika.core.uistate.ScreenSnapshot
-import com.wangzan101.mika.core.uistate.UiElement
-import com.wangzan101.mika.core.tool.FakeScreen
+import com.wangzan101.djini.core.tool.execute
+import com.wangzan101.djini.core.guard.OperationGuards
+import com.wangzan101.djini.core.gate.ConfirmationGate
+import com.wangzan101.djini.core.risk.IrrevAction
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.record.RunSink
+import com.wangzan101.djini.core.uistate.ScreenPort
+import com.wangzan101.djini.core.uistate.ScreenSnapshot
+import com.wangzan101.djini.core.uistate.UiElement
+import com.wangzan101.djini.core.tool.FakeScreen
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
-import com.wangzan101.mika.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.assembly.toolDispatcher
 
 /** 一屏只有一个按钮(名字由用例给)和一个普通按钮;记下真的点了什么。 */
 private class OneButton(label: String) : ScreenPort by FakeScreen() {
@@ -28,7 +28,7 @@ private class OneButton(label: String) : ScreenPort by FakeScreen() {
     )
     override suspend fun snapshot() = ScreenSnapshot("s1", "com.chat", shown, 1080, 2400)
     override suspend fun peek() = snapshot()
-    override suspend fun tapRef(ref: String, snapshotId: String) = com.wangzan101.mika.core.uistate.ActionResult.Ok(changed = true).also { taps += ref }
+    override suspend fun tapRef(ref: String, snapshotId: String) = com.wangzan101.djini.core.uistate.ActionResult.Ok(changed = true).also { taps += ref }
 }
 
 /**

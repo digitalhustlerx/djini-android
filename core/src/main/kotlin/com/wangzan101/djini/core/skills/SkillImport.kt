@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.skills
+package com.wangzan101.djini.core.skills
 
-import com.wangzan101.mika.core.knowledge.FrontMatter
+import com.wangzan101.djini.core.knowledge.FrontMatter
 
 /**
  * 别人分享来的一份 SKILL.md 变成待收下的草稿(#165)。不经过模型,也不直接进试用:要用户在「待确认」里看过、收下才用。

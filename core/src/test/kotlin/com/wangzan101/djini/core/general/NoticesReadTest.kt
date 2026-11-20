@@ -1,25 +1,25 @@
-package com.wangzan101.mika.core.general
+package com.wangzan101.djini.core.general
 
-import com.wangzan101.mika.core.assembly.toolDispatcher
-import com.wangzan101.mika.core.cap.web.FakeWebPort
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.observation.Untrusted
-import com.wangzan101.mika.core.proactive.DigestLevel
-import com.wangzan101.mika.core.proactive.DigestNote
-import com.wangzan101.mika.core.proactive.DigestView
-import com.wangzan101.mika.core.proactive.DigestViewLine
-import com.wangzan101.mika.core.proactive.DigestsView
-import com.wangzan101.mika.core.proactive.NoticeEntry
-import com.wangzan101.mika.core.proactive.NoticeSource
-import com.wangzan101.mika.core.proactive.NoticeView
-import com.wangzan101.mika.core.record.Redactor
-import com.wangzan101.mika.core.run.RunId
-import com.wangzan101.mika.core.run.RunOrigin
-import com.wangzan101.mika.core.run.RunProvenance
-import com.wangzan101.mika.core.run.RunSpec
-import com.wangzan101.mika.core.tool.ActionPass
-import com.wangzan101.mika.core.tool.FakeScreen
-import com.wangzan101.mika.core.tool.Verb
+import com.wangzan101.djini.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.cap.web.FakeWebPort
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.observation.Untrusted
+import com.wangzan101.djini.core.proactive.DigestLevel
+import com.wangzan101.djini.core.proactive.DigestNote
+import com.wangzan101.djini.core.proactive.DigestView
+import com.wangzan101.djini.core.proactive.DigestViewLine
+import com.wangzan101.djini.core.proactive.DigestsView
+import com.wangzan101.djini.core.proactive.NoticeEntry
+import com.wangzan101.djini.core.proactive.NoticeSource
+import com.wangzan101.djini.core.proactive.NoticeView
+import com.wangzan101.djini.core.record.Redactor
+import com.wangzan101.djini.core.run.RunId
+import com.wangzan101.djini.core.run.RunOrigin
+import com.wangzan101.djini.core.run.RunProvenance
+import com.wangzan101.djini.core.run.RunSpec
+import com.wangzan101.djini.core.tool.ActionPass
+import com.wangzan101.djini.core.tool.FakeScreen
+import com.wangzan101.djini.core.tool.Verb
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.ZoneOffset
@@ -247,29 +247,29 @@ class NoticesReadTest {
     // 走真的一整条:模型调工具 → 执行 → 运行记录。活动那条的名字就是工具名(RunLearning 靠它认「这次读过通知」);
     // 交给模型的结果里有原文,运行记录里的、跟踪里的没有
     @Test fun aRealRunRecordsTheCallButNotTheText() {
-        val events = ArrayList<com.wangzan101.mika.core.record.RunEvent>()
-        val sink = object : com.wangzan101.mika.core.record.RunSink {
-            override fun event(e: com.wangzan101.mika.core.record.RunEvent) { events += e }
+        val events = ArrayList<com.wangzan101.djini.core.record.RunEvent>()
+        val sink = object : com.wangzan101.djini.core.record.RunSink {
+            override fun event(e: com.wangzan101.djini.core.record.RunEvent) { events += e }
             override fun media(mediaId: Int, png: ByteArray) {}
         }
         val canary = "明天下午三点开家长会"
-        val model = com.wangzan101.mika.core.agent.FakeModel(
-            com.wangzan101.mika.core.model.ModelReply(listOf(Part.ToolCall("c1", NOTICES_READ, """{"view":"messages"}""")), com.wangzan101.mika.core.model.StopReason.ToolUse, null),
-            com.wangzan101.mika.core.model.ModelReply(listOf(Part.ToolCall("c2", NOTICES_READ, "{}")), com.wangzan101.mika.core.model.StopReason.ToolUse, null),
+        val model = com.wangzan101.djini.core.agent.FakeModel(
+            com.wangzan101.djini.core.model.ModelReply(listOf(Part.ToolCall("c1", NOTICES_READ, """{"view":"messages"}""")), com.wangzan101.djini.core.model.StopReason.ToolUse, null),
+            com.wangzan101.djini.core.model.ModelReply(listOf(Part.ToolCall("c2", NOTICES_READ, "{}")), com.wangzan101.djini.core.model.StopReason.ToolUse, null),
             // 按人名筛:这个人名是从通知里来的,调用参数、活动的对象里都不能留
-            com.wangzan101.mika.core.model.ModelReply(listOf(Part.ToolCall("c3", NOTICES_READ, """{"view":"messages","query":"王老师","app":"微信"}""")), com.wangzan101.mika.core.model.StopReason.ToolUse, null),
-            com.wangzan101.mika.core.testing.answerReply("今天有三条"),
+            com.wangzan101.djini.core.model.ModelReply(listOf(Part.ToolCall("c3", NOTICES_READ, """{"view":"messages","query":"王老师","app":"微信"}""")), com.wangzan101.djini.core.model.StopReason.ToolUse, null),
+            com.wangzan101.djini.core.testing.answerReply("今天有三条"),
         )
-        runBlocking { com.wangzan101.mika.core.agent.AgentLoop(model, tools(source()), "BASE", sink = sink).run("今天收到了什么") }
-        val acts = events.filterIsInstance<com.wangzan101.mika.core.record.RunEvent.Activity>()
+        runBlocking { com.wangzan101.djini.core.agent.AgentLoop(model, tools(source()), "BASE", sink = sink).run("今天收到了什么") }
+        val acts = events.filterIsInstance<com.wangzan101.djini.core.record.RunEvent.Activity>()
         assertEquals(listOf(NOTICES_READ, NOTICES_READ, NOTICES_READ), acts.map { it.label })
         assertEquals(listOf("observe", "observe", "observe"), acts.map { it.kind })
         assertTrue(acts.all { it.obsIds.isEmpty() && it.target == null })
-        val results = events.filterIsInstance<com.wangzan101.mika.core.record.RunEvent.ToolResult>()
+        val results = events.filterIsInstance<com.wangzan101.djini.core.record.RunEvent.ToolResult>()
         assertEquals(3, results.size)
         assertTrue(results.all { it.tool == NOTICES_READ })
         // 调用参数照记,只是筛的那段字遮掉
-        val asked = events.filterIsInstance<com.wangzan101.mika.core.record.RunEvent.ModelReply>().mapNotNull { it.argsJson }
+        val asked = events.filterIsInstance<com.wangzan101.djini.core.record.RunEvent.ModelReply>().mapNotNull { it.argsJson }
         assertTrue(asked.toString(), asked.any { "微信" in it && "query" in it })
         // 模型拿到的那份里有
         val sent = model.requests.last().flatMap { it.parts }.filterIsInstance<Part.ToolResult>()
@@ -288,8 +288,8 @@ class NoticesReadTest {
                     buildJsonObject { put("role", "tool"); put("tool_call_id", r.callId); put("content", r.content) },
                 )))
             }
-            val shown = com.wangzan101.mika.core.trace.TracePayload.blocks(body, emptyList(), { name -> if (name == NOTICES_READ) Verb.NoticesRead else null },
-                com.wangzan101.mika.core.model.InferenceProtocol.Chat).joinToString { it.text }
+            val shown = com.wangzan101.djini.core.trace.TracePayload.blocks(body, emptyList(), { name -> if (name == NOTICES_READ) Verb.NoticesRead else null },
+                com.wangzan101.djini.core.model.InferenceProtocol.Chat).joinToString { it.text }
             assertTrue(shown, NOTICES_READ in shown)
             for (word in listOf(canary, "家长群", "王老师", "张三", "快递已发货")) assertFalse(word, word in shown)
         }

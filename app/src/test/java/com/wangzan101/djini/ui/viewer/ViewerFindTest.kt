@@ -1,6 +1,6 @@
-package com.wangzan101.mika.ui.viewer
+package com.wangzan101.djini.ui.viewer
 
-import com.wangzan101.mika.ui.MarkdownModel
+import com.wangzan101.djini.ui.MarkdownModel
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue

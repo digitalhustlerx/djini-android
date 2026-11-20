@@ -1,14 +1,14 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
-import com.wangzan101.mika.core.trigger.ConditionNotify
-import com.wangzan101.mika.core.trigger.MemoryTriggerStore
-import com.wangzan101.mika.core.trigger.TriggerDefinition
-import com.wangzan101.mika.core.trigger.TriggerSnapshot
-import com.wangzan101.mika.core.trigger.TriggerSource
-import com.wangzan101.mika.core.trigger.TriggerStore
-import com.wangzan101.mika.core.trigger.TriggerWindow
-import com.wangzan101.mika.core.trigger.TriggerWindowState
-import com.wangzan101.mika.core.trigger.normalizedCalendarTimes
+import com.wangzan101.djini.core.trigger.ConditionNotify
+import com.wangzan101.djini.core.trigger.MemoryTriggerStore
+import com.wangzan101.djini.core.trigger.TriggerDefinition
+import com.wangzan101.djini.core.trigger.TriggerSnapshot
+import com.wangzan101.djini.core.trigger.TriggerSource
+import com.wangzan101.djini.core.trigger.TriggerStore
+import com.wangzan101.djini.core.trigger.TriggerWindow
+import com.wangzan101.djini.core.trigger.TriggerWindowState
+import com.wangzan101.djini.core.trigger.normalizedCalendarTimes
 import java.io.File
 import java.io.FileOutputStream
 import java.nio.file.Files

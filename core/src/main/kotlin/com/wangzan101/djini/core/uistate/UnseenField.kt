@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.uistate
+package com.wangzan101.djini.core.uistate
 
-import com.wangzan101.mika.core.prompt.Feedback
+import com.wangzan101.djini.core.prompt.Feedback
 
 /**
  * 往树里看不到的输入框里打字(App 自己画界面,树里没有输入框,但它可能拿着焦点):

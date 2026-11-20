@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.LocalDensity
@@ -22,12 +22,12 @@ import androidx.compose.ui.test.swipeUp
 import android.view.KeyEvent
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.ChineseUi
-import com.wangzan101.mika.core.trigger.TriggerDefinition
-import com.wangzan101.mika.core.trigger.TriggerWindowState
-import com.wangzan101.mika.task.FileTriggerStore
-import com.wangzan101.mika.task.TriggerRuntime
-import com.wangzan101.mika.ui.theme.MikaTheme
+import com.wangzan101.djini.ChineseUi
+import com.wangzan101.djini.core.trigger.TriggerDefinition
+import com.wangzan101.djini.core.trigger.TriggerWindowState
+import com.wangzan101.djini.task.FileTriggerStore
+import com.wangzan101.djini.task.TriggerRuntime
+import com.wangzan101.djini.ui.theme.DjiniTheme
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertNull
@@ -46,7 +46,7 @@ class PlanEditorDialogTest {
 
     private fun show(original: TriggerDefinition? = null, saved: MutableList<TriggerDefinition>) {
         compose.setContent {
-            MikaTheme(dark = false, reduceMotion = true) {
+            DjiniTheme(dark = false, reduceMotion = true) {
                 PlanEditorDialog(original, "new-thread", onDismiss = {}, onSave = saved::add)
             }
         }
@@ -262,7 +262,7 @@ class PlanEditorDialogTest {
                 LocalLayoutDirection provides LayoutDirection.Rtl,
                 LocalDensity provides Density(density.density, fontScale = 1.5f),
             ) {
-                MikaTheme(dark = true, reduceMotion = true) {
+                DjiniTheme(dark = true, reduceMotion = true) {
                     PlanEditorDialog(null, "new-thread", onDismiss = {}, onSave = saved::add)
                 }
             }
@@ -284,7 +284,7 @@ class PlanEditorDialogTest {
     @Test fun plansPageHasManualCreationEntry() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         compose.setContent {
-            MikaTheme(dark = false, reduceMotion = true) {
+            DjiniTheme(dark = false, reduceMotion = true) {
                 PlansScreen(context, onBack = {}, onOpenConversation = {})
             }
         }
@@ -306,7 +306,7 @@ class PlanEditorDialogTest {
             val latest = checkNotNull(store.claimNow(id, now))
             store.mark(latest.key, TriggerWindowState.Delivered)
             compose.setContent {
-                MikaTheme(dark = false, reduceMotion = true) {
+                DjiniTheme(dark = false, reduceMotion = true) {
                     PlansScreen(context, onBack = {}, onOpenConversation = {})
                 }
             }
@@ -328,7 +328,7 @@ class PlanEditorDialogTest {
         try {
             TriggerRuntime.schedule(context, original)
             compose.setContent {
-                MikaTheme(dark = false, reduceMotion = true) {
+                DjiniTheme(dark = false, reduceMotion = true) {
                     PlansScreen(context, onBack = {}, onOpenConversation = {})
                 }
             }

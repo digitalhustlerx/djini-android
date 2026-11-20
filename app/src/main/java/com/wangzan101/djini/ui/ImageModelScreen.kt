@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -15,29 +15,29 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.settings.ImageChoice
-import com.wangzan101.mika.settings.ImageModelSettings
-import com.wangzan101.mika.settings.ImageProtocol
-import com.wangzan101.mika.settings.ProviderConfig
-import com.wangzan101.mika.settings.ProviderStore
-import com.wangzan101.mika.ui.components.FooterNote
-import com.wangzan101.mika.ui.components.GroupCard
-import com.wangzan101.mika.ui.components.GroupLabel
-import com.wangzan101.mika.ui.components.InputRow
-import com.wangzan101.mika.ui.components.ListRow
-import com.wangzan101.mika.ui.components.MikaButton
-import com.wangzan101.mika.ui.components.MikaSwitch
-import com.wangzan101.mika.ui.components.RadioRow
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.core.model.ImageAspect
-import com.wangzan101.mika.core.model.ImageRequest
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.settings.ImageChoice
+import com.wangzan101.djini.settings.ImageModelSettings
+import com.wangzan101.djini.settings.ImageProtocol
+import com.wangzan101.djini.settings.ProviderConfig
+import com.wangzan101.djini.settings.ProviderStore
+import com.wangzan101.djini.ui.components.FooterNote
+import com.wangzan101.djini.ui.components.GroupCard
+import com.wangzan101.djini.ui.components.GroupLabel
+import com.wangzan101.djini.ui.components.InputRow
+import com.wangzan101.djini.ui.components.ListRow
+import com.wangzan101.djini.ui.components.MikaButton
+import com.wangzan101.djini.ui.components.MikaSwitch
+import com.wangzan101.djini.ui.components.RadioRow
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.core.model.ImageAspect
+import com.wangzan101.djini.core.model.ImageRequest
 import kotlinx.coroutines.launch
 
 /**
  * 设置 › 模型 › 图片模型:选服务商、模型、接口,打开总开关;保存到相册另有开关和每次询问。
- * 不在 [com.wangzan101.mika.core.model.ModelRole] 里:图片模型不参与对话、工具调用和上下文。
+ * 不在 [com.wangzan101.djini.core.model.ModelRole] 里:图片模型不参与对话、工具调用和上下文。
  */
 @Composable
 fun ImageModelScreen(store: ProviderStore, onBack: () -> Unit) {
@@ -46,7 +46,7 @@ fun ImageModelScreen(store: ProviderStore, onBack: () -> Unit) {
     val state by settings.state.collectAsState()
     val providers by store.providers.collectAsState()
     val scope = rememberCoroutineScope()
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     var model by remember { mutableStateOf(state.choice?.model.orEmpty()) }
     var test by remember { mutableStateOf<String?>(null) }
 

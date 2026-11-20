@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -50,31 +50,31 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.core.personal.PersonalTask
-import com.wangzan101.mika.core.personal.PersonalSystemException
-import com.wangzan101.mika.personal.displayText
-import com.wangzan101.mika.personal.displayDetail
-import com.wangzan101.mika.personal.displayResult
-import com.wangzan101.mika.personal.personalSystemText
-import com.wangzan101.mika.personal.personalStopErrorText
-import com.wangzan101.mika.memory.MemoryRuntime
-import com.wangzan101.mika.personal.PersonalPhonePreview
-import com.wangzan101.mika.personal.PersonalRuntime
-import com.wangzan101.mika.ui.components.ActivitySizedDialog
-import com.wangzan101.mika.ui.components.BarIconButton
-import com.wangzan101.mika.ui.components.MikaButton
-import com.wangzan101.mika.ui.components.MikaLogo
-import com.wangzan101.mika.ui.components.cardSurface
-import com.wangzan101.mika.ui.components.floatShadow
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaShapes
-import com.wangzan101.mika.ui.theme.MikaSpace
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
-import com.wangzan101.mika.ui.theme.MikaRadius
-import com.wangzan101.mika.voice.HoldToTalk
-import com.wangzan101.mika.voice.VoiceSource
+import com.wangzan101.djini.R
+import com.wangzan101.djini.core.personal.PersonalTask
+import com.wangzan101.djini.core.personal.PersonalSystemException
+import com.wangzan101.djini.personal.displayText
+import com.wangzan101.djini.personal.displayDetail
+import com.wangzan101.djini.personal.displayResult
+import com.wangzan101.djini.personal.personalSystemText
+import com.wangzan101.djini.personal.personalStopErrorText
+import com.wangzan101.djini.memory.MemoryRuntime
+import com.wangzan101.djini.personal.PersonalPhonePreview
+import com.wangzan101.djini.personal.PersonalRuntime
+import com.wangzan101.djini.ui.components.ActivitySizedDialog
+import com.wangzan101.djini.ui.components.BarIconButton
+import com.wangzan101.djini.ui.components.MikaButton
+import com.wangzan101.djini.ui.components.MikaLogo
+import com.wangzan101.djini.ui.components.cardSurface
+import com.wangzan101.djini.ui.components.floatShadow
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.MikaSpace
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.MikaRadius
+import com.wangzan101.djini.voice.HoldToTalk
+import com.wangzan101.djini.voice.VoiceSource
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -115,8 +115,8 @@ fun PersonalAgentScreen(
 ) {
     val state by runtime.state.collectAsState()
     val actionError by runtime.error.collectAsState()
-    val c = MikaTheme.colors
-    val reduceMotion = MikaTheme.reduceMotion
+    val c = DjiniTheme.colors
+    val reduceMotion = DjiniTheme.reduceMotion
     val scope = rememberCoroutineScope()
     val keyboard = LocalSoftwareKeyboardController.current
     var draft by rememberSaveable { mutableStateOf("") }
@@ -282,7 +282,7 @@ fun PersonalAgentScreen(
 
 @Composable
 internal fun PersonalReply(text: String, error: Boolean, bubble: Modifier = Modifier) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val context = LocalContext.current
     Column {
         SelectionContainer {
@@ -307,7 +307,7 @@ internal fun PersonalProfileDialog(
     onDismiss: () -> Unit,
     onTask: (PersonalTask) -> Unit,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     var tab by rememberSaveable { mutableStateOf(PersonalProfileTab.Tasks) }
     val dismiss by rememberUpdatedState(onDismiss)
     var panelBounds by remember { mutableStateOf(Rect.Zero) }
@@ -353,13 +353,13 @@ internal fun PersonalProfileDialog(
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             MikaLogo(36.dp, corner = 18.dp)
-                            Text("Mika", style = MikaType.Title, color = c.ink, maxLines = 1)
+                            Text("Djini", style = MikaType.Title, color = c.ink, maxLines = 1)
                         }
                     } else {
                         Column(Modifier.align(Alignment.TopCenter).padding(top = MikaSpace.S4),
                             horizontalAlignment = Alignment.CenterHorizontally) {
                             MikaLogo(52.dp, corner = 26.dp)
-                            Text("Mika", Modifier.padding(top = MikaSpace.S8), style = MikaType.Title, color = c.ink)
+                            Text("Djini", Modifier.padding(top = MikaSpace.S8), style = MikaType.Title, color = c.ink)
                         }
                     }
                     Box(Modifier.align(Alignment.TopEnd)) {
@@ -409,7 +409,7 @@ internal fun PersonalProfileDialog(
 
 @Composable
 internal fun PersonalProfileTabs(selected: PersonalProfileTab, showIcons: Boolean, onSelect: (PersonalProfileTab) -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val labels = PersonalProfileTab.entries.map { stringResource(it.label) }
     val measurer = rememberTextMeasurer()
     val density = LocalDensity.current
@@ -462,7 +462,7 @@ internal fun PersonalHeader(
     onTask: (PersonalTask) -> Unit,
     onOpenPreview: (PersonalPhonePreview) -> Unit,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val latestPreview by phonePreview.collectAsState(initial = null)
     val context = LocalContext.current
     val preview = latestPreview
@@ -489,7 +489,7 @@ internal fun PersonalHeader(
                     ) {
                         MikaLogo(52.dp, corner = 26.dp)
                     }
-                    Text("Mika", Modifier.padding(top = 7.dp), style = MikaType.Title, color = c.ink)
+                    Text("Djini", Modifier.padding(top = 7.dp), style = MikaType.Title, color = c.ink)
                 }
                 if (frame != null) {
                     Image(
@@ -534,7 +534,7 @@ private val PersonalTask.iconOnlyStatus: Boolean get() = status == "completed" |
 
 @Composable
 private fun personalTaskTone(task: PersonalTask): PersonalTaskTone {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     return when (task.status) {
         "completed" -> PersonalTaskTone(MikaIcons.Check, c.ok, c.okSoft)
         "needs_you", "paused", "partial" -> PersonalTaskTone(MikaIcons.Info, c.warn, c.warnSoft)
@@ -554,7 +554,7 @@ private fun PersonalTaskIcon(tone: PersonalTaskTone, label: String?) {
 
 @Composable
 private fun PersonalTaskCard(task: PersonalTask, onClick: () -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val tone = personalTaskTone(task)
     val context = LocalContext.current
     val summary = task.displayResult(context)?.takeIf { it.isNotBlank() } ?: task.displayDetail(context).ifBlank { task.goal }
@@ -587,7 +587,7 @@ private fun PersonalTaskSheet(
     onStop: () -> Unit,
     onReplay: (() -> Unit)?,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val tone = personalTaskTone(task)
     val context = LocalContext.current
     ModalBottomSheet(
@@ -633,7 +633,7 @@ private fun PersonalTaskSheet(
 
 @Composable
 private fun PersonalTaskSection(label: String, body: String) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Column(Modifier.fillMaxWidth().background(c.fill, MikaShapes.Card).padding(MikaSpace.S16),
         verticalArrangement = Arrangement.spacedBy(MikaSpace.S8)) {
         Text(label, style = MikaType.Label, color = c.ink2)

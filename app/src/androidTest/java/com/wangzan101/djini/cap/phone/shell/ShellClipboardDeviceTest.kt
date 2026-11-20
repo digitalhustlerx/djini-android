@@ -1,11 +1,11 @@
-package com.wangzan101.mika.cap.phone.shell
+package com.wangzan101.djini.cap.phone.shell
 
 import android.os.Looper
 import android.os.Process
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SdkSuppress
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport.sh
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport.sh
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -38,7 +38,7 @@ object ShellClipboardProbe {
             val originalText = clipboard.primaryClip?.getItemAt(0)?.text?.toString()
             val shell = ShellService(ShellContext.SHELL_UID)
             try {
-                val text = "Mika 中文输入回归"
+                val text = "Djini 中文输入回归"
                 val result = shell.setClipText(text)
                 check(result == ShellService.CLIP_SET) { "setClipText returned $result" }
                 check(clipboard.primaryClip?.getItemAt(0)?.text?.toString() == text)

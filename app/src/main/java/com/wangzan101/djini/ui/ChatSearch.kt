@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -39,13 +39,13 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.wangzan101.mika.R
+import com.wangzan101.djini.R
 import androidx.compose.ui.semantics.Role
-import com.wangzan101.mika.ui.components.SegmentedControl
-import com.wangzan101.mika.ui.components.keepsKeyboard
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
+import com.wangzan101.djini.ui.components.SegmentedControl
+import com.wangzan101.djini.ui.components.keepsKeyboard
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
 
 /** 搜索时按归档状态筛选:[All] 全部(归档的带上标记)、[Active] 只看未归档、[Archived] 只看已归档。 */
 enum class SearchArchiveFilter { All, Active, Archived }
@@ -60,7 +60,7 @@ data class DrawerSearch(
 /** 侧栏顶部的搜索框:38 高的浅底圆角条,聚焦时一圈强调色;键盘上是「搜索」。 */
 @Composable
 internal fun DrawerSearchField(query: String, onQueryChange: (String) -> Unit, modifier: Modifier = Modifier) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val clear = stringResource(R.string.drawer_search_clear)
     val focus = LocalFocusManager.current
     var focused by remember { mutableStateOf(false) }
@@ -123,14 +123,14 @@ internal fun SearchArchiveFilterRow(selected: SearchArchiveFilter, onSelect: (Se
 internal fun SearchHint(text: String) {
     Text(
         text, Modifier.fillMaxWidth().padding(start = 24.dp, end = 24.dp, top = 6.dp, bottom = 4.dp),
-        style = MikaType.Hint, color = MikaTheme.colors.ink3,
+        style = MikaType.Hint, color = DjiniTheme.colors.ink3,
     )
 }
 
 /** 一个对话都没搜到:说清楚搜了哪儿,别让人以为是功能坏了。 */
 @Composable
 internal fun SearchEmpty(query: String) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Column(
         Modifier.fillMaxWidth().padding(start = 24.dp, end = 24.dp, top = 22.dp, bottom = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,

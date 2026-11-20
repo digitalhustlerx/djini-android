@@ -1,8 +1,8 @@
-package com.wangzan101.mika.cap.phone.a11y
+package com.wangzan101.djini.cap.phone.a11y
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport.SETTINGS
-import com.wangzan101.mika.core.uistate.ActionResult
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport.SETTINGS
+import com.wangzan101.djini.core.uistate.ActionResult
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals

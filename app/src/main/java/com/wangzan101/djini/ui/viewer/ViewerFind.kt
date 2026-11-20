@@ -1,11 +1,11 @@
-package com.wangzan101.mika.ui.viewer
+package com.wangzan101.djini.ui.viewer
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import com.wangzan101.mika.ui.FIND_LIMIT
-import com.wangzan101.mika.ui.MdBlock
-import com.wangzan101.mika.ui.findRanges
+import com.wangzan101.djini.ui.FIND_LIMIT
+import com.wangzan101.djini.ui.MdBlock
+import com.wangzan101.djini.ui.findRanges
 
 /**
  * 查看页的查找状态:开没开、搜什么、命中多少处、现在第几处。

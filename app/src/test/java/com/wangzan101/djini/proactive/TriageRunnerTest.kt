@@ -1,22 +1,22 @@
-package com.wangzan101.mika.proactive
+package com.wangzan101.djini.proactive
 
-import com.wangzan101.mika.core.model.Capabilities
-import com.wangzan101.mika.core.model.ChatModel
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.ModelError
-import com.wangzan101.mika.core.model.ModelReply
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.StopReason
-import com.wangzan101.mika.core.model.ToolSpec
-import com.wangzan101.mika.core.proactive.NoticeInbox
-import com.wangzan101.mika.core.proactive.NoticeRecord
-import com.wangzan101.mika.core.proactive.TargetedModel
-import com.wangzan101.mika.core.proactive.TriageConsent
-import com.wangzan101.mika.core.proactive.TriageDecision
-import com.wangzan101.mika.core.proactive.TriageMark
-import com.wangzan101.mika.core.proactive.TriagePlanner
-import com.wangzan101.mika.core.proactive.TriageTarget
-import com.wangzan101.mika.core.usage.ProactiveBudget
+import com.wangzan101.djini.core.model.Capabilities
+import com.wangzan101.djini.core.model.ChatModel
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.ModelError
+import com.wangzan101.djini.core.model.ModelReply
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.StopReason
+import com.wangzan101.djini.core.model.ToolSpec
+import com.wangzan101.djini.core.proactive.NoticeInbox
+import com.wangzan101.djini.core.proactive.NoticeRecord
+import com.wangzan101.djini.core.proactive.TargetedModel
+import com.wangzan101.djini.core.proactive.TriageConsent
+import com.wangzan101.djini.core.proactive.TriageDecision
+import com.wangzan101.djini.core.proactive.TriageMark
+import com.wangzan101.djini.core.proactive.TriagePlanner
+import com.wangzan101.djini.core.proactive.TriageTarget
+import com.wangzan101.djini.core.usage.ProactiveBudget
 import java.time.ZoneOffset
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -95,7 +95,7 @@ class TriageRunnerTest {
                 target = { targetError?.let { throw it }; effective },
                 model = { call ->
                     models++
-                    assertEquals("判定建模型时说的是判定", com.wangzan101.mika.core.proactive.ProactiveCall.Triage, call)
+                    assertEquals("判定建模型时说的是判定", com.wangzan101.djini.core.proactive.ProactiveCall.Triage, call)
                     modelError?.let { throw it }
                     (built ?: effective)?.let { TargetedModel(it, model) }
                 },
@@ -683,7 +683,7 @@ class TriageRunnerTest {
         e.model.gate = CompletableDeferred()
         e.post("a")
         wait(TriagePlanner.WINDOW_MS)
-        wait(com.wangzan101.mika.core.proactive.NoticeTriage.TIMEOUT_MS)
+        wait(com.wangzan101.djini.core.proactive.NoticeTriage.TIMEOUT_MS)
         assertEquals(1, e.model.calls.size)
         assertEquals(1, e.runner.state.value.counts.failed)
         e.post("b", pkg = "com.other", at = 2)

@@ -1,10 +1,10 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
-import com.wangzan101.mika.core.run.RunId
-import com.wangzan101.mika.core.run.ChannelPeer
-import com.wangzan101.mika.core.run.RunPhase
-import com.wangzan101.mika.core.run.RunStore
-import com.wangzan101.mika.core.run.StoredRun
+import com.wangzan101.djini.core.run.RunId
+import com.wangzan101.djini.core.run.ChannelPeer
+import com.wangzan101.djini.core.run.RunPhase
+import com.wangzan101.djini.core.run.RunStore
+import com.wangzan101.djini.core.run.StoredRun
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject

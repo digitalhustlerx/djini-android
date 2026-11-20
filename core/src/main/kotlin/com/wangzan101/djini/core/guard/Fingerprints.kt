@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.guard
+package com.wangzan101.djini.core.guard
 
-import com.wangzan101.mika.core.tool.Verb
+import com.wangzan101.djini.core.tool.Verb
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
 

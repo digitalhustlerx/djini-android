@@ -1,4 +1,4 @@
-package com.wangzan101.mika.teach
+package com.wangzan101.djini.teach
 
 import android.os.Handler
 import android.os.Looper
@@ -20,19 +20,19 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.cap.phone.a11y.OverlayPlacement
-import com.wangzan101.mika.cap.phone.a11y.OverlayWindow
-import com.wangzan101.mika.cap.phone.a11y.ScreenAccessibility
-import com.wangzan101.mika.core.teach.TeachPhase
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
-import com.wangzan101.mika.ui.theme.MikaRadius
+import com.wangzan101.djini.R
+import com.wangzan101.djini.cap.phone.a11y.OverlayPlacement
+import com.wangzan101.djini.cap.phone.a11y.OverlayWindow
+import com.wangzan101.djini.cap.phone.a11y.ScreenAccessibility
+import com.wangzan101.djini.core.teach.TeachPhase
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.MikaRadius
 import kotlinx.coroutines.flow.MutableStateFlow
 
 /**
  * 采集和暂停时贴在屏幕上方的一条。用的是无障碍浮层，和悬浮胶囊同一类窗口，不申请通知权限，也不申请「显示在其他应用上层」。
- * 加不上就返回 false。这条属于 Mika 自己的界面，轨迹里会丢掉。
+ * 加不上就返回 false。这条属于 Djini 自己的界面，轨迹里会丢掉。
  */
 class TeachChip(
     private val onPause: () -> Unit,
@@ -82,8 +82,8 @@ private fun TeachChipBar(
 ) {
     val current by phase.collectAsState()
     val recording = current == TeachPhase.Recording
-    MikaTheme {
-        val c = MikaTheme.colors
+    DjiniTheme {
+        val c = DjiniTheme.colors
         Row(
             Modifier.testTag("teach-chip").clip(RoundedCornerShape(MikaRadius.Bubble)).background(c.ink).padding(horizontal = 12.dp, vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically,
@@ -108,6 +108,6 @@ private fun ChipAction(label: String, onClick: () -> Unit) {
         label,
         Modifier.clickable(role = Role.Button, onClick = onClick).padding(vertical = 4.dp),
         style = MikaType.Body,
-        color = MikaTheme.colors.bg,
+        color = DjiniTheme.colors.bg,
     )
 }

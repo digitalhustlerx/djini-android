@@ -1,10 +1,10 @@
-package com.wangzan101.mika.core.action
+package com.wangzan101.djini.core.action
 
-import com.wangzan101.mika.core.gate.IrreversibleDetector
-import com.wangzan101.mika.core.gate.classify
-import com.wangzan101.mika.core.risk.IrrevAction
-import com.wangzan101.mika.core.uistate.ScreenSnapshot
-import com.wangzan101.mika.core.uistate.UiElement
+import com.wangzan101.djini.core.gate.IrreversibleDetector
+import com.wangzan101.djini.core.gate.classify
+import com.wangzan101.djini.core.risk.IrrevAction
+import com.wangzan101.djini.core.uistate.ScreenSnapshot
+import com.wangzan101.djini.core.uistate.UiElement
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject
 import org.junit.Assert.assertEquals

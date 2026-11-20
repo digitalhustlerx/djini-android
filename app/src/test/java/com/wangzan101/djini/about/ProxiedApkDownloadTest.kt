@@ -1,6 +1,6 @@
-package com.wangzan101.mika.about
+package com.wangzan101.djini.about
 
-import com.wangzan101.mika.core.net.NetProxy
+import com.wangzan101.djini.core.net.NetProxy
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.cancel
@@ -22,7 +22,7 @@ import java.io.IOException
 import java.nio.file.Files
 import javax.net.SocketFactory
 
-/** 设了网络代理时更新包由 Mika 自己经代理下:请求确实发给代理,下完整才留下文件,出错不留半截。 */
+/** 设了网络代理时更新包由 Djini 自己经代理下:请求确实发给代理,下完整才留下文件,出错不留半截。 */
 class ProxiedApkDownloadTest {
     private lateinit var proxy: MockWebServer
     private val dir: File = Files.createTempDirectory("apk").toFile()
@@ -37,9 +37,9 @@ class ProxiedApkDownloadTest {
         proxy.enqueue(MockResponse().setBody(okio.Buffer().write(body)))
         val target = File(dir, "update.apk")
         val seen = mutableListOf<Pair<Long, Long>>()
-        ProxiedApkDownload.fetch(client(), "http://releases.example.test/mika.apk", target) { done, total -> seen += done to total }
+        ProxiedApkDownload.fetch(client(), "http://releases.example.test/djini.apk", target) { done, total -> seen += done to total }
         assertTrue(target.readBytes().contentEquals(body))
-        assertEquals("GET http://releases.example.test/mika.apk HTTP/1.1", proxy.takeRequest().requestLine)
+        assertEquals("GET http://releases.example.test/djini.apk HTTP/1.1", proxy.takeRequest().requestLine)
         assertEquals(body.size.toLong() to body.size.toLong(), seen.last())
         assertFalse(File(dir, "update.apk.part").exists())
     }
@@ -48,7 +48,7 @@ class ProxiedApkDownloadTest {
         proxy.enqueue(MockResponse().setResponseCode(404))
         val target = File(dir, "update.apk")
         try {
-            ProxiedApkDownload.fetch(client(), "http://releases.example.test/mika.apk", target) { _, _ -> }
+            ProxiedApkDownload.fetch(client(), "http://releases.example.test/djini.apk", target) { _, _ -> }
             fail("expected an error")
         } catch (e: IOException) {
             assertFalse(target.exists())
@@ -125,7 +125,7 @@ class ProxiedApkDownloadTest {
         proxy.enqueue(MockResponse().setBody("good"))
         val target = File(dir, "fallback.apk")
         val d = ProxiedApkDownload(client(), this)
-        d.start(listOf("http://mirror.test/mika.apk", "http://releases.example.test/mika.apk"), target)
+        d.start(listOf("http://mirror.test/djini.apk", "http://releases.example.test/djini.apk"), target)
         advanceUntilIdle()
         assertEquals(DownloadPhase.Ready, d.state(target).phase)
         assertEquals("good", target.readText())
@@ -138,7 +138,7 @@ class ProxiedApkDownloadTest {
         proxy.enqueue(MockResponse().setBody("good"))
         val target = File(dir, "verified.apk")
         val d = ProxiedApkDownload(client(), this)
-        d.start(listOf("http://mirror.test/mika.apk", "http://releases.example.test/mika.apk"), target) { file ->
+        d.start(listOf("http://mirror.test/djini.apk", "http://releases.example.test/djini.apk"), target) { file ->
             if (file.readText() != "good") throw IOException("digest mismatch")
         }
         advanceUntilIdle()
@@ -152,7 +152,7 @@ class ProxiedApkDownloadTest {
             proxy.enqueue(MockResponse().setBody("good"))
             val target = File(dir, "identity-$reason.apk")
             val d = ProxiedApkDownload(client(), this)
-            d.start(listOf("http://mirror.test/mika.apk", "http://releases.example.test/mika.apk"), target) { file ->
+            d.start(listOf("http://mirror.test/djini.apk", "http://releases.example.test/djini.apk"), target) { file ->
                 // 两个文件大小相同,缺少摘要时大小校验无法识别错误包。
                 ApkIntegrity.verify(file, size, null)
                 if (file.readText() == "bad!") throw ApkRejected(reason)
@@ -169,7 +169,7 @@ class ProxiedApkDownloadTest {
         proxy.enqueue(MockResponse().setBody("good"))
         val target = File(dir, "cancelled.apk")
         val d = ProxiedApkDownload(client(), this)
-        d.start(listOf("http://mirror.test/mika.apk", "http://releases.example.test/mika.apk"), target) {
+        d.start(listOf("http://mirror.test/djini.apk", "http://releases.example.test/djini.apk"), target) {
             d.cancel()
             throw IOException("cancelled while verifying")
         }
@@ -185,7 +185,7 @@ class ProxiedApkDownloadTest {
         val task = launch {
             val context = currentCoroutineContext()
             try {
-                ProxiedApkDownload.fetch(client(), "http://mirror.test/mika.apk", target, onCall = {
+                ProxiedApkDownload.fetch(client(), "http://mirror.test/djini.apk", target, onCall = {
                     context.cancel()
                 }) { _, _ -> }
             } catch (_: CancellationException) {
@@ -204,7 +204,7 @@ class ProxiedApkDownloadTest {
         proxy.enqueue(MockResponse().setResponseCode(404))
         val target = File(dir, "failed.apk")
         val d = ProxiedApkDownload(client(), this)
-        d.start(listOf("http://mirror.test/mika.apk", "http://releases.example.test/mika.apk"), target)
+        d.start(listOf("http://mirror.test/djini.apk", "http://releases.example.test/djini.apk"), target)
         advanceUntilIdle()
         assertEquals(DownloadPhase.Failed, d.state(target).phase)
         assertFalse(target.exists())

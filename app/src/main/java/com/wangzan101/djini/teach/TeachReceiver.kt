@@ -1,14 +1,14 @@
-package com.wangzan101.mika.teach
+package com.wangzan101.djini.teach
 
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.wangzan101.mika.MikaApp
+import com.wangzan101.djini.DjiniApp
 
 /** 通知上的暂停、继续、结束、放弃。 */
 class TeachReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
-        val app = context.applicationContext as? MikaApp ?: return
+        val app = context.applicationContext as? DjiniApp ?: return
         if (!app.teachReady) return
         when (intent.action) {
             TeachNotifier.PAUSE -> app.teach.pause()

@@ -1,7 +1,7 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.cap.web.KeptPage
-import com.wangzan101.mika.i18n.ChineseTexts
+import com.wangzan101.djini.cap.web.KeptPage
+import com.wangzan101.djini.i18n.ChineseTexts
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Rule

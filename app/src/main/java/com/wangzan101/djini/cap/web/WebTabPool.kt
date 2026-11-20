@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.web
+package com.wangzan101.djini.cap.web
 
 import android.content.ComponentCallbacks2
 import android.content.Context
@@ -11,15 +11,15 @@ import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewDatabase
 import androidx.webkit.WebViewAssetLoader
-import com.wangzan101.mika.core.cap.web.TabInfo
-import com.wangzan101.mika.core.cap.web.WebUrlPolicy
+import com.wangzan101.djini.core.cap.web.TabInfo
+import com.wangzan101.djini.core.cap.web.WebUrlPolicy
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import java.io.Closeable
-import com.wangzan101.mika.core.cap.web.ExternalLink as Link
-import com.wangzan101.mika.cap.web.cdp.WebDevtools
+import com.wangzan101.djini.core.cap.web.ExternalLink as Link
+import com.wangzan101.djini.cap.web.cdp.WebDevtools
 
 /** 标签池里发生的事:新开、关掉(原因)、崩溃、拦下的跳 App 链接、内存回收后切回时重新加载。 */
 sealed interface PoolEvent {

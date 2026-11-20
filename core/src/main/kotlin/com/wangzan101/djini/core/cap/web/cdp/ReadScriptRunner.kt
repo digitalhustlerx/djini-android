@@ -1,9 +1,9 @@
-package com.wangzan101.mika.core.cap.web.cdp
+package com.wangzan101.djini.core.cap.web.cdp
 
-import com.wangzan101.mika.core.cap.web.DEVTOOLS_UNAVAILABLE
-import com.wangzan101.mika.core.cap.web.EVAL_RESULT_MAX_CHARS
-import com.wangzan101.mika.core.cap.web.EvalJs
-import com.wangzan101.mika.core.cap.web.ReadScriptProtocol
+import com.wangzan101.djini.core.cap.web.DEVTOOLS_UNAVAILABLE
+import com.wangzan101.djini.core.cap.web.EVAL_RESULT_MAX_CHARS
+import com.wangzan101.djini.core.cap.web.EvalJs
+import com.wangzan101.djini.core.cap.web.ReadScriptProtocol
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.NonCancellable

@@ -1,21 +1,21 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.MikaApp
-import com.wangzan101.mika.core.agent.FailKind
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.core.mcp.McpTaskTools
-import com.wangzan101.mika.core.remote.RemoteSteer
-import com.wangzan101.mika.core.remote.RemoteOwnership
-import com.wangzan101.mika.core.remote.RemoteTask
-import com.wangzan101.mika.core.remote.RemoteTaskError
-import com.wangzan101.mika.core.remote.RemoteTaskService
-import com.wangzan101.mika.mcp.McpServerState
-import com.wangzan101.mika.settings.McpUsbSettings
-import com.wangzan101.mika.ui.MainActivity
+import com.wangzan101.djini.DjiniApp
+import com.wangzan101.djini.core.agent.FailKind
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.core.mcp.McpTaskTools
+import com.wangzan101.djini.core.remote.RemoteSteer
+import com.wangzan101.djini.core.remote.RemoteOwnership
+import com.wangzan101.djini.core.remote.RemoteTask
+import com.wangzan101.djini.core.remote.RemoteTaskError
+import com.wangzan101.djini.core.remote.RemoteTaskService
+import com.wangzan101.djini.mcp.McpServerState
+import com.wangzan101.djini.settings.McpUsbSettings
+import com.wangzan101.djini.ui.MainActivity
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.jsonPrimitive
@@ -32,7 +32,7 @@ import java.util.concurrent.Executors
 @RunWith(AndroidJUnit4::class)
 class RemoteTaskRecoveryDeviceTest {
     @get:Rule val ui = createAndroidComposeRule<MainActivity>()
-    private val app get() = ApplicationProvider.getApplicationContext<MikaApp>()
+    private val app get() = ApplicationProvider.getApplicationContext<DjiniApp>()
 
     @Test fun rebootMigratesReceiptsOwnedByThePreviouslySavedUsbToken() {
         val name = "receipts-usb-" + UUID.randomUUID()
@@ -60,7 +60,7 @@ class RemoteTaskRecoveryDeviceTest {
     @Test fun versionOneReceiptsUpgradeWithoutLosingResultsOrSingleUseFileRequests() {
         val name = "receipts-migration-" + UUID.randomUUID()
         val now = System.currentTimeMillis()
-        val item = com.wangzan101.mika.chat.SharedFile("result.csv", 3, "Downloads/Mika", "content://exports/7")
+        val item = com.wangzan101.djini.chat.SharedFile("result.csv", 3, "Downloads/Djini", "content://exports/7")
         val task = RemoteTask("files", "mcp-files", "original goal", now, null)
         try {
             app.openOrCreateDatabase(name, 0, null).use { db ->

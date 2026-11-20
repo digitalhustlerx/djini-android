@@ -1,12 +1,12 @@
-package com.wangzan101.mika.cap.phone.shell
+package com.wangzan101.djini.cap.phone.shell
 
 import kotlinx.coroutines.flow.StateFlow
-import com.wangzan101.mika.shell.IMikaShell
+import com.wangzan101.djini.shell.IDjiniShell
 
 /** 到 shell 身份服务的一条连接;[SharedShell] 按引用计数绑定/解绑,调用方只看这几样。 */
 interface ShellBinding {
     /** 绑定期间连着时是服务的接口,否则为 null。 */
-    val shell: StateFlow<IMikaShell?>
+    val shell: StateFlow<IDjiniShell?>
 
     /** 连上过、仍需要,但现在断了。重新连上或解绑后复位。 */
     val dropped: StateFlow<Boolean>

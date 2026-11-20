@@ -25,8 +25,8 @@ cat > "$cfg" <<'EOS'
 # 例：先给结论
 # prefix=先给结论，再给理由。不确定的事直接说不确定，不要绕。
 #
-# 例：把身份句换成中文（左边是 Mika 原文，右边是想换成的）
-# replace=You are Mika, the user's personal assistant on their phone.=>你是 Mika。
+# 例：把身份句换成中文（左边是 Djini 原文，右边是想换成的）
+# replace=You are Djini, the user's personal assistant on their phone.=>你是 Djini。
 #
 # 例：只对某个模型追加要求
 # [gpt]suffix=回答尽量控制在三句话内。

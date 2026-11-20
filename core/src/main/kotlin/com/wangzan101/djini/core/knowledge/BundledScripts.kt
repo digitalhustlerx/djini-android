@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.knowledge
+package com.wangzan101.djini.core.knowledge
 
 /** 知识或技能目录里的一个脚本此刻能不能跑;不能跑时 [reason] 写原因。 */
 data class ScriptState(val file: String, val runnable: Boolean, val reason: String?)

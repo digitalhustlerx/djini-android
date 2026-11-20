@@ -1,22 +1,22 @@
-package com.wangzan101.mika.core.uistate.tools
+package com.wangzan101.djini.core.uistate.tools
 
-import com.wangzan101.mika.core.uistate.ScreenFamily
-import com.wangzan101.mika.core.prompt.Feedback
-import com.wangzan101.mika.core.uistate.ScreenDiagnosis
-import com.wangzan101.mika.core.uistate.ScreenState
-import com.wangzan101.mika.core.tool.Args
-import com.wangzan101.mika.core.tool.HINT_PROTECTED
-import com.wangzan101.mika.core.tool.HINT_DISPLAY_CAPTURE
-import com.wangzan101.mika.core.tool.HINT_UNSUPPORTED_BROWSER
-import com.wangzan101.mika.core.tool.Risk
-import com.wangzan101.mika.core.tool.ToolContext
-import com.wangzan101.mika.core.tool.ToolDef
-import com.wangzan101.mika.core.tool.ToolExecution
-import com.wangzan101.mika.core.tool.Verb
-import com.wangzan101.mika.core.tool.ok
+import com.wangzan101.djini.core.uistate.ScreenFamily
+import com.wangzan101.djini.core.prompt.Feedback
+import com.wangzan101.djini.core.uistate.ScreenDiagnosis
+import com.wangzan101.djini.core.uistate.ScreenState
+import com.wangzan101.djini.core.tool.Args
+import com.wangzan101.djini.core.tool.HINT_PROTECTED
+import com.wangzan101.djini.core.tool.HINT_DISPLAY_CAPTURE
+import com.wangzan101.djini.core.tool.HINT_UNSUPPORTED_BROWSER
+import com.wangzan101.djini.core.tool.Risk
+import com.wangzan101.djini.core.tool.ToolContext
+import com.wangzan101.djini.core.tool.ToolDef
+import com.wangzan101.djini.core.tool.ToolExecution
+import com.wangzan101.djini.core.tool.Verb
+import com.wangzan101.djini.core.tool.ok
 import kotlinx.serialization.json.put
-import com.wangzan101.mika.core.uistate.screen
-import com.wangzan101.mika.core.uistate.session
+import com.wangzan101.djini.core.uistate.screen
+import com.wangzan101.djini.core.uistate.session
 
 /** 诊断空白、加载中、锁屏或受保护的屏幕;要过锁屏关卡(锁着屏诊断不出东西)。 */
 internal class Diagnose(f: ScreenFamily) : ScreenTool(f, "diagnose") {

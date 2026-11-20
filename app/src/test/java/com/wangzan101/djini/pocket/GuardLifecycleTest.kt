@@ -1,4 +1,4 @@
-package com.wangzan101.mika.pocket
+package com.wangzan101.djini.pocket
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

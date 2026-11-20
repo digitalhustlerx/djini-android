@@ -1,8 +1,8 @@
-package com.wangzan101.mika.core.usage
+package com.wangzan101.djini.core.usage
 
-import com.wangzan101.mika.core.model.ModelError
-import com.wangzan101.mika.core.model.Usage
-import com.wangzan101.mika.core.record.RunEvent
+import com.wangzan101.djini.core.model.ModelError
+import com.wangzan101.djini.core.model.Usage
+import com.wangzan101.djini.core.record.RunEvent
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicLong
 import kotlin.coroutines.AbstractCoroutineContextElement

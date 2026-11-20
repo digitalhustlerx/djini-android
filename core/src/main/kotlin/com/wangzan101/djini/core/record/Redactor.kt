@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.record
+package com.wangzan101.djini.core.record
 
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
@@ -6,7 +6,7 @@ import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.booleanOrNull
-import com.wangzan101.mika.core.tool.Verb
+import com.wangzan101.djini.core.tool.Verb
 
 /**
  * 运行记录的脱敏:密码框里输入的字、形如 API Key 的串一律记为 `***`。
@@ -54,7 +54,7 @@ object Redactor {
     }
 
     /**
-     * web_script 的源码:脚本里要输入的字可能写成任何形式(交给 mika.type、先存进变量、拼接),
+     * web_script 的源码:脚本里要输入的字可能写成任何形式(交给 djini.type、先存进变量、拼接),
      * 和 type_text 一样不知道是不是密码框,一律按是处理:源码里每个字符串字面量都打码,只留引号种类(模板字符串留 `${…}` 的位置)。
      */
     private fun script(argsJson: String): String {

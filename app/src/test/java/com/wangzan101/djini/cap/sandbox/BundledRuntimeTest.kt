@@ -1,10 +1,10 @@
-package com.wangzan101.mika.cap.sandbox
+package com.wangzan101.djini.cap.sandbox
 
 import org.junit.Rule
-import com.wangzan101.mika.i18n.ChineseTexts
-import com.wangzan101.mika.core.workspace.SandboxTree
-import com.wangzan101.mika.core.cap.sandbox.SANDBOX_PACKAGES
-import com.wangzan101.mika.core.cap.sandbox.SandboxStatus
+import com.wangzan101.djini.i18n.ChineseTexts
+import com.wangzan101.djini.core.workspace.SandboxTree
+import com.wangzan101.djini.core.cap.sandbox.SANDBOX_PACKAGES
+import com.wangzan101.djini.core.cap.sandbox.SandboxStatus
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonArray
@@ -53,17 +53,17 @@ class BundledRuntimeTest {
             BundledRuntime.FILE_BYTES + BundledRuntime.FILE_BYTES / 4 + (64L shl 20), BundledRuntime.ENTRIES + 1000,
         ) { asset.inputStream() }
         RootfsInstaller(
-            dirs, state, bundle, abis = { listOf("arm64-v8a") }, freeBytes = { 8L shl 30 }, selfTest = { 0 to "mikarun ok\n" },
+            dirs, state, bundle, abis = { listOf("arm64-v8a") }, freeBytes = { 8L shl 30 }, selfTest = { 0 to "djinarun ok\n" },
             procReadable = { true }, prepareDev = {}, clientScript = { "#!/bin/sh\n".toByteArray() },
         ).install { _, _ -> }
         assertEquals(SandboxStatus.Ready(network = true), state.status.value)
-        for (p in listOf("bin/sh", "usr/bin/python3", "usr/bin/node", "usr/local/bin/mika", "etc/apk/world",
+        for (p in listOf("bin/sh", "usr/bin/python3", "usr/bin/node", "usr/local/bin/djini", "etc/apk/world",
             "usr/share/zoneinfo/Asia/Shanghai", "usr/share/zoneinfo/America/New_York", "usr/share/zoneinfo/Asia/Kathmandu")) {
             assertTrue(p, Files.exists(File(dirs.rootfs, p).toPath(), LinkOption.NOFOLLOW_LINKS))
         }
         val installed = File(dirs.rootfs, "lib/apk/db/installed").readText()
         SANDBOX_PACKAGES.forEach { assertTrue(it, installed.contains("\nP:$it\n")) }
         assertEquals(BundledRuntime.VERSION.substringBefore('-'), File(dirs.rootfs, "etc/alpine-release").readText().trim())
-        com.wangzan101.mika.core.cap.sandbox.RootfsExtractor.deleteTree(tmp)
+        com.wangzan101.djini.core.cap.sandbox.RootfsExtractor.deleteTree(tmp)
     }
 }

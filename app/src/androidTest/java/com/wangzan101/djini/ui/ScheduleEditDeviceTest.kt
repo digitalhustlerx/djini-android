@@ -1,12 +1,12 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.wangzan101.mika.core.trigger.TriggerDefinition
-import com.wangzan101.mika.core.trigger.editedTrigger
-import com.wangzan101.mika.core.trigger.toPlanDraft
-import com.wangzan101.mika.task.LocalScheduleAdmin
-import com.wangzan101.mika.task.TriggerRuntime
+import com.wangzan101.djini.core.trigger.TriggerDefinition
+import com.wangzan101.djini.core.trigger.editedTrigger
+import com.wangzan101.djini.core.trigger.toPlanDraft
+import com.wangzan101.djini.task.LocalScheduleAdmin
+import com.wangzan101.djini.task.TriggerRuntime
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
 import org.junit.Test
@@ -35,7 +35,7 @@ class ScheduleEditDeviceTest {
             assertEquals("new", saved.goal)
             assertFalse(saved.enabled)
             assertEquals(listOf("08:00", "20:00"), saved.calendarClocks())
-            val reopened = com.wangzan101.mika.task.FileTriggerStore(java.io.File(context.filesDir, "triggers-v3.json"))
+            val reopened = com.wangzan101.djini.task.FileTriggerStore(java.io.File(context.filesDir, "triggers-v3.json"))
             assertEquals(saved, reopened.get(id))
             val foreign = admin.edit("other", id) { error("must not edit a foreign plan") }
             assertNull(foreign)

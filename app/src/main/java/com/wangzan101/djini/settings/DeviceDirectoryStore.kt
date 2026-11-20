@@ -1,4 +1,4 @@
-package com.wangzan101.mika.settings
+package com.wangzan101.djini.settings
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -83,7 +83,7 @@ class DeviceDirectoryStore(private val prefs: SharedPreferences, private val use
         require(description.length <= 1000)
         val (current, revision) = read()
         val existing = current.firstOrNull { it.path == path } ?: throw NoSuchElementException("Directory hint not found")
-        val updated = existing.copy(description = description.trim(), source = "mika")
+        val updated = existing.copy(description = description.trim(), source = "djini")
         writeIfChanged(current, current.map { if (it.path == path) updated else it }, revision)
         updated
     }

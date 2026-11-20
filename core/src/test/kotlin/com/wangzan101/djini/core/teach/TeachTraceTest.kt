@@ -1,15 +1,15 @@
-package com.wangzan101.mika.core.teach
+package com.wangzan101.djini.core.teach
 
-import com.wangzan101.mika.core.agent.FakeModel
-import com.wangzan101.mika.core.knowledge.GuideCatalog
-import com.wangzan101.mika.core.knowledge.GuideView
-import com.wangzan101.mika.core.model.ModelReply
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.StopReason
-import com.wangzan101.mika.core.skills.InMemoryPersonalSkills
-import com.wangzan101.mika.core.skills.PersonalSkill
-import com.wangzan101.mika.core.skills.SkillDrafter
-import com.wangzan101.mika.core.skills.SkillStatus
+import com.wangzan101.djini.core.agent.FakeModel
+import com.wangzan101.djini.core.knowledge.GuideCatalog
+import com.wangzan101.djini.core.knowledge.GuideView
+import com.wangzan101.djini.core.model.ModelReply
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.StopReason
+import com.wangzan101.djini.core.skills.InMemoryPersonalSkills
+import com.wangzan101.djini.core.skills.PersonalSkill
+import com.wangzan101.djini.core.skills.SkillDrafter
+import com.wangzan101.djini.core.skills.SkillStatus
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -19,7 +19,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class TeachTraceTest {
-    private val own = "com.wangzan101.mika"
+    private val own = "com.wangzan101.djini"
     private val id = "a".repeat(32)
     private val secret = "验证码是 123456"
     private val card = "4242424242424242"
@@ -74,8 +74,8 @@ class TeachTraceTest {
     }
 
     @Test fun onlyDemonstratedSkillsRetireTheirTrace() {
-        val demo = com.wangzan101.mika.core.skills.PersonalSkill(
-            "demo-aaaaaaaa", "---\nsource: demonstrated\n---\n正文", com.wangzan101.mika.core.skills.SkillStatus.pending,
+        val demo = com.wangzan101.djini.core.skills.PersonalSkill(
+            "demo-aaaaaaaa", "---\nsource: demonstrated\n---\n正文", com.wangzan101.djini.core.skills.SkillStatus.pending,
             "teach:$id", null, 0L, emptyList(), source = TeachSkill.SOURCE,
         )
         val learned = demo.copy(source = null, learnedFrom = "run-1", markdown = "---\nsource: learned\n---\n正文")

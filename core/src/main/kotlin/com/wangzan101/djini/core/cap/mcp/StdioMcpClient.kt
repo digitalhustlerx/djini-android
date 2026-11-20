@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.cap.mcp
+package com.wangzan101.djini.core.cap.mcp
 
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CompletableDeferred
@@ -151,7 +151,7 @@ class StdioMcpEndpoint private constructor(
             launcher: McpStdioLauncher,
             workspace: String,
             timeoutSec: Int = 60,
-            clientName: String = "Mika",
+            clientName: String = "Djini",
             clientVersion: String = "1",
             protocolVersion: String = PROTOCOL_VERSION,
         ): Result<StdioMcpEndpoint> {

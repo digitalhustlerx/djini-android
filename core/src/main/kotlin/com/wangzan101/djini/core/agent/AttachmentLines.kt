@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
 /**
  * 用户的话里带的附件怎么写:消息末尾每个附件一行「附件:/workspace/inbox/<名字>(<大小>)」,这几行原样存进对话、交给任务。

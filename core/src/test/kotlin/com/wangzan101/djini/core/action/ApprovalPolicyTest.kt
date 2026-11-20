@@ -1,8 +1,8 @@
-package com.wangzan101.mika.core.action
+package com.wangzan101.djini.core.action
 
-import com.wangzan101.mika.core.run.Attendance
-import com.wangzan101.mika.core.run.RunOrigin
-import com.wangzan101.mika.core.run.RunProvenance
+import com.wangzan101.djini.core.run.Attendance
+import com.wangzan101.djini.core.run.RunOrigin
+import com.wangzan101.djini.core.run.RunProvenance
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

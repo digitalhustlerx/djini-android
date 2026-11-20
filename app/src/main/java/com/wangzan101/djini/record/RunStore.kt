@@ -1,16 +1,16 @@
-package com.wangzan101.mika.record
+package com.wangzan101.djini.record
 
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Log
-import com.wangzan101.mika.core.record.Redactor
-import com.wangzan101.mika.core.record.RunMetrics
-import com.wangzan101.mika.core.record.RunMetricsStore
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.record.RunRecords
-import com.wangzan101.mika.core.record.RunSink
-import com.wangzan101.mika.core.record.RunSummary
+import com.wangzan101.djini.core.record.Redactor
+import com.wangzan101.djini.core.record.RunMetrics
+import com.wangzan101.djini.core.record.RunMetricsStore
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.record.RunRecords
+import com.wangzan101.djini.core.record.RunSink
+import com.wangzan101.djini.core.record.RunSummary
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.SerializationException
@@ -201,7 +201,7 @@ class RunHandle internal constructor(
     private var closing = false
     private var sinceSummary = 0
     private val metrics = RunMetrics.Builder(runId)
-    private val writer = Thread(::drain, "mika-run-$runId").apply { isDaemon = true }
+    private val writer = Thread(::drain, "djini-run-$runId").apply { isDaemon = true }
 
     init {
         writeSummary()

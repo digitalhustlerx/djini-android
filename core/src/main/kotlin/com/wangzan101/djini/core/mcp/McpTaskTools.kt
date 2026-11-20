@@ -1,11 +1,11 @@
-package com.wangzan101.mika.core.mcp
+package com.wangzan101.djini.core.mcp
 
-import com.wangzan101.mika.core.remote.RemoteStatus
-import com.wangzan101.mika.core.remote.RemoteTasks
-import com.wangzan101.mika.core.remote.RemoteTask
-import com.wangzan101.mika.core.remote.RemoteTaskService
-import com.wangzan101.mika.core.remote.RemoteTaskError
-import com.wangzan101.mika.core.device.DeviceAccess
+import com.wangzan101.djini.core.remote.RemoteStatus
+import com.wangzan101.djini.core.remote.RemoteTasks
+import com.wangzan101.djini.core.remote.RemoteTask
+import com.wangzan101.djini.core.remote.RemoteTaskService
+import com.wangzan101.djini.core.remote.RemoteTaskError
+import com.wangzan101.djini.core.device.DeviceAccess
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonObject
@@ -19,11 +19,11 @@ import kotlinx.serialization.json.put
 import kotlinx.serialization.json.putJsonArray
 import kotlinx.serialization.json.putJsonObject
 
-/** 电脑能用的工具:只给高层的「把事交给 Mika」,具体怎么做由手机上的 Mika 自己决定。 */
+/** 电脑能用的工具:只给高层的「把事交给 Djini」,具体怎么做由手机上的 Djini 自己决定。 */
 class McpTaskTools(
     private val service: RemoteTaskService,
     device: DeviceAccess? = null,
-    calls: com.wangzan101.mika.core.calls.PhoneCallPort? = null,
+    calls: com.wangzan101.djini.core.calls.PhoneCallPort? = null,
 ) {
     constructor(tasks: RemoteTasks, pollMs: Long = 250, device: DeviceAccess? = null) :
         this(RemoteTaskService(tasks, pollMs), device)
@@ -35,7 +35,7 @@ class McpTaskTools(
     data class Tool(val name: String, val description: String, val schema: JsonObject, val readOnly: Boolean)
 
     val tools: List<Tool> = listOf(
-        Tool(RUN, "Hand Mika a task to do on the Android phone. Mika runs its own agent on the phone (apps, web, files) " +
+        Tool(RUN, "Hand Djini a task to do on the Android phone. Djini runs its own agent on the phone (apps, web, files) " +
             "and records the task in a conversation the user can see in the app. Returns a task_id right away; " +
             "follow it with mika_wait_task. Payments and confirmations are never approved over MCP.",
             schema(required = listOf("goal")) {
@@ -46,7 +46,7 @@ class McpTaskTools(
                 }
                 putJsonObject("conversation") {
                     put("type", "string")
-                    put("description", "Optional: continue a conversation returned by an earlier task so Mika keeps its context.")
+                    put("description", "Optional: continue a conversation returned by an earlier task so Djini keeps its context.")
                 }
             }, readOnly = false),
         Tool(STATUS, "Current state of a task: status, latest progress note, the question it is waiting on, or the final answer.",
@@ -60,7 +60,7 @@ class McpTaskTools(
                     put("description", "Longest wait in seconds.")
                 }
             }, readOnly = true),
-        Tool(ANSWER, "Answer the question Mika asked in this task (status waiting_for_answer). " +
+        Tool(ANSWER, "Answer the question Djini asked in this task (status waiting_for_answer). " +
             "Cannot approve payments, confirmations or steps handed to the user; those stay on the phone.",
             schema(required = listOf("task_id", "text")) {
                 taskIdProp()
@@ -156,7 +156,7 @@ class McpTaskTools(
         RemoteStatus.describe(task).forEach { (k, v) -> put(k, v) }
         when (RemoteStatus.of(task.state)) {
             RemoteStatus.WAITING_ON_PHONE -> put("note", ON_PHONE_NOTE)
-            RemoteStatus.WAITING_FOR_ANSWER -> put("note", "Mika is asking a question. Reply with mika_answer; the user can also answer on the phone.")
+            RemoteStatus.WAITING_FOR_ANSWER -> put("note", "Djini is asking a question. Reply with mika_answer; the user can also answer on the phone.")
         }
     }
 
@@ -191,7 +191,7 @@ class McpTaskTools(
         const val MAX_GOAL = RemoteTaskService.MAX_GOAL
         const val MAX_ANSWER = RemoteTaskService.MAX_ANSWER
         private const val ON_PHONE_NOTE = "This step needs the user on the phone and cannot be answered over MCP. " +
-            "Mika has shown its usual notification there; keep waiting with mika_wait_task or cancel the task."
+            "Djini has shown its usual notification there; keep waiting with mika_wait_task or cancel the task."
 
         fun newConversation(): String = RemoteTaskService.newConversation()
         fun isConversation(id: String): Boolean = RemoteTaskService.isConversation(id)

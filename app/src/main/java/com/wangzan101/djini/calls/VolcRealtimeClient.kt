@@ -1,6 +1,6 @@
-package com.wangzan101.mika.calls
+package com.wangzan101.djini.calls
 
-import com.wangzan101.mika.calls.VolcRealtimeProtocol.string
+import com.wangzan101.djini.calls.VolcRealtimeProtocol.string
 import java.io.IOException
 import java.util.UUID
 import java.util.concurrent.TimeUnit

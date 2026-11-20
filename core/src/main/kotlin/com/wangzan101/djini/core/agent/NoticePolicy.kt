@@ -1,10 +1,10 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
-import com.wangzan101.mika.core.guard.DIAGNOSTIC_VERBS
-import com.wangzan101.mika.core.observation.Place
-import com.wangzan101.mika.core.observation.PlaceKind
-import com.wangzan101.mika.core.prompt.Feedback
-import com.wangzan101.mika.core.tool.Verb
+import com.wangzan101.djini.core.guard.DIAGNOSTIC_VERBS
+import com.wangzan101.djini.core.observation.Place
+import com.wangzan101.djini.core.observation.PlaceKind
+import com.wangzan101.djini.core.prompt.Feedback
+import com.wangzan101.djini.core.tool.Verb
 
 /** 一个工具结果之后要按它找的参考资料。 */
 internal sealed interface KnowledgeLookup {

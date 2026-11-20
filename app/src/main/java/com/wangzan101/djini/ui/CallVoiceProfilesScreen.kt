@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -12,11 +12,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.calls.*
-import com.wangzan101.mika.ui.components.*
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaTheme
+import com.wangzan101.djini.R
+import com.wangzan101.djini.calls.*
+import com.wangzan101.djini.ui.components.*
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniTheme
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 
@@ -64,7 +64,7 @@ internal fun CallVoiceProfilesScreen(runtime: CallRuntime, onBack: () -> Unit) {
                     first = true,
                     onClick = { editing = profile },
                 ) {
-                    if (selected) Icon(MikaIcons.Check, stringResource(R.string.calls_voice_selected), tint = MikaTheme.colors.accent)
+                    if (selected) Icon(MikaIcons.Check, stringResource(R.string.calls_voice_selected), tint = DjiniTheme.colors.accent)
                     else RowChevron()
                 }
                 Text(
@@ -75,7 +75,7 @@ internal fun CallVoiceProfilesScreen(runtime: CallRuntime, onBack: () -> Unit) {
                     }),
                     Modifier.padding(horizontal = 16.dp),
                     style = MaterialTheme.typography.bodySmall,
-                    color = if (profile.connectionTested) MikaTheme.colors.ok else MikaTheme.colors.ink3,
+                    color = if (profile.connectionTested) DjiniTheme.colors.ok else DjiniTheme.colors.ink3,
                 )
                 Row(Modifier.fillMaxWidth().padding(horizontal = 6.dp), horizontalArrangement = Arrangement.spacedBy(2.dp)) {
                     if (!selected) TextButton(onClick = { perform { runtime.selectVoiceProfile(profile.id) } }, enabled = !busy,
@@ -175,7 +175,7 @@ private fun CallVoiceProfileDialog(
                             }, label = { Text(label) })
                     }
                 }
-                Text(stringResource(R.string.calls_voice_protocol), style = MaterialTheme.typography.bodySmall, color = MikaTheme.colors.ink3)
+                Text(stringResource(R.string.calls_voice_protocol), style = MaterialTheme.typography.bodySmall, color = DjiniTheme.colors.ink3)
                 OutlinedTextField(name, { name = it.take(CallVoiceProfile.MAX_NAME) }, Modifier.fillMaxWidth().testTag("call-voice-name"),
                     label = { Text(stringResource(R.string.calls_voice_name)) }, singleLine = true, enabled = !externalBusy)
                 OutlinedTextField(endpoint, { endpoint = it.take(CallVoiceProfile.MAX_ENDPOINT) }, Modifier.fillMaxWidth().testTag("call-voice-endpoint"),

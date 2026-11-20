@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.tool
+package com.wangzan101.djini.core.tool
 
 /**
  * 一批动作里某一步做完之后,接着做下一步之前要等到的样子;几项都给了要同时成立。代码只做字面比较,不理解意思:

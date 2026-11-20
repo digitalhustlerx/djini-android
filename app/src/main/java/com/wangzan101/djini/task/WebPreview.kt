@@ -1,4 +1,4 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
 /**
  * 网页界面时画中画小窗显示什么(纯逻辑,[TaskRun] 每半秒按它更新)。

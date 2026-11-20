@@ -1,10 +1,10 @@
-package com.wangzan101.mika.voice
+package com.wangzan101.djini.voice
 
-import com.wangzan101.mika.core.model.ModelError
-import com.wangzan101.mika.i18n.ChineseTexts
-import com.wangzan101.mika.settings.AesGcmKeyCipher
-import com.wangzan101.mika.settings.FeatureFlagsCapsuleTest.MemoryPrefs
-import com.wangzan101.mika.settings.KeyCipher
+import com.wangzan101.djini.core.model.ModelError
+import com.wangzan101.djini.i18n.ChineseTexts
+import com.wangzan101.djini.settings.AesGcmKeyCipher
+import com.wangzan101.djini.settings.FeatureFlagsCapsuleTest.MemoryPrefs
+import com.wangzan101.djini.settings.KeyCipher
 import java.io.IOException
 import javax.crypto.KeyGenerator
 import org.junit.Assert.assertEquals

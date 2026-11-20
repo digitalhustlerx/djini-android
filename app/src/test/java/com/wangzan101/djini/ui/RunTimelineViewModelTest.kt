@@ -1,12 +1,12 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.i18n.ChineseTexts
-import com.wangzan101.mika.core.guard.GuardVerdict
-import com.wangzan101.mika.core.guard.Severity
-import com.wangzan101.mika.core.record.Redactor
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.record.RunHandle
-import com.wangzan101.mika.record.RunStore
+import com.wangzan101.djini.i18n.ChineseTexts
+import com.wangzan101.djini.core.guard.GuardVerdict
+import com.wangzan101.djini.core.guard.Severity
+import com.wangzan101.djini.core.record.Redactor
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.record.RunHandle
+import com.wangzan101.djini.record.RunStore
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
@@ -19,8 +19,8 @@ import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
-import com.wangzan101.mika.core.assembly.knownTools
-import com.wangzan101.mika.core.tool.Verb
+import com.wangzan101.djini.core.assembly.knownTools
+import com.wangzan101.djini.core.tool.Verb
 
 class RunTimelineViewModelTest {
     @get:Rule val texts = ChineseTexts()

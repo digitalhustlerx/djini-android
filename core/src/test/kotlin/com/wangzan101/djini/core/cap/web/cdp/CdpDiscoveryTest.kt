@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.cap.web.cdp
+package com.wangzan101.djini.core.cap.web.cdp
 
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
@@ -10,7 +10,7 @@ import java.io.IOException
 class CdpDiscoveryTest {
     private val version = """
         {
-           "Android-Package": "com.wangzan101.mika",
+           "Android-Package": "com.wangzan101.djini",
            "Browser": "Chrome/120.0.6099.230",
            "Protocol-Version": "1.3",
            "User-Agent": "Mozilla/5.0 (Linux; Android 14; wv)",

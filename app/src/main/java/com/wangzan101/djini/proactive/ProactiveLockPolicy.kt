@@ -1,4 +1,4 @@
-package com.wangzan101.mika.proactive
+package com.wangzan101.djini.proactive
 
 /**
  * 锁屏 / 解锁时监听该做什么:纯逻辑,[ProactiveRuntime] 只照着返回的动作做。

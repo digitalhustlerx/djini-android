@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.uistate
+package com.wangzan101.djini.core.uistate
 
 /**
  * 这一屏的无障碍树够不够用;不够用时写进读屏结果的 treeQuality。

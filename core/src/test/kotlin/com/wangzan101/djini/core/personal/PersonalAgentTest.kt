@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.personal
+package com.wangzan101.djini.core.personal
 
-import com.wangzan101.mika.core.model.*
+import com.wangzan101.djini.core.model.*
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.awaitCancellation
 import kotlinx.serialization.encodeToString

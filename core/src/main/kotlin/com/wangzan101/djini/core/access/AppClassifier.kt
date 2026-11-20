@@ -1,7 +1,7 @@
-package com.wangzan101.mika.core.access
+package com.wangzan101.djini.core.access
 
-import com.wangzan101.mika.core.model.*
-import com.wangzan101.mika.core.prompt.Prompts
+import com.wangzan101.djini.core.model.*
+import com.wangzan101.djini.core.prompt.Prompts
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.withTimeoutOrNull
 import kotlinx.serialization.json.*

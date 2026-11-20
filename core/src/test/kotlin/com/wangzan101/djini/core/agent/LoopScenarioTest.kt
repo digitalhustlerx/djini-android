@@ -1,32 +1,32 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
-import com.wangzan101.mika.core.knowledge.KnowledgeStore
-import com.wangzan101.mika.core.knowledge.GuideCatalog
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.Role
-import com.wangzan101.mika.core.cap.sandbox.FakeSandbox
-import com.wangzan101.mika.core.uistate.ActionResult
-import com.wangzan101.mika.core.testing.FakeChatModel
-import com.wangzan101.mika.core.testing.InterruptibleStream
-import com.wangzan101.mika.core.run.RunId
-import com.wangzan101.mika.core.run.RunInbox
-import com.wangzan101.mika.core.run.RunInput
-import com.wangzan101.mika.core.run.RunSpec
-import com.wangzan101.mika.core.testing.LoopSnapshot
-import com.wangzan101.mika.core.testing.Screen
-import com.wangzan101.mika.core.testing.ScriptedScreen
-import com.wangzan101.mika.core.testing.button
-import com.wangzan101.mika.core.testing.fakeModel
-import com.wangzan101.mika.core.testing.field
-import com.wangzan101.mika.core.testing.label
-import com.wangzan101.mika.core.tool.FakeScreen
-import com.wangzan101.mika.core.tool.ScriptWebPort
-import com.wangzan101.mika.core.tool.ToolDispatcher
-import com.wangzan101.mika.core.verify.Verifier
-import com.wangzan101.mika.core.agent.AttachedPage
-import com.wangzan101.mika.core.cap.web.FakeWebPort
-import com.wangzan101.mika.core.cap.web.PageText
-import com.wangzan101.mika.core.cap.web.ScriptRun
+import com.wangzan101.djini.core.knowledge.KnowledgeStore
+import com.wangzan101.djini.core.knowledge.GuideCatalog
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.Role
+import com.wangzan101.djini.core.cap.sandbox.FakeSandbox
+import com.wangzan101.djini.core.uistate.ActionResult
+import com.wangzan101.djini.core.testing.FakeChatModel
+import com.wangzan101.djini.core.testing.InterruptibleStream
+import com.wangzan101.djini.core.run.RunId
+import com.wangzan101.djini.core.run.RunInbox
+import com.wangzan101.djini.core.run.RunInput
+import com.wangzan101.djini.core.run.RunSpec
+import com.wangzan101.djini.core.testing.LoopSnapshot
+import com.wangzan101.djini.core.testing.Screen
+import com.wangzan101.djini.core.testing.ScriptedScreen
+import com.wangzan101.djini.core.testing.button
+import com.wangzan101.djini.core.testing.fakeModel
+import com.wangzan101.djini.core.testing.field
+import com.wangzan101.djini.core.testing.label
+import com.wangzan101.djini.core.tool.FakeScreen
+import com.wangzan101.djini.core.tool.ScriptWebPort
+import com.wangzan101.djini.core.tool.ToolDispatcher
+import com.wangzan101.djini.core.verify.Verifier
+import com.wangzan101.djini.core.agent.AttachedPage
+import com.wangzan101.djini.core.cap.web.FakeWebPort
+import com.wangzan101.djini.core.cap.web.PageText
+import com.wangzan101.djini.core.cap.web.ScriptRun
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.test.advanceUntilIdle
@@ -40,8 +40,8 @@ import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.time.ZoneOffset
-import com.wangzan101.mika.core.testing.WEB_SCRIPT_TOOL
-import com.wangzan101.mika.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.testing.WEB_SCRIPT_TOOL
+import com.wangzan101.djini.core.assembly.toolDispatcher
 
 /**
  * 用假模型驱动真的 AgentLoop 跑典型场景:断言结局,并把每次发给模型的消息序列和金样比对,
@@ -70,7 +70,7 @@ class LoopScenarioTest {
     }
 
     /** 这次请求里最后一段运行时状态的全文。 */
-    private fun List<com.wangzan101.mika.core.model.Message>.runtimeState(): String =
+    private fun List<com.wangzan101.djini.core.model.Message>.runtimeState(): String =
         flatMap { it.parts }.filterIsInstance<Part.Text>().last { ContextBuilder.kindOf(it.text) == ContextKind.RuntimeState }.text
 
     private fun FakeChatModel.lastResult(i: Int): String =
@@ -216,7 +216,7 @@ class LoopScenarioTest {
         }
         val main = fakeModel("main") {
             call("web_navigate", "url" to "https://shop.example.com/")
-            call(WEB_SCRIPT_TOOL, "code" to "await mika.tap('@e1'); await mika.tap('@e2')")
+            call(WEB_SCRIPT_TOOL, "code" to "await djini.tap('@e1'); await djini.tap('@e2')")
             reportFailure("下单需要用户确认,脚本没有执行")
         }
         val end = loop(main, toolDispatcher(FakeScreen(), web = port)).run("搜一下再下单")
@@ -236,7 +236,7 @@ class LoopScenarioTest {
             answer("找到了")
         }
         val end = loop(main, toolDispatcher(FakeScreen())).run("找搜索按钮")
-        com.wangzan101.mika.core.testing.assertAnswered("找到了", end)
+        com.wangzan101.djini.core.testing.assertAnswered("找到了", end)
         assertEquals(5, main.requests.size)
         // 重发的是同一个请求
         assertEquals(main.requests[3], main.requests[4])
@@ -403,9 +403,9 @@ class LoopScenarioTest {
         assertTrue(hint, "latest message: \"$quoted\"" in hint)
     }
 
-    // 引了 Mika 之前的一段英文回答、再打一句短中文:按整句算会判成换了语言;引的那段不算用户的话,语言提示引打的字,中文回答不退回
+    // 引了 Djini 之前的一段英文回答、再打一句短中文:按整句算会判成换了语言;引的那段不算用户的话,语言提示引打的字,中文回答不退回
     @Test fun quotedReplyFollowsTheUserWords() = runTest {
-        val goal = QuoteMessage.compose(QuoteMessage.Quote(QuoteMessage.From.Mika, ENGLISH_REPLY), "那哪个更值")
+        val goal = QuoteMessage.compose(QuoteMessage.Quote(QuoteMessage.From.Djini, ENGLISH_REPLY), "那哪个更值")
         assertNotNull(ReplyLanguage.mismatch(goal, HEADPHONES_ANSWER))
         val main = fakeModel("main") { answer(HEADPHONES_ANSWER) }
         val end = loop(main, toolDispatcher(FakeScreen())).run(goal)
@@ -417,7 +417,7 @@ class LoopScenarioTest {
 
     // 插话里引了那段英文回答:一样只看插话里打的字
     @Test fun quotedSteerFollowsTheUserWords() = runTest {
-        val steer = QuoteMessage.compose(QuoteMessage.Quote(QuoteMessage.From.Mika, ENGLISH_REPLY), "那哪个更值")
+        val steer = QuoteMessage.compose(QuoteMessage.Quote(QuoteMessage.From.Djini, ENGLISH_REPLY), "那哪个更值")
         assertNotNull(ReplyLanguage.mismatch(steer, HEADPHONES_ANSWER))
         val main = fakeModel("main") { answer(HEADPHONES_ANSWER) }
         val inbox = RunInbox().apply { send(RunInput.Steer("m1", steer)) }

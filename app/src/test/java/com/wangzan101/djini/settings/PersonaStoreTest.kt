@@ -1,4 +1,4 @@
-package com.wangzan101.mika.settings
+package com.wangzan101.djini.settings
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -89,7 +89,7 @@ class PersonaStoreTest {
 
     /** 测试里用到的上限,和 PersonaPrompt 的常量对上;改名时只改这里一处。 */
     private object PersonaPromptLimit {
-        const val NAME = com.wangzan101.mika.core.prompt.PersonaPrompt.MAX_NAME
-        const val CHARS = com.wangzan101.mika.core.prompt.PersonaPrompt.MAX_PROMPT_CHARS
+        const val NAME = com.wangzan101.djini.core.prompt.PersonaPrompt.MAX_NAME
+        const val CHARS = com.wangzan101.djini.core.prompt.PersonaPrompt.MAX_PROMPT_CHARS
     }
 }

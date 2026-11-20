@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.model
+package com.wangzan101.djini.core.model
 
 import okhttp3.Request
 

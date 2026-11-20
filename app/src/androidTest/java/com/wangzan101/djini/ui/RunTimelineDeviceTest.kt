@@ -1,7 +1,7 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.ChineseUi
-import com.wangzan101.mika.DeviceTaskState
+import com.wangzan101.djini.ChineseUi
+import com.wangzan101.djini.DeviceTaskState
 import android.content.Context
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.hasContentDescription
@@ -12,14 +12,14 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.MikaApp
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport.SETTINGS
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport.pollUntil
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.settings.Prerequisites
-import com.wangzan101.mika.task.ScriptedModel
-import com.wangzan101.mika.task.TaskService
+import com.wangzan101.djini.DjiniApp
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport.SETTINGS
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport.pollUntil
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.settings.Prerequisites
+import com.wangzan101.djini.task.ScriptedModel
+import com.wangzan101.djini.task.TaskService
 import org.junit.After
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
@@ -27,12 +27,12 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import com.wangzan101.mika.task.testTasks
-import com.wangzan101.mika.task.TaskEnvironment
+import com.wangzan101.djini.task.testTasks
+import com.wangzan101.djini.task.TaskEnvironment
 
 /**
  * 真机:脚本模型跑一个 3 步任务(打开设置、看屏幕、交结果),在结果卡片上点「查看过程」,
- * 时间线上应有 3 行,点有画面的那行能看到当时的缩略图。需要内置助手在运行、Mika 无障碍服务已开启。
+ * 时间线上应有 3 行,点有画面的那行能看到当时的缩略图。需要内置助手在运行、Djini 无障碍服务已开启。
  */
 @OptIn(ExperimentalTestApi::class)
 @RunWith(AndroidJUnit4::class)
@@ -43,7 +43,7 @@ class RunTimelineDeviceTest {
 
     private val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
     private val model = ScriptedModel()
-    private val vm get() = (context.applicationContext as MikaApp).chat
+    private val vm get() = (context.applicationContext as DjiniApp).chat
 
     @Before
     fun setUp() {

@@ -1,10 +1,10 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
-import com.wangzan101.mika.core.model.Author
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.Role
-import com.wangzan101.mika.core.prompt.Feedback
+import com.wangzan101.djini.core.model.Author
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.Role
+import com.wangzan101.djini.core.prompt.Feedback
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 
@@ -38,6 +38,6 @@ internal class ReplyCalls(parts: List<Part>, accept: (CompletionPlanBlock.Extrac
                 put("message", Feedback["parallel_call_skipped"])
             }.toString(), isError = true)
         }
-        return Message(Role.Tool, results, Author.Mika)
+        return Message(Role.Tool, results, Author.Djini)
     }
 }

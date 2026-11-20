@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
 /**
  * 一个模型的压缩记账:本任务是否已改成狠压缩(模型报过超长),上一次发出时折叠了几步、用的什么力度。

@@ -1,12 +1,12 @@
-package com.wangzan101.mika.core.cap.sandbox
+package com.wangzan101.djini.core.cap.sandbox
 
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.LinkOption
-import com.wangzan101.mika.core.workspace.SandboxError
-import com.wangzan101.mika.core.workspace.SandboxPaths
+import com.wangzan101.djini.core.workspace.SandboxError
+import com.wangzan101.djini.core.workspace.SandboxPaths
 
-/** 存到「下载/Mika」的规则;share_file 工具和沙箱里的 `mika share` 共用,两条路一样严。 */
+/** 存到「下载/Djini」的规则;share_file 工具和沙箱里的 `djini share` 共用,两条路一样严。 */
 object ShareRules {
     const val MAX_BYTES = 100L shl 20
 

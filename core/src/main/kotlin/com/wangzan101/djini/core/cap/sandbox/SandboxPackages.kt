@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.cap.sandbox
+package com.wangzan101.djini.core.cap.sandbox
 
 /**
  * 运行环境里装的包:Python 与 Node,外加技能脚本清单里 `apk:` 需要的

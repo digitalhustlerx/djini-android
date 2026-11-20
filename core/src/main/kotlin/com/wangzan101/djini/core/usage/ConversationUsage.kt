@@ -1,14 +1,14 @@
-package com.wangzan101.mika.core.usage
+package com.wangzan101.djini.core.usage
 
-import com.wangzan101.mika.core.agent.ContextBuilder
-import com.wangzan101.mika.core.agent.ContextKind
-import com.wangzan101.mika.core.agent.TokenEstimate
-import com.wangzan101.mika.core.model.Author
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.Role
-import com.wangzan101.mika.core.model.ToolSpec
-import com.wangzan101.mika.core.model.Usage
+import com.wangzan101.djini.core.agent.ContextBuilder
+import com.wangzan101.djini.core.agent.ContextKind
+import com.wangzan101.djini.core.agent.TokenEstimate
+import com.wangzan101.djini.core.model.Author
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.Role
+import com.wangzan101.djini.core.model.ToolSpec
+import com.wangzan101.djini.core.model.Usage
 import kotlinx.serialization.Serializable
 import kotlin.coroutines.AbstractCoroutineContextElement
 import kotlin.coroutines.CoroutineContext
@@ -39,7 +39,7 @@ data class RequestComposition(
                     is Part.Text -> {
                         val size = TokenEstimate.of(part.text)
                         val kind = ContextBuilder.kindOf(part.text).takeIf {
-                            (message.role == Role.User && message.author == Author.Mika) ||
+                            (message.role == Role.User && message.author == Author.Djini) ||
                                 (it == ContextKind.RuntimeState && part === message.parts.last() && message.parts.size > 1)
                         }
                         when (kind) {

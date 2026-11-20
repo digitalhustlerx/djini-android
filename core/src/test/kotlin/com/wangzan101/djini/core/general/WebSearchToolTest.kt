@@ -1,14 +1,14 @@
-package com.wangzan101.mika.core.general
+package com.wangzan101.djini.core.general
 
-import com.wangzan101.mika.core.assembly.toolDispatcher
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.observation.Trust
-import com.wangzan101.mika.core.search.WebSearch
-import com.wangzan101.mika.core.search.WebSearchHit
-import com.wangzan101.mika.core.search.WebSearchResult
-import com.wangzan101.mika.core.tool.FakeScreen
-import com.wangzan101.mika.core.tool.ActionPass
-import com.wangzan101.mika.core.tool.Risk
+import com.wangzan101.djini.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.observation.Trust
+import com.wangzan101.djini.core.search.WebSearch
+import com.wangzan101.djini.core.search.WebSearchHit
+import com.wangzan101.djini.core.search.WebSearchResult
+import com.wangzan101.djini.core.tool.FakeScreen
+import com.wangzan101.djini.core.tool.ActionPass
+import com.wangzan101.djini.core.tool.Risk
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonArray

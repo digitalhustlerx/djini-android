@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.phone.a11y
+package com.wangzan101.djini.cap.phone.a11y
 
 /** Recognize the platform's Paste command without relying on any app's text. */
 internal class ContextEditMenu(private val pasteLabel: String) {

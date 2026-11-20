@@ -1,17 +1,17 @@
-package com.wangzan101.mika.chat
+package com.wangzan101.djini.chat
 
 import android.content.Context
-import com.wangzan101.mika.core.agent.NoticeTurn
-import com.wangzan101.mika.core.record.RunMetricsStore
-import com.wangzan101.mika.core.usage.ConversationMeter
-import com.wangzan101.mika.core.usage.ConversationUsage
-import com.wangzan101.mika.core.agent.Turn
-import com.wangzan101.mika.settings.PersonaStore
-import com.wangzan101.mika.core.chat.GeneratedAudio
-import com.wangzan101.mika.core.chat.GeneratedPhoto
-import com.wangzan101.mika.core.memory.MemoryNote
-import com.wangzan101.mika.core.memory.NoteKind
-import com.wangzan101.mika.core.skills.SkillNote
+import com.wangzan101.djini.core.agent.NoticeTurn
+import com.wangzan101.djini.core.record.RunMetricsStore
+import com.wangzan101.djini.core.usage.ConversationMeter
+import com.wangzan101.djini.core.usage.ConversationUsage
+import com.wangzan101.djini.core.agent.Turn
+import com.wangzan101.djini.settings.PersonaStore
+import com.wangzan101.djini.core.chat.GeneratedAudio
+import com.wangzan101.djini.core.chat.GeneratedPhoto
+import com.wangzan101.djini.core.memory.MemoryNote
+import com.wangzan101.djini.core.memory.NoteKind
+import com.wangzan101.djini.core.skills.SkillNote
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -374,7 +374,7 @@ class ConversationStore(
     }
 
     /**
-     * 对话是从哪一页开始的(用户在浏览器页上对着一页问 Mika);不是、读不到为 null。
+     * 对话是从哪一页开始的(用户在浏览器页上对着一页问 Djini);不是、读不到为 null。
      * 放在对话文件旁边的 `.page` 文件里(JSON:url、host、title),不动对话文件的格式;旧对话没有这个文件。
      */
     @Synchronized
@@ -768,7 +768,7 @@ class ConversationStore(
 
     companion object {
         /** App 进程里共用的那一份(读写都在它的锁里串行)。 */
-        fun shared(context: Context): ConversationStore = (context.applicationContext as com.wangzan101.mika.MikaApp).conversations
+        fun shared(context: Context): ConversationStore = (context.applicationContext as com.wangzan101.djini.DjiniApp).conversations
 
         /** `current` 文件里表示「新开还没说话的对话」的那个值(对话编号只会是字母数字、`-`、`_`,不会撞上)。 */
         private const val CURRENT_FRESH = "fresh"
@@ -819,7 +819,7 @@ data class PersonaSwitch(val at: Long, val from: String?, val to: String)
 data class BranchOrigin(val parentId: String, val parentTurn: Int, val afterTurn: Boolean, val at: Long)
 
 /**
- * 用户此刻在哪个对话:App 里新开、还没说过话的是 [Fresh],正在看的是 [Open];没有记录(没进过 Mika、旧版本)为 null。
+ * 用户此刻在哪个对话:App 里新开、还没说过话的是 [Fresh],正在看的是 [Open];没有记录(没进过 Djini、旧版本)为 null。
  * 悬浮胶囊据此接着该接的那个,而不是按「哪个对话文件最后被写过」去猜——新开的对话还没有文件,猜出来的会是上一个。
  */
 sealed interface CurrentChat {

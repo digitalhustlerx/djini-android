@@ -1,13 +1,13 @@
-package com.wangzan101.mika.core.tool
+package com.wangzan101.djini.core.tool
 
-import com.wangzan101.mika.core.assembly.toolDispatcher
-import com.wangzan101.mika.core.cap.sandbox.FakeSandbox
-import com.wangzan101.mika.core.cap.sandbox.SandboxStatus
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.run.RunId
-import com.wangzan101.mika.core.run.RunSpec
-import com.wangzan101.mika.core.uistate.ScreenPort
-import com.wangzan101.mika.core.vision.JvmTestImageOps
+import com.wangzan101.djini.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.cap.sandbox.FakeSandbox
+import com.wangzan101.djini.core.cap.sandbox.SandboxStatus
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.run.RunId
+import com.wangzan101.djini.core.run.RunSpec
+import com.wangzan101.djini.core.uistate.ScreenPort
+import com.wangzan101.djini.core.vision.JvmTestImageOps
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonPrimitive

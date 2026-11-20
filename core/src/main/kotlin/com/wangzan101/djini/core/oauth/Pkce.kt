@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.oauth
+package com.wangzan101.djini.core.oauth
 
 import java.security.MessageDigest
 import java.security.SecureRandom

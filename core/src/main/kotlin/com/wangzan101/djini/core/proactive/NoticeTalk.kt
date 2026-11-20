@@ -1,11 +1,11 @@
-package com.wangzan101.mika.core.proactive
+package com.wangzan101.djini.core.proactive
 
 /**
- * 用户点开提醒时,Mika 写进对话的那条消息:把判为值得提醒的几条通知列出来。纯函数,不调模型;固定的几句话([Copy])由 App 按界面语言给。
+ * 用户点开提醒时,Djini 写进对话的那条消息:把判为值得提醒的几条通知列出来。纯函数,不调模型;固定的几句话([Copy])由 App 按界面语言给。
  *
  * 这条消息会按 Markdown 显示(对话页和悬浮窗都是)。通知里的字是别人写的:一律先清洗、截短([NoticeFilter.clean]),
  * 再把 Markdown 里有意义的符号转义掉([plain]),并且放在引号里、不在行首:通知里写的链接、图片、标题、列表都只是字,
- * 点不了、也排不了版。它交给模型时怎么对待不在这里管(见 [com.wangzan101.mika.core.agent.NoticeTurn])。
+ * 点不了、也排不了版。它交给模型时怎么对待不在这里管(见 [com.wangzan101.djini.core.agent.NoticeTurn])。
  */
 object NoticeTalk {
     /** 一条消息里最多列几条(新的在前);多出来的只说还有几条。 */

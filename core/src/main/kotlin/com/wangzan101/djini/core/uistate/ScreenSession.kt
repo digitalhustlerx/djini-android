@@ -1,10 +1,10 @@
-package com.wangzan101.mika.core.uistate
+package com.wangzan101.djini.core.uistate
 
-import com.wangzan101.mika.core.tool.ToolDispatcher
-import com.wangzan101.mika.core.visual.FrameDiff
-import com.wangzan101.mika.core.visual.FrameGrid
-import com.wangzan101.mika.core.visual.Recall
-import com.wangzan101.mika.core.visual.Shots
+import com.wangzan101.djini.core.tool.ToolDispatcher
+import com.wangzan101.djini.core.visual.FrameDiff
+import com.wangzan101.djini.core.visual.FrameGrid
+import com.wangzan101.djini.core.visual.Recall
+import com.wangzan101.djini.core.visual.Shots
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withTimeoutOrNull
@@ -15,24 +15,24 @@ import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import kotlin.math.roundToInt
-import com.wangzan101.mika.core.vision.LocateRegistry
-import com.wangzan101.mika.core.vision.Locator
-import com.wangzan101.mika.core.vision.VisionService
-import com.wangzan101.mika.core.observation.InputHints
-import com.wangzan101.mika.core.observation.Look
-import com.wangzan101.mika.core.observation.ObsKind
-import com.wangzan101.mika.core.observation.Observation
-import com.wangzan101.mika.core.observation.Place
-import com.wangzan101.mika.core.observation.Trust
-import com.wangzan101.mika.core.prompt.Feedback
-import com.wangzan101.mika.core.tool.HINT_PROTECTED
-import com.wangzan101.mika.core.tool.HINT_DISPLAY_CAPTURE
-import com.wangzan101.mika.core.tool.MAX_READ_CHARS
-import com.wangzan101.mika.core.tool.NOTE_CHANGED_DURING_READ
-import com.wangzan101.mika.core.tool.ToolExecution
-import com.wangzan101.mika.core.tool.Verb
-import com.wangzan101.mika.core.tool.okObj
-import com.wangzan101.mika.core.net.UrlHost
+import com.wangzan101.djini.core.vision.LocateRegistry
+import com.wangzan101.djini.core.vision.Locator
+import com.wangzan101.djini.core.vision.VisionService
+import com.wangzan101.djini.core.observation.InputHints
+import com.wangzan101.djini.core.observation.Look
+import com.wangzan101.djini.core.observation.ObsKind
+import com.wangzan101.djini.core.observation.Observation
+import com.wangzan101.djini.core.observation.Place
+import com.wangzan101.djini.core.observation.Trust
+import com.wangzan101.djini.core.prompt.Feedback
+import com.wangzan101.djini.core.tool.HINT_PROTECTED
+import com.wangzan101.djini.core.tool.HINT_DISPLAY_CAPTURE
+import com.wangzan101.djini.core.tool.MAX_READ_CHARS
+import com.wangzan101.djini.core.tool.NOTE_CHANGED_DURING_READ
+import com.wangzan101.djini.core.tool.ToolExecution
+import com.wangzan101.djini.core.tool.Verb
+import com.wangzan101.djini.core.tool.okObj
+import com.wangzan101.djini.core.net.UrlHost
 
 internal const val MAX_ELEMENTS = 200
 /** 一次全量屏幕之后最多接几次差异。 */
@@ -134,7 +134,7 @@ internal class ScreenSession(
     var stale = false
         private set
 
-    /** Mika 自己动过这块屏(停留里轻轻滚了几下):模型手里那一屏的位置已不准,标成过时。 */
+    /** Djini 自己动过这块屏(停留里轻轻滚了几下):模型手里那一屏的位置已不准,标成过时。 */
     fun movedByMika() { stale = true }
 
     /**
@@ -348,14 +348,14 @@ internal class ScreenSession(
             internal set
     }
 
-    /** 这次动作前看的那一眼,动作判完效果前留着:动作开始之前 Mika 自己又动过界面时由 [reprobe] 重看。 */
+    /** 这次动作前看的那一眼,动作判完效果前留着:动作开始之前 Djini 自己又动过界面时由 [reprobe] 重看。 */
     private var pendingProbe: EffectProbe? = null
 
     /** 这次动作的效果判完了(或不判了)。 */
     fun probeDone() { pendingProbe = null }
 
     /**
-     * 动作开始之前 Mika 自己动过界面(网页停留里轻轻滚了页面):重看一眼当作动作前的样子,免得把这点滚动算成动作的效果;
+     * 动作开始之前 Djini 自己动过界面(网页停留里轻轻滚了页面):重看一眼当作动作前的样子,免得把这点滚动算成动作的效果;
      * 模型手里那一屏的位置也已不准,标成过时。没有在等判效果的动作时什么也不做。
      */
     suspend fun reprobe() {

@@ -1,16 +1,16 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.foundation.gestures.scrollBy
-import com.wangzan101.mika.cap.sandbox.AttachmentFailure
-import com.wangzan101.mika.cap.sandbox.AttachmentFailureReason
-import com.wangzan101.mika.core.agent.GoalChecklist
-import com.wangzan101.mika.core.agent.QuoteMessage
-import com.wangzan101.mika.core.agent.AttachedPage
-import com.wangzan101.mika.core.record.RunMetrics
-import com.wangzan101.mika.ui.components.DirectionalIcon
-import com.wangzan101.mika.ui.components.GlassSurface
-import com.wangzan101.mika.ui.components.keepsKeyboard
-import com.wangzan101.mika.ui.components.pageBackground
+import com.wangzan101.djini.cap.sandbox.AttachmentFailure
+import com.wangzan101.djini.cap.sandbox.AttachmentFailureReason
+import com.wangzan101.djini.core.agent.GoalChecklist
+import com.wangzan101.djini.core.agent.QuoteMessage
+import com.wangzan101.djini.core.agent.AttachedPage
+import com.wangzan101.djini.core.record.RunMetrics
+import com.wangzan101.djini.ui.components.DirectionalIcon
+import com.wangzan101.djini.ui.components.GlassSurface
+import com.wangzan101.djini.ui.components.keepsKeyboard
+import com.wangzan101.djini.ui.components.pageBackground
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -125,51 +125,51 @@ import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.wangzan101.mika.MikaApp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.cap.web.KeptPage
-import com.wangzan101.mika.chat.ChecklistSource
-import com.wangzan101.mika.chat.SavedChecklistStore
-import com.wangzan101.mika.chat.SharedFile
-import com.wangzan101.mika.confirm.ConfirmationCopy
-import com.wangzan101.mika.settings.Prerequisites
-import com.wangzan101.mika.settings.RecommendedTask
-import com.wangzan101.mika.settings.TaskTemplate
-import com.wangzan101.mika.settings.RecommendedTaskStore
-import com.wangzan101.mika.takeover.Takeover
-import com.wangzan101.mika.task.SteerNote
-import com.wangzan101.mika.task.SteerState
-import com.wangzan101.mika.task.TaskService
-import com.wangzan101.mika.task.unconsumed
-import com.wangzan101.mika.ui.components.ActionSheet
-import com.wangzan101.mika.ui.components.SheetAction
-import com.wangzan101.mika.ui.components.BarIconButton
-import com.wangzan101.mika.ui.components.ButtonKind
-import com.wangzan101.mika.ui.components.ButtonSize
-import com.wangzan101.mika.ui.components.GlassBackdrop
-import com.wangzan101.mika.ui.components.GlassBar
-import com.wangzan101.mika.ui.components.MikaButton
-import com.wangzan101.mika.ui.components.MikaCard
-import com.wangzan101.mika.ui.components.MikaDialog
-import com.wangzan101.mika.ui.components.PageBackground
-import com.wangzan101.mika.ui.components.ScrollToBottomButton
-import com.wangzan101.mika.ui.components.TopBar
-import com.wangzan101.mika.ui.components.cardSurface
-import com.wangzan101.mika.ui.components.floatShadow
-import com.wangzan101.mika.ui.components.glassSource
-import com.wangzan101.mika.ui.components.rememberGlassBackdrop
-import com.wangzan101.mika.ui.components.scrollListToBottom
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaMotion
-import com.wangzan101.mika.ui.theme.MikaShapes
-import com.wangzan101.mika.ui.theme.MikaSize
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.viewer.FileViewer
-import com.wangzan101.mika.ui.theme.MikaType
-import com.wangzan101.mika.ui.theme.MikaRadius
-import com.wangzan101.mika.voice.HoldToTalk
-import com.wangzan101.mika.voice.VoicePlayback
-import com.wangzan101.mika.voice.VoiceSource
+import com.wangzan101.djini.DjiniApp
+import com.wangzan101.djini.R
+import com.wangzan101.djini.cap.web.KeptPage
+import com.wangzan101.djini.chat.ChecklistSource
+import com.wangzan101.djini.chat.SavedChecklistStore
+import com.wangzan101.djini.chat.SharedFile
+import com.wangzan101.djini.confirm.ConfirmationCopy
+import com.wangzan101.djini.settings.Prerequisites
+import com.wangzan101.djini.settings.RecommendedTask
+import com.wangzan101.djini.settings.TaskTemplate
+import com.wangzan101.djini.settings.RecommendedTaskStore
+import com.wangzan101.djini.takeover.Takeover
+import com.wangzan101.djini.task.SteerNote
+import com.wangzan101.djini.task.SteerState
+import com.wangzan101.djini.task.TaskService
+import com.wangzan101.djini.task.unconsumed
+import com.wangzan101.djini.ui.components.ActionSheet
+import com.wangzan101.djini.ui.components.SheetAction
+import com.wangzan101.djini.ui.components.BarIconButton
+import com.wangzan101.djini.ui.components.ButtonKind
+import com.wangzan101.djini.ui.components.ButtonSize
+import com.wangzan101.djini.ui.components.GlassBackdrop
+import com.wangzan101.djini.ui.components.GlassBar
+import com.wangzan101.djini.ui.components.MikaButton
+import com.wangzan101.djini.ui.components.MikaCard
+import com.wangzan101.djini.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.PageBackground
+import com.wangzan101.djini.ui.components.ScrollToBottomButton
+import com.wangzan101.djini.ui.components.TopBar
+import com.wangzan101.djini.ui.components.cardSurface
+import com.wangzan101.djini.ui.components.floatShadow
+import com.wangzan101.djini.ui.components.glassSource
+import com.wangzan101.djini.ui.components.rememberGlassBackdrop
+import com.wangzan101.djini.ui.components.scrollListToBottom
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.MikaMotion
+import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.MikaSize
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.viewer.FileViewer
+import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.MikaRadius
+import com.wangzan101.djini.voice.HoldToTalk
+import com.wangzan101.djini.voice.VoicePlayback
+import com.wangzan101.djini.voice.VoiceSource
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -191,7 +191,7 @@ fun ChatScreen(
     frames: StateFlow<Bitmap?>,
     webOpen: StateFlow<Boolean>,
     /** 小窗直接操作的入口(点/滑/返回注入到虚拟屏);屏没建好或任务结束时为 null。 */
-    pipInput: StateFlow<com.wangzan101.mika.cap.phone.display.PipInput?> = MutableStateFlow(null),
+    pipInput: StateFlow<com.wangzan101.djini.cap.phone.display.PipInput?> = MutableStateFlow(null),
     /** 小窗目标 App 的声音被用户恢复过:声音按钮显示「静音」,否则「恢复声音」。 */
     pipSoundOn: StateFlow<Boolean> = MutableStateFlow(false),
     /** 用户在设置里开了「允许我在小窗里直接操作」。 */
@@ -212,21 +212,21 @@ fun ChatScreen(
     voice: VoiceSource? = null,
     /** 「还不能语音输入」里的「去选」。 */
     openSpeechModel: () -> Unit = {},
-    /** 输入框里还没发出的字，交给「教 Mika」预填，不会自己开始。 */
+    /** 输入框里还没发出的字，交给「教 Djini」预填，不会自己开始。 */
     onOpenTeach: (String) -> Unit = {},
     /** 首页推荐任务。不传时用本机保存的那一份;测试传入单独的存储,避免改到用户的数据。 */
     recommendations: RecommendedTaskStore? = null,
     checklists: SavedChecklistStore? = null,
-    workflows: com.wangzan101.mika.workflow.WorkflowRuntime? = null,
+    workflows: com.wangzan101.djini.workflow.WorkflowRuntime? = null,
     openReport: (String) -> Unit = {},
     openPlayback: (String) -> Unit = {},
     /** 人格选择器里的「管理人格」:打开设置里的人格页。 */
     onOpenPersonas: () -> Unit = {},
 ) {
-    val checklistStore = checklists ?: (LocalContext.current.applicationContext as? MikaApp)?.savedChecklists
-    val workflowRuntime = workflows ?: (LocalContext.current.applicationContext as? MikaApp)?.workflows
+    val checklistStore = checklists ?: (LocalContext.current.applicationContext as? DjiniApp)?.savedChecklists
+    val workflowRuntime = workflows ?: (LocalContext.current.applicationContext as? DjiniApp)?.workflows
     val recommendationStore = recommendations
-        ?: (LocalContext.current.applicationContext as? MikaApp)?.recommendedTasks
+        ?: (LocalContext.current.applicationContext as? DjiniApp)?.recommendedTasks
     val recommendedTasksFlow = remember(recommendationStore) {
         recommendationStore?.also { it.ensureLoaded { ChatCopy.recommendationSeeds() } }?.tasks
             ?: MutableStateFlow<List<RecommendedTask>>(emptyList())
@@ -392,11 +392,11 @@ fun ChatScreen(
     val runMetrics = rememberRunMetrics(endedRuns)
     val context = LocalContext.current
 
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val backdrop = rememberGlassBackdrop()
     /** 长按了的那条消息;菜单开着(收起的动画放完才清掉)。 */
     var menu by remember { mutableStateOf<MessageTarget?>(null) }
-    var queueActions by remember(ui.conversationId) { mutableStateOf<com.wangzan101.mika.task.QueuedFollowUp?>(null) }
+    var queueActions by remember(ui.conversationId) { mutableStateOf<com.wangzan101.djini.task.QueuedFollowUp?>(null) }
     /** 选了「选择文字」的那条:它换回系统的长按选中;换对话时清掉。 */
     var selecting by remember(ui.conversationId) { mutableStateOf<String?>(null) }
     /** 菜单出现的进度:0 是没有,1 是完全出来;关了动画时直接到位。 */
@@ -558,7 +558,7 @@ fun ChatScreen(
             attachPanel = if (ui.attachEnabled) ({
                 androidx.compose.runtime.key(ui.conversationId) {
                     AttachPanelHost(ui.attachments, onPicked = { vm.attach(it, ui.conversationId) }, onToggle = vm::toggleAttachment,
-                        onDeviceFiles = if (com.wangzan101.mika.settings.FeatureFlags.get(context).deviceFiles()) ({
+                        onDeviceFiles = if (com.wangzan101.djini.settings.FeatureFlags.get(context).deviceFiles()) ({
                             deviceBrowserConversation = vm.libraryTargetConversation()
                         }) else null)
                 }
@@ -696,7 +696,7 @@ fun ChatScreen(
                 onSaveTask = if (recommendationStore != null && m.from == QuoteMessage.From.You && m.text.isNotBlank()) ({
                     closeMenu { saveTaskPrompt = m.text }
                 }) else null,
-                onSaveChecklist = if (checklistStore != null && m.from == QuoteMessage.From.Mika && m.text.isNotBlank() && ui.conversationId != null) ({
+                onSaveChecklist = if (checklistStore != null && m.from == QuoteMessage.From.Djini && m.text.isNotBlank() && ui.conversationId != null) ({
                     closeMenu {
                         checklistIncoming = ChecklistSource(ui.conversationId!!, m.key, m.text)
                         showChecklists = true
@@ -739,8 +739,8 @@ fun ChatScreen(
                             if (result != null && result.failures.isNotEmpty() && vm.ui.value.conversationId == result.conversationId) {
                                 val details = result.failures.joinToString("\n") { failure ->
                                     val reason = when (failure.status) {
-                                        com.wangzan101.mika.chat.RetryAttachmentStatus.MISSING -> R.string.chat_retry_missing
-                                        com.wangzan101.mika.chat.RetryAttachmentStatus.OVER_LIMIT -> R.string.chat_retry_limit
+                                        com.wangzan101.djini.chat.RetryAttachmentStatus.MISSING -> R.string.chat_retry_missing
+                                        com.wangzan101.djini.chat.RetryAttachmentStatus.OVER_LIMIT -> R.string.chat_retry_limit
                                         else -> R.string.chat_retry_failed
                                     }
                                     context.getString(reason, failure.path.substringAfterLast('/'))
@@ -875,7 +875,7 @@ private fun LazyListState.nearTail(thresholdPx: Int): Boolean {
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun EmptyState(conversation: String?, tasks: List<RecommendedTask>, modifier: Modifier = Modifier, onPick: (RecommendedTask) -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val hour = remember(conversation) { LocalTime.now().hour }
     Column(
         modifier.fillMaxWidth().padding(horizontal = 28.dp),
@@ -899,7 +899,7 @@ private fun EmptyState(conversation: String?, tasks: List<RecommendedTask>, modi
 /** 建议胶囊:白底 + 细描边 + 短标题,点它把完整提示词填进输入框。 */
 @Composable
 private fun SuggestionChip(text: String, onClick: () -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Text(
         text,
         Modifier.clip(MikaShapes.Pill).background(c.surface, MikaShapes.Pill).border(0.5.dp, c.edge, MikaShapes.Pill)
@@ -916,7 +916,7 @@ private fun SuggestionChip(text: String, onClick: () -> Unit) {
 /** 跳转目标行的短暂高亮:一条全宽淡色底,约 1.8 秒后渐隐。 */
 @Composable
 private fun JumpHighlight(active: Boolean, reduceMotion: Boolean, content: @Composable () -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val alpha by animateFloatAsState(if (active) 1f else 0f, if (reduceMotion) snap() else tween(260), label = "jump-highlight")
     Box(
         Modifier.fillMaxWidth()
@@ -1024,7 +1024,7 @@ internal fun UserBubble(text: String, conversationId: String?, note: String? = n
             if (attached.hasAttachments && attached.words.isNotEmpty()) Spacer(Modifier.size(6.dp))
             if ((!attached.hasAttachments || attached.words.isNotEmpty()) && (paged.page == null || quoted.words.isNotEmpty())) UserMessage(conversationId, attached.words.takeIf { attached.hasAttachments } ?: quoted.words, ChatThumbWidth) { words ->
                 // 用户气泡是淡蓝底 + 深字:选中的底色用稍浓一点的蓝,把手仍是强调色(画在气泡外面)
-                val colors = MikaTheme.colors
+                val colors = DjiniTheme.colors
                 val bubble = colors.accent.copy(alpha = 0.14f)
                 CompositionLocalProvider(LocalTextSelectionColors provides TextSelectionColors(colors.accent, colors.accent.copy(alpha = 0.3f))) {
                     MessageArea(
@@ -1034,21 +1034,21 @@ internal fun UserBubble(text: String, conversationId: String?, note: String? = n
                     ) { UserBubbleText(words) }
                 }
             }
-            note?.let { Text(it, Modifier.padding(top = 3.dp, end = 4.dp), style = MikaType.Hint, color = MikaTheme.colors.ink3) }
+            note?.let { Text(it, Modifier.padding(top = 3.dp, end = 4.dp), style = MikaType.Hint, color = DjiniTheme.colors.ink3) }
         }
     }
 }
 
 @Composable
 private fun UserBubbleText(words: String) {
-    Text(words, Modifier.padding(horizontal = 14.dp, vertical = 10.dp), style = BubbleText, color = MikaTheme.colors.ink)
+    Text(words, Modifier.padding(horizontal = 14.dp, vertical = 10.dp), style = BubbleText, color = DjiniTheme.colors.ink)
 }
 
 /** 长按抬起的那条消息:[color] 底、带阴影;太长时(最高半屏)只露开头,下面裁掉。 */
 @Composable
 private fun LiftedMessage(shape: Shape, color: Color, content: @Composable () -> Unit) {
     Box(
-        Modifier.floatShadow(MikaTheme.colors, shape).background(color, shape).clip(shape)
+        Modifier.floatShadow(DjiniTheme.colors, shape).background(color, shape).clip(shape)
             .wrapContentHeight(Alignment.Top, unbounded = true),
     ) { content() }
 }
@@ -1060,7 +1060,7 @@ private val ChatThumbWidth = 110.dp
 @Composable
 private fun DraftText(text: String, generating: Boolean) {
     MarkdownText(
-        text, AnswerText.copy(color = MikaTheme.colors.ink),
+        text, AnswerText.copy(color = DjiniTheme.colors.ink),
         Modifier.fillMaxWidth().padding(bottom = 12.dp).answerSurface(), streaming = generating,
     )
 }
@@ -1072,14 +1072,14 @@ private fun SteerSupplement(text: String) {
         Modifier.fillMaxWidth().padding(top = 2.dp, bottom = 6.dp),
         contentAlignment = Alignment.CenterEnd,
     ) {
-        Text(text, Modifier.padding(horizontal = 4.dp), style = SupplementText, color = MikaTheme.colors.inkSoft)
+        Text(text, Modifier.padding(horizontal = 4.dp), style = SupplementText, color = DjiniTheme.colors.inkSoft)
     }
 }
 
 /** 干活中插话作为「右侧插入的一步」:淡蓝胶囊、右对齐,和左边的模型步骤区分开。 */
 @Composable
 private fun SteerStepPill(text: String) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Row(Modifier.fillMaxWidth().padding(vertical = 3.dp), horizontalArrangement = Arrangement.End) {
         Text(
             text,
@@ -1090,26 +1090,26 @@ private fun SteerStepPill(text: String) {
 }
 
 /**
- * Mika 的一段回答:长按弹出复制 / 引用 / 选择文字(见 [MessageArea]),复制、引用的是去掉 Markdown 符号的纯文字;
+ * Djini 的一段回答:长按弹出复制 / 引用 / 选择文字(见 [MessageArea]),复制、引用的是去掉 Markdown 符号的纯文字;
  * [modifier] 是回答的底,抬起的那张是同样的字放在白卡上。选择文字时选区的把手在单独的弹出窗口里,拖把手不会带出侧栏。
  */
 @Composable
 private fun AnswerArea(key: String, answer: String, modifier: Modifier, content: @Composable () -> Unit) {
     val plain = remember(answer) { MarkdownModel.toPlainText(answer) }
     MessageArea(
-        key, QuoteMessage.From.Mika, plain, "selectable-answer", modifier,
+        key, QuoteMessage.From.Djini, plain, "selectable-answer", modifier,
         lifted = {
-            LiftedMessage(MikaShapes.AnswerBubble, MikaTheme.colors.surface) {
-                MarkdownText(answer, AnswerText.copy(color = MikaTheme.colors.ink), Modifier.padding(horizontal = 14.dp, vertical = 12.dp), streaming = false)
+            LiftedMessage(MikaShapes.AnswerBubble, DjiniTheme.colors.surface) {
+                MarkdownText(answer, AnswerText.copy(color = DjiniTheme.colors.ink), Modifier.padding(horizontal = 14.dp, vertical = 12.dp), streaming = false)
             }
         },
     ) { content() }
 }
 
-/** Mika 回答的底:很淡的灰,左下尾角。 */
+/** Djini 回答的底:很淡的灰,左下尾角。 */
 @Composable
 private fun Modifier.answerSurface(): Modifier =
-    background(MikaTheme.colors.answer, MikaShapes.AnswerBubble).padding(horizontal = 14.dp, vertical = 12.dp)
+    background(DjiniTheme.colors.answer, MikaShapes.AnswerBubble).padding(horizontal = 14.dp, vertical = 12.dp)
 
 // ---------- 进度 ----------
 
@@ -1119,7 +1119,7 @@ private fun Modifier.answerSurface(): Modifier =
  */
 @Composable
 internal fun WorkBlock(ex: Exchange, steers: List<String>, reduceMotion: Boolean, backgroundNote: Boolean, openRun: (String) -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val paused = ChatCopy.paused(ex.status)
     val elapsed = rememberElapsed(ex.startedAt)
     Column(Modifier.fillMaxWidth().padding(bottom = 6.dp)) {
@@ -1161,10 +1161,10 @@ internal fun WorkBlock(ex: Exchange, steers: List<String>, reduceMotion: Boolean
     }
 }
 
-/** 回答/干活头部那行:「Mika · 0:42 · 1.2 万 Token」;[elapsed]/[tokens] 为 null 时略去对应段。 */
+/** 回答/干活头部那行:「Djini · 0:42 · 1.2 万 Token」;[elapsed]/[tokens] 为 null 时略去对应段。 */
 @Composable
 private fun TurnMeta(elapsed: Long?, tokens: Long?) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(5.dp)) {
         Text(ChatCopy.APP_TITLE, style = TurnNameText, color = c.ink)
         if (elapsed != null) {
@@ -1180,7 +1180,7 @@ private fun TurnMeta(elapsed: Long?, tokens: Long?) {
 
 @Composable
 private fun GoalChecklistRow(goals: GoalChecklist, runId: String?) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     var expanded by rememberSaveable(runId) { mutableStateOf(false) }
     Column {
         Row(
@@ -1217,7 +1217,7 @@ private enum class Dot { Done, Current, Paused, Dim }
  */
 @Composable
 private fun StepLine(steps: List<StepRow>, actions: Map<Int, List<StepAction>>, steers: List<String>, live: Boolean, paused: Boolean) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     var all by rememberSaveable { mutableStateOf(!live) }
     // 哪几步点开了:按这一屏里的序号记,列表变长也不乱
     val expanded = remember { mutableStateMapOf<Int, Boolean>() }
@@ -1270,7 +1270,7 @@ private fun StepItem(
     text: String, subtitle: String, dot: Dot, current: Boolean, link: Boolean = false, onClick: (() -> Unit)? = null,
     actions: List<StepAction> = emptyList(), open: Boolean = false,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val rtl = LocalLayoutDirection.current == LayoutDirection.Rtl
     Row(
         Modifier.fillMaxWidth()
@@ -1315,7 +1315,7 @@ private fun StepItem(
 /** 步骤点:6dp 实心;当前步外面一圈 3dp 的淡色光环。 */
 @Composable
 private fun StepDot(dot: Dot) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val (fill, ring) = when (dot) {
         Dot.Done -> c.ink3 to null
         Dot.Dim -> c.hair to null
@@ -1356,7 +1356,7 @@ internal fun Spinner(modifier: Modifier, spinning: Boolean, track: Color, head: 
 /** 干活那行「活着」的信号:一颗呼吸的小点(淡→实、微微放大);停下来等你时变橙、静止。 */
 @Composable
 private fun BreathingDot(paused: Boolean, reduceMotion: Boolean) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val active = !paused && !reduceMotion
     val breathe = if (active) rememberInfiniteTransition(label = "breathe").animateFloat(
         0f, 1f, infiniteRepeatable(tween(900, easing = FastOutSlowInEasing), RepeatMode.Reverse), label = "breathe",
@@ -1456,13 +1456,13 @@ private fun StatusCard(
                     TurnMeta(elapsedMs, tokens)
                     status.unverifiedLine?.let { line ->
                         Row(Modifier.padding(bottom = 8.dp), horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
-                            Box(Modifier.size(18.dp).background(MikaTheme.colors.warnSoft, CircleShape), contentAlignment = Alignment.Center) {
-                                Icon(MikaIcons.Exclaim, null, Modifier.size(11.dp), tint = MikaTheme.colors.warn)
+                            Box(Modifier.size(18.dp).background(DjiniTheme.colors.warnSoft, CircleShape), contentAlignment = Alignment.Center) {
+                                Icon(MikaIcons.Exclaim, null, Modifier.size(11.dp), tint = DjiniTheme.colors.warn)
                             }
-                            Text(line, style = MikaType.Caption, fontWeight = FontWeight.SemiBold, color = MikaTheme.colors.ink2)
+                            Text(line, style = MikaType.Caption, fontWeight = FontWeight.SemiBold, color = DjiniTheme.colors.ink2)
                         }
                     }
-                    MarkdownText(status.answer, AnswerText.copy(color = MikaTheme.colors.ink))
+                    MarkdownText(status.answer, AnswerText.copy(color = DjiniTheme.colors.ink))
                     OutputRefs(status.answer, conversationId) { item ->
                         val id = conversationId ?: return@OutputRefs
                         scope.launch { if (!AttachFiles.openSent(context, id, item.path)) Toast.makeText(context, AttachCopy.GONE, Toast.LENGTH_SHORT).show() }
@@ -1473,24 +1473,24 @@ private fun StatusCard(
         }
         is ExchangeStatus.Failed -> Column(Modifier.fillMaxWidth().padding(start = 2.dp, end = 2.dp, bottom = 12.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                Box(Modifier.size(8.dp).background(MikaTheme.colors.bad, CircleShape))
-                Text(stringResource(R.string.chat_not_done), style = MikaType.BodyStrong, color = MikaTheme.colors.ink)
+                Box(Modifier.size(8.dp).background(DjiniTheme.colors.bad, CircleShape))
+                Text(stringResource(R.string.chat_not_done), style = MikaType.BodyStrong, color = DjiniTheme.colors.ink)
             }
-            MarkdownText(status.reason, AnswerText.copy(color = MikaTheme.colors.ink), Modifier.fillMaxWidth().padding(top = 6.dp).answerSurface())
+            MarkdownText(status.reason, AnswerText.copy(color = DjiniTheme.colors.ink), Modifier.fillMaxWidth().padding(top = 6.dp).answerSurface())
             RecoveryActions(runId, recover)
             ReplyActions(runId, null, goal, vm, {}, openRun, loadSource, openSource, null, openReport, openPlayback)
         }
         // 停止后补上的交代当作这一轮的回答,排在「已停止」下面;还在写时一行小字
         is ExchangeStatus.Cancelled -> Column(Modifier.fillMaxWidth().padding(bottom = 10.dp)) {
-            Text(stringResource(R.string.chat_stopped), Modifier.padding(start = 2.dp), style = MikaType.Body, color = MikaTheme.colors.ink2)
+            Text(stringResource(R.string.chat_stopped), Modifier.padding(start = 2.dp), style = MikaType.Body, color = DjiniTheme.colors.ink2)
             if (status.summarizing) Text(
-                StatusCopy.STOP_SUMMARIZING, Modifier.padding(start = 2.dp, top = 4.dp), style = MikaType.Caption, color = MikaTheme.colors.ink3,
+                StatusCopy.STOP_SUMMARIZING, Modifier.padding(start = 2.dp, top = 4.dp), style = MikaType.Caption, color = DjiniTheme.colors.ink3,
             )
             status.summary?.let { summary ->
                 Box(Modifier.padding(top = 8.dp)) {
                     AnswerArea(key, summary, Modifier.fillMaxWidth().answerSurface()) {
                         Column {
-                            MarkdownText(summary, AnswerText.copy(color = MikaTheme.colors.ink))
+                            MarkdownText(summary, AnswerText.copy(color = DjiniTheme.colors.ink))
                             OutputRefs(summary, conversationId) { item ->
                                 val id = conversationId ?: return@OutputRefs
                                 scope.launch { if (!AttachFiles.openSent(context, id, item.path)) Toast.makeText(context, AttachCopy.GONE, Toast.LENGTH_SHORT).show() }
@@ -1512,7 +1512,7 @@ private fun ReadAloudIcon(answer: String, vm: ChatViewModel) {
     if (!ready) return
     val playback by vm.voice.collectAsState()
     val playing = playback is VoicePlayback.Playing || playback is VoicePlayback.Loading
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Row(Modifier.padding(top = 8.dp), verticalAlignment = Alignment.CenterVertically) {
         Row(
             Modifier.clip(MikaShapes.Pill).clickable(role = Role.Button) { if (playing) vm.stopSpeaking() else vm.speak(answer) }
@@ -1533,10 +1533,10 @@ private fun ReadAloudIcon(answer: String, vm: ChatViewModel) {
 
 /** 这一轮生成的音频:名字/稿子开头、时长、播放/停止;点整张卡播放,再点停止。 */
 @Composable
-private fun GeneratedAudioCards(audios: List<com.wangzan101.mika.core.chat.GeneratedAudio>, vm: ChatViewModel) {
+private fun GeneratedAudioCards(audios: List<com.wangzan101.djini.core.chat.GeneratedAudio>, vm: ChatViewModel) {
     val playback by vm.voice.collectAsState()
     val playing = playback is VoicePlayback.Playing || playback is VoicePlayback.Loading
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Column(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 2.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         audios.forEach { a ->
             Row(
@@ -1599,7 +1599,7 @@ private fun ReplyActions(
     if (runId == null && answer == null) return
     val source by produceState<EvidenceSource?>(null, runId) { value = if (runId == null) null else loadSource(runId) }
     val hasSource = evidence != null || !source?.items.isNullOrEmpty() || !source?.screenshots.isNullOrEmpty()
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val context = LocalContext.current
     Column(Modifier.fillMaxWidth().padding(top = 12.dp)) {
         Box(Modifier.fillMaxWidth().height(1.dp).background(c.hair))
@@ -1632,7 +1632,7 @@ private fun ReplyActions(
 
 /** 操作区里的一枚纯图标按钮:30dp 触达区、17dp 图标,[label] 只作无障碍描述。 */
 @Composable
-private fun ReplyIcon(icon: ImageVector, label: String, tint: Color = MikaTheme.colors.ink2, onClick: () -> Unit) {
+private fun ReplyIcon(icon: ImageVector, label: String, tint: Color = DjiniTheme.colors.ink2, onClick: () -> Unit) {
     Box(
         Modifier.size(30.dp).clip(MikaShapes.Tile).clickable(onClickLabel = label, role = Role.Button, onClick = onClick),
         contentAlignment = Alignment.Center,
@@ -1643,7 +1643,7 @@ private fun ReplyIcon(icon: ImageVector, label: String, tint: Color = MikaTheme.
 
 /** 复制回答正文的纯文字到剪贴板。 */
 private fun copyAnswer(context: Context, answer: String) {
-    val clip = ClipData.newPlainText("Mika", MarkdownModel.toPlainText(answer))
+    val clip = ClipData.newPlainText("Djini", MarkdownModel.toPlainText(answer))
     context.getSystemService(ClipboardManager::class.java).setPrimaryClip(clip)
     Toast.makeText(context, R.string.chat_copied, Toast.LENGTH_SHORT).show()
 }
@@ -1660,7 +1660,7 @@ private fun NeedCard(
     options: (@Composable () -> Unit)? = null,
     buttons: (@Composable RowScope.() -> Unit)? = null,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     MikaCard(Modifier.padding(top = 8.dp, bottom = 12.dp)) {
         Column(Modifier.padding(horizontal = 16.dp, vertical = 14.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -1689,14 +1689,14 @@ private fun RowScope.CardButton(text: String, primary: Boolean = false, onClick:
 
 @Composable
 private fun TextLink(text: String, onClick: () -> Unit) {
-    Text(text, Modifier.clip(MikaShapes.Pill).clickable(onClick = onClick).padding(4.dp), style = MikaType.Caption, color = MikaTheme.colors.ink3)
+    Text(text, Modifier.clip(MikaShapes.Pill).clickable(onClick = onClick).padding(4.dp), style = MikaType.Caption, color = DjiniTheme.colors.ink3)
 }
 
-/** 导出到「下载/Mika」的文件:小卡片,名字、大小和存放处;点了能看的在 App 里打开([FileViewer]),其余交给系统里能打开它的 App。 */
+/** 导出到「下载/Djini」的文件:小卡片,名字、大小和存放处;点了能看的在 App 里打开([FileViewer]),其余交给系统里能打开它的 App。 */
 @Composable
 private fun FileCards(files: List<SharedFile>) {
     val context = LocalContext.current
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Column(Modifier.fillMaxWidth().padding(bottom = 12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         for (f in files) {
             Row(
@@ -1744,9 +1744,9 @@ internal fun Composer(
     onSend: () -> Unit,
     onStop: () -> Unit,
     /** 这个对话明确排队、还没开始的下一件。 */
-    queued: List<com.wangzan101.mika.task.QueuedFollowUp> = emptyList(),
+    queued: List<com.wangzan101.djini.task.QueuedFollowUp> = emptyList(),
     onGuideQueued: (String) -> Unit = {},
-    onQueueActions: (com.wangzan101.mika.task.QueuedFollowUp) -> Unit = {},
+    onQueueActions: (com.wangzan101.djini.task.QueuedFollowUp) -> Unit = {},
     onCancelQueued: (String) -> Unit = {},
     onEditQueued: (String) -> Unit = {},
     onStartQueued: () -> Unit = {},
@@ -1754,7 +1754,7 @@ internal fun Composer(
     attachPanel: (@Composable () -> Unit)? = null,
     /** 附件已启用但此刻不能加:「＋」还在,点了只给提示。 */
     attachBlocked: Boolean = false,
-    /** 「＋」面板里的「教 Mika」。点了先收起面板。 */
+    /** 「＋」面板里的「教 Djini」。点了先收起面板。 */
     onTeach: (() -> Unit)? = null,
     attachments: List<PendingAttachment> = emptyList(),
     importing: Boolean = false,
@@ -1786,7 +1786,7 @@ internal fun Composer(
     /** 输入栏上方的人格 chip;为 null 时不显示。 */
     personaBar: (@Composable () -> Unit)? = null,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     var fieldFocused by remember { mutableStateOf(false) }
     // 底部从页面底色淡出到透明,输入栏是浮在上面的玻璃
     val fade = remember(c) { Brush.verticalGradient(0f to c.bg.copy(alpha = 0f), 0.6f to c.bg, 1f to c.bg) }
@@ -1997,7 +1997,7 @@ internal fun Composer(
                             Text(
                                 stringResource(R.string.teach_menu),
                                 Modifier.fillMaxWidth().clickable { panel = Panel.Closed; onTeach() }
-                                    .padding(horizontal = 16.dp, vertical = 10.dp).testTag("teach-mika"),
+                                    .padding(horizontal = 16.dp, vertical = 10.dp).testTag("teach-djini"),
                                 color = c.accent, style = MikaType.Body,
                             )
                         }

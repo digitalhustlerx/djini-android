@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.remote
+package com.wangzan101.djini.core.remote
 
-import com.wangzan101.mika.core.mcp.FakeRemoteTasks
+import com.wangzan101.djini.core.mcp.FakeRemoteTasks
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject
 import org.junit.Assert.*

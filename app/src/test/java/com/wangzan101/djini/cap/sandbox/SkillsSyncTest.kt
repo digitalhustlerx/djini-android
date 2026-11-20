@@ -1,9 +1,9 @@
-package com.wangzan101.mika.cap.sandbox
+package com.wangzan101.djini.cap.sandbox
 
 import org.junit.Rule
-import com.wangzan101.mika.i18n.ChineseTexts
-import com.wangzan101.mika.core.workspace.SandboxTree
-import com.wangzan101.mika.core.cap.sandbox.SandboxStatus
+import com.wangzan101.djini.i18n.ChineseTexts
+import com.wangzan101.djini.core.workspace.SandboxTree
+import com.wangzan101.djini.core.cap.sandbox.SandboxStatus
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -83,11 +83,11 @@ class SkillsSyncTest {
     }
 
     @Test fun cardLineForSandboxSteps() {
-        assertEquals("正在处理文件:python3 sum.py", com.wangzan101.mika.ui.StatusCopy.sandboxCommand("python3   sum.py", network = false))
-        assertEquals("正在处理文件:${"x".repeat(40)}… · 可联网", com.wangzan101.mika.ui.StatusCopy.sandboxCommand("x".repeat(50), network = true))
-        assertEquals("正在运行脚本", com.wangzan101.mika.ui.StatusCopy.sandboxScript(network = false))
-        assertEquals("第 3/10 页", com.wangzan101.mika.ui.StatusCopy.sandboxProgress("第 3/10 页", network = false))
+        assertEquals("正在处理文件:python3 sum.py", com.wangzan101.djini.ui.StatusCopy.sandboxCommand("python3   sum.py", network = false))
+        assertEquals("正在处理文件:${"x".repeat(40)}… · 可联网", com.wangzan101.djini.ui.StatusCopy.sandboxCommand("x".repeat(50), network = true))
+        assertEquals("正在运行脚本", com.wangzan101.djini.ui.StatusCopy.sandboxScript(network = false))
+        assertEquals("第 3/10 页", com.wangzan101.djini.ui.StatusCopy.sandboxProgress("第 3/10 页", network = false))
         // 命令里的零宽字符、改写方向的字符不上卡片
-        assertEquals("正在处理文件:rm a.txt", com.wangzan101.mika.ui.StatusCopy.sandboxCommand("rm \u202Ea\u200B.txt", network = false))
+        assertEquals("正在处理文件:rm a.txt", com.wangzan101.djini.ui.StatusCopy.sandboxCommand("rm \u202Ea\u200B.txt", network = false))
     }
 }

@@ -1,6 +1,6 @@
-package com.wangzan101.mika.capsule
+package com.wangzan101.djini.capsule
 
-import com.wangzan101.mika.i18n.ChineseTexts
+import com.wangzan101.djini.i18n.ChineseTexts
 import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
@@ -32,10 +32,10 @@ class CapsuleControlsTest {
     }
 
     @Test fun halfCircleTouchesEachSafeEdgeWithoutNegativeWindowCoordinates() {
-        val area = DockArea.of(com.wangzan101.mika.cap.phone.a11y.OverlayArea(1000, 2000, insetLeft = 30, insetRight = 10), 12, 8, 8)
+        val area = DockArea.of(com.wangzan101.djini.cap.phone.a11y.OverlayArea(1000, 2000, insetLeft = 30, insetRight = 10), 12, 8, 8)
         assertEquals(30, CapsuleEdge.offset(DockSide.Left, area, 8))
         assertEquals(10, CapsuleEdge.offset(DockSide.Right, area, 8))
-        val plain = DockArea.of(com.wangzan101.mika.cap.phone.a11y.OverlayArea(1000, 2000), 12, 8, 8)
+        val plain = DockArea.of(com.wangzan101.djini.cap.phone.a11y.OverlayArea(1000, 2000), 12, 8, 8)
         assertEquals(0, CapsuleEdge.offset(DockSide.Left, plain, 8))
         assertEquals(0, CapsuleEdge.offset(DockSide.Right, plain, 8))
     }

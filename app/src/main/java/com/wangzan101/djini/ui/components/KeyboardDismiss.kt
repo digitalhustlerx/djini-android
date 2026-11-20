@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui.components
+package com.wangzan101.djini.ui.components
 
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown

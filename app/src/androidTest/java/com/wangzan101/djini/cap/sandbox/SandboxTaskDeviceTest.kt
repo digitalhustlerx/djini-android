@@ -1,18 +1,18 @@
-package com.wangzan101.mika.cap.sandbox
+package com.wangzan101.djini.cap.sandbox
 
-import com.wangzan101.mika.DeviceTaskState
+import com.wangzan101.djini.DeviceTaskState
 import android.util.Log
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport.pollUntil
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport.sh
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.Role
-import com.wangzan101.mika.core.cap.sandbox.SandboxStatus
-import com.wangzan101.mika.task.ScriptedModel
-import com.wangzan101.mika.task.TaskService
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport.pollUntil
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport.sh
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.Role
+import com.wangzan101.djini.core.cap.sandbox.SandboxStatus
+import com.wangzan101.djini.task.ScriptedModel
+import com.wangzan101.djini.task.TaskService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -29,8 +29,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import java.util.Collections
 import java.util.UUID
-import com.wangzan101.mika.task.testTasks
-import com.wangzan101.mika.task.TaskEnvironment
+import com.wangzan101.djini.task.testTasks
+import com.wangzan101.djini.task.TaskEnvironment
 
 /**
  * 沙箱接进任务:脚本模型在任务里写文件、跑命令、跑技能脚本。需要沙箱已装好(设置 → 沙箱 → 安装),没装就跳过。
@@ -89,13 +89,13 @@ class SandboxTaskDeviceTest {
     @Test fun scriptArgsWithSpacesReachScript() {
         // 测试技能经「打包的那份」加进去:清单和脚本核对都以打包的为准,直接写进沙箱目录的会被换回去
         SkillsSync.extraForTests = mapOf(
-            "skills/mika-device-test/scripts/manifest.json" to """[{"file":"scripts/echo.py","runnable":true}]""".toByteArray(),
-            "skills/mika-device-test/scripts/echo.py" to "import sys\nfor a in sys.argv[1:]:\n    print(a)\n".toByteArray(),
+            "skills/djini-device-test/scripts/manifest.json" to """[{"file":"scripts/echo.py","runnable":true}]""".toByteArray(),
+            "skills/djini-device-test/scripts/echo.py" to "import sys\nfor a in sys.argv[1:]:\n    print(a)\n".toByteArray(),
         )
         try {
             TaskService.start(context, "回显参数", "sandbox-args-${UUID.randomUUID()}")
             model.awaitCall()
-            model.feed("run_bundled_script", """{"source":"skills/mika-device-test","script":"scripts/echo.py","args":["报表 (1).csv","a;rm -rf /","\"q\""]}""")
+            model.feed("run_bundled_script", """{"source":"skills/djini-device-test","script":"scripts/echo.py","args":["报表 (1).csv","a;rm -rf /","\"q\""]}""")
             val result = lastToolResult(model.awaitCall())
             assertTrue(result, result.contains("\"exitCode\":0"))
             assertTrue(result, result.contains("报表 (1).csv\\na;rm -rf /\\n\\\"q\\\"\\n"))

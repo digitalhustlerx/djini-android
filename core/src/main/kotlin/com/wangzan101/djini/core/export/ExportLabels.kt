@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.export
+package com.wangzan101.djini.core.export
 
 /**
  * 导出文档里给人看的文字。core 取不到 Android 资源,由 app 用当前语言构造后传进来;
@@ -6,7 +6,7 @@ package com.wangzan101.mika.core.export
  */
 data class ExportLabels(
     val user: String,
-    val mika: String,
+    val djini: String,
     val steer: String,
     val answer: String,
     val toolSteps: String,
@@ -32,7 +32,7 @@ data class ExportLabels(
     companion object {
         /** 测试和没有本地化时的英文兜底。 */
         val English = ExportLabels(
-            user = "User", mika = "Mika", steer = "Message during the task", answer = "Answer",
+            user = "User", djini = "Djini", steer = "Message during the task", answer = "Answer",
             toolSteps = "Tool steps", attachments = "Attachments", screens = "Screenshots", files = "Files",
             quote = "Quoted", page = "From page", exportedAt = "Exported", model = "Model", unknown = "Unknown",
             warnings = "Warnings", truncated = "truncated, original length %d", missingAsset = "Missing: %s", tooLarge = "Too large: %s", runRecordMissing = "Run record no longer available",

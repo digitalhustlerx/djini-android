@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.memory
+package com.wangzan101.djini.core.memory
 
 import kotlinx.serialization.Serializable
 

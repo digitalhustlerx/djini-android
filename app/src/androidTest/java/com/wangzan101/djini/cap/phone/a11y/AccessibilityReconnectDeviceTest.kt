@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.phone.a11y
+package com.wangzan101.djini.cap.phone.a11y
 
 import android.app.UiAutomation
 import android.graphics.Path
@@ -87,5 +87,5 @@ class AccessibilityReconnectDeviceTest {
         this.text.add(text)
     }
 
-    private companion object { const val PROBE_PACKAGE = "mika.test.reconnect" }
+    private companion object { const val PROBE_PACKAGE = "djini.test.reconnect" }
 }

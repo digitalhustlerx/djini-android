@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.adb
+package com.wangzan101.djini.core.adb
 
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest

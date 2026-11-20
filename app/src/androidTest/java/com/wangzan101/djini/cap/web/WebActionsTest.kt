@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.web
+package com.wangzan101.djini.cap.web
 
 import android.os.SystemClock
 import android.view.KeyEvent
@@ -6,11 +6,11 @@ import android.view.WindowManager
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.webkit.WebViewAssetLoader
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport
-import com.wangzan101.mika.core.uistate.ActionResult
-import com.wangzan101.mika.core.uistate.ScreenSnapshot
-import com.wangzan101.mika.core.uistate.ScreenState
-import com.wangzan101.mika.core.uistate.Verification
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport
+import com.wangzan101.djini.core.uistate.ActionResult
+import com.wangzan101.djini.core.uistate.ScreenSnapshot
+import com.wangzan101.djini.core.uistate.ScreenState
+import com.wangzan101.djini.core.uistate.Verification
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
@@ -135,11 +135,11 @@ class WebActionsTest {
     fun editorReceivesRealInput() = runBlocking<Unit> {
         open("inputs.html")
         val s = screen.snapshot()
-        val r = screen.typeText(s.ref("#editor"), s.snapshotId, "你好 Mika") as ActionResult.Ok
+        val r = screen.typeText(s.ref("#editor"), s.snapshotId, "你好 Djini") as ActionResult.Ok
         assertEquals(Verification.MATCH, r.verification)
         val st = status()
         assertFalse(st, st.contains("inputs=0 "))
-        assertTrue(st, st.endsWith("text=你好 Mika\""))
+        assertTrue(st, st.endsWith("text=你好 Djini\""))
         // 再打一次是替换,不是接在后面
         val s2 = screen.snapshot()
         assertEquals(Verification.MATCH, (screen.typeText(s2.ref("#editor"), s2.snapshotId, "第二次") as ActionResult.Ok).verification)

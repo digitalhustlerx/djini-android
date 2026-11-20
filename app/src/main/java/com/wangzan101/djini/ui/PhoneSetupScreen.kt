@@ -1,11 +1,11 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.R
+import com.wangzan101.djini.R
 import androidx.compose.ui.res.stringResource
-import com.wangzan101.mika.ui.components.keepsKeyboard
-import com.wangzan101.mika.about.Diagnostics
-import com.wangzan101.mika.about.DiagnosticsCollector
-import com.wangzan101.mika.about.setupInputs
+import com.wangzan101.djini.ui.components.keepsKeyboard
+import com.wangzan101.djini.about.Diagnostics
+import com.wangzan101.djini.about.DiagnosticsCollector
+import com.wangzan101.djini.about.setupInputs
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.os.SystemClock
@@ -30,7 +30,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import com.wangzan101.mika.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.MikaDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
@@ -57,38 +57,38 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
-import com.wangzan101.mika.core.shell.BuiltinShellFailure
-import com.wangzan101.mika.core.shell.BuiltinShellFix
-import com.wangzan101.mika.core.shell.BuiltinShellStatus
-import com.wangzan101.mika.core.shell.HelperRestart
-import com.wangzan101.mika.core.shell.PairingCode
-import com.wangzan101.mika.core.shell.PairingNotifyIssue
-import com.wangzan101.mika.core.shell.PhoneSetupFlow
-import com.wangzan101.mika.core.shell.SetupPhase
-import com.wangzan101.mika.core.shell.SetupStep
-import com.wangzan101.mika.core.shell.SetupView
-import com.wangzan101.mika.core.shell.StepMark
-import com.wangzan101.mika.settings.SystemStatus
-import com.wangzan101.mika.cap.phone.PhoneServices
-import com.wangzan101.mika.ui.components.PageBackground
-import com.wangzan101.mika.ui.components.GroupCard
-import com.wangzan101.mika.ui.components.TopBar
-import com.wangzan101.mika.ui.components.ListRow
-import com.wangzan101.mika.ui.components.RowValue
-import com.wangzan101.mika.ui.components.ValueTone
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.components.TileTone
-import com.wangzan101.mika.ui.components.RowChevron
-import com.wangzan101.mika.ui.components.MikaButton
-import com.wangzan101.mika.ui.components.ButtonKind
-import com.wangzan101.mika.ui.components.ButtonSize
-import com.wangzan101.mika.ui.components.cardSurface
-import com.wangzan101.mika.ui.components.FooterNote
-import com.wangzan101.mika.ui.components.ProgressDots
-import com.wangzan101.mika.ui.theme.MikaType
-import com.wangzan101.mika.ui.theme.MikaShapes
-import com.wangzan101.mika.ui.theme.MikaRadius
+import com.wangzan101.djini.core.shell.BuiltinShellFailure
+import com.wangzan101.djini.core.shell.BuiltinShellFix
+import com.wangzan101.djini.core.shell.BuiltinShellStatus
+import com.wangzan101.djini.core.shell.HelperRestart
+import com.wangzan101.djini.core.shell.PairingCode
+import com.wangzan101.djini.core.shell.PairingNotifyIssue
+import com.wangzan101.djini.core.shell.PhoneSetupFlow
+import com.wangzan101.djini.core.shell.SetupPhase
+import com.wangzan101.djini.core.shell.SetupStep
+import com.wangzan101.djini.core.shell.SetupView
+import com.wangzan101.djini.core.shell.StepMark
+import com.wangzan101.djini.settings.SystemStatus
+import com.wangzan101.djini.cap.phone.PhoneServices
+import com.wangzan101.djini.ui.components.PageBackground
+import com.wangzan101.djini.ui.components.GroupCard
+import com.wangzan101.djini.ui.components.TopBar
+import com.wangzan101.djini.ui.components.ListRow
+import com.wangzan101.djini.ui.components.RowValue
+import com.wangzan101.djini.ui.components.ValueTone
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.components.TileTone
+import com.wangzan101.djini.ui.components.RowChevron
+import com.wangzan101.djini.ui.components.MikaButton
+import com.wangzan101.djini.ui.components.ButtonKind
+import com.wangzan101.djini.ui.components.ButtonSize
+import com.wangzan101.djini.ui.components.cardSurface
+import com.wangzan101.djini.ui.components.FooterNote
+import com.wangzan101.djini.ui.components.ProgressDots
+import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.MikaRadius
 import androidx.compose.runtime.setValue
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -101,7 +101,7 @@ private val StepSetSaver = Saver<Set<SetupStep>, String>(
 
 /**
  * 「设置手机操作」引导页:接上实时状态。每一步按系统开关自动打勾,读不到或读不准时用户点「我已经打开了,下一步」;
- * 点清单里前面的某一步可以回去重做。停在配对一步时开始找配对窗口:无障碍开着就由 Mika 自己读配对码,否则发带输入框的通知。
+ * 点清单里前面的某一步可以回去重做。停在配对一步时开始找配对窗口:无障碍开着就由 Djini 自己读配对码,否则发带输入框的通知。
  * [repair] 是从设置页「重新配对」进来的。
  */
 @Composable
@@ -274,7 +274,7 @@ fun PhoneSetupContent(
     val canRevisit = view.phase == SetupPhase.Guide || view.phase == SetupPhase.Failed
     fun revisitable(step: SetupStep) = canRevisit && step != view.current && step in PhoneSetupFlow.REVISITABLE &&
         view.marks.getValue(step) in setOf(StepMark.Done, StepMark.Skipped, StepMark.Failed)
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     PageBackground {
         Column(Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.navigationBars)) {
             TopBar(PhoneSetupCopy.BAR_TITLE, MikaIcons.Back, onClose, stringResource(R.string.back))
@@ -362,7 +362,7 @@ fun PhoneSetupContent(
  */
 @Composable
 private fun UsbStartCard(restart: HelperRestart, command: String, onCopy: () -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val (title, body) = PhoneSetupCopy.usbCard(restart)
     Column(Modifier.padding(top = 10.dp).fillMaxWidth().background(c.accentSoft, MikaShapes.Chip).padding(12.dp).testTag("setup-usb")) {
         Text(title, style = MikaType.Body.copy(fontWeight = FontWeight.SemiBold), color = c.ink)
@@ -378,7 +378,7 @@ private fun UsbStartCard(restart: HelperRestart, command: String, onCopy: () -> 
 @Composable
 private fun StepRow(step: SetupStep, mark: StepMark, current: Boolean, first: Boolean, onClick: (() -> Unit)?, body: @Composable () -> Unit) {
     val copy = PhoneSetupCopy.step(step)
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Box(Modifier.fillMaxWidth().then(if (onClick != null) Modifier.clickable(onClick = onClick) else Modifier).testTag("setup-step-${step.name}")) {
         if (!first) Box(Modifier.padding(start = 58.dp).fillMaxWidth().height(0.5.dp).background(c.hair))
         Row(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 14.dp), horizontalArrangement = Arrangement.spacedBy(14.dp)) {
@@ -402,7 +402,7 @@ private fun StepRow(step: SetupStep, mark: StepMark, current: Boolean, first: Bo
 
 @Composable
 private fun StepBadge(n: Int, mark: StepMark) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val bg = when (mark) {
         StepMark.Done -> c.ok
         StepMark.Current -> c.accent
@@ -437,14 +437,14 @@ private fun CurrentStepBody(
     onConnectPort: ((Int) -> Unit)?,
 ) {
     val copy = PhoneSetupCopy.step(step)
-    Text(copy.body, Modifier.padding(top = 2.dp), style = MikaType.Caption, color = MikaTheme.colors.ink2)
+    Text(copy.body, Modifier.padding(top = 2.dp), style = MikaType.Caption, color = DjiniTheme.colors.ink2)
     view.failure?.let { f ->
         val fc = PhoneSetupCopy.failure(f.reason)
         Column(
-            Modifier.padding(top = 10.dp).fillMaxWidth().background(MikaTheme.colors.badSoft, MikaShapes.Chip).padding(12.dp),
+            Modifier.padding(top = 10.dp).fillMaxWidth().background(DjiniTheme.colors.badSoft, MikaShapes.Chip).padding(12.dp),
         ) {
-            Text(fc.title, style = MikaType.Body.copy(fontWeight = FontWeight.SemiBold), color = MikaTheme.colors.bad)
-            Text(fc.body, Modifier.padding(top = 2.dp), style = MikaType.Caption, color = MikaTheme.colors.ink2)
+            Text(fc.title, style = MikaType.Body.copy(fontWeight = FontWeight.SemiBold), color = DjiniTheme.colors.bad)
+            Text(fc.body, Modifier.padding(top = 2.dp), style = MikaType.Caption, color = DjiniTheme.colors.ink2)
         }
         // 要再运行 USB 命令时,下面的卡片里就有命令和复制按钮,不再重复一个
         if (f.fix != BuiltinShellFix.RunUsbCommand || !view.usbFallback) {
@@ -458,9 +458,9 @@ private fun CurrentStepBody(
     view.suspect?.let { s ->
         Text(
             PhoneSetupCopy.suspect(s),
-            Modifier.padding(top = 10.dp).fillMaxWidth().background(MikaTheme.colors.warnSoft, MikaShapes.Chip).padding(12.dp)
+            Modifier.padding(top = 10.dp).fillMaxWidth().background(DjiniTheme.colors.warnSoft, MikaShapes.Chip).padding(12.dp)
                 .testTag("setup-suspect"),
-            style = MikaType.Caption, color = MikaTheme.colors.ink,
+            style = MikaType.Caption, color = DjiniTheme.colors.ink,
         )
         PillButton(PhoneSetupCopy.goBackTo(s.step), primary = view.failure == null, tag = "setup-suspect-back") { onRevisit(s.step) }
     }
@@ -469,20 +469,20 @@ private fun CurrentStepBody(
     if (step == SetupStep.PairingCode) {
         when (view.notifyIssue) {
             PairingNotifyIssue.NotificationsOff -> {
-                Text(PhoneSetupCopy.NEED_NOTIFICATIONS, Modifier.padding(top = 8.dp), style = MikaType.Caption, color = MikaTheme.colors.warn)
+                Text(PhoneSetupCopy.NEED_NOTIFICATIONS, Modifier.padding(top = 8.dp), style = MikaType.Caption, color = DjiniTheme.colors.warn)
                 PillButton(PhoneSetupCopy.ALLOW_NOTIFICATIONS, primary = fixNotificationsFirst, tag = "setup-notify-fix") { onAllowNotifications() }
             }
             PairingNotifyIssue.ChannelOff -> {
-                Text(PhoneSetupCopy.PAIRING_CHANNEL_OFF, Modifier.padding(top = 8.dp), style = MikaType.Caption, color = MikaTheme.colors.warn)
+                Text(PhoneSetupCopy.PAIRING_CHANNEL_OFF, Modifier.padding(top = 8.dp), style = MikaType.Caption, color = DjiniTheme.colors.warn)
                 PillButton(PhoneSetupCopy.OPEN_PAIRING_CHANNEL, primary = fixNotificationsFirst, tag = "setup-notify-fix") { onOpenPairingChannel() }
             }
             // 不弹出也能下拉去填:只提醒,不抢主按钮;无障碍开着时用不上通知,不提
             PairingNotifyIssue.NotHeadsUp -> if (!view.autoRead) {
                 Text(
                     PhoneSetupCopy.PAIRING_LOWERED,
-                    Modifier.padding(top = 10.dp).fillMaxWidth().background(MikaTheme.colors.warnSoft, MikaShapes.Chip).padding(12.dp)
+                    Modifier.padding(top = 10.dp).fillMaxWidth().background(DjiniTheme.colors.warnSoft, MikaShapes.Chip).padding(12.dp)
                         .testTag("setup-pairing-lowered"),
-                    style = MikaType.Caption, color = MikaTheme.colors.ink,
+                    style = MikaType.Caption, color = DjiniTheme.colors.ink,
                 )
                 PillButton(PhoneSetupCopy.OPEN_HEADS_UP, primary = false, tag = "setup-pairing-lowered-open") { onOpenPairingChannel() }
             }
@@ -490,17 +490,17 @@ private fun CurrentStepBody(
         }
         if (headsUpLowered && !view.needsNotifications) {
             Column(
-                Modifier.padding(top = 10.dp).fillMaxWidth().background(MikaTheme.colors.warnSoft, MikaShapes.Chip).padding(12.dp)
+                Modifier.padding(top = 10.dp).fillMaxWidth().background(DjiniTheme.colors.warnSoft, MikaShapes.Chip).padding(12.dp)
                     .testTag("setup-heads-up"),
             ) {
-                Text(PhoneSetupCopy.HEADS_UP_LOWERED, style = MikaType.Body.copy(fontWeight = FontWeight.SemiBold), color = MikaTheme.colors.warn)
+                Text(PhoneSetupCopy.HEADS_UP_LOWERED, style = MikaType.Body.copy(fontWeight = FontWeight.SemiBold), color = DjiniTheme.colors.warn)
             }
             PillButton(PhoneSetupCopy.OPEN_HEADS_UP, primary = false, tag = "setup-heads-up-open") { onOpenHeadsUp() }
         }
         if (view.autoRead) AutoReadHint() else NotifyGuide()
-        if (view.portFound && !view.autoRead) Text(PhoneSetupCopy.PORT_FOUND, Modifier.padding(top = 8.dp), style = MikaType.Caption, color = MikaTheme.colors.ok)
+        if (view.portFound && !view.autoRead) Text(PhoneSetupCopy.PORT_FOUND, Modifier.padding(top = 8.dp), style = MikaType.Caption, color = DjiniTheme.colors.ok)
     }
-    // 无障碍一步推荐跳过:配对后 Mika 自己打开,也不会被「受限制的设置」拦住
+    // 无障碍一步推荐跳过:配对后 Djini 自己打开,也不会被「受限制的设置」拦住
     val a11y = step == SetupStep.Accessibility
     if (a11y) PillButton(PhoneSetupCopy.ACCESSIBILITY_SKIP, primary = true, tag = "setup-skip-a11y", onClick = onSkipAccessibility)
     if (view.failure == null && copy.action != null) {
@@ -517,14 +517,14 @@ private fun CurrentStepBody(
 private fun LinkText(text: String, tag: String?, onClick: () -> Unit) {
     Text(
         text, Modifier.padding(top = 6.dp).clickable(onClick = onClick).padding(vertical = 4.dp).then(if (tag != null) Modifier.testTag(tag) else Modifier),
-        style = MikaType.Caption, color = MikaTheme.colors.accent,
+        style = MikaType.Caption, color = DjiniTheme.colors.accent,
     )
 }
 
-/** 无障碍开着:去系统设置前说一句,Mika 会自己读配对码。 */
+/** 无障碍开着:去系统设置前说一句,Djini 会自己读配对码。 */
 @Composable
 private fun AutoReadHint() {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Row(
         Modifier.padding(top = 10.dp).fillMaxWidth().background(c.okSoft, MikaShapes.Chip)
             .padding(12.dp).testTag("setup-pairing-hint"),
@@ -533,7 +533,7 @@ private fun AutoReadHint() {
         Icon(MikaIcons.Check, null, Modifier.size(20.dp), tint = c.ok)
         Column {
             Text(PhoneSetupCopy.AUTO_READ_HINT, style = MikaType.Body.copy(fontWeight = FontWeight.SemiBold), color = c.ink)
-            // 有的系统一进设置就停掉 Mika 的无障碍、冻结后台:读不到时填码通知已经在通知栏里了
+            // 有的系统一进设置就停掉 Djini 的无障碍、冻结后台:读不到时填码通知已经在通知栏里了
             Text(PhoneSetupCopy.AUTO_READ_FALLBACK, Modifier.padding(top = 4.dp), style = MikaType.Caption, color = c.ink2)
         }
     }
@@ -542,7 +542,7 @@ private fun AutoReadHint() {
 /** 无障碍没开:用三行编号小图示说清楚配对码怎么填进通知,不用离开配对窗口。 */
 @Composable
 private fun NotifyGuide() {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val icons = listOf(MikaIcons.Phone, MikaIcons.Bell, MikaIcons.Key)
     Column(
         Modifier.padding(top = 10.dp).fillMaxWidth().background(c.accentSoft, MikaShapes.Chip)
@@ -570,10 +570,10 @@ private fun ManualCode(askPort: Boolean, onSubmit: (String, Int?) -> Unit) {
     var error by remember { mutableStateOf<String?>(null) }
     Text(
         PhoneSetupCopy.MANUAL_TOGGLE, Modifier.padding(top = 8.dp).clickable { open = !open }.padding(vertical = 4.dp).testTag("setup-manual"),
-        style = MikaType.Caption, color = MikaTheme.colors.accent,
+        style = MikaType.Caption, color = DjiniTheme.colors.accent,
     )
     if (!open) return
-    Text(PhoneSetupCopy.MANUAL_HINT, style = MikaType.Hint, color = MikaTheme.colors.ink3)
+    Text(PhoneSetupCopy.MANUAL_HINT, style = MikaType.Hint, color = DjiniTheme.colors.ink3)
     OutlinedTextField(
         code, { code = it; error = null }, Modifier.fillMaxWidth().padding(top = 6.dp).keepsKeyboard().testTag("setup-code"),
         label = { Text(PhoneSetupCopy.CODE_LABEL) }, singleLine = true,
@@ -586,7 +586,7 @@ private fun ManualCode(askPort: Boolean, onSubmit: (String, Int?) -> Unit) {
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
         )
     }
-    error?.let { Text(it, Modifier.padding(top = 4.dp), style = MikaType.Hint, color = MikaTheme.colors.bad) }
+    error?.let { Text(it, Modifier.padding(top = 4.dp), style = MikaType.Hint, color = DjiniTheme.colors.bad) }
     PillButton(PhoneSetupCopy.SUBMIT, primary = true, tag = "setup-submit") {
         val c = PairingCode.normalize(code)
         val p = if (askPort && port.isNotBlank()) PairingCode.port(port) else null
@@ -616,7 +616,7 @@ private fun ConnectPort(onConnect: (Int) -> Unit) {
     OutlinedTextField(
         port, { port = it; invalid = false }, Modifier.fillMaxWidth().padding(top = 10.dp).keepsKeyboard().testTag("setup-connect-port"),
         label = { Text(PhoneSetupCopy.CONNECT_PORT_LABEL) },
-        supportingText = { Text(if (invalid) PhoneSetupCopy.PORT_INVALID else PhoneSetupCopy.CONNECT_PORT_HINT, color = if (invalid) MikaTheme.colors.bad else MikaTheme.colors.ink3) },
+        supportingText = { Text(if (invalid) PhoneSetupCopy.PORT_INVALID else PhoneSetupCopy.CONNECT_PORT_HINT, color = if (invalid) DjiniTheme.colors.bad else DjiniTheme.colors.ink3) },
         singleLine = true, isError = invalid,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
     )
@@ -630,10 +630,10 @@ private fun ConnectPort(onConnect: (Int) -> Unit) {
 @Composable
 private fun WorkingLine(scanning: Boolean) {
     Row(Modifier.padding(top = 8.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-        CircularProgressIndicator(Modifier.size(16.dp), color = MikaTheme.colors.accent, strokeWidth = 2.dp)
+        CircularProgressIndicator(Modifier.size(16.dp), color = DjiniTheme.colors.accent, strokeWidth = 2.dp)
         Text(
             if (scanning) PhoneSetupCopy.SCANNING_PORTS else PhoneSetupCopy.WORKING, Modifier.testTag("setup-working"),
-            style = MikaType.Caption, color = MikaTheme.colors.ink2,
+            style = MikaType.Caption, color = DjiniTheme.colors.ink2,
         )
     }
 }
@@ -663,7 +663,7 @@ fun PhoneHelperSection(status: BuiltinShellStatus, onRepair: () -> Unit, onUnpai
         val paired = status != BuiltinShellStatus.NotPaired
         ListRow(
             MikaIcons.Close, PhoneSetupCopy.UNPAIR, PhoneSetupCopy.UNPAIR_SUBTITLE,
-            titleColor = if (paired) MikaTheme.colors.bad else MikaTheme.colors.ink3, tone = if (paired) TileTone.Bad else TileTone.Neutral, onClick = if (paired) ({ confirming = true }) else null,
+            titleColor = if (paired) DjiniTheme.colors.bad else DjiniTheme.colors.ink3, tone = if (paired) TileTone.Bad else TileTone.Neutral, onClick = if (paired) ({ confirming = true }) else null,
         )
     }
     if (confirming) {
@@ -671,7 +671,7 @@ fun PhoneHelperSection(status: BuiltinShellStatus, onRepair: () -> Unit, onUnpai
             onDismissRequest = { confirming = false },
             title = { Text(PhoneSetupCopy.UNPAIR_TITLE) },
             text = { Text(PhoneSetupCopy.UNPAIR_BODY) },
-            confirmButton = { TextButton({ confirming = false; onUnpair() }) { Text(PhoneSetupCopy.UNPAIR_CONFIRM, color = MikaTheme.colors.bad) } },
+            confirmButton = { TextButton({ confirming = false; onUnpair() }) { Text(PhoneSetupCopy.UNPAIR_CONFIRM, color = DjiniTheme.colors.bad) } },
             dismissButton = { TextButton({ confirming = false }) { Text(stringResource(R.string.cancel)) } },
         )
     }
@@ -684,14 +684,14 @@ fun PhoneHelperSection(status: BuiltinShellStatus, onRepair: () -> Unit, onUnpai
 fun PhoneSetupLine(onOpen: () -> Unit) {
     val shape = MikaShapes.Card
     Row(
-        Modifier.fillMaxWidth().padding(bottom = 12.dp).cardSurface(MikaTheme.colors, shape)
+        Modifier.fillMaxWidth().padding(bottom = 12.dp).cardSurface(DjiniTheme.colors, shape)
             .padding(horizontal = 16.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp),
     ) {
-        Text(PhoneSetupCopy.DEGRADED_LINE, Modifier.weight(1f), style = MikaType.Caption, color = MikaTheme.colors.ink2)
+        Text(PhoneSetupCopy.DEGRADED_LINE, Modifier.weight(1f), style = MikaType.Caption, color = DjiniTheme.colors.ink2)
         Text(
             PhoneSetupCopy.DEGRADED_ACTION, Modifier.clickable(onClick = onOpen).padding(4.dp).testTag("phone-setup-open"),
-            style = MikaType.Body.copy(fontWeight = FontWeight.SemiBold), color = MikaTheme.colors.accent,
+            style = MikaType.Body.copy(fontWeight = FontWeight.SemiBold), color = DjiniTheme.colors.accent,
         )
     }
 }

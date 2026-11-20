@@ -1,10 +1,10 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.core.record.PlaybackMark
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.record.RunStore
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.core.record.PlaybackMark
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.record.RunStore
 import java.io.File
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject

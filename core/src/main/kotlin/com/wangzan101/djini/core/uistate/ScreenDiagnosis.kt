@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.uistate
+package com.wangzan101.djini.core.uistate
 
 enum class ScreenState(val wire: String) {
     NORMAL("normal"),

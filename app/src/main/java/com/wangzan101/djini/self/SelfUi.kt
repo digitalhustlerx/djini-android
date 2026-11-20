@@ -1,6 +1,6 @@
-package com.wangzan101.mika.self
+package com.wangzan101.djini.self
 
-import com.wangzan101.mika.core.self.SelfScreen
+import com.wangzan101.djini.core.self.SelfScreen
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -24,7 +24,7 @@ data class SelfUiRequest(
 
 /**
  * 进程内的自身 UI 请求。任务在服务里跑,界面在 MainActivity 里;两边同一进程,
- * 用 StateFlow 留一份请求,界面回来时照样能处理。仿 [com.wangzan101.mika.memory.MemoryRuntime.openRequest]。
+ * 用 StateFlow 留一份请求,界面回来时照样能处理。仿 [com.wangzan101.djini.memory.MemoryRuntime.openRequest]。
  */
 class SelfUi {
     private val _request = MutableStateFlow<SelfUiRequest?>(null)

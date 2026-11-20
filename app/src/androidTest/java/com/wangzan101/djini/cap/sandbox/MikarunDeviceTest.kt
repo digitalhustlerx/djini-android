@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.sandbox
+package com.wangzan101.djini.cap.sandbox
 
 import android.system.Os
 import android.system.OsConstants
@@ -19,11 +19,11 @@ import java.util.concurrent.TimeUnit
 import kotlin.concurrent.thread
 
 /**
- * 启动器 mikarun 的真机用例:退出码、超时、断网、清场(脱离父进程的后代、Mika 被杀)。
+ * 启动器 djinarun 的真机用例:退出码、超时、断网、清场(脱离父进程的后代、Djini 被杀)。
  * 根文件系统与 SandboxSmokeTest 共用。
  */
 @RunWith(AndroidJUnit4::class)
-class MikarunDeviceTest {
+class DjinarunDeviceTest {
 
     @Test
     fun exitCodePassesThrough() {
@@ -68,7 +68,7 @@ class MikarunDeviceTest {
     }
 
     @Test
-    fun kill9MikarunLeavesNoSleep() {
+    fun kill9DjinarunLeavesNoSleep() {
         val marker = "1003"
         val script = "setsid sleep $marker & sleep $marker"
         val p = start(launcher("--timeout", "600") + proot("/bin/sh", "-c", script))
@@ -80,7 +80,7 @@ class MikarunDeviceTest {
             }
             val launcherPid = File("/proc").listFiles().orEmpty().mapNotNull { it.name.toIntOrNull() }.single {
                 val args = cmdline(it)
-                args.firstOrNull()?.endsWith("libmikarun.so") == true && script in args
+                args.firstOrNull()?.endsWith("libdjinarun.so") == true && script in args
             }
             // 启动器来不及清场:靠 PRoot 的 PDEATHSIG 与 PTRACE_O_EXITKILL 带走全部沙箱进程
             Os.kill(launcherPid, OsConstants.SIGKILL)
@@ -101,9 +101,9 @@ class MikarunDeviceTest {
     fun netOffAllowsUnixSocket() {
         // busybox 的 nc 不支持 AF_UNIX;改用 syslogd(在 /dev/log 上 bind)与 logger(connect)互通。
         // /dev/log 绑到缓存目录里的一个文件,syslogd 会把它换成套接字。
-        val devLog = File(SandboxSmokeTest.prootTmp.parentFile, "mikarun-test-devlog").apply { delete(); writeText("") }
-        val script = "syslogd -n -O /tmp/mikarun-unix.log & sleep 1; logger -t mikaprobe hello-unix; sleep 1; " +
-            "kill \$!; cat /tmp/mikarun-unix.log; rm -f /tmp/mikarun-unix.log"
+        val devLog = File(SandboxSmokeTest.prootTmp.parentFile, "djinarun-test-devlog").apply { delete(); writeText("") }
+        val script = "syslogd -n -O /tmp/djinarun-unix.log & sleep 1; logger -t mikaprobe hello-unix; sleep 1; " +
+            "kill \$!; cat /tmp/djinarun-unix.log; rm -f /tmp/djinarun-unix.log"
         val r = run(
             launcher("--timeout", "20", "--net", "off") +
                 proot("/bin/sh", "-c", script, extraBinds = listOf("${devLog.absolutePath}:/dev/log")),
@@ -128,22 +128,22 @@ class MikarunDeviceTest {
 
     @Test
     fun selfTestReportsSeccomp() {
-        val r = run(listOf(SandboxSmokeTest.lib("libmikarun.so"), "--self-test"))
+        val r = run(listOf(SandboxSmokeTest.lib("libdjinarun.so"), "--self-test"))
         assertEquals(r.output, 0, r.exitCode)
-        assertEquals(listOf("mikarun ok", "seccomp ok"), r.output.trim().lines())
+        assertEquals(listOf("djinarun ok", "seccomp ok"), r.output.trim().lines())
     }
 
     @Test
     fun prootWithoutLoaderIsRefused() {
         val r = run(launcher("--timeout", "20") + proot("/bin/true"), withLoader = false)
         assertEquals(r.output, 125, r.exitCode)
-        assertTrue(r.output, r.output.trim().lines().last().startsWith("mikarun: PROOT_LOADER missing"))
+        assertTrue(r.output, r.output.trim().lines().last().startsWith("djinarun: PROOT_LOADER missing"))
     }
 
     private data class Result(val exitCode: Int, val output: String, val elapsedMs: Long)
 
     private fun launcher(vararg options: String): List<String> =
-        listOf(SandboxSmokeTest.lib("libmikarun.so")) + options + "--"
+        listOf(SandboxSmokeTest.lib("libdjinarun.so")) + options + "--"
 
     private fun proot(vararg command: String, extraBinds: List<String> = emptyList()): List<String> =
         listOf(
@@ -206,7 +206,7 @@ class MikarunDeviceTest {
     private fun shQuote(s: String) = "'" + s.replace("'", "'\\''") + "'"
 
     companion object {
-        private const val TAG = "MikarunDeviceTest"
+        private const val TAG = "DjinarunDeviceTest"
 
         @BeforeClass
         @JvmStatic

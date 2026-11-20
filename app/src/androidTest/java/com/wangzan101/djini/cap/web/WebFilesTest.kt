@@ -1,12 +1,12 @@
-package com.wangzan101.mika.cap.web
+package com.wangzan101.djini.cap.web
 
 import android.view.WindowManager
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.webkit.WebViewAssetLoader
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport
-import com.wangzan101.mika.core.uistate.ActionResult
-import com.wangzan101.mika.core.cap.web.DownloadInfo
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport
+import com.wangzan101.djini.core.uistate.ActionResult
+import com.wangzan101.djini.core.cap.web.DownloadInfo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -21,7 +21,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.File
 import kotlin.coroutines.resume
-import com.wangzan101.mika.core.workspace.SandboxTree
+import com.wangzan101.djini.core.workspace.SandboxTree
 
 /**
  * 真机测试:网页下载落到工作区的 downloads/,上传只交工作区文件。用本地夹具里的 blob: 下载(不依赖外网);
@@ -44,7 +44,7 @@ class WebFilesTest {
                 .addPathHandler("/assets/", WebViewAssetLoader.AssetsPathHandler(instr.context)).build()
             stack = WebStack.create(
                 ctx, "run-files", bounds.width(), bounds.height(), ctx.resources.displayMetrics.densityDpi, listOf(loader),
-                workspace = WebStack.Workspace(ws, com.wangzan101.mika.cap.sandbox.AndroidFdSys.gate, SandboxTree()),
+                workspace = WebStack.Workspace(ws, com.wangzan101.djini.cap.sandbox.AndroidFdSys.gate, SandboxTree()),
             )
         }
         runBlocking { stack.screen.navigate("https://appassets.androidplatform.net/assets/web-fixtures/files.html", newTab = false) }
@@ -121,7 +121,7 @@ class WebFilesTest {
         assertTrue(staging.list().orEmpty().isEmpty())
     }
 
-    /** 工作区里的硬链接(可能链着 Mika 的私有文件)不交给页面,也不留副本。 */
+    /** 工作区里的硬链接(可能链着 Djini 的私有文件)不交给页面,也不留副本。 */
     @Test
     fun uploadRefusesHardLinkedFiles() = runBlocking<Unit> {
         val secret = File(ctx.filesDir, "webfiles-secret.txt").apply { writeText("secret") }

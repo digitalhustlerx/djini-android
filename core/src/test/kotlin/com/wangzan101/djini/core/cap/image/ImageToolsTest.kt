@@ -1,15 +1,15 @@
-package com.wangzan101.mika.core.cap.image
+package com.wangzan101.djini.core.cap.image
 
-import com.wangzan101.mika.core.assembly.toolDispatcher
-import com.wangzan101.mika.core.model.GeneratedImage
-import com.wangzan101.mika.core.model.ImageAspect
-import com.wangzan101.mika.core.model.ImageCapabilities
-import com.wangzan101.mika.core.model.ImageReference
-import com.wangzan101.mika.core.model.ImageRequest
-import com.wangzan101.mika.core.model.ImageResponse
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.tool.ActionPass
-import com.wangzan101.mika.core.vision.LocScreen
+import com.wangzan101.djini.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.model.GeneratedImage
+import com.wangzan101.djini.core.model.ImageAspect
+import com.wangzan101.djini.core.model.ImageCapabilities
+import com.wangzan101.djini.core.model.ImageReference
+import com.wangzan101.djini.core.model.ImageRequest
+import com.wangzan101.djini.core.model.ImageResponse
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.tool.ActionPass
+import com.wangzan101.djini.core.vision.LocScreen
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonArray
@@ -50,7 +50,7 @@ class ImageToolsTest {
         override suspend fun saveToGallery(path: String, name: String?): SavedImage {
             savedPath = path
             savedName = name
-            return SavedImage("Pictures/Mika/test.png", "content://mika/test", 4)
+            return SavedImage("Pictures/Djini/test.png", "content://djini/test", 4)
         }
     }
 
@@ -108,7 +108,7 @@ class ImageToolsTest {
         val d = dispatcher(port, save = true, ask = false)
         val r = d.execute(call("image_save", """{"path":"/workspace/out/images/a.png","name":"cat.png"}"""), ActionPass()).content
         assertEquals("true", r.s("ok"))
-        assertEquals("Pictures/Mika/test.png", r.s("savedAs"))
+        assertEquals("Pictures/Djini/test.png", r.s("savedAs"))
         assertEquals("/workspace/out/images/a.png", port.savedPath)
         assertEquals("cat.png", port.savedName)
     }

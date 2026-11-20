@@ -1,10 +1,10 @@
-package com.wangzan101.mika
+package com.wangzan101.djini
 
 import androidx.test.platform.app.InstrumentationRegistry
 
 /** 设备测试从 App 持有的 TaskCenter 读取状态；TaskService 只负责 Android 宿主。 */
 object DeviceTaskState {
-    private val center get() = (InstrumentationRegistry.getInstrumentation().targetContext.applicationContext as MikaApp).taskState
+    private val center get() = (InstrumentationRegistry.getInstrumentation().targetContext.applicationContext as DjiniApp).taskState
     val state get() = center.state
     val busy get() = center.busy
     val takeoverStage get() = center.takeoverStage

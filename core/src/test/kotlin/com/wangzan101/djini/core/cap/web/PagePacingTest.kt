@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.cap.web
+package com.wangzan101.djini.core.cap.web
 
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
@@ -6,10 +6,10 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import kotlin.random.Random
-import com.wangzan101.mika.core.uistate.IdleScroll
-import com.wangzan101.mika.core.uistate.PageLimitReached
-import com.wangzan101.mika.core.uistate.PlacePace
-import com.wangzan101.mika.core.uistate.dwellStopped
+import com.wangzan101.djini.core.uistate.IdleScroll
+import com.wangzan101.djini.core.uistate.PageLimitReached
+import com.wangzan101.djini.core.uistate.PlacePace
+import com.wangzan101.djini.core.uistate.dwellStopped
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 
@@ -204,7 +204,7 @@ class PagePacingTest {
         assertTrue("$e", e is PageLimitReached && e.pages == 3 && e.cap == 3 && e.site == "shop.example.com")
         val result = dwellStopped(e as PageLimitReached).content
         assertEquals(JsonPrimitive("page_limit"), result["error"])
-        assertTrue(result["message"].toString().contains("Mika reached its per-task web page budget"))
+        assertTrue(result["message"].toString().contains("Djini reached its per-task web page budget"))
         val budget = result["navigationBudget"] as JsonObject
         assertEquals(JsonPrimitive("web_pages"), budget["scope"])
         assertEquals(JsonPrimitive("shop.example.com"), budget["target"])

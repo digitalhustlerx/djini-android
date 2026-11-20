@@ -1,6 +1,6 @@
-package com.wangzan101.mika.capsule
+package com.wangzan101.djini.capsule
 
-import com.wangzan101.mika.cap.phone.a11y.OverlayArea
+import com.wangzan101.djini.cap.phone.a11y.OverlayArea
 import kotlin.math.roundToInt
 
 enum class DockSide { Left, Right }

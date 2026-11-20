@@ -1,13 +1,13 @@
-package com.wangzan101.mika.core.verify
+package com.wangzan101.djini.core.verify
 
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonNames
 
 /**
- * 回答的一处来源:指回证据账本里的一条观察([obsId],见 [com.wangzan101.mika.core.observation.Observation.id]),
+ * 回答的一处来源:指回证据账本里的一条观察([obsId],见 [com.wangzan101.djini.core.observation.Observation.id]),
  * 不论它是什么(一个界面、一页、一个文件、一段命令输出、一段回复)。
- * [kind] 是观察的种类([com.wangzan101.mika.core.observation.ObsKind.wire];旧记录里是 screen / web / app_ai / output / fact);
+ * [kind] 是观察的种类([com.wangzan101.djini.core.observation.ObsKind.wire];旧记录里是 screen / web / app_ai / output / fact);
  * [source] 是给出它的能力(旧记录没有);[place] 是在哪里读的(App 包名、「网站 域名」或网址、命令或文件),[title] 是那一页自己的标题;
  * [step] 是第几步读的;[mediaIds] 是那一步存下的画面编号(没有为空)。
  */

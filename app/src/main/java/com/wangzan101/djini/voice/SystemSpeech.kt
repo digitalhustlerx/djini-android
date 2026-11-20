@@ -1,4 +1,4 @@
-package com.wangzan101.mika.voice
+package com.wangzan101.djini.voice
 
 import android.content.ComponentName
 import android.content.Context
@@ -13,7 +13,7 @@ import android.speech.RecognitionSupport
 import android.speech.RecognitionSupportCallback
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
-import com.wangzan101.mika.i18n.AppLanguage
+import com.wangzan101.djini.i18n.AppLanguage
 import kotlinx.coroutines.flow.Flow
 import java.util.Locale
 
@@ -418,7 +418,7 @@ class SystemSpeechSession(
     }
 
     /**
-     * 识别服务说没有权限:Mika 的录音权限是开会话前查过的,所以多半是识别服务自己的没给。查得出来就照实说是它,
+     * 识别服务说没有权限:Djini 的录音权限是开会话前查过的,所以多半是识别服务自己的没给。查得出来就照实说是它,
      * 查不出来的照原来的说法。要在收拾识别器之前问:这次用的是哪个入口那时才知道。
      */
     private fun explained(why: SpeechFailure): SpeechFailure {

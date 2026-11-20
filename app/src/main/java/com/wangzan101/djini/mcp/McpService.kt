@@ -1,4 +1,4 @@
-package com.wangzan101.mika.mcp
+package com.wangzan101.djini.mcp
 
 import android.app.Notification
 import android.app.PendingIntent
@@ -8,11 +8,11 @@ import android.content.pm.ServiceInfo
 import android.os.Build
 import android.os.IBinder
 import android.util.Log
-import com.wangzan101.mika.MikaApp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.settings.FeatureFlags
-import com.wangzan101.mika.task.TaskService
+import com.wangzan101.djini.DjiniApp
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.settings.FeatureFlags
+import com.wangzan101.djini.task.TaskService
 
 /**
  * 电脑连接打开期间的前台服务:只为让进程在后台活着、端口一直开着;收到的任务照旧交给 [TaskService] 去跑。
@@ -21,11 +21,11 @@ import com.wangzan101.mika.task.TaskService
  *
  * 电脑经 USB 调试打开、关掉 USB 方式也是起这个服务:清单里它对外开放,但要求调用方持有
  * INTERACT_ACROSS_USERS_FULL。这个权限 shell 有,普通 App 拿不到(只给系统签名和安装器,adb 也授不了),
- * 所以只有 `adb shell am start-foreground-service` 这样以 shell 身份发起的才起得了;Mika 自己起不受限。
+ * 所以只有 `adb shell am start-foreground-service` 这样以 shell 身份发起的才起得了;Djini 自己起不受限。
  * 以前台服务的方式起:安卓 12 起后台的 App 一般不能自己开前台服务,但由 shell 发起的启动不在此限。
  */
 class McpService : Service() {
-    private val runtime get() = (application as MikaApp).mcp
+    private val runtime get() = (application as DjiniApp).mcp
 
     override fun onBind(intent: Intent?): IBinder? = null
 

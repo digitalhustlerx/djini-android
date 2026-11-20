@@ -1,14 +1,14 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SdkSuppress
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.ChineseUi
-import com.wangzan101.mika.DeviceTaskState
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport.pollUntil
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.ui.MainActivity
+import com.wangzan101.djini.ChineseUi
+import com.wangzan101.djini.DeviceTaskState
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport.pollUntil
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.ui.MainActivity
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse

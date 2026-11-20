@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
-import com.wangzan101.mika.core.userscreen.UserScreenMessage
+import com.wangzan101.djini.core.userscreen.UserScreenMessage
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test

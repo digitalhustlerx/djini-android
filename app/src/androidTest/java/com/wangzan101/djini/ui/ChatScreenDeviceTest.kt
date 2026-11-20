@@ -1,28 +1,28 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.ChineseUi
-import com.wangzan101.mika.DeviceTaskState
+import com.wangzan101.djini.ChineseUi
+import com.wangzan101.djini.DeviceTaskState
 import android.app.UiAutomation
 import kotlinx.coroutines.runBlocking
-import com.wangzan101.mika.cap.sandbox.ShareExporter
-import com.wangzan101.mika.cap.sandbox.SandboxState
-import com.wangzan101.mika.cap.sandbox.SandboxDirs
-import com.wangzan101.mika.cap.sandbox.WorkspaceKey
-import com.wangzan101.mika.core.agent.SpeedFlags
-import com.wangzan101.mika.core.cap.sandbox.SandboxStatus
-import com.wangzan101.mika.core.model.ChatModel
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.ModelReply
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.StopReason
-import com.wangzan101.mika.core.model.ToolSpec
-import com.wangzan101.mika.core.model.Usage
-import com.wangzan101.mika.core.usage.UsagePurpose
-import com.wangzan101.mika.core.usage.UsageSink
-import com.wangzan101.mika.core.usage.UsageSource
-import com.wangzan101.mika.core.usage.metered
-import com.wangzan101.mika.core.agent.Turn
-import com.wangzan101.mika.chat.ConversationStore
+import com.wangzan101.djini.cap.sandbox.ShareExporter
+import com.wangzan101.djini.cap.sandbox.SandboxState
+import com.wangzan101.djini.cap.sandbox.SandboxDirs
+import com.wangzan101.djini.cap.sandbox.WorkspaceKey
+import com.wangzan101.djini.core.agent.SpeedFlags
+import com.wangzan101.djini.core.cap.sandbox.SandboxStatus
+import com.wangzan101.djini.core.model.ChatModel
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.ModelReply
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.StopReason
+import com.wangzan101.djini.core.model.ToolSpec
+import com.wangzan101.djini.core.model.Usage
+import com.wangzan101.djini.core.usage.UsagePurpose
+import com.wangzan101.djini.core.usage.UsageSink
+import com.wangzan101.djini.core.usage.UsageSource
+import com.wangzan101.djini.core.usage.metered
+import com.wangzan101.djini.core.agent.Turn
+import com.wangzan101.djini.chat.ConversationStore
 import androidx.compose.ui.test.onAllNodesWithContentDescription
 import android.net.Uri
 import android.content.Context
@@ -34,7 +34,7 @@ import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.hasAnyAncestor
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.hasText
-import com.wangzan101.mika.ui.viewer.FileViewerActivity
+import com.wangzan101.djini.ui.viewer.FileViewerActivity
 import androidx.compose.ui.test.hasSetTextAction
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
@@ -43,16 +43,16 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextClearance
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.MikaApp
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport.SETTINGS
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport.pollUntil
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport.sh
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.settings.FeatureFlags
-import com.wangzan101.mika.settings.Prerequisites
-import com.wangzan101.mika.task.ScriptedModel
-import com.wangzan101.mika.task.TaskService
+import com.wangzan101.djini.DjiniApp
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport.SETTINGS
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport.pollUntil
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport.sh
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.settings.FeatureFlags
+import com.wangzan101.djini.settings.Prerequisites
+import com.wangzan101.djini.task.ScriptedModel
+import com.wangzan101.djini.task.TaskService
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -63,13 +63,13 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.File
 import java.util.concurrent.atomic.AtomicBoolean
-import com.wangzan101.mika.task.testTasks
-import com.wangzan101.mika.task.TaskEnvironment
+import com.wangzan101.djini.task.testTasks
+import com.wangzan101.djini.task.TaskEnvironment
 
 /**
  * 真机走一遍对话页:脚本模型在虚拟屏上打开设置,检查步骤、小窗(收起、展开、拖动、需要你时自动展开)和结果卡片,
  * 每个阶段截一张图到 App 的外部文件目录 shots/(由开发机 adb pull 出来人工查看)。
- * 需要内置助手在运行、Mika 无障碍服务已开启。
+ * 需要内置助手在运行、Djini 无障碍服务已开启。
  */
 @RunWith(AndroidJUnit4::class)
 class ChatScreenDeviceTest {
@@ -80,7 +80,7 @@ class ChatScreenDeviceTest {
     private val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
     // 从界面发起的任务在第一个动作前要另问一次意图;固定答「要操作」,脚本里每一问都是任务循环本身的一步
     private val model = ScriptedModel().apply { intent = "ACT" }
-    private val vm get() = (context.applicationContext as MikaApp).chat
+    private val vm get() = (context.applicationContext as DjiniApp).chat
     private val anyway = Prerequisites.Check(emptyList())
     private var savedSpeed: SpeedFlags? = null
 
@@ -124,7 +124,7 @@ class ChatScreenDeviceTest {
         compose.waitForIdle()
         Thread.sleep(400)
         compose.waitForIdle()
-        // 默认的 UiAutomation 会压制其他无障碍服务,Mika 的服务会被断开
+        // 默认的 UiAutomation 会压制其他无障碍服务,Djini 的服务会被断开
         val bmp = InstrumentationRegistry.getInstrumentation()
             .getUiAutomation(UiAutomation.FLAG_DONT_SUPPRESS_ACCESSIBILITY_SERVICES).takeScreenshot()
         File(context.getExternalFilesDir(null), "shots/$name.png").outputStream().use { bmp.compress(Bitmap.CompressFormat.PNG, 100, it) }
@@ -221,7 +221,7 @@ class ChatScreenDeviceTest {
         assertTrue(vm.ui.value.pip.visible)
         shot("03-running-collapsed")
 
-        compose.onNodeWithContentDescription("Mika 的虚拟屏").performClick()
+        compose.onNodeWithContentDescription("Djini 的虚拟屏").performClick()
         compose.waitForIdle()
         assertTrue(vm.ui.value.pip.expanded)
         shot("04-running-expanded")
@@ -230,12 +230,12 @@ class ChatScreenDeviceTest {
 
         // 小窗平时在右下角(输入栏上方):往左上甩,应吸到左上角
         val d = context.resources.displayMetrics.density
-        val pip = compose.onNodeWithContentDescription("Mika 的虚拟屏").fetchSemanticsNode().boundsInWindow
+        val pip = compose.onNodeWithContentDescription("Djini 的虚拟屏").fetchSemanticsNode().boundsInWindow
         val x = pip.center.x
         val y = pip.center.y
         sh("input swipe ${x.toInt()} ${y.toInt()} ${(x - 250 * d).toInt()} ${(y - 300 * d).toInt()} 120")
         compose.waitForIdle()
-        val moved = compose.onNodeWithContentDescription("Mika 的虚拟屏").fetchSemanticsNode().boundsInWindow
+        val moved = compose.onNodeWithContentDescription("Djini 的虚拟屏").fetchSemanticsNode().boundsInWindow
         assertTrue("pip did not move up-left: $pip -> $moved", moved.center.x < x && moved.center.y < y)
         shot("05-dragged")
 
@@ -313,8 +313,8 @@ class ChatScreenDeviceTest {
     fun fileCardOpens() {
         val ws = SandboxDirs(context).workspace(WorkspaceKey.Conversation("card-device-test")).apply { mkdirs() }
         val f = File(ws, "card.txt").apply { writeText("hello") }
-        val name = "mika-card-${System.currentTimeMillis()}.txt"
-        val card = runBlocking { com.wangzan101.mika.cap.sandbox.AndroidFdSys.gate.openRead(ws, f.name).use { ShareExporter(context).export(it, name) } }
+        val name = "djini-card-${System.currentTimeMillis()}.txt"
+        val card = runBlocking { com.wangzan101.djini.cap.sandbox.AndroidFdSys.gate.openRead(ws, f.name).use { ShareExporter(context).export(it, name) } }
         val store = ConversationStore(context)
         val id = store.newConversation()
         store.append(id, Turn("导出", "好了", "succeeded"), listOf(card))

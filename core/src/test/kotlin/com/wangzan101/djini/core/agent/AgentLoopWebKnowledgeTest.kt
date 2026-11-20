@@ -1,21 +1,21 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
-import com.wangzan101.mika.core.knowledge.ChannelFacts
-import com.wangzan101.mika.core.knowledge.KnowledgeStore
-import com.wangzan101.mika.core.knowledge.entry
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.ModelReply
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.Role
-import com.wangzan101.mika.core.model.StopReason
-import com.wangzan101.mika.core.tool.FakeScreen
-import com.wangzan101.mika.core.cap.web.FakeWebPort
+import com.wangzan101.djini.core.knowledge.ChannelFacts
+import com.wangzan101.djini.core.knowledge.KnowledgeStore
+import com.wangzan101.djini.core.knowledge.entry
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.ModelReply
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.Role
+import com.wangzan101.djini.core.model.StopReason
+import com.wangzan101.djini.core.tool.FakeScreen
+import com.wangzan101.djini.core.cap.web.FakeWebPort
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import com.wangzan101.mika.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.assembly.toolDispatcher
 
 class AgentLoopWebKnowledgeTest {
     private var n = 0
@@ -23,7 +23,7 @@ class AgentLoopWebKnowledgeTest {
     private fun reply(vararg c: Part.ToolCall) = ModelReply(c.toList(), StopReason.ToolUse, null)
     private fun go(url: String) = reply(call("web_navigate", """{"url":"$url"}"""))
     private val observe get() = reply(call("phone_observe"))
-    private val finish get() = com.wangzan101.mika.core.testing.answerReply("ok")
+    private val finish get() = com.wangzan101.djini.core.testing.answerReply("ok")
 
     private fun List<Message>.userTexts() = filter { it.role == Role.User }.map { it.plainText() }
     private fun List<Message>.refs() = contextBodies(ContextKind.AppKnowledge, ContextKind.SiteKnowledge)
@@ -89,7 +89,7 @@ class AgentLoopWebKnowledgeTest {
     }
 
     @Test fun webPromptOnlyWhenWebAvailable() = runTest {
-        val groups = { offered: Set<String> -> com.wangzan101.mika.core.capability.PromptEnv(offered, false).gate(SystemPrompt.read("groups")) }
+        val groups = { offered: Set<String> -> com.wangzan101.djini.core.capability.PromptEnv(offered, false).gate(SystemPrompt.read("groups")) }
         val phone = SystemPrompt.read("phone").lines().filterNot { "<!-- needs: phone_open_link -->" in it || "<!-- needs: phone_find_visually -->" in it || "<!-- needs: phone_sms_login -->" in it }.joinToString("\n")
         val web = SystemPrompt.read("web").lines().filterNot { "<!-- needs: share_file -->" in it || "<!-- needs: web_run_site_command -->" in it }.joinToString("\n")
         // 两组都收着:只有入口一段和选渠道一段

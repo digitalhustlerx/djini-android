@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.run
+package com.wangzan101.djini.core.run
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

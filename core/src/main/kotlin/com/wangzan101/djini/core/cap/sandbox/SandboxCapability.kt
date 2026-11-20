@@ -1,17 +1,17 @@
-package com.wangzan101.mika.core.cap.sandbox
+package com.wangzan101.djini.core.cap.sandbox
 
-import com.wangzan101.mika.core.capability.Capability
-import com.wangzan101.mika.core.capability.CapabilityKey
-import com.wangzan101.mika.core.capability.CapabilityStatus
-import com.wangzan101.mika.core.capability.PromptEnv
-import com.wangzan101.mika.core.guard.OffScreenGuard
-import com.wangzan101.mika.core.knowledge.ScriptManifest
-import com.wangzan101.mika.core.knowledge.ScriptState
-import com.wangzan101.mika.core.knowledge.BundledScripts
-import com.wangzan101.mika.core.prompt.Prompts
-import com.wangzan101.mika.core.tool.AgentTool
-import com.wangzan101.mika.core.tool.ToolContext
-import com.wangzan101.mika.core.workspace.SandboxPaths
+import com.wangzan101.djini.core.capability.Capability
+import com.wangzan101.djini.core.capability.CapabilityKey
+import com.wangzan101.djini.core.capability.CapabilityStatus
+import com.wangzan101.djini.core.capability.PromptEnv
+import com.wangzan101.djini.core.guard.OffScreenGuard
+import com.wangzan101.djini.core.knowledge.ScriptManifest
+import com.wangzan101.djini.core.knowledge.ScriptState
+import com.wangzan101.djini.core.knowledge.BundledScripts
+import com.wangzan101.djini.core.prompt.Prompts
+import com.wangzan101.djini.core.tool.AgentTool
+import com.wangzan101.djini.core.tool.ToolContext
+import com.wangzan101.djini.core.workspace.SandboxPaths
 
 /**
  * Linux 沙箱:命令、技能脚本、工作区文件。设备支持时提供工具(运行环境没准备好时工具调用会等它);
@@ -100,7 +100,7 @@ internal class SandboxCapability(
         const val PREPARING = "The environment is still being set up in the background. The first tool call waits for it (up to about two minutes); if it is still not ready, the tool says so."
 
         const val NETWORK_ON = "on. The user allowed the sandbox to use the network; anything you send out leaves the phone, so only fetch what the task needs."
-        const val NETWORK_OFF = "off. Commands cannot reach the internet (no pip/npm/apk installs, no downloads). If the task really needs the network, tell the user they can turn on \"Allow scripts to go online\" (允许脚本联网) in Mika's settings."
+        const val NETWORK_OFF = "off. Commands cannot reach the internet (no pip/npm/apk installs, no downloads). If the task really needs the network, tell the user they can turn on \"Allow scripts to go online\" (允许脚本联网) in Djini's settings."
     }
 }
 

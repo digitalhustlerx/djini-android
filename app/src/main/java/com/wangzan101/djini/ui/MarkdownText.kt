@@ -1,7 +1,7 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.tr
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.tr
 import android.content.ActivityNotFoundException
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -65,11 +65,11 @@ import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
-import com.wangzan101.mika.ui.theme.MikaRadius
-import com.wangzan101.mika.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.MikaRadius
+import com.wangzan101.djini.ui.theme.MikaShapes
 
 /** 按 Markdown 显示一段回答；流式草稿用临时闭合的语法预览。 */
 private val LocalReportStyle = staticCompositionLocalOf { false }
@@ -99,7 +99,7 @@ fun MarkdownText(markdown: String, style: TextStyle, modifier: Modifier = Modifi
 @Composable
 internal fun MarkdownDocument(markdown: String, streaming: Boolean = false, reportStyle: Boolean = false, content: @Composable (List<MdBlock>) -> Unit) {
     // 流式片段更新频繁，在后台解析；上一帧保留到新片段准备好，避免主线程卡顿和文字闪空。
-    val colors = MikaTheme.colors
+    val colors = DjiniTheme.colors
     val styles = remember(colors, reportStyle) { MarkdownModel.Styles.of(colors, if (reportStyle) FontWeight.Bold else FontWeight.SemiBold) }
     val blocks = if (streaming) {
         val parsed by produceState<List<MdBlock>>(emptyList(), markdown, styles) {
@@ -168,22 +168,22 @@ private fun Block(b: MdBlock, style: TextStyle, depth: Int) {
         )
         is MdBlock.Code -> CodeBlock(b, style)
         is MdBlock.Quote -> Row(Modifier.height(IntrinsicSize.Min)) {
-            Box(Modifier.width(3.dp).fillMaxHeight().background(MikaTheme.colors.hair, MikaShapes.Micro))
-            MarkdownBlocks(b.blocks, style.copy(color = MikaTheme.colors.ink2), Modifier.padding(start = 10.dp), depth + 1)
+            Box(Modifier.width(3.dp).fillMaxHeight().background(DjiniTheme.colors.hair, MikaShapes.Micro))
+            MarkdownBlocks(b.blocks, style.copy(color = DjiniTheme.colors.ink2), Modifier.padding(start = 10.dp), depth + 1)
         }
         is MdBlock.ListBlock -> Column(verticalArrangement = Arrangement.spacedBy(if (b.tight) 3.dp else 8.dp)) {
             b.items.forEachIndexed { i, item ->
                 val reportItem = LocalReportStyle.current && depth == 0
                 Row(Modifier.then(if (reportItem) Modifier.fillMaxWidth().clip(MikaShapes.Button)
-                    .background(MikaTheme.colors.bg).padding(14.dp) else Modifier)) {
+                    .background(DjiniTheme.colors.bg).padding(14.dp) else Modifier)) {
                     val marker = if (b.start != null) "${b.start + i}." else if (depth % 2 == 0) "•" else "◦"
-                    Text(marker, Modifier.widthIn(min = 18.dp).padding(end = 6.dp), style = style.copy(color = if (reportItem) MikaTheme.colors.accent else MikaTheme.colors.ink2))
+                    Text(marker, Modifier.widthIn(min = 18.dp).padding(end = 6.dp), style = style.copy(color = if (reportItem) DjiniTheme.colors.accent else DjiniTheme.colors.ink2))
                     MarkdownBlocks(item, style, depth = depth + 1, gap = if (b.tight) 3 else 8)
                 }
             }
         }
         is MdBlock.Table -> TableBlock(b, style)
-        MdBlock.Rule -> Box(Modifier.fillMaxWidth().padding(vertical = 4.dp).height(0.5.dp).background(MikaTheme.colors.hair))
+        MdBlock.Rule -> Box(Modifier.fillMaxWidth().padding(vertical = 4.dp).height(0.5.dp).background(DjiniTheme.colors.hair))
     }
 }
 
@@ -196,15 +196,15 @@ private fun TableBlock(t: MdBlock.Table, style: TextStyle) {
     if (cols == 0) return
     val cellStyle = style.copy(fontSize = 13.sp, lineHeight = 19.sp)
     val rows = listOf(t.header) + t.rows
-    Box(Modifier.then(if (report) Modifier.clip(MikaShapes.Card).background(MikaTheme.colors.surface) else Modifier)
+    Box(Modifier.then(if (report) Modifier.clip(MikaShapes.Card).background(DjiniTheme.colors.surface) else Modifier)
         .horizontalScroll(rememberScrollState())) {
         Layout(
             content = {
                 rows.forEachIndexed { r, row ->
                     row.forEach { cell ->
                         Box(
-                            Modifier.then(if (report) Modifier else Modifier.border(0.5.dp, MikaTheme.colors.hair))
-                                .then(if (r == 0) Modifier.background(MikaTheme.colors.fill) else Modifier)
+                            Modifier.then(if (report) Modifier else Modifier.border(0.5.dp, DjiniTheme.colors.hair))
+                                .then(if (r == 0) Modifier.background(DjiniTheme.colors.fill) else Modifier)
                                 .padding(horizontal = if (report) 12.dp else 9.dp, vertical = if (report) 12.dp else 6.dp),
                         ) {
                             Text(
@@ -215,7 +215,7 @@ private fun TableBlock(t: MdBlock.Table, style: TextStyle) {
                     }
                 }
             },
-            modifier = if (report) Modifier else Modifier.border(0.5.dp, MikaTheme.colors.hair, MikaShapes.Micro),
+            modifier = if (report) Modifier else Modifier.border(0.5.dp, DjiniTheme.colors.hair, MikaShapes.Micro),
         ) { measurables, _ ->
             val maxCol = 240.dp.roundToPx()
             val minCol = 48.dp.roundToPx()
@@ -245,7 +245,7 @@ private fun TableBlock(t: MdBlock.Table, style: TextStyle) {
 /** 代码块:顶部一条轻量顶栏(左显示语言标签,右放「复制 / 已复制」按钮),下面横向滚动显示代码正文。 */
 @Composable
 private fun CodeBlock(b: MdBlock.Code, style: TextStyle) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val find = LocalFindHighlight.current
     val context = LocalContext.current
     var copyVersion by remember(b.code) { mutableIntStateOf(0) }

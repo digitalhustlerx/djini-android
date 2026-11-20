@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.shell
+package com.wangzan101.djini.core.shell
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -7,7 +7,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class HelperRestoreTest {
-    private val mika = PermissionCommands.accessibilityService("com.wangzan101.mika")
+    private val djini = PermissionCommands.accessibilityService("com.wangzan101.djini")
     private val other = "com.example.reader/.ReaderService"
     private val yes = RestoreWish(revive = true, accessibility = true)
 
@@ -34,9 +34,9 @@ class HelperRestoreTest {
     @Test
     fun accessibilityOnlyWhenWantedAndOn() {
         assertTrue(RestoreWish.of(true, false, accessibilityWanted = true, accessibilityOn = true).accessibility)
-        // 用户在 Mika 里关掉了替我打开无障碍
+        // 用户在 Djini 里关掉了替我打开无障碍
         assertFalse(RestoreWish.of(true, false, accessibilityWanted = false, accessibilityOn = true).accessibility)
-        // 用户趁 Mika 活着在系统设置里关掉了
+        // 用户趁 Djini 活着在系统设置里关掉了
         assertFalse(RestoreWish.of(true, false, accessibilityWanted = true, accessibilityOn = false).accessibility)
     }
 
@@ -125,18 +125,18 @@ class HelperRestoreTest {
     @Test
     fun accessibilityCommandsAppendWithoutDuplicates() {
         assertEquals(
-            listOf("settings put secure enabled_accessibility_services '$other:$mika'", "settings put secure accessibility_enabled 1"),
-            RestoreCommands.accessibility(other, mika),
+            listOf("settings put secure enabled_accessibility_services '$other:$djini'", "settings put secure accessibility_enabled 1"),
+            RestoreCommands.accessibility(other, djini),
         )
         assertEquals(
-            listOf("settings put secure enabled_accessibility_services '$mika'", "settings put secure accessibility_enabled 1"),
-            RestoreCommands.accessibility("null", mika),
+            listOf("settings put secure enabled_accessibility_services '$djini'", "settings put secure accessibility_enabled 1"),
+            RestoreCommands.accessibility("null", djini),
         )
         // 已经在列表里(哪种写法都算):不重写列表,只开总开关
-        assertEquals(listOf(RestoreCommands.ENABLE_ACCESSIBILITY), RestoreCommands.accessibility("$mika:$other", mika))
+        assertEquals(listOf(RestoreCommands.ENABLE_ACCESSIBILITY), RestoreCommands.accessibility("$djini:$other", djini))
         assertEquals(
             listOf(RestoreCommands.ENABLE_ACCESSIBILITY),
-            RestoreCommands.accessibility("com.wangzan101.mika/com.wangzan101.mika.a11y.MikaAccessibilityService", mika),
+            RestoreCommands.accessibility("com.wangzan101.djini/com.wangzan101.djini.a11y.DjiniAccessibilityService", djini),
         )
     }
 

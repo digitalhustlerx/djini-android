@@ -1,7 +1,7 @@
-package com.wangzan101.mika.cap.web
+package com.wangzan101.djini.cap.web
 
-import com.wangzan101.mika.core.net.NetProxy
-import com.wangzan101.mika.core.net.ProxyAddress
+import com.wangzan101.djini.core.net.NetProxy
+import com.wangzan101.djini.core.net.ProxyAddress
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull

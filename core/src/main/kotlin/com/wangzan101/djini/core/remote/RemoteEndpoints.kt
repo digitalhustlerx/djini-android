@@ -1,8 +1,8 @@
-package com.wangzan101.mika.core.remote
+package com.wangzan101.djini.core.remote
 
-import com.wangzan101.mika.core.device.DeviceAccess
-import com.wangzan101.mika.core.mcp.McpRpc
-import com.wangzan101.mika.core.mcp.McpTaskTools
+import com.wangzan101.djini.core.device.DeviceAccess
+import com.wangzan101.djini.core.mcp.McpRpc
+import com.wangzan101.djini.core.mcp.McpTaskTools
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import java.net.InetAddress
@@ -18,7 +18,7 @@ class RemoteEndpoints(
     private val device: DeviceAccess? = null,
     private val history: RemoteHistory? = null,
     private val records: RunExportSource? = null,
-    private val calls: com.wangzan101.mika.core.calls.PhoneCallPort? = null,
+    private val calls: com.wangzan101.djini.core.calls.PhoneCallPort? = null,
     private val companion: RemoteCompanion? = null,
 ) {
     private val companionApi = companion?.let(::CompanionApi)
@@ -35,7 +35,7 @@ class RemoteEndpoints(
         val rpc = McpRpc(McpTaskTools(service, device.takeIf { deviceAccess }, calls.takeIf { deviceAccess }), serverVersion) { remote, name -> seen(remote, name) }
         if (req.path == McpRpc.PATH) return rpc.handle(req)
         if (req.path == RemoteTaskApi.ROOT || req.path.startsWith("${RemoteTaskApi.ROOT}/")) {
-            seen(req.remote, req.header("x-mika-client")?.take(64))
+            seen(req.remote, req.header("x-djini-client")?.take(64))
             if (companionApi != null && CompanionApi.owns(req.path)) return companionApi.handle(req)
             val api = RemoteTaskApi(service, serverVersion, device.takeIf { deviceAccess }, history.takeIf { historyAccess }, companion = companion != null)
             return api.handle(req)

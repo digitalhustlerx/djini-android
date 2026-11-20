@@ -1,28 +1,28 @@
-package com.wangzan101.mika.core.cap.image
+package com.wangzan101.djini.core.cap.image
 
-import com.wangzan101.mika.core.action.ActionRisk
-import com.wangzan101.mika.core.action.Risk as ApprovalRisk
-import com.wangzan101.mika.core.gate.ConfirmationRequest
-import com.wangzan101.mika.core.model.ImageAspect
-import com.wangzan101.mika.core.model.ImageError
-import com.wangzan101.mika.core.model.ImageRequest
-import com.wangzan101.mika.core.model.ModelError
-import com.wangzan101.mika.core.prompt.Prompts
-import com.wangzan101.mika.core.risk.IrrevAction
-import com.wangzan101.mika.core.tool.AgentTool
-import com.wangzan101.mika.core.tool.ArgError
-import com.wangzan101.mika.core.tool.Args
-import com.wangzan101.mika.core.tool.Entry
-import com.wangzan101.mika.core.tool.Risk
-import com.wangzan101.mika.core.tool.ToolContext
-import com.wangzan101.mika.core.tool.ToolDef
-import com.wangzan101.mika.core.tool.ToolExecution
-import com.wangzan101.mika.core.tool.Verb
-import com.wangzan101.mika.core.tool.fail
-import com.wangzan101.mika.core.tool.int
-import com.wangzan101.mika.core.tool.okObj
-import com.wangzan101.mika.core.tool.str
-import com.wangzan101.mika.core.tool.strArray
+import com.wangzan101.djini.core.action.ActionRisk
+import com.wangzan101.djini.core.action.Risk as ApprovalRisk
+import com.wangzan101.djini.core.gate.ConfirmationRequest
+import com.wangzan101.djini.core.model.ImageAspect
+import com.wangzan101.djini.core.model.ImageError
+import com.wangzan101.djini.core.model.ImageRequest
+import com.wangzan101.djini.core.model.ModelError
+import com.wangzan101.djini.core.prompt.Prompts
+import com.wangzan101.djini.core.risk.IrrevAction
+import com.wangzan101.djini.core.tool.AgentTool
+import com.wangzan101.djini.core.tool.ArgError
+import com.wangzan101.djini.core.tool.Args
+import com.wangzan101.djini.core.tool.Entry
+import com.wangzan101.djini.core.tool.Risk
+import com.wangzan101.djini.core.tool.ToolContext
+import com.wangzan101.djini.core.tool.ToolDef
+import com.wangzan101.djini.core.tool.ToolExecution
+import com.wangzan101.djini.core.tool.Verb
+import com.wangzan101.djini.core.tool.fail
+import com.wangzan101.djini.core.tool.int
+import com.wangzan101.djini.core.tool.okObj
+import com.wangzan101.djini.core.tool.str
+import com.wangzan101.djini.core.tool.strArray
 import kotlinx.coroutines.CancellationException
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.addJsonObject
@@ -31,7 +31,7 @@ import kotlinx.serialization.json.putJsonArray
 import kotlinx.serialization.json.putJsonObject
 
 /** 相册审批卡上的 App 字段;不是真实包名,只说明这一步落在相册。 */
-private const val GALLERY_CONFIRM_APP = "mika:gallery"
+private const val GALLERY_CONFIRM_APP = "djini:gallery"
 
 internal object ImageGenerate : AgentTool {
     override val capability: String get() = IMAGE
@@ -182,7 +182,7 @@ internal class ImageSave(private val ask: Boolean) : AgentTool {
 
     /**
      * 保存是改到相册的一步:默认每次都要用户这一次的同意(和 root 命令同一条审批卡)。
-     * 用户关掉「每次保存前先问我」后不再问;无人值守/远程/子任务仍由 [com.wangzan101.mika.core.action.ApprovalPolicy] 拒绝。
+     * 用户关掉「每次保存前先问我」后不再问;无人值守/远程/子任务仍由 [com.wangzan101.djini.core.action.ApprovalPolicy] 拒绝。
      */
     override fun approvalRisk(args: JsonObject): ApprovalRisk = if (ask) {
         ApprovalRisk(ActionRisk.Change, ask = ConfirmationRequest(

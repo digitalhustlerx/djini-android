@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.ScrollState
@@ -15,10 +15,10 @@ import androidx.compose.ui.test.junit4.StateRestorationTester
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.unit.dp
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.wangzan101.mika.ChineseUi
-import com.wangzan101.mika.R
-import com.wangzan101.mika.calls.*
-import com.wangzan101.mika.ui.theme.MikaTheme
+import com.wangzan101.djini.ChineseUi
+import com.wangzan101.djini.R
+import com.wangzan101.djini.calls.*
+import com.wangzan101.djini.ui.theme.DjiniTheme
 import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
@@ -46,7 +46,7 @@ class CallLiveContextUiTest {
             CallTranscriptLine("caller", "new caller line"),
             CallTranscriptLine("assistant", "   "),
         )))
-        compose.setContent { MikaTheme(dark = false) { Column { Card(state.value) } } }
+        compose.setContent { DjiniTheme(dark = false) { Column { Card(state.value) } } }
         compose.onNodeWithText("new caller line").assertIsDisplayed()
         compose.onNodeWithText(compose.activity.getString(R.string.calls_caller)).assertIsDisplayed()
         compose.onNodeWithText("older assistant line").assertDoesNotExist()
@@ -67,7 +67,7 @@ class CallLiveContextUiTest {
         val binding = CallTaskBinding(identity)
         binding.bind(CallTaskBrief("confirmed goal", context = "confirmed instructions"))
         val state = mutableStateOf(active.copy(activeTask = binding.visibleFor(identity, true, true)))
-        compose.setContent { MikaTheme(dark = false) { Column { Card(state.value) } } }
+        compose.setContent { DjiniTheme(dark = false) { Column { Card(state.value) } } }
         compose.runOnIdle {
             state.value = state.value.copy(aiActive = false, canTakeOver = false,
                 activeTask = binding.visibleFor(identity, true, true))
@@ -88,7 +88,7 @@ class CallLiveContextUiTest {
         lateinit var reading: ScrollState
         val restoration = StateRestorationTester(compose)
         restoration.setContent {
-            MikaTheme(dark = false) {
+            DjiniTheme(dark = false) {
                 val holder = rememberSaveableStateHolder()
                 if (visible.value) holder.SaveableStateProvider("receive") {
                     val scroll = rememberScrollState()

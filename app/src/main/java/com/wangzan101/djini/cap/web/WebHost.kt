@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.web
+package com.wangzan101.djini.cap.web
 
 import android.app.Presentation
 import android.content.Context
@@ -20,7 +20,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.webkit.WebView
 import android.widget.FrameLayout
-import com.wangzan101.mika.cap.web.cdp.DesktopProfile
+import com.wangzan101.djini.cap.web.cdp.DesktopProfile
 import java.io.ByteArrayOutputStream
 import java.io.Closeable
 import java.nio.ByteBuffer
@@ -227,7 +227,7 @@ class WebHost(private val context: Context, widthPx: Int, heightPx: Int, density
 
     init {
         checkMain()
-        frameThread = HandlerThread("mika-web-frames").apply { start() }
+        frameThread = HandlerThread("djini-web-frames").apply { start() }
         frameHandler = Handler(frameThread.looper)
         // 新标签默认桌面版:先建桌面那块;建不起来再建手机那块,两块都不行就抛出(调用方只给手机界面)
         active = try {
@@ -281,7 +281,7 @@ class WebHost(private val context: Context, widthPx: Int, heightPx: Int, density
         desktop?.let { return it }
         if (desktopFailed) return null
         return try {
-            Layer(DesktopProfile.HOST_WIDTH, DesktopProfile.HOST_HEIGHT, DesktopProfile.HOST_DPI, "mika-web-desktop").also { desktop = it }
+            Layer(DesktopProfile.HOST_WIDTH, DesktopProfile.HOST_HEIGHT, DesktopProfile.HOST_DPI, "djini-web-desktop").also { desktop = it }
         } catch (e: Throwable) {
             Log.w(TAG, "desktop-size web display failed; desktop pages use the phone-size display", e)
             desktopFailed = true
@@ -332,7 +332,7 @@ class WebHost(private val context: Context, widthPx: Int, heightPx: Int, density
     companion object {
         private const val TAG = "MikaWebHost"
         private const val FRAME_INTERVAL_MS = 100L
-        private const val PHONE_NAME = "mika-web"
+        private const val PHONE_NAME = "djini-web"
 
         /**
          * 视图所在标签换了手机版/桌面版:它若正挂在某个宿主上,就换到对应大小的那块显示上。不论当初是谁挂上去的。

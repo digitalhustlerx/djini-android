@@ -1,9 +1,9 @@
-package com.wangzan101.mika.core.usage
+package com.wangzan101.djini.core.usage
 
-import com.wangzan101.mika.core.model.Usage
-import com.wangzan101.mika.core.record.ConversationTokens
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.record.RunMetrics
+import com.wangzan101.djini.core.model.Usage
+import com.wangzan101.djini.core.record.ConversationTokens
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.record.RunMetrics
 import kotlinx.coroutines.test.runTest
 import okhttp3.OkHttpClient
 import okhttp3.mockwebserver.MockResponse

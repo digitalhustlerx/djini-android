@@ -1,9 +1,9 @@
-package com.wangzan101.mika.core.skills
+package com.wangzan101.djini.core.skills
 
-import com.wangzan101.mika.core.agent.FailKind
-import com.wangzan101.mika.core.agent.LearnGate
-import com.wangzan101.mika.core.agent.RunOutcome
-import com.wangzan101.mika.core.agent.TaskState
+import com.wangzan101.djini.core.agent.FailKind
+import com.wangzan101.djini.core.agent.LearnGate
+import com.wangzan101.djini.core.agent.RunOutcome
+import com.wangzan101.djini.core.agent.TaskState
 
 @Suppress("EnumEntryName")
 /**
@@ -13,7 +13,7 @@ import com.wangzan101.mika.core.agent.TaskState
 enum class SkillResult { verified, unverified, failed, verifier_rejected, unreviewed }
 
 /**
- * 结果卡片下的技能提示:「Mika 学会了一项技能:… · 看看」([draftId])、
+ * 结果卡片下的技能提示:「Djini 学会了一项技能:… · 看看」([draftId])、
  * 「这项技能最近不灵,先停用了 · 恢复 · 删除」([suspended] 是技能名)。
  */
 data class SkillNote(val text: String, val draftId: String? = null, val suspended: String? = null)

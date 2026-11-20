@@ -1,4 +1,4 @@
-package com.wangzan101.mika.wechat
+package com.wangzan101.djini.wechat
 
 import android.app.Notification
 import android.app.PendingIntent
@@ -8,15 +8,15 @@ import android.content.pm.ServiceInfo
 import android.os.Build
 import android.os.IBinder
 import android.util.Log
-import com.wangzan101.mika.MikaApp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.settings.FeatureFlags
-import com.wangzan101.mika.task.TaskService
+import com.wangzan101.djini.DjiniApp
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.settings.FeatureFlags
+import com.wangzan101.djini.task.TaskService
 
 /** 只保活微信长轮询；任务执行仍由 TaskService 管理。 */
 class WechatService : Service() {
-    private val runtime get() = (application as MikaApp).wechat
+    private val runtime get() = (application as DjiniApp).wechat
 
     override fun onBind(intent: Intent?): IBinder? = null
 
@@ -56,7 +56,7 @@ class WechatService : Service() {
     }
 
     companion object {
-        const val ACTION_TURN_OFF = "com.wangzan101.mika.wechat.TURN_OFF"
+        const val ACTION_TURN_OFF = "com.wangzan101.djini.wechat.TURN_OFF"
         private const val NOTIFICATION_ID = 30_002
     }
 }

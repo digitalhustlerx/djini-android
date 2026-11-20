@@ -1,13 +1,13 @@
-package com.wangzan101.mika.core.memory
+package com.wangzan101.djini.core.memory
 
-import com.wangzan101.mika.core.model.Author
-import com.wangzan101.mika.core.model.ChatModel
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.ModelJson
-import com.wangzan101.mika.core.model.ModelJson.field
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.Role
-import com.wangzan101.mika.core.prompt.Prompts
+import com.wangzan101.djini.core.model.Author
+import com.wangzan101.djini.core.model.ChatModel
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.ModelJson
+import com.wangzan101.djini.core.model.ModelJson.field
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.Role
+import com.wangzan101.djini.core.prompt.Prompts
 import kotlinx.coroutines.CancellationException
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
@@ -48,7 +48,7 @@ class MemoryExtractor(private val model: ChatModel) {
         if (utterances.none { it.isNotBlank() }) return emptyList()
         val labels = related.take(MAX_RELATED).mapIndexed { i, m -> "#${i + 1}" to m }.toMap()
         val ops = try {
-            ModelJson.completeParsed(model, PROMPT, listOf(Message(Role.User, listOf(Part.Text(request(utterances, labels))), Author.Mika)), ::parse)
+            ModelJson.completeParsed(model, PROMPT, listOf(Message(Role.User, listOf(Part.Text(request(utterances, labels))), Author.Djini)), ::parse)
         } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {

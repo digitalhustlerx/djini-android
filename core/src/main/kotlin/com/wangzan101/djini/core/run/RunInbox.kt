@@ -1,7 +1,7 @@
-package com.wangzan101.mika.core.run
+package com.wangzan101.djini.core.run
 
-import com.wangzan101.mika.core.action.ConfirmChoice
-import com.wangzan101.mika.core.tool.HandBack
+import com.wangzan101.djini.core.action.ConfirmChoice
+import com.wangzan101.djini.core.tool.HandBack
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 

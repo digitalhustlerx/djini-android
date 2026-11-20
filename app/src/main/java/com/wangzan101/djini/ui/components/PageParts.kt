@@ -1,6 +1,6 @@
-package com.wangzan101.mika.ui.components
+package com.wangzan101.djini.ui.components
 
-import com.wangzan101.mika.R
+import com.wangzan101.djini.R
 import androidx.compose.ui.res.stringResource
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -31,10 +31,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaShapes
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
 
 /**
  * 二级页的骨架:页面底 + 顶栏(左上角返回)+ 下面可滚动的内容(左右各 16)。
@@ -80,7 +80,7 @@ fun SearchField(
     modifier: Modifier = Modifier,
     onSubmit: (() -> Unit)? = null,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Row(
         Modifier.fillMaxWidth().height(40.dp).keepsKeyboard().background(c.fill, MikaShapes.Button).padding(horizontal = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -104,6 +104,6 @@ fun SearchField(
 fun EmptyNote(text: String, modifier: Modifier = Modifier) {
     Text(
         text, modifier.fillMaxWidth().padding(horizontal = 24.dp, vertical = 28.dp),
-        style = MikaType.Body, color = MikaTheme.colors.ink3, textAlign = TextAlign.Center,
+        style = MikaType.Body, color = DjiniTheme.colors.ink3, textAlign = TextAlign.Center,
     )
 }

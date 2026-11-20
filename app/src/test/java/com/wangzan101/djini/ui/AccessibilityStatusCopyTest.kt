@@ -1,8 +1,8 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.i18n.ChineseTexts
-import com.wangzan101.mika.settings.AccessibilityState
-import com.wangzan101.mika.settings.Problem
+import com.wangzan101.djini.i18n.ChineseTexts
+import com.wangzan101.djini.settings.AccessibilityState
+import com.wangzan101.djini.settings.Problem
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull

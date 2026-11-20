@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.phone.a11y
+package com.wangzan101.djini.cap.phone.a11y
 
 /**
  * Agent 屏画面的新鲜度(帧时刻见 [AgentDisplay.lastFrameAt]):启动一个 App 之后交给模型的画面必须来自该次启动之后的渲染帧,

@@ -1,23 +1,23 @@
-package com.wangzan101.mika.core.self
+package com.wangzan101.djini.core.self
 
-import com.wangzan101.mika.core.prompt.Prompts
-import com.wangzan101.mika.core.action.ActionRisk
-import com.wangzan101.mika.core.action.Risk as ApprovalRisk
-import com.wangzan101.mika.core.tool.AgentTool
-import com.wangzan101.mika.core.tool.ArgError
-import com.wangzan101.mika.core.tool.Args
-import com.wangzan101.mika.core.tool.Concurrency
-import com.wangzan101.mika.core.tool.Risk
-import com.wangzan101.mika.core.tool.ToolContext
-import com.wangzan101.mika.core.tool.ToolDef
-import com.wangzan101.mika.core.tool.ToolExecution
-import com.wangzan101.mika.core.tool.Verb
-import com.wangzan101.mika.core.tool.argStr
-import com.wangzan101.mika.core.tool.bool
-import com.wangzan101.mika.core.tool.fail
-import com.wangzan101.mika.core.tool.ok
-import com.wangzan101.mika.core.tool.str
-import com.wangzan101.mika.core.workspace.SandboxPaths
+import com.wangzan101.djini.core.prompt.Prompts
+import com.wangzan101.djini.core.action.ActionRisk
+import com.wangzan101.djini.core.action.Risk as ApprovalRisk
+import com.wangzan101.djini.core.tool.AgentTool
+import com.wangzan101.djini.core.tool.ArgError
+import com.wangzan101.djini.core.tool.Args
+import com.wangzan101.djini.core.tool.Concurrency
+import com.wangzan101.djini.core.tool.Risk
+import com.wangzan101.djini.core.tool.ToolContext
+import com.wangzan101.djini.core.tool.ToolDef
+import com.wangzan101.djini.core.tool.ToolExecution
+import com.wangzan101.djini.core.tool.Verb
+import com.wangzan101.djini.core.tool.argStr
+import com.wangzan101.djini.core.tool.bool
+import com.wangzan101.djini.core.tool.fail
+import com.wangzan101.djini.core.tool.ok
+import com.wangzan101.djini.core.tool.str
+import com.wangzan101.djini.core.workspace.SandboxPaths
 import kotlinx.serialization.json.addJsonObject
 import kotlinx.serialization.json.put
 import kotlinx.serialization.json.putJsonArray
@@ -26,8 +26,8 @@ import kotlinx.serialization.json.putJsonArray
  * 自身工具:读自身状态、打开自己的页面/文件、发通知、写剪贴板。
  *
  * 这些工具不动屏幕(offScreen),不经过手机/网页那套屏幕关卡;它们的授权是用户设置里的
- * 「允许 Mika 操作自己的界面」,敏感动作还要在 execute 里用 [com.wangzan101.mika.core.tool.AskPort] 当次问用户。
- * 手机工具仍然不能碰 Mika 自己的包(见 ConfirmDecision.ownApp),这里不是绕过它,而是另一条正门。
+ * 「允许 Djini 操作自己的界面」,敏感动作还要在 execute 里用 [com.wangzan101.djini.core.tool.AskPort] 当次问用户。
+ * 手机工具仍然不能碰 Djini 自己的包(见 ConfirmDecision.ownApp),这里不是绕过它,而是另一条正门。
  */
 internal interface SelfTool : AgentTool {
     override val offScreen: Boolean get() = true
@@ -56,16 +56,16 @@ internal object MikaStatus : SelfTool {
     }
 }
 
-/** 打开 Mika 自己的一页;只改用户眼前的页面,不改任何设置。 */
+/** 打开 Djini 自己的一页;只改用户眼前的页面,不改任何设置。 */
 internal object MikaOpenScreen : SelfTool {
     override val verb = Verb.SelfOpenScreen
-    override val label = "打开 Mika 的页面"
+    override val label = "打开 Djini 的页面"
     override val risk = Risk.Write
     override val def = ToolDef(
         "mika_open_screen",
         Prompts.tool("mika_open_screen"),
         mapOf(
-            "screen" to str("Which Mika screen to open.", SelfScreen.entries.map { it.wire }),
+            "screen" to str("Which Djini screen to open.", SelfScreen.entries.map { it.wire }),
             "note" to str("Optional short reason shown to the user, in the user's language."),
         ),
         listOf("screen"),
@@ -119,7 +119,7 @@ internal object MikaNotify : SelfTool {
         mapOf(
             "title" to str("Short notification title, in the user's language."),
             "body" to str("What happened, in one or two sentences, in the user's language."),
-            "screen" to str("Optional Mika screen to open from the notification.", SelfScreen.entries.map { it.wire }),
+            "screen" to str("Optional Djini screen to open from the notification.", SelfScreen.entries.map { it.wire }),
         ),
         listOf("title", "body"),
     )
@@ -293,7 +293,7 @@ internal object MikaUserPage : SelfTool {
     }
 }
 
-/** 打开「给 Mika 登录」页,让用户自己登录。 */
+/** 打开「给 Djini 登录」页,让用户自己登录。 */
 internal object MikaLoginSite : SelfTool {
     override val verb = Verb.SelfLogin
     override val label = "请你登录网站"

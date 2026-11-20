@@ -1,34 +1,34 @@
-package com.wangzan101.mika.core.run
+package com.wangzan101.djini.core.run
 
-import com.wangzan101.mika.core.action.ActionExecutor
-import com.wangzan101.mika.core.action.ActionOutcome
-import com.wangzan101.mika.core.action.ActionRecorder
-import com.wangzan101.mika.core.action.Origin
-import com.wangzan101.mika.core.action.OutwardPacing
-import com.wangzan101.mika.core.agent.AgentLoop
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.core.assembly.toolDispatcher
-import com.wangzan101.mika.core.uistate.DwellInterrupted
-import com.wangzan101.mika.core.cap.web.PageDwell
-import com.wangzan101.mika.core.cap.web.PagePacing
-import com.wangzan101.mika.core.guard.OperationGuards
-import com.wangzan101.mika.core.model.Author
-import com.wangzan101.mika.core.model.Capabilities
-import com.wangzan101.mika.core.model.ChatModel
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.ModelReply
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.StopReason
-import com.wangzan101.mika.core.model.ToolSpec
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.record.RunSink
-import com.wangzan101.mika.core.testing.answerReply
-import com.wangzan101.mika.core.tool.FakeScreen
-import com.wangzan101.mika.core.tool.execute
-import com.wangzan101.mika.core.uistate.ActionResult
-import com.wangzan101.mika.core.uistate.ScreenPort
-import com.wangzan101.mika.core.uistate.ScreenSnapshot
-import com.wangzan101.mika.core.uistate.UiElement
+import com.wangzan101.djini.core.action.ActionExecutor
+import com.wangzan101.djini.core.action.ActionOutcome
+import com.wangzan101.djini.core.action.ActionRecorder
+import com.wangzan101.djini.core.action.Origin
+import com.wangzan101.djini.core.action.OutwardPacing
+import com.wangzan101.djini.core.agent.AgentLoop
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.uistate.DwellInterrupted
+import com.wangzan101.djini.core.cap.web.PageDwell
+import com.wangzan101.djini.core.cap.web.PagePacing
+import com.wangzan101.djini.core.guard.OperationGuards
+import com.wangzan101.djini.core.model.Author
+import com.wangzan101.djini.core.model.Capabilities
+import com.wangzan101.djini.core.model.ChatModel
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.ModelReply
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.StopReason
+import com.wangzan101.djini.core.model.ToolSpec
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.record.RunSink
+import com.wangzan101.djini.core.testing.answerReply
+import com.wangzan101.djini.core.tool.FakeScreen
+import com.wangzan101.djini.core.tool.execute
+import com.wangzan101.djini.core.uistate.ActionResult
+import com.wangzan101.djini.core.uistate.ScreenPort
+import com.wangzan101.djini.core.uistate.ScreenSnapshot
+import com.wangzan101.djini.core.uistate.UiElement
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitCancellation
@@ -180,7 +180,7 @@ class SteerInterruptTest {
         // 回答已经写完、正要交出时到的话:不收尾,带着它接着做
         val loop = AgentLoop(Scripted { n -> answerReply("第${n}次") }, toolDispatcher(FakeScreen()), "BASE", beforeAccept = {
             if (++asked == 1) inbox.send(RunInput.Steer("m1", "再加一条"))
-            com.wangzan101.mika.core.agent.BeforeAccept.Accept
+            com.wangzan101.djini.core.agent.BeforeAccept.Accept
         })
         val end = loop.run(spec(), inbox)
         assertEquals("第2次", (end as TaskState.Succeeded).answer)

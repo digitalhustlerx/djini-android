@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.action
+package com.wangzan101.djini.core.action
 
 /** 子步画面怎么存:交给调用方(模型单步按自己的顺序存)、界面变了才当场存、不存。 */
 enum class Frames { Caller, WhenChanged, None }
@@ -49,7 +49,7 @@ sealed interface Origin {
         override val policy get() = BATCH
     }
 
-    /** web_script 里的一个 `mika.*` 动作。 */
+    /** web_script 里的一个 `djini.*` 动作。 */
     data class Script(override val step: Int) : Origin {
         override val policy get() = SCRIPT
     }

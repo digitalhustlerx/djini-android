@@ -1,15 +1,15 @@
-package com.wangzan101.mika.capsule
+package com.wangzan101.djini.capsule
 
 import org.junit.Rule
-import com.wangzan101.mika.i18n.ChineseTexts
-import com.wangzan101.mika.core.agent.FailKind
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.core.agent.Turn
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.task.SteerNote
-import com.wangzan101.mika.task.SteerState
-import com.wangzan101.mika.ui.Exchange
-import com.wangzan101.mika.ui.ExchangeStatus
+import com.wangzan101.djini.i18n.ChineseTexts
+import com.wangzan101.djini.core.agent.FailKind
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.core.agent.Turn
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.task.SteerNote
+import com.wangzan101.djini.task.SteerState
+import com.wangzan101.djini.ui.Exchange
+import com.wangzan101.djini.ui.ExchangeStatus
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test

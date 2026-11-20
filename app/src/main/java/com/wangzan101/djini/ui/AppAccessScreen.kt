@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,12 +15,12 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.wangzan101.mika.MikaApp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.cap.phone.a11y.launchableApps
-import com.wangzan101.mika.core.access.*
-import com.wangzan101.mika.core.model.ModelRole
-import com.wangzan101.mika.ui.components.*
+import com.wangzan101.djini.DjiniApp
+import com.wangzan101.djini.R
+import com.wangzan101.djini.cap.phone.a11y.launchableApps
+import com.wangzan101.djini.core.access.*
+import com.wangzan101.djini.core.model.ModelRole
+import com.wangzan101.djini.ui.components.*
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -56,7 +56,7 @@ internal fun classifierLanguage(locale: java.util.Locale): String = when {
 
 @Composable
 fun AppAccessScreen(onBack: () -> Unit, classifyApps: Boolean = true) {
-    val app = LocalContext.current.applicationContext as MikaApp
+    val app = LocalContext.current.applicationContext as DjiniApp
     val store = app.appAccess
     val state by store.state.collectAsState()
     val scope = rememberCoroutineScope()

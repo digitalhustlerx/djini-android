@@ -1,4 +1,4 @@
-package com.wangzan101.mika.chat
+package com.wangzan101.djini.chat
 
 import android.content.Context
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -32,7 +32,7 @@ private data class ProjectFile(val version: Int = 1, val projects: List<Project>
 
 /**
  * 项目列表:`files/projects/projects-v1.json`。原子写、带版本号,读不懂时把原文件另存成 `.bad-<时间>` 并当空列表。
- * 同一进程一份,由 [com.wangzan101.mika.MikaApp] 给出。
+ * 同一进程一份,由 [com.wangzan101.djini.DjiniApp] 给出。
  */
 class ProjectStore(
     private val dir: File,

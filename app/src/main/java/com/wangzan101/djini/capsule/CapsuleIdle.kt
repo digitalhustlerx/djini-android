@@ -1,6 +1,6 @@
-package com.wangzan101.mika.capsule
+package com.wangzan101.djini.capsule
 
-import com.wangzan101.mika.chat.CurrentChat
+import com.wangzan101.djini.chat.CurrentChat
 
 /**
  * 点开空闲图标时卡片接着哪个对话(纯逻辑):用户在 App 里所在的那个([current],见 [CurrentChat]);没有记录时接着

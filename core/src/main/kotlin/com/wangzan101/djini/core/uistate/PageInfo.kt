@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.uistate
+package com.wangzan101.djini.core.uistate
 
 /**
  * 网页读屏时附在 ScreenSnapshot 上的页面信息;手机读屏时为空。

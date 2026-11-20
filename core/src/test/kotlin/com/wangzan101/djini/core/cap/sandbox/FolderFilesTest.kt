@@ -1,11 +1,11 @@
-package com.wangzan101.mika.core.cap.sandbox
+package com.wangzan101.djini.core.cap.sandbox
 
-import com.wangzan101.mika.core.assembly.toolDispatcher
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.run.*
-import com.wangzan101.mika.core.tool.ActionPass
-import com.wangzan101.mika.core.tool.FakeScreen
-import com.wangzan101.mika.core.workspace.SandboxError
+import com.wangzan101.djini.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.run.*
+import com.wangzan101.djini.core.tool.ActionPass
+import com.wangzan101.djini.core.tool.FakeScreen
+import com.wangzan101.djini.core.workspace.SandboxError
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.*
 import org.junit.Assert.*
@@ -26,13 +26,13 @@ class FolderFilesTest {
     private val sandbox = object : SandboxPort by fake { override val folderFiles = port }
     private fun spec(origin: RunOrigin = RunOrigin.Ui, attendance: Attendance = Attendance.Present, readOnly: Boolean = false) =
         RunSpec(RunId("test"), "test", "test", provenance = RunProvenance(origin, attendance), readOnly = readOnly)
-    private fun dispatcher(spec: RunSpec = spec()) = toolDispatcher(FakeScreen(), web = com.wangzan101.mika.core.cap.web.FakeWebPort(), sandbox = sandbox, runSpec = spec, workspace = { "notes" })
+    private fun dispatcher(spec: RunSpec = spec()) = toolDispatcher(FakeScreen(), web = com.wangzan101.djini.core.cap.web.FakeWebPort(), sandbox = sandbox, runSpec = spec, workspace = { "notes" })
     private fun call(name: String, args: JsonObject) = Part.ToolCall("test", name, args.toString())
 
     @Test fun folderGuidanceOnlyAppearsWhenItsToolIsOffered() {
-        val text = com.wangzan101.mika.core.prompt.Prompts.capability("sandbox")
-        val absent = com.wangzan101.mika.core.capability.PromptEnv(emptySet(), false).gate(text)
-        val present = com.wangzan101.mika.core.capability.PromptEnv(setOf("list_folder_files"), false).gate(text)
+        val text = com.wangzan101.djini.core.prompt.Prompts.capability("sandbox")
+        val absent = com.wangzan101.djini.core.capability.PromptEnv(emptySet(), false).gate(text)
+        val present = com.wangzan101.djini.core.capability.PromptEnv(setOf("list_folder_files"), false).gate(text)
         assertFalse(absent.contains("list_folder_files"))
         assertTrue(present.contains("list_folder_files"))
         assertFalse(present.contains("<!-- needs:"))

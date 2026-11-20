@@ -1,12 +1,12 @@
-package com.wangzan101.mika.cap.web
+package com.wangzan101.djini.cap.web
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.runBlocking
-import com.wangzan101.mika.core.cap.web.DownloadAddressPolicy
-import com.wangzan101.mika.cap.sandbox.JVM_GATE
+import com.wangzan101.djini.core.cap.web.DownloadAddressPolicy
+import com.wangzan101.djini.cap.sandbox.JVM_GATE
 import okhttp3.Dns
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.OkHttpClient
@@ -25,7 +25,7 @@ import org.junit.rules.TemporaryFolder
 import java.io.File
 import java.nio.file.Files
 import java.util.concurrent.TimeUnit
-import com.wangzan101.mika.core.workspace.SandboxTree
+import com.wangzan101.djini.core.workspace.SandboxTree
 
 class WebDownloadsTest {
     @get:Rule val tmp = TemporaryFolder()

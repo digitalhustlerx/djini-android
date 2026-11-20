@@ -1,4 +1,4 @@
-package com.wangzan101.mika.selfcheck
+package com.wangzan101.djini.selfcheck
 
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals

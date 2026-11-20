@@ -20,7 +20,7 @@
 
 ## Impact
 
-- `app/src/main/java/com/wangzan101/mika/capsule/CapsuleCardContent.kt`（`OverlayMotion`、新增 `runOverlayOpen`）
-- `app/src/test/java/com/wangzan101/mika/capsule/OverlayMotionTest.kt`（新增用例）
-- `app/src/androidTest/java/com/wangzan101/mika/capsule/CapsuleWindowDeviceTest.kt`（新增展开态几何断言；真机取证用）
+- `app/src/main/java/com/wangzan101/djini/capsule/CapsuleCardContent.kt`（`OverlayMotion`、新增 `runOverlayOpen`）
+- `app/src/test/java/com/wangzan101/djini/capsule/OverlayMotionTest.kt`（新增用例）
+- `app/src/androidTest/java/com/wangzan101/djini/capsule/CapsuleWindowDeviceTest.kt`（新增展开态几何断言；真机取证用）
 - 不改停靠几何、不动 `CardDocking`/`CapsuleDocking` 纯函数，不涉及其它浮层行为。

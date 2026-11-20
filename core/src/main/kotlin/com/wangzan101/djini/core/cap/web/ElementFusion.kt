@@ -1,8 +1,8 @@
-package com.wangzan101.mika.core.cap.web
+package com.wangzan101.djini.core.cap.web
 
-import com.wangzan101.mika.core.uistate.UiElement
-import com.wangzan101.mika.core.uistate.UiStates
-import com.wangzan101.mika.core.uistate.normalize
+import com.wangzan101.djini.core.uistate.UiElement
+import com.wangzan101.djini.core.uistate.UiStates
+import com.wangzan101.djini.core.uistate.normalize
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt

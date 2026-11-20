@@ -1,13 +1,13 @@
-package com.wangzan101.mika.cap.phone.a11y
+package com.wangzan101.djini.cap.phone.a11y
 
 import android.graphics.Rect
 import android.view.KeyEvent
 import android.view.accessibility.AccessibilityNodeInfo
 import android.view.accessibility.AccessibilityWindowInfo
-import com.wangzan101.mika.core.uistate.ActionResult
-import com.wangzan101.mika.core.uistate.BackAffordance
-import com.wangzan101.mika.core.uistate.DEFAULT_SWIPE_MS
-import com.wangzan101.mika.core.uistate.SystemCommandResult
+import com.wangzan101.djini.core.uistate.ActionResult
+import com.wangzan101.djini.core.uistate.BackAffordance
+import com.wangzan101.djini.core.uistate.DEFAULT_SWIPE_MS
+import com.wangzan101.djini.core.uistate.SystemCommandResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext

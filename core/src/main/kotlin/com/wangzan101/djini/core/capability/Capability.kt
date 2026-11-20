@@ -1,14 +1,14 @@
-package com.wangzan101.mika.core.capability
+package com.wangzan101.djini.core.capability
 
-import com.wangzan101.mika.core.uistate.ScreenFamily
-import com.wangzan101.mika.core.uistate.Surface
-import com.wangzan101.mika.core.guard.OffScreenGuard
-import com.wangzan101.mika.core.knowledge.BundledScripts
-import com.wangzan101.mika.core.observation.Look
-import com.wangzan101.mika.core.tool.AgentTool
-import com.wangzan101.mika.core.tool.ToolContext
-import com.wangzan101.mika.core.tool.ToolExecution
-import com.wangzan101.mika.core.tool.Verb
+import com.wangzan101.djini.core.uistate.ScreenFamily
+import com.wangzan101.djini.core.uistate.Surface
+import com.wangzan101.djini.core.guard.OffScreenGuard
+import com.wangzan101.djini.core.knowledge.BundledScripts
+import com.wangzan101.djini.core.observation.Look
+import com.wangzan101.djini.core.tool.AgentTool
+import com.wangzan101.djini.core.tool.ToolContext
+import com.wangzan101.djini.core.tool.ToolExecution
+import com.wangzan101.djini.core.tool.Verb
 import kotlinx.serialization.json.JsonObject
 
 /** 能力此刻能不能用。 */
@@ -62,7 +62,7 @@ internal interface Capability : PromptSections {
 
     fun status(): CapabilityStatus
 
-    /** 这一组工具用到才展开(见 [com.wangzan101.mika.core.tool.ToolGroups]):开局只有入口工具;不收的一直全在。 */
+    /** 这一组工具用到才展开(见 [com.wangzan101.djini.core.tool.ToolGroups]):开局只有入口工具;不收的一直全在。 */
     val folds: Boolean get() = false
 
     /** 按这次的话([task])开局就展开这一组(一定用得上时);默认不展开。 */
@@ -90,7 +90,7 @@ internal interface Capability : PromptSections {
     fun onUserAnswered(ctx: ToolContext) {}
 
     /**
-     * 在本能力的屏上要做一次对外动作(发送、提交,见 [com.wangzan101.mika.core.action.OutwardPacing])了;[site] 是它所在的网站或 App。
+     * 在本能力的屏上要做一次对外动作(发送、提交,见 [com.wangzan101.djini.core.action.OutwardPacing])了;[site] 是它所在的网站或 App。
      * 做完后一定接着 [onOutwardEnd]([done]:做成了)。
      */
     fun onOutwardStart(ctx: ToolContext, site: String) {}
@@ -98,7 +98,7 @@ internal interface Capability : PromptSections {
     fun onOutwardEnd(ctx: ToolContext, site: String, done: Boolean) {}
 
     /**
-     * 本能力的屏上要做一个改动屏幕的动作([verb])了:按本能力的节奏先停一会儿(见 [com.wangzan101.mika.core.action.ActionExecutor],
+     * 本能力的屏上要做一个改动屏幕的动作([verb])了:按本能力的节奏先停一会儿(见 [com.wangzan101.djini.core.action.ActionExecutor],
      * 单步、一批里的每一步都经这里)。[outward]:这一步是对外动作(发送、提交)。默认不停。
      */
     suspend fun beforeWrite(ctx: ToolContext, verb: Verb?, outward: Boolean): Paced = Paced.NONE

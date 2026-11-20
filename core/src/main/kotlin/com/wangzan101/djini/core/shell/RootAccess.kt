@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.shell
+package com.wangzan101.djini.core.shell
 
 /**
  * 已 root 的手机上 su 的答复。[Granted]:答应了,并且以要的身份跑了命令;[Denied]:拒绝了(或 su 没跑命令就退出了);

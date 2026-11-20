@@ -1,4 +1,4 @@
-package com.wangzan101.mika.chat
+package com.wangzan101.djini.chat
 
 /**
  * 自动归档:太久没有新消息的对话收进归档(和手动归档一样,随时能在归档视图里恢复)。

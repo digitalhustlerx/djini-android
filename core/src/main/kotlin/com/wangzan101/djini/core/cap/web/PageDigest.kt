@@ -1,8 +1,8 @@
-package com.wangzan101.mika.core.cap.web
+package com.wangzan101.djini.core.cap.web
 
-import com.wangzan101.mika.core.uistate.ScreenCheck
-import com.wangzan101.mika.core.uistate.ScreenDiagnosis
-import com.wangzan101.mika.core.uistate.ScreenFacts
+import com.wangzan101.djini.core.uistate.ScreenCheck
+import com.wangzan101.djini.core.uistate.ScreenDiagnosis
+import com.wangzan101.djini.core.uistate.ScreenFacts
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject

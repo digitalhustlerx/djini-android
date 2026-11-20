@@ -1,16 +1,16 @@
-package com.wangzan101.mika.core.plugin
+package com.wangzan101.djini.core.plugin
 
-import com.wangzan101.mika.core.capability.Capability
-import com.wangzan101.mika.core.capability.CapabilityStatus
-import com.wangzan101.mika.core.capability.PromptEnv
-import com.wangzan101.mika.core.tool.AgentTool
-import com.wangzan101.mika.core.tool.Args
-import com.wangzan101.mika.core.tool.Risk
-import com.wangzan101.mika.core.tool.ToolContext
-import com.wangzan101.mika.core.tool.ToolDef
-import com.wangzan101.mika.core.tool.ToolExecution
-import com.wangzan101.mika.core.tool.Verb
-import com.wangzan101.mika.core.tool.fail
+import com.wangzan101.djini.core.capability.Capability
+import com.wangzan101.djini.core.capability.CapabilityStatus
+import com.wangzan101.djini.core.capability.PromptEnv
+import com.wangzan101.djini.core.tool.AgentTool
+import com.wangzan101.djini.core.tool.Args
+import com.wangzan101.djini.core.tool.Risk
+import com.wangzan101.djini.core.tool.ToolContext
+import com.wangzan101.djini.core.tool.ToolDef
+import com.wangzan101.djini.core.tool.ToolExecution
+import com.wangzan101.djini.core.tool.Verb
+import com.wangzan101.djini.core.tool.fail
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
@@ -51,7 +51,7 @@ data class ScriptResult(val exitCode: Int, val stdout: String, val stderr: Strin
 internal class PluginScriptTool(
     private val spec: PluginToolSpec,
     private val runner: ScriptRunner,
-    private val argsDir: File = File(System.getProperty("java.io.tmpdir"), "mika-plugin-args"),
+    private val argsDir: File = File(System.getProperty("java.io.tmpdir"), "djini-plugin-args"),
 ) : AgentTool {
     override val def: ToolDef = spec.let { s ->
         val props = (s.inputSchema["properties"] as? JsonObject)?.entries

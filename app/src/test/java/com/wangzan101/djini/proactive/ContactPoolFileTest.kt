@@ -1,10 +1,10 @@
-package com.wangzan101.mika.proactive
+package com.wangzan101.djini.proactive
 
-import com.wangzan101.mika.core.proactive.ContactPoolData
-import com.wangzan101.mika.core.proactive.ContactRelation
-import com.wangzan101.mika.core.proactive.ContactType
-import com.wangzan101.mika.core.proactive.ObservedContact
-import com.wangzan101.mika.settings.AesGcmKeyCipher
+import com.wangzan101.djini.core.proactive.ContactPoolData
+import com.wangzan101.djini.core.proactive.ContactRelation
+import com.wangzan101.djini.core.proactive.ContactType
+import com.wangzan101.djini.core.proactive.ObservedContact
+import com.wangzan101.djini.settings.AesGcmKeyCipher
 import java.io.File
 import javax.crypto.KeyGenerator
 import org.junit.Assert.assertEquals

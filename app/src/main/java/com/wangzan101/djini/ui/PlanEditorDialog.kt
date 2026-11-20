@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -53,37 +53,37 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.core.trigger.ConditionNotify
-import com.wangzan101.mika.core.trigger.PlanDraft
-import com.wangzan101.mika.core.trigger.PlanRepeat
-import com.wangzan101.mika.core.trigger.PlanValidation
-import com.wangzan101.mika.core.trigger.PlanValidationException
-import com.wangzan101.mika.core.trigger.TriggerDefinition
-import com.wangzan101.mika.core.trigger.editedTrigger
-import com.wangzan101.mika.core.trigger.formatPlanClock
-import com.wangzan101.mika.core.trigger.formatPlanEditorTime
-import com.wangzan101.mika.core.trigger.newPlanDraft
-import com.wangzan101.mika.core.trigger.normalizedClockText
-import com.wangzan101.mika.core.trigger.parsePlanEditorTime
-import com.wangzan101.mika.core.trigger.planClockEntries
-import com.wangzan101.mika.core.trigger.toPlanDraft
-import com.wangzan101.mika.core.trigger.upcoming
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.i18n.uiLocale
-import com.wangzan101.mika.ui.components.ButtonKind
-import com.wangzan101.mika.ui.components.ButtonSize
-import com.wangzan101.mika.ui.components.KeyboardDismissArea
-import com.wangzan101.mika.ui.components.MikaButton
-import com.wangzan101.mika.ui.components.MikaDialog
-import com.wangzan101.mika.ui.components.MikaSwitch
-import com.wangzan101.mika.ui.components.SegmentedControl
-import com.wangzan101.mika.ui.components.keepsKeyboard
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
-import com.wangzan101.mika.ui.theme.MikaRadius
-import com.wangzan101.mika.ui.theme.MikaShapes
+import com.wangzan101.djini.R
+import com.wangzan101.djini.core.trigger.ConditionNotify
+import com.wangzan101.djini.core.trigger.PlanDraft
+import com.wangzan101.djini.core.trigger.PlanRepeat
+import com.wangzan101.djini.core.trigger.PlanValidation
+import com.wangzan101.djini.core.trigger.PlanValidationException
+import com.wangzan101.djini.core.trigger.TriggerDefinition
+import com.wangzan101.djini.core.trigger.editedTrigger
+import com.wangzan101.djini.core.trigger.formatPlanClock
+import com.wangzan101.djini.core.trigger.formatPlanEditorTime
+import com.wangzan101.djini.core.trigger.newPlanDraft
+import com.wangzan101.djini.core.trigger.normalizedClockText
+import com.wangzan101.djini.core.trigger.parsePlanEditorTime
+import com.wangzan101.djini.core.trigger.planClockEntries
+import com.wangzan101.djini.core.trigger.toPlanDraft
+import com.wangzan101.djini.core.trigger.upcoming
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.i18n.uiLocale
+import com.wangzan101.djini.ui.components.ButtonKind
+import com.wangzan101.djini.ui.components.ButtonSize
+import com.wangzan101.djini.ui.components.KeyboardDismissArea
+import com.wangzan101.djini.ui.components.MikaButton
+import com.wangzan101.djini.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.MikaSwitch
+import com.wangzan101.djini.ui.components.SegmentedControl
+import com.wangzan101.djini.ui.components.keepsKeyboard
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.MikaRadius
+import com.wangzan101.djini.ui.theme.MikaShapes
 import kotlinx.coroutines.launch
 import java.time.DayOfWeek
 import java.time.Instant
@@ -311,14 +311,14 @@ fun PlanEditorDialog(
 
                     preview?.let { plan ->
                         Spacer(Modifier.height(8.dp))
-                        Text(tr(R.string.plans_preview), style = MikaType.Caption, color = MikaTheme.colors.ink3)
+                        Text(tr(R.string.plans_preview), style = MikaType.Caption, color = DjiniTheme.colors.ink3)
                         val zone = plan.calendarZone ?: draft.zone
                         upcoming(plan, System.currentTimeMillis(), 3).forEachIndexed { index, at ->
                             Text(
                                 "${index + 1}  ${formatPlanEditorTime(at, zone)} ($zone)",
                                 Modifier.testTag("plan-editor-preview-$index"),
                                 style = MikaType.Caption,
-                                color = MikaTheme.colors.ink3,
+                                color = DjiniTheme.colors.ink3,
                             )
                         }
                     }
@@ -329,7 +329,7 @@ fun PlanEditorDialog(
                             reason?.let { planValidationText(it) } ?: tr(R.string.op_failed),
                             Modifier.testTag("plan-editor-error"),
                             style = MikaType.Caption,
-                            color = MikaTheme.colors.bad,
+                            color = DjiniTheme.colors.bad,
                         )
                     }
                 }
@@ -383,7 +383,7 @@ private fun FieldIconButton(icon: ImageVector, description: String, tag: String,
         Modifier.size(44.dp).clip(CircleShape).clickable(role = Role.Button, onClick = onClick).testTag(tag),
         contentAlignment = Alignment.Center,
     ) {
-        Icon(icon, description, Modifier.size(20.dp), tint = MikaTheme.colors.ink3)
+        Icon(icon, description, Modifier.size(20.dp), tint = DjiniTheme.colors.ink3)
     }
 }
 
@@ -396,7 +396,7 @@ private fun ClockChips(
     onRemove: (Int) -> Unit,
     onAdd: () -> Unit,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     FlowRow(
         horizontalArrangement = Arrangement.spacedBy(6.dp),
         verticalArrangement = Arrangement.spacedBy(6.dp),
@@ -484,7 +484,7 @@ private fun PlanTimePickerDialog(initial: LocalTime, title: String, onDismiss: (
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     NumberWheel(24, hour, "plan-time-hour", { hour = it }, Modifier.weight(1f))
-                    Text(":", style = MikaType.Title, color = MikaTheme.colors.ink3, modifier = Modifier.padding(horizontal = 6.dp))
+                    Text(":", style = MikaType.Title, color = DjiniTheme.colors.ink3, modifier = Modifier.padding(horizontal = 6.dp))
                     NumberWheel(60, minute, "plan-time-minute", { minute = it }, Modifier.weight(1f))
                 }
             }
@@ -503,7 +503,7 @@ private val WheelItem = 40.dp
 
 @Composable
 private fun NumberWheel(count: Int, initial: Int, tag: String, onValueChange: (Int) -> Unit, modifier: Modifier = Modifier) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val density = LocalDensity.current
     val itemPx = with(density) { WheelItem.roundToPx() }
     val scroll = rememberScrollState(initial * itemPx)
@@ -556,7 +556,7 @@ private fun PlanSwitch(label: String, checked: Boolean, onChange: (Boolean) -> U
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
-        Text(label, style = MikaType.Body, color = MikaTheme.colors.ink2)
+        Text(label, style = MikaType.Body, color = DjiniTheme.colors.ink2)
         MikaSwitch(checked, onChange, Modifier.testTag(tag))
     }
 }

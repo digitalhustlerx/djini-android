@@ -1,7 +1,7 @@
-package com.wangzan101.mika.settings
+package com.wangzan101.djini.settings
 
-import com.wangzan101.mika.core.model.ImageAspect
-import com.wangzan101.mika.settings.FeatureFlagsCapsuleTest.MemoryPrefs
+import com.wangzan101.djini.core.model.ImageAspect
+import com.wangzan101.djini.settings.FeatureFlagsCapsuleTest.MemoryPrefs
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull

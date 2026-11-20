@@ -1,7 +1,7 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.record.RunStore
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.record.RunStore
 import java.io.File
 
 data class SourceEntry(
@@ -50,6 +50,6 @@ class SourceViewModel(
 private fun evidencePlace(place: String, appLabel: (String) -> String): String = when {
     place.startsWith("网站 ") -> place.removePrefix("网站 ")
     place.startsWith("http://") || place.startsWith("https://") -> runCatching { java.net.URI(place).host }.getOrNull() ?: place
-    com.wangzan101.mika.core.tool.PACKAGE_NAME_RE.matches(place) -> appLabel(place)
+    com.wangzan101.djini.core.tool.PACKAGE_NAME_RE.matches(place) -> appLabel(place)
     else -> place
 }

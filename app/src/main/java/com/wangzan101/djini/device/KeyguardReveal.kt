@@ -1,4 +1,4 @@
-package com.wangzan101.mika.device
+package com.wangzan101.djini.device
 
 /** 生物识别优先的锁屏页(没有密码框、也没有数字键盘)需要一次「用密码解锁」的回退点击。 */
 internal object KeyguardReveal {

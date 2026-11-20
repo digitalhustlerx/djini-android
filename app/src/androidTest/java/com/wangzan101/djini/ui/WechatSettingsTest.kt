@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsEnabled
@@ -11,12 +11,12 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.ChineseUi
-import com.wangzan101.mika.core.wechat.WechatAccount
-import com.wangzan101.mika.settings.KeyCipher
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.wechat.WechatRuntime
-import com.wangzan101.mika.wechat.WechatStore
+import com.wangzan101.djini.ChineseUi
+import com.wangzan101.djini.core.wechat.WechatAccount
+import com.wangzan101.djini.settings.KeyCipher
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.wechat.WechatRuntime
+import com.wangzan101.djini.wechat.WechatStore
 import org.junit.After
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -45,7 +45,7 @@ class WechatSettingsTest {
 
     private fun page() {
         val value = WechatRuntime(context, store).also { runtime = it }
-        compose.setContent { MikaTheme(dark = false, reduceMotion = true) {
+        compose.setContent { DjiniTheme(dark = false, reduceMotion = true) {
             WechatSettingsScreen(value, {})
         } }
     }

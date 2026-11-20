@@ -1,11 +1,11 @@
-package com.wangzan101.mika.browser
+package com.wangzan101.djini.browser
 
-import com.wangzan101.mika.chat.ConversationSummary
-import com.wangzan101.mika.chat.PageOrigin
-import com.wangzan101.mika.core.cap.web.WebUrlPolicy
+import com.wangzan101.djini.chat.ConversationSummary
+import com.wangzan101.djini.chat.PageOrigin
+import com.wangzan101.djini.core.cap.web.WebUrlPolicy
 
 /**
- * 在浏览器页上对着一页问 Mika 时,接着哪个对话(纯逻辑)。规则:
+ * 在浏览器页上对着一页问 Djini 时,接着哪个对话(纯逻辑)。规则:
  * 1. 同一页(网址相同,不计 `#` 后面)上问过的,接着最近那个对话,不论隔了多久;
  * 2. 否则同一个网站(主机名相同)上 [SAME_SITE_MS] 内问过的,接着最近那个——在一个网站里一路点下去(搜索结果 → 商品页 → 购物车)
  *    还是同一件事;
@@ -16,7 +16,7 @@ object PageConversations {
     /** 同一个网站上「接着问」的时限:最近一次改动在这之内。 */
     const val SAME_SITE_MS = 2 * 60 * 60 * 1000L
 
-    /** [all] 是对话列表(最近改过的在前,见 [com.wangzan101.mika.chat.ConversationStore.list]);[url] 是此刻看着的页面。 */
+    /** [all] 是对话列表(最近改过的在前,见 [com.wangzan101.djini.chat.ConversationStore.list]);[url] 是此刻看着的页面。 */
     fun pick(all: List<ConversationSummary>, url: String, now: Long): ConversationSummary? {
         val page = pageKey(url)
         val host = WebUrlPolicy.host(url)

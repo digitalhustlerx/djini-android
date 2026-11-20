@@ -1,4 +1,4 @@
-package com.wangzan101.mika
+package com.wangzan101.djini
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -75,7 +75,7 @@ class ManifestProvidersTest {
         }
         assertTrue(names.size > 5)
         for (n in names) {
-            val full = if (n.startsWith(".")) "com.wangzan101.mika$n" else n
+            val full = if (n.startsWith(".")) "com.wangzan101.djini$n" else n
             assertTrue("$full is not a class", runCatching { Class.forName(full, false, javaClass.classLoader) }.isSuccess)
         }
     }
@@ -101,7 +101,7 @@ class ManifestProvidersTest {
 
     /**
      * 拍照附件走系统相机:声明用到相机、但不是必需(没有相机的设备照常安装)。这条声明不能删:
-     * 有的系统按 APK 特征给应用分类,没有它时 Mika 可能被当成游戏、限制刷新率。
+     * 有的系统按 APK 特征给应用分类,没有它时 Djini 可能被当成游戏、限制刷新率。
      */
     @Test
     fun cameraIsDeclaredAsOptionalFeature() {
@@ -145,7 +145,7 @@ class ManifestProvidersTest {
         assertEquals("true", a.getAttributeNS(androidNs, "exported"))
         assertEquals("android.permission.INTERACT_ACROSS_USERS_FULL", a.getAttributeNS(androidNs, "permission"))
         assertEquals(0, a.getElementsByTagName("intent-filter").length)
-        assertEquals(com.wangzan101.mika.cap.phone.shell.SystemIntents.OWN_PAGE_CLASS, "com.wangzan101.mika" + a.getAttributeNS(androidNs, "name"))
+        assertEquals(com.wangzan101.djini.cap.phone.shell.SystemIntents.OWN_PAGE_CLASS, "com.wangzan101.djini" + a.getAttributeNS(androidNs, "name"))
         assertEquals("true", a.getAttributeNS(androidNs, "excludeFromRecents"))
         assertTrue(a.hasAttributeNS(androidNs, "taskAffinity"))
         assertEquals("", a.getAttributeNS(androidNs, "taskAffinity"))
@@ -169,7 +169,7 @@ class ManifestProvidersTest {
     }
 
     @Test fun capsuleTileRuntimeKeepsTheSameSystemSafeIcon() {
-        val service = File("src/main/java/com/wangzan101/mika/capsule/CapsuleTileService.kt").readText()
+        val service = File("src/main/java/com/wangzan101/djini/capsule/CapsuleTileService.kt").readText()
         assertTrue(service.contains("Icon.createWithResource(this, R.drawable.ic_notification)"))
         assertTrue(!service.contains("Icon.createWithResource(this, R.mipmap.ic_launcher)"))
     }
@@ -197,7 +197,7 @@ class ManifestProvidersTest {
     /** 内置助手进程按这个全名启动。 */
     @Test
     fun helperEntryClassExists() {
-        val c = Class.forName(com.wangzan101.mika.core.shell.HelperHandoff.HELPER_CLASS, false, javaClass.classLoader)
+        val c = Class.forName(com.wangzan101.djini.core.shell.HelperHandoff.HELPER_CLASS, false, javaClass.classLoader)
         assertTrue(c.methods.any { it.name == "main" && java.lang.reflect.Modifier.isStatic(it.modifiers) })
     }
 }

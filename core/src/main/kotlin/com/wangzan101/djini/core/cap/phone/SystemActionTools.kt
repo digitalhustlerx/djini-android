@@ -1,26 +1,26 @@
-package com.wangzan101.mika.core.cap.phone
+package com.wangzan101.djini.core.cap.phone
 
-import com.wangzan101.mika.core.observation.ObsKind
-import com.wangzan101.mika.core.observation.Observation
-import com.wangzan101.mika.core.prompt.Feedback
-import com.wangzan101.mika.core.prompt.Prompts
-import com.wangzan101.mika.core.tool.ArgError
-import com.wangzan101.mika.core.tool.Args
-import com.wangzan101.mika.core.tool.Entry
-import com.wangzan101.mika.core.tool.EvidenceLog
-import com.wangzan101.mika.core.tool.Risk
-import com.wangzan101.mika.core.tool.ToolContext
-import com.wangzan101.mika.core.tool.ToolDef
-import com.wangzan101.mika.core.tool.ToolExecution
-import com.wangzan101.mika.core.tool.Verb
-import com.wangzan101.mika.core.tool.bool
-import com.wangzan101.mika.core.tool.int
-import com.wangzan101.mika.core.tool.str
-import com.wangzan101.mika.core.tool.strArray
-import com.wangzan101.mika.core.uistate.ActionResult
-import com.wangzan101.mika.core.uistate.SystemAction
-import com.wangzan101.mika.core.uistate.SystemActionResult
-import com.wangzan101.mika.core.uistate.action
+import com.wangzan101.djini.core.observation.ObsKind
+import com.wangzan101.djini.core.observation.Observation
+import com.wangzan101.djini.core.prompt.Feedback
+import com.wangzan101.djini.core.prompt.Prompts
+import com.wangzan101.djini.core.tool.ArgError
+import com.wangzan101.djini.core.tool.Args
+import com.wangzan101.djini.core.tool.Entry
+import com.wangzan101.djini.core.tool.EvidenceLog
+import com.wangzan101.djini.core.tool.Risk
+import com.wangzan101.djini.core.tool.ToolContext
+import com.wangzan101.djini.core.tool.ToolDef
+import com.wangzan101.djini.core.tool.ToolExecution
+import com.wangzan101.djini.core.tool.Verb
+import com.wangzan101.djini.core.tool.bool
+import com.wangzan101.djini.core.tool.int
+import com.wangzan101.djini.core.tool.str
+import com.wangzan101.djini.core.tool.strArray
+import com.wangzan101.djini.core.uistate.ActionResult
+import com.wangzan101.djini.core.uistate.SystemAction
+import com.wangzan101.djini.core.uistate.SystemActionResult
+import com.wangzan101.djini.core.uistate.action
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonObjectBuilder
@@ -136,7 +136,7 @@ internal object SetTimer : PhoneTool {
     }
 }
 
-/** 在 Mika 的屏上打开时钟的闹钟列表:核对、删除、改闹钟都在那一页上操作。 */
+/** 在 Djini 的屏上打开时钟的闹钟列表:核对、删除、改闹钟都在那一页上操作。 */
 internal object ShowAlarms : PhoneTool {
     override val verb = Verb.ShowAlarms
     override val label = "查看闹钟"

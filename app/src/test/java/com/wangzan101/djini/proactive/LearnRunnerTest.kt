@@ -1,44 +1,44 @@
-package com.wangzan101.mika.proactive
+package com.wangzan101.djini.proactive
 
 import android.service.notification.NotificationListenerService
-import com.wangzan101.mika.core.model.Capabilities
-import com.wangzan101.mika.core.model.ChatModel
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.ModelError
-import com.wangzan101.mika.core.model.ModelReply
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.StopReason
-import com.wangzan101.mika.core.model.ToolSpec
-import com.wangzan101.mika.core.proactive.ContactDrop
-import com.wangzan101.mika.core.proactive.ContactPoolData
-import com.wangzan101.mika.core.proactive.ContactRelation
-import com.wangzan101.mika.core.proactive.DigestData
-import com.wangzan101.mika.core.proactive.DayDigest
-import com.wangzan101.mika.core.proactive.DigestLine
-import com.wangzan101.mika.core.proactive.DigestNote
-import com.wangzan101.mika.core.proactive.LearnLevel
-import com.wangzan101.mika.core.proactive.SourceTier
-import com.wangzan101.mika.core.proactive.SpanKind
-import com.wangzan101.mika.core.proactive.TopicPool
-import com.wangzan101.mika.core.proactive.LearnDrop
-import com.wangzan101.mika.core.proactive.DigestPool
-import com.wangzan101.mika.core.proactive.SpanDigest
-import com.wangzan101.mika.core.proactive.DigestLevel
-import com.wangzan101.mika.core.proactive.LearnTuning
-import com.wangzan101.mika.core.proactive.NoticeJournal
-import com.wangzan101.mika.core.proactive.NoticeEntry
-import com.wangzan101.mika.core.proactive.ProactiveCall
-import com.wangzan101.mika.core.proactive.NoticeJournalData
-import com.wangzan101.mika.core.proactive.NoticeMessage
-import com.wangzan101.mika.core.proactive.NoticeRecord
-import com.wangzan101.mika.core.proactive.ObservedContact
-import com.wangzan101.mika.core.proactive.ObservedTopic
-import com.wangzan101.mika.core.proactive.TopicKind
-import com.wangzan101.mika.core.proactive.TargetedModel
-import com.wangzan101.mika.core.proactive.TopicPoolData
-import com.wangzan101.mika.core.proactive.TriageConsent
-import com.wangzan101.mika.core.proactive.TriageTarget
-import com.wangzan101.mika.core.usage.ProactiveBudget
+import com.wangzan101.djini.core.model.Capabilities
+import com.wangzan101.djini.core.model.ChatModel
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.ModelError
+import com.wangzan101.djini.core.model.ModelReply
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.StopReason
+import com.wangzan101.djini.core.model.ToolSpec
+import com.wangzan101.djini.core.proactive.ContactDrop
+import com.wangzan101.djini.core.proactive.ContactPoolData
+import com.wangzan101.djini.core.proactive.ContactRelation
+import com.wangzan101.djini.core.proactive.DigestData
+import com.wangzan101.djini.core.proactive.DayDigest
+import com.wangzan101.djini.core.proactive.DigestLine
+import com.wangzan101.djini.core.proactive.DigestNote
+import com.wangzan101.djini.core.proactive.LearnLevel
+import com.wangzan101.djini.core.proactive.SourceTier
+import com.wangzan101.djini.core.proactive.SpanKind
+import com.wangzan101.djini.core.proactive.TopicPool
+import com.wangzan101.djini.core.proactive.LearnDrop
+import com.wangzan101.djini.core.proactive.DigestPool
+import com.wangzan101.djini.core.proactive.SpanDigest
+import com.wangzan101.djini.core.proactive.DigestLevel
+import com.wangzan101.djini.core.proactive.LearnTuning
+import com.wangzan101.djini.core.proactive.NoticeJournal
+import com.wangzan101.djini.core.proactive.NoticeEntry
+import com.wangzan101.djini.core.proactive.ProactiveCall
+import com.wangzan101.djini.core.proactive.NoticeJournalData
+import com.wangzan101.djini.core.proactive.NoticeMessage
+import com.wangzan101.djini.core.proactive.NoticeRecord
+import com.wangzan101.djini.core.proactive.ObservedContact
+import com.wangzan101.djini.core.proactive.ObservedTopic
+import com.wangzan101.djini.core.proactive.TopicKind
+import com.wangzan101.djini.core.proactive.TargetedModel
+import com.wangzan101.djini.core.proactive.TopicPoolData
+import com.wangzan101.djini.core.proactive.TriageConsent
+import com.wangzan101.djini.core.proactive.TriageTarget
+import com.wangzan101.djini.core.usage.ProactiveBudget
 import java.time.ZoneOffset
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -1576,8 +1576,8 @@ class LearnRunnerTest {
 
     // 以前按通知键存下来的联系人:读出来时同名的并成一条并存上;记着的、没存上的删除(记的是以前的 id)先补做,删掉的不借着合并回来
     @Test fun storedContactsAreMergedByConversationNameWhenLoaded() = runTest {
-        fun old(key: String, title: String) = com.wangzan101.mika.core.proactive.ContactIdentity.of(
-            "com.chat", key, title, com.wangzan101.mika.core.proactive.ContactIdStrategy.KeyAndTitle)!!.id
+        fun old(key: String, title: String) = com.wangzan101.djini.core.proactive.ContactIdentity.of(
+            "com.chat", key, title, com.wangzan101.djini.core.proactive.ContactIdStrategy.KeyAndTitle)!!.id
         val e = Env(this)
         e.contacts.data = ContactPoolData(contacts = listOf(
             ObservedContact(old("k1", "家长群"), "com.chat", "家长群", 1L, start, days = listOf(19_998L)),
@@ -1607,8 +1607,8 @@ class LearnRunnerTest {
     // 换身份之后没存上(存储满了之类),用户删掉了换好的那一条,也没存上,进程没了。下次读出来的还是换之前的文件:
     // 记着的删除要作数,同名的那几条不能再换一遍身份就回来
     @Test fun aDeleteMadeAfterAnUnsavedMigrationStillHolds() = runTest {
-        fun old(key: String, title: String) = com.wangzan101.mika.core.proactive.ContactIdentity.of(
-            "com.chat", key, title, com.wangzan101.mika.core.proactive.ContactIdStrategy.KeyAndTitle)!!.id
+        fun old(key: String, title: String) = com.wangzan101.djini.core.proactive.ContactIdentity.of(
+            "com.chat", key, title, com.wangzan101.djini.core.proactive.ContactIdStrategy.KeyAndTitle)!!.id
         val e = Env(this)
         e.contacts.data = ContactPoolData(contacts = listOf(
             ObservedContact(old("k1", "家长群"), "com.chat", "家长群", 1L, start, days = listOf(19_999L)),
@@ -1727,7 +1727,7 @@ class LearnRunnerTest {
         val e = Env(this)
         e.digest = true
         val since = start - 60_000L
-        val keyId = com.wangzan101.mika.core.proactive.NoticeDedup.idOf("nav")
+        val keyId = com.wangzan101.djini.core.proactive.NoticeDedup.idOf("nav")
         e.journal.data = NoticeJournalData(sinceMs = start - 3_600_000L, entries = listOf(
             NoticeEntry("com.maps", start - 3_000_000L, "更早的正常通知", text = "同一个键", keyId = keyId),
             NoticeEntry("com.maps", start - 30_000L, "导航", text = "300 米后右转", keyId = keyId),

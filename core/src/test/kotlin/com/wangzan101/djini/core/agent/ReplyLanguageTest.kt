@@ -1,8 +1,8 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
-import com.wangzan101.mika.core.agent.ReplyLanguage.CHINESE
-import com.wangzan101.mika.core.agent.ReplyLanguage.JAPANESE
-import com.wangzan101.mika.core.agent.ReplyLanguage.Mismatch
+import com.wangzan101.djini.core.agent.ReplyLanguage.CHINESE
+import com.wangzan101.djini.core.agent.ReplyLanguage.JAPANESE
+import com.wangzan101.djini.core.agent.ReplyLanguage.Mismatch
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test

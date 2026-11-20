@@ -1,18 +1,18 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
-import com.wangzan101.mika.core.knowledge.KnowledgeEntry
-import com.wangzan101.mika.core.knowledge.KnowledgeStore
-import com.wangzan101.mika.core.knowledge.Surface
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.screenmap.ScreenGraph
-import com.wangzan101.mika.core.screenmap.ScreenMapStore
-import com.wangzan101.mika.core.screenmap.ScreenNode
-import com.wangzan101.mika.core.uistate.ScreenPort
-import com.wangzan101.mika.core.uistate.ScreenSnapshot
-import com.wangzan101.mika.core.uistate.UiElement
-import com.wangzan101.mika.core.tool.FakeScreen
-import com.wangzan101.mika.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.knowledge.KnowledgeEntry
+import com.wangzan101.djini.core.knowledge.KnowledgeStore
+import com.wangzan101.djini.core.knowledge.Surface
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.screenmap.ScreenGraph
+import com.wangzan101.djini.core.screenmap.ScreenMapStore
+import com.wangzan101.djini.core.screenmap.ScreenNode
+import com.wangzan101.djini.core.uistate.ScreenPort
+import com.wangzan101.djini.core.uistate.ScreenSnapshot
+import com.wangzan101.djini.core.uistate.UiElement
+import com.wangzan101.djini.core.tool.FakeScreen
+import com.wangzan101.djini.core.assembly.toolDispatcher
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -44,8 +44,8 @@ class AgentLoopScreenMapTest {
         UiElement(id, "text", name, 100, 100, listOf(0, 0, 999, 60), null, true, false, false)
 
     private fun call(name: String, args: String = "{}") = Part.ToolCall("k$name${args.hashCode()}", name, args)
-    private fun reply(vararg c: Part.ToolCall) = com.wangzan101.mika.core.model.ModelReply(
-        c.toList(), com.wangzan101.mika.core.model.StopReason.ToolUse, null)
+    private fun reply(vararg c: Part.ToolCall) = com.wangzan101.djini.core.model.ModelReply(
+        c.toList(), com.wangzan101.djini.core.model.StopReason.ToolUse, null)
 
     private fun run(screen: ScreenPort, store: ScreenMapStore?, vararg script: Any): List<Message> {
         val knowledge = KnowledgeStore(listOf(KnowledgeEntry("alpha", "alpha", Surface.Android, listOf("p.a"),
@@ -58,7 +58,7 @@ class AgentLoopScreenMapTest {
     private fun List<Message>.screenMaps() = filter { ContextBuilder.kindOf(it) == ContextKind.ScreenMap }
         .map { "${ContextBuilder.sourceOf(it)}\n${ContextBuilder.bodyOf(it)}" }
 
-    private val finish = com.wangzan101.mika.core.testing.answerReply("ok")
+    private val finish = com.wangzan101.djini.core.testing.answerReply("ok")
 
     @Test fun injectsScreenMapAfterAppKnowledgeOnForeground() {
         val msgs = run(MapScreen(listOf(el("@h", "首页"), el("@m", "我的"))), MemMapStore(mapOf("p.a" to graph)),

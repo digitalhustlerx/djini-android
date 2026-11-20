@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.cap.mcp
+package com.wangzan101.djini.core.cap.mcp
 
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers

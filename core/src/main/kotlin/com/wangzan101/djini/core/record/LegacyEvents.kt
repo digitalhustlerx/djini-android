@@ -1,7 +1,7 @@
-package com.wangzan101.mika.core.record
+package com.wangzan101.djini.core.record
 
-import com.wangzan101.mika.core.observation.ObsKind
-import com.wangzan101.mika.core.observation.PlaceKind
+import com.wangzan101.djini.core.observation.ObsKind
+import com.wangzan101.djini.core.observation.PlaceKind
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject

@@ -1,6 +1,6 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.core.workspace.SandboxPaths
+import com.wangzan101.djini.core.workspace.SandboxPaths
 
 /** 把回复里抽出的 `/workspace/...` 引用转成附件渲染模型(照片/文件分好,大小留空);越界(`..`)的引用丢弃。 */
 fun outputRefsParsed(answer: String): AttachmentMessage.Parsed {

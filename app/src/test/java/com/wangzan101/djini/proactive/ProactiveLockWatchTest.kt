@@ -1,6 +1,6 @@
-package com.wangzan101.mika.proactive
+package com.wangzan101.djini.proactive
 
-import com.wangzan101.mika.proactive.ProactiveLockWatch.Reading
+import com.wangzan101.djini.proactive.ProactiveLockWatch.Reading
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.advanceTimeBy

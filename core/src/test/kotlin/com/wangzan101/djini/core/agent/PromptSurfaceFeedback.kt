@@ -1,31 +1,31 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
-import com.wangzan101.mika.core.memory.MemoryItem
-import com.wangzan101.mika.core.memory.MemoryPersistence
-import com.wangzan101.mika.core.memory.MemoryStore
-import com.wangzan101.mika.core.memory.UserUtterances
-import com.wangzan101.mika.core.model.ModelReply
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.StopReason
-import com.wangzan101.mika.core.cap.sandbox.FakeSandbox
-import com.wangzan101.mika.core.cap.sandbox.SandboxStatus
-import com.wangzan101.mika.core.uistate.ActionResult
-import com.wangzan101.mika.core.uistate.ScreenCheck
-import com.wangzan101.mika.core.uistate.ScreenDiagnosis
-import com.wangzan101.mika.core.uistate.ScreenPort
-import com.wangzan101.mika.core.uistate.ScreenState
-import com.wangzan101.mika.core.uistate.Verification
-import com.wangzan101.mika.core.testing.PromptSurface
-import com.wangzan101.mika.core.tool.FakeScreen
-import com.wangzan101.mika.core.tool.ToolDispatcher
-import com.wangzan101.mika.core.tool.execute
-import com.wangzan101.mika.core.cap.web.FakeWebPort
+import com.wangzan101.djini.core.memory.MemoryItem
+import com.wangzan101.djini.core.memory.MemoryPersistence
+import com.wangzan101.djini.core.memory.MemoryStore
+import com.wangzan101.djini.core.memory.UserUtterances
+import com.wangzan101.djini.core.model.ModelReply
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.StopReason
+import com.wangzan101.djini.core.cap.sandbox.FakeSandbox
+import com.wangzan101.djini.core.cap.sandbox.SandboxStatus
+import com.wangzan101.djini.core.uistate.ActionResult
+import com.wangzan101.djini.core.uistate.ScreenCheck
+import com.wangzan101.djini.core.uistate.ScreenDiagnosis
+import com.wangzan101.djini.core.uistate.ScreenPort
+import com.wangzan101.djini.core.uistate.ScreenState
+import com.wangzan101.djini.core.uistate.Verification
+import com.wangzan101.djini.core.testing.PromptSurface
+import com.wangzan101.djini.core.tool.FakeScreen
+import com.wangzan101.djini.core.tool.ToolDispatcher
+import com.wangzan101.djini.core.tool.execute
+import com.wangzan101.djini.core.cap.web.FakeWebPort
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.JsonObject
-import com.wangzan101.mika.core.guard.GuardVerdict
-import com.wangzan101.mika.core.guard.Severity
-import com.wangzan101.mika.core.tool.Verb
-import com.wangzan101.mika.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.guard.GuardVerdict
+import com.wangzan101.djini.core.guard.Severity
+import com.wangzan101.djini.core.tool.Verb
+import com.wangzan101.djini.core.assembly.toolDispatcher
 
 /**
  * 工具与主循环给模型的反馈文字(提示、错误说明、提醒):按典型情形逐条触发,原样写进金样。
@@ -99,7 +99,7 @@ internal object PromptSurfaceFeedback {
         )) add("phone_diagnose $label", toolDispatcher(Checked(c)), "phone_diagnose")
 
         val web = FakeWebPort()
-        val onWeb = toolDispatcher(FakeScreen(), web = web, workspacePath = { com.wangzan101.mika.core.workspace.WorkspacePathCheck.NotFound })
+        val onWeb = toolDispatcher(FakeScreen(), web = web, workspacePath = { com.wangzan101.djini.core.workspace.WorkspacePathCheck.NotFound })
         add("interact on phone", onWeb, "web_interact", """{"action":"key","key":"Enter"}""")
         add("script on phone", onWeb, "web_script", """{"code":"return 1"}""")
         add("navigate", onWeb, "web_navigate", """{"url":"https://shop.example.com/"}""")
@@ -107,7 +107,7 @@ internal object PromptSurfaceFeedback {
         add("capture without devtools", onWeb, "web_capture")
         add("wait without devtools", onWeb, "web_wait_for", """{"condition":"network_idle"}""")
         web.devtools = true
-        web.waitOutcome = com.wangzan101.mika.core.cap.web.WaitOutcome(false, 5000, web.url)
+        web.waitOutcome = com.wangzan101.djini.core.cap.web.WaitOutcome(false, 5000, web.url)
         add("wait not met", onWeb, "web_wait_for", """{"condition":"text_present","value":"x"}""")
         add("capture unknown id", onWeb, "web_capture", """{"id":"r9"}""")
         add("upload outside", onWeb, "web_upload", """{"ref":"@e1","snapshotId":"w1","paths":["/sdcard/a.jpg"]}""")
@@ -128,15 +128,15 @@ internal object PromptSurfaceFeedback {
         }, clock = { 1L }, ids = { "m" })
         val withMem = toolDispatcher(FakeScreen(), memory = mem, utterances = UserUtterances().apply { add("帮我看看订单") })
         add("memory quote not from user", withMem, "memory_save", """{"kind":"fact","content":"x","quote":"别的话"}""")
-        val withSkills = toolDispatcher(FakeScreen(), skills = com.wangzan101.mika.core.knowledge.GuideCatalog.loadBundled(), utterances = UserUtterances().apply { add("帮我建一个技能") },
-            personalSkills = com.wangzan101.mika.core.skills.InMemoryPersonalSkills())
+        val withSkills = toolDispatcher(FakeScreen(), skills = com.wangzan101.djini.core.knowledge.GuideCatalog.loadBundled(), utterances = UserUtterances().apply { add("帮我建一个技能") },
+            personalSkills = com.wangzan101.djini.core.skills.InMemoryPersonalSkills())
         add("skill save missing section", withSkills, "skill_save",
             """{"markdown":"---\nname: order-coffee\ndisplay: 点咖啡\ndescription: 点咖啡时用\n---\n## 入口\n打开 App","quote":"帮我建一个技能"}""")
 
-        val withHistory = toolDispatcher(FakeScreen(), runSpec = com.wangzan101.mika.core.run.RunSpec(com.wangzan101.mika.core.run.RunId("t"), "t", "thread",
-            priorTurns = listOf(Turn("之前", "好", "succeeded", runId = "r1"))), runRecords = object : com.wangzan101.mika.core.record.RunRecords {
-                override suspend fun summary(runId: String): com.wangzan101.mika.core.record.RunSummary? = null
-                override suspend fun events(runId: String) = emptyList<com.wangzan101.mika.core.record.RunEvent>()
+        val withHistory = toolDispatcher(FakeScreen(), runSpec = com.wangzan101.djini.core.run.RunSpec(com.wangzan101.djini.core.run.RunId("t"), "t", "thread",
+            priorTurns = listOf(Turn("之前", "好", "succeeded", runId = "r1"))), runRecords = object : com.wangzan101.djini.core.record.RunRecords {
+                override suspend fun summary(runId: String): com.wangzan101.djini.core.record.RunSummary? = null
+                override suspend fun events(runId: String) = emptyList<com.wangzan101.djini.core.record.RunEvent>()
             })
         add("history turn not found", withHistory, "history_read", """{"turn":5}""")
         add("history not recorded", withHistory, "history_read", """{"turn":1}""")
@@ -154,7 +154,7 @@ internal object PromptSurfaceFeedback {
      */
     fun loop(): String {
         fun fileCall(cls: String, name: String, vararg args: Any): String {
-            val m = Class.forName("com.wangzan101.mika.core.agent.$cls").declaredMethods.first { it.name == name }.apply { isAccessible = true }
+            val m = Class.forName("com.wangzan101.djini.core.agent.$cls").declaredMethods.first { it.name == name }.apply { isAccessible = true }
             return m.invoke(null, *args) as String
         }
         val empty = TurnPolicy.afterEmpty(already = false, truncated = false)!!
@@ -212,7 +212,7 @@ internal object PromptSurfaceFeedback {
     /** 主循环自己写的工具结果:一次给了多个调用、申报的 App 不是眼前的、没有确认关卡时申报。 */
     private fun loopResults(): List<Pair<String, String>> = runBlocking {
         fun reply(vararg calls: Part.ToolCall) = ModelReply(calls.toList(), StopReason.ToolUse, null)
-        val done = com.wangzan101.mika.core.testing.answerReply("ok")
+        val done = com.wangzan101.djini.core.testing.answerReply("ok")
         val confirm = Part.ToolCall("c", "request_confirmation", "{\"action\":\"send\",\"target\":\"x\",\"content\":\"y\",\"app\":\"com.y\"}")
         val a = FakeModel(reply(Part.ToolCall("o1", "phone_observe", "{}"), Part.ToolCall("o2", "phone_observe", "{}")), reply(confirm), done)
         AgentLoop(a, toolDispatcher(FakeScreen()), "BASE").run("t")

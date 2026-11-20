@@ -1,8 +1,8 @@
-package com.wangzan101.mika.settings
+package com.wangzan101.djini.settings
 
-import com.wangzan101.mika.core.chatgpt.ChatGptAuth
-import com.wangzan101.mika.core.net.LocalHosts
-import com.wangzan101.mika.core.usage.AllowanceSource
+import com.wangzan101.djini.core.chatgpt.ChatGptAuth
+import com.wangzan101.djini.core.net.LocalHosts
+import com.wangzan101.djini.core.usage.AllowanceSource
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 
 internal data class AllowanceRoute(

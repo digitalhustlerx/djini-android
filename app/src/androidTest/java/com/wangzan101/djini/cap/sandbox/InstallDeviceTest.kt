@@ -1,10 +1,10 @@
-package com.wangzan101.mika.cap.sandbox
+package com.wangzan101.djini.cap.sandbox
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.core.cap.sandbox.CommandResult
-import com.wangzan101.mika.core.cap.sandbox.SANDBOX_PACKAGES
-import com.wangzan101.mika.core.cap.sandbox.SandboxStatus
+import com.wangzan101.djini.core.cap.sandbox.CommandResult
+import com.wangzan101.djini.core.cap.sandbox.SANDBOX_PACKAGES
+import com.wangzan101.djini.core.cap.sandbox.SandboxStatus
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject
@@ -15,7 +15,7 @@ import org.junit.BeforeClass
 import org.junit.Test
 import org.junit.runner.RunWith
 
-/** 真安装(解自带的运行环境,不联网);装好后在沙箱里跑 Python、Node 与 `mika`。 */
+/** 真安装(解自带的运行环境,不联网);装好后在沙箱里跑 Python、Node 与 `djini`。 */
 @RunWith(AndroidJUnit4::class)
 class InstallDeviceTest {
     private val sb = AndroidSandbox(context, SandboxState.get(context))
@@ -28,7 +28,7 @@ class InstallDeviceTest {
         assertEquals(SandboxStatus.Ready(network = false), SandboxState.get(context).status.value)
         sh("python3 -c 'print(1+1)'").let { assertEquals(it.output, 0, it.exitCode); assertEquals("2", it.output.trim()) }
         sh("node -e 'console.log(2+2)'").let { assertEquals(it.output, 0, it.exitCode); assertEquals("4", it.output.trim()) }
-        sh("mika info").let { r ->
+        sh("djini info").let { r ->
             assertEquals(r.output, 0, r.exitCode)
             Json.parseToJsonElement(r.output.trim()).jsonObject // 是 JSON 对象
         }

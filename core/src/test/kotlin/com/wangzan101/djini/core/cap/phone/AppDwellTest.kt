@@ -1,22 +1,22 @@
-package com.wangzan101.mika.core.cap.phone
+package com.wangzan101.djini.core.cap.phone
 
-import com.wangzan101.mika.core.action.ActionExecutor
-import com.wangzan101.mika.core.action.ActionRecorder
-import com.wangzan101.mika.core.action.Origin
-import com.wangzan101.mika.core.action.execution
-import com.wangzan101.mika.core.assembly.toolDispatcher
-import com.wangzan101.mika.core.uistate.IdleScroll
-import com.wangzan101.mika.core.guard.OperationGuards
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.record.RunSink
-import com.wangzan101.mika.core.tool.FakeScreen
-import com.wangzan101.mika.core.tool.ToolDispatcher
-import com.wangzan101.mika.core.tool.ToolExecution
-import com.wangzan101.mika.core.tool.execute
-import com.wangzan101.mika.core.uistate.ActionResult
-import com.wangzan101.mika.core.uistate.ScreenPort
-import com.wangzan101.mika.core.uistate.ScreenSnapshot
-import com.wangzan101.mika.core.uistate.UiElement
+import com.wangzan101.djini.core.action.ActionExecutor
+import com.wangzan101.djini.core.action.ActionRecorder
+import com.wangzan101.djini.core.action.Origin
+import com.wangzan101.djini.core.action.execution
+import com.wangzan101.djini.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.uistate.IdleScroll
+import com.wangzan101.djini.core.guard.OperationGuards
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.record.RunSink
+import com.wangzan101.djini.core.tool.FakeScreen
+import com.wangzan101.djini.core.tool.ToolDispatcher
+import com.wangzan101.djini.core.tool.ToolExecution
+import com.wangzan101.djini.core.tool.execute
+import com.wangzan101.djini.core.uistate.ActionResult
+import com.wangzan101.djini.core.uistate.ScreenPort
+import com.wangzan101.djini.core.uistate.ScreenSnapshot
+import com.wangzan101.djini.core.uistate.UiElement
 import kotlinx.coroutines.test.currentTime
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.JsonObject
@@ -105,7 +105,7 @@ class AppDwellTest {
         val stopped = ex.tap(t)
         assertEquals("page_limit", stopped.error())
         assertTrue(stopped.content["message"].toString(), stopped.content["message"].toString().contains("ask_user"))
-        assertTrue(stopped.content["message"].toString().contains("Mika reached its per-task app screen budget"))
+        assertTrue(stopped.content["message"].toString().contains("Djini reached its per-task app screen budget"))
         val budget = stopped.content["navigationBudget"] as JsonObject
         assertEquals(JsonPrimitive("app_screens"), budget["scope"])
         assertEquals(JsonPrimitive("com.slow"), budget["target"])

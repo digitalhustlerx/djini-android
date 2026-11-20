@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import android.content.ClipboardManager
 import android.graphics.Bitmap
@@ -10,10 +10,10 @@ import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.ChineseUi
-import com.wangzan101.mika.core.record.PlaybackMark
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.record.RunStore
+import com.wangzan101.djini.ChineseUi
+import com.wangzan101.djini.core.record.PlaybackMark
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.record.RunStore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.After

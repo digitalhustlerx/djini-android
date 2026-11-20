@@ -1,11 +1,11 @@
-package com.wangzan101.mika.cap.phone.shell
+package com.wangzan101.djini.cap.phone.shell
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport
-import com.wangzan101.mika.cap.phone.a11y.SystemPickers
-import com.wangzan101.mika.core.uistate.ActionResult
-import com.wangzan101.mika.core.tool.LinkPolicy
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport
+import com.wangzan101.djini.cap.phone.a11y.SystemPickers
+import com.wangzan101.djini.core.uistate.ActionResult
+import com.wangzan101.djini.core.tool.LinkPolicy
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -45,11 +45,11 @@ class OpenLinkDeviceTest {
     fun unresolvableUriReturns5() {
         val shell = DeviceSupport.shell()
         val id = agent.display.displayId
-        assertEquals(ShellService.START_UNRESOLVED, shell.startView(id, null, "mika-no-such-scheme://page/1", null))
-        assertEquals(ShellService.START_UNRESOLVED, shell.startView(id, null, "https://example.com/", "com.wangzan101.mika.no.such.app"))
+        assertEquals(ShellService.START_UNRESOLVED, shell.startView(id, null, "djini-no-such-scheme://page/1", null))
+        assertEquals(ShellService.START_UNRESOLVED, shell.startView(id, null, "https://example.com/", "com.wangzan101.djini.no.such.app"))
         // 外壳侧再查一次:绕过分发器直接调也打不开
         assertEquals(ShellService.START_INVALID_LINK, shell.startView(id, null, "tel:10086", null))
-        val r = runBlocking { agent.screen.openLink(null, "mika-no-such-scheme://page/1", null) }
+        val r = runBlocking { agent.screen.openLink(null, "djini-no-such-scheme://page/1", null) }
         assertEquals(ActionResult.Failed("link_unresolved"), r)
     }
 }

@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.net
+package com.wangzan101.djini.core.net
 
 import kotlinx.coroutines.suspendCancellableCoroutine
 import okhttp3.Call

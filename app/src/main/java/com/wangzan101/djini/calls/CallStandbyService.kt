@@ -1,4 +1,4 @@
-package com.wangzan101.mika.calls
+package com.wangzan101.djini.calls
 
 import android.app.Notification
 import android.app.NotificationChannel
@@ -11,9 +11,9 @@ import android.content.pm.ServiceInfo
 import android.net.Uri
 import android.os.Build
 import android.os.IBinder
-import com.wangzan101.mika.MikaApp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.ui.MainActivity
+import com.wangzan101.djini.DjiniApp
+import com.wangzan101.djini.R
+import com.wangzan101.djini.ui.MainActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -41,7 +41,7 @@ class CallStandbyService : Service() {
     override fun onBind(intent: Intent?): IBinder? = null
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        val calls = (application as? MikaApp)?.calls
+        val calls = (application as? DjiniApp)?.calls
         runtime = calls
         val explicit = intent?.action == ACTION_START && calls?.isStandbyStartRequested(intent.getStringExtra(EXTRA_REQUEST_ID)) == true
         // Always acknowledge the OS start before rejecting a stale or cancelled request. Android may
@@ -149,8 +149,8 @@ class CallStandbyService : Service() {
     }
 
     companion object {
-        const val CHANNEL = "mika_call_standby"
-        private const val ACTION_START = "com.wangzan101.mika.calls.START_STANDBY"
+        const val CHANNEL = "djini_call_standby"
+        private const val ACTION_START = "com.wangzan101.djini.calls.START_STANDBY"
         private const val EXTRA_REQUEST_ID = "standby_start_id"
         private const val NOTIFICATION_ID = 90_118
 

@@ -1,6 +1,6 @@
-package com.wangzan101.mika.cap.phone.shell
+package com.wangzan101.djini.cap.phone.shell
 
-import com.wangzan101.mika.core.tool.LinkPolicy
+import com.wangzan101.djini.core.tool.LinkPolicy
 
 /** 外壳服务打开链接前的两项判断,不依赖安卓类,单元测试直接调。 */
 internal object ShellLinks {

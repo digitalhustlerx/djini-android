@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -23,9 +23,9 @@ import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeUp
 import androidx.compose.ui.unit.dp
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.wangzan101.mika.ui.components.KeyboardDismissArea
-import com.wangzan101.mika.ui.components.keepsKeyboard
-import com.wangzan101.mika.ui.theme.MikaTheme
+import com.wangzan101.djini.ui.components.KeyboardDismissArea
+import com.wangzan101.djini.ui.components.keepsKeyboard
+import com.wangzan101.djini.ui.theme.DjiniTheme
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
@@ -38,7 +38,7 @@ class KeyboardDismissTest {
     private var clicks = 0
 
     private fun page() = compose.setContent {
-        MikaTheme {
+        DjiniTheme {
             KeyboardDismissArea(Modifier.fillMaxSize()) {
                 Column(Modifier.fillMaxSize()) {
                     Box(Modifier.fillMaxWidth().height(300.dp).testTag("outside"))

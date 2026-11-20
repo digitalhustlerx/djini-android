@@ -1,21 +1,21 @@
-package com.wangzan101.mika.eval
+package com.wangzan101.djini.eval
 
 import android.hardware.display.DisplayManager
 import android.util.DisplayMetrics
 import android.view.Display
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.cap.phone.a11y.AndroidScreen
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport
-import com.wangzan101.mika.core.eval.APP_CAPABILITIES
-import com.wangzan101.mika.core.eval.AppCapabilities
-import com.wangzan101.mika.core.eval.PROBE_ALLOWLIST
-import com.wangzan101.mika.core.uistate.ActionResult
-import com.wangzan101.mika.cap.phone.display.AgentDisplay
-import com.wangzan101.mika.core.cap.web.WebUrlPolicy
-import com.wangzan101.mika.cap.web.PageScript
-import com.wangzan101.mika.cap.web.WebHost
-import com.wangzan101.mika.cap.web.WebSites
-import com.wangzan101.mika.cap.web.WebTab
+import com.wangzan101.djini.cap.phone.a11y.AndroidScreen
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport
+import com.wangzan101.djini.core.eval.APP_CAPABILITIES
+import com.wangzan101.djini.core.eval.AppCapabilities
+import com.wangzan101.djini.core.eval.PROBE_ALLOWLIST
+import com.wangzan101.djini.core.uistate.ActionResult
+import com.wangzan101.djini.cap.phone.display.AgentDisplay
+import com.wangzan101.djini.core.cap.web.WebUrlPolicy
+import com.wangzan101.djini.cap.web.PageScript
+import com.wangzan101.djini.cap.web.WebHost
+import com.wangzan101.djini.cap.web.WebSites
+import com.wangzan101.djini.cap.web.WebTab
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.delay
@@ -48,7 +48,7 @@ class EvalProbes(private val sh: (String) -> String, private val loggedIn: File)
 
     /**
      * `installed:<包名>`、`app:<能力>`、`signedIn:<包名或网站>`(旧写法 `login:<包名>`、`site:<主机名>`)。
-     * 登录态:网站只认站点登记表里「用户在 Mika 里登录过」的(在设置「网站登录」里登录过);App 只认人工标记([loggedIn]),
+     * 登录态:网站只认站点登记表里「用户在 Djini 里登录过」的(在设置「网站登录」里登录过);App 只认人工标记([loggedIn]),
      * 评测器不替用户判断 App 的登录态(没有对所有 App 都可靠的探法)。没登录的题跳过,原因写「未登录」。
      */
     fun requirementMet(req: String): Pair<Boolean, String> {
@@ -114,7 +114,7 @@ class EvalProbes(private val sh: (String) -> String, private val loggedIn: File)
 
     /**
      * 在一个新的后台网页标签里打开 [url],读整页文字(至多 [WEB_PAGES] 段),找 [text](忽略空白)。
-     * 用 mika 网页配置,登录状态和 Agent 用的一样。
+     * 用 djini 网页配置,登录状态和 Agent 用的一样。
      */
     suspend fun webHas(url: String, text: String): Boolean {
         require(WebUrlPolicy.checkNavigable(url) == null) { "bad url: $url" }

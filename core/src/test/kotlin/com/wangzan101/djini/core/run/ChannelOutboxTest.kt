@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.run
+package com.wangzan101.djini.core.run
 
-import com.wangzan101.mika.core.action.ConfirmChoice
+import com.wangzan101.djini.core.action.ConfirmChoice
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test

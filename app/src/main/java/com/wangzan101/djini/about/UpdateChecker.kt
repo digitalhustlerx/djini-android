@@ -1,4 +1,4 @@
-package com.wangzan101.mika.about
+package com.wangzan101.djini.about
 
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
@@ -21,7 +21,7 @@ import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.longOrNull
 import kotlinx.serialization.json.put
-import com.wangzan101.mika.core.net.NetProxy
+import com.wangzan101.djini.core.net.NetProxy
 import okhttp3.OkHttpClient
 import java.io.File
 import java.util.concurrent.TimeUnit
@@ -162,7 +162,7 @@ class UpdateChecker(
             launch(Dispatchers.IO) {
                 val found = withTimeoutOrNull(PROBE_TIMEOUT_MS) {
                     try {
-                        UpdateProbe.fetch(client, source, releaseApi, releasesUrl, deviceAbis, "Mika/$currentVersion")
+                        UpdateProbe.fetch(client, source, releaseApi, releasesUrl, deviceAbis, "Djini/$currentVersion")
                     } catch (e: CancellationException) {
                         throw e
                     } catch (_: Exception) {

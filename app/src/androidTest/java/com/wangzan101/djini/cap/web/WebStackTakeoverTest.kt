@@ -1,7 +1,7 @@
-package com.wangzan101.mika.cap.web
+package com.wangzan101.djini.cap.web
 
 import org.junit.Rule
-import com.wangzan101.mika.ChineseUi
+import com.wangzan101.djini.ChineseUi
 import android.view.Display
 import android.view.View
 import android.view.ViewGroup
@@ -10,14 +10,14 @@ import android.widget.Button
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.webkit.WebViewAssetLoader
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.core.uistate.ActionResult
-import com.wangzan101.mika.core.tool.HandBack
-import com.wangzan101.mika.core.tool.HandBackOutcome
-import com.wangzan101.mika.takeover.HandoverActivity
-import com.wangzan101.mika.takeover.Takeover
-import com.wangzan101.mika.takeover.TakeoverPort
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.core.uistate.ActionResult
+import com.wangzan101.djini.core.tool.HandBack
+import com.wangzan101.djini.core.tool.HandBackOutcome
+import com.wangzan101.djini.takeover.HandoverActivity
+import com.wangzan101.djini.takeover.Takeover
+import com.wangzan101.djini.takeover.TakeoverPort
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob

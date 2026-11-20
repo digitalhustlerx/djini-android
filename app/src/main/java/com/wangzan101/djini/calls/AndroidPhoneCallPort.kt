@@ -1,7 +1,7 @@
-package com.wangzan101.mika.calls
+package com.wangzan101.djini.calls
 
-import com.wangzan101.mika.core.calls.PhoneCallPort
-import com.wangzan101.mika.core.calls.PhoneCallTask
+import com.wangzan101.djini.core.calls.PhoneCallPort
+import com.wangzan101.djini.core.calls.PhoneCallTask
 import kotlinx.serialization.json.*
 
 /** One native runtime for the local agent, UI and authenticated MCP endpoint. */

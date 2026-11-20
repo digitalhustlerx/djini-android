@@ -1,6 +1,6 @@
-package com.wangzan101.mika.proactive
+package com.wangzan101.djini.proactive
 
-import com.wangzan101.mika.proactive.ProactiveLockPolicy.Action
+import com.wangzan101.djini.proactive.ProactiveLockPolicy.Action
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -154,8 +154,8 @@ class ProactiveLockPolicyTest {
         // 再解锁、连上:这回读成了,150 秒时发出的那条在「锁屏之后」的范围里
         p.unlocked(connected = false)
         assertEquals(listOf(Action.CatchUp), p.connected(locked = false, nowMs = 260_000))
-        val earlier = com.wangzan101.mika.core.proactive.NoticeRecord("k", "com.chat", 150_000, "t", "x")
-        assertEquals(listOf(earlier), com.wangzan101.mika.core.proactive.CatchUp.select(listOf(earlier), enabledAtMs = 0, lastLockedAtMs = p.lockedAtMs - 5_000))
+        val earlier = com.wangzan101.djini.core.proactive.NoticeRecord("k", "com.chat", 150_000, "t", "x")
+        assertEquals(listOf(earlier), com.wangzan101.djini.core.proactive.CatchUp.select(listOf(earlier), enabledAtMs = 0, lastLockedAtMs = p.lockedAtMs - 5_000))
         p.caughtUp()
         assertEquals(false, p.catchUpOwed)
         // 还上之后,下一次锁屏才记自己的时间

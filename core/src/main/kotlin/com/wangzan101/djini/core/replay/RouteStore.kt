@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.replay
+package com.wangzan101.djini.core.replay
 
 /** 已学会的做法。 */
 interface RouteStore {

@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -19,22 +19,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.wangzan101.mika.BuildConfig
-import com.wangzan101.mika.R
-import com.wangzan101.mika.backup.BackupEngine
-import com.wangzan101.mika.backup.BackupException
-import com.wangzan101.mika.backup.BackupManifest
-import com.wangzan101.mika.quit.MikaQuit
-import com.wangzan101.mika.ui.components.GroupCard
-import com.wangzan101.mika.ui.components.GroupLabel
-import com.wangzan101.mika.ui.components.ListRow
-import com.wangzan101.mika.ui.components.MikaDialog
-import com.wangzan101.mika.ui.components.PageScaffold
-import com.wangzan101.mika.ui.components.StateCard
-import com.wangzan101.mika.ui.components.TileTone
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
+import com.wangzan101.djini.BuildConfig
+import com.wangzan101.djini.R
+import com.wangzan101.djini.backup.BackupEngine
+import com.wangzan101.djini.backup.BackupException
+import com.wangzan101.djini.backup.BackupManifest
+import com.wangzan101.djini.quit.MikaQuit
+import com.wangzan101.djini.ui.components.GroupCard
+import com.wangzan101.djini.ui.components.GroupLabel
+import com.wangzan101.djini.ui.components.ListRow
+import com.wangzan101.djini.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.PageScaffold
+import com.wangzan101.djini.ui.components.StateCard
+import com.wangzan101.djini.ui.components.TileTone
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
 import java.io.ByteArrayInputStream
 import java.io.IOException
 import java.time.LocalDate
@@ -150,9 +150,9 @@ fun BackupScreen(onBack: () -> Unit) {
         )
 
         GroupLabel(stringResource(R.string.backup_included_label))
-        Text(stringResource(R.string.backup_included_body), style = MikaType.Caption, color = MikaTheme.colors.ink2)
+        Text(stringResource(R.string.backup_included_body), style = MikaType.Caption, color = DjiniTheme.colors.ink2)
         Spacer(Modifier.height(4.dp))
-        Text(stringResource(R.string.backup_excluded_body), style = MikaType.Caption, color = MikaTheme.colors.ink2)
+        Text(stringResource(R.string.backup_excluded_body), style = MikaType.Caption, color = DjiniTheme.colors.ink2)
         Spacer(Modifier.height(12.dp))
 
         GroupCard {
@@ -160,7 +160,7 @@ fun BackupScreen(onBack: () -> Unit) {
                 MikaIcons.Download, stringResource(R.string.backup_export), stringResource(R.string.backup_export_sub),
                 first = true, onClick = {
                     if (!busy) {
-                        val name = "mika-backup-${BuildConfig.VERSION_NAME}-${LocalDate.now()}.zip"
+                        val name = "djini-backup-${BuildConfig.VERSION_NAME}-${LocalDate.now()}.zip"
                         exportLauncher.launch(name)
                     }
                 },
@@ -173,12 +173,12 @@ fun BackupScreen(onBack: () -> Unit) {
 
         status?.let {
             Spacer(Modifier.height(12.dp))
-            Text(it, style = MikaType.Caption, color = MikaTheme.colors.ink2)
+            Text(it, style = MikaType.Caption, color = DjiniTheme.colors.ink2)
         }
         Text(
             stringResource(R.string.backup_restart_note),
             Modifier.padding(top = 12.dp),
-            style = MikaType.Hint, color = MikaTheme.colors.ink3,
+            style = MikaType.Hint, color = DjiniTheme.colors.ink3,
         )
     }
 

@@ -1,9 +1,9 @@
-package com.wangzan101.mika.core.cap.web
+package com.wangzan101.djini.core.cap.web
 
-import com.wangzan101.mika.core.tool.PACKAGE_NAME_RE
+import com.wangzan101.djini.core.tool.PACKAGE_NAME_RE
 import java.net.URI
 import java.net.URLDecoder
-import com.wangzan101.mika.core.net.UrlHost
+import com.wangzan101.djini.core.net.UrlHost
 
 /** 页面想跳去 App 的链接;[packageName] 能从链接里解析出来、且是合法包名时才有。 */
 data class ExternalLink(val url: String, val packageName: String?)

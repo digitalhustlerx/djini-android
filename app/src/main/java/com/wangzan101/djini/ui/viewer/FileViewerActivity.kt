@@ -1,8 +1,8 @@
-package com.wangzan101.mika.ui.viewer
+package com.wangzan101.djini.ui.viewer
 
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.i18n.AppLanguage
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.i18n.AppLanguage
 import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Context
@@ -13,9 +13,9 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.animationsOff
-import com.wangzan101.mika.ui.theme.systemBarsFor
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.animationsOff
+import com.wangzan101.djini.ui.theme.systemBarsFor
 
 /**
  * App 里的文件查看页:网页、Markdown、PDF、图片和文本类文件在这里直接看,不用另找 App。
@@ -35,9 +35,9 @@ class FileViewerActivity : ComponentActivity() {
         val name = intent.getStringExtra(EXTRA_NAME) ?: uri.lastPathSegment.orEmpty()
         val kind = FileViewer.kindOf(this, uri, name)
         setContent {
-            val dark = com.wangzan101.mika.ui.theme.appearanceDark()
+            val dark = com.wangzan101.djini.ui.theme.appearanceDark()
             androidx.compose.runtime.LaunchedEffect(dark) { systemBarsFor(dark) }
-            MikaTheme(dark = dark, reduceMotion = animationsOff(this)) {
+            DjiniTheme(dark = dark, reduceMotion = animationsOff(this)) {
                 FileViewerScreen(uri, name, kind, onBack = ::finish)
             }
         }

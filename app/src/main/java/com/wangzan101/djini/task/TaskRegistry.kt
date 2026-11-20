@@ -1,12 +1,12 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
-import com.wangzan101.mika.core.run.ChannelPeer
-import com.wangzan101.mika.core.run.MemoryRunStore
-import com.wangzan101.mika.core.run.RunId
-import com.wangzan101.mika.core.run.RunPhase
-import com.wangzan101.mika.core.run.RunStore
-import com.wangzan101.mika.core.run.StoredRun
-import com.wangzan101.mika.core.uistate.AppWait
+import com.wangzan101.djini.core.run.ChannelPeer
+import com.wangzan101.djini.core.run.MemoryRunStore
+import com.wangzan101.djini.core.run.RunId
+import com.wangzan101.djini.core.run.RunPhase
+import com.wangzan101.djini.core.run.RunStore
+import com.wangzan101.djini.core.run.StoredRun
+import com.wangzan101.djini.core.uistate.AppWait
 
 sealed interface StartResult<out R> {
     data class Started<R>(val run: R) : StartResult<R>

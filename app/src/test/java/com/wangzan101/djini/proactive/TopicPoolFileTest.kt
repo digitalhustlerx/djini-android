@@ -1,9 +1,9 @@
-package com.wangzan101.mika.proactive
+package com.wangzan101.djini.proactive
 
-import com.wangzan101.mika.core.proactive.ObservedTopic
-import com.wangzan101.mika.core.proactive.TopicKind
-import com.wangzan101.mika.core.proactive.TopicPoolData
-import com.wangzan101.mika.settings.AesGcmKeyCipher
+import com.wangzan101.djini.core.proactive.ObservedTopic
+import com.wangzan101.djini.core.proactive.TopicKind
+import com.wangzan101.djini.core.proactive.TopicPoolData
+import com.wangzan101.djini.settings.AesGcmKeyCipher
 import java.io.File
 import javax.crypto.KeyGenerator
 import org.junit.Assert.assertEquals

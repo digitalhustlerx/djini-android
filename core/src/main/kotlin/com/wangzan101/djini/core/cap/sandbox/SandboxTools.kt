@@ -1,7 +1,7 @@
-package com.wangzan101.mika.core.cap.sandbox
+package com.wangzan101.djini.core.cap.sandbox
 
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.tool.SubActions
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.tool.SubActions
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.ensureActive
@@ -25,16 +25,16 @@ import java.util.regex.PatternSyntaxException
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.io.path.name
 import kotlin.io.path.relativeTo
-import com.wangzan101.mika.core.tool.ArgError
-import com.wangzan101.mika.core.tool.Args
-import com.wangzan101.mika.core.tool.ToolExecution
-import com.wangzan101.mika.core.tool.ToolIndex
-import com.wangzan101.mika.core.tool.OutputClip
-import com.wangzan101.mika.core.workspace.GatedFile
-import com.wangzan101.mika.core.workspace.SandboxError
-import com.wangzan101.mika.core.knowledge.ScriptManifest
-import com.wangzan101.mika.core.workspace.WorkspaceFileGate
-import com.wangzan101.mika.core.workspace.SandboxPaths
+import com.wangzan101.djini.core.tool.ArgError
+import com.wangzan101.djini.core.tool.Args
+import com.wangzan101.djini.core.tool.ToolExecution
+import com.wangzan101.djini.core.tool.ToolIndex
+import com.wangzan101.djini.core.tool.OutputClip
+import com.wangzan101.djini.core.workspace.GatedFile
+import com.wangzan101.djini.core.workspace.SandboxError
+import com.wangzan101.djini.core.knowledge.ScriptManifest
+import com.wangzan101.djini.core.workspace.WorkspaceFileGate
+import com.wangzan101.djini.core.workspace.SandboxPaths
 
 private const val MB = 1L shl 20
 private const val GB = 1L shl 30
@@ -63,7 +63,7 @@ private val KNOWN_TYPES = IMAGE_TYPES + mapOf(
 
 private const val NOTE_NETWORK_ON = "Network access for the sandbox was turned on since your last sandbox call."
 private const val NOTE_NETWORK_OFF = "Network access for the sandbox was turned off since your last sandbox call; commands can no longer reach the internet."
-private const val OUTSIDE = "Paths must stay inside /workspace (or /opt/mika/skills for reading); links that lead outside are refused."
+private const val OUTSIDE = "Paths must stay inside /workspace (or /opt/djini/skills for reading); links that lead outside are refused."
 private const val HINT_TRUNCATED = "The output was clipped to its head and tail. The full output is in fullOutputPath; read it with read_file (offset/limit)."
 private const val HINT_DROPPED = "Only the first 1 MB of output was kept. Write large output to a file instead of printing it."
 private const val HINT_TIMED_OUT = "The command hit its time limit and was stopped. Use a larger timeoutSec (up to 600) or do less per command."
@@ -143,7 +143,7 @@ internal class SandboxTools(
                 e.size?.let { put("size", it) }
             } }))
             put("truncated", page.truncated)
-            if (page.entries.isEmpty()) put("hint", "No entries. To grant a folder, use Mika settings > Device folders > Choose folder.")
+            if (page.entries.isEmpty()) put("hint", "No entries. To grant a folder, use Djini settings > Device folders > Choose folder.")
         })
     }
 
@@ -218,14 +218,14 @@ internal class SandboxTools(
         if (!runnable) return unavailable("$rel is not runnable now: $why.")
         if (sandbox.hostPath(ws, path, forWrite = false)?.isFile != true) return unavailable("$rel is missing from the source directory.")
         storageLow()?.let { return it }
-        // /opt/mika/skills 在沙箱里写得动(PRoot 的绑定可写),所以跑之前逐字节核对打包的那份
-        if (!sandbox.verifyScript(skillRel, rel)) return unavailable("$rel differs from the copy that comes with Mika and could not be restored, so it was not run.")
+        // /opt/djini/skills 在沙箱里写得动(PRoot 的绑定可写),所以跑之前逐字节核对打包的那份
+        if (!sandbox.verifyScript(skillRel, rel)) return unavailable("$rel differs from the copy that comes with Djini and could not be restored, so it was not run.")
         (onScript ?: onCommand)((listOf("$skillRel/$rel") + args).joinToString(" "))
         return commandResult(sandbox.runWithPhone(ws, listOf(interpreter, path) + args, null, timeout * 1000L, onProgress,
             phoneHandler(callId, sub, tools)), ws)
     }
 
-    /** 能调哪些由工具自己声明([com.wangzan101.mika.core.tool.ToolInfo.sandboxCallable]);没给工具表时一个都不开放。 */
+    /** 能调哪些由工具自己声明([com.wangzan101.djini.core.tool.ToolInfo.sandboxCallable]);没给工具表时一个都不开放。 */
     private fun phoneHandler(callId: String, sub: SubActions?, tools: ToolIndex?): PhoneCommandHandler? = sub?.let { runner ->
         val sequence = AtomicInteger()
         PhoneCommandHandler { requested, args ->

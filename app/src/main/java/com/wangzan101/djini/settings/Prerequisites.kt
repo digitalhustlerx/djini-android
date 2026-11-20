@@ -1,10 +1,10 @@
-package com.wangzan101.mika.settings
+package com.wangzan101.djini.settings
 
-import com.wangzan101.mika.core.shell.BuiltinShellStatus
-import com.wangzan101.mika.core.shell.HelperRestart
-import com.wangzan101.mika.core.shell.PairingChannelHealth
-import com.wangzan101.mika.core.shell.ShellTransport
-import com.wangzan101.mika.core.shell.ShizukuPlatformState
+import com.wangzan101.djini.core.shell.BuiltinShellStatus
+import com.wangzan101.djini.core.shell.HelperRestart
+import com.wangzan101.djini.core.shell.PairingChannelHealth
+import com.wangzan101.djini.core.shell.ShellTransport
+import com.wangzan101.djini.core.shell.ShizukuPlatformState
 
 enum class AccessibilityState {
     Off,
@@ -62,7 +62,7 @@ fun SystemStatus.notificationOverview() = NotificationOverview.of(
 )
 
 sealed interface Problem {
-    /** 安卓 12 以下未启用 Mika 的手机操作能力。 */
+    /** 安卓 12 以下未启用 Djini 的手机操作能力。 */
     data object SystemTooOld : Problem
     /** 内置助手没在运行(没设置、无线调试关着、正在连、出错)。 */
     data class PhoneHelper(val status: BuiltinShellStatus) : Problem

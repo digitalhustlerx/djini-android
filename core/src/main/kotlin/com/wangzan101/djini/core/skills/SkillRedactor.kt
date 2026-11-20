@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.skills
+package com.wangzan101.djini.core.skills
 
-import com.wangzan101.mika.core.memory.NumberText
+import com.wangzan101.djini.core.memory.NumberText
 
 /**
  * 沉淀技能时去掉这一次的具体值:目标与回答里引号内的内容、2 位以上的数字串、金额;

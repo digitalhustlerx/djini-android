@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.JsonObject

@@ -1,4 +1,4 @@
-package com.wangzan101.mika.pocket;
+package com.wangzan101.djini.pocket;
 
 /** Runs one monitor while the feature is enabled and at least one task is active. */
 public final class GuardLifecycle {

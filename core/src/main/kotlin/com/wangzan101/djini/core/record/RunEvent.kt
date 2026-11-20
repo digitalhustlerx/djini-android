@@ -1,16 +1,16 @@
-package com.wangzan101.mika.core.record
+package com.wangzan101.djini.core.record
 
-import com.wangzan101.mika.core.replay.Anchors
-import com.wangzan101.mika.core.replay.Selector
-import com.wangzan101.mika.core.usage.DeepSeekCost
+import com.wangzan101.djini.core.replay.Anchors
+import com.wangzan101.djini.core.replay.Selector
+import com.wangzan101.djini.core.usage.DeepSeekCost
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
-import com.wangzan101.mika.core.observation.InputHints
-import com.wangzan101.mika.core.observation.ObsKind
-import com.wangzan101.mika.core.observation.Observation
-import com.wangzan101.mika.core.observation.Place
-import com.wangzan101.mika.core.observation.Trust
+import com.wangzan101.djini.core.observation.InputHints
+import com.wangzan101.djini.core.observation.ObsKind
+import com.wangzan101.djini.core.observation.Observation
+import com.wangzan101.djini.core.observation.Place
+import com.wangzan101.djini.core.observation.Trust
 
 /** 运行记录里的一个事件;落盘为 events.jsonl 的一行,`type` 字段区分种类。 */
 @Serializable
@@ -32,7 +32,7 @@ sealed interface RunEvent {
         val origin: String? = null, val stepLimit: Int? = null, val tokenBudget: Long? = null,
     ) : RunEvent
 
-    /** 本任务发给模型的系统提示词与工具定义的摘要([com.wangzan101.mika.core.prompt.PromptVersion])。 */
+    /** 本任务发给模型的系统提示词与工具定义的摘要([com.wangzan101.djini.core.prompt.PromptVersion])。 */
     @Serializable @SerialName("prompt_version")
     data class PromptVersion(override val atMs: Long, val hash: String) : RunEvent
 
@@ -143,7 +143,7 @@ sealed interface RunEvent {
     data class Media(override val atMs: Long, val mediaId: Int, val step: Int, val place: String?) : RunEvent
 
     /**
-     * 记进证据账本的一条观察(见 [com.wangzan101.mika.core.observation.Observation]):原文已脱敏、截短,和运行时账本里那一条一样,
+     * 记进证据账本的一条观察(见 [com.wangzan101.djini.core.observation.Observation]):原文已脱敏、截短,和运行时账本里那一条一样,
      * 评测据此原样重建账本。[id] 是账本里的编号(回答的来源按它指回);[kind] 是观察的种类,[source] 是给出它的能力。
      * [inputs]、[focused] 是那时输入框里的字(分辨输入框回显用;读页面内容时为 null)。
      * 旧记录里是 screen_text(只记读界面与整页正文,读取时换成这一种,[id] 为 0)。
@@ -226,7 +226,7 @@ sealed interface RunEvent {
 
     /** 代码从证据账本里找到的回答来源(App 或网页、第几步、那一步的截图);界面上的「来源」用它。 */
     @Serializable @SerialName("sources")
-    data class Sources(override val atMs: Long, val items: List<com.wangzan101.mika.core.verify.AnswerSource>) : RunEvent
+    data class Sources(override val atMs: Long, val items: List<com.wangzan101.djini.core.verify.AnswerSource>) : RunEvent
 
     /** [step]:核查的是哪一步的最终回答(旧记录里是 finish 调用;这条事件可能记在那次回复之前,也可能在之后);旧记录没有。 */
     @Serializable @SerialName("verifier")
@@ -252,7 +252,7 @@ sealed interface RunEvent {
     data class TaskEnded(override val atMs: Long, val outcome: String, val answerOrReason: String, val kind: String? = null) : RunEvent
 
     /**
-     * 本次运行期间经计量的模型调用合计(见 [com.wangzan101.mika.core.usage.RunUsageTally])。
+     * 本次运行期间经计量的模型调用合计(见 [com.wangzan101.djini.core.usage.RunUsageTally])。
      * [calls] 是外层逻辑调用数,包含意图判断、核查、看图、压缩等旁路调用和外层失败重试;
      * [httpCalls] 是实际交给 HTTP 客户端的推理请求数,另含适配器内部的兼容重发。旧记录没有这项,不能由 [calls] 反推。
      * [unreported] / [httpUnreported] 分别是没报用量的逻辑调用数、没有对应最终用量的实际请求数,不估算失败请求的 token。
@@ -266,7 +266,7 @@ sealed interface RunEvent {
     ) : RunEvent
 
     /**
-     * 回答交给用户之后,另请模型按用户要的结果给这次运行判的结局(见 [com.wangzan101.mika.core.agent.OutcomeJudge]):
+     * 回答交给用户之后,另请模型按用户要的结果给这次运行判的结局(见 [com.wangzan101.djini.core.agent.OutcomeJudge]):
      * [outcome] 为 done / partial / not_possible / unknown(没判成);[reason] 一句话说缺了什么。记在 [TaskEnded] 之后;旧记录没有。
      */
     @Serializable @SerialName("outcome")
@@ -286,7 +286,7 @@ sealed interface RunEvent {
         fun decode(line: String): RunEvent = json.decodeFromJsonElement(serializer(), LegacyEvents.upgrade(json.parseToJsonElement(line)))
 
         /** 运行记录里写的地方:App 是包名,站点是「网站 域名」(和以往的记录同一写法)。 */
-        fun placeLabel(p: Place?): String? = p?.let { if (it.kind == com.wangzan101.mika.core.observation.PlaceKind.Site) "网站 ${it.name}" else it.name }
+        fun placeLabel(p: Place?): String? = p?.let { if (it.kind == com.wangzan101.djini.core.observation.PlaceKind.Site) "网站 ${it.name}" else it.name }
 
         fun clip(s: String): String = if (s.length <= MAX_FIELD) s else s.take(MAX_FIELD) + "…(已截短)"
 

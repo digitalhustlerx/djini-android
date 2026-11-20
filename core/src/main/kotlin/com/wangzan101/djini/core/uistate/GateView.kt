@@ -1,11 +1,11 @@
-package com.wangzan101.mika.core.uistate
+package com.wangzan101.djini.core.uistate
 
-import com.wangzan101.mika.core.replay.Anchors
-import com.wangzan101.mika.core.replay.RouteAnchors
-import com.wangzan101.mika.core.replay.Selector
-import com.wangzan101.mika.core.tool.LOCATED_REF
-import com.wangzan101.mika.core.tool.Verb
-import com.wangzan101.mika.core.tool.argStr
+import com.wangzan101.djini.core.replay.Anchors
+import com.wangzan101.djini.core.replay.RouteAnchors
+import com.wangzan101.djini.core.replay.Selector
+import com.wangzan101.djini.core.tool.LOCATED_REF
+import com.wangzan101.djini.core.tool.Verb
+import com.wangzan101.djini.core.tool.argStr
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
@@ -60,7 +60,7 @@ internal class GateView {
 
     /**
      * 登记过的 @vN,或看过 describe 之后带 target 的坐标点击(不带 target 的会被参数校验退回)。
-     * 这类点击由大小模型分工交主模型做(见 [com.wangzan101.mika.core.action.ConfirmDecision.mayBeIrreversible])。
+     * 这类点击由大小模型分工交主模型做(见 [com.wangzan101.djini.core.action.ConfirmDecision.mayBeIrreversible])。
      */
     fun visionSourced(session: ScreenSession, verb: Verb?, args: JsonObject): Boolean {
         if (verb != Verb.Tap) return false

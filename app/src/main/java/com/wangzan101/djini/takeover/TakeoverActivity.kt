@@ -1,8 +1,8 @@
-package com.wangzan101.mika.takeover
+package com.wangzan101.djini.takeover
 
 import android.app.Activity
 import android.os.Bundle
-import com.wangzan101.mika.task.TaskService
+import com.wangzan101.djini.task.TaskService
 
 /** 不显示界面:把通知里点的接管按钮转给任务服务后立即结束。 */
 class TakeoverActivity : Activity() {

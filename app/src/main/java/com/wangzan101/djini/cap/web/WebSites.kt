@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.web
+package com.wangzan101.djini.cap.web
 
 import android.content.Context
 import android.webkit.WebViewDatabase
@@ -7,7 +7,7 @@ import android.webkit.WebViewDatabase
 object WebSites {
     fun registry(context: Context): SiteRegistry = WebOwner.of(context).webSites
 
-    /** 设置页用的退出操作:mika 网页配置的 Cookie 与网页存储。主线程调用。 */
+    /** 设置页用的退出操作:djini 网页配置的 Cookie 与网页存储。主线程调用。 */
     fun login(context: Context): WebLogin = WebLogin(WebTab.cookieManager(), WebTab.webStorage(), registry(context))
 
     /**

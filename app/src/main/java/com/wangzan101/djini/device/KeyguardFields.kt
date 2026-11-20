@@ -1,6 +1,6 @@
-package com.wangzan101.mika.device
+package com.wangzan101.djini.device
 
-import com.wangzan101.mika.core.device.CredentialKind
+import com.wangzan101.djini.core.device.CredentialKind
 
 /**
  * 通用规则:只认 SystemUI 里带密码标志的输入框;编辑框按输入类型区分 PIN(数字)和密码(非数字)。

@@ -1,10 +1,10 @@
-package com.wangzan101.mika.cap.web.cdp
+package com.wangzan101.djini.cap.web.cdp
 
 import android.util.Log
-import com.wangzan101.mika.core.cap.web.cdp.CdpSession
-import com.wangzan101.mika.core.cap.web.CapturedResponse
-import com.wangzan101.mika.core.cap.web.NetworkLedger
-import com.wangzan101.mika.cap.web.WebTab
+import com.wangzan101.djini.core.cap.web.cdp.CdpSession
+import com.wangzan101.djini.core.cap.web.CapturedResponse
+import com.wangzan101.djini.core.cap.web.NetworkLedger
+import com.wangzan101.djini.cap.web.WebTab
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart

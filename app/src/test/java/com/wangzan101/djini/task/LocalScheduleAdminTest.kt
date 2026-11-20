@@ -1,6 +1,6 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
-import com.wangzan101.mika.core.trigger.TriggerDefinition
+import com.wangzan101.djini.core.trigger.TriggerDefinition
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -19,7 +19,7 @@ class LocalScheduleAdminTest {
         changeTime = { id, atMs -> calls += "time:$id:$atMs" },
         executeNow = { id -> calls += "run:$id" },
         editPlan = { thread, id, change -> calls += "edit:$thread:$id";
-            com.wangzan101.mika.core.trigger.EditedSchedule(change(plans.single { it.id == id }), com.wangzan101.mika.core.trigger.Scheduled(true)) },
+            com.wangzan101.djini.core.trigger.EditedSchedule(change(plans.single { it.id == id }), com.wangzan101.djini.core.trigger.Scheduled(true)) },
     )
 
     @Test fun listsAllPlansRegardlessOfConversation() {

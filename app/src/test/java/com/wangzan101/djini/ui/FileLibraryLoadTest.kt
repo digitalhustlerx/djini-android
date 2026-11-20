@@ -1,10 +1,10 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.chat.ConversationStore
-import com.wangzan101.mika.chat.FileLibrary
-import com.wangzan101.mika.chat.LibraryFile
-import com.wangzan101.mika.core.agent.AttachmentLines
-import com.wangzan101.mika.core.agent.Turn
+import com.wangzan101.djini.chat.ConversationStore
+import com.wangzan101.djini.chat.FileLibrary
+import com.wangzan101.djini.chat.LibraryFile
+import com.wangzan101.djini.core.agent.AttachmentLines
+import com.wangzan101.djini.core.agent.Turn
 import java.io.IOException
 import kotlinx.coroutines.CancellationException
 import org.junit.Assert.*

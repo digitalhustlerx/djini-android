@@ -1,16 +1,16 @@
-package com.wangzan101.mika.capsule
+package com.wangzan101.djini.capsule
 
-import com.wangzan101.mika.R
-import com.wangzan101.mika.cap.web.KeptPage
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.i18n.trPlural
-import com.wangzan101.mika.confirm.ConfirmationCopy
-import com.wangzan101.mika.ui.StatusCopy
-import com.wangzan101.mika.core.agent.RunProgress
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.takeover.Takeover
-import com.wangzan101.mika.task.SteerNote
-import com.wangzan101.mika.ui.Exchange
+import com.wangzan101.djini.R
+import com.wangzan101.djini.cap.web.KeptPage
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.i18n.trPlural
+import com.wangzan101.djini.confirm.ConfirmationCopy
+import com.wangzan101.djini.ui.StatusCopy
+import com.wangzan101.djini.core.agent.RunProgress
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.takeover.Takeover
+import com.wangzan101.djini.task.SteerNote
+import com.wangzan101.djini.ui.Exchange
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
@@ -64,9 +64,9 @@ val CardWidth = 322.dp
  * 卡片还要它的目标 [goal] 和这一问一答此刻的样子 [exchange](步骤、要你做的事、结果,和对话页同一套推法)。
  * [queueAhead]/[queueBehind] 是它在接管队里前后各有几件(主屏一次只交一个 App);不在队里或不知道时 [queueAhead] 为 -1,
  * 这时按它开始等接管的先后算。[runId] 是它的运行记录(对话里记下的那一轮带着同一个编号;还没开起记录时为 null)。
- * [onScreen] 是它此刻在操作一块画面:有自己的虚拟屏([com.wangzan101.mika.task.TaskRun.displayId] 不是 -1),
- * 或正在用内置浏览器([com.wangzan101.mika.task.TaskRun.webOpen]);卡片据此选任务卡片还是对话卡片。
- * [steers] 是它进行中插的话和去向([com.wangzan101.mika.task.TaskRun.steers]),对话卡片的来回里接在原话后面。
+ * [onScreen] 是它此刻在操作一块画面:有自己的虚拟屏([com.wangzan101.djini.task.TaskRun.displayId] 不是 -1),
+ * 或正在用内置浏览器([com.wangzan101.djini.task.TaskRun.webOpen]);卡片据此选任务卡片还是对话卡片。
+ * [steers] 是它进行中插的话和去向([com.wangzan101.djini.task.TaskRun.steers]),对话卡片的来回里接在原话后面。
  */
 data class CapsuleRun(
     val key: String,
@@ -83,7 +83,7 @@ data class CapsuleRun(
 )
 
 /**
- * 决定胶囊显示什么的全部输入:各任务([runs],含刚结束、状态已是终态的)、开关、Mika 自己的界面在不在前台、
+ * 决定胶囊显示什么的全部输入:各任务([runs],含刚结束、状态已是终态的)、开关、Djini 自己的界面在不在前台、
  * 屏幕亮着且没锁、无障碍服务在运行且浮层画得出来、卡片是不是展开着([cardOpen])、任务结束后留在后台运行的那一页([kept])。
  */
 data class CapsuleInputs(
@@ -124,7 +124,7 @@ sealed interface CapsuleView {
     /**
      * 显示胶囊(或「你在处理」那一条):[text] 是那一行字(已拼好「共 N 件」),[detail] 只在 [CapsuleKind.HandedOver] 时有,
      * 是那条下面的小字。[count] 是进行中的任务数([CapsuleKind.Notice] 时是还没看的提醒条数),[needCount] 是其中要你处理的件数。
-     * [runKey]/[conversationId] 是胶囊说的那件事。平时是一颗 Mika 图标(状态画在圈和角标上),
+     * [runKey]/[conversationId] 是胶囊说的那件事。平时是一颗 Djini 图标(状态画在圈和角标上),
      * [pill] 时展开成带这一行字的胶囊(有要你处理的、刚办完时)。[widthEpoch] 不变时胶囊只变宽不变窄,
      * 变了(换了状态或换了一件事)重新定宽。
      */
@@ -143,7 +143,7 @@ sealed interface CapsuleView {
 
 /**
  * 胶囊的纯逻辑:每次输入变了(或到了 [nextChangeAt])调 [update],得到此刻该显示什么。规则:
- * - 不显示:开关关着、无障碍服务不可用、Mika 自己的界面在前台、屏幕关着或锁着;
+ * - 不显示:开关关着、无障碍服务不可用、Djini 自己的界面在前台、屏幕关着或锁着;
  * - 一次只显示最要紧的那件事,优先级见 [CapsuleKind];好几件事时拼上「共 N 件」,有要你处理的变橙:「1 件要你处理 · 共 2 件」;
  * - 平时是一颗图标:在跑、等条件时只在圈和角标上变,换了一步不展开;
  * - 有要你处理的、而用户还没在卡片里看过它时展开成胶囊,一直停着,直到打开卡片或那件事不再要你;

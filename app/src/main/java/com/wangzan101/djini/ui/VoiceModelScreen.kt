@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -16,31 +16,31 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.core.model.TtsRequest
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.settings.ProviderConfig
-import com.wangzan101.mika.settings.ProviderStore
-import com.wangzan101.mika.settings.TtsProtocol
-import com.wangzan101.mika.settings.VoiceChoice
-import com.wangzan101.mika.settings.VoiceSettings
-import com.wangzan101.mika.ui.components.FooterNote
-import com.wangzan101.mika.ui.components.GroupCard
-import com.wangzan101.mika.ui.components.GroupLabel
-import com.wangzan101.mika.ui.components.InputRow
-import com.wangzan101.mika.ui.components.ListRow
-import com.wangzan101.mika.ui.components.MikaButton
-import com.wangzan101.mika.ui.components.MikaSwitch
-import com.wangzan101.mika.ui.components.RadioRow
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
-import com.wangzan101.mika.voice.VoicePlayback
-import com.wangzan101.mika.voice.VoicePlayer
+import com.wangzan101.djini.R
+import com.wangzan101.djini.core.model.TtsRequest
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.settings.ProviderConfig
+import com.wangzan101.djini.settings.ProviderStore
+import com.wangzan101.djini.settings.TtsProtocol
+import com.wangzan101.djini.settings.VoiceChoice
+import com.wangzan101.djini.settings.VoiceSettings
+import com.wangzan101.djini.ui.components.FooterNote
+import com.wangzan101.djini.ui.components.GroupCard
+import com.wangzan101.djini.ui.components.GroupLabel
+import com.wangzan101.djini.ui.components.InputRow
+import com.wangzan101.djini.ui.components.ListRow
+import com.wangzan101.djini.ui.components.MikaButton
+import com.wangzan101.djini.ui.components.MikaSwitch
+import com.wangzan101.djini.ui.components.RadioRow
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.voice.VoicePlayback
+import com.wangzan101.djini.voice.VoicePlayer
 import kotlinx.coroutines.launch
 
 /**
  * 设置 › 模型 › 声音模型:选服务商、模型、接口、音色、语速;打开朗读/自动朗读/主动说话。
- * 不在 [com.wangzan101.mika.core.model.ModelRole] 里;和语音转写、图片模型一样独立。
+ * 不在 [com.wangzan101.djini.core.model.ModelRole] 里;和语音转写、图片模型一样独立。
  */
 @Composable
 fun VoiceModelScreen(store: ProviderStore, onBack: () -> Unit) {
@@ -51,7 +51,7 @@ fun VoiceModelScreen(store: ProviderStore, onBack: () -> Unit) {
     val player = remember { VoicePlayer(context) }
     val playback by player.state.collectAsState()
     val scope = rememberCoroutineScope()
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     var model by remember { mutableStateOf(state.choice?.model.orEmpty()) }
     var voice by remember { mutableStateOf(state.choice?.voice.orEmpty()) }
     var speed by remember { mutableStateOf((state.choice?.speed ?: 1.0f).toString()) }
@@ -163,7 +163,7 @@ fun VoiceModelScreen(store: ProviderStore, onBack: () -> Unit) {
                     test = try {
                         val response = tts.synthesize(
                             TtsRequest(
-                                "你好，我是 Mika。这是一段声音测试。",
+                                "你好，我是 Djini。这是一段声音测试。",
                                 voice.ifBlank { null },
                                 speed.toFloatOrNull()?.coerceIn(0.25f, 4.0f),
                                 "wav",

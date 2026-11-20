@@ -1,8 +1,8 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
-import com.wangzan101.mika.core.run.ChannelPeer
-import com.wangzan101.mika.core.run.RunOrigin
-import com.wangzan101.mika.wechat.WechatChannel
+import com.wangzan101.djini.core.run.ChannelPeer
+import com.wangzan101.djini.core.run.RunOrigin
+import com.wangzan101.djini.wechat.WechatChannel
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull

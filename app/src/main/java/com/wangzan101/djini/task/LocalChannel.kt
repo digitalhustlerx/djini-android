@@ -1,11 +1,11 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
-import com.wangzan101.mika.core.run.Channel
-import com.wangzan101.mika.core.run.ChannelInput
-import com.wangzan101.mika.core.run.ChannelInputSink
-import com.wangzan101.mika.core.run.ChannelPeer
-import com.wangzan101.mika.core.run.Delivery
-import com.wangzan101.mika.core.run.SendOutcome
+import com.wangzan101.djini.core.run.Channel
+import com.wangzan101.djini.core.run.ChannelInput
+import com.wangzan101.djini.core.run.ChannelInputSink
+import com.wangzan101.djini.core.run.ChannelPeer
+import com.wangzan101.djini.core.run.Delivery
+import com.wangzan101.djini.core.run.SendOutcome
 
 /** 手机上的任务卡片和通知：任务服务仍绘制现有界面，此适配器承接送达账本。 */
 class LocalChannel(private val deliverLocal: suspend (ChannelPeer, Delivery) -> SendOutcome) : Channel {

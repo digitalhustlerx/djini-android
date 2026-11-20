@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.screenmap
+package com.wangzan101.djini.core.screenmap
 
 import java.security.MessageDigest
 import kotlinx.serialization.Serializable

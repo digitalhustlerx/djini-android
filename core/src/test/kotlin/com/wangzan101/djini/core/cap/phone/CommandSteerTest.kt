@@ -1,13 +1,13 @@
-package com.wangzan101.mika.core.cap.phone
+package com.wangzan101.djini.core.cap.phone
 
-import com.wangzan101.mika.core.assembly.toolDispatcher
-import com.wangzan101.mika.core.prompt.Feedback
-import com.wangzan101.mika.core.tool.Args
-import com.wangzan101.mika.core.tool.FakeScreen
-import com.wangzan101.mika.core.tool.ToolExecution
-import com.wangzan101.mika.core.tool.ToolDispatcher
-import com.wangzan101.mika.core.uistate.ScreenPort
-import com.wangzan101.mika.core.uistate.SystemCommandResult
+import com.wangzan101.djini.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.prompt.Feedback
+import com.wangzan101.djini.core.tool.Args
+import com.wangzan101.djini.core.tool.FakeScreen
+import com.wangzan101.djini.core.tool.ToolExecution
+import com.wangzan101.djini.core.tool.ToolDispatcher
+import com.wangzan101.djini.core.uistate.ScreenPort
+import com.wangzan101.djini.core.uistate.SystemCommandResult
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.jsonPrimitive
@@ -20,7 +20,7 @@ import org.junit.Test
 
 class CommandSteerTest {
     @Test fun recognisesCommandsThatEmulateDedicatedTools() {
-        assertEquals(CommandSteer.Purpose.Gesture, CommandSteer.purpose("input -d \"\$MIKA_DISPLAY_ID\" tap 500 800"))
+        assertEquals(CommandSteer.Purpose.Gesture, CommandSteer.purpose("input -d \"\$DJINI_DISPLAY_ID\" tap 500 800"))
         assertEquals(CommandSteer.Purpose.Gesture, CommandSteer.purpose("input touchscreen -d 7 swipe 1 2 3 4 300"))
         assertEquals(CommandSteer.Purpose.Type, CommandSteer.purpose("input -d 7 tap 500 900; input -d 7 text hello"))
         assertEquals(CommandSteer.Purpose.Key, CommandSteer.purpose("sleep 1 && input -d 7 keyevent KEYCODE_ENTER"))

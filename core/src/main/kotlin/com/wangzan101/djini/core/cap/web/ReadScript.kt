@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.cap.web
+package com.wangzan101.djini.core.cap.web
 
-import com.wangzan101.mika.core.record.Redactor
+import com.wangzan101.djini.core.record.Redactor
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
@@ -42,9 +42,9 @@ object ReadScriptProtocol {
         "Worker", "SharedWorker", "RTCPeerConnection", "importScripts",
     )
 
-    const val WORLD_PREFIX = "mika-read-"
-    const val SOURCE_URL = "mika-read.js"
-    const val PRELUDE_URL = "mika-read-prelude.js"
+    const val WORLD_PREFIX = "djini-read-"
+    const val SOURCE_URL = "djini-read.js"
+    const val PRELUDE_URL = "djini-read-prelude.js"
     const val MASK = PageScriptProtocol.SECRET_MASK
 
     /** 模型代码里除了纯 ECMAScript 内置之外能用的名字,也是传参的顺序。 */
@@ -387,7 +387,7 @@ ${SelectorPolicy.JS}  const DENIED = new Set(${js(DENIED_PROPS)});
   const state = {};
   const pageWindow = wrap(G), pageDocument = wrap(doc), pageLocation = wrap(loc), computedStyle = wrap(G.getComputedStyle);
   let generation = 0;
-  const STACK_LINE = /mika-read\.js:(\d+):\d+/;
+  const STACK_LINE = /djini-read\.js:(\d+):\d+/;
   const KNOWN = new Set(['read_only', 'invalid_selector', 'blocked_network', 'limit_exceeded', 'network_error', 'too_large', 'invalid_arguments', 'script_ended']);
   const failure = (e) => {
     const m = STACK_LINE.exec(String((e && e.stack) || ''));

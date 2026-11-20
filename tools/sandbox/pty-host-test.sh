@@ -22,7 +22,7 @@ python3 - "$BIN" <<'PY'
 import queue, re, subprocess, sys, threading, time
 
 bin = sys.argv[1]
-size_path = "/tmp/mika-pty-size"
+size_path = "/tmp/djini-pty-size"
 with open(size_path, "w") as f:
     f.write("80 24")
 cmd = [bin, "--pty", "--pty-cols", "80", "--pty-rows", "24", "--pty-size", size_path, "--net", "on",

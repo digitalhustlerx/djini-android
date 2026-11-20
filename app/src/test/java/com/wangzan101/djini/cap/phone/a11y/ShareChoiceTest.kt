@@ -1,6 +1,6 @@
-package com.wangzan101.mika.cap.phone.a11y
+package com.wangzan101.djini.cap.phone.a11y
 
-import com.wangzan101.mika.settings.AppAccessStore
+import com.wangzan101.djini.settings.AppAccessStore
 import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test

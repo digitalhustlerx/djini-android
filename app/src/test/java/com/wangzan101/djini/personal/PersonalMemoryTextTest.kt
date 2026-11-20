@@ -1,10 +1,10 @@
-package com.wangzan101.mika.personal
+package com.wangzan101.djini.personal
 
-import com.wangzan101.mika.core.memory.MemoryContext
-import com.wangzan101.mika.core.memory.MemoryItem
-import com.wangzan101.mika.core.memory.MemoryKind
-import com.wangzan101.mika.core.memory.MemorySource
-import com.wangzan101.mika.core.memory.MemoryStatus
+import com.wangzan101.djini.core.memory.MemoryContext
+import com.wangzan101.djini.core.memory.MemoryItem
+import com.wangzan101.djini.core.memory.MemoryKind
+import com.wangzan101.djini.core.memory.MemorySource
+import com.wangzan101.djini.core.memory.MemoryStatus
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -16,7 +16,7 @@ class PersonalMemoryTextTest {
         source = MemorySource(type, atMs = 0L), status = status, pinned = pinned, createdAt = 0L, updatedAt = i.toLong(),
     )
 
-    // 置顶在前、新的在前;没批准的不带;Mika 自己归纳的那条,标记在最前面
+    // 置顶在前、新的在前;没批准的不带;Djini 自己归纳的那条,标记在最前面
     @Test fun ordersItemsAndMarksInferredOnesUpFront() {
         val text = personalMemoryText(listOf(
             item(1, "用户喜欢喝茶"),

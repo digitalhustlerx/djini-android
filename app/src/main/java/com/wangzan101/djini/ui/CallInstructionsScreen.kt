@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
@@ -17,10 +17,10 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
-import com.wangzan101.mika.R
-import com.wangzan101.mika.calls.CallRuntime
-import com.wangzan101.mika.calls.instructions.CallInstruction
-import com.wangzan101.mika.ui.components.*
+import com.wangzan101.djini.R
+import com.wangzan101.djini.calls.CallRuntime
+import com.wangzan101.djini.calls.instructions.CallInstruction
+import com.wangzan101.djini.ui.components.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch

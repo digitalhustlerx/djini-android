@@ -1,12 +1,12 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.core.model.ListFailure
-import com.wangzan101.mika.core.model.ModelRole
-import com.wangzan101.mika.i18n.ChineseTexts
-import com.wangzan101.mika.settings.AesGcmKeyCipher
-import com.wangzan101.mika.settings.ProviderConfig
-import com.wangzan101.mika.settings.ProviderPresets
-import com.wangzan101.mika.settings.ProviderStore
+import com.wangzan101.djini.core.model.ListFailure
+import com.wangzan101.djini.core.model.ModelRole
+import com.wangzan101.djini.i18n.ChineseTexts
+import com.wangzan101.djini.settings.AesGcmKeyCipher
+import com.wangzan101.djini.settings.ProviderConfig
+import com.wangzan101.djini.settings.ProviderPresets
+import com.wangzan101.djini.settings.ProviderStore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -75,7 +75,7 @@ class ModelSetupNetworkTest {
     )
 
     private fun setUp(): Pair<ProviderStore, ModelSetupViewModel> {
-        val store = ProviderStore(tmp.root, AesGcmKeyCipher { key }, userAgent = "Mika/1.2.3")
+        val store = ProviderStore(tmp.root, AesGcmKeyCipher { key }, userAgent = "Djini/1.2.3")
         val vm = ModelSetupViewModel(store, scope, io = Dispatchers.IO)
         vm.selectPreset(ProviderPresets.custom.label)
         vm.setKind(ProviderConfig.Kind.OpenAiCompat)

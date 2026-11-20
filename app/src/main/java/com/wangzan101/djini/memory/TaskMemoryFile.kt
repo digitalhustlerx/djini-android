@@ -1,9 +1,9 @@
-package com.wangzan101.mika.memory
+package com.wangzan101.djini.memory
 
 import android.security.keystore.UserNotAuthenticatedException
-import com.wangzan101.mika.core.memory.TaskMemory
-import com.wangzan101.mika.core.memory.TaskMemoryPersistence
-import com.wangzan101.mika.settings.KeyCipher
+import com.wangzan101.djini.core.memory.TaskMemory
+import com.wangzan101.djini.core.memory.TaskMemoryPersistence
+import com.wangzan101.djini.settings.KeyCipher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,7 +19,7 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 /**
- * 跨会话任务摘要加密成 `task_memory/task_memory.bin`(AES-GCM,密钥由调用方给,正式用 `KeystoreKeyCipher("mika-memory")`)。
+ * 跨会话任务摘要加密成 `task_memory/task_memory.bin`(AES-GCM,密钥由调用方给,正式用 `KeystoreKeyCipher("djini-memory")`)。
  * 和记忆文件同一套做法:写临时文件后原子改名,解不开(密钥丢了)或内容坏了不覆盖、改名另存、从空开始。
  * 这是机器写的经验缓存,坏了静默从空开始,不弹提示。
  */

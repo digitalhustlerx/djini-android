@@ -187,7 +187,7 @@ else:
         result, body = self.invoke("ui", "--jso", json_option=None)
         self.assertEqual(2, result.returncode)
         self.assertEqual("arguments", body["error"]["code"])
-        self.assertEqual("The desk is interactive. Use mika ui without --json.", body["error"]["message"])
+        self.assertEqual("The desk is interactive. Use djini ui without --json.", body["error"]["message"])
         self.assertEqual(1, len(result.stdout.splitlines()))
 
     def test_submit_unicode_from_stdin_once_without_mcp(self):
@@ -409,12 +409,12 @@ else:
             self.assertEqual("phone-a", body["device"])
             self.assertIn(["-s", "phone-a", "forward", "tcp:0", "tcp:8765"], calls())
             self.assertEqual(["-s", "phone-a", "forward", "--remove", "tcp:" + str(server.server_port)], calls()[-1])
-            root = "/sdcard/Android/data/com.wangzan101.mika/files"
+            root = "/sdcard/Android/data/com.wangzan101.djini/files"
             self.assertIn(["-s", "phone-a", "shell", "sh", root + "/connect-computer.sh"], calls())
             self.assertIn(["-s", "phone-a", "shell", "cat", root + "/mcp-usb.json"], calls())
 
     def test_adb_targets_the_selected_mika_package(self):
-        package = "com.wangzan101.mika.dev"
+        package = "com.wangzan101.djini.dev"
         root = f"/sdcard/Android/data/{package}/files"
         with api() as server:
             adb, env, _, calls = self.fake_adb(
@@ -435,7 +435,7 @@ else:
     def test_adb_rejects_invalid_mika_packages_before_starting_adb(self):
         with api() as server:
             adb, env, _, calls = self.fake_adb(server)
-            for package in ("", "android", "com.1mika", "../mika", "com.mika;id"):
+            for package in ("", "android", "com.1mika", "../djini", "com.djini;id"):
                 with self.subTest(package=package):
                     result, body = self.invoke("connect", "--package", package, "--adb", str(adb), env=env)
                     self.assertEqual(2, result.returncode, body)
@@ -445,7 +445,7 @@ else:
 
     def test_mika_package_cannot_be_used_with_direct_http(self):
         with api() as server:
-            result, body = self.invoke("doctor", "--package", "com.wangzan101.mika.dev", server=server)
+            result, body = self.invoke("doctor", "--package", "com.wangzan101.djini.dev", server=server)
             self.assertEqual(2, result.returncode, body)
             self.assertEqual("arguments", body["error"]["code"])
             self.assertIn("cannot be used with --url", body["error"]["message"])
@@ -510,7 +510,7 @@ else:
             adb, env, _, calls = self.fake_adb(server, bootstrap_exit=1)
             result, body = self.invoke("connect", "--adb", str(adb), env=env)
             self.assertEqual("adb", body["error"]["code"])
-            self.assertIn("open Mika once", body["error"]["message"])
+            self.assertIn("open Djini once", body["error"]["message"])
             self.assertFalse(any("forward" in c for c in calls()))
 
     def test_unreadable_connection_info_asks_for_unlock_and_open(self):
@@ -518,7 +518,7 @@ else:
             adb, env, _, calls = self.fake_adb(server, cat_fails=True)
             result, body = self.invoke("doctor", "--adb", str(adb), env=env)
             self.assertEqual("connection_info", body["error"]["code"])
-            self.assertIn("open Mika once", body["error"]["message"])
+            self.assertIn("open Djini once", body["error"]["message"])
             self.assertFalse(any("forward" in c for c in calls()))
 
     def test_unrunnable_adb_is_adb_unavailable(self):
@@ -575,8 +575,8 @@ else:
             result, body = self.invoke("connect", "--adb", str(adb), env=env)
             self.assertEqual(0, result.returncode, result.stdout + result.stderr)
             for line in ["starting ADB server...", "running phone bootstrap...", "contacting the phone..."]:
-                self.assertIn("mika: " + line, result.stderr)
-            self.assertNotIn("mika:", result.stdout)
+                self.assertIn("djini: " + line, result.stderr)
+            self.assertNotIn("djini:", result.stdout)
             result, _ = self.invoke("task", "run", "--goal", "quiet", server=server)
             self.assertEqual("", result.stderr)
 

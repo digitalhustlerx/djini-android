@@ -1,8 +1,8 @@
-package com.wangzan101.mika.core.skills
+package com.wangzan101.djini.core.skills
 
-import com.wangzan101.mika.core.assembly.knownToolNames
-import com.wangzan101.mika.core.knowledge.FrontMatter
-import com.wangzan101.mika.core.knowledge.GuideCatalog
+import com.wangzan101.djini.core.assembly.knownToolNames
+import com.wangzan101.djini.core.knowledge.FrontMatter
+import com.wangzan101.djini.core.knowledge.GuideCatalog
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull

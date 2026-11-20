@@ -1,11 +1,11 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.core.search.WebSearchProvider
-import com.wangzan101.mika.i18n.ChineseTexts
-import com.wangzan101.mika.i18n.ResFileTexts
-import com.wangzan101.mika.i18n.UiText
-import com.wangzan101.mika.settings.GroundingStatus
-import com.wangzan101.mika.settings.WebSearchConfig
+import com.wangzan101.djini.core.search.WebSearchProvider
+import com.wangzan101.djini.i18n.ChineseTexts
+import com.wangzan101.djini.i18n.ResFileTexts
+import com.wangzan101.djini.i18n.UiText
+import com.wangzan101.djini.settings.GroundingStatus
+import com.wangzan101.djini.settings.WebSearchConfig
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Rule

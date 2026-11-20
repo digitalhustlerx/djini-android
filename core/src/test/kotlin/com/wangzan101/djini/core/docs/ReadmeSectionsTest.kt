@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.docs
+package com.wangzan101.djini.core.docs
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertThrows

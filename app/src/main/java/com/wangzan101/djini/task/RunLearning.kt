@@ -1,48 +1,48 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
-import com.wangzan101.mika.core.general.NOTICES_READ
-import com.wangzan101.mika.core.proactive.ObservedContext
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.core.agent.LearnGate
-import com.wangzan101.mika.core.agent.RunOutcome
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.core.knowledge.FrontMatter
-import com.wangzan101.mika.core.knowledge.GuideCatalog
-import com.wangzan101.mika.core.knowledge.KnowledgeStore
-import com.wangzan101.mika.core.knowledge.AppKnowledgeDrafter
-import com.wangzan101.mika.core.knowledge.AppKnowledgeDraftStore
-import com.wangzan101.mika.core.knowledge.AppKnowledgeStage
-import com.wangzan101.mika.core.knowledge.AppRunInput
-import com.wangzan101.mika.core.memory.Change
-import com.wangzan101.mika.core.memory.MemoryExtractor
-import com.wangzan101.mika.core.memory.MemorySource
-import com.wangzan101.mika.core.memory.MemoryStore
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.observation.PlaceKind
-import com.wangzan101.mika.core.run.RunOrigin
-import com.wangzan101.mika.core.skills.DraftInput
-import com.wangzan101.mika.core.skills.DraftResult
-import com.wangzan101.mika.core.skills.Eligibility
-import com.wangzan101.mika.core.skills.PersonalSkills
-import com.wangzan101.mika.core.skills.SkillDrafter
-import com.wangzan101.mika.core.skills.SkillFollow
-import com.wangzan101.mika.core.skills.SkillNote
-import com.wangzan101.mika.core.skills.SkillOutcomes
-import com.wangzan101.mika.core.skills.SkillResult
-import com.wangzan101.mika.core.skills.SkillStatus
-import com.wangzan101.mika.core.screenmap.ScreenMapBuilder
-import com.wangzan101.mika.core.screenmap.ScreenMapGrower
-import com.wangzan101.mika.core.screenmap.ScreenMapStore
-import com.wangzan101.mika.memory.RunNotes
-import com.wangzan101.mika.settings.MemorySwitches
+import com.wangzan101.djini.core.general.NOTICES_READ
+import com.wangzan101.djini.core.proactive.ObservedContext
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.core.agent.LearnGate
+import com.wangzan101.djini.core.agent.RunOutcome
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.core.knowledge.FrontMatter
+import com.wangzan101.djini.core.knowledge.GuideCatalog
+import com.wangzan101.djini.core.knowledge.KnowledgeStore
+import com.wangzan101.djini.core.knowledge.AppKnowledgeDrafter
+import com.wangzan101.djini.core.knowledge.AppKnowledgeDraftStore
+import com.wangzan101.djini.core.knowledge.AppKnowledgeStage
+import com.wangzan101.djini.core.knowledge.AppRunInput
+import com.wangzan101.djini.core.memory.Change
+import com.wangzan101.djini.core.memory.MemoryExtractor
+import com.wangzan101.djini.core.memory.MemorySource
+import com.wangzan101.djini.core.memory.MemoryStore
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.observation.PlaceKind
+import com.wangzan101.djini.core.run.RunOrigin
+import com.wangzan101.djini.core.skills.DraftInput
+import com.wangzan101.djini.core.skills.DraftResult
+import com.wangzan101.djini.core.skills.Eligibility
+import com.wangzan101.djini.core.skills.PersonalSkills
+import com.wangzan101.djini.core.skills.SkillDrafter
+import com.wangzan101.djini.core.skills.SkillFollow
+import com.wangzan101.djini.core.skills.SkillNote
+import com.wangzan101.djini.core.skills.SkillOutcomes
+import com.wangzan101.djini.core.skills.SkillResult
+import com.wangzan101.djini.core.skills.SkillStatus
+import com.wangzan101.djini.core.screenmap.ScreenMapBuilder
+import com.wangzan101.djini.core.screenmap.ScreenMapGrower
+import com.wangzan101.djini.core.screenmap.ScreenMapStore
+import com.wangzan101.djini.memory.RunNotes
+import com.wangzan101.djini.settings.MemorySwitches
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import com.wangzan101.mika.core.tool.ToolIndex
+import com.wangzan101.djini.core.tool.ToolIndex
 
 /** 一次运行结束后,学东西要用的全部材料;由 [TaskRun] 在任务收尾时交出。 */
 data class RunAftermath(
@@ -65,8 +65,8 @@ data class RunAftermath(
     /** 交出回答后判的结局;只从办成的学([LearnGate])。没判成、没判过为 [RunOutcome.Unknown]。 */
     val outcome: RunOutcome = RunOutcome.Unknown,
     /**
-     * 这段对话里有通知提醒([com.wangzan101.mika.core.agent.NoticeTurn]),或这次任务开工时带了从通知里得来的那一段
-     * ([com.wangzan101.mika.core.proactive.ObservedContext]):用户在这里说的话多半是在回应别人写的通知
+     * 这段对话里有通知提醒([com.wangzan101.djini.core.agent.NoticeTurn]),或这次任务开工时带了从通知里得来的那一段
+     * ([com.wangzan101.djini.core.proactive.ObservedContext]):用户在这里说的话多半是在回应别人写的通知
      * (「好,就按他说的」),和读过网页的任务一样,不自动从里面提取记忆。用户明说要记的(memory_save)不受影响。
      */
     val noticeTainted: Boolean = false,

@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.phone.shell
+package com.wangzan101.djini.cap.phone.shell
 
 import android.app.UiAutomation
 import android.content.ClipData
@@ -15,11 +15,11 @@ import android.view.KeyEvent
 import android.view.MotionEvent
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport.SETTINGS
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport.TEST_PACKAGE
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport.pollUntil
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport.sh
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport.SETTINGS
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport.TEST_PACKAGE
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport.pollUntil
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport.sh
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -30,18 +30,18 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import com.wangzan101.mika.shell.IMikaShell
+import com.wangzan101.djini.shell.IDjiniShell
 
 /**
  * 外壳 20 项能力的对照验收(destroy 在 [ShellDestroyParityDeviceTest])。
  * shell 由 [DeviceSupport.shell] 提供,哪个后端在用就测哪个,两个后端跑同一套断言。
  * 断言尽量看外壳以外的证据:DisplayManager、探针页自己报的屏和任务、appops 命令、测试进程直接读剪贴板。
- * 需要外壳已连上;用户的主屏不被打扰(只在 Mika 自己建的屏上开页面)。
+ * 需要外壳已连上;用户的主屏不被打扰(只在 Djini 自己建的屏上开页面)。
  */
 @RunWith(AndroidJUnit4::class)
 class ShellParityDeviceTest {
     private val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
-    private val shell: IMikaShell get() = DeviceSupport.shell()
+    private val shell: IDjiniShell get() = DeviceSupport.shell()
     private val screens = mutableListOf<ParityScreen>()
     private lateinit var probe: ShellProbe
     private var audioBefore: String = "default"
@@ -90,7 +90,7 @@ class ShellParityDeviceTest {
         val s = newScreen(720, 1600, 320)
         val d = context.getSystemService(DisplayManager::class.java).getDisplay(s.id)
         assertNotNull("display ${s.id} not visible in DisplayManager", d)
-        assertEquals("mika-agent", d.name)
+        assertEquals("djini-agent", d.name)
         assertEquals(720, d.mode.physicalWidth)
         assertEquals(1600, d.mode.physicalHeight)
         @Suppress("DEPRECATION")
@@ -268,7 +268,7 @@ class ShellParityDeviceTest {
     @Test
     fun startViewReportsUnresolvedLink() {
         val s = newScreen()
-        assertEquals(ShellService.START_UNRESOLVED, shell.startView(s.id, null, "mika-no-such-scheme://page/1", null))
+        assertEquals(ShellService.START_UNRESOLVED, shell.startView(s.id, null, "djini-no-such-scheme://page/1", null))
     }
 
     @Test
@@ -460,7 +460,7 @@ class ShellParityDeviceTest {
         ParityClip.put(context, null)
         assertEquals(ShellService.CLIP_SET, shell.setClipText("parity-ours"))
         shell.restoreClip()
-        assertNull("Mika's text leaked", ParityClip.text(context))
+        assertNull("Djini's text leaked", ParityClip.text(context))
     }
 
     @Test
@@ -506,7 +506,7 @@ class ShellParityDeviceTest {
         ParityClip.put(context, null)
         assertEquals(ShellService.CLIP_SET, shell.setClipText("parity-ours"))
         shell.restoreClipText("", "parity-ours")
-        assertNull("Mika's text leaked", ParityClip.text(context))
+        assertNull("Djini's text leaked", ParityClip.text(context))
     }
 
     @Test
@@ -529,7 +529,7 @@ class ShellParityDeviceTest {
 }
 
 /** 测试直接经外壳建的屏,画面进本进程的 ImageReader。 */
-class ParityScreen(private val shell: IMikaShell, width: Int, height: Int, dpi: Int) : AutoCloseable {
+class ParityScreen(private val shell: IDjiniShell, width: Int, height: Int, dpi: Int) : AutoCloseable {
     val reader: ImageReader = ImageReader.newInstance(width, height, PixelFormat.RGBA_8888, 2)
     val id: Int = shell.createDisplay(reader.surface, width, height, dpi)
     private var closed = false

@@ -1,26 +1,26 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
-import com.wangzan101.mika.core.model.Author
-import com.wangzan101.mika.core.memory.MemoryKind
-import com.wangzan101.mika.core.memory.MemorySource
-import com.wangzan101.mika.core.memory.UserUtterances
-import com.wangzan101.mika.core.memory.finishReply
-import com.wangzan101.mika.core.memory.memStore
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.ModelReply
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.Role
-import com.wangzan101.mika.core.model.StopReason
-import com.wangzan101.mika.core.proactive.ObservedContext
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.record.RunSink
-import com.wangzan101.mika.core.run.RunId
-import com.wangzan101.mika.core.run.RunInbox
-import com.wangzan101.mika.core.run.RunInput
-import com.wangzan101.mika.core.run.RunSpec
-import com.wangzan101.mika.core.tool.FakeScreen
-import com.wangzan101.mika.core.agent.AttachedPage
-import com.wangzan101.mika.core.cap.web.FakeWebPort
+import com.wangzan101.djini.core.model.Author
+import com.wangzan101.djini.core.memory.MemoryKind
+import com.wangzan101.djini.core.memory.MemorySource
+import com.wangzan101.djini.core.memory.UserUtterances
+import com.wangzan101.djini.core.memory.finishReply
+import com.wangzan101.djini.core.memory.memStore
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.ModelReply
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.Role
+import com.wangzan101.djini.core.model.StopReason
+import com.wangzan101.djini.core.proactive.ObservedContext
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.record.RunSink
+import com.wangzan101.djini.core.run.RunId
+import com.wangzan101.djini.core.run.RunInbox
+import com.wangzan101.djini.core.run.RunInput
+import com.wangzan101.djini.core.run.RunSpec
+import com.wangzan101.djini.core.tool.FakeScreen
+import com.wangzan101.djini.core.agent.AttachedPage
+import com.wangzan101.djini.core.cap.web.FakeWebPort
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -29,8 +29,8 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import com.wangzan101.mika.core.testing.TOOLS
-import com.wangzan101.mika.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.testing.TOOLS
+import com.wangzan101.djini.core.assembly.toolDispatcher
 
 class AgentLoopMemoryTest {
     private val manual = MemorySource("manual", atMs = 1)
@@ -80,7 +80,7 @@ class AgentLoopMemoryTest {
         assertEquals(listOf(ids), events.filterIsInstance<RunEvent.MemoryUsed>().map { it.ids })
     }
 
-    // 用户让记住一件事,意图判断却会把这句话当成讨论:写记忆只动 Mika 自己的记忆,不经过那个判断,照常执行、存得下来
+    // 用户让记住一件事,意图判断却会把这句话当成讨论:写记忆只动 Djini 自己的记忆,不经过那个判断,照常执行、存得下来
     @Test fun savingAMemoryIsNotStrippedAsDiscussion() {
         val s = store()
         val said = UserUtterances()
@@ -115,7 +115,7 @@ class AgentLoopMemoryTest {
         val found = model.requests[1].last { it.role == Role.Tool }.parts.filterIsInstance<Part.ToolResult>().single().content
         val result = model.requests[2].last { it.role == Role.Tool }.parts.filterIsInstance<Part.ToolResult>().single().content
         assertTrue("$found -> $result", "\"ok\":true" in result)
-        assertTrue(s.items.value.none { it.id == target.id && it.status == com.wangzan101.mika.core.memory.MemoryStatus.active })
+        assertTrue(s.items.value.none { it.id == target.id && it.status == com.wangzan101.djini.core.memory.MemoryStatus.active })
     }
 
     // 只是在问「如果让你删你会怎么做」:模型万一真提了删除,工具自己不执行,那条记忆还在
@@ -133,10 +133,10 @@ class AgentLoopMemoryTest {
                 sink = object : RunSink { override fun event(e: RunEvent) { events += e } })
                 .run("如果我说把外卖那条记忆删掉,你会怎样处理?先解释,不要执行。")
         }
-        assertTrue(end.toString(), end is com.wangzan101.mika.core.agent.TaskState.Succeeded)
+        assertTrue(end.toString(), end is com.wangzan101.djini.core.agent.TaskState.Succeeded)
         assertEquals("不靠意图判断", 0, judge.requests.size)
         assertTrue(events.filterIsInstance<RunEvent.ToolResult>().single { it.tool == "memory_edit" }.resultJson.contains("edit_not_requested"))
-        assertTrue("那条还在", s.items.value.any { it.id == target.id && it.status == com.wangzan101.mika.core.memory.MemoryStatus.active })
+        assertTrue("那条还在", s.items.value.any { it.id == target.id && it.status == com.wangzan101.djini.core.memory.MemoryStatus.active })
     }
 
     // 一次记好几条,其中几条按规矩不收:不把整个任务按「操作连续失败」停掉。存上的照存,模型接着如实回答
@@ -157,7 +157,7 @@ class AgentLoopMemoryTest {
             AgentLoop(model, toolDispatcher(FakeScreen(), memory = s, utterances = UserUtterances()), "B", memory = s)
                 .run("以后回答简短一点,别的你自己总结几条写进记忆")
         }
-        assertTrue(end.toString(), end is com.wangzan101.mika.core.agent.TaskState.Succeeded)
+        assertTrue(end.toString(), end is com.wangzan101.djini.core.agent.TaskState.Succeeded)
         assertEquals("只存上了那一条", before + 1, s.items.value.size)
         // 模型走到了最后:五次调用都发生了,接着给出回答
         assertEquals(6, model.requests.size)
@@ -176,12 +176,12 @@ class AgentLoopMemoryTest {
             AgentLoop(model, toolDispatcher(FakeScreen(), memory = s, utterances = UserUtterances()), "B", memory = s)
                 .run("以后回答简短一点,别的你自己总结几条写进记忆")
         }
-        assertTrue(end.toString(), end is com.wangzan101.mika.core.agent.TaskState.Succeeded)
+        assertTrue(end.toString(), end is com.wangzan101.djini.core.agent.TaskState.Succeeded)
         assertEquals(11, model.requests.size)
         assertEquals(before, s.items.value.size)
     }
 
-    // 开着「让 Mika 自己归纳着记」、用户又让它记:一口气十条归纳的都存上,任务正常结束
+    // 开着「让 Djini 自己归纳着记」、用户又让它记:一口气十条归纳的都存上,任务正常结束
     @Test fun aBatchOfOwnConclusionsIsSavedWhenAllowed() {
         val s = memStore(inferenceAllowed = { true })
         val calls = (1..10).map { i ->
@@ -193,16 +193,16 @@ class AgentLoopMemoryTest {
             AgentLoop(model, toolDispatcher(FakeScreen(), memory = s, utterances = UserUtterances()), "B", memory = s)
                 .run("根据今天的消息看看我是个什么样的人,你自己总结几条写进记忆")
         }
-        assertTrue(end.toString(), end is com.wangzan101.mika.core.agent.TaskState.Succeeded)
+        assertTrue(end.toString(), end is com.wangzan101.djini.core.agent.TaskState.Succeeded)
         assertEquals(10, s.items.value.size)
-        assertTrue(s.items.value.all { it.source.type == com.wangzan101.mika.core.memory.MemoryContext.INFERRED })
+        assertTrue(s.items.value.all { it.source.type == com.wangzan101.djini.core.memory.MemoryContext.INFERRED })
     }
 
-    // 查到一条 Mika 自己归纳的记忆,接着照常回答:这条进了证据账本(工具查到的事实),任务正常结束
+    // 查到一条 Djini 自己归纳的记忆,接着照常回答:这条进了证据账本(工具查到的事实),任务正常结束
     @Test fun aRunThatFindsAnInferredMemoryFinishesNormally() {
         val s = memStore()
         s.add(MemoryKind.fact, "用户常点张江路那家外卖", listOf("外卖"),
-            MemorySource(com.wangzan101.mika.core.memory.MemoryContext.INFERRED, "你自己总结几条写进记忆", atMs = 1)).getOrThrow()
+            MemorySource(com.wangzan101.djini.core.memory.MemoryContext.INFERRED, "你自己总结几条写进记忆", atMs = 1)).getOrThrow()
         val events = mutableListOf<RunEvent>()
         val model = FakeModel(
             ModelReply(listOf(Part.ToolCall("s1", "memory_search", """{"query":"外卖"}""")), StopReason.ToolUse, null),
@@ -212,7 +212,7 @@ class AgentLoopMemoryTest {
             AgentLoop(model, toolDispatcher(FakeScreen(), memory = s, utterances = UserUtterances()), "B",
                 sink = object : RunSink { override fun event(e: RunEvent) { events += e } }, memory = s).run("我平时点哪家外卖")
         }
-        assertTrue(end.toString(), end is com.wangzan101.mika.core.agent.TaskState.Succeeded)
+        assertTrue(end.toString(), end is com.wangzan101.djini.core.agent.TaskState.Succeeded)
         val seen = events.filterIsInstance<RunEvent.Observed>().single { "张江路" in it.text }
         assertEquals("fact", seen.kind)
         assertTrue("不是用户说的" in seen.text)
@@ -232,7 +232,7 @@ class AgentLoopMemoryTest {
             AgentLoop(model, toolDispatcher(FakeScreen(), memory = s, utterances = UserUtterances()), "B", memory = s,
                 maxSteps = AgentLoop.UNLIMITED_STEPS).run("以后回答简短一点")
         }
-        assertTrue(end.toString(), end is com.wangzan101.mika.core.agent.TaskState.Failed)
+        assertTrue(end.toString(), end is com.wangzan101.djini.core.agent.TaskState.Failed)
         assertTrue(end.toString(), "too_many_failures" in end.toString())
         assertTrue("没有一直转下去:${model.requests.size}", model.requests.size <= 6)
         assertTrue(s.items.value.isEmpty())
@@ -250,8 +250,8 @@ class AgentLoopMemoryTest {
             AgentLoop(model, toolDispatcher(FakeScreen(), memory = s, utterances = UserUtterances()), "B", memory = s,
                 maxSteps = AgentLoop.UNLIMITED_STEPS).run("以后回答简短一点,别的你自己总结几条写进记忆")
         }
-        assertTrue(end.toString(), end is com.wangzan101.mika.core.agent.TaskState.Failed)
-        val limit = com.wangzan101.mika.core.tool.MAX_QUIET_MEMORY_REFUSALS
+        assertTrue(end.toString(), end is com.wangzan101.djini.core.agent.TaskState.Failed)
+        val limit = com.wangzan101.djini.core.tool.MAX_QUIET_MEMORY_REFUSALS
         assertTrue("${model.requests.size}", model.requests.size in (limit + 3)..(limit + 5))
     }
 
@@ -323,7 +323,7 @@ class AgentLoopMemoryTest {
         return said.all
     }
 
-    // 引了 Mika 的回答:引的那段是 Mika 说的,记忆的引文不认,只收用户打的字
+    // 引了 Djini 的回答:引的那段是 Djini 说的,记忆的引文不认,只收用户打的字
     @Test fun quotedReplyIsNotTheUserWords() {
         val s = store()
         val said = UserUtterances()
@@ -332,7 +332,7 @@ class AgentLoopMemoryTest {
         val model = FakeModel(save, finishReply)
         runBlocking {
             AgentLoop(model, toolDispatcher(FakeScreen(), memory = s, utterances = said), "B", memory = s)
-                .run(QuoteMessage.compose(QuoteMessage.Quote(QuoteMessage.From.Mika, MIKA_ADDRESS), "这个地址对不对"))
+                .run(QuoteMessage.compose(QuoteMessage.Quote(QuoteMessage.From.Djini, DJINI_ADDRESS), "这个地址对不对"))
         }
         val result = model.requests[1].last { it.role == Role.Tool }.parts.filterIsInstance<Part.ToolResult>().single().content
         assertTrue(result, "quote_not_from_user" in result)
@@ -365,17 +365,17 @@ class AgentLoopMemoryTest {
         assertEquals(listOf("总结一下"), said.all)
     }
 
-    // 插话引了 Mika 的回答:只收插话里打的字
+    // 插话引了 Djini 的回答:只收插话里打的字
     @Test fun quotedSteerAddsOnlyTheTypedWords() = runBlocking {
         val s = store()
         val said = UserUtterances()
-        val inbox = RunInbox().apply { send(RunInput.Steer("m1", QuoteMessage.compose(QuoteMessage.Quote(QuoteMessage.From.Mika, MIKA_ADDRESS), "换成这个"))) }
+        val inbox = RunInbox().apply { send(RunInput.Steer("m1", QuoteMessage.compose(QuoteMessage.Quote(QuoteMessage.From.Djini, DJINI_ADDRESS), "换成这个"))) }
         AgentLoop(FakeModel(finishReply), toolDispatcher(FakeScreen(), memory = s, utterances = said), "B", memory = s)
             .run(RunSpec(RunId("r1"), "帮我下单", "thread-1"), inbox)
         assertEquals(listOf("帮我下单", "换成这个"), said.all)
     }
 
-    // 回答追问时引了 Mika 的回答:也只收打的字
+    // 回答追问时引了 Djini 的回答:也只收打的字
     @Test fun quotedAnswerAddsOnlyTheTypedWords() = runBlocking {
         val s = store()
         val said = UserUtterances()
@@ -383,7 +383,7 @@ class AgentLoopMemoryTest {
         val loop = AgentLoop(FakeModel(ask, finishReply, finishReply), toolDispatcher(FakeScreen(), memory = s, utterances = said), "B", memory = s)
         val run = async { loop.run("帮我下单") }
         withTimeout(5_000) { loop.state.first { it is TaskState.WaitingInput } }
-        assertTrue(loop.answerInput(QuoteMessage.compose(QuoteMessage.Quote(QuoteMessage.From.Mika, MIKA_ADDRESS), "就这个")))
+        assertTrue(loop.answerInput(QuoteMessage.compose(QuoteMessage.Quote(QuoteMessage.From.Djini, DJINI_ADDRESS), "就这个")))
         run.await()
         assertEquals(listOf("帮我下单", "就这个"), said.all)
     }
@@ -470,8 +470,8 @@ class AgentLoopMemoryTest {
     }
 
     private companion object {
-        /** 用户引的 Mika 之前的一句回答。 */
-        const val MIKA_ADDRESS = "你常用的收货地址是幸福路 8 号"
+        /** 用户引的 Djini 之前的一句回答。 */
+        const val DJINI_ADDRESS = "你常用的收货地址是幸福路 8 号"
     }
 
     // 从通知里得来的那一段带进任务:在用户的话之前,套着自己的外壳;不给就没有
@@ -525,11 +525,11 @@ class AgentLoopMemoryTest {
 
 class MemoryBlockCompressionTest {
     @Test fun memoryBlockSurvivesAggressiveCompression() {
-        val block = Message(Role.User, listOf(Part.Text("Memories about the user (things the user told you; may be out of date; when they conflict with what the user says now, follow what they say now):\n1. 用户点外卖不要香菜")), Author.Mika)
-        val history = mutableListOf(block, Message(Role.User, listOf(Part.Text("帮我点个外卖")), Author.Mika))
+        val block = Message(Role.User, listOf(Part.Text("Memories about the user (things the user told you; may be out of date; when they conflict with what the user says now, follow what they say now):\n1. 用户点外卖不要香菜")), Author.Djini)
+        val history = mutableListOf(block, Message(Role.User, listOf(Part.Text("帮我点个外卖")), Author.Djini))
         repeat(30) { i ->
-            history += Message(Role.Assistant, listOf(Part.ToolCall("c$i", "phone_observe", "{}")), Author.Mika)
-            history += Message(Role.Tool, listOf(Part.ToolResult("c$i", "{\"ok\":true,\"x\":\"" + "很".repeat(500) + "\"}", false)), Author.Mika)
+            history += Message(Role.Assistant, listOf(Part.ToolCall("c$i", "phone_observe", "{}")), Author.Djini)
+            history += Message(Role.Tool, listOf(Part.ToolResult("c$i", "{\"ok\":true,\"x\":\"" + "很".repeat(500) + "\"}", false)), Author.Djini)
         }
         val out = ContextCompressor(TOOLS).compress(history, contextTokens = 2_000, aggressive = true)
         assertTrue(out.foldedSteps > 0)

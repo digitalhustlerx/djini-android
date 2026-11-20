@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import android.content.ClipboardManager
 import android.content.Context
@@ -14,10 +14,10 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.MikaApp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.calls.*
-import com.wangzan101.mika.ui.theme.MikaTheme
+import com.wangzan101.djini.DjiniApp
+import com.wangzan101.djini.R
+import com.wangzan101.djini.calls.*
+import com.wangzan101.djini.ui.theme.DjiniTheme
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
 import org.junit.Rule
@@ -35,7 +35,7 @@ class CallFollowUpDraftDeviceTest {
     @Test fun missingDraftCanBeWrittenSavedAndCopied() = exerciseDraft(null)
 
     private fun exerciseDraft(draft: String?) {
-        val app = ApplicationProvider.getApplicationContext<MikaApp>()
+        val app = ApplicationProvider.getApplicationContext<DjiniApp>()
         val edited = "关于刚才的电话，请补充床垫尺寸和数量，收到后再整理报价。"
         val record = CallRecord("follow-up-fixture", "测试客户", CallDirection.OUTGOING,
             1794691200000, 1794691260000, "通话已结束", emptyList(),
@@ -55,7 +55,7 @@ class CallFollowUpDraftDeviceTest {
         runBlocking { history.load() }
         compose.setContent {
             val records by history.state.collectAsState()
-            MikaTheme {
+            DjiniTheme {
                 Column(Modifier.safeDrawingPadding().verticalScroll(rememberScrollState()).padding(horizontal = 16.dp)) {
                     CallHistorySection(records, false, { _, _ -> CallActionResult(true, "") },
                         { CallActionResult(true, "") }, { CallActionResult(true, "") }, { CallActionResult(true, "") },

@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.cap.sandbox
+package com.wangzan101.djini.core.cap.sandbox
 
-import com.wangzan101.mika.core.workspace.SandboxError
+import com.wangzan101.djini.core.workspace.SandboxError
 import java.security.MessageDigest
 
 /** Opaque /folders paths are tool identifiers, never Linux mount points or host paths. */

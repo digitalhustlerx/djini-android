@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.remote
+package com.wangzan101.djini.core.remote
 
-import com.wangzan101.mika.core.mcp.FakeRemoteTasks
+import com.wangzan101.djini.core.mcp.FakeRemoteTasks
 import kotlinx.serialization.json.*
 import okhttp3.OkHttpClient
 import okhttp3.Request

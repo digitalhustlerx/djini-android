@@ -1,18 +1,18 @@
-package com.wangzan101.mika.core.knowledge
+package com.wangzan101.djini.core.knowledge
 
-import com.wangzan101.mika.core.agent.KNOWLEDGE_BODY_LIMIT
-import com.wangzan101.mika.core.agent.TokenEstimate
-import com.wangzan101.mika.core.agent.KNOWLEDGE_TRUNCATED_HINT
-import com.wangzan101.mika.core.agent.clipKnowledge
+import com.wangzan101.djini.core.agent.KNOWLEDGE_BODY_LIMIT
+import com.wangzan101.djini.core.agent.TokenEstimate
+import com.wangzan101.djini.core.agent.KNOWLEDGE_TRUNCATED_HINT
+import com.wangzan101.djini.core.agent.clipKnowledge
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import com.wangzan101.mika.core.agent.GuideRecommender
-import com.wangzan101.mika.core.cap.sandbox.FakeSandbox
-import com.wangzan101.mika.core.tool.FakeScreen
+import com.wangzan101.djini.core.agent.GuideRecommender
+import com.wangzan101.djini.core.cap.sandbox.FakeSandbox
+import com.wangzan101.djini.core.tool.FakeScreen
 import java.io.File
-import com.wangzan101.mika.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.assembly.toolDispatcher
 
 /** 随 App 打包的知识与技能:构建期校验在测试里再跑一遍,并核对运行时读到的内容。 */
 class BundledKnowledgeTest {

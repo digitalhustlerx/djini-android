@@ -1,18 +1,18 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import android.content.ClipData
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.core.content.FileProvider
-import com.wangzan101.mika.R
-import com.wangzan101.mika.cap.sandbox.SandboxDirs
-import com.wangzan101.mika.chat.AttachFilesProvider
-import com.wangzan101.mika.chat.SharedFile
-import com.wangzan101.mika.chat.SharedDraftCopy
-import com.wangzan101.mika.chat.WorkspaceResolver
-import com.wangzan101.mika.core.cap.sandbox.ShareRules
-import com.wangzan101.mika.ui.viewer.FileViewer
+import com.wangzan101.djini.R
+import com.wangzan101.djini.cap.sandbox.SandboxDirs
+import com.wangzan101.djini.chat.AttachFilesProvider
+import com.wangzan101.djini.chat.SharedFile
+import com.wangzan101.djini.chat.SharedDraftCopy
+import com.wangzan101.djini.chat.WorkspaceResolver
+import com.wangzan101.djini.core.cap.sandbox.ShareRules
+import com.wangzan101.djini.ui.viewer.FileViewer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.currentCoroutineContext

@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.phone.shell.adb
+package com.wangzan101.djini.cap.phone.shell.adb
 
 import android.content.Context
 import android.net.ssl.SSLSockets
@@ -6,12 +6,12 @@ import android.os.Build
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
 import android.util.Log
-import com.wangzan101.mika.core.adb.AdbIdentity
-import com.wangzan101.mika.core.adb.AdbIdentitySource
-import com.wangzan101.mika.core.adb.AdbKeyStore
-import com.wangzan101.mika.core.adb.AdbTls
-import com.wangzan101.mika.core.adb.KeyingMaterialExporter
-import com.wangzan101.mika.core.adb.WrappedKeyFile
+import com.wangzan101.djini.core.adb.AdbIdentity
+import com.wangzan101.djini.core.adb.AdbIdentitySource
+import com.wangzan101.djini.core.adb.AdbKeyStore
+import com.wangzan101.djini.core.adb.AdbTls
+import com.wangzan101.djini.core.adb.KeyingMaterialExporter
+import com.wangzan101.djini.core.adb.WrappedKeyFile
 import java.io.File
 import java.security.KeyStore
 import javax.crypto.KeyGenerator
@@ -33,10 +33,10 @@ object AndroidAdb {
 
     /** 本进程唯一的一份身份来源:配对和连接都从这里拿,拿到的是同一把钥匙。 */
     fun identities(context: Context): AdbIdentitySource = source ?: synchronized(this) {
-        source ?: AdbIdentitySource(keyStore(context), { "mika@${Build.MODEL}" }) { msg, e -> Log.w(TAG, msg, e) }.also { source = it }
+        source ?: AdbIdentitySource(keyStore(context), { "djini@${Build.MODEL}" }) { msg, e -> Log.w(TAG, msg, e) }.also { source = it }
     }
 
-    /** 连接用的身份;存着的钥匙读不出时抛 [com.wangzan101.mika.core.adb.AdbKeyUnreadableException]。 */
+    /** 连接用的身份;存着的钥匙读不出时抛 [com.wangzan101.djini.core.adb.AdbKeyUnreadableException]。 */
     fun identity(context: Context): AdbIdentity = identities(context).forConnect()
 
     /** 配对用的身份:存着的钥匙读不出时换一把新的(见 [AdbIdentitySource.forPairing])。 */

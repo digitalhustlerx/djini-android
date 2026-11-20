@@ -1,7 +1,7 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.core.shell.HelperRestart
-import com.wangzan101.mika.ChineseUi
+import com.wangzan101.djini.core.shell.HelperRestart
+import com.wangzan101.djini.ChineseUi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -17,16 +17,16 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.wangzan101.mika.capsule.CapsuleMode
-import com.wangzan101.mika.core.agent.SpeedFlags
-import com.wangzan101.mika.core.cap.sandbox.SandboxStatus
-import com.wangzan101.mika.core.shell.BuiltinShellStatus
-import com.wangzan101.mika.core.shell.ShellTransport
-import com.wangzan101.mika.core.shell.ShizukuPlatformState
-import com.wangzan101.mika.settings.AccessibilityState
-import com.wangzan101.mika.settings.Problem
-import com.wangzan101.mika.settings.SystemStatus
-import com.wangzan101.mika.task.ParallelCapability
+import com.wangzan101.djini.capsule.CapsuleMode
+import com.wangzan101.djini.core.agent.SpeedFlags
+import com.wangzan101.djini.core.cap.sandbox.SandboxStatus
+import com.wangzan101.djini.core.shell.BuiltinShellStatus
+import com.wangzan101.djini.core.shell.ShellTransport
+import com.wangzan101.djini.core.shell.ShizukuPlatformState
+import com.wangzan101.djini.settings.AccessibilityState
+import com.wangzan101.djini.settings.Problem
+import com.wangzan101.djini.settings.SystemStatus
+import com.wangzan101.djini.task.ParallelCapability
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Rule
@@ -35,7 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.rememberScrollState
 import org.junit.runner.RunWith
-import com.wangzan101.mika.core.cap.phone.OperatingPace
+import com.wangzan101.djini.core.cap.phone.OperatingPace
 
 @RunWith(AndroidJUnit4::class)
 class SettingsScreenTest {
@@ -87,7 +87,7 @@ class SettingsScreenTest {
         val opened = mutableListOf<String>()
         home(opened = opened)
         // 「主动能力」在「微信」和「任务运行」之间
-        for (t in listOf("模型", "手机操作", "微信", "主动能力", "任务运行", "悬浮胶囊", "语言与外观", "通知", "记忆与数据", "应用访问", "高级与其他", "关于 Mika")) {
+        for (t in listOf("模型", "手机操作", "微信", "主动能力", "任务运行", "悬浮胶囊", "语言与外观", "通知", "记忆与数据", "应用访问", "高级与其他", "关于 Djini")) {
             scrollTo(t)
             compose.onNodeWithText(t).performClick()
         }
@@ -114,8 +114,8 @@ class SettingsScreenTest {
             compose.onNodeWithText(t).performClick()
         }
         compose.onNodeWithText("开发者选项").performScrollTo().performClick()
-        scrollTo("完全退出 Mika")
-        compose.onNodeWithText("完全退出 Mika").performClick()
+        scrollTo("完全退出 Djini")
+        compose.onNodeWithText("完全退出 Djini").performClick()
         assertEquals(listOf("proxy", "sandbox", "computer", "mcp", "recovery", "dev", "quit"), opened)
     }
 
@@ -474,12 +474,12 @@ class SettingsScreenTest {
     /** 已用空间:每个对话的工作区一行;有任务在跑的写明不能清、点不动;清理先确认,确认后才回调。 */
     @Test
     fun usageClearsAWorkspaceOnlyAfterConfirming() {
-        val usage = com.wangzan101.mika.cap.sandbox.SandboxUsage(
+        val usage = com.wangzan101.djini.cap.sandbox.SandboxUsage(
             runtime = 300L shl 20, skills = 2L shl 20,
             workspaces = listOf(
-                com.wangzan101.mika.cap.sandbox.WorkspaceUsage("c-a", "a", "查快递", 5L shl 20, busy = true),
-                com.wangzan101.mika.cap.sandbox.WorkspaceUsage("c-b", "b", "整理表格", 1L shl 20, busy = false),
-                com.wangzan101.mika.cap.sandbox.WorkspaceUsage("c-gone", null, null, 1024, busy = false),
+                com.wangzan101.djini.cap.sandbox.WorkspaceUsage("c-a", "a", "查快递", 5L shl 20, busy = true),
+                com.wangzan101.djini.cap.sandbox.WorkspaceUsage("c-b", "b", "整理表格", 1L shl 20, busy = false),
+                com.wangzan101.djini.cap.sandbox.WorkspaceUsage("c-gone", null, null, 1024, busy = false),
             ),
         )
         val cleared = mutableListOf<String>()

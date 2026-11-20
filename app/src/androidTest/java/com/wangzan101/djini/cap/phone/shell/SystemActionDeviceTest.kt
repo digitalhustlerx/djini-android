@@ -1,12 +1,12 @@
-package com.wangzan101.mika.cap.phone.shell
+package com.wangzan101.djini.cap.phone.shell
 
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport
-import com.wangzan101.mika.core.uistate.ActionResult
-import com.wangzan101.mika.core.uistate.SystemAction
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport
+import com.wangzan101.djini.core.uistate.ActionResult
+import com.wangzan101.djini.core.uistate.SystemAction
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -16,7 +16,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 /**
- * 真机测试:系统动作的 intent 在这台手机上有没有 App 接(没有就跳过,不算失败),有的话打开闹钟列表落在 Mika 的屏上、
+ * 真机测试:系统动作的 intent 在这台手机上有没有 App 接(没有就跳过,不算失败),有的话打开闹钟列表落在 Djini 的屏上、
  * 用户的主屏不动。不设真的闹钟、计时器,不建日程。
  */
 @RunWith(AndroidJUnit4::class)

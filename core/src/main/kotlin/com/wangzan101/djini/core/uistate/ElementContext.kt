@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.uistate
+package com.wangzan101.djini.core.uistate
 
 /** 一个元素自己的上下文,判它做的是什么时只看这些,不看整屏:同一行上的文字(附着的标签、行里的说明)。 */
 object ElementContext {

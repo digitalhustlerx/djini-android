@@ -1,9 +1,9 @@
-package com.wangzan101.mika.core.testing
+package com.wangzan101.djini.core.testing
 
-import com.wangzan101.mika.core.agent.ContextBuilder
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.ToolSpec
+import com.wangzan101.djini.core.agent.ContextBuilder
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.ToolSpec
 import org.junit.Assert.assertEquals
 import org.junit.Assert.fail
 import java.io.File
@@ -17,8 +17,8 @@ import java.security.MessageDigest
  *   ./gradlew :core:test --tests '*LoopScenarioTest' -PupdateSnapshots
  */
 object LoopSnapshot {
-    private val dir = File(System.getProperty("mika.snapshotDir") ?: "src/test/resources/loop-snapshots")
-    private val update = System.getProperty("mika.updateSnapshots") == "true"
+    private val dir = File(System.getProperty("djini.snapshotDir") ?: "src/test/resources/loop-snapshots")
+    private val update = System.getProperty("djini.updateSnapshots") == "true"
 
     /** 和金样比对;开了重新生成就直接写入。 */
     fun check(name: String, actual: String) {

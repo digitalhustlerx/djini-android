@@ -1,28 +1,28 @@
-package com.wangzan101.mika.export
+package com.wangzan101.djini.export
 
 import android.content.Context
 import android.net.Uri
-import com.wangzan101.mika.BuildConfig
-import com.wangzan101.mika.core.export.DirectoryExportSink
-import com.wangzan101.mika.core.export.ExportBlock
-import com.wangzan101.mika.core.export.ExportContent
-import com.wangzan101.mika.core.export.ExportDocumentBuilder
-import com.wangzan101.mika.core.export.ExportFormat
-import com.wangzan101.mika.core.export.ExportManifest
-import com.wangzan101.mika.core.export.ExportPackage
-import com.wangzan101.mika.core.export.ExportPhase
-import com.wangzan101.mika.core.export.ExportPresentation
-import com.wangzan101.mika.core.export.ExportProgress
-import com.wangzan101.mika.core.export.ExportRegistry
-import com.wangzan101.mika.core.export.ExportSelection
-import com.wangzan101.mika.core.export.ExportWarning
-import com.wangzan101.mika.core.export.ManifestContent
-import com.wangzan101.mika.core.export.ManifestConversation
-import com.wangzan101.mika.core.export.ManifestCounts
-import com.wangzan101.mika.core.export.ManifestSelection
-import com.wangzan101.mika.core.export.ManifestWarning
-import com.wangzan101.mika.core.export.markdown.MarkdownExportBackend
-import com.wangzan101.mika.core.export.json.JsonExportBackend
+import com.wangzan101.djini.BuildConfig
+import com.wangzan101.djini.core.export.DirectoryExportSink
+import com.wangzan101.djini.core.export.ExportBlock
+import com.wangzan101.djini.core.export.ExportContent
+import com.wangzan101.djini.core.export.ExportDocumentBuilder
+import com.wangzan101.djini.core.export.ExportFormat
+import com.wangzan101.djini.core.export.ExportManifest
+import com.wangzan101.djini.core.export.ExportPackage
+import com.wangzan101.djini.core.export.ExportPhase
+import com.wangzan101.djini.core.export.ExportPresentation
+import com.wangzan101.djini.core.export.ExportProgress
+import com.wangzan101.djini.core.export.ExportRegistry
+import com.wangzan101.djini.core.export.ExportSelection
+import com.wangzan101.djini.core.export.ExportWarning
+import com.wangzan101.djini.core.export.ManifestContent
+import com.wangzan101.djini.core.export.ManifestConversation
+import com.wangzan101.djini.core.export.ManifestCounts
+import com.wangzan101.djini.core.export.ManifestSelection
+import com.wangzan101.djini.core.export.ManifestWarning
+import com.wangzan101.djini.core.export.markdown.MarkdownExportBackend
+import com.wangzan101.djini.core.export.json.JsonExportBackend
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.ensureActive
@@ -140,10 +140,10 @@ class ExportRuntime(private val context: Context) {
     }
 
     private fun manifest(
-        document: com.wangzan101.mika.core.export.ExportDocument,
+        document: com.wangzan101.djini.core.export.ExportDocument,
         selection: ExportSelection,
         content: ExportContent,
-        entries: List<com.wangzan101.mika.core.export.ManifestEntry>,
+        entries: List<com.wangzan101.djini.core.export.ManifestEntry>,
         warnings: List<ExportWarning>,
     ) = ExportManifest(
         appVersion = BuildConfig.VERSION_NAME,

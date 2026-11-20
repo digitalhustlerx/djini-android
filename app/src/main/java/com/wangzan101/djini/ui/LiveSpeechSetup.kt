@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -19,27 +19,27 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.ui.components.FooterNote
-import com.wangzan101.mika.ui.components.GroupCard
-import com.wangzan101.mika.ui.components.GroupLabel
-import com.wangzan101.mika.ui.components.InputRow
-import com.wangzan101.mika.ui.components.MikaButton
-import com.wangzan101.mika.ui.components.PillTone
-import com.wangzan101.mika.ui.components.RadioRow
-import com.wangzan101.mika.ui.components.RowChevron
-import com.wangzan101.mika.ui.components.SegmentedControl
-import com.wangzan101.mika.ui.components.SelectChip
-import com.wangzan101.mika.ui.components.StatusPill
-import com.wangzan101.mika.ui.theme.MikaShapes
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
-import com.wangzan101.mika.voice.AsrLanguage
-import com.wangzan101.mika.voice.BailianProtocol
-import com.wangzan101.mika.voice.BailianRegion
-import com.wangzan101.mika.voice.FunAsrProtocol
-import com.wangzan101.mika.voice.SpeechChoice
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.ui.components.FooterNote
+import com.wangzan101.djini.ui.components.GroupCard
+import com.wangzan101.djini.ui.components.GroupLabel
+import com.wangzan101.djini.ui.components.InputRow
+import com.wangzan101.djini.ui.components.MikaButton
+import com.wangzan101.djini.ui.components.PillTone
+import com.wangzan101.djini.ui.components.RadioRow
+import com.wangzan101.djini.ui.components.RowChevron
+import com.wangzan101.djini.ui.components.SegmentedControl
+import com.wangzan101.djini.ui.components.SelectChip
+import com.wangzan101.djini.ui.components.StatusPill
+import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.voice.AsrLanguage
+import com.wangzan101.djini.voice.BailianProtocol
+import com.wangzan101.djini.voice.BailianRegion
+import com.wangzan101.djini.voice.FunAsrProtocol
+import com.wangzan101.djini.voice.SpeechChoice
 
 /** 设置页试连的状态:[testing] 时按钮转圈不可点,[error] 是没通的原因。 */
 data class LiveProbeUi(val testing: Boolean = false, val error: String? = null)
@@ -53,7 +53,7 @@ internal fun LiveServiceRow(
     title: String, subtitle: String, selected: Boolean, configured: Boolean, first: Boolean, tag: String,
     onPick: () -> Unit, onOpen: () -> Unit,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     RadioRow(
         title, selected = selected, first = first,
         onClick = { if (configured) onPick() else onOpen() },
@@ -171,7 +171,7 @@ fun FunAsrSetupPage(
 
 @Composable
 private fun LocalFunAsr(savedUrl: String?, savedLanguage: AsrLanguage, probe: LiveProbeUi, onSave: (String, AsrLanguage) -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     var address by remember { mutableStateOf(savedUrl.orEmpty()) }
     var language by remember { mutableStateOf(savedLanguage) }
     val url = FunAsrProtocol.normalize(address)
@@ -209,7 +209,7 @@ private fun BailianFunAsr(
     region: BailianRegion, configured: Boolean, savedModel: String, savedWorkspace: String, savedLanguage: AsrLanguage, probe: LiveProbeUi,
     onSave: (BailianInput) -> Unit, onClear: (BailianRegion) -> Unit,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     var key by remember { mutableStateOf("") }
     var model by remember { mutableStateOf(savedModel) }
     var workspaceText by remember { mutableStateOf(savedWorkspace) }

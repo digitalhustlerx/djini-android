@@ -1,6 +1,6 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.ChineseUi
+import com.wangzan101.djini.ChineseUi
 import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotEnabled
@@ -16,15 +16,15 @@ import androidx.compose.ui.unit.dp
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import android.content.ClipboardManager
-import com.wangzan101.mika.about.CheckStatus
-import com.wangzan101.mika.about.MikaLinks
-import com.wangzan101.mika.about.ReleaseInfo
-import com.wangzan101.mika.about.UpdateState
-import com.wangzan101.mika.core.shell.BuiltinShellStatus
-import com.wangzan101.mika.settings.AccessibilityState
-import com.wangzan101.mika.settings.Prerequisites
-import com.wangzan101.mika.settings.SystemStatus
-import com.wangzan101.mika.ui.theme.MikaTheme
+import com.wangzan101.djini.about.CheckStatus
+import com.wangzan101.djini.about.MikaLinks
+import com.wangzan101.djini.about.ReleaseInfo
+import com.wangzan101.djini.about.UpdateState
+import com.wangzan101.djini.core.shell.BuiltinShellStatus
+import com.wangzan101.djini.settings.AccessibilityState
+import com.wangzan101.djini.settings.Prerequisites
+import com.wangzan101.djini.settings.SystemStatus
+import com.wangzan101.djini.ui.theme.DjiniTheme
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Rule
@@ -38,8 +38,8 @@ class AboutScreenTest {
     @get:Rule val compose = createComposeRule()
 
     private val r020 = ReleaseInfo(
-        "0.2.0", "Mika 0.2.0", "### 新增\n- 附件面板", "2026-11-05",
-        "https://github.com/wangzan101/Mika/releases/tag/v0.2.0", "https://github.com/x/mika-0.2.0.apk",
+        "0.2.0", "Djini 0.2.0", "### 新增\n- 附件面板", "2026-11-05",
+        "https://github.com/wangzan101/Djini/releases/tag/v0.2.0", "https://github.com/x/djini-0.2.0.apk",
     )
 
     private class Calls {
@@ -49,12 +49,12 @@ class AboutScreenTest {
         var licenses = 0
     }
 
-    private val sampleDiagnostics = "Mika 诊断信息 / Mika diagnostics\n\n[App]\nversion: 0.1.0 (build abc1234)\n"
+    private val sampleDiagnostics = "Djini 诊断信息 / Djini diagnostics\n\n[App]\nversion: 0.1.0 (build abc1234)\n"
 
     private fun about(update: UpdateState = UpdateState()): Calls {
         val calls = Calls()
         compose.setContent {
-            MikaTheme {
+            DjiniTheme {
                 AboutScreen(
                     versionName = "0.1.0", build = "abc1234", beta = true, update = update, issueUrl = "issue://prefilled",
                     onCheck = { calls.checks++ }, onOpenUrl = { calls.urls += it },
@@ -74,7 +74,7 @@ class AboutScreenTest {
     @Test
     fun showsHeroRowsNoteAndFooter() {
         about()
-        compose.onNodeWithText("Mika").assertIsDisplayed()
+        compose.onNodeWithText("Djini").assertIsDisplayed()
         compose.onNodeWithText(AboutCopy.TAGLINE).assertIsDisplayed()
         compose.onNodeWithText("版本 0.1.0").assertIsDisplayed()
         compose.onNodeWithText("Beta").assertIsDisplayed()
@@ -200,9 +200,9 @@ class AboutScreenTest {
         var installs = 0
         var deletes = 0
         compose.setContent {
-            MikaTheme {
+            DjiniTheme {
                 androidx.compose.foundation.layout.Column {
-                    UpdateDownloadActions(com.wangzan101.mika.about.ApkDownloadState(com.wangzan101.mika.about.DownloadPhase.Ready),
+                    UpdateDownloadActions(com.wangzan101.djini.about.ApkDownloadState(com.wangzan101.djini.about.DownloadPhase.Ready),
                         false, null, {}, { installs++ }, { deletes++ })
                 }
             }
@@ -217,9 +217,9 @@ class AboutScreenTest {
     fun downloadingShowsProgressAndCanBeCancelled() {
         var deletes = 0
         compose.setContent {
-            MikaTheme {
+            DjiniTheme {
                 androidx.compose.foundation.layout.Column {
-                    UpdateDownloadActions(com.wangzan101.mika.about.ApkDownloadState(com.wangzan101.mika.about.DownloadPhase.Downloading, 50, 100),
+                    UpdateDownloadActions(com.wangzan101.djini.about.ApkDownloadState(com.wangzan101.djini.about.DownloadPhase.Downloading, 50, 100),
                         false, null, {}, {}, { deletes++ })
                 }
             }
@@ -233,9 +233,9 @@ class AboutScreenTest {
     fun failedDownloadCanBeRetried() {
         var retries = 0
         compose.setContent {
-            MikaTheme {
+            DjiniTheme {
                 androidx.compose.foundation.layout.Column {
-                    UpdateDownloadActions(com.wangzan101.mika.about.ApkDownloadState(com.wangzan101.mika.about.DownloadPhase.Failed),
+                    UpdateDownloadActions(com.wangzan101.djini.about.ApkDownloadState(com.wangzan101.djini.about.DownloadPhase.Failed),
                         false, null, { retries++ }, {}, {})
                 }
             }
@@ -255,12 +255,12 @@ class AboutScreenTest {
         assertEquals(listOf(MikaLinks.RELEASES), calls.urls)
     }
 
-    /** 侧栏最底下一行:设置靠左;有新版时右边才出现「更新」带红点(红点在最右边),点它进「关于 Mika」。 */
+    /** 侧栏最底下一行:设置靠左;有新版时右边才出现「更新」带红点(红点在最右边),点它进「关于 Djini」。 */
     @Test
     fun drawerFooterShowsUpdateOnlyWhenAvailable() {
         val calls = mutableListOf<String>()
         compose.setContent {
-            MikaTheme {
+            DjiniTheme {
                 ChatDrawer(
                     Prerequisites.Check(emptyList()), DrawerSections(emptyList(), emptyList()), canSwitch = true,
                     onNew = {},
@@ -290,7 +290,7 @@ class AboutScreenTest {
     @Test
     fun drawerFooterNoUpdateEntryWithoutUpdate() {
         compose.setContent {
-            MikaTheme {
+            DjiniTheme {
                 ChatDrawer(
                     Prerequisites.Check(emptyList()), DrawerSections(emptyList(), emptyList()), canSwitch = true,
                     onNew = {}, onSettings = {}, onOpen = {},
@@ -302,11 +302,11 @@ class AboutScreenTest {
         compose.onAllNodesWithTag("update-dot", useUnmergedTree = true).assertCountEquals(0)
     }
 
-    /** 设置首页「关于 Mika」一行:有新版写「x 可更新」带红点。 */
+    /** 设置首页「关于 Djini」一行:有新版写「x 可更新」带红点。 */
     @Test
     fun settingsAboutRowShowsUpdate() {
         compose.setContent {
-            MikaTheme {
+            DjiniTheme {
                 SettingsContent(
                     status = SystemStatus(34, BuiltinShellStatus.Running, AccessibilityState.On, notificationsAllowed = true),
                     androidRelease = "14", mainModel = "DeepSeek", onBack = {}, onProblem = {}, onOpenModels = {},

@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.tool
+package com.wangzan101.djini.core.tool
 
-import com.wangzan101.mika.core.model.ToolSpec
+import com.wangzan101.djini.core.model.ToolSpec
 
 /**
  * 工具分两层发给模型:一直都在的(核心的通用工具、不收的能力),和按能力分的几组(收着时只有入口工具,用短说明;

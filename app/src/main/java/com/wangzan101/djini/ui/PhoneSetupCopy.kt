@@ -1,15 +1,15 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.core.shell.BuiltinShellFailure
-import com.wangzan101.mika.core.shell.RootGrant
-import com.wangzan101.mika.core.shell.BuiltinShellFix
-import com.wangzan101.mika.core.shell.BuiltinShellStatus
-import com.wangzan101.mika.core.shell.HelperRestart
-import com.wangzan101.mika.core.shell.SetupStep
-import com.wangzan101.mika.core.shell.SetupSuspect
-import com.wangzan101.mika.ui.components.ValueTone
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.core.shell.BuiltinShellFailure
+import com.wangzan101.djini.core.shell.RootGrant
+import com.wangzan101.djini.core.shell.BuiltinShellFix
+import com.wangzan101.djini.core.shell.BuiltinShellStatus
+import com.wangzan101.djini.core.shell.HelperRestart
+import com.wangzan101.djini.core.shell.SetupStep
+import com.wangzan101.djini.core.shell.SetupSuspect
+import com.wangzan101.djini.ui.components.ValueTone
 
 /**
  * 「手机操作」引导、设置页和通知上的文字(纯函数,便于测试)。
@@ -24,7 +24,7 @@ object PhoneSetupCopy {
     /** 引导页顶栏上的短标题。 */
     val BAR_TITLE: String get() = tr(R.string.phone_bar_title)
     val SKIP_NOTE: String get() = tr(R.string.phone_skip_note)
-    /** 这个环境设置不了手机操作(见 [com.wangzan101.mika.core.shell.PhoneSetupFlow.unavailable]):一句结论,一句原因。 */
+    /** 这个环境设置不了手机操作(见 [com.wangzan101.djini.core.shell.PhoneSetupFlow.unavailable]):一句结论,一句原因。 */
     val UNAVAILABLE: String get() = tr(R.string.phone_unavailable)
     val UNAVAILABLE_REASON: String get() = tr(R.string.phone_unavailable_reason)
 
@@ -69,7 +69,7 @@ object PhoneSetupCopy {
     /** 系统拦着不让打开无障碍时(没从应用商店装的 App 常见)的去处。 */
     val APP_INFO: String get() = tr(R.string.phone_app_info)
 
-    /** 配对一步:无障碍开着时 Mika 自己读码。 */
+    /** 配对一步:无障碍开着时 Djini 自己读码。 */
     val AUTO_READ_HINT: String get() = tr(R.string.phone_auto_read)
     /** 读不到时的退路:填码通知一开始就静静放在通知栏里。 */
     val AUTO_READ_FALLBACK: String get() = tr(R.string.phone_auto_read_fallback, NOTIFY_ENTER_TITLE)
@@ -347,7 +347,7 @@ object PhoneSetupCopy {
         RootGrant.Granted -> tr(R.string.phone_root_start_sub)
     }
 
-    /** 「允许 Mika 执行 root 命令」那一行下面的说明。 */
+    /** 「允许 Djini 执行 root 命令」那一行下面的说明。 */
     fun rootCommandsLine(on: Boolean, grant: RootGrant): String = when {
         grant == RootGrant.Pending -> ROOT_PENDING
         !on && (grant == RootGrant.Denied || grant == RootGrant.NoAnswer) -> tr(R.string.phone_root_commands_denied)

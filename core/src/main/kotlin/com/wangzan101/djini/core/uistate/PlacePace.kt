@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.uistate
+package com.wangzan101.djini.core.uistate
 
-/** 站点知识、App 知识里 `pace` 说的这个网站或 App 对浏览快慢的要求(App 里的节奏见 [com.wangzan101.mika.core.cap.phone.AppPacing])。 */
+/** 站点知识、App 知识里 `pace` 说的这个网站或 App 对浏览快慢的要求(App 里的节奏见 [com.wangzan101.djini.core.cap.phone.AppPacing])。 */
 enum class PlacePace {
     /** 没有特别说法。 */
     NORMAL,

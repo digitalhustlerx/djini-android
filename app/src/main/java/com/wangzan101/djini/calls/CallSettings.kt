@@ -1,18 +1,18 @@
-package com.wangzan101.mika.calls
+package com.wangzan101.djini.calls
 
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Build
 import android.util.Base64
-import com.wangzan101.mika.settings.KeyCipher
-import com.wangzan101.mika.settings.KeystoreKeyCipher
+import com.wangzan101.djini.settings.KeyCipher
+import com.wangzan101.djini.settings.KeystoreKeyCipher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 /** Credentials are encrypted together; never put decrypted fields in a state flow or an error. */
 class CallSettings(
     private val prefs: SharedPreferences,
-    private val cipher: KeyCipher = KeystoreKeyCipher("mika-volc-realtime-calls"),
+    private val cipher: KeyCipher = KeystoreKeyCipher("djini-volc-realtime-calls"),
 ) {
     private val mutable = MutableStateFlow(read())
     val state = mutable.asStateFlow()
@@ -181,6 +181,6 @@ class CallSettings(
         internal const val BACKGROUND_AUTHORIZED = "background_standby_authorized"
 
         fun create(context: Context): CallSettings =
-            CallSettings(context.getSharedPreferences("mika_call_settings", Context.MODE_PRIVATE))
+            CallSettings(context.getSharedPreferences("djini_call_settings", Context.MODE_PRIVATE))
     }
 }

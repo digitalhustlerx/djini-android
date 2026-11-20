@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui.viewer
+package com.wangzan101.djini.ui.viewer
 
 /** 内置查看器能显示的几类文件;不在这里的交给别的 App。 */
 enum class ViewerKind { Html, Markdown, Pdf, Image, Text }

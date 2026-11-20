@@ -1,6 +1,6 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.MikaDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -14,21 +14,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
-import com.wangzan101.mika.R
-import com.wangzan101.mika.core.remote.RelayGateway
-import com.wangzan101.mika.core.remote.RelayState
-import com.wangzan101.mika.mcp.McpRuntime
-import com.wangzan101.mika.settings.RelayConfig
-import com.wangzan101.mika.ui.components.ButtonKind
-import com.wangzan101.mika.ui.components.ButtonSize
-import com.wangzan101.mika.ui.components.FooterNote
-import com.wangzan101.mika.ui.components.GroupCard
-import com.wangzan101.mika.ui.components.InputRow
-import com.wangzan101.mika.ui.components.ListRow
-import com.wangzan101.mika.ui.components.MikaButton
-import com.wangzan101.mika.ui.components.MikaSwitch
-import com.wangzan101.mika.ui.components.RowActions
-import com.wangzan101.mika.ui.theme.MikaIcons
+import com.wangzan101.djini.R
+import com.wangzan101.djini.core.remote.RelayGateway
+import com.wangzan101.djini.core.remote.RelayState
+import com.wangzan101.djini.mcp.McpRuntime
+import com.wangzan101.djini.settings.RelayConfig
+import com.wangzan101.djini.ui.components.ButtonKind
+import com.wangzan101.djini.ui.components.ButtonSize
+import com.wangzan101.djini.ui.components.FooterNote
+import com.wangzan101.djini.ui.components.GroupCard
+import com.wangzan101.djini.ui.components.InputRow
+import com.wangzan101.djini.ui.components.ListRow
+import com.wangzan101.djini.ui.components.MikaButton
+import com.wangzan101.djini.ui.components.MikaSwitch
+import com.wangzan101.djini.ui.components.RowActions
+import com.wangzan101.djini.ui.theme.MikaIcons
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -59,7 +59,7 @@ internal fun RelaySection(runtime: McpRuntime, mcp: Boolean, onCopy: (String) ->
         onCopyConfig = { change {
             runtime.relaySettings.pairing()?.let { p ->
                 val text = if (mcp) McpRuntime.clientConfig(RelayGateway.parse(p.gateway).newBuilder().encodedPath("/mcp").build().toString(), runtime.settings.token())
-                else "mika connect --url ${p.gateway.removeSuffix("/")} --token-file /path/to/token"
+                else "djini connect --url ${p.gateway.removeSuffix("/")} --token-file /path/to/token"
                 withContext(Dispatchers.Main) { onCopy(text) }
             }
         } }, mcp = mcp,
@@ -79,7 +79,7 @@ internal fun RelayControls(config: RelayConfig, state: RelayState, busy: Boolean
         GroupCard {
             ListRow(MikaIcons.Link, stringResource(R.string.relay_pair_title), stringResource(R.string.relay_pair_sub), first = true)
             InputRow(stringResource(R.string.relay_gateway), gateway, { if (!busy) gateway = it.take(2048) },
-                "https://mika.example.com", keyboard = KeyboardType.Uri, modifier = Modifier.testTag("relay-gateway"))
+                "https://djini.example.com", keyboard = KeyboardType.Uri, modifier = Modifier.testTag("relay-gateway"))
             InputRow(stringResource(R.string.relay_code), code, { if (!busy) code = it.take(64) },
                 stringResource(R.string.relay_code_hint), secret = true, keyboard = KeyboardType.Password, modifier = Modifier.testTag("relay-code"))
             RowActions {
@@ -117,7 +117,7 @@ internal fun RelayControls(config: RelayConfig, state: RelayState, busy: Boolean
                 MikaButton(stringResource(R.string.relay_unpair), { confirm = true }, kind = ButtonKind.Text, size = ButtonSize.Small, enabled = !busy)
             }
         }
-        if (!mcp) CommandText("mika connect --url ${config.gateway!!.removeSuffix("/")} --token-file /path/to/token")
+        if (!mcp) CommandText("djini connect --url ${config.gateway!!.removeSuffix("/")} --token-file /path/to/token")
         FooterNote(stringResource(if (mcp) R.string.relay_client_help else R.string.relay_cli_help))
     }
     FooterNote(stringResource(R.string.relay_intro))

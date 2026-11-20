@@ -1,4 +1,4 @@
-package com.wangzan101.mika.proactive
+package com.wangzan101.djini.proactive
 
 import java.io.File
 import java.nio.file.Files

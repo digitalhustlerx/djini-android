@@ -1,7 +1,7 @@
-package com.wangzan101.mika.core.eval
+package com.wangzan101.djini.core.eval
 
-import com.wangzan101.mika.core.record.RunMetrics
-import com.wangzan101.mika.core.record.RunStats
+import com.wangzan101.djini.core.record.RunMetrics
+import com.wangzan101.djini.core.record.RunStats
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
@@ -20,7 +20,7 @@ object EvalReport {
         scores: List<Pair<TaskScore, Observed>>,
         skipped: List<Pair<String, String>>,
         prices: Prices?,
-        /** 本次运行的开关组合([com.wangzan101.mika.core.agent.SpeedFlags.describe])。 */
+        /** 本次运行的开关组合([com.wangzan101.djini.core.agent.SpeedFlags.describe])。 */
         flags: String = "none",
         /** 并行评测时整轮从第一题开始到最后一题结束的时间;串行时为空,不出这一行。 */
         totalWallMs: Long? = null,
@@ -160,7 +160,7 @@ object EvalReport {
         val st = RunStats.of(rows.map { it.second })
         sb.appendLine("## 运行小结")
         sb.appendLine()
-        sb.appendLine("按运行记录算(${rows.size} 题):时间从 Mika 开始处理算起,读、操作按执行入口给的种类分,批里的子步不重复计。")
+        sb.appendLine("按运行记录算(${rows.size} 题):时间从 Djini 开始处理算起,读、操作按执行入口给的种类分,批里的子步不重复计。")
         sb.appendLine()
         sb.appendLine("| 指标 | 值 |")
         sb.appendLine("|---|---|")

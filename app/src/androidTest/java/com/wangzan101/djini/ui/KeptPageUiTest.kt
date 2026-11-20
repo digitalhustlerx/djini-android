@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import android.graphics.Bitmap
 import androidx.compose.ui.test.assertIsDisplayed
@@ -8,15 +8,15 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.unit.dp
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.wangzan101.mika.ChineseUi
-import com.wangzan101.mika.cap.web.KeptPage
-import com.wangzan101.mika.capsule.CapsuleCard
-import com.wangzan101.mika.capsule.CapsuleContent
-import com.wangzan101.mika.capsule.CapsuleKind
-import com.wangzan101.mika.capsule.CapsuleView
-import com.wangzan101.mika.capsule.CardActions
-import com.wangzan101.mika.capsule.CardView
-import com.wangzan101.mika.ui.theme.MikaTheme
+import com.wangzan101.djini.ChineseUi
+import com.wangzan101.djini.cap.web.KeptPage
+import com.wangzan101.djini.capsule.CapsuleCard
+import com.wangzan101.djini.capsule.CapsuleContent
+import com.wangzan101.djini.capsule.CapsuleKind
+import com.wangzan101.djini.capsule.CapsuleView
+import com.wangzan101.djini.capsule.CardActions
+import com.wangzan101.djini.capsule.CardView
+import com.wangzan101.djini.ui.theme.DjiniTheme
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
@@ -40,7 +40,7 @@ class KeptPageUiTest {
         override fun answer(runKey: String, text: String) {}
         override fun approve(runKey: String, requestKey: Int) {}
         override fun decline(runKey: String, requestKey: Int) {}
-        override fun openMika(conversationId: String) { calls += "open $conversationId" }
+        override fun openDjini(conversationId: String) { calls += "open $conversationId" }
         override fun zoom(on: Boolean) { calls += "zoom $on" }
         override fun openInput() {}
         override fun draft(text: String) {}
@@ -54,7 +54,7 @@ class KeptPageUiTest {
 
     @Test fun chatRowShowsHostTimeAndCloses() {
         var closed = 0
-        compose.setContent { MikaTheme(dark = false, reduceMotion = true) { KeptLine(page) { closed++ } } }
+        compose.setContent { DjiniTheme(dark = false, reduceMotion = true) { KeptLine(page) { closed++ } } }
         compose.onNodeWithText("这一页保持在后台运行").assertIsDisplayed()
         compose.onNodeWithText("course.example.com · 2 小时后自动关").assertIsDisplayed()
         compose.onNodeWithTag("kept-close").performClick()
@@ -63,7 +63,7 @@ class KeptPageUiTest {
 
     @Test fun capsuleSaysBackgroundPageRunning() {
         compose.setContent {
-            MikaTheme(dark = false, reduceMotion = true) {
+            DjiniTheme(dark = false, reduceMotion = true) {
                 CapsuleContent(CapsuleView.Shown(CapsuleKind.KeptPage, "后台网页运行中", conversationId = "c1", pill = true), onTap = {}, onStop = {}, onHandBack = {})
             }
         }
@@ -74,7 +74,7 @@ class KeptPageUiTest {
     @Test fun cardShowsLiveViewTimeSourceAndButtons() {
         val frame = Bitmap.createBitmap(160, 90, Bitmap.Config.ARGB_8888)
         compose.setContent {
-            MikaTheme(dark = false, reduceMotion = true) {
+            DjiniTheme(dark = false, reduceMotion = true) {
                 CapsuleCard(CardView.Kept(page), frame, zoomed = false, actions = actions, elapsed = { null }, height = 520.dp)
             }
         }

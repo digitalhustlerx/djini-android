@@ -1,28 +1,28 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
-import com.wangzan101.mika.core.cap.root.RootPort
-import com.wangzan101.mika.core.cap.root.RootRun
-import com.wangzan101.mika.core.knowledge.GuideCatalog
-import com.wangzan101.mika.core.memory.MemoryItem
-import com.wangzan101.mika.core.memory.MemoryPersistence
-import com.wangzan101.mika.core.memory.MemoryStore
-import com.wangzan101.mika.core.memory.UserUtterances
-import com.wangzan101.mika.core.model.ModelReply
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.StopReason
-import com.wangzan101.mika.core.cap.sandbox.FakeSandbox
-import com.wangzan101.mika.core.cap.sandbox.SandboxStatus
-import com.wangzan101.mika.core.testing.PromptSurface
-import com.wangzan101.mika.core.tool.FakeScreen
-import com.wangzan101.mika.core.tool.ToolDispatcher
-import com.wangzan101.mika.core.vision.JvmTestImageOps
-import com.wangzan101.mika.core.vision.VisionService
-import com.wangzan101.mika.core.vision.says
-import com.wangzan101.mika.core.cap.web.FakeWebPort
+import com.wangzan101.djini.core.cap.root.RootPort
+import com.wangzan101.djini.core.cap.root.RootRun
+import com.wangzan101.djini.core.knowledge.GuideCatalog
+import com.wangzan101.djini.core.memory.MemoryItem
+import com.wangzan101.djini.core.memory.MemoryPersistence
+import com.wangzan101.djini.core.memory.MemoryStore
+import com.wangzan101.djini.core.memory.UserUtterances
+import com.wangzan101.djini.core.model.ModelReply
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.StopReason
+import com.wangzan101.djini.core.cap.sandbox.FakeSandbox
+import com.wangzan101.djini.core.cap.sandbox.SandboxStatus
+import com.wangzan101.djini.core.testing.PromptSurface
+import com.wangzan101.djini.core.tool.FakeScreen
+import com.wangzan101.djini.core.tool.ToolDispatcher
+import com.wangzan101.djini.core.vision.JvmTestImageOps
+import com.wangzan101.djini.core.vision.VisionService
+import com.wangzan101.djini.core.vision.says
+import com.wangzan101.djini.core.cap.web.FakeWebPort
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
-import com.wangzan101.mika.core.assembly.toolDispatcher
-import com.wangzan101.mika.core.knowledge.KnowledgeStore
+import com.wangzan101.djini.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.knowledge.KnowledgeStore
 
 /**
  * 模型能看到的全部提示词表面:每种能力组合的完整系统提示词、每个工具的定义(名字、说明、参数 schema)、
@@ -58,12 +58,12 @@ class PromptSurfaceTest {
                     FakeScreen(), visionEnabled = true, skills = GuideCatalog.loadBundled(), vision = VisionService(says(), JvmTestImageOps),
                     web = FakeWebPort(), inlineScreen = true, deepLinks = true,
                     memory = mem, utterances = UserUtterances(), sandbox = FakeSandbox(SandboxStatus.Ready(network = false)), workspace = { "w" },
-                    personalSkills = com.wangzan101.mika.core.skills.InMemoryPersonalSkills(),
+                    personalSkills = com.wangzan101.djini.core.skills.InMemoryPersonalSkills(),
                     // 子任务和之前几轮的记录:之前有记过运行的一轮时才有 history_read
-                    runSpec = com.wangzan101.mika.core.run.RunSpec(com.wangzan101.mika.core.run.RunId("t"), "t", "thread",
+                    runSpec = com.wangzan101.djini.core.run.RunSpec(com.wangzan101.djini.core.run.RunId("t"), "t", "thread",
                         priorTurns = listOf(Turn("之前", "好", "succeeded", runId = "r1"))),
-                    childHost = com.wangzan101.mika.core.child.ChildRunHost { spec, _ ->
-                        com.wangzan101.mika.core.child.ChildResult(spec.id, com.wangzan101.mika.core.child.ChildPhase.Completed, "") },
+                    childHost = com.wangzan101.djini.core.child.ChildRunHost { spec, _ ->
+                        com.wangzan101.djini.core.child.ChildResult(spec.id, com.wangzan101.djini.core.child.ChildPhase.Completed, "") },
                     runRecords = NoRecords,
                 )
             }, SpeedFlags(inlineScreen = true, batchSteps = true, deepLinks = true), mem)
@@ -107,8 +107,8 @@ class PromptSurfaceTest {
             PromptSurface.check("layers/$name", PromptSurface.layer(m.system!!, m.tools))
             val system = m.system!!.toByteArray().size
             val tools = m.tools.sumOf { (it.name + it.description + it.parametersJsonSchema).toByteArray().size }
-            val tokens = TokenEstimate.of(listOf(com.wangzan101.mika.core.model.Message(com.wangzan101.mika.core.model.Role.User,
-                listOf(Part.Text(m.system!! + m.tools.joinToString("") { it.name + it.description + it.parametersJsonSchema })), com.wangzan101.mika.core.model.Author.Mika)))
+            val tokens = TokenEstimate.of(listOf(com.wangzan101.djini.core.model.Message(com.wangzan101.djini.core.model.Role.User,
+                listOf(Part.Text(m.system!! + m.tools.joinToString("") { it.name + it.description + it.parametersJsonSchema })), com.wangzan101.djini.core.model.Author.Djini)))
             sizes.appendLine("$name: system $system bytes, ${m.tools.size} tools $tools bytes, total ${system + tools} bytes, ~$tokens tokens")
         }
         print(sizes)
@@ -121,7 +121,7 @@ class PromptSurfaceTest {
 
     /** 人格层:固定头尾和正文的全文,审改动时直接看差在哪。没有人格时其余金样不受影响。 */
     @Test fun personaLayer() {
-        PromptSurface.check("persona/layer", com.wangzan101.mika.core.prompt.PersonaPrompt.layer("测试人格", "先给结论,再展开;少用感叹号。")!!)
+        PromptSurface.check("persona/layer", com.wangzan101.djini.core.prompt.PersonaPrompt.layer("测试人格", "先给结论,再展开;少用感叹号。")!!)
     }
 
     @Test fun feedbackFromTools() {
@@ -132,19 +132,19 @@ class PromptSurfaceTest {
         PromptSurface.check("feedback-loop", PromptSurfaceFeedback.loop())
     }
 
-    private object NoRecords : com.wangzan101.mika.core.record.RunRecords {
-        override suspend fun summary(runId: String): com.wangzan101.mika.core.record.RunSummary? = null
-        override suspend fun events(runId: String) = emptyList<com.wangzan101.mika.core.record.RunEvent>()
+    private object NoRecords : com.wangzan101.djini.core.record.RunRecords {
+        override suspend fun summary(runId: String): com.wangzan101.djini.core.record.RunSummary? = null
+        override suspend fun events(runId: String) = emptyList<com.wangzan101.djini.core.record.RunEvent>()
     }
 
     /** 只回一个 finish:记下开工那次请求的系统提示词和工具。 */
-    private class FakeRequestCapture : com.wangzan101.mika.core.model.ChatModel {
-        override val capabilities = com.wangzan101.mika.core.model.Capabilities(toolCalls = true, vision = false, contextTokens = 128_000, reasoning = false)
+    private class FakeRequestCapture : com.wangzan101.djini.core.model.ChatModel {
+        override val capabilities = com.wangzan101.djini.core.model.Capabilities(toolCalls = true, vision = false, contextTokens = 128_000, reasoning = false)
         var system: String? = null
-        var tools: List<com.wangzan101.mika.core.model.ToolSpec> = emptyList()
-        override suspend fun complete(system: String, messages: List<com.wangzan101.mika.core.model.Message>, tools: List<com.wangzan101.mika.core.model.ToolSpec>): ModelReply {
+        var tools: List<com.wangzan101.djini.core.model.ToolSpec> = emptyList()
+        override suspend fun complete(system: String, messages: List<com.wangzan101.djini.core.model.Message>, tools: List<com.wangzan101.djini.core.model.ToolSpec>): ModelReply {
             if (this.system == null) { this.system = system; this.tools = tools }
-            return com.wangzan101.mika.core.testing.answerReply("ok")
+            return com.wangzan101.djini.core.testing.answerReply("ok")
         }
     }
 }

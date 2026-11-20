@@ -1,4 +1,4 @@
-package com.wangzan101.mika.proactive
+package com.wangzan101.djini.proactive
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ScrollState
@@ -38,45 +38,45 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LifecycleResumeEffect
-import com.wangzan101.mika.MikaApp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.cap.phone.a11y.launchableApps
-import com.wangzan101.mika.core.proactive.ContactRelation
-import com.wangzan101.mika.core.proactive.ContactType
-import com.wangzan101.mika.core.proactive.DayDigest
-import com.wangzan101.mika.core.proactive.DigestLine
-import com.wangzan101.mika.core.proactive.DigestNote
-import com.wangzan101.mika.core.proactive.DigestPool
-import com.wangzan101.mika.core.proactive.LearnLevel
-import com.wangzan101.mika.core.proactive.NoticeJournal
-import com.wangzan101.mika.core.proactive.ObservedContact
-import com.wangzan101.mika.core.proactive.ObservedTopic
-import com.wangzan101.mika.core.proactive.SpanDigest
-import com.wangzan101.mika.core.proactive.SpanKind
-import com.wangzan101.mika.core.proactive.TopicKind
-import com.wangzan101.mika.core.proactive.TopicPool
-import com.wangzan101.mika.core.proactive.TriageGate
-import com.wangzan101.mika.core.proactive.TriageTarget
-import com.wangzan101.mika.core.usage.ProactiveBudget
-import com.wangzan101.mika.ui.components.EmptyNote
-import com.wangzan101.mika.ui.components.FooterNote
-import com.wangzan101.mika.ui.components.GroupCard
-import com.wangzan101.mika.ui.components.GroupLabel
-import com.wangzan101.mika.ui.components.ListRow
-import com.wangzan101.mika.ui.components.MikaDialog
-import com.wangzan101.mika.ui.components.PageBackground
-import com.wangzan101.mika.ui.components.PageScaffold
-import com.wangzan101.mika.ui.components.RowChevron
-import com.wangzan101.mika.ui.components.TopBar
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaRadius
-import com.wangzan101.mika.ui.theme.MikaSpace
-import com.wangzan101.mika.ui.theme.MikaTheme
+import com.wangzan101.djini.DjiniApp
+import com.wangzan101.djini.R
+import com.wangzan101.djini.cap.phone.a11y.launchableApps
+import com.wangzan101.djini.core.proactive.ContactRelation
+import com.wangzan101.djini.core.proactive.ContactType
+import com.wangzan101.djini.core.proactive.DayDigest
+import com.wangzan101.djini.core.proactive.DigestLine
+import com.wangzan101.djini.core.proactive.DigestNote
+import com.wangzan101.djini.core.proactive.DigestPool
+import com.wangzan101.djini.core.proactive.LearnLevel
+import com.wangzan101.djini.core.proactive.NoticeJournal
+import com.wangzan101.djini.core.proactive.ObservedContact
+import com.wangzan101.djini.core.proactive.ObservedTopic
+import com.wangzan101.djini.core.proactive.SpanDigest
+import com.wangzan101.djini.core.proactive.SpanKind
+import com.wangzan101.djini.core.proactive.TopicKind
+import com.wangzan101.djini.core.proactive.TopicPool
+import com.wangzan101.djini.core.proactive.TriageGate
+import com.wangzan101.djini.core.proactive.TriageTarget
+import com.wangzan101.djini.core.usage.ProactiveBudget
+import com.wangzan101.djini.ui.components.EmptyNote
+import com.wangzan101.djini.ui.components.FooterNote
+import com.wangzan101.djini.ui.components.GroupCard
+import com.wangzan101.djini.ui.components.GroupLabel
+import com.wangzan101.djini.ui.components.ListRow
+import com.wangzan101.djini.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.PageBackground
+import com.wangzan101.djini.ui.components.PageScaffold
+import com.wangzan101.djini.ui.components.RowChevron
+import com.wangzan101.djini.ui.components.TopBar
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.MikaRadius
+import com.wangzan101.djini.ui.theme.MikaSpace
+import com.wangzan101.djini.ui.theme.DjiniTheme
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 /**
- * 「Mika 知道了什么」里的各级页面。最上面是索引(栈是空的):每天、每周、每月各一行,话题、联系人、清除各一个入口。
+ * 「Djini 知道了什么」里的各级页面。最上面是索引(栈是空的):每天、每周、每月各一行,话题、联系人、清除各一个入口。
  * 往下:某一天([Day])、某一周或某个月([Span])的句子;再往下是一句的依据([DayLine]、[SpanLine])和一句分段归纳
  * 那段时间的通知原文([Note])。
  *
@@ -168,7 +168,7 @@ private class KnowUi(
 }
 
 /**
- * 主动能力 ›「Mika 知道了什么」:归纳出的内容,和它们的删除。分几级([KnowPage]):先是一页索引,点进去才列句子,
+ * 主动能力 ›「Djini 知道了什么」:归纳出的内容,和它们的删除。分几级([KnowPage]):先是一页索引,点进去才列句子,
  * 再点一句看它是照着什么写的。设置都在上一页([ProactiveScreen]);这里不看开关也照样显示存着的东西(关着时东西还留着),
  * 只有「归纳到现在」那几行要开着、模型确认过才给。
  * 句子、概述、话题名、名字、通知原文都来自别处(模型照着通知写的、通知里的),一律当普通文字显示。
@@ -179,7 +179,7 @@ private class KnowUi(
 @Composable
 fun ProactiveLearnScreen(onBack: () -> Unit) {
     val context = LocalContext.current
-    val app = context.applicationContext as MikaApp
+    val app = context.applicationContext as DjiniApp
     val runtime = app.proactive
     val enabled by runtime.enabled.collectAsState()
     val state by runtime.learnState.collectAsState()
@@ -299,7 +299,7 @@ fun ProactiveLearnScreen(onBack: () -> Unit) {
         )
     }
     editRelation?.let { c ->
-        // 关系由用户设:列出几种关系和「不确定」;「交回给 Mika 判断」是清掉用户设的
+        // 关系由用户设:列出几种关系和「不确定」;「交回给 Djini 判断」是清掉用户设的
         MikaDialog(
             onDismissRequest = { editRelation = null },
             title = { Text(stringResource(R.string.proactive_learn_relation_title, c.name)) },
@@ -423,7 +423,7 @@ private fun LazyListScope.card(id: String, build: CardRows.() -> Unit) {
     itemsIndexed(entries, key = { i, _ -> keys[i] }, contentType = { _, e -> if (e.isRow) 1 else 0 }) { i, e ->
         Box(
             Modifier.fillMaxWidth().padding(bottom = if (i == entries.lastIndex) 12.dp else 0.dp)
-                .clip(cardRowShape(i, entries.size)).background(MikaTheme.colors.surface),
+                .clip(cardRowShape(i, entries.size)).background(DjiniTheme.colors.surface),
         ) { e.content(i == firstRow) }
     }
 }
@@ -915,11 +915,11 @@ private fun kindLabel(k: TopicKind): Int = when (k) {
  * 或者还留着它的通知原文([raw])——刚来了几条通知、还没归纳出任何东西的 App 只有原文,不列它就只能全部清空。
  */
 internal fun clearableApps(
-    topics: List<com.wangzan101.mika.core.proactive.ObservedTopic>,
-    contacts: List<com.wangzan101.mika.core.proactive.ObservedContact>,
-    notes: List<com.wangzan101.mika.core.proactive.DigestNote>,
-    days: List<com.wangzan101.mika.core.proactive.DayDigest>,
-    spans: List<com.wangzan101.mika.core.proactive.SpanDigest>,
+    topics: List<com.wangzan101.djini.core.proactive.ObservedTopic>,
+    contacts: List<com.wangzan101.djini.core.proactive.ObservedContact>,
+    notes: List<com.wangzan101.djini.core.proactive.DigestNote>,
+    days: List<com.wangzan101.djini.core.proactive.DayDigest>,
+    spans: List<com.wangzan101.djini.core.proactive.SpanDigest>,
     raw: Set<String> = emptySet(),
 ): Set<String> = LinkedHashSet<String>().apply {
     topics.forEach { addAll(it.evidence.keys) }

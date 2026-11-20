@@ -1,13 +1,13 @@
-package com.wangzan101.mika.core.proactive
+package com.wangzan101.djini.core.proactive
 
-import com.wangzan101.mika.core.model.Author
-import com.wangzan101.mika.core.model.ChatModel
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.ModelError
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.Role
-import com.wangzan101.mika.core.observation.Untrusted
-import com.wangzan101.mika.core.prompt.Prompts
+import com.wangzan101.djini.core.model.Author
+import com.wangzan101.djini.core.model.ChatModel
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.ModelError
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.Role
+import com.wangzan101.djini.core.observation.Untrusted
+import com.wangzan101.djini.core.prompt.Prompts
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -54,7 +54,7 @@ class NoticeNotes(private val model: ChatModel, private val language: String, pr
     suspend fun note(packageName: String, entries: List<NoticeEntry>, zone: ZoneId): NotesResult {
         require(entries.isNotEmpty() && entries.size <= LearnTuning.NOTES_BATCH_MAX) { "batch size ${entries.size}" }
         require(entries.all { it.packageName == packageName }) { "one app per batch" }
-        val messages = listOf(Message(Role.User, listOf(Part.Text(buildInput(packageName, entries, language, zone))), Author.Mika))
+        val messages = listOf(Message(Role.User, listOf(Part.Text(buildInput(packageName, entries, language, zone))), Author.Djini))
         val reply = try {
             withTimeoutOrNull(timeoutMs) { model.complete(Prompts.role(PROMPT), messages, emptyList()) }
                 ?: return NotesResult.Failed()

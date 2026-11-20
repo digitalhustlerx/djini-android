@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.run
+package com.wangzan101.djini.core.run
 
-import com.wangzan101.mika.core.action.ConfirmChoice
+import com.wangzan101.djini.core.action.ConfirmChoice
 
 /** 渠道入站在这里验主人、问题编号与确认权限；普通新消息始终新开任务。 */
 class ChannelGateway(

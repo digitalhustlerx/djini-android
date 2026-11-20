@@ -1,6 +1,6 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.i18n.tr
+import com.wangzan101.djini.i18n.tr
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -30,22 +30,22 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.ui.components.GroupCard
-import com.wangzan101.mika.ui.components.Hairline
-import com.wangzan101.mika.ui.components.IconTile
-import com.wangzan101.mika.ui.components.MikaButton
-import com.wangzan101.mika.ui.components.PageBackground
-import com.wangzan101.mika.ui.components.ProgressDots
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
-import com.wangzan101.mika.ui.theme.MikaRadius
+import com.wangzan101.djini.R
+import com.wangzan101.djini.ui.components.GroupCard
+import com.wangzan101.djini.ui.components.Hairline
+import com.wangzan101.djini.ui.components.IconTile
+import com.wangzan101.djini.ui.components.MikaButton
+import com.wangzan101.djini.ui.components.PageBackground
+import com.wangzan101.djini.ui.components.ProgressDots
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.MikaRadius
 
-/** 上手第一步:说清 Mika 是什么、能做哪几类事,开始前要做的两件事和大概时间。 */
+/** 上手第一步:说清 Djini 是什么、能做哪几类事,开始前要做的两件事和大概时间。 */
 @Composable
 fun WelcomeScreen(onStart: () -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     PageBackground {
         Column(Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.statusBars).windowInsetsPadding(WindowInsets.navigationBars)) {
             Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(horizontal = 16.dp)) {
@@ -79,7 +79,7 @@ fun WelcomeScreen(onStart: () -> Unit) {
 
 @Composable
 private fun Feature(icon: ImageVector, title: String, body: String, first: Boolean) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Column {
         if (!first) Hairline(start = 0.dp)
         Row(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 13.dp), horizontalArrangement = Arrangement.spacedBy(14.dp)) {

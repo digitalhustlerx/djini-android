@@ -1,33 +1,33 @@
-package com.wangzan101.mika.core.cap.audio
+package com.wangzan101.djini.core.cap.audio
 
-import com.wangzan101.mika.core.action.ActionRisk
-import com.wangzan101.mika.core.action.Risk as ApprovalRisk
-import com.wangzan101.mika.core.gate.ConfirmationRequest
-import com.wangzan101.mika.core.model.ModelError
-import com.wangzan101.mika.core.model.TtsError
-import com.wangzan101.mika.core.model.TtsRequest
-import com.wangzan101.mika.core.prompt.Prompts
-import com.wangzan101.mika.core.risk.IrrevAction
-import com.wangzan101.mika.core.tool.AgentTool
-import com.wangzan101.mika.core.tool.ArgError
-import com.wangzan101.mika.core.tool.Args
-import com.wangzan101.mika.core.tool.Entry
-import com.wangzan101.mika.core.tool.Risk
-import com.wangzan101.mika.core.tool.ToolContext
-import com.wangzan101.mika.core.tool.ToolDef
-import com.wangzan101.mika.core.tool.ToolExecution
-import com.wangzan101.mika.core.tool.Verb
-import com.wangzan101.mika.core.tool.fail
-import com.wangzan101.mika.core.tool.num
-import com.wangzan101.mika.core.tool.okObj
-import com.wangzan101.mika.core.tool.str
+import com.wangzan101.djini.core.action.ActionRisk
+import com.wangzan101.djini.core.action.Risk as ApprovalRisk
+import com.wangzan101.djini.core.gate.ConfirmationRequest
+import com.wangzan101.djini.core.model.ModelError
+import com.wangzan101.djini.core.model.TtsError
+import com.wangzan101.djini.core.model.TtsRequest
+import com.wangzan101.djini.core.prompt.Prompts
+import com.wangzan101.djini.core.risk.IrrevAction
+import com.wangzan101.djini.core.tool.AgentTool
+import com.wangzan101.djini.core.tool.ArgError
+import com.wangzan101.djini.core.tool.Args
+import com.wangzan101.djini.core.tool.Entry
+import com.wangzan101.djini.core.tool.Risk
+import com.wangzan101.djini.core.tool.ToolContext
+import com.wangzan101.djini.core.tool.ToolDef
+import com.wangzan101.djini.core.tool.ToolExecution
+import com.wangzan101.djini.core.tool.Verb
+import com.wangzan101.djini.core.tool.fail
+import com.wangzan101.djini.core.tool.num
+import com.wangzan101.djini.core.tool.okObj
+import com.wangzan101.djini.core.tool.str
 import kotlinx.coroutines.CancellationException
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.put
 
 /** 音乐库审批卡上的 App 字段;不是真实包名。 */
-private const val MUSIC_CONFIRM_APP = "mika:music"
+private const val MUSIC_CONFIRM_APP = "djini:music"
 
 internal object AudioGenerate : AgentTool {
     override val capability: String get() = AUDIO
@@ -154,7 +154,7 @@ private fun failure(e: Throwable): ToolExecution = when (e) {
     else -> fail("audio_failed", e.message?.take(300) ?: "Speech generation failed.")
 }
 
-/** 让 Mika 在本机主动说一句;默认不提供,用户在声音设置里打开后才给。 */
+/** 让 Djini 在本机主动说一句;默认不提供,用户在声音设置里打开后才给。 */
 internal object Speak : AgentTool {
     override val capability: String get() = AUDIO
     override val verb = Verb.Speak

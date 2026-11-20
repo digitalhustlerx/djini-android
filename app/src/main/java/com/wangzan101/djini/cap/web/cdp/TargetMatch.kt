@@ -1,6 +1,6 @@
-package com.wangzan101.mika.cap.web.cdp
+package com.wangzan101.djini.cap.web.cdp
 
-import com.wangzan101.mika.core.cap.web.cdp.CdpTargetInfo
+import com.wangzan101.djini.core.cap.web.cdp.CdpTargetInfo
 
 /** 标签与 DevTools 目标的对应:先在标签里写下标记,再逐个候选目标求值找它。 */
 object TargetMatch {

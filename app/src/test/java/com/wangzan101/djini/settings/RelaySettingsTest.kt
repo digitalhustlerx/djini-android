@@ -1,7 +1,7 @@
-package com.wangzan101.mika.settings
+package com.wangzan101.djini.settings
 
-import com.wangzan101.mika.core.remote.RelayPairing
-import com.wangzan101.mika.mcp.McpModes
+import com.wangzan101.djini.core.remote.RelayPairing
+import com.wangzan101.djini.mcp.McpModes
 import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test

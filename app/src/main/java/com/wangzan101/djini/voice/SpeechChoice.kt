@@ -1,10 +1,10 @@
-package com.wangzan101.mika.voice
+package com.wangzan101.djini.voice
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.wangzan101.mika.settings.FeatureFlags
-import com.wangzan101.mika.settings.KeyCipher
-import com.wangzan101.mika.settings.KeystoreKeyCipher
+import com.wangzan101.djini.settings.FeatureFlags
+import com.wangzan101.djini.settings.KeyCipher
+import com.wangzan101.djini.settings.KeystoreKeyCipher
 import java.util.Base64
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -64,7 +64,7 @@ enum class TranscribeMethod { AudioTranscriptions, ChatInputAudio, GeminiInline,
  * (一次卡住多半是识别服务冷启动慢,不该从此关掉这条路);中间任何一次回了话就重新数。
  * 用户在设置里选「自动」或「手机自带」时记号和次数都清掉,好让换了识别服务、更新过系统的手机能再试。
  */
-class SpeechSettings(private val prefs: SharedPreferences, private val cipher: KeyCipher = KeystoreKeyCipher("mika-speech-keys")) {
+class SpeechSettings(private val prefs: SharedPreferences, private val cipher: KeyCipher = KeystoreKeyCipher("djini-speech-keys")) {
     private val _choice = MutableStateFlow(read())
     val choice: StateFlow<SpeechChoice> = _choice.asStateFlow()
 

@@ -1,6 +1,6 @@
-package com.wangzan101.mika.cap.phone.a11y
+package com.wangzan101.djini.cap.phone.a11y
 
-import com.wangzan101.mika.i18n.AppLanguage
+import com.wangzan101.djini.i18n.AppLanguage
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.PixelFormat
@@ -25,8 +25,8 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import android.view.Display
-import com.wangzan101.mika.capsule.CapsuleAppBounds
-import com.wangzan101.mika.capsule.CapsuleFullscreen
+import com.wangzan101.djini.capsule.CapsuleAppBounds
+import com.wangzan101.djini.capsule.CapsuleFullscreen
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
@@ -190,7 +190,7 @@ class OverlayHost internal constructor(private val service: ScreenAccessibility)
     }
 
     /**
-     * 用户屏幕上输入法的上边(屏幕坐标);没弹出时为 null。不论输入法是对着哪个 App 弹的(包括 Mika 自己的浮层),
+     * 用户屏幕上输入法的上边(屏幕坐标);没弹出时为 null。不论输入法是对着哪个 App 弹的(包括 Djini 自己的浮层),
      * 胶囊和卡片都据此让开。窗口一变就重读,读不到窗口时当作没弹出。
      */
     fun imeTop(): Flow<Int?> = service.windowChanges().onStart { emit(Unit) }

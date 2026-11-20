@@ -1,17 +1,17 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
 import org.junit.Rule
-import com.wangzan101.mika.i18n.ChineseTexts
-import com.wangzan101.mika.core.agent.FailKind
-import com.wangzan101.mika.core.agent.RunOutcome
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.core.knowledge.GuideCatalog
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.observation.Place
-import com.wangzan101.mika.core.skills.PersonalSkill
-import com.wangzan101.mika.core.skills.SkillDrafter
-import com.wangzan101.mika.core.skills.SkillStatus
-import com.wangzan101.mika.settings.MemorySwitches
+import com.wangzan101.djini.i18n.ChineseTexts
+import com.wangzan101.djini.core.agent.FailKind
+import com.wangzan101.djini.core.agent.RunOutcome
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.core.knowledge.GuideCatalog
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.observation.Place
+import com.wangzan101.djini.core.skills.PersonalSkill
+import com.wangzan101.djini.core.skills.SkillDrafter
+import com.wangzan101.djini.core.skills.SkillStatus
+import com.wangzan101.djini.settings.MemorySwitches
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runCurrent
@@ -20,7 +20,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import com.wangzan101.mika.core.assembly.knownTools
+import com.wangzan101.djini.core.assembly.knownTools
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SedimentationWiringTest {
@@ -88,7 +88,7 @@ class SedimentationWiringTest {
         val on = MapSkills()
         val notes = runBlocking { learning(on, learn = true).learn(after(events())) }
         assertEquals(listOf("draft-1"), on.drafts.keys.toList())
-        assertEquals("Mika 学会了一项技能:给指定联系人发一条微信消息", notes.skillNotes.single().text)
+        assertEquals("Djini 学会了一项技能:给指定联系人发一条微信消息", notes.skillNotes.single().text)
         assertEquals("draft-1", notes.skillNotes.single().draftId)
     }
 

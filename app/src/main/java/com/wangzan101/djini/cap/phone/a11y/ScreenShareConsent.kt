@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.phone.a11y
+package com.wangzan101.djini.cap.phone.a11y
 
 import android.view.Gravity
 import androidx.compose.foundation.layout.Column
@@ -10,9 +10,9 @@ import androidx.compose.material3.TextButton
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.settings.AppAccessStore
-import com.wangzan101.mika.ui.theme.MikaTheme
+import com.wangzan101.djini.R
+import com.wangzan101.djini.settings.AppAccessStore
+import com.wangzan101.djini.ui.theme.DjiniTheme
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 
@@ -29,7 +29,7 @@ internal suspend fun requestScreenShare(service: ScreenAccessibility, store: App
             continuation.resume(allowed)
         }
         window = service.overlays().open(OverlayPlacement(Gravity.CENTER), onOutside = { finish(0) }) {
-            MikaTheme {
+            DjiniTheme {
                 Surface { Column(Modifier.widthIn(max = 340.dp).padding(20.dp)) {
                     Text(stringResource(R.string.appaccess_share_title, label))
                     Text(stringResource(R.string.appaccess_share_body))

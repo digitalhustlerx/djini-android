@@ -1,8 +1,8 @@
-package com.wangzan101.mika.takeover
+package com.wangzan101.djini.takeover
 
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.core.tool.HandBackOutcome
-import com.wangzan101.mika.task.restorePipSound
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.core.tool.HandBackOutcome
+import com.wangzan101.djini.task.restorePipSound
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.runCurrent

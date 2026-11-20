@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 /** 聊天页里一个可定位的消息位置。轮次从 0 开始;steerIndex 是这一轮插话的序号。 */
 sealed interface ChatTarget {

@@ -1,4 +1,4 @@
-package com.wangzan101.mika.about
+package com.wangzan101.djini.about
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse

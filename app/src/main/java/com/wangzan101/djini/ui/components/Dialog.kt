@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui.components
+package com.wangzan101.djini.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -22,12 +22,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
-import com.wangzan101.mika.R
-import com.wangzan101.mika.ui.MarkdownText
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
-import com.wangzan101.mika.ui.theme.MikaRadius
-import com.wangzan101.mika.ui.theme.MikaShapes
+import com.wangzan101.djini.R
+import com.wangzan101.djini.ui.MarkdownText
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.MikaRadius
+import com.wangzan101.djini.ui.theme.MikaShapes
 
 /**
  * App 内统一弹窗：保留调用方的内容、动作和测试标识，只统一容器、正文层级与操作区。
@@ -43,7 +43,7 @@ fun MikaDialog(
     dismissButton: (@Composable () -> Unit)? = null,
     properties: DialogProperties = DialogProperties(),
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     AlertDialog(
         onDismissRequest = onDismissRequest,
         modifier = modifier,
@@ -100,7 +100,7 @@ fun MikaNoticeDialog(
     MikaDialog(
         onDismissRequest = onDismiss,
         title = title?.let { { Text(it) } },
-        text = { MarkdownText(message, MikaType.Body.copy(color = MikaTheme.colors.ink2)) },
+        text = { MarkdownText(message, MikaType.Body.copy(color = DjiniTheme.colors.ink2)) },
         confirmButton = { TextButton(onDismiss) { Text(confirmText) } },
     )
 }

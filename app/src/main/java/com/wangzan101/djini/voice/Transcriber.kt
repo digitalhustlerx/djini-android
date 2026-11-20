@@ -1,11 +1,11 @@
-package com.wangzan101.mika.voice
+package com.wangzan101.djini.voice
 
-import com.wangzan101.mika.core.model.ListedModel
-import com.wangzan101.mika.core.model.ModelError
-import com.wangzan101.mika.core.model.ModelHttp
-import com.wangzan101.mika.core.model.headerOrReject
-import com.wangzan101.mika.settings.Provider
-import com.wangzan101.mika.settings.ProviderConfig
+import com.wangzan101.djini.core.model.ListedModel
+import com.wangzan101.djini.core.model.ModelError
+import com.wangzan101.djini.core.model.ModelHttp
+import com.wangzan101.djini.core.model.headerOrReject
+import com.wangzan101.djini.settings.Provider
+import com.wangzan101.djini.settings.ProviderConfig
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject

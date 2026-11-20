@@ -1,8 +1,8 @@
-package com.wangzan101.mika.cap.web
+package com.wangzan101.djini.cap.web
 
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.i18n.AppLanguage
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.i18n.AppLanguage
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -24,10 +24,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
-import com.wangzan101.mika.web.WebTakeoverActivity
+import com.wangzan101.djini.web.WebTakeoverActivity
 
 /**
- * 网页接管界面:主屏全屏,顶部一条「Mika 在等你:<原因>」和按钮,下面是**同一个** WebView(从后台宿主挪过来)。
+ * 网页接管界面:主屏全屏,顶部一条「Djini 在等你:<原因>」和按钮,下面是**同一个** WebView(从后台宿主挪过来)。
  * 任务接管:「处理好了」「我自己做完了」「取消任务」;系统返回键 = 先放着(任务仍在等待接管,通知还在)。
  * 设置页登录:只有「完成」,返回键直接关掉。
  * 接管结束([WebHandover.end])时界面自己关掉,视图放回后台宿主。

@@ -1,12 +1,12 @@
-package com.wangzan101.mika.core.cap.sandbox
+package com.wangzan101.djini.core.cap.sandbox
 
 import java.io.File
 import java.nio.file.Files
-import com.wangzan101.mika.core.workspace.NioFdSys
-import com.wangzan101.mika.core.workspace.SandboxPaths
-import com.wangzan101.mika.core.knowledge.ScriptEntry
-import com.wangzan101.mika.core.workspace.WorkspaceFileGate
-import com.wangzan101.mika.core.workspace.SandboxTree
+import com.wangzan101.djini.core.workspace.NioFdSys
+import com.wangzan101.djini.core.workspace.SandboxPaths
+import com.wangzan101.djini.core.knowledge.ScriptEntry
+import com.wangzan101.djini.core.workspace.WorkspaceFileGate
+import com.wangzan101.djini.core.workspace.SandboxTree
 
 /** 宿主目录放在临时目录里的沙箱;命令不真跑,按 [next] 回结果并记下收到的参数。 */
 class FakeSandbox(var status: SandboxStatus = SandboxStatus.Ready(network = false)) : SandboxPort {
@@ -67,16 +67,16 @@ class FakeSandbox(var status: SandboxStatus = SandboxStatus.Ready(network = fals
         else -> skillsDir to normalized.removePrefix(SandboxPaths.SKILLS).trimStart('/')
     }
 
-    override suspend fun share(file: File, name: String): String { shared += file to name; return "Download/Mika/$name" }
+    override suspend fun share(file: File, name: String): String { shared += file to name; return "Download/Djini/$name" }
     override fun freeBytes() = free
     override fun workspaceBytes(workspace: String) = used
 
     override fun saveOutput(workspace: String, text: String): String {
-        val rel = ".mika/out-${++outputs}.txt"
+        val rel = ".djini/out-${++outputs}.txt"
         val f = SandboxPaths.resolveHost(workspaceDir(workspace), rel) ?: throw java.io.IOException("$rel escapes the workspace")
         f.parentFile.mkdirs()
         f.writeText(text)
-        return "${SandboxPaths.WORKSPACE}/.mika/out-$outputs.txt"
+        return "${SandboxPaths.WORKSPACE}/.djini/out-$outputs.txt"
     }
 
     override fun scriptManifest(skillPath: String): List<ScriptEntry> = manifests[skillPath].orEmpty()

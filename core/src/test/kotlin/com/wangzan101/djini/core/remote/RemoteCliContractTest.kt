@@ -1,7 +1,7 @@
-package com.wangzan101.mika.core.remote
+package com.wangzan101.djini.core.remote
 
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.core.mcp.FakeRemoteTasks
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.core.mcp.FakeRemoteTasks
 import kotlinx.serialization.json.*
 import org.junit.Assert.*
 import org.junit.Test
@@ -17,14 +17,14 @@ class RemoteCliContractTest {
         // 自己起监听、记下 CLI 请求过的路径,核对它一次也没走 MCP。
         val paths = java.util.Collections.synchronizedList(mutableListOf<String>())
         val server = MiniHttpServer(RemoteHost.bindAddress(false, 0), { req -> paths += req.path; host.handle(req) })
-        val directory = Files.createTempDirectory("mika-cli-contract").toFile()
+        val directory = Files.createTempDirectory("djini-cli-contract").toFile()
         val token = File(directory, "token").apply { writeText("contract-test-token") }
         val errors = File(directory, "stderr")
-        val script = File("../tools/mika/scripts/mika_cli.py").canonicalPath
+        val script = File("../tools/djini/scripts/mika_cli.py").canonicalPath
         server.start()
         try {
             fun cli(vararg args: String, exit: Int = 0): JsonObject {
-                val process = ProcessBuilder(listOf(System.getProperty("mika.python", "python3"), script,
+                val process = ProcessBuilder(listOf(System.getProperty("djini.python", "python3"), script,
                     "--url", "http://127.0.0.1:${server.port}", "--token-file", token.absolutePath, "--json") + args)
                     // stderr 是给人看的进度,stdout 只有 JSON:分开读,口令两边都不许出现
                     .directory(directory).redirectError(errors).start()

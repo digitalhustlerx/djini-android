@@ -1,13 +1,13 @@
-package com.wangzan101.mika.cap.web
+package com.wangzan101.djini.cap.web
 
-import com.wangzan101.mika.core.workspace.SandboxTree
+import com.wangzan101.djini.core.workspace.SandboxTree
 import android.util.Log
-import com.wangzan101.mika.core.workspace.GatedFile
-import com.wangzan101.mika.core.workspace.SandboxError
-import com.wangzan101.mika.core.workspace.WorkspaceFileGate
-import com.wangzan101.mika.core.cap.web.DownloadAddressPolicy
-import com.wangzan101.mika.core.cap.web.DownloadInfo
-import com.wangzan101.mika.core.cap.web.WebUrlPolicy
+import com.wangzan101.djini.core.workspace.GatedFile
+import com.wangzan101.djini.core.workspace.SandboxError
+import com.wangzan101.djini.core.workspace.WorkspaceFileGate
+import com.wangzan101.djini.core.cap.web.DownloadAddressPolicy
+import com.wangzan101.djini.core.cap.web.DownloadInfo
+import com.wangzan101.djini.core.cap.web.WebUrlPolicy
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay

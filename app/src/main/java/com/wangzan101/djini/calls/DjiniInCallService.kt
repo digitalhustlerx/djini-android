@@ -1,4 +1,4 @@
-package com.wangzan101.mika.calls
+package com.wangzan101.djini.calls
 
 import android.content.Intent
 import android.os.Build
@@ -6,15 +6,15 @@ import android.telecom.Call
 import android.telecom.CallAudioState
 import android.telecom.InCallService
 import android.util.Log
-import com.wangzan101.mika.BuildConfig
-import com.wangzan101.mika.MikaApp
+import com.wangzan101.djini.BuildConfig
+import com.wangzan101.djini.DjiniApp
 
 /** Non-UI companion service; the user's dialer owns the native call screens and ring tone. */
-class MikaInCallService : InCallService() {
-    private val runtime get() = (application as MikaApp).calls
+class DjiniInCallService : InCallService() {
+    private val runtime get() = (application as DjiniApp).calls
     private val callback = object : Call.Callback() {
-        override fun onStateChanged(call: Call, state: Int) = runtime.onCallChanged(this@MikaInCallService, call)
-        override fun onDetailsChanged(call: Call, details: Call.Details) = runtime.onCallChanged(this@MikaInCallService, call)
+        override fun onStateChanged(call: Call, state: Int) = runtime.onCallChanged(this@DjiniInCallService, call)
+        override fun onDetailsChanged(call: Call, details: Call.Details) = runtime.onCallChanged(this@DjiniInCallService, call)
     }
     private val attached = mutableSetOf<Call>()
     private val muteState = TelecomMuteState(Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE)

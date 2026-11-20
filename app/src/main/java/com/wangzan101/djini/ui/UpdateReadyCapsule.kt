@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.Animatable
@@ -49,14 +49,14 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LifecycleResumeEffect
-import com.wangzan101.mika.R
-import com.wangzan101.mika.about.ReleaseInfo
-import com.wangzan101.mika.ui.components.GlassBackdrop
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
-import com.wangzan101.mika.ui.theme.MikaRadius
-import com.wangzan101.mika.ui.theme.MikaShapes
+import com.wangzan101.djini.R
+import com.wangzan101.djini.about.ReleaseInfo
+import com.wangzan101.djini.ui.components.GlassBackdrop
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.MikaRadius
+import com.wangzan101.djini.ui.theme.MikaShapes
 import kotlinx.coroutines.delay
 
 @Composable
@@ -68,7 +68,7 @@ internal fun BoxScope.UpdateReadyCapsule(
     backdrop: GlassBackdrop?,
     modifier: Modifier = Modifier,
 ) {
-    val reduceMotion = MikaTheme.reduceMotion
+    val reduceMotion = DjiniTheme.reduceMotion
     val reveal = remember(release.apkUrl) { Animatable(if (reduceMotion) 1f else 0f) }
     val interaction = remember { MutableInteractionSource() }
     val hovered by interaction.collectIsHoveredAsState()
@@ -95,7 +95,7 @@ internal fun BoxScope.UpdateReadyCapsule(
     }
 
     val material = UpdateGlassMaterial.Capsule
-    val success = if (MikaTheme.colors.isDark) Color(0xFF80E5A1) else Color(0xFF237B42)
+    val success = if (DjiniTheme.colors.isDark) Color(0xFF80E5A1) else Color(0xFF237B42)
     UpdateGlassSurface(
         material, backdrop,
         modifier.size(material.width.dp, material.height.dp)
@@ -174,7 +174,7 @@ private fun UpdateGlassClose(label: String, onClick: () -> Unit, modifier: Modif
 
 @Composable
 private fun UpdateGlassAction(label: String, primary: Boolean, onClick: () -> Unit, modifier: Modifier = Modifier) {
-    val dark = MikaTheme.colors.isDark
+    val dark = DjiniTheme.colors.isDark
     val fill = when {
         primary && dark -> Color(0xFFB4DBB3)
         primary -> Color(0xFF294332)

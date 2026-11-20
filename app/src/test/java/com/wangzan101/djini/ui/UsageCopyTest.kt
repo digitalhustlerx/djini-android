@@ -1,16 +1,16 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import org.junit.Rule
-import com.wangzan101.mika.i18n.ChineseTexts
-import com.wangzan101.mika.i18n.ResFileTexts
-import com.wangzan101.mika.i18n.UiText
-import com.wangzan101.mika.core.usage.UsageCounts
-import com.wangzan101.mika.core.usage.UsageKey
-import com.wangzan101.mika.core.usage.UsagePurpose
-import com.wangzan101.mika.core.usage.UsageQuery
-import com.wangzan101.mika.core.usage.UsageRange
-import com.wangzan101.mika.core.usage.UsageRow
-import com.wangzan101.mika.core.usage.UsageSnapshot
+import com.wangzan101.djini.i18n.ChineseTexts
+import com.wangzan101.djini.i18n.ResFileTexts
+import com.wangzan101.djini.i18n.UiText
+import com.wangzan101.djini.core.usage.UsageCounts
+import com.wangzan101.djini.core.usage.UsageKey
+import com.wangzan101.djini.core.usage.UsagePurpose
+import com.wangzan101.djini.core.usage.UsageQuery
+import com.wangzan101.djini.core.usage.UsageRange
+import com.wangzan101.djini.core.usage.UsageRow
+import com.wangzan101.djini.core.usage.UsageSnapshot
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.time.Instant

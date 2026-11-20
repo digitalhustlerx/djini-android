@@ -1,8 +1,8 @@
-package com.wangzan101.mika.chat
+package com.wangzan101.djini.chat
 
 import android.content.Context
-import com.wangzan101.mika.MikaApp
-import com.wangzan101.mika.cap.sandbox.WorkspaceKey
+import com.wangzan101.djini.DjiniApp
+import com.wangzan101.djini.cap.sandbox.WorkspaceKey
 import java.util.concurrent.ConcurrentHashMap
 
 /**
@@ -33,7 +33,7 @@ class WorkspaceResolver(
 
     companion object {
         fun resolveFor(context: Context, conversationId: String): WorkspaceKey =
-            (context.applicationContext as? MikaApp)?.workspaceResolver?.resolve(conversationId)
+            (context.applicationContext as? DjiniApp)?.workspaceResolver?.resolve(conversationId)
                 ?: WorkspaceKey.Conversation(conversationId)
 
         fun resolver(context: Context): (String) -> WorkspaceKey = { id -> resolveFor(context, id) }

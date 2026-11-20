@@ -1,9 +1,9 @@
-package com.wangzan101.mika.replay
+package com.wangzan101.djini.replay
 
-import com.wangzan101.mika.core.replay.Anchors
-import com.wangzan101.mika.core.replay.MAX_ROUTE_STEPS
-import com.wangzan101.mika.core.replay.Route
-import com.wangzan101.mika.core.replay.RouteStep
+import com.wangzan101.djini.core.replay.Anchors
+import com.wangzan101.djini.core.replay.MAX_ROUTE_STEPS
+import com.wangzan101.djini.core.replay.Route
+import com.wangzan101.djini.core.replay.RouteStep
 import org.junit.Assert.assertThrows
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue

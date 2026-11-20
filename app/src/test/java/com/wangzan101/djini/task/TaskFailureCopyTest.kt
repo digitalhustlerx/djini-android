@@ -1,10 +1,10 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
-import com.wangzan101.mika.core.agent.FailKind
-import com.wangzan101.mika.core.agent.FailureCode
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.i18n.ResFileTexts
-import com.wangzan101.mika.i18n.UiText
+import com.wangzan101.djini.core.agent.FailKind
+import com.wangzan101.djini.core.agent.FailureCode
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.i18n.ResFileTexts
+import com.wangzan101.djini.i18n.UiText
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertSame
 import org.junit.Assert.assertTrue

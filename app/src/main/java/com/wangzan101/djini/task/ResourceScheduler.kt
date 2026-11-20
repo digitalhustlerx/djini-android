@@ -1,8 +1,8 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
-import com.wangzan101.mika.cap.web.TabBudget
-import com.wangzan101.mika.core.uistate.AppWait
-import com.wangzan101.mika.takeover.TakeoverQueue
+import com.wangzan101.djini.cap.web.TabBudget
+import com.wangzan101.djini.core.uistate.AppWait
+import com.wangzan101.djini.takeover.TakeoverQueue
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withTimeoutOrNull

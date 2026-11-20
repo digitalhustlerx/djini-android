@@ -1,10 +1,10 @@
-package com.wangzan101.mika.settings
+package com.wangzan101.djini.settings
 
-import com.wangzan101.mika.core.cap.mcp.McpOAuthTokens
-import com.wangzan101.mika.core.cap.mcp.McpStdioLauncher
-import com.wangzan101.mika.core.cap.mcp.McpStdioProcess
-import com.wangzan101.mika.core.resource.ResourceScope
-import com.wangzan101.mika.core.workspace.SandboxTree
+import com.wangzan101.djini.core.cap.mcp.McpOAuthTokens
+import com.wangzan101.djini.core.cap.mcp.McpStdioLauncher
+import com.wangzan101.djini.core.cap.mcp.McpStdioProcess
+import com.wangzan101.djini.core.resource.ResourceScope
+import com.wangzan101.djini.core.workspace.SandboxTree
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay

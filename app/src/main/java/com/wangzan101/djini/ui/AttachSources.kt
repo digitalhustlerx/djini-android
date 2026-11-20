@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import android.Manifest
 import android.content.ContentResolver
@@ -25,12 +25,12 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import com.wangzan101.mika.cap.sandbox.Attachments
-import com.wangzan101.mika.cap.sandbox.SandboxDirs
-import com.wangzan101.mika.chat.AttachFilesProvider
-import com.wangzan101.mika.chat.WorkspaceResolver
-import com.wangzan101.mika.core.workspace.SandboxPaths
-import com.wangzan101.mika.ui.viewer.FileViewer
+import com.wangzan101.djini.cap.sandbox.Attachments
+import com.wangzan101.djini.cap.sandbox.SandboxDirs
+import com.wangzan101.djini.chat.AttachFilesProvider
+import com.wangzan101.djini.chat.WorkspaceResolver
+import com.wangzan101.djini.core.workspace.SandboxPaths
+import com.wangzan101.djini.ui.viewer.FileViewer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File

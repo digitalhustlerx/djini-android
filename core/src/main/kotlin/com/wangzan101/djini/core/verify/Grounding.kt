@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.verify
+package com.wangzan101.djini.core.verify
 
 /**
  * 代码兜底:核查器判 pass 之后,用一条与模型无关的规则再对一遍文字证据。代码只核它核得准的——字面上有没有,

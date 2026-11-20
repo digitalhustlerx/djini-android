@@ -1,6 +1,6 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.R
+import com.wangzan101.djini.R
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.platform.LocalContext
 import android.view.Display
@@ -45,7 +45,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.Role
-import com.wangzan101.mika.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.MikaType
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -70,17 +70,17 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import com.wangzan101.mika.ui.PipPhysics.Corner
-import com.wangzan101.mika.cap.phone.display.PipInput
+import com.wangzan101.djini.ui.PipPhysics.Corner
+import com.wangzan101.djini.cap.phone.display.PipInput
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaRadius
-import com.wangzan101.mika.ui.theme.MikaShapes
-import com.wangzan101.mika.ui.components.floatShadow
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.MikaRadius
+import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.components.floatShadow
 import androidx.compose.ui.unit.Dp
 
 /** 小窗宽度:收起 / 展开。高度按画面(没有画面时按主屏)的长宽比算,整屏完整显示、不裁底部。 */
@@ -140,7 +140,7 @@ fun AgentPip(
             ClosedPip(pip.mode == PipMode.NeedsYou, reduceMotion, Modifier.padding(end = 12.dp, bottom = bottom + 12.dp), onReopen, onAttention)
         }
         AnimatedVisibility(pip.visible && !pip.closed && pip.expanded, enter = fadeIn(fade), exit = fadeOut(fade)) {
-            Box(Modifier.fillMaxSize().background(MikaTheme.colors.floatShadow.copy(alpha = 0.12f)).pointerInput(Unit) { detectTapGestures { onCollapse() } })
+            Box(Modifier.fillMaxSize().background(DjiniTheme.colors.floatShadow.copy(alpha = 0.12f)).pointerInput(Unit) { detectTapGestures { onCollapse() } })
         }
         AnimatedVisibility(pip.visible && !pip.closed, enter = fadeIn(fade), exit = fadeOut(if (reduceMotion) tween(150) else tween(500))) {
             PipWindow(
@@ -160,7 +160,7 @@ fun AgentPip(
  */
 @Composable
 private fun ClosedPip(needsYou: Boolean, reduceMotion: Boolean, modifier: Modifier, onReopen: () -> Unit, onAttention: () -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val shape = MikaShapes.Pill
     val breath = if (needsYou && !reduceMotion) {
         rememberInfiniteTransition(label = "closedBreathe").animateFloat(
@@ -319,15 +319,15 @@ private fun PipWindow(
             // 橙色光晕:比窗口大一圈,模糊后透出边缘(安卓 12 以下不模糊,只是一圈淡橙色)
             Box(
                 Modifier.offset((-5).dp, (-5).dp).size(w + 10.dp, h + 10.dp).alpha(breath)
-                    .blur(10.dp).background(MikaTheme.colors.warnSolid.copy(alpha = 0.55f), outer),
+                    .blur(10.dp).background(DjiniTheme.colors.warnSolid.copy(alpha = 0.55f), outer),
             )
         }
         Box(
             Modifier.testTag("pip-window").size(w, h)
                 .alpha(if (pip.mode == PipMode.Done) 0.85f else 1f)
-                .floatShadow(MikaTheme.colors, outer)
-                .background(MikaTheme.colors.glass, outer)
-                .border(0.5.dp, MikaTheme.colors.glassEdge, outer)
+                .floatShadow(DjiniTheme.colors, outer)
+                .background(DjiniTheme.colors.glass, outer)
+                .border(0.5.dp, DjiniTheme.colors.glassEdge, outer)
                 .then(if (operate) Modifier else Modifier.pointerInput(Unit) {
                     val tracker = VelocityTracker()
                     // 自己数位移而不用 detectDragGestures:越过触摸阈值时把阈值内的那段也补上,
@@ -382,7 +382,7 @@ private fun PipWindow(
         ) {
             // 画面按长宽比塞满整个内框;直接操作时把点/滑按内框归一化坐标换算成虚拟屏坐标注入
             Box(
-                Modifier.fillMaxSize().clip(inner).background(MikaTheme.colors.surface),
+                Modifier.fillMaxSize().clip(inner).background(DjiniTheme.colors.surface),
                 contentAlignment = Alignment.Center,
             ) {
                 if (frame != null) {
@@ -432,16 +432,16 @@ private fun PipWindow(
                 }
                 Box(
                     Modifier.align(Alignment.TopEnd).padding(6.dp).size(26.dp)
-                        .floatShadow(MikaTheme.colors, CircleShape).background(MikaTheme.colors.glass, CircleShape).clip(CircleShape)
+                        .floatShadow(DjiniTheme.colors, CircleShape).background(DjiniTheme.colors.glass, CircleShape).clip(CircleShape)
                         .clickable(onClickLabel = stringResource(R.string.collapse), onClick = onCollapse),
                     contentAlignment = Alignment.Center,
-                ) { Icon(MikaIcons.Close, stringResource(R.string.collapse), Modifier.size(12.dp), tint = MikaTheme.colors.ink) }
+                ) { Icon(MikaIcons.Close, stringResource(R.string.collapse), Modifier.size(12.dp), tint = DjiniTheme.colors.ink) }
             }
         }
         // 边框光画在玻璃框外沿
         val glow = when (pip.mode) {
-            PipMode.Running -> MikaTheme.colors.ok to 2.dp
-            PipMode.NeedsYou -> MikaTheme.colors.warnSolid.copy(alpha = breath) to 2.dp
+            PipMode.Running -> DjiniTheme.colors.ok to 2.dp
+            PipMode.NeedsYou -> DjiniTheme.colors.warnSolid.copy(alpha = breath) to 2.dp
             PipMode.Done -> null
         }
         if (glow != null) Box(Modifier.size(w, h).border(glow.second, glow.first, outer))
@@ -452,11 +452,11 @@ private fun PipWindow(
 private fun PipButton(icon: androidx.compose.ui.graphics.vector.ImageVector, label: String, onClick: () -> Unit, tag: String) {
     Box(
         Modifier.size(26.dp)
-            .floatShadow(MikaTheme.colors, CircleShape).background(MikaTheme.colors.glass, CircleShape).clip(CircleShape)
+            .floatShadow(DjiniTheme.colors, CircleShape).background(DjiniTheme.colors.glass, CircleShape).clip(CircleShape)
             .clickable(onClickLabel = label, onClick = onClick)
             .testTag(tag),
         contentAlignment = Alignment.Center,
-    ) { Icon(icon, label, Modifier.size(13.dp), tint = MikaTheme.colors.ink) }
+    ) { Icon(icon, label, Modifier.size(13.dp), tint = DjiniTheme.colors.ink) }
 }
 
 /** 画面按长宽比塞进 innerW×innerH 后的尺寸(不裁、不拉伸),没画面或尺寸异常时退回整框。 */
@@ -499,10 +499,10 @@ private fun operateInputModifier(input: PipInput, scope: CoroutineScope): Modifi
 /** Discrete controls also let a screen-reader user resize without a two-finger gesture. */
 @Composable
 private fun PipSizeButton(mark: String, label: String, tag: String, onClick: () -> Unit) {
-    Box(Modifier.size(26.dp).floatShadow(MikaTheme.colors, CircleShape)
-        .background(MikaTheme.colors.glass, CircleShape).clip(CircleShape)
+    Box(Modifier.size(26.dp).floatShadow(DjiniTheme.colors, CircleShape)
+        .background(DjiniTheme.colors.glass, CircleShape).clip(CircleShape)
         .clickable(role = Role.Button, onClickLabel = label, onClick = onClick).testTag(tag),
         contentAlignment = Alignment.Center) {
-        Text(mark, style = MikaType.Hint, color = MikaTheme.colors.ink)
+        Text(mark, style = MikaType.Hint, color = DjiniTheme.colors.ink)
     }
 }

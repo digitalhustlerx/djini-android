@@ -1,11 +1,11 @@
-package com.wangzan101.mika.core.net
+package com.wangzan101.djini.core.net
 
-import com.wangzan101.mika.core.agent.RetryPolicy
-import com.wangzan101.mika.core.model.HttpSupport
-import com.wangzan101.mika.core.model.ListFailure
-import com.wangzan101.mika.core.model.ModelCatalog
-import com.wangzan101.mika.core.model.ModelError
-import com.wangzan101.mika.core.model.ModelListResult
+import com.wangzan101.djini.core.agent.RetryPolicy
+import com.wangzan101.djini.core.model.HttpSupport
+import com.wangzan101.djini.core.model.ListFailure
+import com.wangzan101.djini.core.model.ModelCatalog
+import com.wangzan101.djini.core.model.ModelError
+import com.wangzan101.djini.core.model.ModelListResult
 import kotlinx.coroutines.test.runTest
 import okhttp3.Credentials
 import okhttp3.OkHttpClient
@@ -28,7 +28,7 @@ import java.net.SocketException
 import java.net.SocketTimeoutException
 import java.net.URI
 
-/** Mika 自己连接用的网络代理:按设置走代理、本机和局域网直连、HTTP 代理的账号密码、出错时说清是代理的问题。 */
+/** Djini 自己连接用的网络代理:按设置走代理、本机和局域网直连、HTTP 代理的账号密码、出错时说清是代理的问题。 */
 class NetProxyTest {
     private lateinit var server: MockWebServer
 
@@ -85,7 +85,7 @@ class NetProxyTest {
         assertEquals(Proxy.Type.HTTP, net.selector.select(URI("https://api.example.com/v1")).single().type())
         setting = ""
         assertEquals(listOf(Proxy.NO_PROXY), net.selector.select(URI("https://api.example.com/v1")))
-        // https 代理 Mika 自己的连接用不上:直连
+        // https 代理 Djini 自己的连接用不上:直连
         setting = "https://proxy.example.com:443"
         assertEquals(listOf(Proxy.NO_PROXY), net.selector.select(URI("https://api.example.com/v1")))
     }

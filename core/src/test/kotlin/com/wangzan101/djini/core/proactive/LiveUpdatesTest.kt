@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.proactive
+package com.wangzan101.djini.core.proactive
 
-import com.wangzan101.mika.core.proactive.LiveUpdates.Verdict
+import com.wangzan101.djini.core.proactive.LiveUpdates.Verdict
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test

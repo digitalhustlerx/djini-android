@@ -1,17 +1,17 @@
-package com.wangzan101.mika.about
+package com.wangzan101.djini.about
 
-import com.wangzan101.mika.core.adb.ConnectCandidates
-import com.wangzan101.mika.core.shell.BuiltinShellFailure
-import com.wangzan101.mika.core.shell.BuiltinShellStatus
-import com.wangzan101.mika.core.shell.HelperRestart
-import com.wangzan101.mika.core.shell.PairingChannelHealth
-import com.wangzan101.mika.core.shell.PairingDiscovery
-import com.wangzan101.mika.core.shell.RecoveryCapability
-import com.wangzan101.mika.core.shell.RecoveryConsent
-import com.wangzan101.mika.core.shell.SetupStep
-import com.wangzan101.mika.settings.AccessibilityState
-import com.wangzan101.mika.settings.ChatGptSignInFailureRecord
-import com.wangzan101.mika.settings.SystemStatus
+import com.wangzan101.djini.core.adb.ConnectCandidates
+import com.wangzan101.djini.core.shell.BuiltinShellFailure
+import com.wangzan101.djini.core.shell.BuiltinShellStatus
+import com.wangzan101.djini.core.shell.HelperRestart
+import com.wangzan101.djini.core.shell.PairingChannelHealth
+import com.wangzan101.djini.core.shell.PairingDiscovery
+import com.wangzan101.djini.core.shell.RecoveryCapability
+import com.wangzan101.djini.core.shell.RecoveryConsent
+import com.wangzan101.djini.core.shell.SetupStep
+import com.wangzan101.djini.settings.AccessibilityState
+import com.wangzan101.djini.settings.ChatGptSignInFailureRecord
+import com.wangzan101.djini.settings.SystemStatus
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -232,7 +232,7 @@ class DiagnosticsTest {
         assertTrue(t, t.contains("last reboot restore: NotRecovered"))
     }
 
-    /** 内置助手拉起 Mika 的记录、启动时无障碍服务的问题:有就写何时、几次,没有写 never / ok。 */
+    /** 内置助手拉起 Djini 的记录、启动时无障碍服务的问题:有就写何时、几次,没有写 never / ok。 */
     @Test
     fun helperRestoresAndAccessibilityLoss() {
         val base = snapshot()
@@ -240,8 +240,8 @@ class DiagnosticsTest {
         assertTrue(none, none.contains("restored by helper: never"))
         assertTrue(none, none.contains("accessibility on start: ok"))
         val t = Diagnostics.render(base.copy(recovery = base.recovery.copy(
-            helperRestores = com.wangzan101.mika.core.shell.HelperRestoreReport(now - 3 * 60_000, 2, now - 60_000),
-            lastA11yLoss = com.wangzan101.mika.core.shell.A11yLossRecord(com.wangzan101.mika.core.shell.A11yLoss.Removed, now - 2 * 3_600_000),
+            helperRestores = com.wangzan101.djini.core.shell.HelperRestoreReport(now - 3 * 60_000, 2, now - 60_000),
+            lastA11yLoss = com.wangzan101.djini.core.shell.A11yLossRecord(com.wangzan101.djini.core.shell.A11yLoss.Removed, now - 2 * 3_600_000),
         )))
         assertTrue(t, t.contains("restored by helper: 3m ago, 2 recently, backed off 1m ago"))
         assertTrue(t, t.contains("accessibility on start: removed 2h ago"))

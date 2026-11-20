@@ -1,6 +1,6 @@
 """Run against a disposable arm64 emulator with the debug and Android test APKs installed.
 
-    python3 tools/mika/tests/browser_phone_files.py --device emulator-5554
+    python3 tools/djini/tests/browser_phone_files.py --device emulator-5554
 
 The browser launches the ordinary ADB desk. The on-device test supplies only the
 model replies; Android imports the attachment and exports the real result file.
@@ -21,7 +21,7 @@ from test_mika_desk import SCRIPT, desk
 
 @contextmanager
 def packaged_desk(adb, serial, pkg, script):
-    if pkg == "com.wangzan101.mika":
+    if pkg == "com.wangzan101.djini":
         with desk("--device", serial, script=script) as url:
             yield url
         return
@@ -51,7 +51,7 @@ def run(serial, evidence=None, dev_install=False, script=SCRIPT):
     adb = ["adb", "-s", serial]
     if not serial.startswith("emulator-") or subprocess.check_output(adb + ["shell", "getprop", "ro.kernel.qemu"]).strip() != b"1":
         raise ValueError("Pass a disposable Android emulator serial.")
-    pkg = "com.wangzan101.mika"
+    pkg = "com.wangzan101.djini"
     test = pkg + ".task.RemoteTaskFilesDeviceTest"
     if dev_install:
         pkg += ".dev"

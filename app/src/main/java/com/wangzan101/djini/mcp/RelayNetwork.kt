@@ -1,4 +1,4 @@
-package com.wangzan101.mika.mcp
+package com.wangzan101.djini.mcp
 
 import android.content.Context
 import android.net.ConnectivityManager

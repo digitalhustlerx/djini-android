@@ -1,14 +1,14 @@
-package com.wangzan101.mika.core.cap.audio
+package com.wangzan101.djini.core.cap.audio
 
-import com.wangzan101.mika.core.assembly.toolDispatcher
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.SavedAudio
-import com.wangzan101.mika.core.model.StoredAudio
-import com.wangzan101.mika.core.model.TtsCapabilities
-import com.wangzan101.mika.core.model.TtsRequest
-import com.wangzan101.mika.core.model.TtsResponse
-import com.wangzan101.mika.core.tool.ActionPass
-import com.wangzan101.mika.core.vision.LocScreen
+import com.wangzan101.djini.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.SavedAudio
+import com.wangzan101.djini.core.model.StoredAudio
+import com.wangzan101.djini.core.model.TtsCapabilities
+import com.wangzan101.djini.core.model.TtsRequest
+import com.wangzan101.djini.core.model.TtsResponse
+import com.wangzan101.djini.core.tool.ActionPass
+import com.wangzan101.djini.core.vision.LocScreen
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
@@ -43,7 +43,7 @@ class AudioToolsTest {
         override suspend fun saveToMusic(path: String, name: String?): SavedAudio {
             savedPath = path
             savedName = name
-            return SavedAudio("Music/Mika/line.wav", "content://mika/audio", 4)
+            return SavedAudio("Music/Djini/line.wav", "content://djini/audio", 4)
         }
     }
 
@@ -104,7 +104,7 @@ class AudioToolsTest {
         val d = dispatcher(port, save = true, ask = false)
         val r = d.execute(call("audio_save", """{"path":"/workspace/out/audio/line.wav","name":"line.wav"}"""), ActionPass()).content
         assertEquals("true", r.s("ok"))
-        assertEquals("Music/Mika/line.wav", r.s("savedAs"))
+        assertEquals("Music/Djini/line.wav", r.s("savedAs"))
         assertEquals("/workspace/out/audio/line.wav", port.savedPath)
         assertEquals("line.wav", port.savedName)
     }

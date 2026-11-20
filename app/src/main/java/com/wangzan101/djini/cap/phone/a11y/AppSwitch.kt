@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.phone.a11y
+package com.wangzan101.djini.cap.phone.a11y
 
 /** 前台换成了别的包,算不算「被切走」。 */
 internal object AppSwitch {

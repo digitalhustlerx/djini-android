@@ -1,18 +1,18 @@
-package com.wangzan101.mika.core.cap.web
+package com.wangzan101.djini.core.cap.web
 
-import com.wangzan101.mika.core.uistate.UiElement
-import com.wangzan101.mika.core.cap.web.ElementFusion.AxNode
-import com.wangzan101.mika.core.cap.web.ElementFusion.Box
-import com.wangzan101.mika.core.cap.web.ElementFusion.Frame
-import com.wangzan101.mika.core.cap.web.ElementFusion.Input
-import com.wangzan101.mika.core.cap.web.ElementFusion.Origin
+import com.wangzan101.djini.core.uistate.UiElement
+import com.wangzan101.djini.core.cap.web.ElementFusion.AxNode
+import com.wangzan101.djini.core.cap.web.ElementFusion.Box
+import com.wangzan101.djini.core.cap.web.ElementFusion.Frame
+import com.wangzan101.djini.core.cap.web.ElementFusion.Input
+import com.wangzan101.djini.core.cap.web.ElementFusion.Origin
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import kotlin.math.abs
-import com.wangzan101.mika.core.uistate.WebInfo
+import com.wangzan101.djini.core.uistate.WebInfo
 
 class ElementFusionTest {
     private val info = WebInfo("https://example.com/", "示例", "t1", 200)

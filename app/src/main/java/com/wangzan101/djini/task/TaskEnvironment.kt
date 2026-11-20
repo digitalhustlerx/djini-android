@@ -1,12 +1,12 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
 import android.content.Context
-import com.wangzan101.mika.core.model.ChatModel
-import com.wangzan101.mika.core.model.ModelRole
-import com.wangzan101.mika.core.model.ModelSession
-import com.wangzan101.mika.settings.ProviderStore
-import com.wangzan101.mika.settings.DecisionSettings
-import com.wangzan101.mika.core.decision.DecisionModel
+import com.wangzan101.djini.core.model.ChatModel
+import com.wangzan101.djini.core.model.ModelRole
+import com.wangzan101.djini.core.model.ModelSession
+import com.wangzan101.djini.settings.ProviderStore
+import com.wangzan101.djini.settings.DecisionSettings
+import com.wangzan101.djini.core.decision.DecisionModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine

@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.cap.devicefiles
+package com.wangzan101.djini.core.cap.devicefiles
 
 /** A device-visible entry. [path] is an opaque identifier understood by this port. */
 data class DeviceFileEntry(val name: String, val path: String, val isDirectory: Boolean, val size: Long? = null, val modifiedAt: Long? = null)
@@ -31,6 +31,6 @@ interface DeviceFilesPort {
     suspend fun importFile(path: String, workspace: String): DeviceFileImport
     suspend fun search(query: DeviceFileSearchQuery): DeviceFileSearchResult
     // Platform implementations supply persisted hints and validate updates against existing directories.
-    suspend fun listDirectoryHints(): List<DeviceDirectoryHint> = throw com.wangzan101.mika.core.workspace.SandboxError("unsupported", "Directory hints are unavailable.", true)
-    suspend fun updateDirectoryDescription(path: String, description: String): DeviceDirectoryHint = throw com.wangzan101.mika.core.workspace.SandboxError("unsupported", "Directory hints are unavailable.", true)
+    suspend fun listDirectoryHints(): List<DeviceDirectoryHint> = throw com.wangzan101.djini.core.workspace.SandboxError("unsupported", "Directory hints are unavailable.", true)
+    suspend fun updateDirectoryDescription(path: String, description: String): DeviceDirectoryHint = throw com.wangzan101.djini.core.workspace.SandboxError("unsupported", "Directory hints are unavailable.", true)
 }

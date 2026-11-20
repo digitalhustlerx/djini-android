@@ -1,8 +1,8 @@
-package com.wangzan101.mika.takeover
+package com.wangzan101.djini.takeover
 
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.core.tool.HandBack
-import com.wangzan101.mika.core.tool.HandBackOutcome
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.core.tool.HandBack
+import com.wangzan101.djini.core.tool.HandBackOutcome
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay

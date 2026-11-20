@@ -1,14 +1,14 @@
-package com.wangzan101.mika.core.usage
+package com.wangzan101.djini.core.usage
 
-import com.wangzan101.mika.core.model.Author
-import com.wangzan101.mika.core.model.BearerToken
-import com.wangzan101.mika.core.model.Capabilities
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.ModelError
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.ResponsesModel
-import com.wangzan101.mika.core.model.Role
-import com.wangzan101.mika.core.model.Usage
+import com.wangzan101.djini.core.model.Author
+import com.wangzan101.djini.core.model.BearerToken
+import com.wangzan101.djini.core.model.Capabilities
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.ModelError
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.ResponsesModel
+import com.wangzan101.djini.core.model.Role
+import com.wangzan101.djini.core.model.Usage
 import kotlinx.coroutines.test.runTest
 import okhttp3.OkHttpClient
 import okhttp3.mockwebserver.MockResponse
@@ -44,7 +44,7 @@ class ProactiveRetryBudgetTest {
             beforeCall = { checks++; ProactiveBudget.check(0, limit, calls) },
             beforeRetry = { _, started -> retryChecks++; ProactiveBudget.check(0, limit, calls + started) },
         )
-        suspend fun ask() = model.complete("s", listOf(Message(Role.User, listOf(Part.Text("hi")), Author.Mika)), emptyList())
+        suspend fun ask() = model.complete("s", listOf(Message(Role.User, listOf(Part.Text("hi")), Author.Djini)), emptyList())
     }
 
     // 只剩最后一次额度:第一个请求发出去了,服务不认参数要再发一个——不发,次数停在上限上

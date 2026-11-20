@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.cap.sandbox
+package com.wangzan101.djini.core.cap.sandbox
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
@@ -9,7 +9,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.io.File
 import java.nio.file.Files
-import com.wangzan101.mika.core.workspace.SandboxPaths
+import com.wangzan101.djini.core.workspace.SandboxPaths
 
 /**
  * 每个 [SandboxPort] 实现都要满足的路径规则:越界、符号链接逃逸、技能目录只读、完整输出落盘不出工作区。
@@ -34,15 +34,15 @@ abstract class SandboxPathContract {
     }
 
     @Test fun escapesRejected() {
-        for (p in listOf("../x", "/workspace/../x", "/etc/passwd", "/workspacex/a", "/opt/mika/skills/../../../x")) {
+        for (p in listOf("../x", "/workspace/../x", "/etc/passwd", "/workspacex/a", "/opt/djini/skills/../../../x")) {
             assertNull(p, sb.hostPath(workspace, p, forWrite = false))
             assertNull(p, sb.hostPath(workspace, p, forWrite = true))
         }
     }
 
     @Test fun skillsReadableNotWritable() {
-        assertNotNull(sb.hostPath(workspace, "/opt/mika/skills/domain/x/SKILL.md", forWrite = false))
-        assertNull(sb.hostPath(workspace, "/opt/mika/skills/domain/x/SKILL.md", forWrite = true))
+        assertNotNull(sb.hostPath(workspace, "/opt/djini/skills/domain/x/SKILL.md", forWrite = false))
+        assertNull(sb.hostPath(workspace, "/opt/djini/skills/domain/x/SKILL.md", forWrite = true))
     }
 
     @Test fun symlinkOutOfWorkspaceRejected() {
@@ -63,18 +63,18 @@ abstract class SandboxPathContract {
 
     @Test fun saveOutputStaysInWorkspace() {
         val path = sb.saveOutput(workspace, "完整输出")
-        assertTrue(path, path.startsWith("/workspace/.mika/out-"))
+        assertTrue(path, path.startsWith("/workspace/.djini/out-"))
         assertEquals("完整输出", sb.hostPath(workspace, path, forWrite = false)!!.readText())
-        // .mika 被换成指到外面的链接:不写,抛异常
+        // .djini 被换成指到外面的链接:不写,抛异常
         val out = freshOutside()
-        val mika = File(wsRoot(), ".mika")
-        mika.deleteRecursively()
-        Files.createSymbolicLink(mika.toPath(), out.toPath())
+        val djini = File(wsRoot(), ".djini")
+        djini.deleteRecursively()
+        Files.createSymbolicLink(djini.toPath(), out.toPath())
         try {
             assertThrows(Exception::class.java) { sb.saveOutput(workspace, "leak") }
             assertTrue(out.list()!!.isEmpty())
         } finally {
-            Files.delete(mika.toPath())
+            Files.delete(djini.toPath())
         }
     }
 }

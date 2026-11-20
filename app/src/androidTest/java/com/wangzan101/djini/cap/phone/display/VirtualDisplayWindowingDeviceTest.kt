@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.phone.display
+package com.wangzan101.djini.cap.phone.display
 
 import android.graphics.Rect
 import android.hardware.display.DisplayManager
@@ -6,15 +6,15 @@ import android.util.DisplayMetrics
 import android.view.Display
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport
-import com.wangzan101.mika.selfcheck.SelfCheckTargetActivity
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport
+import com.wangzan101.djini.selfcheck.SelfCheckTargetActivity
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Test
 import org.junit.runner.RunWith
 
-/** 有的系统默认把虚拟屏上的 App 开成小窗:Mika 的屏要是全屏模式;同时检查无障碍读到的实际窗口范围,不只检查屏的分辨率。 */
+/** 有的系统默认把虚拟屏上的 App 开成小窗:Djini 的屏要是全屏模式;同时检查无障碍读到的实际窗口范围,不只检查屏的分辨率。 */
 @RunWith(AndroidJUnit4::class)
 class VirtualDisplayWindowingDeviceTest {
     @Test

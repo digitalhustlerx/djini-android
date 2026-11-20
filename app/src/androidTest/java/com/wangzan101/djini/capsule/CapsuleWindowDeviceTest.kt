@@ -1,4 +1,4 @@
-package com.wangzan101.mika.capsule
+package com.wangzan101.djini.capsule
 
 import android.app.UiAutomation
 import android.graphics.Bitmap
@@ -6,13 +6,13 @@ import android.view.Display
 import android.view.accessibility.AccessibilityNodeInfo
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.ChineseUi
-import com.wangzan101.mika.MikaApp
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport.pollUntil
-import com.wangzan101.mika.cap.phone.a11y.GestureTapTestActivity
-import com.wangzan101.mika.cap.phone.a11y.ScreenAccessibility
-import com.wangzan101.mika.settings.FeatureFlags
+import com.wangzan101.djini.ChineseUi
+import com.wangzan101.djini.DjiniApp
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport.pollUntil
+import com.wangzan101.djini.cap.phone.a11y.GestureTapTestActivity
+import com.wangzan101.djini.cap.phone.a11y.ScreenAccessibility
+import com.wangzan101.djini.settings.FeatureFlags
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Rule
@@ -26,7 +26,7 @@ class CapsuleWindowDeviceTest {
     @get:Rule(order = Int.MIN_VALUE) val chinese = ChineseUi()
 
     private val instrumentation = InstrumentationRegistry.getInstrumentation()
-    private val app = instrumentation.targetContext.applicationContext as MikaApp
+    private val app = instrumentation.targetContext.applicationContext as DjiniApp
     private val flags = FeatureFlags.get(app)
 
     @Test fun closedCardLeavesNoPixelsBehind() {

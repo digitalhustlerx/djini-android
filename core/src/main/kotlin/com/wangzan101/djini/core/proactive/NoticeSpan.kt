@@ -1,13 +1,13 @@
-package com.wangzan101.mika.core.proactive
+package com.wangzan101.djini.core.proactive
 
-import com.wangzan101.mika.core.model.Author
-import com.wangzan101.mika.core.model.ChatModel
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.ModelError
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.Role
-import com.wangzan101.mika.core.observation.Untrusted
-import com.wangzan101.mika.core.prompt.Prompts
+import com.wangzan101.djini.core.model.Author
+import com.wangzan101.djini.core.model.ChatModel
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.ModelError
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.Role
+import com.wangzan101.djini.core.observation.Untrusted
+import com.wangzan101.djini.core.prompt.Prompts
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -29,7 +29,7 @@ class NoticeSpan(private val model: ChatModel, private val language: String, pri
     /** [start] 是这一周的周一、这个月的一号(纪元日)。结果的样子和当日归纳一样([DayResult])。 */
     suspend fun digest(kind: SpanKind, start: Long, input: List<SpanInput>, appLabel: (String) -> String): DayResult {
         require(input.isNotEmpty()) { "empty input" }
-        val messages = listOf(Message(Role.User, listOf(Part.Text(buildInput(kind, start, input, language, appLabel))), Author.Mika))
+        val messages = listOf(Message(Role.User, listOf(Part.Text(buildInput(kind, start, input, language, appLabel))), Author.Djini))
         val reply = try {
             withTimeoutOrNull(timeoutMs) { model.complete(Prompts.role(prompt(kind)), messages, emptyList()) }
                 ?: return DayResult.Failed()

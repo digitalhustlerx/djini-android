@@ -1,7 +1,7 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
-import com.wangzan101.mika.core.model.ChatModel
-import com.wangzan101.mika.core.tool.Verb
+import com.wangzan101.djini.core.model.ChatModel
+import com.wangzan101.djini.core.tool.Verb
 
 /** 决定下一步用哪个模型时看的上一步情况。 */
 data class StepContext(

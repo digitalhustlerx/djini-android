@@ -1,79 +1,79 @@
-package com.wangzan101.mika.cap.web
+package com.wangzan101.djini.cap.web
 
 import android.os.Build
 import android.util.Log
 import android.view.KeyEvent
-import com.wangzan101.mika.core.cap.web.cdp.CdpGeometry
-import com.wangzan101.mika.core.uistate.CdpKeys
-import com.wangzan101.mika.core.cap.web.cdp.CdpSession
-import com.wangzan101.mika.core.cap.web.cdp.CdpTimeoutException
-import com.wangzan101.mika.core.uistate.KeyCombo
-import com.wangzan101.mika.core.cap.web.cdp.InputOutcome
-import com.wangzan101.mika.core.cap.web.cdp.InputTrack
-import com.wangzan101.mika.core.cap.web.cdp.SelectOutcome
-import com.wangzan101.mika.core.cap.web.cdp.input
-import com.wangzan101.mika.core.cap.web.cdp.InputPacing
-import com.wangzan101.mika.core.cap.web.cdp.insertText
-import com.wangzan101.mika.core.cap.web.cdp.mouseWheel
-import com.wangzan101.mika.core.cap.web.cdp.wheelInPlace
-import com.wangzan101.mika.core.cap.web.cdp.typeText
-import com.wangzan101.mika.core.cap.web.cdp.mouseClick
-import com.wangzan101.mika.core.cap.web.cdp.mouseDoubleClick
-import com.wangzan101.mika.core.uistate.DOUBLE_TAP_GAP_MS
-import com.wangzan101.mika.core.cap.web.cdp.mouseDrag
-import com.wangzan101.mika.core.cap.web.cdp.mouseMove
-import com.wangzan101.mika.core.cap.web.cdp.pressCombo
-import com.wangzan101.mika.core.cap.web.cdp.selectOptionAt
-import com.wangzan101.mika.core.cap.web.cdp.viewportCssWidth
-import com.wangzan101.mika.core.uistate.ActionResult
-import com.wangzan101.mika.core.visual.FrameGrid
-import com.wangzan101.mika.core.uistate.ElementLocator
-import com.wangzan101.mika.core.uistate.Relocation
-import com.wangzan101.mika.core.uistate.ScreenCheck
-import com.wangzan101.mika.core.uistate.ScreenDiagnosis
-import com.wangzan101.mika.core.uistate.ScreenFacts
-import com.wangzan101.mika.core.uistate.ScreenSnapshot
-import com.wangzan101.mika.core.uistate.UiElement
-import com.wangzan101.mika.core.uistate.Verification
-import com.wangzan101.mika.core.uistate.relocate
-import com.wangzan101.mika.core.cap.web.DEVTOOLS_UNAVAILABLE
-import com.wangzan101.mika.core.cap.web.CapturedResponse
-import com.wangzan101.mika.core.cap.web.DevtoolsUnavailable
-import com.wangzan101.mika.core.cap.web.DownloadInfo
-import com.wangzan101.mika.core.cap.web.ElementProbe
-import com.wangzan101.mika.core.cap.web.EvalJs
-import com.wangzan101.mika.core.cap.web.NavResult
-import com.wangzan101.mika.core.cap.web.cdp.CdpConnectionClosedException
-import com.wangzan101.mika.core.cap.web.PageText
-import com.wangzan101.mika.core.cap.web.PageDigest
-import com.wangzan101.mika.core.cap.web.PageRead
-import com.wangzan101.mika.core.cap.web.ScriptBridge
-import com.wangzan101.mika.core.cap.web.ScriptRun
-import com.wangzan101.mika.cap.web.cdp.PageScriptRunner
-import com.wangzan101.mika.core.cap.web.cdp.ReadScriptRunner
-import com.wangzan101.mika.core.cap.web.PageTree
-import com.wangzan101.mika.core.cap.web.SiteModeResult
-import com.wangzan101.mika.core.cap.web.KEEP_OPEN_HOURS
-import com.wangzan101.mika.core.cap.web.KeepOpenResult
-import com.wangzan101.mika.core.cap.web.WebTabIsUsers
-import com.wangzan101.mika.core.cap.web.TabInfo
-import com.wangzan101.mika.core.cap.web.WebBarrier
-import com.wangzan101.mika.core.cap.web.WebFacts
-import com.wangzan101.mika.core.uistate.WebInfo
-import com.wangzan101.mika.core.uistate.PageDialog
-import com.wangzan101.mika.core.cap.web.DialogAnswer
-import com.wangzan101.mika.core.cap.web.DIALOG_OPEN
-import com.wangzan101.mika.core.cap.web.NO_DIALOG
-import com.wangzan101.mika.core.cap.web.WebDialogOpen
-import com.wangzan101.mika.core.cap.web.WebPoint
-import com.wangzan101.mika.core.cap.web.WebPort
-import com.wangzan101.mika.core.cap.web.WebTabCrashed
-import com.wangzan101.mika.core.cap.web.WebTabHandedOver
-import com.wangzan101.mika.core.cap.web.WebUrlPolicy
-import com.wangzan101.mika.core.cap.web.SettlePolicy
-import com.wangzan101.mika.core.cap.web.WaitKind
-import com.wangzan101.mika.core.cap.web.WaitOutcome
-import com.wangzan101.mika.cap.web.cdp.NetworkTracker
+import com.wangzan101.djini.core.cap.web.cdp.CdpGeometry
+import com.wangzan101.djini.core.uistate.CdpKeys
+import com.wangzan101.djini.core.cap.web.cdp.CdpSession
+import com.wangzan101.djini.core.cap.web.cdp.CdpTimeoutException
+import com.wangzan101.djini.core.uistate.KeyCombo
+import com.wangzan101.djini.core.cap.web.cdp.InputOutcome
+import com.wangzan101.djini.core.cap.web.cdp.InputTrack
+import com.wangzan101.djini.core.cap.web.cdp.SelectOutcome
+import com.wangzan101.djini.core.cap.web.cdp.input
+import com.wangzan101.djini.core.cap.web.cdp.InputPacing
+import com.wangzan101.djini.core.cap.web.cdp.insertText
+import com.wangzan101.djini.core.cap.web.cdp.mouseWheel
+import com.wangzan101.djini.core.cap.web.cdp.wheelInPlace
+import com.wangzan101.djini.core.cap.web.cdp.typeText
+import com.wangzan101.djini.core.cap.web.cdp.mouseClick
+import com.wangzan101.djini.core.cap.web.cdp.mouseDoubleClick
+import com.wangzan101.djini.core.uistate.DOUBLE_TAP_GAP_MS
+import com.wangzan101.djini.core.cap.web.cdp.mouseDrag
+import com.wangzan101.djini.core.cap.web.cdp.mouseMove
+import com.wangzan101.djini.core.cap.web.cdp.pressCombo
+import com.wangzan101.djini.core.cap.web.cdp.selectOptionAt
+import com.wangzan101.djini.core.cap.web.cdp.viewportCssWidth
+import com.wangzan101.djini.core.uistate.ActionResult
+import com.wangzan101.djini.core.visual.FrameGrid
+import com.wangzan101.djini.core.uistate.ElementLocator
+import com.wangzan101.djini.core.uistate.Relocation
+import com.wangzan101.djini.core.uistate.ScreenCheck
+import com.wangzan101.djini.core.uistate.ScreenDiagnosis
+import com.wangzan101.djini.core.uistate.ScreenFacts
+import com.wangzan101.djini.core.uistate.ScreenSnapshot
+import com.wangzan101.djini.core.uistate.UiElement
+import com.wangzan101.djini.core.uistate.Verification
+import com.wangzan101.djini.core.uistate.relocate
+import com.wangzan101.djini.core.cap.web.DEVTOOLS_UNAVAILABLE
+import com.wangzan101.djini.core.cap.web.CapturedResponse
+import com.wangzan101.djini.core.cap.web.DevtoolsUnavailable
+import com.wangzan101.djini.core.cap.web.DownloadInfo
+import com.wangzan101.djini.core.cap.web.ElementProbe
+import com.wangzan101.djini.core.cap.web.EvalJs
+import com.wangzan101.djini.core.cap.web.NavResult
+import com.wangzan101.djini.core.cap.web.cdp.CdpConnectionClosedException
+import com.wangzan101.djini.core.cap.web.PageText
+import com.wangzan101.djini.core.cap.web.PageDigest
+import com.wangzan101.djini.core.cap.web.PageRead
+import com.wangzan101.djini.core.cap.web.ScriptBridge
+import com.wangzan101.djini.core.cap.web.ScriptRun
+import com.wangzan101.djini.cap.web.cdp.PageScriptRunner
+import com.wangzan101.djini.core.cap.web.cdp.ReadScriptRunner
+import com.wangzan101.djini.core.cap.web.PageTree
+import com.wangzan101.djini.core.cap.web.SiteModeResult
+import com.wangzan101.djini.core.cap.web.KEEP_OPEN_HOURS
+import com.wangzan101.djini.core.cap.web.KeepOpenResult
+import com.wangzan101.djini.core.cap.web.WebTabIsUsers
+import com.wangzan101.djini.core.cap.web.TabInfo
+import com.wangzan101.djini.core.cap.web.WebBarrier
+import com.wangzan101.djini.core.cap.web.WebFacts
+import com.wangzan101.djini.core.uistate.WebInfo
+import com.wangzan101.djini.core.uistate.PageDialog
+import com.wangzan101.djini.core.cap.web.DialogAnswer
+import com.wangzan101.djini.core.cap.web.DIALOG_OPEN
+import com.wangzan101.djini.core.cap.web.NO_DIALOG
+import com.wangzan101.djini.core.cap.web.WebDialogOpen
+import com.wangzan101.djini.core.cap.web.WebPoint
+import com.wangzan101.djini.core.cap.web.WebPort
+import com.wangzan101.djini.core.cap.web.WebTabCrashed
+import com.wangzan101.djini.core.cap.web.WebTabHandedOver
+import com.wangzan101.djini.core.cap.web.WebUrlPolicy
+import com.wangzan101.djini.core.cap.web.SettlePolicy
+import com.wangzan101.djini.core.cap.web.WaitKind
+import com.wangzan101.djini.core.cap.web.WaitOutcome
+import com.wangzan101.djini.cap.web.cdp.NetworkTracker
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.NonCancellable
@@ -850,7 +850,7 @@ class WebScreen(
         }
     }
 
-    /** web_script:在当前标签真实页面的隔离世界里跑;动作经 [bridge] 回到 Mika 的动作路径。没有 DevTools 会话时报 devtools_unavailable。 */
+    /** web_script:在当前标签真实页面的隔离世界里跑;动作经 [bridge] 回到 Djini 的动作路径。没有 DevTools 会话时报 devtools_unavailable。 */
     override suspend fun runScript(code: String, timeoutMs: Long, bridge: ScriptBridge): ScriptRun {
         crashedTab()?.takeIf { currentTab() == null }?.let { throw WebTabCrashed(it) }
         val tab = currentTab() ?: return ScriptRun.Failed(NO_TAB, "No web page is open.")
@@ -860,7 +860,7 @@ class WebScreen(
         val session = tab.devtools.session(tab)
             ?: return ScriptRun.Failed(DEVTOOLS_UNAVAILABLE, "This page has no DevTools connection, so page scripts cannot run here.")
         return try {
-            // 每个 mika 动作之前再查一次:脚本跑着时页面可能交给了用户或崩了
+            // 每个 djini 动作之前再查一次:脚本跑着时页面可能交给了用户或崩了
             PageScriptRunner(session, preflight = {
                 when {
                     tab.crashed -> ScriptRun.Failed("tab_crashed", "The page's tab crashed.")

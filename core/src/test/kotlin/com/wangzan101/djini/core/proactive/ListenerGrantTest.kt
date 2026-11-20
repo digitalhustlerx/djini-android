@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.proactive
+package com.wangzan101.djini.core.proactive
 
 import java.io.IOException
 import kotlinx.coroutines.awaitCancellation
@@ -12,12 +12,12 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class ListenerGrantTest {
-    private val pkg = "com.wangzan101.mika.dev"
-    private val cls = "com.wangzan101.mika.proactive.NoticeListenerService"
+    private val pkg = "com.wangzan101.djini.dev"
+    private val cls = "com.wangzan101.djini.proactive.NoticeListenerService"
 
     @Test fun `builds the exact command with the component single-quoted`() {
         assertEquals(
-            "cmd notification allow_listener 'com.wangzan101.mika.dev/com.wangzan101.mika.proactive.NoticeListenerService'",
+            "cmd notification allow_listener 'com.wangzan101.djini.dev/com.wangzan101.djini.proactive.NoticeListenerService'",
             ListenerGrant.command(pkg, cls),
         )
         assertEquals("cmd notification allow_listener 'a.b/a.b.Outer\$Inner'", ListenerGrant.command("a.b", "a.b.Outer\$Inner"))

@@ -1,4 +1,4 @@
-package com.wangzan101.mika.selfcheck
+package com.wangzan101.djini.selfcheck
 
 import java.util.Locale
 

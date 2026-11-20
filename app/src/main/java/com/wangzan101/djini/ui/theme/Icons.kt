@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui.theme
+package com.wangzan101.djini.ui.theme
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor

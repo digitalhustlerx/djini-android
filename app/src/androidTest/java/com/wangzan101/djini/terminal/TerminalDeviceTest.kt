@@ -1,12 +1,12 @@
-package com.wangzan101.mika.terminal
+package com.wangzan101.djini.terminal
 
 import android.util.Log
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.wangzan101.mika.MikaApp
-import com.wangzan101.mika.cap.sandbox.AndroidSandbox
-import com.wangzan101.mika.cap.sandbox.SandboxState
-import com.wangzan101.mika.core.cap.sandbox.SandboxStatus
+import com.wangzan101.djini.DjiniApp
+import com.wangzan101.djini.cap.sandbox.AndroidSandbox
+import com.wangzan101.djini.cap.sandbox.SandboxState
+import com.wangzan101.djini.core.cap.sandbox.SandboxStatus
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -25,9 +25,9 @@ import org.junit.runner.RunWith
  */
 @RunWith(AndroidJUnit4::class)
 class TerminalDeviceTest {
-    private val app: MikaApp get() = ApplicationProvider.getApplicationContext()
+    private val app: DjiniApp get() = ApplicationProvider.getApplicationContext()
     private val output = StringBuilder()
-    private var shell: com.wangzan101.mika.core.cap.sandbox.SandboxShell? = null
+    private var shell: com.wangzan101.djini.core.cap.sandbox.SandboxShell? = null
 
     @Before
     fun setUp() {
@@ -83,7 +83,7 @@ class TerminalDeviceTest {
     }
 }
 
-    private fun send(s: com.wangzan101.mika.core.cap.sandbox.SandboxShell, text: String) {
+    private fun send(s: com.wangzan101.djini.core.cap.sandbox.SandboxShell, text: String) {
         s.input.write(text.toByteArray())
         s.input.flush()
     }

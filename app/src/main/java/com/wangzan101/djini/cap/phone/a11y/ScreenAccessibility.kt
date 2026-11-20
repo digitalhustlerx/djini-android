@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.phone.a11y
+package com.wangzan101.djini.cap.phone.a11y
 
 import android.accessibilityservice.AccessibilityService
 import android.accessibilityservice.AccessibilityServiceInfo
@@ -12,7 +12,7 @@ import android.os.Build
 import android.view.Display
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityWindowInfo
-import com.wangzan101.mika.core.uistate.ScreenEvent
+import com.wangzan101.djini.core.uistate.ScreenEvent
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -24,7 +24,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 
-/** Mika 的无障碍服务:操作和事件转给当前已连接实例,任务持有旧实例时也能在重连后恢复。 */
+/** Djini 的无障碍服务:操作和事件转给当前已连接实例,任务持有旧实例时也能在重连后恢复。 */
 open class ScreenAccessibility : AccessibilityService() {
 
     private class DisplayEvent(val displayId: Int, val event: AccessibilityEvent)
@@ -73,7 +73,7 @@ open class ScreenAccessibility : AccessibilityService() {
         if (event.eventType == AccessibilityEvent.TYPE_WINDOWS_CHANGED || event.eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
             windowGeneration.incrementAndGet()
         }
-        val app = application as? com.wangzan101.mika.MikaApp
+        val app = application as? com.wangzan101.djini.DjiniApp
         // Do not copy local consent fields or privately filled code events into teaching/observers.
         if (app != null && (app.appAccess.sensitiveUi && event.packageName?.toString() == app.packageName ||
                 app.phone.smsLogin.isPrivate(event.packageName?.toString()) ||
@@ -83,7 +83,7 @@ open class ScreenAccessibility : AccessibilityService() {
         if (app != null && app.teachReady && app.teach.wantsEvents()) {
             val displayId = displayOf(event)
             if (displayId != Display.INVALID_DISPLAY) {
-                com.wangzan101.mika.teach.TeachEvents.capture(event, displayId)?.let(app.teach::offer)
+                com.wangzan101.djini.teach.TeachEvents.capture(event, displayId)?.let(app.teach::offer)
             }
         }
         if (event.eventType == AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED && notifications.subscriptionCount.value > 0) {
@@ -154,7 +154,7 @@ open class ScreenAccessibility : AccessibilityService() {
             }
             if (!service.dispatchGesture(gesture, callback, null) && cont.isActive) cont.resume(false)
         }
-        // 注入是在用户屏幕上操作别的 App,不是操作 Mika 自己的浮层;所有单点、双击和拖动统一隔离
+        // 注入是在用户屏幕上操作别的 App,不是操作 Djini 自己的浮层;所有单点、双击和拖动统一隔离
         return service.overlayHost?.passInjectedGesturesThrough { send() } ?: send()
     }
 
@@ -166,7 +166,7 @@ open class ScreenAccessibility : AccessibilityService() {
     }
 
     /**
-     * 截一张主屏(用户看着的那块屏,包括 Mika 自己的浮层:要不要藏起来由调用方定)。系统限制两次截图至少隔一会儿,
+     * 截一张主屏(用户看着的那块屏,包括 Djini 自己的浮层:要不要藏起来由调用方定)。系统限制两次截图至少隔一会儿,
      * 太快时等一秒再截一次。画面是软件位图(可以读像素、编码)。
      */
     suspend fun takeMainScreenshot(): MainShot {

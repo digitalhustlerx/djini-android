@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.shell
+package com.wangzan101.djini.core.shell
 
-import com.wangzan101.mika.core.shell.HelperHandoff.Reject
+import com.wangzan101.djini.core.shell.HelperHandoff.Reject
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotEquals
@@ -176,14 +176,14 @@ class HelperHandoffTest {
 
     @Test
     fun commandRunsHelperDetachedAndFeedsNonceThroughStdin() {
-        val cmd = HelperHandoff.command("/data/app/~~x/com.wangzan101.mika-y/base.apk", "com.wangzan101.mika", 10234, "ab'cd")
+        val cmd = HelperHandoff.command("/data/app/~~x/com.wangzan101.djini-y/base.apk", "com.wangzan101.djini", 10234, "ab'cd")
         assertEquals(
-            "read n; (echo \"\$n\" | CLASSPATH='/data/app/~~x/com.wangzan101.mika-y/base.apk' setsid app_process /system/bin " +
-                "--nice-name='com.wangzan101.mika:helper' com.wangzan101.mika.shell.HelperMain " +
-                "'com.wangzan101.mika' 10234 'ab'\\''cd' >/dev/null 2>&1 &); read _",
+            "read n; (echo \"\$n\" | CLASSPATH='/data/app/~~x/com.wangzan101.djini-y/base.apk' setsid app_process /system/bin " +
+                "--nice-name='com.wangzan101.djini:helper' com.wangzan101.djini.shell.HelperMain " +
+                "'com.wangzan101.djini' 10234 'ab'\\''cd' >/dev/null 2>&1 &); read _",
             cmd,
         )
-        assertEquals("com.wangzan101.mika.helper", HelperHandoff.authority("com.wangzan101.mika"))
+        assertEquals("com.wangzan101.djini.helper", HelperHandoff.authority("com.wangzan101.djini"))
     }
 
     @Test
@@ -204,48 +204,48 @@ class HelperHandoffTest {
 
     // ---------- 用电脑经 USB 启动 ----------
 
-    private val apk = "/data/app/~~x/com.wangzan101.mika-y/base.apk"
-    private val scriptPath = "/storage/emulated/0/Android/data/com.wangzan101.mika/files/usb-start.sh"
+    private val apk = "/data/app/~~x/com.wangzan101.djini-y/base.apk"
+    private val scriptPath = "/storage/emulated/0/Android/data/com.wangzan101.djini/files/usb-start.sh"
 
     @Test
     fun usbCommandUsesTheShortSdcardPathForTheMainUser() {
-        assertEquals("adb shell sh /sdcard/Android/data/com.wangzan101.mika/files/usb-start.sh", HelperHandoff.usbCommand(scriptPath))
+        assertEquals("adb shell sh /sdcard/Android/data/com.wangzan101.djini/files/usb-start.sh", HelperHandoff.usbCommand(scriptPath))
         // 别的用户的存储照实际路径写
         assertEquals(
-            "adb shell sh /storage/emulated/10/Android/data/com.wangzan101.mika/files/usb-start.sh",
-            HelperHandoff.usbCommand("/storage/emulated/10/Android/data/com.wangzan101.mika/files/usb-start.sh"),
+            "adb shell sh /storage/emulated/10/Android/data/com.wangzan101.djini/files/usb-start.sh",
+            HelperHandoff.usbCommand("/storage/emulated/10/Android/data/com.wangzan101.djini/files/usb-start.sh"),
         )
     }
 
     @Test
     fun usbScriptStartsTheSameHelperDetachedWithTheNonceOnStdin() {
-        val script = HelperHandoff.usbScript(apk, "com.wangzan101.mika", 10234, "ab'cd", "f00d", scriptPath)
+        val script = HelperHandoff.usbScript(apk, "com.wangzan101.djini", 10234, "ab'cd", "f00d", scriptPath)
         assertTrue(script.startsWith("#!/system/bin/sh\n"))
         // 和无线调试同一个入口、同样的参数;指纹里的单引号转义好;忽略挂断信号、另起会话、放到后台、输出丢掉
         assertTrue(
             script,
             script.contains(
-                "(echo \"\$n\" | CLASSPATH='$apk' nohup setsid app_process /system/bin --nice-name='com.wangzan101.mika:helper' " +
-                    "com.wangzan101.mika.shell.HelperMain 'com.wangzan101.mika' 10234 'ab'\\''cd' >/dev/null 2>&1 &)",
+                "(echo \"\$n\" | CLASSPATH='$apk' nohup setsid app_process /system/bin --nice-name='com.wangzan101.djini:helper' " +
+                    "com.wangzan101.djini.shell.HelperMain 'com.wangzan101.djini' 10234 'ab'\\''cd' >/dev/null 2>&1 &)",
             ),
         )
         // 口令只在变量里,经内建 echo 走管道,不进命令行参数
         assertTrue(script.contains("\nn='f00d'\n"))
         assertEquals(1, script.split("f00d").size - 1)
-        // 只有 shell 身份才起;APK 不在(更新过)就请用户先打开 Mika
+        // 只有 shell 身份才起;APK 不在(更新过)就请用户先打开 Djini
         assertTrue(script.contains("if [ \"\$(id -u)\" != \"2000\" ]; then"))
         assertTrue(script.contains("if [ ! -f '$apk' ]; then"))
         // 等 setsid 生效再返回,并说清结果和怎么确认
         assertTrue(script.contains("\nsleep 2\n"))
-        assertTrue(script.contains("if pidof 'com.wangzan101.mika:helper' >/dev/null 2>&1; then"))
-        assertTrue(script.contains("Mika helper starting... Open Mika to confirm"))
-        assertTrue(script.contains("adb shell sh /sdcard/Android/data/com.wangzan101.mika/files/usb-start.sh"))
+        assertTrue(script.contains("if pidof 'com.wangzan101.djini:helper' >/dev/null 2>&1; then"))
+        assertTrue(script.contains("Djini helper starting... Open Djini to confirm"))
+        assertTrue(script.contains("adb shell sh /sdcard/Android/data/com.wangzan101.djini/files/usb-start.sh"))
         assertTrue(script.endsWith("fi\n"))
     }
 
     @Test
     fun usbScriptDoesNotPromiseThatTheHelperSurvivesUnplugging() {
-        val script = HelperHandoff.usbScript(apk, "com.wangzan101.mika", 10234, "pin", "f00d", scriptPath)
+        val script = HelperHandoff.usbScript(apk, "com.wangzan101.djini", 10234, "pin", "f00d", scriptPath)
         assertTrue(script.contains("On most phones it keeps running after you unplug the cable"))
         assertTrue(script.contains("if phone control stopped after unplugging, plug in and run this command again"))
         assertFalse(script.contains("It keeps running after you unplug the cable."))
@@ -265,13 +265,13 @@ class HelperHandoffTest {
     @Test
     fun connectedGetsAStubWithoutANonce() {
         var asked = 0
-        val stub = HelperHandoff.usbFile(true, apk, "com.wangzan101.mika", 10234, { asked++; "pin" }, { asked++; "secret" }, scriptPath)
+        val stub = HelperHandoff.usbFile(true, apk, "com.wangzan101.djini", 10234, { asked++; "pin" }, { asked++; "secret" }, scriptPath)
         assertEquals(0, asked)
         assertFalse(stub.contains("secret"))
         assertFalse(stub.contains("app_process"))
         assertTrue(stub.contains("already running"))
-        assertTrue(stub.contains("pidof 'com.wangzan101.mika:helper'"))
-        val live = HelperHandoff.usbFile(false, apk, "com.wangzan101.mika", 10234, { "pin" }, { "secret" }, scriptPath)
+        assertTrue(stub.contains("pidof 'com.wangzan101.djini:helper'"))
+        val live = HelperHandoff.usbFile(false, apk, "com.wangzan101.djini", 10234, { "pin" }, { "secret" }, scriptPath)
         assertTrue(live.contains("n='secret'"))
         assertTrue(live.contains("app_process"))
     }

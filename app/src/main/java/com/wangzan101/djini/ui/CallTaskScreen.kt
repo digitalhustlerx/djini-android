@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.selectable
@@ -18,16 +18,16 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextDirection
 import androidx.compose.ui.unit.dp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.calls.CallActionResult
-import com.wangzan101.mika.calls.CallConfig
-import com.wangzan101.mika.calls.CallPolicy
-import com.wangzan101.mika.calls.CallRuntimeState
-import com.wangzan101.mika.calls.CallSim
-import com.wangzan101.mika.calls.CallTaskBrief
-import com.wangzan101.mika.ui.components.*
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaTheme
+import com.wangzan101.djini.R
+import com.wangzan101.djini.calls.CallActionResult
+import com.wangzan101.djini.calls.CallConfig
+import com.wangzan101.djini.calls.CallPolicy
+import com.wangzan101.djini.calls.CallRuntimeState
+import com.wangzan101.djini.calls.CallSim
+import com.wangzan101.djini.calls.CallTaskBrief
+import com.wangzan101.djini.ui.components.*
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniTheme
 
 /** A private draft in the workspace, never a saved call profile or background request. */
 @Stable
@@ -86,7 +86,7 @@ internal fun CallTaskScreen(
     editable: Boolean, canDial: Boolean, feedback: CallActionResult?,
     onSetup: () -> Unit, onConfirm: (CallTaskSubmission) -> Unit,
     onConfirmLocked: (CallTaskSubmission) -> Unit,
-    voiceProfile: com.wangzan101.mika.calls.CallVoiceProfile,
+    voiceProfile: com.wangzan101.djini.calls.CallVoiceProfile,
     onVoiceProfiles: () -> Unit,
     voiceBriefing: VoiceBriefingLauncher? = null,
 ) {
@@ -311,7 +311,7 @@ private fun CallTaskReviewDialog(submission: CallTaskSubmission, canDial: Boolea
                     locked -> R.string.calls_task_dial_locked_note
                     else -> R.string.calls_task_confirm_note
                 }),
-                    style = MaterialTheme.typography.bodySmall, color = MikaTheme.colors.ink3)
+                    style = MaterialTheme.typography.bodySmall, color = DjiniTheme.colors.ink3)
             }
         },
         confirmButton = {
@@ -331,7 +331,7 @@ private fun CallTaskReviewDialog(submission: CallTaskSubmission, canDial: Boolea
 @Composable
 private fun TaskReviewField(label: String, value: String) {
     Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
-        Text(label, style = MaterialTheme.typography.labelMedium, color = MikaTheme.colors.ink3)
+        Text(label, style = MaterialTheme.typography.labelMedium, color = DjiniTheme.colors.ink3)
         Text(value, style = MaterialTheme.typography.bodyMedium)
     }
 }

@@ -1,15 +1,15 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
 import android.graphics.Bitmap
-import com.wangzan101.mika.cap.phone.display.PipInput
-import com.wangzan101.mika.chat.SharedFile
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.core.chat.GeneratedAudio
-import com.wangzan101.mika.core.chat.GeneratedPhoto
-import com.wangzan101.mika.core.cap.image.SavedImage
-import com.wangzan101.mika.core.model.SavedAudio
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.takeover.Takeover
+import com.wangzan101.djini.cap.phone.display.PipInput
+import com.wangzan101.djini.chat.SharedFile
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.core.chat.GeneratedAudio
+import com.wangzan101.djini.core.chat.GeneratedPhoto
+import com.wangzan101.djini.core.cap.image.SavedImage
+import com.wangzan101.djini.core.model.SavedAudio
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.takeover.Takeover
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -110,7 +110,7 @@ internal class TaskRunState(
         override fun get(index: Int): RunEvent.Activity = synchronized(activityLog) { activityLog[index] }
     }
 
-    /** 沙箱导出了一个文件(share_file 或 `mika share`)。 */
+    /** 沙箱导出了一个文件(share_file 或 `djini share`)。 */
     fun addShared(f: SharedFile) = synchronized(service.taskState.shownLock) { _sharedFiles.value = _sharedFiles.value + f }
 
     /** 音频能力生成了一段音频(写进工作区时由端口回调)。 */

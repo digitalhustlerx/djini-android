@@ -1,12 +1,12 @@
-package com.wangzan101.mika.core.cap.devicefiles
+package com.wangzan101.djini.core.cap.devicefiles
 
-import com.wangzan101.mika.core.capability.Capability
-import com.wangzan101.mika.core.capability.CapabilityKey
-import com.wangzan101.mika.core.capability.CapabilityStatus
-import com.wangzan101.mika.core.capability.PromptEnv
-import com.wangzan101.mika.core.prompt.Prompts
-import com.wangzan101.mika.core.tool.*
-import com.wangzan101.mika.core.workspace.SandboxError
+import com.wangzan101.djini.core.capability.Capability
+import com.wangzan101.djini.core.capability.CapabilityKey
+import com.wangzan101.djini.core.capability.CapabilityStatus
+import com.wangzan101.djini.core.capability.PromptEnv
+import com.wangzan101.djini.core.prompt.Prompts
+import com.wangzan101.djini.core.tool.*
+import com.wangzan101.djini.core.workspace.SandboxError
 import kotlinx.serialization.json.*
 import java.io.IOException
 

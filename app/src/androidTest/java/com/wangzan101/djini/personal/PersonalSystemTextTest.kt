@@ -1,11 +1,11 @@
-package com.wangzan101.mika.personal
+package com.wangzan101.djini.personal
 
 import android.content.res.Configuration
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.core.personal.PersonalMessage
-import com.wangzan101.mika.core.personal.PersonalTask
-import com.wangzan101.mika.core.personal.PersonalSystemException
+import com.wangzan101.djini.core.personal.PersonalMessage
+import com.wangzan101.djini.core.personal.PersonalTask
+import com.wangzan101.djini.core.personal.PersonalSystemException
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Test

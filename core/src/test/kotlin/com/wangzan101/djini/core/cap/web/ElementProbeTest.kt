@@ -1,7 +1,7 @@
-package com.wangzan101.mika.core.cap.web
+package com.wangzan101.djini.core.cap.web
 
-import com.wangzan101.mika.core.cap.web.cdp.CdpSession
-import com.wangzan101.mika.core.cap.web.cdp.FakeDevTools
+import com.wangzan101.djini.core.cap.web.cdp.CdpSession
+import com.wangzan101.djini.core.cap.web.cdp.FakeDevTools
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withTimeout
 import kotlinx.serialization.json.Json
@@ -15,7 +15,7 @@ import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import kotlin.math.abs
-import com.wangzan101.mika.core.uistate.WebInfo
+import com.wangzan101.djini.core.uistate.WebInfo
 
 class ElementProbeTest {
     private val info = WebInfo("https://a.test/", "t", "t1", null)

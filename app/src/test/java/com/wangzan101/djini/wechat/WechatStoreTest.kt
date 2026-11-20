@@ -1,8 +1,8 @@
-package com.wangzan101.mika.wechat
+package com.wangzan101.djini.wechat
 
-import com.wangzan101.mika.core.run.ChannelPeer
-import com.wangzan101.mika.core.wechat.WechatAccount
-import com.wangzan101.mika.settings.KeyCipher
+import com.wangzan101.djini.core.run.ChannelPeer
+import com.wangzan101.djini.core.wechat.WechatAccount
+import com.wangzan101.djini.settings.KeyCipher
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertThrows

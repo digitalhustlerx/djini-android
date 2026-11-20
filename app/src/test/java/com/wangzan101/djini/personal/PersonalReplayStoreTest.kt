@@ -1,4 +1,4 @@
-package com.wangzan101.mika.personal
+package com.wangzan101.djini.personal
 
 import org.junit.Assert.*
 import org.junit.Rule

@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.capability
+package com.wangzan101.djini.core.capability
 
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -10,9 +10,9 @@ import java.io.File
  * App 里 cap/ 下各能力的目录同样互不引用(core 里对应能力的包除外)。按源码里的 import 和写全的名字查,整行注释不算。
  */
 class PackageDependencyTest {
-    private val core = File("src/main/kotlin/com/wangzan101/mika/core")
-    private val app = File("../app/src/main/java/com/wangzan101/mika")
-    private val ref = Regex("""com\.wangzan101\.mika\.(core\.)?(cap\.([a-z0-9_]+)|assembly|uistate)\b""")
+    private val core = File("src/main/kotlin/com/wangzan101/djini/core")
+    private val app = File("../app/src/main/java/com/wangzan101/djini")
+    private val ref = Regex("""com\.wangzan101\.djini\.(core\.)?(cap\.([a-z0-9_]+)|assembly|uistate)\b""")
 
     private class Use(val file: File, val line: Int, val text: String, val target: String)
 

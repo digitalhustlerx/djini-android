@@ -1,7 +1,7 @@
-package com.wangzan101.mika.core.eval
+package com.wangzan101.djini.core.eval
 
-import com.wangzan101.mika.core.agent.FailKind
-import com.wangzan101.mika.core.agent.TaskState
+import com.wangzan101.djini.core.agent.FailKind
+import com.wangzan101.djini.core.agent.TaskState
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull

@@ -1,17 +1,17 @@
-package com.wangzan101.mika.proactive
+package com.wangzan101.djini.proactive
 
-import com.wangzan101.mika.core.proactive.DayDigest
-import com.wangzan101.mika.core.proactive.DigestLine
-import com.wangzan101.mika.core.proactive.DigestNote
-import com.wangzan101.mika.core.proactive.DigestPool
-import com.wangzan101.mika.core.proactive.LearnTuning
-import com.wangzan101.mika.core.proactive.NoteSignal
-import com.wangzan101.mika.core.proactive.NoticeEntry
-import com.wangzan101.mika.core.proactive.SpanKind
-import com.wangzan101.mika.core.proactive.ObservedContact
-import com.wangzan101.mika.core.proactive.ObservedTopic
-import com.wangzan101.mika.core.proactive.SpanDigest
-import com.wangzan101.mika.core.proactive.TopicKind
+import com.wangzan101.djini.core.proactive.DayDigest
+import com.wangzan101.djini.core.proactive.DigestLine
+import com.wangzan101.djini.core.proactive.DigestNote
+import com.wangzan101.djini.core.proactive.DigestPool
+import com.wangzan101.djini.core.proactive.LearnTuning
+import com.wangzan101.djini.core.proactive.NoteSignal
+import com.wangzan101.djini.core.proactive.NoticeEntry
+import com.wangzan101.djini.core.proactive.SpanKind
+import com.wangzan101.djini.core.proactive.ObservedContact
+import com.wangzan101.djini.core.proactive.ObservedTopic
+import com.wangzan101.djini.core.proactive.SpanDigest
+import com.wangzan101.djini.core.proactive.TopicKind
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -111,10 +111,10 @@ class ClearableAppsTest {
     @Test fun manualDigestSaysWhyItCannotRun() {
         assertEquals(null, makeBlocked(budgetOut = false, status = LearnStatus.Idle))
         assertEquals(null, makeBlocked(budgetOut = false, status = LearnStatus.Waiting))
-        assertEquals(com.wangzan101.mika.R.string.proactive_learn_state_budget, makeBlocked(budgetOut = true, status = LearnStatus.Idle))
+        assertEquals(com.wangzan101.djini.R.string.proactive_learn_state_budget, makeBlocked(budgetOut = true, status = LearnStatus.Idle))
         // 账本上还有、但请求时被拒过(执行器记着今天不再发)
-        assertEquals(com.wangzan101.mika.R.string.proactive_learn_state_budget, makeBlocked(budgetOut = false, status = LearnStatus.BudgetUsedUp))
-        assertEquals(com.wangzan101.mika.R.string.proactive_status_access, makeBlocked(budgetOut = false, status = LearnStatus.Suspended))
-        assertEquals(com.wangzan101.mika.R.string.proactive_status_access, makeBlocked(budgetOut = true, status = LearnStatus.Suspended))
+        assertEquals(com.wangzan101.djini.R.string.proactive_learn_state_budget, makeBlocked(budgetOut = false, status = LearnStatus.BudgetUsedUp))
+        assertEquals(com.wangzan101.djini.R.string.proactive_status_access, makeBlocked(budgetOut = false, status = LearnStatus.Suspended))
+        assertEquals(com.wangzan101.djini.R.string.proactive_status_access, makeBlocked(budgetOut = true, status = LearnStatus.Suspended))
     }
 }

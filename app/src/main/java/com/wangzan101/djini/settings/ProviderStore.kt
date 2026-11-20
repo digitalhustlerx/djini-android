@@ -1,60 +1,60 @@
-package com.wangzan101.mika.settings
+package com.wangzan101.djini.settings
 
 import android.content.Context
-import com.wangzan101.mika.core.agent.ContextLimits
-import com.wangzan101.mika.core.chatgpt.ChatGptAuth
-import com.wangzan101.mika.core.chatgpt.ChatGptSession
-import com.wangzan101.mika.core.chatgpt.ChatGptTokens
-import com.wangzan101.mika.core.oauth.AccountSession
-import com.wangzan101.mika.core.oauth.AccountTokens
-import com.wangzan101.mika.core.oauth.OauthTokenResult
-import com.wangzan101.mika.core.oauth.OpenRouterAuth
-import com.wangzan101.mika.core.oauth.XaiAuth
-import com.wangzan101.mika.core.model.AnthropicModel
-import com.wangzan101.mika.core.model.ApiKeyText
-import com.wangzan101.mika.core.model.KeyPoolManager
-import com.wangzan101.mika.core.model.BearerToken
-import com.wangzan101.mika.core.model.Capabilities
-import com.wangzan101.mika.core.model.Author
-import com.wangzan101.mika.core.model.ChatModel
-import com.wangzan101.mika.core.model.ClientHeaders
-import com.wangzan101.mika.core.model.GeminiModel
-import com.wangzan101.mika.core.model.GeminiTtsModel
-import com.wangzan101.mika.core.model.OpenAiSpeechModel
-import com.wangzan101.mika.core.model.TtsCapabilities
-import com.wangzan101.mika.core.model.TtsModel
-import com.wangzan101.mika.core.model.GeminiImageModel
-import com.wangzan101.mika.core.model.ImageCapabilities
-import com.wangzan101.mika.core.model.ImageModel
-import com.wangzan101.mika.core.model.OpenAiImagesModel
-import com.wangzan101.mika.core.model.ListFailure
-import com.wangzan101.mika.core.model.ListedModel
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.ModelCatalog
-import com.wangzan101.mika.core.model.ModelEndpoint
-import com.wangzan101.mika.core.model.ModelError
-import com.wangzan101.mika.core.model.ModelListResult
-import com.wangzan101.mika.core.model.ModelProtocol
-import com.wangzan101.mika.core.model.ModelRole
-import com.wangzan101.mika.core.model.ModelSession
-import com.wangzan101.mika.core.model.OpenAiCompatModel
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.PromptCaching
-import com.wangzan101.mika.core.model.ResponsesModel
-import com.wangzan101.mika.core.model.Role
-import com.wangzan101.mika.core.model.ToolSpec
-import com.wangzan101.mika.core.search.GoogleGroundingSearch
-import com.wangzan101.mika.core.search.WebSearch
-import com.wangzan101.mika.core.usage.ProactiveBudget
-import com.wangzan101.mika.core.proactive.ProactiveCall
-import com.wangzan101.mika.core.proactive.TargetedModel
-import com.wangzan101.mika.core.proactive.TriageTarget
-import com.wangzan101.mika.core.usage.TokenBudgetLimits
-import com.wangzan101.mika.core.usage.DeepSeekPriceTable
-import com.wangzan101.mika.core.usage.UsagePurpose
-import com.wangzan101.mika.core.usage.UsageSink
-import com.wangzan101.mika.core.usage.UsageSource
-import com.wangzan101.mika.core.usage.metered
+import com.wangzan101.djini.core.agent.ContextLimits
+import com.wangzan101.djini.core.chatgpt.ChatGptAuth
+import com.wangzan101.djini.core.chatgpt.ChatGptSession
+import com.wangzan101.djini.core.chatgpt.ChatGptTokens
+import com.wangzan101.djini.core.oauth.AccountSession
+import com.wangzan101.djini.core.oauth.AccountTokens
+import com.wangzan101.djini.core.oauth.OauthTokenResult
+import com.wangzan101.djini.core.oauth.OpenRouterAuth
+import com.wangzan101.djini.core.oauth.XaiAuth
+import com.wangzan101.djini.core.model.AnthropicModel
+import com.wangzan101.djini.core.model.ApiKeyText
+import com.wangzan101.djini.core.model.KeyPoolManager
+import com.wangzan101.djini.core.model.BearerToken
+import com.wangzan101.djini.core.model.Capabilities
+import com.wangzan101.djini.core.model.Author
+import com.wangzan101.djini.core.model.ChatModel
+import com.wangzan101.djini.core.model.ClientHeaders
+import com.wangzan101.djini.core.model.GeminiModel
+import com.wangzan101.djini.core.model.GeminiTtsModel
+import com.wangzan101.djini.core.model.OpenAiSpeechModel
+import com.wangzan101.djini.core.model.TtsCapabilities
+import com.wangzan101.djini.core.model.TtsModel
+import com.wangzan101.djini.core.model.GeminiImageModel
+import com.wangzan101.djini.core.model.ImageCapabilities
+import com.wangzan101.djini.core.model.ImageModel
+import com.wangzan101.djini.core.model.OpenAiImagesModel
+import com.wangzan101.djini.core.model.ListFailure
+import com.wangzan101.djini.core.model.ListedModel
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.ModelCatalog
+import com.wangzan101.djini.core.model.ModelEndpoint
+import com.wangzan101.djini.core.model.ModelError
+import com.wangzan101.djini.core.model.ModelListResult
+import com.wangzan101.djini.core.model.ModelProtocol
+import com.wangzan101.djini.core.model.ModelRole
+import com.wangzan101.djini.core.model.ModelSession
+import com.wangzan101.djini.core.model.OpenAiCompatModel
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.PromptCaching
+import com.wangzan101.djini.core.model.ResponsesModel
+import com.wangzan101.djini.core.model.Role
+import com.wangzan101.djini.core.model.ToolSpec
+import com.wangzan101.djini.core.search.GoogleGroundingSearch
+import com.wangzan101.djini.core.search.WebSearch
+import com.wangzan101.djini.core.usage.ProactiveBudget
+import com.wangzan101.djini.core.proactive.ProactiveCall
+import com.wangzan101.djini.core.proactive.TargetedModel
+import com.wangzan101.djini.core.proactive.TriageTarget
+import com.wangzan101.djini.core.usage.TokenBudgetLimits
+import com.wangzan101.djini.core.usage.DeepSeekPriceTable
+import com.wangzan101.djini.core.usage.UsagePurpose
+import com.wangzan101.djini.core.usage.UsageSink
+import com.wangzan101.djini.core.usage.UsageSource
+import com.wangzan101.djini.core.usage.metered
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -76,7 +76,7 @@ import kotlinx.serialization.json.longOrNull
 import kotlinx.serialization.json.put
 import kotlinx.serialization.json.putJsonArray
 import kotlinx.serialization.json.putJsonObject
-import com.wangzan101.mika.core.net.NetProxy
+import com.wangzan101.djini.core.net.NetProxy
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.OkHttpClient
 import java.io.File
@@ -108,7 +108,7 @@ data class ProviderConfig(
         OpenAiCompat, Anthropic, Gemini, OpenAiResponses, ChatGpt, Xai;
 
         /**
-         * 这个接口类型发请求走哪种协议。用它筛掉接口写明了不支持的模型,见 [com.wangzan101.mika.ui.ModelSetupViewModel]
+         * 这个接口类型发请求走哪种协议。用它筛掉接口写明了不支持的模型,见 [com.wangzan101.djini.ui.ModelSetupViewModel]
          * 的试调用。账号登录的两家(ChatGpt、Xai)都走 Responses;这两家不走那张表单的试调用(登录时已经核对过),
          * 所以这里只求写对,不影响筛谁。
          */
@@ -312,7 +312,7 @@ data class ClientSetup(
 sealed interface ProbeResult {
     /** 模型调用了试用的工具:接口通,也会调用工具。 */
     data object ToolCalled : ProbeResult
-    /** 接口通,模型只回了话、没调用工具:Mika 干活靠工具,这个模型当不了主模型。 */
+    /** 接口通,模型只回了话、没调用工具:Djini 干活靠工具,这个模型当不了主模型。 */
     data object NoToolCall : ProbeResult
     /** 请求失败;[error] 带着服务端的报错。 */
     data class Failed(val error: ModelError) : ProbeResult
@@ -339,8 +339,8 @@ class ProviderStore(
     /** 每次请求前实时查询这家当前本地日的已报告 Token；默认不启用每日限制。 */
     private val dailyUsage: (String) -> Long = { 0L },
     private val newId: () -> String = { UUID.randomUUID().toString() },
-    /** 发给模型服务的 User-Agent;App 给 `Mika/<版本>`。 */
-    private val userAgent: String = "Mika",
+    /** 发给模型服务的 User-Agent;App 给 `Djini/<版本>`。 */
+    private val userAgent: String = "Djini",
     /** 列模型:接口类型、地址、Key、每个请求都带的头。 */
     private val modelLister: suspend (ProviderConfig.Kind, String, String?, Map<String, String>) -> ModelListResult = ::listAvailable,
     /** 「用 ChatGPT 登录」的授权服务(换令牌、刷新、注销)。 */
@@ -820,7 +820,7 @@ class ProviderStore(
 
     /**
      * 主动能力的调用只查它自己的每日预算:整份的硬上限(Token 上限,和跟着它算的请求次数上限,见 [ProactiveBudget.check])。
-     * 判定只用其中的一部分,那是 [com.wangzan101.mika.proactive.TriageRunner] 自己先停,不在这里。
+     * 判定只用其中的一部分,那是 [com.wangzan101.djini.proactive.TriageRunner] 自己先停,不在这里。
      */
     @Suppress("UNUSED_PARAMETER")
     private fun checkProactiveBudget(source: UsageSource) = ProactiveBudget.check(proactiveUsage(), proactiveLimit(), proactiveCalls())
@@ -1037,7 +1037,7 @@ class ProviderStore(
         val cfg = ProviderConfig(PROBE_ID, kind, baseUrl, model, caps.copy(toolCalls = true))
         val m = modelFactory(cfg, probeKey, endpoint, ClientSetup(headers(sessionHeader, ModelSession.fresh()), PROBE_MAX_TOKENS))
         return try {
-            val reply = m.complete(PROBE_SYSTEM, listOf(Message(Role.User, listOf(Part.Text(PROBE_TEXT)), Author.Mika)), listOf(PROBE_TOOL))
+            val reply = m.complete(PROBE_SYSTEM, listOf(Message(Role.User, listOf(Part.Text(PROBE_TEXT)), Author.Djini)), listOf(PROBE_TOOL))
             if (reply.parts.any { it is Part.ToolCall }) ProbeResult.ToolCalled else ProbeResult.NoToolCall
         } catch (e: ModelError) {
             ProbeResult.Failed(e)

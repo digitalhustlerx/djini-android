@@ -31,9 +31,9 @@ echo "pattern: system prompt / persona / instructions / 你是 / You are"
 echo
 
 # 只看文本类文件,跳过 .git、node_modules 之类的噪音
-work="$dir/.mika-scan"
+work="$dir/.djini-scan"
 found=0
-list=$(mktemp 2>/dev/null || echo "/tmp/mika-scan.$$")
+list=$(mktemp 2>/dev/null || echo "/tmp/djini-scan.$$")
 find "$dir" -type f \( -name '*.md' -o -name '*.txt' -o -name '*.json' -o -name '*.yml' -o -name '*.yaml' -o -name '*.js' -o -name '*.ts' -o -name '*.py' \) 2>/dev/null | head -2000 > "$list"
 while IFS= read -r f; do
     hits=$(grep -c -i -E 'system prompt|systemPrompt|persona|instructions|you are an? |你是|提示词' "$f" 2>/dev/null)

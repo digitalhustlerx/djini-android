@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.guard
+package com.wangzan101.djini.core.guard
 
-import com.wangzan101.mika.core.model.Part
+import com.wangzan101.djini.core.model.Part
 import kotlinx.serialization.json.JsonObject
 
 /** 不动屏幕的工具(沙箱一类)的守卫,每个任务一份;屏幕守卫不看这些工具。 */

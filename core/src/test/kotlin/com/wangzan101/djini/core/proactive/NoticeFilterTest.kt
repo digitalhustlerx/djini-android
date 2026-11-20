@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.proactive
+package com.wangzan101.djini.core.proactive
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -33,10 +33,10 @@ class NoticeFilterTest {
     }
 
     @Test fun mikaItselfIsAlwaysDroppedEvenWhenWhitelisted() {
-        for (pkg in listOf("com.wangzan101.mika", "com.wangzan101.mika.dev", "com.wangzan101.mika.dev.test")) {
+        for (pkg in listOf("com.wangzan101.djini", "com.wangzan101.djini.dev", "com.wangzan101.djini.dev.test")) {
             assertEquals(pkg, NoticeDecision.SelfPackage, decide(base.copy(packageName = pkg), whitelist = setOf(pkg)))
         }
-        assertTrue(NoticeFilter.isSelf("com.wangzan101.mika.dev"))
+        assertTrue(NoticeFilter.isSelf("com.wangzan101.djini.dev"))
         assertEquals(false, NoticeFilter.isSelf("com.tencent.mm"))
     }
 

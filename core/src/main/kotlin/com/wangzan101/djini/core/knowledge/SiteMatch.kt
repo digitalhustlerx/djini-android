@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.knowledge
+package com.wangzan101.djini.core.knowledge
 
 /**
  * 主机名属于哪份站点知识:按条目的 domains,主机名等于某个域名或是它的子域名就算对上;

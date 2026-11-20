@@ -1,6 +1,6 @@
-package com.wangzan101.mika.record
+package com.wangzan101.djini.record
 
-import com.wangzan101.mika.core.record.RunEvent
+import com.wangzan101.djini.core.record.RunEvent
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.jsonObject

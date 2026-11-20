@@ -1,4 +1,4 @@
-package com.wangzan101.mika.about
+package com.wangzan101.djini.about
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -139,7 +139,7 @@ class UpdateMirrorStoreTest {
     }
 
     @Test fun candidatesKeepUserOrderAndAlwaysEndWithOfficial() {
-        val official = "https://github.com/wangzan101/Mika/releases/download/v0.2.0/Mika.apk"
+        val official = "https://github.com/wangzan101/Djini/releases/download/v0.2.0/Djini.apk"
         val mirrors = listOf(
             UpdateMirror("1", "One", "https://one.example.test/"),
             UpdateMirror("2", "Two", "https://two.example.test/"),

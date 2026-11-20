@@ -1,13 +1,13 @@
-package com.wangzan101.mika.core.prompt
+package com.wangzan101.djini.core.prompt
 
-import com.wangzan101.mika.core.agent.BatchRunner
-import com.wangzan101.mika.core.testing.PromptSurface
+import com.wangzan101.djini.core.agent.BatchRunner
+import com.wangzan101.djini.core.testing.PromptSurface
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.io.File
-import com.wangzan101.mika.core.testing.BATCHABLE
-import com.wangzan101.mika.core.assembly.allTools
+import com.wangzan101.djini.core.testing.BATCHABLE
+import com.wangzan101.djini.core.assembly.allTools
 
 /** prompts/ 的分层规矩(见 prompts/README.md):高层不点工具名、每个工具一份说明、没有多余的文件、反馈自成一体;各层大小写进金样。 */
 class PromptLayoutTest {

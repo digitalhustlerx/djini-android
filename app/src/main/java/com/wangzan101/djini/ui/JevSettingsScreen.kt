@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
@@ -22,23 +22,23 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.core.decision.DecisionConfig
-import com.wangzan101.mika.core.decision.DecisionModel
-import com.wangzan101.mika.core.decision.DecisionProtocol
-import com.wangzan101.mika.settings.DecisionSettings
-import com.wangzan101.mika.ui.components.ButtonKind
-import com.wangzan101.mika.ui.components.FooterNote
-import com.wangzan101.mika.ui.components.GroupCard
-import com.wangzan101.mika.ui.components.GroupLabel
-import com.wangzan101.mika.ui.components.InputRow
-import com.wangzan101.mika.ui.components.ListRow
-import com.wangzan101.mika.ui.components.MikaButton
-import com.wangzan101.mika.ui.components.MikaSwitch
-import com.wangzan101.mika.ui.components.PageScaffold
-import com.wangzan101.mika.ui.components.SelectChip
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaTheme
+import com.wangzan101.djini.R
+import com.wangzan101.djini.core.decision.DecisionConfig
+import com.wangzan101.djini.core.decision.DecisionModel
+import com.wangzan101.djini.core.decision.DecisionProtocol
+import com.wangzan101.djini.settings.DecisionSettings
+import com.wangzan101.djini.ui.components.ButtonKind
+import com.wangzan101.djini.ui.components.FooterNote
+import com.wangzan101.djini.ui.components.GroupCard
+import com.wangzan101.djini.ui.components.GroupLabel
+import com.wangzan101.djini.ui.components.InputRow
+import com.wangzan101.djini.ui.components.ListRow
+import com.wangzan101.djini.ui.components.MikaButton
+import com.wangzan101.djini.ui.components.MikaSwitch
+import com.wangzan101.djini.ui.components.PageScaffold
+import com.wangzan101.djini.ui.components.SelectChip
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniTheme
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -210,7 +210,7 @@ fun JevSettingsContent(
             FooterNote(
                 stringResource(if (aiPlatformUnsupported) R.string.jev_aiplatform_unsupported else R.string.jev_invalid),
                 Modifier.testTag("jev-invalid"),
-                color = MikaTheme.colors.warn,
+                color = DjiniTheme.colors.warn,
             )
         }
         FooterNote(stringResource(R.string.jev_apply_note))
@@ -221,6 +221,6 @@ fun JevSettingsContent(
         Spacer(Modifier.height(10.dp))
         FooterNote(stringResource(R.string.jev_test_note))
         notice?.let { FooterNote(stringResource(it), Modifier.testTag("jev-result"),
-            color = if (it == R.string.jev_test_failed || it == R.string.jev_save_failed) MikaTheme.colors.warn else MikaTheme.colors.ok) }
+            color = if (it == R.string.jev_test_failed || it == R.string.jev_save_failed) DjiniTheme.colors.warn else DjiniTheme.colors.ok) }
     }
 }

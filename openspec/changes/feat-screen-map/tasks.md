@@ -6,7 +6,7 @@
 
 ## 全局约定
 
-- 新模块：core 侧 `com.wangzan101.mika.core.screenmap`；app 侧落盘 `app/src/main/java/com/wangzan101/mika/knowledge/`。
+- 新模块：core 侧 `com.wangzan101.djini.core.screenmap`；app 侧落盘 `app/src/main/java/com/wangzan101/djini/knowledge/`。
 - 认屏口径复用 `RouteAnchors.texts(snapshot)`（固定骨架：去数字、去列表/可滚动内容、去输入框、去用户打的字，只留标题栏/标签/按钮）。
 - 屏身份确定性：屏 id = `sha256(app + "\u0000" + 首次骨架锚点签名)` 截前 16 hex；同一批运行记录重建两遍 → 逐字节相同（可整体 `rebuild`）。
 - 序列化用 kotlinx.serialization（先例：`core/replay/Route.kt` 的 `RouteCodec`）。
@@ -26,8 +26,8 @@
 ### Task 1：屏实体 + 确定性屏 id（core）
 
 **Files:**
-- Create: `core/src/main/kotlin/com/wangzan101/mika/core/screenmap/ScreenNode.kt`
-- Test: `core/src/test/kotlin/com/wangzan101/mika/core/screenmap/ScreenNodeTest.kt`
+- Create: `core/src/main/kotlin/com/wangzan101/djini/core/screenmap/ScreenNode.kt`
+- Test: `core/src/test/kotlin/com/wangzan101/djini/core/screenmap/ScreenNodeTest.kt`
 
 **Interfaces:**
 - Produces（后续任务都用）:
@@ -48,8 +48,8 @@
 ### Task 2：认屏 `ScreenRecognizer`（core，纯函数零模型调用）
 
 **Files:**
-- Create: `core/src/main/kotlin/com/wangzan101/mika/core/screenmap/ScreenRecognizer.kt`
-- Test: `core/src/test/kotlin/com/wangzan101/mika/core/screenmap/ScreenRecognizerTest.kt`
+- Create: `core/src/main/kotlin/com/wangzan101/djini/core/screenmap/ScreenRecognizer.kt`
+- Test: `core/src/test/kotlin/com/wangzan101/djini/core/screenmap/ScreenRecognizerTest.kt`
 
 **Interfaces:**
 - Consumes: `ScreenNode`、`RouteAnchors.texts`（`core/replay/Route.kt`，签名 `fun texts(s: ScreenSnapshot): List<String>`）
@@ -73,8 +73,8 @@
 ### Task 3：建图 `ScreenMapBuilder`（从运行记录确定性重建）
 
 **Files:**
-- Create: `core/src/main/kotlin/com/wangzan101/mika/core/screenmap/ScreenMapBuilder.kt`
-- Test: `core/src/test/kotlin/com/wangzan101/mika/core/screenmap/ScreenMapBuilderTest.kt`
+- Create: `core/src/main/kotlin/com/wangzan101/djini/core/screenmap/ScreenMapBuilder.kt`
+- Test: `core/src/test/kotlin/com/wangzan101/djini/core/screenmap/ScreenMapBuilderTest.kt`
 
 **Interfaces:**
 - Consumes: `ScreenNode`、`Transition`、`RunEvent.ActionTarget`（`core/record/RunEvent.kt`，含 `before/after: Anchors`、`tool`、`target`）、`RouteAnchors`
@@ -95,8 +95,8 @@
 ### Task 4：相对导航 `ScreenGraph.path`
 
 **Files:**
-- Modify: `core/src/main/kotlin/com/wangzan101/mika/core/screenmap/ScreenMapBuilder.kt`（或拆 `ScreenGraph.kt`）
-- Test: `core/src/test/kotlin/com/wangzan101/mika/core/screenmap/ScreenGraphTest.kt`
+- Modify: `core/src/main/kotlin/com/wangzan101/djini/core/screenmap/ScreenMapBuilder.kt`（或拆 `ScreenGraph.kt`）
+- Test: `core/src/test/kotlin/com/wangzan101/djini/core/screenmap/ScreenGraphTest.kt`
 
 **Interfaces:**
 - Consumes: `ScreenGraph`（任务 3）
@@ -115,8 +115,8 @@
 ### Task 5：图渲染 `ScreenMapRender`（给模型的紧凑地图文字）
 
 **Files:**
-- Create: `core/src/main/kotlin/com/wangzan101/mika/core/screenmap/ScreenMapRender.kt`
-- Test: `core/src/test/kotlin/com/wangzan101/mika/core/screenmap/ScreenMapRenderTest.kt`
+- Create: `core/src/main/kotlin/com/wangzan101/djini/core/screenmap/ScreenMapRender.kt`
+- Test: `core/src/test/kotlin/com/wangzan101/djini/core/screenmap/ScreenMapRenderTest.kt`
 
 **Interfaces:**
 - Consumes: `ScreenGraph`、`ScreenNode`
@@ -135,9 +135,9 @@
 ### Task 6：存储 `ScreenMapStore` / `FileScreenMapStore`（core 接口 + app 落盘）
 
 **Files:**
-- Create: `core/src/main/kotlin/com/wangzan101/mika/core/screenmap/ScreenMapStore.kt`（接口）
-- Create: `app/src/main/java/com/wangzan101/mika/knowledge/FileScreenMapStore.kt`
-- Test: `app/src/test/java/com/wangzan101/mika/knowledge/FileScreenMapStoreTest.kt`
+- Create: `core/src/main/kotlin/com/wangzan101/djini/core/screenmap/ScreenMapStore.kt`（接口）
+- Create: `app/src/main/java/com/wangzan101/djini/knowledge/FileScreenMapStore.kt`
+- Test: `app/src/test/java/com/wangzan101/djini/knowledge/FileScreenMapStoreTest.kt`
 
 **Interfaces:**
 - Consumes: `ScreenGraph`、`ScreenNodeCodec`
@@ -156,9 +156,9 @@
 ### Task 7：回放接图（`Replayer` 认屏 + 落错屏重试 + 交还文案）
 
 **Files:**
-- Modify: `core/src/main/kotlin/com/wangzan101/mika/core/replay/Replayer.kt`
-- Modify: `core/src/main/kotlin/com/wangzan101/mika/core/agent/RouteReplay.kt`
-- Test: `core/src/test/kotlin/com/wangzan101/mika/core/replay/ReplayerScreenMapTest.kt`
+- Modify: `core/src/main/kotlin/com/wangzan101/djini/core/replay/Replayer.kt`
+- Modify: `core/src/main/kotlin/com/wangzan101/djini/core/agent/RouteReplay.kt`
+- Test: `core/src/test/kotlin/com/wangzan101/djini/core/replay/ReplayerScreenMapTest.kt`
 
 **Interfaces:**
 - Consumes: `ScreenRecognizer.identify`（任务 2）、`ScreenGraph`/`ScreenMapStore`（任务 3/6）、现有 `Replayer`（`core/replay/Replayer.kt`）
@@ -175,9 +175,9 @@
 ### Task 8：知识注入（随 APP.md 一起给屏图）
 
 **Files:**
-- Modify: `core/src/main/kotlin/com/wangzan101/mika/core/agent/AgentLoop.kt`（`injectKnowledge` 与 `appendRuntimeState` 一带）
-- Modify: `core/src/main/kotlin/com/wangzan101/mika/core/agent/ContextBuilder.kt`（若注入在此）
-- Test: `core/src/test/kotlin/com/wangzan101/mika/core/agent/AgentLoopScreenMapTest.kt`
+- Modify: `core/src/main/kotlin/com/wangzan101/djini/core/agent/AgentLoop.kt`（`injectKnowledge` 与 `appendRuntimeState` 一带）
+- Modify: `core/src/main/kotlin/com/wangzan101/djini/core/agent/ContextBuilder.kt`（若注入在此）
+- Test: `core/src/test/kotlin/com/wangzan101/djini/core/agent/AgentLoopScreenMapTest.kt`
 
 **Interfaces:**
 - Consumes: `ScreenMapStore.load`、`ScreenRecognizer.identify`、`ScreenMapRender.renderPosition/renderMap`
@@ -194,9 +194,9 @@
 ### Task 9：收尾长图（`RunLearning` 重放运行记录更新图）
 
 **Files:**
-- Modify: `core/src/main/kotlin/com/wangzan101/mika/core/agent/RunLearning`（或 `app/.../task/RunLearning.kt` 对应接线）
-- Modify: `app/src/main/java/com/wangzan101/mika/task/TaskRun.kt`（交出 `RunAftermath` 的地方，把 `events` 传给长图）
-- Test: `core/src/test/kotlin/com/wangzan101/mika/core/agent/RunLearningScreenMapTest.kt`
+- Modify: `core/src/main/kotlin/com/wangzan101/djini/core/agent/RunLearning`（或 `app/.../task/RunLearning.kt` 对应接线）
+- Modify: `app/src/main/java/com/wangzan101/djini/task/TaskRun.kt`（交出 `RunAftermath` 的地方，把 `events` 传给长图）
+- Test: `core/src/test/kotlin/com/wangzan101/djini/core/agent/RunLearningScreenMapTest.kt`
 
 **Interfaces:**
 - Consumes: `ScreenMapBuilder.apply`（任务 3）、`ScreenMapStore.save`（任务 6）、`RunAftermath.events`
@@ -213,8 +213,8 @@
 ### Task 10：merge gate 自检（wrong-merge / wrong-owner 归零）
 
 **Files:**
-- Create: `core/src/main/kotlin/com/wangzan101/mika/core/screenmap/ScreenMapMergeGate.kt`
-- Test: `core/src/test/kotlin/com/wangzan101/mika/core/screenmap/ScreenMapMergeGateTest.kt`
+- Create: `core/src/main/kotlin/com/wangzan101/djini/core/screenmap/ScreenMapMergeGate.kt`
+- Test: `core/src/test/kotlin/com/wangzan101/djini/core/screenmap/ScreenMapMergeGateTest.kt`
 
 **Interfaces:**
 - Consumes: `ScreenNode`、`ScreenRecognizer`（任务 2）

@@ -1,11 +1,11 @@
-package com.wangzan101.mika.browser
+package com.wangzan101.djini.browser
 
 import android.app.DownloadManager
 import android.content.Context
 import android.net.Uri
 import android.os.Environment
 import android.webkit.URLUtil
-import com.wangzan101.mika.cap.web.WebTab
+import com.wangzan101.djini.cap.web.WebTab
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File

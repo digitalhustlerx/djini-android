@@ -1,21 +1,21 @@
-package com.wangzan101.mika.core.replay
+package com.wangzan101.djini.core.replay
 
-import com.wangzan101.mika.core.agent.AgentLoop
-import com.wangzan101.mika.core.agent.FakeModel
-import com.wangzan101.mika.core.agent.SpeedFlags
-import com.wangzan101.mika.core.model.ModelReply
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.StopReason
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.record.RunSink
-import com.wangzan101.mika.core.uistate.ActionResult
-import com.wangzan101.mika.core.tool.FakeScreen
+import com.wangzan101.djini.core.agent.AgentLoop
+import com.wangzan101.djini.core.agent.FakeModel
+import com.wangzan101.djini.core.agent.SpeedFlags
+import com.wangzan101.djini.core.model.ModelReply
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.StopReason
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.record.RunSink
+import com.wangzan101.djini.core.uistate.ActionResult
+import com.wangzan101.djini.core.tool.FakeScreen
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import com.wangzan101.mika.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.assembly.toolDispatcher
 
 class AgentLoopActionTargetTest {
     private var seq = 0
@@ -27,7 +27,7 @@ class AgentLoopActionTargetTest {
         val m = FakeModel(
             reply(call("phone_observe")),
             reply(call("phone_tap", """{"ref":"@e1","snapshotId":"snap1"}""")),
-            com.wangzan101.mika.core.testing.answerReply("好了"),
+            com.wangzan101.djini.core.testing.answerReply("好了"),
         )
         val got = mutableListOf<RunEvent>()
         val sink = object : RunSink { override fun event(e: RunEvent) { got += e }; override fun media(mediaId: Int, png: ByteArray) {} }
@@ -59,7 +59,7 @@ class AgentLoopActionTargetTest {
         val m = FakeModel(
             reply(call("phone_observe")),
             reply(Part.ToolCall("b", "do_steps", """{"steps":[{"tool":"phone_tap","args":{"ref":"@e1","snapshotId":"p1"}},{"tool":"phone_back","args":{}},{"tool":"wait","args":{"seconds":0.2}}]}""")),
-            com.wangzan101.mika.core.testing.answerReply("好了"),
+            com.wangzan101.djini.core.testing.answerReply("好了"),
         )
         val got = mutableListOf<RunEvent>()
         val shots = mutableListOf<Int>()

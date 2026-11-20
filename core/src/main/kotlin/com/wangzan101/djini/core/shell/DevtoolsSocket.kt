@@ -1,8 +1,8 @@
-package com.wangzan101.mika.core.shell
+package com.wangzan101.djini.core.shell
 
 /**
  * WebView 调试接口的本地抽象套接字:每个开着调试的进程一个,名为 `webview_devtools_remote_<pid>`。
- * 内置助手代连时只认这个样子的名字,且 pid 必须属于 Mika 的 uid。
+ * 内置助手代连时只认这个样子的名字,且 pid 必须属于 Djini 的 uid。
  */
 object DevtoolsSocket {
     private const val PREFIX = "webview_devtools_remote_"

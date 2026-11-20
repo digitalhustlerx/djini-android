@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.proactive
+package com.wangzan101.djini.core.proactive
 
 /**
  * 把一条聊天通知理成后面都认的样子:[NoticeRecord.title] 是会话的名字(人或群),[NoticeRecord.sender] 是群里说话的人,

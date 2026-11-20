@@ -1,9 +1,9 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.core.assembly.knownTools
-import com.wangzan101.mika.i18n.ChineseTexts
-import com.wangzan101.mika.i18n.ResFileTexts
-import com.wangzan101.mika.i18n.UiText
+import com.wangzan101.djini.core.assembly.knownTools
+import com.wangzan101.djini.i18n.ChineseTexts
+import com.wangzan101.djini.i18n.ResFileTexts
+import com.wangzan101.djini.i18n.UiText
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Rule

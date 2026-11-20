@@ -1,6 +1,6 @@
 @file:OptIn(androidx.compose.foundation.ExperimentalFoundationApi::class)
 
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.animation.core.exponentialDecay
 import androidx.compose.animation.core.tween
@@ -41,8 +41,8 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.ui.theme.MikaMotion
+import com.wangzan101.djini.R
+import com.wangzan101.djini.ui.theme.MikaMotion
 import kotlin.math.roundToInt
 import kotlin.math.abs
 import kotlin.math.max

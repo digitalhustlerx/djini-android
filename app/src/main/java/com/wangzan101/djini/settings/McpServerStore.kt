@@ -1,21 +1,21 @@
-package com.wangzan101.mika.settings
+package com.wangzan101.djini.settings
 
-import com.wangzan101.mika.BuildConfig
-import com.wangzan101.mika.core.cap.mcp.HttpMcpEndpoint
-import com.wangzan101.mika.core.cap.mcp.LegacySseMcpEndpoint
-import com.wangzan101.mika.core.cap.mcp.McpOAuth
-import com.wangzan101.mika.core.cap.mcp.McpOAuthException
-import com.wangzan101.mika.core.cap.mcp.McpOAuthTokens
-import com.wangzan101.mika.core.cap.mcp.McpStdioLauncher
-import com.wangzan101.mika.core.cap.mcp.StdioMcpEndpoint
-import com.wangzan101.mika.core.cap.mcp.parseStdioCommand
-import com.wangzan101.mika.core.cap.mcp.McpClientException
-import com.wangzan101.mika.core.cap.mcp.McpConnection
-import com.wangzan101.mika.core.cap.mcp.McpTrust
-import com.wangzan101.mika.core.net.LocalHosts
-import com.wangzan101.mika.core.net.NetProxy
-import com.wangzan101.mika.core.oauth.LoopbackCallback
-import com.wangzan101.mika.core.resource.ResourceScope
+import com.wangzan101.djini.BuildConfig
+import com.wangzan101.djini.core.cap.mcp.HttpMcpEndpoint
+import com.wangzan101.djini.core.cap.mcp.LegacySseMcpEndpoint
+import com.wangzan101.djini.core.cap.mcp.McpOAuth
+import com.wangzan101.djini.core.cap.mcp.McpOAuthException
+import com.wangzan101.djini.core.cap.mcp.McpOAuthTokens
+import com.wangzan101.djini.core.cap.mcp.McpStdioLauncher
+import com.wangzan101.djini.core.cap.mcp.StdioMcpEndpoint
+import com.wangzan101.djini.core.cap.mcp.parseStdioCommand
+import com.wangzan101.djini.core.cap.mcp.McpClientException
+import com.wangzan101.djini.core.cap.mcp.McpConnection
+import com.wangzan101.djini.core.cap.mcp.McpTrust
+import com.wangzan101.djini.core.net.LocalHosts
+import com.wangzan101.djini.core.net.NetProxy
+import com.wangzan101.djini.core.oauth.LoopbackCallback
+import com.wangzan101.djini.core.resource.ResourceScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.CancellationException
@@ -212,7 +212,7 @@ class McpServerStore(
      */
     suspend fun connectionsFor(
         owner: ResourceScope,
-        resultStore: com.wangzan101.mika.core.cap.mcp.McpResultStore? = null,
+        resultStore: com.wangzan101.djini.core.cap.mcp.McpResultStore? = null,
         workspace: String = SETTINGS_WORKSPACE,
         budgetMs: Long = CONNECT_BUDGET_MS,
     ): McpConnections = owner.acquire(Dispatchers.IO, { c: McpConnections -> c.close() }) { connections(resultStore, workspace, budgetMs) }
@@ -222,7 +222,7 @@ class McpServerStore(
      * 记成失败(健康状态里写明超时),不拖住任务开头;已经连上的照常用。被取消时连上的也关掉再抛。
      */
     suspend fun connections(
-        resultStore: com.wangzan101.mika.core.cap.mcp.McpResultStore? = null,
+        resultStore: com.wangzan101.djini.core.cap.mcp.McpResultStore? = null,
         workspace: String = SETTINGS_WORKSPACE,
         budgetMs: Long = CONNECT_BUDGET_MS,
     ): McpConnections {
@@ -260,7 +260,7 @@ class McpServerStore(
     /** 连一个 server 并记下健康状态。 */
     private suspend fun attempt(
         config: McpServerConfig,
-        resultStore: com.wangzan101.mika.core.cap.mcp.McpResultStore?,
+        resultStore: com.wangzan101.djini.core.cap.mcp.McpResultStore?,
         workspace: String,
     ): Result<McpConnection> {
         val result = try {
@@ -293,7 +293,7 @@ class McpServerStore(
         config: McpServerConfig,
         headers: Map<String, String>,
         workspace: String,
-    ): Result<com.wangzan101.mika.core.cap.mcp.McpEndpoint> = try {
+    ): Result<com.wangzan101.djini.core.cap.mcp.McpEndpoint> = try {
         when (config.transport) {
             "stdio" -> {
                 val launcher = stdio ?: throw IllegalStateException("stdio MCP servers are not available on this build")
@@ -301,19 +301,19 @@ class McpServerStore(
                 StdioMcpEndpoint.connect(
                     serverId = config.id, command = argv, launcher = launcher, workspace = workspace,
                     timeoutSec = config.timeoutSec,
-                    clientName = "Mika", clientVersion = BuildConfig.VERSION_NAME,
-                ).map { it as com.wangzan101.mika.core.cap.mcp.McpEndpoint }
+                    clientName = "Djini", clientVersion = BuildConfig.VERSION_NAME,
+                ).map { it as com.wangzan101.djini.core.cap.mcp.McpEndpoint }
             }
             "http-sse" -> LegacySseMcpEndpoint.connect(
                 serverId = config.id, url = config.url, http = http,
                 headers = headers, timeoutSec = config.timeoutSec,
-                clientName = "Mika", clientVersion = BuildConfig.VERSION_NAME,
-            ).map { it as com.wangzan101.mika.core.cap.mcp.McpEndpoint }
+                clientName = "Djini", clientVersion = BuildConfig.VERSION_NAME,
+            ).map { it as com.wangzan101.djini.core.cap.mcp.McpEndpoint }
             else -> HttpMcpEndpoint.connect(
                 serverId = config.id, url = config.url, http = http,
                 headers = headers, timeoutSec = config.timeoutSec,
-                clientName = "Mika", clientVersion = BuildConfig.VERSION_NAME,
-            ).map { it as com.wangzan101.mika.core.cap.mcp.McpEndpoint }
+                clientName = "Djini", clientVersion = BuildConfig.VERSION_NAME,
+            ).map { it as com.wangzan101.djini.core.cap.mcp.McpEndpoint }
         }
     } catch (e: CancellationException) {
         throw e
@@ -403,9 +403,9 @@ class McpServerStore(
         McpHealth(false, e.message ?: e.javaClass.simpleName, emptyList(), System.currentTimeMillis())
 
     private fun oauthPage(ok: Boolean): String = if (ok) {
-        "<html><body><h3>Mika: 登录成功</h3><p>Sign-in complete. You can return to Mika.</p></body></html>"
+        "<html><body><h3>Djini: 登录成功</h3><p>Sign-in complete. You can return to Djini.</p></body></html>"
     } else {
-        "<html><body><h3>Mika: 登录失败</h3><p>Sign-in failed. Return to Mika and try again.</p></body></html>"
+        "<html><body><h3>Djini: 登录失败</h3><p>Sign-in failed. Return to Djini and try again.</p></body></html>"
     }
 
     private fun loadServers(): List<McpServerConfig> = runCatching {

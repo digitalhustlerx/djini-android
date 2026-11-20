@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -21,11 +21,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import com.wangzan101.mika.R
-import com.wangzan101.mika.calls.CallActionResult
-import com.wangzan101.mika.ui.theme.MikaShapes
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
+import com.wangzan101.djini.R
+import com.wangzan101.djini.calls.CallActionResult
+import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 
@@ -37,7 +37,7 @@ internal fun CallDtmfKeypadDialog(
     onSend: suspend (String, String) -> CallActionResult,
     externallyBusy: Boolean = false,
 ) {
-    val colors = MikaTheme.colors
+    val colors = DjiniTheme.colors
     val scope = rememberCoroutineScope()
     var batch by remember { mutableStateOf(false) }
     var input by remember { mutableStateOf("") }

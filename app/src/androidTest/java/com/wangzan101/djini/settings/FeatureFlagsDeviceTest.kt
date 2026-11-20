@@ -1,7 +1,7 @@
-package com.wangzan101.mika.settings
+package com.wangzan101.djini.settings
 
 import android.content.Context
-import com.wangzan101.mika.capsule.CapsuleMode
+import com.wangzan101.djini.capsule.CapsuleMode
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import org.junit.Assert.assertEquals

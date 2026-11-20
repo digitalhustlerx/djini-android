@@ -1,8 +1,8 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import org.junit.Rule
-import com.wangzan101.mika.i18n.ChineseTexts
-import com.wangzan101.mika.core.record.RunMetrics
+import com.wangzan101.djini.i18n.ChineseTexts
+import com.wangzan101.djini.core.record.RunMetrics
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test

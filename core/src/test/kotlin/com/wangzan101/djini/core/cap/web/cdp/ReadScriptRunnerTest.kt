@@ -1,7 +1,7 @@
-package com.wangzan101.mika.core.cap.web.cdp
+package com.wangzan101.djini.core.cap.web.cdp
 
-import com.wangzan101.mika.core.cap.web.EvalJs
-import com.wangzan101.mika.core.cap.web.ReadScriptProtocol
+import com.wangzan101.djini.core.cap.web.EvalJs
+import com.wangzan101.djini.core.cap.web.ReadScriptProtocol
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withTimeout
 import kotlinx.serialization.json.Json

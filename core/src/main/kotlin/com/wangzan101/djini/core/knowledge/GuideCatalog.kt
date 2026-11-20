@@ -1,10 +1,10 @@
-package com.wangzan101.mika.core.knowledge
+package com.wangzan101.djini.core.knowledge
 
-import com.wangzan101.mika.core.skills.PLUGIN_KIND
-import com.wangzan101.mika.core.skills.PersonalSkills
-import com.wangzan101.mika.core.skills.PluginSkills
-import com.wangzan101.mika.core.skills.SkillStatus
-import com.wangzan101.mika.core.teach.TeachSkill
+import com.wangzan101.djini.core.skills.PLUGIN_KIND
+import com.wangzan101.djini.core.skills.PersonalSkills
+import com.wangzan101.djini.core.skills.PluginSkills
+import com.wangzan101.djini.core.skills.SkillStatus
+import com.wangzan101.djini.core.teach.TeachSkill
 
 /** 内置的 App 知识(kind `app`)、站点知识(`site`)、技能(`skill`),用户的个人技能(`personal`),或插件技能(`plugin`);[files] 是可读的文件(主文件在前,其余是附件)。 */
 data class GuideInfo(
@@ -183,13 +183,13 @@ class GuideCatalog private constructor(
     private fun read(info: GuideInfo, file: String): String? =
         resource("${KnowledgeIndex.dirOf(info.kind)}/${info.name}/$file")?.let { FrontMatter.parse(it.toString(Charsets.UTF_8)).second }
 
-    /** 在沙箱里的目录(`/opt/mika/skills` 之下),也是 run_bundled_script 的 source 参数,如 `skills/documents`、`skills/research`。插件技能不走这个入口。 */
+    /** 在沙箱里的目录(`/opt/djini/skills` 之下),也是 run_bundled_script 的 source 参数,如 `skills/documents`、`skills/research`。插件技能不走这个入口。 */
     fun scriptSource(info: GuideInfo): String =
         if (info.kind == PLUGIN_KIND) "" else "${KnowledgeIndex.dirOf(info.kind).substringAfterLast('/')}/${info.name}"
 
     /**
      * 要同步进沙箱的脚本:每个带 `scripts/manifest.json` 的条目,清单本身加上清单里列出的文件。
-     * 键是 `/opt/mika/skills` 之下的相对路径。
+     * 键是 `/opt/djini/skills` 之下的相对路径。
      */
     fun scriptFiles(): Map<String, ByteArray> {
         val out = sortedMapOf<String, ByteArray>()

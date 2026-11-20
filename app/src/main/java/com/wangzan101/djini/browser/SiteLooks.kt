@@ -1,6 +1,6 @@
-package com.wangzan101.mika.browser
+package com.wangzan101.djini.browser
 
-import com.wangzan101.mika.core.cap.web.WebUrlPolicy
+import com.wangzan101.djini.core.cap.web.WebUrlPolicy
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

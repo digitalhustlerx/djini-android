@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.phone.shell
+package com.wangzan101.djini.cap.phone.shell
 
 import android.app.PendingIntent
 import android.content.Context
@@ -12,9 +12,9 @@ import android.os.ParcelFileDescriptor
 import android.os.Process
 import android.view.Surface
 import androidx.annotation.Keep
-import com.wangzan101.mika.BuildConfig
-import com.wangzan101.mika.core.shell.HelperHandoff
-import com.wangzan101.mika.shell.IMikaShell
+import com.wangzan101.djini.BuildConfig
+import com.wangzan101.djini.core.shell.HelperHandoff
+import com.wangzan101.djini.shell.IDjiniShell
 import kotlin.system.exitProcess
 
 /**
@@ -22,7 +22,7 @@ import kotlin.system.exitProcess
  * Instantiated by Shizuku inside the privileged UserService process via reflection.
  */
 @Keep
-class ShizukuShellUserService : IMikaShell.Stub {
+class ShizukuShellUserService : IDjiniShell.Stub {
     private val allowedUid: Int
     private val delegate: ShellService
 

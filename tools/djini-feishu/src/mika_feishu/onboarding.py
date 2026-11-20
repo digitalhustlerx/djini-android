@@ -29,7 +29,7 @@ def qr_page(info, directory, open_browser=True):
     page = Path(directory) / "feishu-setup.html"
     page.write_text("""<!doctype html><html lang="en"><meta charset="utf-8">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data:; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
-<meta name="referrer" content="no-referrer"><title>Mika · Connect Feishu</title>
+<meta name="referrer" content="no-referrer"><title>Djini · Connect Feishu</title>
 <style>body{font:18px system-ui;max-width:640px;margin:48px auto;padding:24px}img{width:320px;max-width:100%}a{overflow-wrap:anywhere}</style>
 <h1>Connect your Feishu bot / 连接飞书机器人</h1>
 <p>Scan in Feishu and review the app and permissions. 扫码后核对应用及权限。</p>
@@ -51,12 +51,12 @@ def register(mode, app_id=None, open_browser=True, register_app=None):
         import lark_oapi as lark
         register_app = getattr(lark, "register_app", None)
     if not callable(register_app):
-        raise ValueError("This SDK lacks register_app; upgrade mika-feishu or use manual setup")
-    options = {"source": "mika-feishu", "addons": ADDONS,
+        raise ValueError("This SDK lacks register_app; upgrade djini-feishu or use manual setup")
+    options = {"source": "djini-feishu", "addons": ADDONS,
                "domain": "https://accounts.feishu.cn", "lark_domain": "https://accounts.feishu.cn"}
     if mode == "create":
         options["create_only"] = True
-        options["app_preset"] = {"name": "Mika", "desc": "Send tasks to your own Android phone"}
+        options["app_preset"] = {"name": "Djini", "desc": "Send tasks to your own Android phone"}
     elif mode == "existing":
         if app_id:
             if not app_id.startswith("cli_"):
@@ -65,7 +65,7 @@ def register(mode, app_id=None, open_browser=True, register_app=None):
         # Without an ID, Feishu's authorization page lets the user select an app.
     else:
         raise ValueError("Unknown registration mode")
-    with tempfile.TemporaryDirectory(prefix="mika-feishu-") as directory:
+    with tempfile.TemporaryDirectory(prefix="djini-feishu-") as directory:
         result = register_app(on_qr_code=lambda info: qr_page(info, directory, open_browser), **options)
     if not isinstance(result, dict) or not result.get("client_id") or not result.get("client_secret"):
         raise ValueError("Registration did not return application credentials")
@@ -90,11 +90,11 @@ def setup(path, mode=None, open_browser=True):
         return ((getpass.getpass if secret else input)(prompt + hint + ": ").strip() or old)
     config = {}
     # Validate the phone target before starting an external authorization flow.
-    config["mika_url"] = ask("mika_url", "Mika URL, e.g. http://100.64.1.2:8765")
+    config["mika_url"] = ask("mika_url", "Djini URL, e.g. http://100.64.1.2:8765")
     validate_url(config["mika_url"])
-    config["mika_token"] = ask("mika_token", "Mika network access token (not a Tailscale key)", True)
+    config["mika_token"] = ask("mika_token", "Djini network access token (not a Tailscale key)", True)
     if not config["mika_token"]:
-        raise ValueError("A Mika network access token is required")
+        raise ValueError("A Djini network access token is required")
     if mode == "manual":
         config["feishu_app_id"] = ask("feishu_app_id", "Feishu App ID")
         config["feishu_app_secret"] = ask("feishu_app_secret", "Feishu App Secret", True)
@@ -106,4 +106,4 @@ def setup(path, mode=None, open_browser=True):
     config["allowed_open_ids"] = (previous.get("allowed_open_ids", [])
                                    if config["feishu_app_id"] == previous.get("feishu_app_id") else [])
     save_config(config, path)
-    print("Saved. Run mika-feishu doctor, then mika-feishu run. Pair using the one-time code printed by run.")
+    print("Saved. Run djini-feishu doctor, then djini-feishu run. Pair using the one-time code printed by run.")

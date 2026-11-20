@@ -1,7 +1,7 @@
-package com.wangzan101.mika.core.run
+package com.wangzan101.djini.core.run
 
-import com.wangzan101.mika.core.action.ConfirmChoice
-import com.wangzan101.mika.core.agent.Turn
+import com.wangzan101.djini.core.action.ConfirmChoice
+import com.wangzan101.djini.core.agent.Turn
 
 @JvmInline value class RunId(val value: String) {
     init { require(value.isNotBlank()) }
@@ -43,7 +43,7 @@ sealed interface RunInput {
     data class Redirect(val messageId: String, val text: String) : RunInput
     data class Answer(val text: String, val askId: String? = null) : RunInput
     data class Confirm(val choice: ConfirmChoice, val askId: String? = null) : RunInput
-    data class HandBack(val result: com.wangzan101.mika.core.tool.HandBack, val askId: String? = null) : RunInput
+    data class HandBack(val result: com.wangzan101.djini.core.tool.HandBack, val askId: String? = null) : RunInput
     data object Cancel : RunInput
 }
 

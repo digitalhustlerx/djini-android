@@ -1,53 +1,53 @@
-package com.wangzan101.mika.core.assembly
+package com.wangzan101.djini.core.assembly
 
-import com.wangzan101.mika.core.agent.CoreSections
-import com.wangzan101.mika.core.agent.DO_STEPS_TOOL
-import com.wangzan101.mika.core.cap.phone.AppPacing
-import com.wangzan101.mika.core.cap.phone.AppTempo
-import com.wangzan101.mika.core.cap.phone.PHONE
-import com.wangzan101.mika.core.cap.phone.PhoneCapability
-import com.wangzan101.mika.core.cap.root.RootCapability
-import com.wangzan101.mika.core.cap.root.RootGroup
-import com.wangzan101.mika.core.cap.root.RootPort
-import com.wangzan101.mika.core.cap.sandbox.SandboxCapability
-import com.wangzan101.mika.core.cap.sandbox.SANDBOX
-import com.wangzan101.mika.core.cap.sandbox.SandboxGroup
-import com.wangzan101.mika.core.cap.sandbox.SandboxPort
-import com.wangzan101.mika.core.cap.web.WEB
-import com.wangzan101.mika.core.cap.web.WebCapability
-import com.wangzan101.mika.core.cap.web.WebGroup
-import com.wangzan101.mika.core.cap.web.WebPort
-import com.wangzan101.mika.core.uistate.IdleScroll
-import com.wangzan101.mika.core.cap.web.PagePacing
-import com.wangzan101.mika.core.uistate.PlacePace
-import com.wangzan101.mika.core.cap.mcp.McpConnection
-import com.wangzan101.mika.core.plugin.PluginCapability
-import com.wangzan101.mika.core.plugin.PluginScriptTool
-import com.wangzan101.mika.core.plugin.PluginToolSpec
-import com.wangzan101.mika.core.plugin.ScriptRunner
-import com.wangzan101.mika.core.general.GeneralGroup
-import com.wangzan101.mika.core.knowledge.GuideCatalog
-import com.wangzan101.mika.core.memory.MemoryStore
-import com.wangzan101.mika.core.record.RunRecords
-import com.wangzan101.mika.core.memory.ProfileStore
-import com.wangzan101.mika.core.memory.UserUtterances
-import com.wangzan101.mika.core.skills.PersonalSkills
-import com.wangzan101.mika.core.uistate.ScreenPort
-import com.wangzan101.mika.core.tool.AgentTool
-import com.wangzan101.mika.core.tool.LegacyNames
-import com.wangzan101.mika.core.tool.ToolConfig
-import com.wangzan101.mika.core.tool.ToolDispatcher
-import com.wangzan101.mika.core.tool.ToolIndex
-import com.wangzan101.mika.core.vision.ImageOps
-import com.wangzan101.mika.core.vision.VisionService
-import com.wangzan101.mika.core.workspace.WorkspacePathCheck
-import com.wangzan101.mika.core.run.RunId
-import com.wangzan101.mika.core.run.RunSpec
-import com.wangzan101.mika.core.trigger.Scheduled
-import com.wangzan101.mika.core.trigger.TriggerDefinition
-import com.wangzan101.mika.core.trigger.ScheduleAdmin
-import com.wangzan101.mika.core.child.ChildRunHost
-import com.wangzan101.mika.core.userscreen.UserScreenSource
+import com.wangzan101.djini.core.agent.CoreSections
+import com.wangzan101.djini.core.agent.DO_STEPS_TOOL
+import com.wangzan101.djini.core.cap.phone.AppPacing
+import com.wangzan101.djini.core.cap.phone.AppTempo
+import com.wangzan101.djini.core.cap.phone.PHONE
+import com.wangzan101.djini.core.cap.phone.PhoneCapability
+import com.wangzan101.djini.core.cap.root.RootCapability
+import com.wangzan101.djini.core.cap.root.RootGroup
+import com.wangzan101.djini.core.cap.root.RootPort
+import com.wangzan101.djini.core.cap.sandbox.SandboxCapability
+import com.wangzan101.djini.core.cap.sandbox.SANDBOX
+import com.wangzan101.djini.core.cap.sandbox.SandboxGroup
+import com.wangzan101.djini.core.cap.sandbox.SandboxPort
+import com.wangzan101.djini.core.cap.web.WEB
+import com.wangzan101.djini.core.cap.web.WebCapability
+import com.wangzan101.djini.core.cap.web.WebGroup
+import com.wangzan101.djini.core.cap.web.WebPort
+import com.wangzan101.djini.core.uistate.IdleScroll
+import com.wangzan101.djini.core.cap.web.PagePacing
+import com.wangzan101.djini.core.uistate.PlacePace
+import com.wangzan101.djini.core.cap.mcp.McpConnection
+import com.wangzan101.djini.core.plugin.PluginCapability
+import com.wangzan101.djini.core.plugin.PluginScriptTool
+import com.wangzan101.djini.core.plugin.PluginToolSpec
+import com.wangzan101.djini.core.plugin.ScriptRunner
+import com.wangzan101.djini.core.general.GeneralGroup
+import com.wangzan101.djini.core.knowledge.GuideCatalog
+import com.wangzan101.djini.core.memory.MemoryStore
+import com.wangzan101.djini.core.record.RunRecords
+import com.wangzan101.djini.core.memory.ProfileStore
+import com.wangzan101.djini.core.memory.UserUtterances
+import com.wangzan101.djini.core.skills.PersonalSkills
+import com.wangzan101.djini.core.uistate.ScreenPort
+import com.wangzan101.djini.core.tool.AgentTool
+import com.wangzan101.djini.core.tool.LegacyNames
+import com.wangzan101.djini.core.tool.ToolConfig
+import com.wangzan101.djini.core.tool.ToolDispatcher
+import com.wangzan101.djini.core.tool.ToolIndex
+import com.wangzan101.djini.core.vision.ImageOps
+import com.wangzan101.djini.core.vision.VisionService
+import com.wangzan101.djini.core.workspace.WorkspacePathCheck
+import com.wangzan101.djini.core.run.RunId
+import com.wangzan101.djini.core.run.RunSpec
+import com.wangzan101.djini.core.trigger.Scheduled
+import com.wangzan101.djini.core.trigger.TriggerDefinition
+import com.wangzan101.djini.core.trigger.ScheduleAdmin
+import com.wangzan101.djini.core.child.ChildRunHost
+import com.wangzan101.djini.core.userscreen.UserScreenSource
 import java.io.File
 
 /**
@@ -102,7 +102,7 @@ fun toolDispatcher(
     workspace: () -> String = { "default" },
     /** 沙箱开始跑一条命令或脚本时(任务卡片显示「沙箱:…」)。 */
     onSandboxCommand: (String) -> Unit = {},
-    /** 沙箱里 `mika progress` 报的进度。 */
+    /** 沙箱里 `djini progress` 报的进度。 */
     onSandboxProgress: (String) -> Unit = {},
     /** 沙箱工具在等运行环境准备好(任务卡片显示「正在准备」)。 */
     onSandboxPreparing: () -> Unit = {},
@@ -122,12 +122,12 @@ fun toolDispatcher(
     userScreens: UserScreenSource? = null,
     /** 用户的个人技能;和 [skills]、[utterances] 都给了才提供 skill_save(用户要求时写下或改一份个人技能)。 */
     personalSkills: PersonalSkills? = null,
-    /** 改 Mika 自己设置的白名单入口;为空时不提供 settings_list、settings_set(见 [SelfConfig])。 */
-    selfConfig: com.wangzan101.mika.core.settings.SelfConfig? = null,
+    /** 改 Djini 自己设置的白名单入口;为空时不提供 settings_list、settings_set(见 [SelfConfig])。 */
+    selfConfig: com.wangzan101.djini.core.settings.SelfConfig? = null,
     /** 存下的运行记录;给了、而这个对话之前有记过运行的轮次时提供 history_read(查之前几轮读到的东西)。 */
     runRecords: RunRecords? = null,
     /** 声音生成/保存;为空时不装音频能力(没配置声音模型或用户没打开)。 */
-    audio: com.wangzan101.mika.core.cap.audio.AudioPort? = null,
+    audio: com.wangzan101.djini.core.cap.audio.AudioPort? = null,
     /** 用户允许把音频存进音乐库;默认关。 */
     audioSaveEnabled: Boolean = false,
     /** 每次保存前是否问用户;默认问。 */
@@ -135,43 +135,43 @@ fun toolDispatcher(
     /** 用户允许模型主动说话;默认关。 */
     audioSpeakTool: Boolean = false,
     /** 音频转写;为空时不装转写能力(没配置服务商转写模型)。 */
-    transcribe: com.wangzan101.mika.core.cap.transcribe.TranscribePort? = null,
+    transcribe: com.wangzan101.djini.core.cap.transcribe.TranscribePort? = null,
     /** 图片生成/改图/存相册;为空时不装图片能力(没配置图片模型或用户没打开)。 */
-    image: com.wangzan101.mika.core.cap.image.ImagePort? = null,
+    image: com.wangzan101.djini.core.cap.image.ImagePort? = null,
     /** 用户允许保存图片到相册;默认关。 */
     imageSaveEnabled: Boolean = false,
     /** 每次保存前是否问用户;默认问。 */
     imageAskBeforeSave: Boolean = true,
     /** 每个任务最多生成几张;超过后工具拒绝,不去花服务商的钱。 */
     imageMaxPerTask: Int = 8,
-    /** 以 root 跑命令(已 root 的手机上用户打开了「允许 Mika 执行 root 命令」才给);为空时 root 工具不登记。 */
+    /** 以 root 跑命令(已 root 的手机上用户打开了「允许 Djini 执行 root 命令」才给);为空时 root 工具不登记。 */
     root: RootPort? = null,
     /** 用户配置并启用的通用网页搜索;为空时保持原有浏览器搜索路径。 */
-    webSearch: com.wangzan101.mika.core.search.WebSearch? = null,
-    /** 读 Mika 自己的状态;只对手机上、有用户的 UI 主任务给。 */
-    self: com.wangzan101.mika.core.self.SelfPort? = null,
-    /** 操作 Mika 自己的界面/文件/通知/剪贴板;用户打开「允许 Mika 操作自己的界面」时才给。 */
-    selfOperate: com.wangzan101.mika.core.self.SelfPort? = null,
-    phoneCalls: com.wangzan101.mika.core.calls.PhoneCallPort? = null,
-    smsLogin: com.wangzan101.mika.core.cap.phone.sms.SmsLoginPort? = null,
+    webSearch: com.wangzan101.djini.core.search.WebSearch? = null,
+    /** 读 Djini 自己的状态;只对手机上、有用户的 UI 主任务给。 */
+    self: com.wangzan101.djini.core.self.SelfPort? = null,
+    /** 操作 Djini 自己的界面/文件/通知/剪贴板;用户打开「允许 Djini 操作自己的界面」时才给。 */
+    selfOperate: com.wangzan101.djini.core.self.SelfPort? = null,
+    phoneCalls: com.wangzan101.djini.core.calls.PhoneCallPort? = null,
+    smsLogin: com.wangzan101.djini.core.cap.phone.sms.SmsLoginPort? = null,
     /** 跨会话任务摘要;给了才提供 task_memory_search / task_memory_timeline / task_memory_step。 */
-    taskMemory: com.wangzan101.mika.core.memory.TaskMemoryStore? = null,
+    taskMemory: com.wangzan101.djini.core.memory.TaskMemoryStore? = null,
     /** 这两天的通知原文和存着的各天、各周、各月的归纳(主动能力攒下的、够格带进任务的);给了才提供 notices_read。 */
-    notices: com.wangzan101.mika.core.proactive.NoticeSource? = null,
+    notices: com.wangzan101.djini.core.proactive.NoticeSource? = null,
     /** 用户在 UI 发起任务时可访问的设备文件。 */
-    deviceFiles: com.wangzan101.mika.core.cap.devicefiles.DeviceFilesPort? = null,
+    deviceFiles: com.wangzan101.djini.core.cap.devicefiles.DeviceFilesPort? = null,
     /** 启用的插件工具(名字已拼成 plugin_<id>_<name>);给了 [pluginScriptRunner] 才放进任务。 */
     pluginTools: List<PluginToolSpec> = emptyList(),
     /** 在 App 进程内跑插件脚本的入口;为空时插件工具不登记。 */
     pluginScriptRunner: ScriptRunner? = null,
     /** 插件脚本参数临时文件放哪;App 用 cacheDir,JVM 测试用 java.io.tmpdir。 */
-    pluginArgsDir: File = File(System.getProperty("java.io.tmpdir"), "mika-plugin-args"),
+    pluginArgsDir: File = File(System.getProperty("java.io.tmpdir"), "djini-plugin-args"),
 ): ToolDispatcher {
     val screenshotStore = sandbox?.takeIf {
-        it.status() !is com.wangzan101.mika.core.cap.sandbox.SandboxStatus.Unsupported &&
-            !runSpec.readOnly && runSpec.provenance.origin != com.wangzan101.mika.core.run.RunOrigin.Child &&
+        it.status() !is com.wangzan101.djini.core.cap.sandbox.SandboxStatus.Unsupported &&
+            !runSpec.readOnly && runSpec.provenance.origin != com.wangzan101.djini.core.run.RunOrigin.Child &&
             (runSpec.capabilities == null || "sandbox" in runSpec.capabilities)
-    }?.let { com.wangzan101.mika.core.cap.sandbox.WorkspaceScreenshots(it, workspace) }
+    }?.let { com.wangzan101.djini.core.cap.sandbox.WorkspaceScreenshots(it, workspace) }
     val config = ToolConfig(visionEnabled, skills, recordFrames, vision, inlineScreen, adaptiveVision, memory, profile, utterances, conversationId,
         imageOps, scheduleTrigger, scheduleAdmin, runSpec, childHost, userScreens, personalSkills, selfConfig, runRecords, webSearch, self, selfOperate,
         screenshotStore?.let { store -> { path, png -> store.save(path, png) } }, taskMemory = taskMemory, notices = notices)
@@ -188,23 +188,23 @@ fun toolDispatcher(
             override val id = SANDBOX
             override fun open(spec: RunSpec) = SandboxCapability(sandbox, workspace, visionEnabled,
                 onSandboxCommand, onSandboxProgress, onSandboxPreparing, onSandboxScript,
-                folderAccess = spec.provenance.origin == com.wangzan101.mika.core.run.RunOrigin.Ui &&
-                    spec.provenance.attendance != com.wangzan101.mika.core.run.Attendance.Unattended && !spec.readOnly)
+                folderAccess = spec.provenance.origin == com.wangzan101.djini.core.run.RunOrigin.Ui &&
+                    spec.provenance.attendance != com.wangzan101.djini.core.run.Attendance.Unattended && !spec.readOnly)
         },
     ) + listOfNotNull(transcribe?.let { port ->
         object : CapabilityProvider {
-            override val id = com.wangzan101.mika.core.cap.transcribe.TRANSCRIBE
-            override fun open(spec: RunSpec) = com.wangzan101.mika.core.cap.transcribe.TranscribeCapability(port)
+            override val id = com.wangzan101.djini.core.cap.transcribe.TRANSCRIBE
+            override fun open(spec: RunSpec) = com.wangzan101.djini.core.cap.transcribe.TranscribeCapability(port)
         }
     }) + listOfNotNull(audio?.let { port ->
         object : CapabilityProvider {
-            override val id = com.wangzan101.mika.core.cap.audio.AUDIO
-            override fun open(spec: RunSpec) = com.wangzan101.mika.core.cap.audio.AudioCapability(port, audioSaveEnabled, audioAskBeforeSave, audioSpeakTool)
+            override val id = com.wangzan101.djini.core.cap.audio.AUDIO
+            override fun open(spec: RunSpec) = com.wangzan101.djini.core.cap.audio.AudioCapability(port, audioSaveEnabled, audioAskBeforeSave, audioSpeakTool)
         }
     }) + listOfNotNull(image?.let { port ->
         object : CapabilityProvider {
-            override val id = com.wangzan101.mika.core.cap.image.IMAGE
-            override fun open(spec: RunSpec) = com.wangzan101.mika.core.cap.image.ImageCapability(
+            override val id = com.wangzan101.djini.core.cap.image.IMAGE
+            override fun open(spec: RunSpec) = com.wangzan101.djini.core.cap.image.ImageCapability(
                 port, imageSaveEnabled, imageAskBeforeSave, imageMaxPerTask,
             )
         }
@@ -216,14 +216,14 @@ fun toolDispatcher(
     }, phoneCalls?.let { port ->
         object : CapabilityProvider {
             override val id = "calls"
-            override fun open(spec: RunSpec) = com.wangzan101.mika.core.calls.PhoneCallsCapability(port)
+            override fun open(spec: RunSpec) = com.wangzan101.djini.core.calls.PhoneCallsCapability(port)
         }
     }, deviceFiles?.let { port ->
         object : CapabilityProvider {
-            override val id = com.wangzan101.mika.core.cap.devicefiles.DEVICE_FILES
-            override fun open(spec: RunSpec) = if (spec.provenance.origin == com.wangzan101.mika.core.run.RunOrigin.Ui &&
-                spec.provenance.attendance != com.wangzan101.mika.core.run.Attendance.Unattended)
-                com.wangzan101.mika.core.cap.devicefiles.DeviceFilesCapability(port, workspace) else null
+            override val id = com.wangzan101.djini.core.cap.devicefiles.DEVICE_FILES
+            override fun open(spec: RunSpec) = if (spec.provenance.origin == com.wangzan101.djini.core.run.RunOrigin.Ui &&
+                spec.provenance.attendance != com.wangzan101.djini.core.run.Attendance.Unattended)
+                com.wangzan101.djini.core.cap.devicefiles.DeviceFilesCapability(port, workspace) else null
         }
     }, pluginScriptRunner?.takeIf { pluginTools.isNotEmpty() }?.let { runner ->
         object : CapabilityProvider {
@@ -274,12 +274,12 @@ fun legacyNames(): LegacyNames =
 /** 读运行记录用的工具声明:改名前记下的旧名也认成现在的工具(动作、能力相同),旧的记录和新的评分一样。 */
 fun recordedTools(): ToolIndex = legacyNames().let { legacy -> ToolIndex(allTools()) { legacy.resolve(it) } }
 
-/** Mika 所有可能提供的工具,按发给模型的顺序。 */
+/** Djini 所有可能提供的工具,按发给模型的顺序。 */
 internal fun allTools(): List<AgentTool> =
-    GeneralGroup.tools + PhoneCapability.tools() + WebGroup.tools + SandboxGroup.tools + com.wangzan101.mika.core.cap.audio.AudioGroup.tools + com.wangzan101.mika.core.cap.transcribe.TranscribeGroup.tools + com.wangzan101.mika.core.cap.image.ImageGroup.tools + RootGroup.tools + com.wangzan101.mika.core.calls.callAgentTools + com.wangzan101.mika.core.cap.devicefiles.DeviceFilesGroup.tools
+    GeneralGroup.tools + PhoneCapability.tools() + WebGroup.tools + SandboxGroup.tools + com.wangzan101.djini.core.cap.audio.AudioGroup.tools + com.wangzan101.djini.core.cap.transcribe.TranscribeGroup.tools + com.wangzan101.djini.core.cap.image.ImageGroup.tools + RootGroup.tools + com.wangzan101.djini.core.calls.callAgentTools + com.wangzan101.djini.core.cap.devicefiles.DeviceFilesGroup.tools
 
-/** Mika 所有可能提供的工具的声明。 */
+/** Djini 所有可能提供的工具的声明。 */
 fun knownTools(): ToolIndex = ToolIndex(allTools())
 
-/** Mika 所有可能提供的工具名(技能文档里提到的工具名据此校验)。 */
+/** Djini 所有可能提供的工具名(技能文档里提到的工具名据此校验)。 */
 fun knownToolNames(): Set<String> = knownTools().names + DO_STEPS_TOOL

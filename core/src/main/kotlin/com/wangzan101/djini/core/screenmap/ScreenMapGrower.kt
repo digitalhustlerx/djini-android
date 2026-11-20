@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.screenmap
+package com.wangzan101.djini.core.screenmap
 
 /**
  * 收尾长图:把本次运行长出的屏/边片段([ScreenMapBuilder.apply] 的产物)按屏 id 并进已存图。

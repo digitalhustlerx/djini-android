@@ -1,10 +1,10 @@
-package com.wangzan101.mika.core.cap.phone.sms
+package com.wangzan101.djini.core.cap.phone.sms
 
-import com.wangzan101.mika.core.assembly.toolDispatcher
-import com.wangzan101.mika.core.cap.phone.PhoneSmsLogin
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.tool.*
-import com.wangzan101.mika.core.uistate.*
+import com.wangzan101.djini.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.cap.phone.PhoneSmsLogin
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.tool.*
+import com.wangzan101.djini.core.uistate.*
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.Json
 import org.junit.Assert.*
@@ -127,15 +127,15 @@ class SmsLoginTest {
         assertTrue(result.content.toString().contains("logged_in"))
         assertFalse(result.content.toString().contains("246810"))
         assertFalse(PhoneSmsLogin.available(toolDispatcher(FakeScreen()).ctx))
-        val base = com.wangzan101.mika.core.run.RunSpec(com.wangzan101.mika.core.run.RunId("test"), "login", "test")
-        for (origin in com.wangzan101.mika.core.run.RunOrigin.entries.filter { it != com.wangzan101.mika.core.run.RunOrigin.Ui }) {
+        val base = com.wangzan101.djini.core.run.RunSpec(com.wangzan101.djini.core.run.RunId("test"), "login", "test")
+        for (origin in com.wangzan101.djini.core.run.RunOrigin.entries.filter { it != com.wangzan101.djini.core.run.RunOrigin.Ui }) {
             assertFalse(PhoneSmsLogin.available(toolDispatcher(FakeScreen(), smsLogin = port,
-                web = com.wangzan101.mika.core.cap.web.FakeWebPort(),
-                runSpec = base.copy(provenance = com.wangzan101.mika.core.run.RunProvenance(origin))).ctx))
+                web = com.wangzan101.djini.core.cap.web.FakeWebPort(),
+                runSpec = base.copy(provenance = com.wangzan101.djini.core.run.RunProvenance(origin))).ctx))
         }
         assertFalse(PhoneSmsLogin.available(toolDispatcher(FakeScreen(), smsLogin = port, runSpec = base.copy(readOnly = true)).ctx))
         assertFalse(PhoneSmsLogin.available(toolDispatcher(FakeScreen(), smsLogin = port, runSpec = base.copy(parent = base.id)).ctx))
         assertFalse(PhoneSmsLogin.available(toolDispatcher(FakeScreen(), smsLogin = port,
-            runSpec = base.copy(provenance = com.wangzan101.mika.core.run.RunProvenance(attendance = com.wangzan101.mika.core.run.Attendance.Unattended))).ctx))
+            runSpec = base.copy(provenance = com.wangzan101.djini.core.run.RunProvenance(attendance = com.wangzan101.djini.core.run.Attendance.Unattended))).ctx))
     }
 }

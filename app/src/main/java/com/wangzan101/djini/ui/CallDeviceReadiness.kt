@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import android.Manifest
 import android.app.ActivityManager
@@ -31,19 +31,19 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
-import com.wangzan101.mika.R
-import com.wangzan101.mika.calls.CallConfig
-import com.wangzan101.mika.calls.CallNotifications
-import com.wangzan101.mika.calls.CallRuntime
-import com.wangzan101.mika.calls.CallRuntimeState
-import com.wangzan101.mika.calls.CallStandbyService
-import com.wangzan101.mika.ui.components.ListRow
-import com.wangzan101.mika.ui.components.GroupCard
-import com.wangzan101.mika.ui.components.RowChevron
-import com.wangzan101.mika.ui.components.TileTone
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaSpace
-import com.wangzan101.mika.ui.theme.MikaTheme
+import com.wangzan101.djini.R
+import com.wangzan101.djini.calls.CallConfig
+import com.wangzan101.djini.calls.CallNotifications
+import com.wangzan101.djini.calls.CallRuntime
+import com.wangzan101.djini.calls.CallRuntimeState
+import com.wangzan101.djini.calls.CallStandbyService
+import com.wangzan101.djini.ui.components.ListRow
+import com.wangzan101.djini.ui.components.GroupCard
+import com.wangzan101.djini.ui.components.RowChevron
+import com.wangzan101.djini.ui.components.TileTone
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.MikaSpace
+import com.wangzan101.djini.ui.theme.DjiniTheme
 import kotlinx.coroutines.launch
 
 private val phonePermissions = listOf(Manifest.permission.READ_PHONE_STATE, Manifest.permission.CALL_PHONE)
@@ -199,7 +199,7 @@ internal fun CallPermissionRows(device: CallDeviceControls, helperConnected: Boo
         MikaIcons.Phone, stringResource(R.string.calls_device_phone_permissions),
         stringResource(if (checks.phoneAllowed) R.string.calls_device_permission_granted else R.string.calls_device_phone_permissions_note),
         tone = if (checks.phoneAllowed) TileTone.Ok else TileTone.Warn,
-        detail = phoneAction?.let { stringResource(device.phoneActionLabel) }, detailColor = MikaTheme.colors.accent,
+        detail = phoneAction?.let { stringResource(device.phoneActionLabel) }, detailColor = DjiniTheme.colors.accent,
         onClick = phoneAction,
     ) { if (phoneAction != null) RowChevron() }
 
@@ -215,7 +215,7 @@ internal fun CallPermissionRows(device: CallDeviceControls, helperConnected: Boo
             CallNotificationBlock.None -> R.string.calls_device_permission_granted
         }),
         tone = if (checks.standbyNotificationsAllowed) TileTone.Ok else TileTone.Warn,
-        detail = notificationAction?.let { stringResource(device.notificationActionLabel) }, detailColor = MikaTheme.colors.accent,
+        detail = notificationAction?.let { stringResource(device.notificationActionLabel) }, detailColor = DjiniTheme.colors.accent,
         onClick = notificationAction,
     ) { if (notificationAction != null) RowChevron() }
 
@@ -225,7 +225,7 @@ internal fun CallPermissionRows(device: CallDeviceControls, helperConnected: Boo
         stringResource(if (helperConnected) R.string.calls_device_helper_connected else R.string.calls_helper_disconnected),
         tone = if (helperConnected) TileTone.Ok else TileTone.Warn,
         detail = helperAction?.let { stringResource(if (helperConnected) R.string.calls_helper_manage else R.string.calls_helper_set_up) },
-        detailColor = MikaTheme.colors.accent,
+        detailColor = DjiniTheme.colors.accent,
         onClick = helperAction,
     ) { if (helperAction != null) RowChevron() }
 }
@@ -250,7 +250,7 @@ internal fun CallBackgroundStandbyRow(
         stringResource(backgroundStandbyStatus(config, state)),
         tone = if (state.backgroundStandbyRunning) TileTone.Ok else TileTone.Neutral,
         detail = action?.let { stringResource(if (canStart) R.string.calls_background_start else R.string.calls_device_and_permissions) },
-        detailColor = MikaTheme.colors.accent, onClick = action,
+        detailColor = DjiniTheme.colors.accent, onClick = action,
     ) { if (action != null) RowChevron() }
 }
 
@@ -267,7 +267,7 @@ internal fun CallBatterySettingsRow(device: CallDeviceControls, enabled: Boolean
         }),
         tone = if (battery == CallBatteryPolicy.Restricted) TileTone.Warn else TileTone.Neutral,
         detail = if (enabled) stringResource(R.string.calls_background_open_battery) else null,
-        detailColor = MikaTheme.colors.accent, onClick = device.batteryAction.takeIf { enabled },
+        detailColor = DjiniTheme.colors.accent, onClick = device.batteryAction.takeIf { enabled },
     ) { if (enabled) RowChevron() }
 }
 

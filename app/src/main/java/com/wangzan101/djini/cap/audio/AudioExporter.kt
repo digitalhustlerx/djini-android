@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.audio
+package com.wangzan101.djini.cap.audio
 
 import android.content.ContentResolver
 import android.content.ContentUris
@@ -6,14 +6,14 @@ import android.content.ContentValues
 import android.content.Context
 import android.os.Bundle
 import android.provider.MediaStore
-import com.wangzan101.mika.core.model.SavedAudio
+import com.wangzan101.djini.core.model.SavedAudio
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayInputStream
 
-/** 把一段音频存到手机的「音乐/Mika」(MediaStore.Audio,不需要存储权限)。 */
+/** 把一段音频存到手机的「音乐/Djini」(MediaStore.Audio,不需要存储权限)。 */
 class AudioExporter(private val context: Context) {
     suspend fun save(bytes: ByteArray, mime: String, name: String): SavedAudio = withContext(Dispatchers.IO) {
         val resolver = context.contentResolver
@@ -76,6 +76,6 @@ class AudioExporter(private val context: Context) {
     }
 
     private companion object {
-        const val DIRECTORY = "Music/Mika"
+        const val DIRECTORY = "Music/Djini"
     }
 }

@@ -1,4 +1,4 @@
-package com.wangzan101.mika.settings
+package com.wangzan101.djini.settings
 
 import org.junit.Assert.*
 import org.junit.Test
@@ -10,7 +10,7 @@ class DeviceDirectoryStoreTest {
         assertEquals(listOf("/sdcard/Download", "/sdcard/Documents"), store.directories().map { it.path })
         store.save(DeviceDirectory("/sdcard/QQ", "QQ", "QQ files", "user"))
         val updated = store.updateDescription("/sdcard/QQ", "Received files")
-        assertEquals("mika", updated.source)
+        assertEquals("djini", updated.source)
         val saved = DeviceDirectoryStore(prefs).directories().single { it.path == "/sdcard/QQ" }
         assertEquals("Received files", saved.description)
         store.remove("/sdcard/QQ")

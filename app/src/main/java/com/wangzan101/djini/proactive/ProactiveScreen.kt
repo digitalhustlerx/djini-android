@@ -1,4 +1,4 @@
-package com.wangzan101.mika.proactive
+package com.wangzan101.djini.proactive
 
 import android.content.Intent
 import android.provider.Settings
@@ -25,49 +25,49 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LifecycleResumeEffect
-import com.wangzan101.mika.MikaApp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.cap.phone.PhoneServices
-import com.wangzan101.mika.cap.phone.a11y.launchableApps
-import com.wangzan101.mika.core.proactive.GrantResult
-import com.wangzan101.mika.core.proactive.LearnLevel
-import com.wangzan101.mika.core.proactive.NoticeFilter
-import com.wangzan101.mika.core.proactive.SourceTier
-import com.wangzan101.mika.core.proactive.NoticeRecord
-import com.wangzan101.mika.core.proactive.TriageDecision
-import com.wangzan101.mika.core.proactive.TriageGate
-import com.wangzan101.mika.core.proactive.TriageMark
-import com.wangzan101.mika.core.proactive.TriageNote
-import com.wangzan101.mika.core.proactive.TriageTarget
-import com.wangzan101.mika.core.proactive.TriageVerdict
-import com.wangzan101.mika.core.usage.ProactiveBudget
-import com.wangzan101.mika.core.shell.BuiltinShellStatus
-import com.wangzan101.mika.ui.TokenBudgetDialog
-import com.wangzan101.mika.ui.tokenBudgetNumber
-import com.wangzan101.mika.ui.components.EmptyNote
-import com.wangzan101.mika.ui.components.FooterNote
-import com.wangzan101.mika.ui.components.DetailNote
-import com.wangzan101.mika.ui.components.GroupCard
-import com.wangzan101.mika.ui.components.GroupLabel
-import com.wangzan101.mika.ui.components.ListRow
-import com.wangzan101.mika.ui.components.MikaDialog
-import com.wangzan101.mika.ui.components.MikaSwitch
-import com.wangzan101.mika.ui.components.PageScaffold
-import com.wangzan101.mika.ui.components.RowValue
-import com.wangzan101.mika.ui.components.RowChevron
-import com.wangzan101.mika.ui.components.RadioRow
-import com.wangzan101.mika.core.proactive.ObservedContact
-import com.wangzan101.mika.core.proactive.NoticeInbox
-import com.wangzan101.mika.ui.components.SearchField
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
+import com.wangzan101.djini.DjiniApp
+import com.wangzan101.djini.R
+import com.wangzan101.djini.cap.phone.PhoneServices
+import com.wangzan101.djini.cap.phone.a11y.launchableApps
+import com.wangzan101.djini.core.proactive.GrantResult
+import com.wangzan101.djini.core.proactive.LearnLevel
+import com.wangzan101.djini.core.proactive.NoticeFilter
+import com.wangzan101.djini.core.proactive.SourceTier
+import com.wangzan101.djini.core.proactive.NoticeRecord
+import com.wangzan101.djini.core.proactive.TriageDecision
+import com.wangzan101.djini.core.proactive.TriageGate
+import com.wangzan101.djini.core.proactive.TriageMark
+import com.wangzan101.djini.core.proactive.TriageNote
+import com.wangzan101.djini.core.proactive.TriageTarget
+import com.wangzan101.djini.core.proactive.TriageVerdict
+import com.wangzan101.djini.core.usage.ProactiveBudget
+import com.wangzan101.djini.core.shell.BuiltinShellStatus
+import com.wangzan101.djini.ui.TokenBudgetDialog
+import com.wangzan101.djini.ui.tokenBudgetNumber
+import com.wangzan101.djini.ui.components.EmptyNote
+import com.wangzan101.djini.ui.components.FooterNote
+import com.wangzan101.djini.ui.components.DetailNote
+import com.wangzan101.djini.ui.components.GroupCard
+import com.wangzan101.djini.ui.components.GroupLabel
+import com.wangzan101.djini.ui.components.ListRow
+import com.wangzan101.djini.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.MikaSwitch
+import com.wangzan101.djini.ui.components.PageScaffold
+import com.wangzan101.djini.ui.components.RowValue
+import com.wangzan101.djini.ui.components.RowChevron
+import com.wangzan101.djini.ui.components.RadioRow
+import com.wangzan101.djini.core.proactive.ObservedContact
+import com.wangzan101.djini.core.proactive.NoticeInbox
+import com.wangzan101.djini.ui.components.SearchField
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 /**
  * 设置 › 主动能力。只放要用户做决定的:
- * 状态卡(总开关、一句现在的状态、要处理时给一个按钮)→「Mika 知道了什么」的入口
+ * 状态卡(总开关、一句现在的状态、要处理时给一个按钮)→「Djini 知道了什么」的入口
  * → 设置(激进程度、敏感类推断、当日消息归纳、每日上限)→ 读哪些 App(每个 App 不读 / 低 / 中 / 高;列表可能很长,放在设置后面)
  * → 诊断(默认折起:监听状态、计数、失败重试、最近的通知)→ 页尾说明
  * (发什么、存什么、留多久)。归纳出的内容和它们的删除在下一页([ProactiveLearnScreen])。
@@ -76,7 +76,7 @@ import kotlinx.coroutines.withContext
 @Composable
 fun ProactiveScreen(onBack: () -> Unit) {
     val context = LocalContext.current
-    val app = context.applicationContext as MikaApp
+    val app = context.applicationContext as DjiniApp
     val runtime = app.proactive
     val enabled by runtime.enabled.collectAsState()
     val connected by runtime.isConnected.collectAsState()
@@ -124,7 +124,7 @@ fun ProactiveScreen(onBack: () -> Unit) {
     var confirmSensitiveOn by remember { mutableStateOf(false) }
     var confirmSensitiveOff by remember { mutableStateOf(false) }
     var diagOpen by rememberSaveable { mutableStateOf(false) }
-    // 「由 Mika 助手授权」:要用助手或已配对的连接(和恢复开关看的是同一个条件);跑的过程中按钮不能再点
+    // 「由 Djini 助手授权」:要用助手或已配对的连接(和恢复开关看的是同一个条件);跑的过程中按钮不能再点
     val phone = remember { PhoneServices.of(context) }
     val shellStatus by phone.shellControl.status.collectAsState()
     val helperShell by phone.hub.shell.collectAsState()
@@ -143,7 +143,7 @@ fun ProactiveScreen(onBack: () -> Unit) {
         onPauseOrDispose {}
     }
     LaunchedEffect(Unit) {
-        // Mika 自己的各个安装包(正式版、.dev 等)不给选
+        // Djini 自己的各个安装包(正式版、.dev 等)不给选
         apps = withContext(Dispatchers.IO) {
             runCatching { launchableApps(app.packageManager, app.packageName) }.getOrDefault(emptyList())
                 .filterNot { NoticeFilter.isSelf(it.first) }
@@ -162,7 +162,7 @@ fun ProactiveScreen(onBack: () -> Unit) {
     val budgetOut = enabled && ProactiveBudget.exhausted(tokens, calls, limit) != null
     val timeFormat = remember { android.text.format.DateFormat.getTimeFormat(context) }
     val dateFormat = remember { android.text.format.DateFormat.getMediumDateFormat(context) }
-    // 「Mika 知道了什么」是本页下面的一页;放在所有 remember 之后,回来时本页的状态还在
+    // 「Djini 知道了什么」是本页下面的一页;放在所有 remember 之后,回来时本页的状态还在
     var knownOpen by rememberSaveable { mutableStateOf(false) }
     if (knownOpen) return ProactiveLearnScreen(onBack = { knownOpen = false })
     val gate = TriageGate.of(true, consent, target)
@@ -587,20 +587,20 @@ private fun Diagnostics(
             Column(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 10.dp)) {
                 Text(
                     "${label(r.packageName)} · ${timeFormat.format(java.util.Date(r.postedAtMs))}",
-                    style = MikaType.Hint, color = MikaTheme.colors.ink3,
+                    style = MikaType.Hint, color = DjiniTheme.colors.ink3,
                 )
                 if (r.title.isNotBlank()) Text(r.title, style = MikaType.Body, maxLines = 2, overflow = TextOverflow.Ellipsis)
                 // 同一条通知重发前显示过的话(最后一段就是下面的正文,不重复);只显示最近 HISTORY_SHOWN 段,更早的给个数
                 val earlier = inbox.history[r.key].orEmpty().dropLast(1)
                 if (earlier.size > HISTORY_SHOWN) {
-                    Text(stringResource(R.string.proactive_history_more, earlier.size - HISTORY_SHOWN), style = MikaType.Hint, color = MikaTheme.colors.ink3)
+                    Text(stringResource(R.string.proactive_history_more, earlier.size - HISTORY_SHOWN), style = MikaType.Hint, color = DjiniTheme.colors.ink3)
                 }
                 earlier.takeLast(HISTORY_SHOWN).forEach { line ->
-                    Text(line.text, style = MikaType.Hint, color = MikaTheme.colors.ink3, maxLines = 2, overflow = TextOverflow.Ellipsis)
+                    Text(line.text, style = MikaType.Hint, color = DjiniTheme.colors.ink3, maxLines = 2, overflow = TextOverflow.Ellipsis)
                 }
-                if (r.said.isNotBlank()) Text(r.said, style = MikaType.Body, color = MikaTheme.colors.ink2, maxLines = 6, overflow = TextOverflow.Ellipsis)
+                if (r.said.isNotBlank()) Text(r.said, style = MikaType.Body, color = DjiniTheme.colors.ink2, maxLines = 6, overflow = TextOverflow.Ellipsis)
                 if (enabled) triageLabel(triage.marks, r)?.let { tag ->
-                    Text(tag, style = MikaType.Hint, color = MikaTheme.colors.ink3, maxLines = 2, overflow = TextOverflow.Ellipsis,
+                    Text(tag, style = MikaType.Hint, color = DjiniTheme.colors.ink3, maxLines = 2, overflow = TextOverflow.Ellipsis,
                         modifier = Modifier.testTag("proactive-triage-label"))
                 }
             }

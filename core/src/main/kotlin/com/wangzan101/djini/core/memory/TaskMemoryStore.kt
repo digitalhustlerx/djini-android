@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.memory
+package com.wangzan101.djini.core.memory
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

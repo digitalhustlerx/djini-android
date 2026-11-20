@@ -1,8 +1,8 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.ChineseUi
-import com.wangzan101.mika.cap.sandbox.AttachmentFailure
-import com.wangzan101.mika.cap.sandbox.AttachmentFailureReason
+import com.wangzan101.djini.ChineseUi
+import com.wangzan101.djini.cap.sandbox.AttachmentFailure
+import com.wangzan101.djini.cap.sandbox.AttachmentFailureReason
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -34,8 +34,8 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.FileProvider
 import androidx.test.espresso.Espresso
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.wangzan101.mika.chat.AttachFilesProvider
-import com.wangzan101.mika.ui.theme.MikaTheme
+import com.wangzan101.djini.chat.AttachFilesProvider
+import com.wangzan101.djini.ui.theme.DjiniTheme
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -61,7 +61,7 @@ class ChatAttachmentsTest {
         rejected: List<AttachmentFailure> = emptyList(),
         onSend: () -> Unit = {},
     ) = compose.setContent {
-        MikaTheme {
+        DjiniTheme {
             CompositionLocalProvider(LocalAttachImages provides images) {
                 var t by remember { mutableStateOf(text) }
                 Box(Modifier.fillMaxSize()) {
@@ -150,7 +150,7 @@ class ChatAttachmentsTest {
     @Test fun removingFromTheTrayCallsBack() {
         val removed = mutableListOf<String>()
         compose.setContent {
-            MikaTheme {
+            DjiniTheme {
                 CompositionLocalProvider(LocalAttachImages provides images) {
                     PendingTray(listOf(PendingAttachment("content://f/9", "a.pdf", 10)), { removed += it })
                 }
@@ -164,7 +164,7 @@ class ChatAttachmentsTest {
         val opened = mutableListOf<String>()
         val removed = mutableListOf<String>()
         compose.setContent {
-            MikaTheme {
+            DjiniTheme {
                 CompositionLocalProvider(LocalAttachImages provides images) {
                     PendingTray(
                         items = listOf(
@@ -191,7 +191,7 @@ class ChatAttachmentsTest {
         try {
             val uri = FileProvider.getUriForFile(context, AttachFilesProvider.authority(context.packageName), file).toString()
             compose.setContent {
-                MikaTheme {
+                DjiniTheme {
                     CompositionLocalProvider(LocalAttachImages provides images) {
                         PendingTray(listOf(PendingAttachment(uri, "pending-preview.txt", file.length())), onRemove = {})
                     }
@@ -212,7 +212,7 @@ class ChatAttachmentsTest {
         try {
             val uri = Uri.fromFile(file).toString()
             compose.setContent {
-                MikaTheme {
+                DjiniTheme {
                     CompositionLocalProvider(LocalAttachImages provides images) {
                         PendingTray(listOf(PendingAttachment(uri, "external-pending.txt", file.length())), onRemove = {})
                     }
@@ -229,7 +229,7 @@ class ChatAttachmentsTest {
 
     private fun panel(access: PhotoAccess, recent: List<PendingAttachment>?, selected: List<PendingAttachment> = emptyList(), onGrant: () -> Unit = {}) =
         compose.setContent {
-            MikaTheme {
+            DjiniTheme {
                 CompositionLocalProvider(LocalAttachImages provides images) {
                     AttachPanel(access, recent, selected, {}, {}, {}, {}, onGrant)
                 }
@@ -266,7 +266,7 @@ class ChatAttachmentsTest {
     }
 
     private fun bubble(text: String) = compose.setContent {
-        MikaTheme {
+        DjiniTheme {
             CompositionLocalProvider(LocalAttachImages provides images) {
                 Box(Modifier.width(360.dp)) { UserBubble(text, "c-test") }
             }

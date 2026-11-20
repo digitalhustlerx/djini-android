@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.replay
+package com.wangzan101.djini.core.replay
 
 /**
  * 从模板的固定字面片段之间取参数,保留完整原文(包括参数首尾的空白)。只接受唯一的分法。

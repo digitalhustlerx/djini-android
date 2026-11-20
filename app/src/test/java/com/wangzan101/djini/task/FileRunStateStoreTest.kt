@@ -1,9 +1,9 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
-import com.wangzan101.mika.core.run.RunId
-import com.wangzan101.mika.core.run.ChannelPeer
-import com.wangzan101.mika.core.run.RunPhase
-import com.wangzan101.mika.core.run.StoredRun
+import com.wangzan101.djini.core.run.RunId
+import com.wangzan101.djini.core.run.ChannelPeer
+import com.wangzan101.djini.core.run.RunPhase
+import com.wangzan101.djini.core.run.StoredRun
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Test
@@ -11,7 +11,7 @@ import java.nio.file.Files
 
 class FileRunStateStoreTest {
     @Test fun savedReplyAndUnfinishedMarkerSurviveReopen() {
-        val dir = Files.createTempDirectory("mika-run-store").toFile()
+        val dir = Files.createTempDirectory("djini-run-store").toFile()
         try {
             val file = dir.resolve("runs.json")
             val first = FileRunStateStore(file)
@@ -40,7 +40,7 @@ class FileRunStateStoreTest {
     }
 
     @Test fun oldFileWithContextSnapshotStillLoadsAndDropsIt() {
-        val dir = Files.createTempDirectory("mika-run-store").toFile()
+        val dir = Files.createTempDirectory("djini-run-store").toFile()
         try {
             val file = dir.resolve("runs.json")
             file.writeText("""[{"id":"run-1","threadId":"t","goal":"g","phase":"running","roundInProgress":true,""" +

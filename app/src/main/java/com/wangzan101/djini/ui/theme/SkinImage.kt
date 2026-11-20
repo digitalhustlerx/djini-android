@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui.theme
+package com.wangzan101.djini.ui.theme
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -24,9 +24,9 @@ import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
-import com.wangzan101.mika.settings.FeatureFlags
-import com.wangzan101.mika.settings.SkinBlur
-import com.wangzan101.mika.settings.SkinSpec
+import com.wangzan101.djini.settings.FeatureFlags
+import com.wangzan101.djini.settings.SkinBlur
+import com.wangzan101.djini.settings.SkinSpec
 import java.io.File
 import java.io.IOException
 import kotlin.math.max
@@ -131,7 +131,7 @@ object SkinImage {
 }
 
 /**
- * 页面背景(图片 + 遮罩)。页面底([com.wangzan101.mika.ui.components.PageBackground])画它;
+ * 页面背景(图片 + 遮罩)。页面底([com.wangzan101.djini.ui.components.PageBackground])画它;
  * 顶栏、输入栏底下的渐隐这些要挡住滚动内容的地方,照着同一位置再画一遍,看起来和页面底连成一片。
  */
 @Stable
@@ -188,7 +188,7 @@ fun rememberSkinBackdrop(): SkinBackdrop? {
     val image by produceState(SkinImage.cachedFor(spec.version, spec.blur), spec.version, spec.blur) {
         value = withContext(Dispatchers.IO) { SkinImage.load(context, spec.version, spec.blur) }
     }
-    val bg = MikaTheme.colors.bg
+    val bg = DjiniTheme.colors.bg
     val img = image ?: return null
     val backdrop = remember { SkinBackdrop(img) }
     // 这几个值只在画的时候读,组合时直接换上

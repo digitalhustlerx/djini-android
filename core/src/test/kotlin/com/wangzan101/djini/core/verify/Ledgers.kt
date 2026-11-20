@@ -1,9 +1,9 @@
-package com.wangzan101.mika.core.verify
+package com.wangzan101.djini.core.verify
 
-import com.wangzan101.mika.core.observation.InputHints
-import com.wangzan101.mika.core.observation.ObsKind
-import com.wangzan101.mika.core.observation.Observation
-import com.wangzan101.mika.core.observation.Place
+import com.wangzan101.djini.core.observation.InputHints
+import com.wangzan101.djini.core.observation.ObsKind
+import com.wangzan101.djini.core.observation.Observation
+import com.wangzan101.djini.core.observation.Place
 
 /** 测试用:按给的读屏、命令输出、工具事实依次记进一份账本(第几步按先后编号)。 */
 fun ledgerOf(screens: List<String> = emptyList(), outputs: List<String> = emptyList(), facts: List<String> = emptyList()): EvidenceLedger =

@@ -1,11 +1,11 @@
-package com.wangzan101.mika.voice
+package com.wangzan101.djini.voice
 
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
-import com.wangzan101.mika.i18n.AppLanguage
-import com.wangzan101.mika.settings.Provider
-import com.wangzan101.mika.settings.ProviderStore
+import com.wangzan101.djini.i18n.AppLanguage
+import com.wangzan101.djini.settings.Provider
+import com.wangzan101.djini.settings.ProviderStore
 
 /** 界面(输入栏、悬浮胶囊)拿语音会话的地方;App 里是 [VoiceInput],界面测试换成假的。 */
 interface VoiceSource {

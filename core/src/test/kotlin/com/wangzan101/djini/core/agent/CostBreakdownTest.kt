@@ -1,15 +1,15 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
-import com.wangzan101.mika.core.knowledge.GuideCatalog
-import com.wangzan101.mika.core.knowledge.KnowledgeStore
-import com.wangzan101.mika.core.model.ToolSpec
-import com.wangzan101.mika.core.testing.FakeRequest
-import com.wangzan101.mika.core.testing.Screen
-import com.wangzan101.mika.core.testing.ScriptedScreen
-import com.wangzan101.mika.core.testing.button
-import com.wangzan101.mika.core.testing.fakeModel
-import com.wangzan101.mika.core.testing.label
-import com.wangzan101.mika.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.knowledge.GuideCatalog
+import com.wangzan101.djini.core.knowledge.KnowledgeStore
+import com.wangzan101.djini.core.model.ToolSpec
+import com.wangzan101.djini.core.testing.FakeRequest
+import com.wangzan101.djini.core.testing.Screen
+import com.wangzan101.djini.core.testing.ScriptedScreen
+import com.wangzan101.djini.core.testing.button
+import com.wangzan101.djini.core.testing.fakeModel
+import com.wangzan101.djini.core.testing.label
+import com.wangzan101.djini.core.assembly.toolDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 

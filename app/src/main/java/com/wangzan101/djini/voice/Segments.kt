@@ -1,4 +1,4 @@
-package com.wangzan101.mika.voice
+package com.wangzan101.djini.voice
 
 /**
  * 按住期间识别服务自己结束一段后重开,把各段拼起来。

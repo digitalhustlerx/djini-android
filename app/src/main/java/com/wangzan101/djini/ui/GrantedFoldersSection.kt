@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -9,9 +9,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
-import com.wangzan101.mika.R
-import com.wangzan101.mika.cap.sandbox.GrantedFolderFiles
-import com.wangzan101.mika.ui.components.*
+import com.wangzan101.djini.R
+import com.wangzan101.djini.cap.sandbox.GrantedFolderFiles
+import com.wangzan101.djini.ui.components.*
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.calls
+package com.wangzan101.djini.core.calls
 
 import kotlinx.serialization.json.JsonObject
 

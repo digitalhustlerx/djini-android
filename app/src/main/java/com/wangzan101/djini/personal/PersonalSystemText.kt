@@ -1,10 +1,10 @@
-package com.wangzan101.mika.personal
+package com.wangzan101.djini.personal
 
 import android.content.Context
-import com.wangzan101.mika.R
-import com.wangzan101.mika.core.personal.PersonalMessage
-import com.wangzan101.mika.core.personal.PersonalTask
-import com.wangzan101.mika.core.personal.PersonalSystemException
+import com.wangzan101.djini.R
+import com.wangzan101.djini.core.personal.PersonalMessage
+import com.wangzan101.djini.core.personal.PersonalTask
+import com.wangzan101.djini.core.personal.PersonalSystemException
 
 /** Display only: never use this text as model context or write it back to the store. */
 fun personalSystemText(context: Context, type: String?, fallback: String): String {

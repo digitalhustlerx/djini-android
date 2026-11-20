@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
@@ -13,11 +13,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.chat.*
-import com.wangzan101.mika.ui.components.*
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaTheme
+import com.wangzan101.djini.R
+import com.wangzan101.djini.chat.*
+import com.wangzan101.djini.ui.components.*
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniTheme
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -58,7 +58,7 @@ internal fun SavedChecklistsScreen(
         onBack = back,
     ) {
         if (readError) {
-            FooterNote(stringResource(R.string.checklist_read_failed), color = MikaTheme.colors.bad)
+            FooterNote(stringResource(R.string.checklist_read_failed), color = DjiniTheme.colors.bad)
             MikaButton(stringResource(R.string.retry), { scope.launch { withContext(Dispatchers.IO) { store.load() } } })
         } else if (!loaded) {
             CircularProgressIndicator(Modifier.padding(16.dp))
@@ -92,7 +92,7 @@ internal fun SavedChecklistsScreen(
                 MikaButton(stringResource(R.string.checklist_update), { action = current to true }, modifier = Modifier.weight(1f).testTag("checklist-update"), kind = ButtonKind.Secondary)
             }
             SelectionContainer {
-                Text(current.body, Modifier.fillMaxWidth().padding(vertical = 16.dp).testTag("checklist-body"), color = MikaTheme.colors.ink)
+                Text(current.body, Modifier.fillMaxWidth().padding(vertical = 16.dp).testTag("checklist-body"), color = DjiniTheme.colors.ink)
             }
             GroupCard {
                 ListRow(MikaIcons.Edit, stringResource(R.string.checklist_edit), first = true, onClick = {
@@ -118,7 +118,7 @@ internal fun SavedChecklistsScreen(
         MikaDialog(
             onDismissRequest = { if (!busy) deleting = null },
             title = { Text(stringResource(R.string.checklist_delete_question)) },
-            text = error?.let { failure -> { Text(checklistError(failure), color = MikaTheme.colors.bad) } },
+            text = error?.let { failure -> { Text(checklistError(failure), color = DjiniTheme.colors.bad) } },
             confirmButton = { TextButton({
                 busy = true
                 scope.launch {
@@ -148,7 +148,7 @@ private fun ChecklistEditor(store: SavedChecklistStore, initial: ChecklistEdit, 
                     singleLine = true, enabled = !busy, modifier = Modifier.fillMaxWidth().testTag("checklist-title"))
                 OutlinedTextField(body, { body = it; error = null }, label = { Text(stringResource(R.string.checklist_content)) },
                     minLines = 5, maxLines = 10, enabled = !busy, modifier = Modifier.fillMaxWidth().padding(top = 8.dp).testTag("checklist-input"))
-                error?.let { Text(checklistError(it), color = MikaTheme.colors.bad, modifier = Modifier.padding(top = 8.dp)) }
+                error?.let { Text(checklistError(it), color = DjiniTheme.colors.bad, modifier = Modifier.padding(top = 8.dp)) }
             }
         },
         confirmButton = { TextButton({

@@ -1,4 +1,4 @@
-package com.wangzan101.mika.calls
+package com.wangzan101.djini.calls
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.serialization.json.JsonObject

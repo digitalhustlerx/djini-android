@@ -1,14 +1,14 @@
-package com.wangzan101.mika.core.general
+package com.wangzan101.djini.core.general
 
-import com.wangzan101.mika.core.tool.AgentTool
-import com.wangzan101.mika.core.tool.ArgError
-import com.wangzan101.mika.core.tool.Args
-import com.wangzan101.mika.core.tool.ToolContext
-import com.wangzan101.mika.core.tool.ToolDef
-import com.wangzan101.mika.core.tool.argStr
-import com.wangzan101.mika.core.tool.str
+import com.wangzan101.djini.core.tool.AgentTool
+import com.wangzan101.djini.core.tool.ArgError
+import com.wangzan101.djini.core.tool.Args
+import com.wangzan101.djini.core.tool.ToolContext
+import com.wangzan101.djini.core.tool.ToolDef
+import com.wangzan101.djini.core.tool.argStr
+import com.wangzan101.djini.core.tool.str
 import kotlinx.serialization.json.JsonObject
-import com.wangzan101.mika.core.uistate.focus
+import com.wangzan101.djini.core.uistate.focus
 
 private const val SURFACE = "surface"
 

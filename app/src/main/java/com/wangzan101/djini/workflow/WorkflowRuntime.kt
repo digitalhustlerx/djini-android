@@ -1,4 +1,4 @@
-package com.wangzan101.mika.workflow
+package com.wangzan101.djini.workflow
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

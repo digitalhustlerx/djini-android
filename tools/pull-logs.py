@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Export Mika's run records and detailed traces through an authorized ADB connection."""
+"""Export Djini's run records and detailed traces through an authorized ADB connection."""
 import argparse
 from pathlib import Path
 import re
@@ -16,7 +16,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--adb", default="adb")
     parser.add_argument("--device", required=True)
-    parser.add_argument("--package", default="com.wangzan101.mika.logs")
+    parser.add_argument("--package", default="com.wangzan101.djini.logs")
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     if not re.fullmatch(r"[A-Za-z][A-Za-z0-9_]*(?:\.[A-Za-z][A-Za-z0-9_]*)+", args.package):
@@ -47,7 +47,7 @@ def main():
             raise SystemExit(adb_message(exists.stderr, "adb test -d {} exited {}".format(
                 path, exists.returncode)))
     if not paths:
-        raise SystemExit("No records yet. Run a task in Mika Logs first.")
+        raise SystemExit("No records yet. Run a task in Djini Logs first.")
     args.output.parent.mkdir(parents=True, exist_ok=True)
     temporary = None
     try:

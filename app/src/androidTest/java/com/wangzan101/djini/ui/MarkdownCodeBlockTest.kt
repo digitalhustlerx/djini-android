@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import android.content.ClipboardManager
 import androidx.activity.ComponentActivity
@@ -12,9 +12,9 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.R
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
+import com.wangzan101.djini.R
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
@@ -38,7 +38,7 @@ class MarkdownCodeBlockTest {
         val copyLabel = context.getString(R.string.chat_copy)
         val copiedLabel = context.getString(R.string.chat_copied)
         compose.setContent {
-            MikaTheme {
+            DjiniTheme {
                 SelectionContainer {
                     MarkdownText(
                         "前文说明。\n\n```kotlin\nval answer = 42\nprintln(answer)\n```\n\n后文说明。",
@@ -59,7 +59,7 @@ class MarkdownCodeBlockTest {
     fun unlabeledCodeBlockStillShowsCopyButton() {
         val copyLabel = context.getString(R.string.chat_copy)
         compose.setContent {
-            MikaTheme {
+            DjiniTheme {
                 MarkdownText("```\necho hello\n```", MikaType.Body)
             }
         }

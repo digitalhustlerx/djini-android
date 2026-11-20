@@ -1,9 +1,9 @@
-package com.wangzan101.mika.core.cap.transcribe
+package com.wangzan101.djini.core.cap.transcribe
 
-import com.wangzan101.mika.core.assembly.toolDispatcher
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.tool.ActionPass
-import com.wangzan101.mika.core.vision.LocScreen
+import com.wangzan101.djini.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.tool.ActionPass
+import com.wangzan101.djini.core.vision.LocScreen
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive

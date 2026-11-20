@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsEnabled
@@ -10,11 +10,11 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performTextInput
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.ChineseUi
-import com.wangzan101.mika.settings.AesGcmKeyCipher
-import com.wangzan101.mika.settings.DeviceAccessSettings
-import com.wangzan101.mika.ui.components.PageScaffold
-import com.wangzan101.mika.ui.theme.MikaTheme
+import com.wangzan101.djini.ChineseUi
+import com.wangzan101.djini.settings.AesGcmKeyCipher
+import com.wangzan101.djini.settings.DeviceAccessSettings
+import com.wangzan101.djini.ui.components.PageScaffold
+import com.wangzan101.djini.ui.theme.DjiniTheme
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Rule
@@ -31,7 +31,7 @@ class DeviceAccessSectionTest {
     @Test fun credentialEditorRequiresConfirmationAndNeverShowsSavedValue() {
         val key = KeyGenerator.getInstance("AES").apply { init(256) }.generateKey()
         val settings = DeviceAccessSettings(dir, AesGcmKeyCipher { key })
-        compose.setContent { MikaTheme(dark = false, reduceMotion = true) {
+        compose.setContent { DjiniTheme(dark = false, reduceMotion = true) {
             PageScaffold("电脑连接", {}) { DeviceAccessSection(settings) }
         } }
         compose.onNodeWithText("锁屏凭据").performClick()

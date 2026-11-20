@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.activity.ComponentActivity
 import androidx.compose.runtime.mutableStateOf
@@ -7,11 +7,11 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.wangzan101.mika.ChineseUi
-import com.wangzan101.mika.core.agent.GoalChecklist
-import com.wangzan101.mika.core.agent.RunProgress
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.ui.theme.MikaTheme
+import com.wangzan101.djini.ChineseUi
+import com.wangzan101.djini.core.agent.GoalChecklist
+import com.wangzan101.djini.core.agent.RunProgress
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.ui.theme.DjiniTheme
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -29,7 +29,7 @@ class TaskGoalProgressTest {
                 TaskState.Running(4, action, "phone_observe", progress, narration = action))
         }
         val ex = mutableStateOf(running(setOf(1), false, "打开店铺页"))
-        compose.setContent { MikaTheme { WorkBlock(ex.value, emptyList(), true, false) {} } }
+        compose.setContent { DjiniTheme { WorkBlock(ex.value, emptyList(), true, false) {} } }
         compose.onNodeWithText("打开店铺页").assertIsDisplayed()
         compose.onNodeWithText("已确认目标 1/3").performClick()
         compose.onNodeWithText("✓  确认地址").assertIsDisplayed()

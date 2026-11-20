@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.memory
+package com.wangzan101.djini.core.memory
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -32,7 +32,7 @@ class MemoryStore(
     private val ids: () -> String,
     val limit: Int = 500,
     /**
-     * 用户让 Mika 记一件事、而内容里有用户自己没说过的具体值时:false(默认)不收;true 照存,来源记成 `inferred`
+     * 用户让 Djini 记一件事、而内容里有用户自己没说过的具体值时:false(默认)不收;true 照存,来源记成 `inferred`
      * (见 [MemorySource])。由「记忆与技能」里的开关定,每次保存时现读。
      */
     val inferenceAllowed: () -> Boolean = { false },

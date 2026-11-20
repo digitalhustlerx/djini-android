@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.guard
+package com.wangzan101.djini.core.guard
 
 /**
  * 操作守卫的判定规则。每条规则看的都是同一种事实:做了什么动作、作用在哪个目标(两者合成动作签名 [actionSignature]),

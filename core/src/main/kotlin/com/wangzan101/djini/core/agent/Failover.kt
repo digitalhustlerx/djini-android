@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
-import com.wangzan101.mika.core.model.ModelError
+import com.wangzan101.djini.core.model.ModelError
 
 /**
  * 主模型链的切换决策(项目 3):主模型这一步失败后,要不要换链上的下一个、换哪一个。纯函数,便于单测。

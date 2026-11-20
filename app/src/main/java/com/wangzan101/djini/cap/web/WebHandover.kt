@@ -1,12 +1,12 @@
-package com.wangzan101.mika.cap.web
+package com.wangzan101.djini.cap.web
 
 import android.content.Context
 import android.content.Intent
 import android.os.Handler
 import android.os.Looper
-import com.wangzan101.mika.core.cap.web.WebUrlPolicy
-import com.wangzan101.mika.takeover.HandoverActivity
-import com.wangzan101.mika.task.TaskService
+import com.wangzan101.djini.core.cap.web.WebUrlPolicy
+import com.wangzan101.djini.takeover.HandoverActivity
+import com.wangzan101.djini.task.TaskService
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

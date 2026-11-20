@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.phone.shell
+package com.wangzan101.djini.cap.phone.shell
 
 /**
  * 剪贴板换出与还原的判断,不碰系统剪贴板,方便单测。
@@ -27,7 +27,7 @@ internal object ShellClip {
     enum class Restore {
         /** 把用户原来的放回去。 */
         PutBack,
-        /** 原来就是空的,把 Mika 的清掉。 */
+        /** 原来就是空的,把 Djini 的清掉。 */
         Clear,
         /** 不动:用户中途复制了别的、或此刻读不到。 */
         Leave,

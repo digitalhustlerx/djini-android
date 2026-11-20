@@ -39,15 +39,15 @@ accessibility service back on.
 
 ## Code
 
-- `app/src/main/java/com/wangzan101/mika/backup/BackupEngine.kt`: the ZIP
+- `app/src/main/java/com/wangzan101/djini/backup/BackupEngine.kt`: the ZIP
   engine, the encrypted-file registry, and the manifest. Pure JVM, no Android
   APIs, so unit tests run it with a fake `KeyCipher`.
-- `app/src/main/java/com/wangzan101/mika/backup/BackupPrefs.kt`: the
+- `app/src/main/java/com/wangzan101/djini/backup/BackupPrefs.kt`: the
   SharedPreferences values that are stored as base64 ciphertext, and the XML
   transform that decrypts them on export and re-encrypts them on import.
-- `app/src/main/java/com/wangzan101/mika/ui/BackupScreen.kt`: the Settings
+- `app/src/main/java/com/wangzan101/djini/ui/BackupScreen.kt`: the Settings
   screen (export via the system file picker, import with a Replace all
   confirmation when data already exists).
-- `app/src/test/java/com/wangzan101/mika/backup/BackupEngineTest.kt`:
+- `app/src/test/java/com/wangzan101/djini/backup/BackupEngineTest.kt`:
   round-trip with two different keys, corrupt ZIP, unknown future format
   version, and import over existing data.

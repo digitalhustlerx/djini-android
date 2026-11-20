@@ -1,7 +1,7 @@
-package com.wangzan101.mika.browser
+package com.wangzan101.djini.browser
 
-import com.wangzan101.mika.chat.ConversationSummary
-import com.wangzan101.mika.chat.PageOrigin
+import com.wangzan101.djini.chat.ConversationSummary
+import com.wangzan101.djini.chat.PageOrigin
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test

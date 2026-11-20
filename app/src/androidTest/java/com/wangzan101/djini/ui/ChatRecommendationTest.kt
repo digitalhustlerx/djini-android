@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import android.graphics.Bitmap
 import androidx.compose.ui.test.assertTextEquals
@@ -9,12 +9,12 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.ChineseUi
-import com.wangzan101.mika.chat.ConversationStore
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.settings.Prerequisites
-import com.wangzan101.mika.settings.RecommendedTaskStore
-import com.wangzan101.mika.takeover.Takeover
+import com.wangzan101.djini.ChineseUi
+import com.wangzan101.djini.chat.ConversationStore
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.settings.Prerequisites
+import com.wangzan101.djini.settings.RecommendedTaskStore
+import com.wangzan101.djini.takeover.Takeover
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob

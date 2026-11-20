@@ -1,13 +1,13 @@
-package com.wangzan101.mika.chat
+package com.wangzan101.djini.chat
 
-import com.wangzan101.mika.core.remote.RemoteCompanion
-import com.wangzan101.mika.core.remote.RemoteConversation
-import com.wangzan101.mika.core.remote.RemoteConversationPage
-import com.wangzan101.mika.core.remote.RemoteRunning
-import com.wangzan101.mika.core.remote.RemoteRunningView
-import com.wangzan101.mika.core.remote.RemoteText
-import com.wangzan101.mika.core.remote.RemoteTurn
-import com.wangzan101.mika.task.TaskRun
+import com.wangzan101.djini.core.remote.RemoteCompanion
+import com.wangzan101.djini.core.remote.RemoteConversation
+import com.wangzan101.djini.core.remote.RemoteConversationPage
+import com.wangzan101.djini.core.remote.RemoteRunning
+import com.wangzan101.djini.core.remote.RemoteRunningView
+import com.wangzan101.djini.core.remote.RemoteText
+import com.wangzan101.djini.core.remote.RemoteTurn
+import com.wangzan101.djini.task.TaskRun
 
 /**
  * Web 控制台读的手机一侧:对话从 [ConversationStore] 现读,运行中的任务从任务中心现读,不另存一份。

@@ -1,6 +1,6 @@
-package com.wangzan101.mika.chat
+package com.wangzan101.djini.chat
 
-import com.wangzan101.mika.cap.sandbox.Attachments
+import com.wangzan101.djini.cap.sandbox.Attachments
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject

@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -32,35 +32,35 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.wangzan101.mika.MikaApp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.about.Diagnostics
-import com.wangzan101.mika.about.MikaLinks
-import com.wangzan101.mika.core.selfcheck.Advice
-import com.wangzan101.mika.core.selfcheck.CheckResult
-import com.wangzan101.mika.core.selfcheck.CheckStatus
-import com.wangzan101.mika.core.selfcheck.SelfCheck
-import com.wangzan101.mika.core.selfcheck.SelfCheckReport
-import com.wangzan101.mika.core.selfcheck.SelfCheckRunner
-import com.wangzan101.mika.core.selfcheck.SelfCheckState
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.selfcheck.AndroidSelfCheck
-import com.wangzan101.mika.settings.SystemStatus
-import com.wangzan101.mika.ui.components.ButtonKind
-import com.wangzan101.mika.ui.components.FooterNote
-import com.wangzan101.mika.ui.components.GroupCard
-import com.wangzan101.mika.ui.components.GroupLabel
-import com.wangzan101.mika.ui.components.ListRow
-import com.wangzan101.mika.ui.components.MikaButton
-import com.wangzan101.mika.ui.components.PageScaffold
-import com.wangzan101.mika.ui.components.RowValue
-import com.wangzan101.mika.ui.components.TileTone
-import com.wangzan101.mika.ui.components.ValueTone
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
-import com.wangzan101.mika.ui.theme.MikaRadius
-import com.wangzan101.mika.ui.theme.MikaShapes
+import com.wangzan101.djini.DjiniApp
+import com.wangzan101.djini.R
+import com.wangzan101.djini.about.Diagnostics
+import com.wangzan101.djini.about.MikaLinks
+import com.wangzan101.djini.core.selfcheck.Advice
+import com.wangzan101.djini.core.selfcheck.CheckResult
+import com.wangzan101.djini.core.selfcheck.CheckStatus
+import com.wangzan101.djini.core.selfcheck.SelfCheck
+import com.wangzan101.djini.core.selfcheck.SelfCheckReport
+import com.wangzan101.djini.core.selfcheck.SelfCheckRunner
+import com.wangzan101.djini.core.selfcheck.SelfCheckState
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.selfcheck.AndroidSelfCheck
+import com.wangzan101.djini.settings.SystemStatus
+import com.wangzan101.djini.ui.components.ButtonKind
+import com.wangzan101.djini.ui.components.FooterNote
+import com.wangzan101.djini.ui.components.GroupCard
+import com.wangzan101.djini.ui.components.GroupLabel
+import com.wangzan101.djini.ui.components.ListRow
+import com.wangzan101.djini.ui.components.MikaButton
+import com.wangzan101.djini.ui.components.PageScaffold
+import com.wangzan101.djini.ui.components.RowValue
+import com.wangzan101.djini.ui.components.TileTone
+import com.wangzan101.djini.ui.components.ValueTone
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.MikaRadius
+import com.wangzan101.djini.ui.theme.MikaShapes
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -150,7 +150,7 @@ object SelfCheckCopy {
 @Composable
 fun SelfCheckScreen(status: SystemStatus, onBack: () -> Unit) {
     val context = LocalContext.current
-    val app = context.applicationContext as MikaApp
+    val app = context.applicationContext as DjiniApp
     val current = rememberUpdatedState(status)
     val taskBusy by app.taskState.busy.collectAsState()
     val scope = rememberCoroutineScope()
@@ -205,7 +205,7 @@ fun SelfCheckContent(
                 stringResource(if (state.ended) R.string.selfcheck_again else R.string.selfcheck_start), onStart,
                 Modifier.fillMaxWidth().testTag("selfcheck-start"), enabled = !taskBusy,
             )
-            if (taskBusy) FooterNote(stringResource(R.string.selfcheck_task_running), Modifier.padding(top = 8.dp), color = MikaTheme.colors.warn)
+            if (taskBusy) FooterNote(stringResource(R.string.selfcheck_task_running), Modifier.padding(top = 8.dp), color = DjiniTheme.colors.warn)
         }
 
         GroupLabel(stringResource(R.string.selfcheck_checks), Modifier.padding(top = 12.dp))
@@ -221,7 +221,7 @@ fun SelfCheckContent(
         if (state.ended) {
             val text = remember(state) { render(state) }
             GroupLabel(stringResource(R.string.selfcheck_report))
-            val c = MikaTheme.colors
+            val c = DjiniTheme.colors
             Box(
                 Modifier.fillMaxWidth().heightIn(min = 120.dp, max = 360.dp).testTag("selfcheck-report")
                     .background(c.fill, MikaShapes.Chip).verticalScroll(rememberScrollState())

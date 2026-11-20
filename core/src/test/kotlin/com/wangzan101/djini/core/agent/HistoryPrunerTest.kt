@@ -1,31 +1,31 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
-import com.wangzan101.mika.core.model.Author
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.Role
+import com.wangzan101.djini.core.model.Author
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.Role
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import com.wangzan101.mika.core.testing.TOOLS
+import com.wangzan101.djini.core.testing.TOOLS
 
 class HistoryPrunerTest {
     private val big = """[{"ref":"@e1","name":"${"x".repeat(500)}"}]"""
     private val task = Message(Role.User, listOf(Part.Text("task")), Author.User)
     private fun obs(id: String) = listOf(
-        Message(Role.Assistant, listOf(Part.ToolCall(id, "phone_observe", "{}")), Author.Mika),
-        Message(Role.Tool, listOf(Part.ToolResult(id, """{"ok":true,"currentApp":"com.x","snapshotId":"s$id","elements":$big}""", false)), Author.Mika),
+        Message(Role.Assistant, listOf(Part.ToolCall(id, "phone_observe", "{}")), Author.Djini),
+        Message(Role.Tool, listOf(Part.ToolResult(id, """{"ok":true,"currentApp":"com.x","snapshotId":"s$id","elements":$big}""", false)), Author.Djini),
     )
     private fun tap(id: String) = listOf(
-        Message(Role.Assistant, listOf(Part.ToolCall(id, "phone_tap", "{}")), Author.Mika),
-        Message(Role.Tool, listOf(Part.ToolResult(id, """{"ok":true,"changed":true}""", false)), Author.Mika),
+        Message(Role.Assistant, listOf(Part.ToolCall(id, "phone_tap", "{}")), Author.Djini),
+        Message(Role.Tool, listOf(Part.ToolResult(id, """{"ok":true,"changed":true}""", false)), Author.Djini),
     )
     private fun act(id: String, sid: String) = listOf(
-        Message(Role.Assistant, listOf(Part.ToolCall(id, "phone_tap", "{}")), Author.Mika),
+        Message(Role.Assistant, listOf(Part.ToolCall(id, "phone_tap", "{}")), Author.Djini),
         Message(Role.Tool, listOf(Part.ToolResult(id,
-            """{"ok":true,"screen":{"snapshotId":"$sid","base":"x","full":false,"added":$big,"removed":[],"changed":[],"unchanged":3}}""", false)), Author.Mika),
+            """{"ok":true,"screen":{"snapshotId":"$sid","base":"x","full":false,"added":$big,"removed":[],"changed":[],"unchanged":3}}""", false)), Author.Djini),
     )
-    private fun shot(id: Int) = Message(Role.User, listOf(Part.Text("screen"), Part.Image("AAAA", "image/jpeg", 580, 1280, screenshotId = id)), Author.Mika)
+    private fun shot(id: Int) = Message(Role.User, listOf(Part.Text("screen"), Part.Image("AAAA", "image/jpeg", 580, 1280, screenshotId = id)), Author.Djini)
 
     /** [n] 次读屏往返。 */
     private fun observations(n: Int) = listOf(task) + (1..n).flatMap { obs("c$it") }
@@ -55,10 +55,10 @@ class HistoryPrunerTest {
     @Test fun oldScreenDropsTreeAndOtherLargeStructuresNotJustElements() {
         val long = "x".repeat(500)
         val structured = listOf(
-            Message(Role.Assistant, listOf(Part.ToolCall("structured", "phone_observe", "{}")), Author.Mika),
+            Message(Role.Assistant, listOf(Part.ToolCall("structured", "phone_observe", "{}")), Author.Djini),
             Message(Role.Tool, listOf(Part.ToolResult("structured",
                 """{"ok":true,"snapshotId":"old","elements":$big,"tree":[{"id":1,"nodes":[{"role":"TextView","text":"$long"}]}],"screenMap":{"rows":["$long"]}}""",
-                false)), Author.Mika),
+                false)), Author.Djini),
         )
         // c2 是线前保留的最近全屏,因此 structured 必须按旧界面缩短。
         val h = listOf(task) + structured + obs("c2") + (1..6).flatMap { tap("t$it") }
@@ -108,8 +108,8 @@ class HistoryPrunerTest {
         assertTrue(diffs.drop(4).all { "@e1" in it.content })
         // 全量的 screen 结果也算全量读屏:线前最近的全量是 f,c1 照常裁
         val withFull = listOf(task) + obs("c1") +
-            listOf(Message(Role.Assistant, listOf(Part.ToolCall("f", "phone_back", "{}")), Author.Mika),
-                Message(Role.Tool, listOf(Part.ToolResult("f", """{"ok":true,"screen":{"snapshotId":"z","full":true,"elements":$big}}""", false)), Author.Mika)) +
+            listOf(Message(Role.Assistant, listOf(Part.ToolCall("f", "phone_back", "{}")), Author.Djini),
+                Message(Role.Tool, listOf(Part.ToolResult("f", """{"ok":true,"screen":{"snapshotId":"z","full":true,"elements":$big}}""", false)), Author.Djini)) +
             (1..5).flatMap { act("a$it", "d$it") }
         val r2 = results(HistoryPruner.prune(withFull, TOOLS, cut))
         assertTrue("@e1" !in r2.first { it.callId == "c1" }.content)
@@ -118,7 +118,7 @@ class HistoryPrunerTest {
 
     // 压缩时线之前的图换占位;平常只有图的张数超过服务商上限时才换
     @Test fun imagesDroppedBeforeTheLineAndAtTheProviderLimit() {
-        val file = Message(Role.User, listOf(Part.Text("file"), Part.Image("BBBB", "image/jpeg")), Author.Mika)
+        val file = Message(Role.User, listOf(Part.Text("file"), Part.Image("BBBB", "image/jpeg")), Author.Djini)
         val h = listOf(task) + tap("t0") + file + (1..6).flatMap { tap("t$it") + shot(it) }
         fun ids(out: List<Message>) = out.flatMap { it.parts }.filterIsInstance<Part.Image>().map { it.screenshotId }
         assertEquals(h, HistoryPruner.limitImages(h, Int.MAX_VALUE))
@@ -135,17 +135,17 @@ class HistoryPrunerTest {
 
     // 缩短按结果里读到的观察是什么样的东西,缩短后留着结局和观察编号
     @Test fun shrinksByObservationFormAndKeepsOutcomeAndObsIds() {
-        fun round(id: String, tool: String, content: String, form: com.wangzan101.mika.core.observation.ObsForm, obsId: Int) = listOf(
-            Message(Role.Assistant, listOf(Part.ToolCall(id, tool, "{}")), Author.Mika),
-            Message(Role.Tool, listOf(Part.ToolResult(id, content, false, listOf(com.wangzan101.mika.core.observation.ReadTag(obsId, form)))), Author.Mika),
+        fun round(id: String, tool: String, content: String, form: com.wangzan101.djini.core.observation.ObsForm, obsId: Int) = listOf(
+            Message(Role.Assistant, listOf(Part.ToolCall(id, tool, "{}")), Author.Djini),
+            Message(Role.Tool, listOf(Part.ToolResult(id, content, false, listOf(com.wangzan101.djini.core.observation.ReadTag(obsId, form)))), Author.Djini),
         )
         val long = "x".repeat(5000)
         val h = listOf(task) +
-            round("i", "phone_launch_app", """{"ok":true,"currentApp":"com.x","note":"${"y".repeat(400)}"}""", com.wangzan101.mika.core.observation.ObsForm.Interface, 1) +
-            round("p", "web_read_page", """{"ok":true,"url":"https://a.example.com/","text":"$long"}""", com.wangzan101.mika.core.observation.ObsForm.Page, 2) +
-            round("s", "web_read_page", """{"ok":true,"url":"https://a.example.com/","text":"短的正文"}""", com.wangzan101.mika.core.observation.ObsForm.Page, 3) +
-            round("m", "memory_search", """{"ok":true,"memories":[{"content":"$long"}]}""", com.wangzan101.mika.core.observation.ObsForm.UserSaid, 4) +
-            round("c", "run_command", """{"ok":false,"error":"exit_nonzero","message":"命令失败","exitCode":2,"output":"$long"}""", com.wangzan101.mika.core.observation.ObsForm.Command, 5) +
+            round("i", "phone_launch_app", """{"ok":true,"currentApp":"com.x","note":"${"y".repeat(400)}"}""", com.wangzan101.djini.core.observation.ObsForm.Interface, 1) +
+            round("p", "web_read_page", """{"ok":true,"url":"https://a.example.com/","text":"$long"}""", com.wangzan101.djini.core.observation.ObsForm.Page, 2) +
+            round("s", "web_read_page", """{"ok":true,"url":"https://a.example.com/","text":"短的正文"}""", com.wangzan101.djini.core.observation.ObsForm.Page, 3) +
+            round("m", "memory_search", """{"ok":true,"memories":[{"content":"$long"}]}""", com.wangzan101.djini.core.observation.ObsForm.UserSaid, 4) +
+            round("c", "run_command", """{"ok":false,"error":"exit_nonzero","message":"命令失败","exitCode":2,"output":"$long"}""", com.wangzan101.djini.core.observation.ObsForm.Command, 5) +
             (1..6).flatMap { tap("t$it") }
         val rs = results(HistoryPruner.prune(h, TOOLS, cut)).associateBy { it.callId }
         // 界面状态一律缩短;页面、命令输出只在大时缩短;用户说的不缩
@@ -168,8 +168,8 @@ class HistoryPrunerTest {
     @Test fun recallBeforeTheLineLosesElementText() {
         val text = "x".repeat(500)
         val recall = listOf(
-            Message(Role.Assistant, listOf(Part.ToolCall("r1", "view_past_screens", """{"ids":[1]}""")), Author.Mika),
-            Message(Role.Tool, listOf(Part.ToolResult("r1", """{"ok":true,"screenshots":[{"id":1,"step":1,"app":"com.x","elementsText":"$text"}]}""", false)), Author.Mika),
+            Message(Role.Assistant, listOf(Part.ToolCall("r1", "view_past_screens", """{"ids":[1]}""")), Author.Djini),
+            Message(Role.Tool, listOf(Part.ToolResult("r1", """{"ok":true,"screenshots":[{"id":1,"step":1,"app":"com.x","elementsText":"$text"}]}""", false)), Author.Djini),
         )
         val old = results(HistoryPruner.prune(obs("c1") + recall + (2..6).flatMap { obs("c$it") }, TOOLS, cut)).first { it.callId == "r1" }.content
         assertTrue(old, HistoryPruner.OMITTED in old && text !in old && "\"id\":1" in old)

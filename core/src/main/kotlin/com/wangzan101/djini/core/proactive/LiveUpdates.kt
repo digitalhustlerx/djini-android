@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.proactive
+package com.wangzan101.djini.core.proactive
 
 /**
  * 认出「状态显示」:同一条通知被 App 一遍遍重发,每次换几个字——导航的「300 米后右转」、配送还有几站、比分、倒计时。

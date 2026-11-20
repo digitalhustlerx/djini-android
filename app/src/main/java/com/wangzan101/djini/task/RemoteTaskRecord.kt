@@ -1,8 +1,8 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
-import com.wangzan101.mika.core.agent.FailKind
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.core.remote.RemoteSteer
+import com.wangzan101.djini.core.agent.FailKind
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.core.remote.RemoteSteer
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject

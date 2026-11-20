@@ -1,12 +1,12 @@
-package com.wangzan101.mika.core.uistate
+package com.wangzan101.djini.core.uistate
 
-import com.wangzan101.mika.core.assembly.toolDispatcher
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.prompt.Feedback
-import com.wangzan101.mika.core.tool.FakeScreen
-import com.wangzan101.mika.core.vision.JvmTestImageOps
-import com.wangzan101.mika.core.vision.VisionService
-import com.wangzan101.mika.core.vision.says
+import com.wangzan101.djini.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.prompt.Feedback
+import com.wangzan101.djini.core.tool.FakeScreen
+import com.wangzan101.djini.core.vision.JvmTestImageOps
+import com.wangzan101.djini.core.vision.VisionService
+import com.wangzan101.djini.core.vision.says
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.JsonObject

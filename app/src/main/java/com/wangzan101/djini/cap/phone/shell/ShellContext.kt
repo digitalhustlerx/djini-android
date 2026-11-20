@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.wangzan101.mika.cap.phone.shell
+package com.wangzan101.djini.cap.phone.shell
 
 import android.annotation.SuppressLint
 import android.app.Application
@@ -28,7 +28,7 @@ import android.os.Build
 
 /**
  * shell 进程里的系统上下文。系统服务会核对「包名属于调用方 uid」,
- * 所以对外报 com.android.shell(uid 2000),而不是 Mika 自己的包名。
+ * 所以对外报 com.android.shell(uid 2000),而不是 Djini 自己的包名。
  */
 internal class ShellContext private constructor(base: Context) : ContextWrapper(base) {
     override fun getPackageName(): String = SHELL_PACKAGE

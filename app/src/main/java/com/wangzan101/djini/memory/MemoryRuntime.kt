@@ -1,18 +1,18 @@
-package com.wangzan101.mika.memory
+package com.wangzan101.djini.memory
 
 import android.content.Context
-import com.wangzan101.mika.chat.ConversationStore
-import com.wangzan101.mika.core.memory.MemoryItem
-import com.wangzan101.mika.core.memory.MemoryNote
-import com.wangzan101.mika.core.memory.MemoryStore
-import com.wangzan101.mika.core.memory.ProfileStore
-import com.wangzan101.mika.core.memory.TaskMemoryStore
-import com.wangzan101.mika.core.skills.SkillNote
-import com.wangzan101.mika.settings.KeystoreKeyCipher
-import com.wangzan101.mika.settings.MemorySettings
-import com.wangzan101.mika.skills.PersonalSkillFiles
-import com.wangzan101.mika.knowledge.AppKnowledgeFiles
-import com.wangzan101.mika.knowledge.FileScreenMapStore
+import com.wangzan101.djini.chat.ConversationStore
+import com.wangzan101.djini.core.memory.MemoryItem
+import com.wangzan101.djini.core.memory.MemoryNote
+import com.wangzan101.djini.core.memory.MemoryStore
+import com.wangzan101.djini.core.memory.ProfileStore
+import com.wangzan101.djini.core.memory.TaskMemoryStore
+import com.wangzan101.djini.core.skills.SkillNote
+import com.wangzan101.djini.settings.KeystoreKeyCipher
+import com.wangzan101.djini.settings.MemorySettings
+import com.wangzan101.djini.skills.PersonalSkillFiles
+import com.wangzan101.djini.knowledge.AppKnowledgeFiles
+import com.wangzan101.djini.knowledge.FileScreenMapStore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -136,7 +136,7 @@ class MemoryRuntime(context: Context) {
     }
 
     companion object {
-        const val KEY_ALIAS = "mika-memory"
+        const val KEY_ALIAS = "djini-memory"
 
         fun of(context: Context): MemoryRuntime = (context.applicationContext as? Owner)?.memory
             ?: error("the Application (${context.applicationContext.javaClass.name}) must implement MemoryRuntime.Owner to give the memory runtime")

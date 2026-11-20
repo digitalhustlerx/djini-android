@@ -1,4 +1,4 @@
-package com.wangzan101.mika.pocket
+package com.wangzan101.djini.pocket
 
 import android.content.Context
 import android.accessibilityservice.AccessibilityService
@@ -28,9 +28,9 @@ import android.view.accessibility.AccessibilityNodeInfo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
-import com.wangzan101.mika.R
-import com.wangzan101.mika.cap.phone.a11y.ScreenAccessibility
-import com.wangzan101.mika.i18n.tr
+import com.wangzan101.djini.R
+import com.wangzan101.djini.cap.phone.a11y.ScreenAccessibility
+import com.wangzan101.djini.i18n.tr
 
 /** One instance per TaskService; all sensors and windows are managed on the main thread. */
 class PocketGuardManager(private val context: Context) : SensorEventListener, GuardLifecycle.Port {

@@ -1,6 +1,6 @@
-package com.wangzan101.mika.backup
+package com.wangzan101.djini.backup
 
-import com.wangzan101.mika.settings.KeyCipher
+import com.wangzan101.djini.settings.KeyCipher
 import org.w3c.dom.Element
 import org.w3c.dom.Node
 import java.io.ByteArrayInputStream
@@ -39,30 +39,30 @@ object BackupPrefs {
     /** prefs file name -> encrypted string keys in it. */
     val encryptedKeys: Map<String, List<EncryptedPrefKey>> = mapOf(
         "feature_flags.xml" to listOf(
-            EncryptedPrefKey.Exact("speech_doubao_credentials_encrypted", "mika-speech-keys"),
-            EncryptedPrefKey.Prefix("speech_bailian_key_encrypted_", "mika-speech-keys"),
+            EncryptedPrefKey.Exact("speech_doubao_credentials_encrypted", "djini-speech-keys"),
+            EncryptedPrefKey.Prefix("speech_bailian_key_encrypted_", "djini-speech-keys"),
         ),
         "web_search.xml" to listOf(
-            EncryptedPrefKey.Prefix("api_key_encrypted_", "mika-web-search-key"),
-            EncryptedPrefKey.Exact("api_key_encrypted", "mika-web-search-key"),
+            EncryptedPrefKey.Prefix("api_key_encrypted_", "djini-web-search-key"),
+            EncryptedPrefKey.Exact("api_key_encrypted", "djini-web-search-key"),
         ),
         "web_fetch.xml" to listOf(
-            EncryptedPrefKey.Prefix("api_key_encrypted_", "mika-web-fetch-key"),
+            EncryptedPrefKey.Prefix("api_key_encrypted_", "djini-web-fetch-key"),
         ),
-        "mika_call_settings.xml" to listOf(
-            EncryptedPrefKey.Exact("volc_credentials_v1", "mika-volc-realtime-calls"),
+        "djini_call_settings.xml" to listOf(
+            EncryptedPrefKey.Exact("volc_credentials_v1", "djini-volc-realtime-calls"),
         ),
-        "mika_call_voice_profiles.xml" to listOf(
-            EncryptedPrefKey.Exact("encrypted_profiles_v1", "mika-call-voice-profiles"),
+        "djini_call_voice_profiles.xml" to listOf(
+            EncryptedPrefKey.Exact("encrypted_profiles_v1", "djini-call-voice-profiles"),
         ),
-        "mika_call_instructions.xml" to listOf(
-            EncryptedPrefKey.Exact("encrypted_rules_v1", "mika-call-instructions"),
+        "djini_call_instructions.xml" to listOf(
+            EncryptedPrefKey.Exact("encrypted_rules_v1", "djini-call-instructions"),
         ),
-        "mika_call_history.xml" to listOf(
-            EncryptedPrefKey.Exact("encrypted_calls_v1", "mika-call-history"),
+        "djini_call_history.xml" to listOf(
+            EncryptedPrefKey.Exact("encrypted_calls_v1", "djini-call-history"),
         ),
         "task_recovery.xml" to listOf(
-            EncryptedPrefKey.Exact("clip_backup", "mika-clip-backup"),
+            EncryptedPrefKey.Exact("clip_backup", "djini-clip-backup"),
         ),
     )
 

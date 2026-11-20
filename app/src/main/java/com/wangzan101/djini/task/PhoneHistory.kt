@@ -1,18 +1,18 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
-import com.wangzan101.mika.chat.ConversationStore
-import com.wangzan101.mika.chat.ConversationSummary
-import com.wangzan101.mika.core.agent.NoticeTurn
-import com.wangzan101.mika.core.agent.Turn
-import com.wangzan101.mika.core.record.Redactor
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.remote.RemoteHistory
-import com.wangzan101.mika.core.remote.RunRecordExport
-import com.wangzan101.mika.core.remote.RemoteStatus
-import com.wangzan101.mika.core.remote.RemoteTask
-import com.wangzan101.mika.core.trace.TraceRow
-import com.wangzan101.mika.core.trace.TraceStore
-import com.wangzan101.mika.record.RunStore
+import com.wangzan101.djini.chat.ConversationStore
+import com.wangzan101.djini.chat.ConversationSummary
+import com.wangzan101.djini.core.agent.NoticeTurn
+import com.wangzan101.djini.core.agent.Turn
+import com.wangzan101.djini.core.record.Redactor
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.remote.RemoteHistory
+import com.wangzan101.djini.core.remote.RunRecordExport
+import com.wangzan101.djini.core.remote.RemoteStatus
+import com.wangzan101.djini.core.remote.RemoteTask
+import com.wangzan101.djini.core.trace.TraceRow
+import com.wangzan101.djini.core.trace.TraceStore
+import com.wangzan101.djini.record.RunStore
 import kotlinx.serialization.json.*
 
 /** Reads the same stores as the phone UI. Viewing history never registers a remotely controllable task. */
@@ -73,8 +73,8 @@ class PhoneHistory(
         turn.runId?.let { put("run_id", it) }
         turn.remoteTaskId?.let { put("source_task_id", it) }
         started?.let { put("started_at_ms", it) }
-        // A notice turn lists other apps' notifications (third-party text Mika showed the user). It is not an answer to a task,
-        // and the remote client would read it as Mika's own words, so the text stays on the phone.
+        // A notice turn lists other apps' notifications (third-party text Djini showed the user). It is not an answer to a task,
+        // and the remote client would read it as Djini's own words, so the text stays on the phone.
         val answer = if (NoticeTurn.isNotice(turn)) "" else turn.outcome
         put("goal", turn.userText.take(TEXT_LIMIT)); put("answer", answer.take(TEXT_LIMIT))
         put("text_truncated", turn.userText.length > TEXT_LIMIT || answer.length > TEXT_LIMIT)

@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.phone.shell
+package com.wangzan101.djini.cap.phone.shell
 
 /** 一批事件只排一次扫描;后来的事件不推迟已排好的扫描,连续事件也能及时处理。 */
 internal class CoalescedScan(

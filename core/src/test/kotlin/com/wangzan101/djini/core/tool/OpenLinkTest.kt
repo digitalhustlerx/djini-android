@@ -1,13 +1,13 @@
-package com.wangzan101.mika.core.tool
+package com.wangzan101.djini.core.tool
 
-import com.wangzan101.mika.core.gate.IrreversibleDetector
-import com.wangzan101.mika.core.gate.needsCheck
-import com.wangzan101.mika.core.knowledge.Link
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.uistate.ActionResult
-import com.wangzan101.mika.core.uistate.ScreenPort
-import com.wangzan101.mika.core.uistate.ScreenSnapshot
-import com.wangzan101.mika.core.uistate.UiElement
+import com.wangzan101.djini.core.gate.IrreversibleDetector
+import com.wangzan101.djini.core.gate.needsCheck
+import com.wangzan101.djini.core.knowledge.Link
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.uistate.ActionResult
+import com.wangzan101.djini.core.uistate.ScreenPort
+import com.wangzan101.djini.core.uistate.ScreenSnapshot
+import com.wangzan101.djini.core.uistate.UiElement
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.boolean
@@ -17,7 +17,7 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import com.wangzan101.mika.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.assembly.toolDispatcher
 
 private class LinkScreen(
     var result: ActionResult = ActionResult.Ok(),

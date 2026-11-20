@@ -1,15 +1,15 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.MikaApp
-import com.wangzan101.mika.ChineseUi
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport.pollUntil
-import com.wangzan101.mika.core.model.*
-import com.wangzan101.mika.core.prompt.Prompts
-import com.wangzan101.mika.core.verify.Verifier
-import com.wangzan101.mika.workflow.*
+import com.wangzan101.djini.DjiniApp
+import com.wangzan101.djini.ChineseUi
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport.pollUntil
+import com.wangzan101.djini.core.model.*
+import com.wangzan101.djini.core.prompt.Prompts
+import com.wangzan101.djini.core.verify.Verifier
+import com.wangzan101.djini.workflow.*
 import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
@@ -23,7 +23,7 @@ class WorkflowServiceDeviceTest {
     @get:Rule(order = Int.MIN_VALUE) val chinese = ChineseUi()
     @Test fun serviceOpensSettingsThenPassesResultToNextStep() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
-        val app = context.applicationContext as MikaApp
+        val app = context.applicationContext as DjiniApp
         val shell = DeviceSupport.shell()
         DeviceSupport.service()
         val launchCount = AtomicInteger()

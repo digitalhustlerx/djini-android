@@ -1,7 +1,7 @@
-package com.wangzan101.mika.plugin
+package com.wangzan101.djini.plugin
 
-import com.wangzan101.mika.core.plugin.ScriptResult
-import com.wangzan101.mika.core.plugin.ScriptRunner
+import com.wangzan101.djini.core.plugin.ScriptResult
+import com.wangzan101.djini.core.plugin.ScriptRunner
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
@@ -16,10 +16,10 @@ class PluginPromptHookTest {
 
     private fun registry(): PluginRegistry {
         val files = tmp.newFolder("files")
-        val dir = File(files, "plugins/com.mika.purge-lite")
+        val dir = File(files, "plugins/com.djini.purge-lite")
         dir.mkdirs()
         File(dir, "manifest.json").writeText(
-            """{"schema":1,"id":"com.mika.purge-lite","name":"x","version":"1.0.0","kind":"capability","permissions":["rewrite-prompt"],"promptTransform":"scripts/rewrite_prompt.sh","skills":[]}"""
+            """{"schema":1,"id":"com.djini.purge-lite","name":"x","version":"1.0.0","kind":"capability","permissions":["rewrite-prompt"],"promptTransform":"scripts/rewrite_prompt.sh","skills":[]}"""
         )
         return PluginRegistry(files, CoroutineScope(Dispatchers.Unconfined), appVersion = "0.1.45")
     }
@@ -59,6 +59,6 @@ class PluginPromptHookTest {
         val runner = FakeRunner { stdin -> ScriptResult(0, stdin, "", false) }
         val hook = PluginPromptHook(registry(), runner, { "fake-model" })
         hook.transform("hello")
-        assertEquals("fake-model", runner.lastEnv?.get("MIKA_MODEL"))
+        assertEquals("fake-model", runner.lastEnv?.get("DJINI_MODEL"))
     }
 }

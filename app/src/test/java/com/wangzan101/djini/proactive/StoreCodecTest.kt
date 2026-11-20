@@ -1,7 +1,7 @@
-package com.wangzan101.mika.proactive
+package com.wangzan101.djini.proactive
 
-import com.wangzan101.mika.core.proactive.NoticeJournal
-import com.wangzan101.mika.settings.KeyCipher
+import com.wangzan101.djini.core.proactive.NoticeJournal
+import com.wangzan101.djini.settings.KeyCipher
 import java.io.File
 import java.io.IOException
 import org.junit.Assert.assertEquals
@@ -64,7 +64,7 @@ class StoreCodecTest {
         }
     }
 
-    // 解开了(认证过了)却读不懂:这是 Mika 自己写的,多半是别的版本的写法——照常抛出,文件不动
+    // 解开了(认证过了)却读不懂:这是 Djini 自己写的,多半是别的版本的写法——照常抛出,文件不动
     @Test fun contentThatDecryptsButCannotBeReadIsKept() {
         for ((name, load) in stores) for (text in listOf("{broken", """{"topics":"not a list","days":7,"entries":3,"contacts":1,"notes":2}""")) {
             tmp.root.listFiles()?.forEach { it.deleteRecursively() }
@@ -130,25 +130,25 @@ class StoreCodecTest {
     // ---- 版本号 ----
 
     private val plainJson = kotlinx.serialization.json.Json { ignoreUnknownKeys = true }
-    private val topics = com.wangzan101.mika.core.proactive.TopicPoolData(
-        topics = listOf(com.wangzan101.mika.core.proactive.ObservedTopic("k1", com.wangzan101.mika.core.proactive.TopicKind.Interest, "徒步", 1L, 2L)))
-    private val contacts = com.wangzan101.mika.core.proactive.ContactPoolData(
-        contacts = listOf(com.wangzan101.mika.core.proactive.ObservedContact("c1", "com.chat", "张三", 1L, 2L)))
-    private val journal = com.wangzan101.mika.core.proactive.NoticeJournalData(
-        sinceMs = 5L, entries = listOf(com.wangzan101.mika.core.proactive.NoticeEntry("com.chat", 6L, "t", text = "x")))
-    private val digest = com.wangzan101.mika.core.proactive.DigestData(
-        days = listOf(com.wangzan101.mika.core.proactive.DayDigest(20_000, 1L, listOf(com.wangzan101.mika.core.proactive.DigestLine("一句", apps = listOf("com.chat"))))))
+    private val topics = com.wangzan101.djini.core.proactive.TopicPoolData(
+        topics = listOf(com.wangzan101.djini.core.proactive.ObservedTopic("k1", com.wangzan101.djini.core.proactive.TopicKind.Interest, "徒步", 1L, 2L)))
+    private val contacts = com.wangzan101.djini.core.proactive.ContactPoolData(
+        contacts = listOf(com.wangzan101.djini.core.proactive.ObservedContact("c1", "com.chat", "张三", 1L, 2L)))
+    private val journal = com.wangzan101.djini.core.proactive.NoticeJournalData(
+        sinceMs = 5L, entries = listOf(com.wangzan101.djini.core.proactive.NoticeEntry("com.chat", 6L, "t", text = "x")))
+    private val digest = com.wangzan101.djini.core.proactive.DigestData(
+        days = listOf(com.wangzan101.djini.core.proactive.DayDigest(20_000, 1L, listOf(com.wangzan101.djini.core.proactive.DigestLine("一句", apps = listOf("com.chat"))))))
 
     /** 每份存盘:文件名、加版本检查之前的写法写出来的内容(没有 version)、存一遍、读一遍。 */
     private class Case(val name: String, val old: String, val save: () -> Unit, val load: () -> Any?, val data: Any, val known: Int = 1)
     private fun cases() = listOf(
-        Case(TopicPoolFile.FILE, plainJson.encodeToString(com.wangzan101.mika.core.proactive.TopicPoolData.serializer(), topics),
+        Case(TopicPoolFile.FILE, plainJson.encodeToString(com.wangzan101.djini.core.proactive.TopicPoolData.serializer(), topics),
             { TopicPoolFile(tmp.root, identity).save(topics) }, { TopicPoolFile(tmp.root, identity).load() }, topics, known = TopicPoolFile.VERSION),
-        Case(ContactPoolFile.FILE, plainJson.encodeToString(com.wangzan101.mika.core.proactive.ContactPoolData.serializer(), contacts),
+        Case(ContactPoolFile.FILE, plainJson.encodeToString(com.wangzan101.djini.core.proactive.ContactPoolData.serializer(), contacts),
             { ContactPoolFile(tmp.root, identity).save(contacts) }, { ContactPoolFile(tmp.root, identity).load() }, contacts),
-        Case(NoticeJournalFile.FILE, plainJson.encodeToString(com.wangzan101.mika.core.proactive.NoticeJournalData.serializer(), journal),
+        Case(NoticeJournalFile.FILE, plainJson.encodeToString(com.wangzan101.djini.core.proactive.NoticeJournalData.serializer(), journal),
             { NoticeJournalFile(tmp.root, identity).save(journal) }, { NoticeJournalFile(tmp.root, identity).load() }, journal),
-        Case(DigestFile.FILE, plainJson.encodeToString(com.wangzan101.mika.core.proactive.DigestData.serializer(), digest),
+        Case(DigestFile.FILE, plainJson.encodeToString(com.wangzan101.djini.core.proactive.DigestData.serializer(), digest),
             { DigestFile(tmp.root, identity).save(digest) }, { DigestFile(tmp.root, identity).load() }, digest),
     )
     private fun root(name: String) = kotlinx.serialization.json.Json.parseToJsonElement(File(dir, name).readText()) as kotlinx.serialization.json.JsonObject
@@ -214,7 +214,7 @@ class StoreCodecTest {
         for (fine in listOf(0, 1)) {
             tmp.root.listFiles()?.forEach { it.deleteRecursively() }
             seed(c.name, with(kotlinx.serialization.json.JsonPrimitive(fine)))
-            assertEquals(topics.topics, (c.load() as com.wangzan101.mika.core.proactive.TopicPoolData).topics)
+            assertEquals(topics.topics, (c.load() as com.wangzan101.djini.core.proactive.TopicPoolData).topics)
         }
     }
 }

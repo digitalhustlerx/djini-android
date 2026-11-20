@@ -1,12 +1,12 @@
-package com.wangzan101.mika.cap.phone.a11y
+package com.wangzan101.djini.cap.phone.a11y
 
 import android.Manifest
 import android.net.Uri
 import android.provider.CalendarContract
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.core.uistate.ActionResult
-import com.wangzan101.mika.core.uistate.SystemAction
+import com.wangzan101.djini.core.uistate.ActionResult
+import com.wangzan101.djini.core.uistate.SystemAction
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -24,7 +24,7 @@ import java.time.ZoneOffset
 class CalendarBulkWriterDeviceTest {
     private val instrumentation = InstrumentationRegistry.getInstrumentation()
     private val context = instrumentation.targetContext
-    private val marker = "Mika calendar device test ${System.nanoTime()}"
+    private val marker = "Djini calendar device test ${System.nanoTime()}"
     private val titles = listOf("$marker timed", "$marker all day")
 
     @Before fun grantCalendarAccess() {

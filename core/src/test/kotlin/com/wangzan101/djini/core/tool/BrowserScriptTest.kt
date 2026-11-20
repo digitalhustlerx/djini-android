@@ -1,12 +1,12 @@
-package com.wangzan101.mika.core.tool
+package com.wangzan101.djini.core.tool
 
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.cap.web.FakeWebPort
-import com.wangzan101.mika.core.cap.web.ScriptAbort
-import com.wangzan101.mika.core.cap.web.ScriptBridge
-import com.wangzan101.mika.core.cap.web.ScriptRun
-import com.wangzan101.mika.core.cap.web.WebPort
-import com.wangzan101.mika.core.cap.web.WebTabHandedOver
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.cap.web.FakeWebPort
+import com.wangzan101.djini.core.cap.web.ScriptAbort
+import com.wangzan101.djini.core.cap.web.ScriptBridge
+import com.wangzan101.djini.core.cap.web.ScriptRun
+import com.wangzan101.djini.core.cap.web.WebPort
+import com.wangzan101.djini.core.cap.web.WebTabHandedOver
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
@@ -20,14 +20,14 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import com.wangzan101.mika.core.cap.web.EVAL_RESULT_MAX_CHARS
-import com.wangzan101.mika.core.cap.web.SCRIPT_DEFAULT_TIMEOUT_MS
-import com.wangzan101.mika.core.cap.web.SCRIPT_MAX_ACTIONS
-import com.wangzan101.mika.core.cap.web.SCRIPT_MAX_NAVIGATIONS
-import com.wangzan101.mika.core.cap.web.SCRIPT_MAX_READS
-import com.wangzan101.mika.core.testing.WEB_SCRIPT_TOOL
-import com.wangzan101.mika.core.assembly.toolDispatcher
-import com.wangzan101.mika.core.assembly.knownToolNames
+import com.wangzan101.djini.core.cap.web.EVAL_RESULT_MAX_CHARS
+import com.wangzan101.djini.core.cap.web.SCRIPT_DEFAULT_TIMEOUT_MS
+import com.wangzan101.djini.core.cap.web.SCRIPT_MAX_ACTIONS
+import com.wangzan101.djini.core.cap.web.SCRIPT_MAX_NAVIGATIONS
+import com.wangzan101.djini.core.cap.web.SCRIPT_MAX_READS
+import com.wangzan101.djini.core.testing.WEB_SCRIPT_TOOL
+import com.wangzan101.djini.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.assembly.knownToolNames
 
 /** 假端口:runScript 按 [script] 把调用发给桥,模拟页面里的脚本。 */
 internal class ScriptWebPort(val inner: FakeWebPort = FakeWebPort(), var script: suspend (ScriptBridge) -> ScriptRun = { ScriptRun.Done(null) }) : WebPort by inner {
@@ -104,7 +104,7 @@ class BrowserScriptTest {
             ScriptRun.Done("""{"n":2}""")
         }
         val r = d.script(sub = passthrough(d))
-        assertEquals("true", r.s("ok")); assertEquals(com.wangzan101.mika.core.observation.Untrusted.wrap("""{"n":2}"""), r.s("result")); assertEquals("return", r.s("endedBy"))
+        assertEquals("true", r.s("ok")); assertEquals(com.wangzan101.djini.core.observation.Untrusted.wrap("""{"n":2}"""), r.s("result")); assertEquals("return", r.s("endedBy"))
         val v = seen!!["value"]!!.jsonObject
         val e1 = v["elements"]!!.jsonArray[0].jsonObject
         assertEquals("@e1", e1.s("ref")); assertEquals("搜索", e1.s("name")); assertTrue("center" in e1)

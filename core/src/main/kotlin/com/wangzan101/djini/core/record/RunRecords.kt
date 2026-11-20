@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.record
+package com.wangzan101.djini.core.record
 
 /**
  * 读已经存下的运行记录(只读):概要(run.json)和事件(events.jsonl)。记录落盘时已脱敏、截短,读出来原样给。

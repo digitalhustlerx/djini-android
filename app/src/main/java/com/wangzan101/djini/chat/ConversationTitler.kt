@@ -1,13 +1,13 @@
-package com.wangzan101.mika.chat
+package com.wangzan101.djini.chat
 
-import com.wangzan101.mika.core.agent.AttachedPage
-import com.wangzan101.mika.core.model.Author
-import com.wangzan101.mika.core.model.ChatModel
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.Role
-import com.wangzan101.mika.core.prompt.Prompts
-import com.wangzan101.mika.core.userscreen.UserScreenMessage
+import com.wangzan101.djini.core.agent.AttachedPage
+import com.wangzan101.djini.core.model.Author
+import com.wangzan101.djini.core.model.ChatModel
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.Role
+import com.wangzan101.djini.core.prompt.Prompts
+import com.wangzan101.djini.core.userscreen.UserScreenMessage
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.withTimeoutOrNull
 

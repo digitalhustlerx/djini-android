@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.phone.shell
+package com.wangzan101.djini.cap.phone.shell
 
 import android.content.Context
 import android.graphics.PixelFormat
@@ -7,10 +7,10 @@ import android.media.ImageReader
 import android.os.Build
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.core.shell.BuiltinShellStatus
-import com.wangzan101.mika.cap.phone.PhoneServices
-import com.wangzan101.mika.cap.phone.setup.BuiltinShellManager
-import com.wangzan101.mika.cap.sandbox.WorkspaceKey
+import com.wangzan101.djini.core.shell.BuiltinShellStatus
+import com.wangzan101.djini.cap.phone.PhoneServices
+import com.wangzan101.djini.cap.phone.setup.BuiltinShellManager
+import com.wangzan101.djini.cap.sandbox.WorkspaceKey
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -23,13 +23,13 @@ import org.junit.Assert.assertTrue
 import org.junit.Assume.assumeTrue
 import org.junit.Test
 import org.junit.runner.RunWith
-import com.wangzan101.mika.shell.IMikaShell
+import com.wangzan101.djini.shell.IDjiniShell
 
 /**
  * 真机测试:内置助手经无线调试起来、交接 Binder、在自己的虚拟屏上注入点击,解绑后助手留着、再绑定直接可用。
  * 前提:安卓 12+,无线调试开着。配对二选一:
  * - 带 `-e pairingCode <6 位码>`(可加 `-e pairingPort <端口>`),此时系统的「使用配对码配对」窗口要开着;
- * - 已经用 Mika 的钥匙配对过:带 `-e assumePaired true`。
+ * - 已经用 Djini 的钥匙配对过:带 `-e assumePaired true`。
  */
 @RunWith(AndroidJUnit4::class)
 class BuiltinHelperDeviceTest {
@@ -38,7 +38,7 @@ class BuiltinHelperDeviceTest {
     private val phone = PhoneServices.of(context)
     private val engine = phone.shellManager.engine
 
-    private fun helperUp(): IMikaShell = runBlocking {
+    private fun helperUp(): IDjiniShell = runBlocking {
         when {
             args.getString("pairingCode") != null && engine.status.value != BuiltinShellStatus.Running ->
                 engine.startPairing(args.getString("pairingCode")!!, args.getString("pairingPort")?.toIntOrNull())
@@ -66,10 +66,10 @@ class BuiltinHelperDeviceTest {
     @Test
     fun fileBridgeReadsSharedStorageAndRejectsInvalidTargets() {
         val shell = helperUp()
-        val dir = "/sdcard/Download/mika-file-bridge-${android.os.Process.myPid()}"
+        val dir = "/sdcard/Download/djini-file-bridge-${android.os.Process.myPid()}"
         val automation = InstrumentationRegistry.getInstrumentation().uiAutomation
         val hintPrefs = context.getSharedPreferences("device-hints-test-${android.os.Process.myPid()}", Context.MODE_PRIVATE)
-        val hintStore = com.wangzan101.mika.settings.DeviceDirectoryStore(hintPrefs, android.os.Process.myUid() / 100000)
+        val hintStore = com.wangzan101.djini.settings.DeviceDirectoryStore(hintPrefs, android.os.Process.myUid() / 100000)
         val testHub = HelperHub(context, hintStore, shell)
         fun command(cmd: String) {
             android.os.ParcelFileDescriptor.AutoCloseInputStream(automation.executeShellCommand(cmd)).use { it.readBytes() }
@@ -78,7 +78,7 @@ class BuiltinHelperDeviceTest {
             // executeShellCommand 不经过 sh，不能直接用 ';' 和 '>'；借助 ${IFS} 在 sh -c 单参数里分隔。
             command("mkdir -p $dir/subdir")
             command("sh -c printf\${IFS}bridge>$dir/sample.txt")
-            hintStore.save(com.wangzan101.mika.settings.DeviceDirectory(dir, "Test", "Files", "user"))
+            hintStore.save(com.wangzan101.djini.settings.DeviceDirectory(dir, "Test", "Files", "user"))
             assertTrue(testHub.syncDeviceFiles())
             assertEquals("denied", shell.listFiles(dir, null, 128).getString("status"))
             hintStore.setAuthorization(dir, true, true)
@@ -99,17 +99,17 @@ class BuiltinHelperDeviceTest {
                 assertEquals("bridge", it.readBytes().toString(Charsets.UTF_8))
             }
             val workspaceId = "device-file-test-${android.os.Process.myPid()}"
-            val dirs = com.wangzan101.mika.cap.sandbox.SandboxDirs(context)
-            val sandbox = com.wangzan101.mika.cap.sandbox.AndroidSandbox(context, com.wangzan101.mika.cap.sandbox.SandboxState.get(context))
+            val dirs = com.wangzan101.djini.cap.sandbox.SandboxDirs(context)
+            val sandbox = com.wangzan101.djini.cap.sandbox.AndroidSandbox(context, com.wangzan101.djini.cap.sandbox.SandboxState.get(context))
             try {
                 val importPrefs = context.getSharedPreferences("device-import-test-${android.os.Process.myPid()}", Context.MODE_PRIVATE)
                 importPrefs.edit().clear().commit()
-                val store = com.wangzan101.mika.task.DeviceImportStore(importPrefs)
-                val deviceFiles = com.wangzan101.mika.task.AndroidDeviceFiles(testHub, dirs, sandbox, hintStore, store)
+                val store = com.wangzan101.djini.task.DeviceImportStore(importPrefs)
+                val deviceFiles = com.wangzan101.djini.task.AndroidDeviceFiles(testHub, dirs, sandbox, hintStore, store)
                 val hint = runBlocking { deviceFiles.listDirectoryHints().single { it.path == dir } }
                 assertEquals("ok", hint.status)
                 val updated = runBlocking { deviceFiles.updateDirectoryDescription(dir, "Reports") }
-                assertEquals("mika", updated.source)
+                assertEquals("djini", updated.source)
                 assertEquals("Reports", hintStore.directories().single { it.path == dir }.description)
                 val copied = runBlocking { deviceFiles.importFile("$dir/sample.txt", workspaceId) }
                 assertEquals("/workspace/inbox/sample.txt", copied.path)
@@ -118,7 +118,7 @@ class BuiltinHelperDeviceTest {
                 dirs.gate.openRead(dirs.workspace(key), "inbox/sample.txt").use {
                     assertEquals("bridge", it.input().readBytes().toString(Charsets.UTF_8))
                 }
-                val record = com.wangzan101.mika.task.DeviceImportStore(importPrefs).list(workspaceId).single()
+                val record = com.wangzan101.djini.task.DeviceImportStore(importPrefs).list(workspaceId).single()
                 assertEquals("$dir/sample.txt", record.sourcePath)
                 assertEquals(copied.path, record.workspacePath)
                 assertEquals(copied, runBlocking { deviceFiles.importFile("$dir/sample.txt", workspaceId) })

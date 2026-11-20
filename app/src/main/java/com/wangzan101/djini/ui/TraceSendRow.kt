@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -18,14 +18,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.findViewTreeViewModelStoreOwner
 import androidx.lifecycle.viewModelScope
-import com.wangzan101.mika.R
-import com.wangzan101.mika.core.trace.TraceArchive
-import com.wangzan101.mika.record.OtlpReceipt
-import com.wangzan101.mika.record.OtlpSender
-import com.wangzan101.mika.ui.components.ListRow
-import com.wangzan101.mika.ui.components.MikaDialog
-import com.wangzan101.mika.ui.components.RowChevron
-import com.wangzan101.mika.ui.theme.MikaType
+import com.wangzan101.djini.R
+import com.wangzan101.djini.core.trace.TraceArchive
+import com.wangzan101.djini.record.OtlpReceipt
+import com.wangzan101.djini.record.OtlpSender
+import com.wangzan101.djini.ui.components.ListRow
+import com.wangzan101.djini.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.RowChevron
+import com.wangzan101.djini.ui.theme.MikaType
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 

@@ -1,16 +1,16 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
-import com.wangzan101.mika.chat.SharedFile
-import com.wangzan101.mika.core.agent.FailKind
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.core.run.Channel
-import com.wangzan101.mika.core.run.ChannelInputSink
-import com.wangzan101.mika.core.run.ChannelPeer
-import com.wangzan101.mika.core.run.Delivery
-import com.wangzan101.mika.core.run.DeliveryState
-import com.wangzan101.mika.core.run.Outbox
-import com.wangzan101.mika.core.run.SendOutcome
-import com.wangzan101.mika.i18n.ChineseTexts
+import com.wangzan101.djini.chat.SharedFile
+import com.wangzan101.djini.core.agent.FailKind
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.core.run.Channel
+import com.wangzan101.djini.core.run.ChannelInputSink
+import com.wangzan101.djini.core.run.ChannelPeer
+import com.wangzan101.djini.core.run.Delivery
+import com.wangzan101.djini.core.run.DeliveryState
+import com.wangzan101.djini.core.run.Outbox
+import com.wangzan101.djini.core.run.SendOutcome
+import com.wangzan101.djini.i18n.ChineseTexts
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -21,7 +21,7 @@ class ResultDeliveryTest {
     @get:Rule val texts = ChineseTexts()
     private val peer = ChannelPeer("wechat", "owner", "thread")
     private val result = Delivery.Result("result:run", "thread", "完成")
-    private fun file(name: String, id: Int) = SharedFile(name, 12L, "Download/Mika/$name", "content://downloads/$id", "a".repeat(64))
+    private fun file(name: String, id: Int) = SharedFile(name, 12L, "Download/Djini/$name", "content://downloads/$id", "a".repeat(64))
 
     private class RecordingChannel(override val supportsImages: Boolean = true, val outcome: (Delivery) -> SendOutcome = { SendOutcome.Delivered }) : Channel {
         override val id = "wechat"

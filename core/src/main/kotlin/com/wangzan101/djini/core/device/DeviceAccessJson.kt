@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.device
+package com.wangzan101.djini.core.device
 
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonPrimitive

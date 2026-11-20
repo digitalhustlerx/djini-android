@@ -1,4 +1,4 @@
-package com.wangzan101.mika.proactive
+package com.wangzan101.djini.proactive
 
 import java.io.File
 import javax.xml.parsers.DocumentBuilderFactory
@@ -6,7 +6,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.w3c.dom.Element
 
-/** 通知监听的清单写法:默认停用(没开功能时系统「通知使用权」里没有 Mika),只滤常驻通知。 */
+/** 通知监听的清单写法:默认停用(没开功能时系统「通知使用权」里没有 Djini),只滤常驻通知。 */
 class ProactiveManifestTest {
     private val ns = "http://schemas.android.com/apk/res/android"
 

@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.cap.web
+package com.wangzan101.djini.core.cap.web
 
 const val READ_PAGE_DEFAULT_CHARS = 12_000
 const val READ_PAGE_MAX_CHARS = 30_000

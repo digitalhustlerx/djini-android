@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.net
+package com.wangzan101.djini.core.net
 
 import java.net.IDN
 import java.net.URI

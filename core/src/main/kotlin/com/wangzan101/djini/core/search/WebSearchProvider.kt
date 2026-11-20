@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.search
+package com.wangzan101.djini.core.search
 
 /**
  * 网页搜索由哪家服务提供。各家的请求方式和返回格式各不相同,没有通用约定,所以按服务商分别实现,不设「自定义端点」:

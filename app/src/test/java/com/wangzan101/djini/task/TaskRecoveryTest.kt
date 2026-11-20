@@ -1,10 +1,10 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
-import com.wangzan101.mika.settings.KeyCipher
+import com.wangzan101.djini.settings.KeyCipher
 import org.junit.Test
 
 class TaskRecoveryTest {
@@ -45,11 +45,11 @@ class TaskRecoveryTest {
         override fun decrypt(data: ByteArray) = encrypt(data)
     }
 
-    // Focus 5 的剪贴板一半:Mika 借着剪贴板粘贴时被杀,下次启动把用户原来的文字还回去;留底是加密的,用完即删
+    // Focus 5 的剪贴板一半:Djini 借着剪贴板粘贴时被杀,下次启动把用户原来的文字还回去;留底是加密的,用完即删
     @Test fun restoresClipboardFromEncryptedBackupAfterKill() {
         var stored: String? = null
         val backup = ClipBackup({ stored }, { stored = it }, XorCipher())
-        backup.save("用户原来的文字", "Mika 要粘贴的")
+        backup.save("用户原来的文字", "Djini 要粘贴的")
         assertFalse(stored!!.contains("用户原来的文字"))
 
         val restored = mutableListOf<Pair<String, String>>()
@@ -57,7 +57,7 @@ class TaskRecoveryTest {
             restored += o to u
             true
         })
-        assertEquals(listOf("用户原来的文字" to "Mika 要粘贴的"), restored)
+        assertEquals(listOf("用户原来的文字" to "Djini 要粘贴的"), restored)
         assertNull(stored)
         // 没有留底就什么也不做
         assertTrue(TaskRecovery.restoreClip(backup) { _, _ -> error("nothing to restore") })
@@ -66,7 +66,7 @@ class TaskRecoveryTest {
     @Test fun unreadableClipboardKeepsTheEncryptedBackupForAnotherAttempt() {
         var stored: String? = null
         val backup = ClipBackup({ stored }, { stored = it }, XorCipher())
-        backup.save("用户原来的文字", "Mika 要粘贴的")
+        backup.save("用户原来的文字", "Djini 要粘贴的")
         assertFalse(TaskRecovery.restoreClip(backup) { _, _ -> false })
         assertTrue(stored != null)
         assertTrue(TaskRecovery.restoreClip(backup) { _, _ -> true })

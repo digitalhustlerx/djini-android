@@ -1,4 +1,4 @@
-package com.wangzan101.mika.self
+package com.wangzan101.djini.self
 
 import android.content.ComponentName
 import androidx.test.ext.junit.runners.AndroidJUnit4

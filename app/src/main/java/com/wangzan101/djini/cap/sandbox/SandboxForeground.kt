@@ -1,6 +1,6 @@
-package com.wangzan101.mika.cap.sandbox
+package com.wangzan101.djini.cap.sandbox
 
-import com.wangzan101.mika.i18n.tr
+import com.wangzan101.djini.i18n.tr
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -9,20 +9,20 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.ServiceInfo
 import android.os.IBinder
-import com.wangzan101.mika.R
-import com.wangzan101.mika.core.cap.sandbox.SandboxStatus
+import com.wangzan101.djini.R
+import com.wangzan101.djini.core.cap.sandbox.SandboxStatus
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
-import com.wangzan101.mika.sandbox.SandboxService
-import com.wangzan101.mika.settings.FeatureFlags
+import com.wangzan101.djini.sandbox.SandboxService
+import com.wangzan101.djini.settings.FeatureFlags
 
 /**
  * 运行环境准备期间的前台服务(类型 dataSync,安卓要求长时间后台工作有前台服务)。
- * 只显示一条低优先级的「Mika 正在准备」,准备完就撤掉;不发结果通知。准备本身在 [RuntimePreparer] 里。
+ * 只显示一条低优先级的「Djini 正在准备」,准备完就撤掉;不发结果通知。准备本身在 [RuntimePreparer] 里。
  */
 open class SandboxForeground : Service() {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)

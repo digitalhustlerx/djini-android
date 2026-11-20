@@ -1,6 +1,6 @@
-package com.wangzan101.mika.cap.sandbox
+package com.wangzan101.djini.cap.sandbox
 
-import com.wangzan101.mika.chat.ProjectStore
+import com.wangzan101.djini.chat.ProjectStore
 
 /**
  * 沙箱工作区标识:要么归属单条对话([Conversation]),要么归属整个项目([Project])。

@@ -1,7 +1,7 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.chat.FileSource
-import com.wangzan101.mika.chat.SharedFile
+import com.wangzan101.djini.chat.FileSource
+import com.wangzan101.djini.chat.SharedFile
 
 /** 文件库多选:key 只由来源身份决定,刷新索引后仍能对上。 */
 internal object LibrarySelection {

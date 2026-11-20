@@ -1,7 +1,7 @@
-package com.wangzan101.mika.ui.viewer
+package com.wangzan101.djini.ui.viewer
 
-import com.wangzan101.mika.ChineseUi
-import com.wangzan101.mika.R
+import com.wangzan101.djini.ChineseUi
+import com.wangzan101.djini.R
 import android.content.ClipboardManager
 import android.net.Uri
 import androidx.activity.ComponentActivity
@@ -16,7 +16,7 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.ui.theme.MikaTheme
+import com.wangzan101.djini.ui.theme.DjiniTheme
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Rule
@@ -37,7 +37,7 @@ class FileViewerScreenTest {
 
     private fun show(uri: Uri, name: String) {
         val kind = FileViewer.kindOf(context, uri, name)
-        compose.setContent { MikaTheme { FileViewerScreen(uri, name, kind, onBack = {}) } }
+        compose.setContent { DjiniTheme { FileViewerScreen(uri, name, kind, onBack = {}) } }
         compose.waitUntil(5_000) { compose.onAllNodesWithTag("viewer.loading").fetchSemanticsNodes().isEmpty() }
     }
 

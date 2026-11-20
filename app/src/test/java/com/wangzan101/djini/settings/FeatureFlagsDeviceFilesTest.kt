@@ -1,4 +1,4 @@
-package com.wangzan101.mika.settings
+package com.wangzan101.djini.settings
 
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue

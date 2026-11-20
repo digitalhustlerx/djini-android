@@ -1,10 +1,10 @@
-package com.wangzan101.mika.settings
+package com.wangzan101.djini.settings
 
-import com.wangzan101.mika.core.model.Capabilities
-import com.wangzan101.mika.core.model.ListedModel
-import com.wangzan101.mika.core.model.ModelEndpoint
-import com.wangzan101.mika.core.model.ModelProtocol
-import com.wangzan101.mika.core.model.PromptCaching
+import com.wangzan101.djini.core.model.Capabilities
+import com.wangzan101.djini.core.model.ListedModel
+import com.wangzan101.djini.core.model.ModelEndpoint
+import com.wangzan101.djini.core.model.ModelProtocol
+import com.wangzan101.djini.core.model.PromptCaching
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue

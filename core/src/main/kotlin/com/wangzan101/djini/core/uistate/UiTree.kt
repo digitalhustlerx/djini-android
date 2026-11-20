@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.uistate
+package com.wangzan101.djini.core.uistate
 
 /** 一块屏上一个无障碍窗口。根节点读不到时仍保留窗口,让模型知道有遮挡或加载中的界面。 */
 data class UiWindowTree(

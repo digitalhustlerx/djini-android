@@ -1,11 +1,11 @@
-package com.wangzan101.mika.core.vision
+package com.wangzan101.djini.core.vision
 
-import com.wangzan101.mika.core.model.Author
-import com.wangzan101.mika.core.model.ChatModel
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.ModelError
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.Role
+import com.wangzan101.djini.core.model.Author
+import com.wangzan101.djini.core.model.ChatModel
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.ModelError
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.Role
 
 /**
  * 让视觉模型看图回答一个问题。只在设置里有能看图的模型时才建;
@@ -45,7 +45,7 @@ class VisionService(
     /** 可信度随本次回答返回,并发或后续复看不能改变坐标所属模型的属性。 */
     suspend fun askWithGrounding(system: String, text: String, images: List<ByteArray>): Answer {
         val parts = listOf(Part.Text(text)) + images.map { ModelImage.part(it, ops) }
-        val messages = listOf(Message(Role.User, parts, Author.Mika))
+        val messages = listOf(Message(Role.User, parts, Author.Djini))
         var lastError: ModelError? = null
 
         for (i in chain.indices) {

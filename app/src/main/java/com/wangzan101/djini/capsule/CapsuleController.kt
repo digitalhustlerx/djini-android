@@ -1,4 +1,4 @@
-package com.wangzan101.mika.capsule
+package com.wangzan101.djini.capsule
 
 import android.animation.ValueAnimator
 import android.content.ComponentCallbacks
@@ -23,49 +23,49 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.TransformOrigin
 import android.graphics.Rect
-import com.wangzan101.mika.record.RunStore
-import com.wangzan101.mika.R
-import com.wangzan101.mika.cap.web.KeptPage
-import com.wangzan101.mika.core.cap.web.KeptPageClose
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.chat.ConversationStore
+import com.wangzan101.djini.record.RunStore
+import com.wangzan101.djini.R
+import com.wangzan101.djini.cap.web.KeptPage
+import com.wangzan101.djini.core.cap.web.KeptPageClose
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.chat.ConversationStore
 import java.util.UUID
 import kotlinx.coroutines.withContext
-import com.wangzan101.mika.MikaApp
-import com.wangzan101.mika.cap.phone.a11y.MainScreenCapture
-import com.wangzan101.mika.cap.phone.a11y.OverlayDrag
-import com.wangzan101.mika.cap.phone.a11y.OverlayHold
-import com.wangzan101.mika.cap.phone.a11y.OverlayPlacement
-import com.wangzan101.mika.cap.phone.a11y.OverlayWindow
-import com.wangzan101.mika.cap.phone.a11y.ScreenAccessibility
-import com.wangzan101.mika.confirm.ConfirmationNotifier
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.core.assembly.knownTools
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.userscreen.CapturedScreen
-import com.wangzan101.mika.core.userscreen.UserScreenMessage
-import com.wangzan101.mika.settings.FeatureFlags
-import com.wangzan101.mika.task.DeviceStateWatcher
-import com.wangzan101.mika.task.TaskCenterState
-import com.wangzan101.mika.task.TaskRun
-import com.wangzan101.mika.task.TaskService
-import com.wangzan101.mika.task.TaskService.Companion.isActive
-import com.wangzan101.mika.takeover.TakeoverQueue
-import com.wangzan101.mika.ui.ChatCopy
-import com.wangzan101.mika.ui.FollowUpMode
-import com.wangzan101.mika.ui.VoiceCopy
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.voice.HoldToTalk
-import com.wangzan101.mika.voice.SpeechChoice
-import com.wangzan101.mika.voice.SpeechFailure
-import com.wangzan101.mika.ui.ChatViewModel
-import com.wangzan101.mika.ui.Exchange
-import com.wangzan101.mika.ui.ExchangeStatus
-import com.wangzan101.mika.ui.ScreenCopy
-import com.wangzan101.mika.ui.screenThumbnail
-import com.wangzan101.mika.ui.ToolLabels
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.animationsOff
+import com.wangzan101.djini.DjiniApp
+import com.wangzan101.djini.cap.phone.a11y.MainScreenCapture
+import com.wangzan101.djini.cap.phone.a11y.OverlayDrag
+import com.wangzan101.djini.cap.phone.a11y.OverlayHold
+import com.wangzan101.djini.cap.phone.a11y.OverlayPlacement
+import com.wangzan101.djini.cap.phone.a11y.OverlayWindow
+import com.wangzan101.djini.cap.phone.a11y.ScreenAccessibility
+import com.wangzan101.djini.confirm.ConfirmationNotifier
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.core.assembly.knownTools
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.userscreen.CapturedScreen
+import com.wangzan101.djini.core.userscreen.UserScreenMessage
+import com.wangzan101.djini.settings.FeatureFlags
+import com.wangzan101.djini.task.DeviceStateWatcher
+import com.wangzan101.djini.task.TaskCenterState
+import com.wangzan101.djini.task.TaskRun
+import com.wangzan101.djini.task.TaskService
+import com.wangzan101.djini.task.TaskService.Companion.isActive
+import com.wangzan101.djini.takeover.TakeoverQueue
+import com.wangzan101.djini.ui.ChatCopy
+import com.wangzan101.djini.ui.FollowUpMode
+import com.wangzan101.djini.ui.VoiceCopy
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.voice.HoldToTalk
+import com.wangzan101.djini.voice.SpeechChoice
+import com.wangzan101.djini.voice.SpeechFailure
+import com.wangzan101.djini.ui.ChatViewModel
+import com.wangzan101.djini.ui.Exchange
+import com.wangzan101.djini.ui.ExchangeStatus
+import com.wangzan101.djini.ui.ScreenCopy
+import com.wangzan101.djini.ui.screenThumbnail
+import com.wangzan101.djini.ui.ToolLabels
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.animationsOff
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
@@ -88,8 +88,8 @@ import kotlinx.coroutines.withTimeoutOrNull
 
 /**
  * 悬浮胶囊的接线:把各任务的状态([TaskCenterState.runs] 和每个 [TaskRun] 的状态、接管阶段、活动)、开关、
- * Mika 界面在不在前台([AppForeground])、屏幕亮没亮([DeviceStateWatcher])、无障碍服务在不在交给 [CapsuleModel],
- * 按它的结果经 [com.wangzan101.mika.cap.phone.a11y.OverlayHost] 加上、挪动或拆掉浮层窗口。
+ * Djini 界面在不在前台([AppForeground])、屏幕亮没亮([DeviceStateWatcher])、无障碍服务在不在交给 [CapsuleModel],
+ * 按它的结果经 [com.wangzan101.djini.cap.phone.a11y.OverlayHost] 加上、挪动或拆掉浮层窗口。
  * 点一颗或胶囊展开卡片([CapsuleCards] 定内容,只说一件事),点卡片外面、收起按钮或返回收回成一颗(看过的不再展开,模型记着);卡片和胶囊上的按钮都转成任务服务现有的动作。
  * 一颗和卡片各在一个窗口里、各待各的位置(见 [window]):展开时一颗那个窗口显式隐藏,卡片在自己的窗口里从那一颗的方位缩放、淡入,
  * 收起时缩回去,一颗再在边上冒出来([OverlayMotion]:只动图层,不挪窗口,也不逐帧改窗口大小)。
@@ -118,7 +118,7 @@ class CapsuleController(
     private val model = CapsuleModel(::reasonLabel)
     private val flags = FeatureFlags.get(context)
     /** 任务结束后留在后台运行的那一页(没有任务时胶囊说它,卡片里能看画面、关掉)。 */
-    private val keeper get() = (context.applicationContext as MikaApp).pageKeeper
+    private val keeper get() = (context.applicationContext as DjiniApp).pageKeeper
     private val toolLabels by lazy { ToolLabels(knownTools()) }
     private val appLabels = HashMap<String, String>()
     /** 各任务这一问一答此刻的样子,和对话页同一套推法(步骤、要你做的事、结果)。 */
@@ -127,7 +127,7 @@ class CapsuleController(
     private var view by mutableStateOf<CapsuleView.Shown?>(null)
     private var card by mutableStateOf<CardView?>(null)
     /** 同进程的排队队列;卡片按自己的对话数明确排队的项。 */
-    private var followUps by mutableStateOf<List<com.wangzan101.mika.task.QueuedFollowUp>>(emptyList())
+    private var followUps by mutableStateOf<List<com.wangzan101.djini.task.QueuedFollowUp>>(emptyList())
     private var preview by mutableStateOf<Bitmap?>(null)
     private var zoomed by mutableStateOf(false)
     private var dock by mutableStateOf(flags.capsuleDock())
@@ -161,7 +161,7 @@ class CapsuleController(
     private var quitConfirm by mutableStateOf(false)
 
     /** 长按说话;[talkIdle] 是空闲图标上开始说时去读的最近那段对话(说完发给它)。 */
-    private val talk = CapsuleTalk(context, { (context.applicationContext as MikaApp).voice }, scope, ::spoken)
+    private val talk = CapsuleTalk(context, { (context.applicationContext as DjiniApp).voice }, scope, ::spoken)
     private var talkIdle: Deferred<CardView.Chat>? = null
     /** 胶囊上临时闪的一句(已发出、没听清、用不了);到时自己消失。 */
     private var note by mutableStateOf<CapsuleNote?>(null)
@@ -250,7 +250,7 @@ class CapsuleController(
     @OptIn(ExperimentalCoroutinesApi::class)
     fun start() {
         val screen = DeviceStateWatcher(context) { -1 }
-        // 用户点了「完全退出」:按开关关着算,直到用户重新打开 Mika([resume] 清掉标记后再亮出来)
+        // 用户点了「完全退出」:按开关关着算,直到用户重新打开 Djini([resume] 清掉标记后再亮出来)
         val mode = combine(flags.capsuleModeChanges(), flags.quitChanges()) { m, quit -> if (quit) CapsuleMode.Off else m }
         val fullscreen = combine(flags.capsuleHideFullscreenChanges(), ScreenAccessibility.instance, mode) { enabled, service, m ->
             service.takeIf { enabled && m != CapsuleMode.Off }
@@ -273,13 +273,13 @@ class CapsuleController(
                 ticks,
                 keeper.page,
                 // 主动能力判为值得提醒、还没看的条数(只要个数)
-                com.wangzan101.mika.proactive.NoticeHintList.unseenCount(context),
+                com.wangzan101.djini.proactive.NoticeHintList.unseenCount(context),
             ) { s, _, kept, notices -> s.copy(kept = kept, notices = notices) }.collect(::render)
         }
         // 说话面板出来时铺满整屏(压暗背后),收起时显式收掉(见 [syncPanelWindow])
         scope.launch { snapshotFlow { talk.active }.collect { syncPanelWindow() } }
         // 排队条:卡片按自己的对话显示还有几件
-        scope.launch { (context.applicationContext as MikaApp).followUpQueue.changes.collect { followUps = it } }
+        scope.launch { (context.applicationContext as DjiniApp).followUpQueue.changes.collect { followUps = it } }
         // 停止后的交代写好(或写不成)时那一轮已改进对话:重读记下的轮次
         scope.launch { tasks.summarizing.collect { threadOf?.let(::loadPast) } }
         // 对话删掉了:见 [forget]
@@ -320,7 +320,7 @@ class CapsuleController(
         hide()
     }
 
-    /** 用户又打开了 Mika:退出标记已清掉,按此刻的状态重新画(进程没被杀、又回到前台时用得上)。 */
+    /** 用户又打开了 Djini:退出标记已清掉,按此刻的状态重新画(进程没被杀、又回到前台时用得上)。 */
     fun resume() {
         quitConfirm = false
         refresh()
@@ -585,12 +585,12 @@ class CapsuleController(
 
     /**
      * 发出输入框里的话,和在对话页里发的走同一条路(都记进那个对话):在跑、等条件时插话给它,
-     * Mika 问你时作为回答,办完后在同一个对话里接着说,空闲时接着最近的对话或开新对话;后两种之后卡片跟着那个对话的任务看回答。
+     * Djini 问你时作为回答,办完后在同一个对话里接着说,空闲时接着最近的对话或开新对话;后两种之后卡片跟着那个对话的任务看回答。
      */
     private fun send() {
-        val app = context.applicationContext as? com.wangzan101.mika.MikaApp
+        val app = context.applicationContext as? com.wangzan101.djini.DjiniApp
         if (app != null && app.teachReady && app.teach.blocksTasks()) {
-            android.widget.Toast.makeText(context, com.wangzan101.mika.i18n.tr(com.wangzan101.mika.R.string.teach_blocked_task), android.widget.Toast.LENGTH_LONG).show()
+            android.widget.Toast.makeText(context, com.wangzan101.djini.i18n.tr(com.wangzan101.djini.R.string.teach_blocked_task), android.widget.Toast.LENGTH_LONG).show()
             return
         }
         val text = inputUi.draft.trim()
@@ -631,7 +631,7 @@ class CapsuleController(
      * 再写成带屏幕的一句话([UserScreenMessage])照常发出;存不下就不发。
      */
     private fun deliver(c: CardView, kind: CardInputKind, shot: CapturedScreen, words: String, mode: FollowUpMode = FollowUpMode.Steer) {
-        val access = (context.applicationContext as MikaApp).appAccess.current()
+        val access = (context.applicationContext as DjiniApp).appAccess.current()
         if (shot.sourcePackages.isEmpty() || shot.sourcePackages.any { !access.canShare(it) }) {
             inputUi = inputUi.copy(screen = null)
             android.widget.Toast.makeText(context, tr(R.string.appaccess_share_expired), android.widget.Toast.LENGTH_SHORT).show()
@@ -639,9 +639,9 @@ class CapsuleController(
         }
         val conversationId = CapsuleCards.conversationOf(c) ?: ConversationStore.shared(context).newConversation()
         scope.launch {
-            val saved = runCatching { (context.applicationContext as MikaApp).userScreens.save(conversationId, shot) }
+            val saved = runCatching { (context.applicationContext as DjiniApp).userScreens.save(conversationId, shot) }
                 .onFailure { Log.w(TAG, "could not save the screen", it) }.getOrNull() ?: return@launch
-            val latest = (context.applicationContext as MikaApp).appAccess.current()
+            val latest = (context.applicationContext as DjiniApp).appAccess.current()
             if (shot.sourcePackages.any { !latest.canShare(it) }) {
                 inputUi = inputUi.copy(screen = null)
                 android.widget.Toast.makeText(context, tr(R.string.appaccess_share_expired), android.widget.Toast.LENGTH_SHORT).show()
@@ -689,7 +689,7 @@ class CapsuleController(
 
     /**
      * 截下用户此刻的屏幕:输入框开着先收起(等输入法下去),浮层藏起来、真的从屏幕上下去了再截,截完马上出来、一颗上闪一下;
-     * 再在后台整理屏上的字。前台是 Mika 自己、截不到时为 null。
+     * 再在后台整理屏上的字。前台是 Djini 自己、截不到时为 null。
      */
     private suspend fun captureScreen(): CapturedScreen? {
         val service = windowOn ?: return null
@@ -703,11 +703,11 @@ class CapsuleController(
             }
             // 空着的那个窗口(展开时一颗那个、收起时卡片那个)不画东西,不用等它
             suspend fun <T> OverlayWindow.hidden(block: suspend () -> T): T = if (height > 0) hiddenWhile(block) else block()
-            val store = (context.applicationContext as MikaApp).appAccess
+            val store = (context.applicationContext as DjiniApp).appAccess
             val sources = MainScreenCapture.sourcePackages(service) ?: return null
             if (context.packageName in sources || !store.current().available) return null
             for (pkg in sources) {
-                if (!store.current().canShare(pkg) && !com.wangzan101.mika.cap.phone.a11y.requestScreenShare(service, store, pkg, appLabel(pkg))) return null
+                if (!store.current().canShare(pkg) && !com.wangzan101.djini.cap.phone.a11y.requestScreenShare(service, store, pkg, appLabel(pkg))) return null
             }
             val capture = w.hidden { c.hidden {
                 if (MainScreenCapture.sourcePackages(service) != sources || sources.any { !store.current().canShare(it) }) null
@@ -1115,7 +1115,7 @@ class CapsuleController(
 
     /** 此刻能不能在胶囊上说话:有面板窗口、不是「你来处理」那一条、语音输入没设成不用。 */
     private fun canTalk(): Boolean = panelWindow != null && !isBar() && !edgeHidden &&
-        (context.applicationContext as MikaApp).speech.choice.value != SpeechChoice.Off
+        (context.applicationContext as DjiniApp).speech.choice.value != SpeechChoice.Off
 
     /** 一颗那个窗口交来的长按:开始说、手指移动算落点、松开按落点收尾。 */
     private val talkHold = object : OverlayHold {
@@ -1143,7 +1143,7 @@ class CapsuleController(
 
     /**
      * 开始说:先等着的单击、双击不算了。说给谁按单击会展开的那张卡片(空闲图标上先去读最近那段对话,读到后面板顶上那句跟着换)。
-     * 没有录音权限(胶囊弹不了权限框)、语音输入用不了时不录,胶囊上说一句,点一下打开 Mika。
+     * 没有录音权限(胶囊弹不了权限框)、语音输入用不了时不录,胶囊上说一句,点一下打开 Djini。
      */
     private fun beginTalk(byTouch: Boolean) {
         val v = view ?: return
@@ -1189,7 +1189,7 @@ class CapsuleController(
                 when (val why = state.why) {
                     null -> showNote(VoiceCopy.NO_MATCH, CapsuleKind.Failed, opensMika = false, NOTE_SHORT_MS)
                     SpeechFailure.NoPermission -> showNote(tr(R.string.capsule_voice_need_mic), CapsuleKind.Failed, opensMika = true, NOTE_LONG_MS)
-                    // 缺权限的是识别服务:胶囊上说不清,带到 Mika 里(在那里按住说话会有说明和去它设置页的按钮)
+                    // 缺权限的是识别服务:胶囊上说不清,带到 Djini 里(在那里按住说话会有说明和去它设置页的按钮)
                     is SpeechFailure.ServiceNoPermission ->
                         showNote(tr(R.string.capsule_voice_service_need_mic), CapsuleKind.Failed, opensMika = true, NOTE_LONG_MS)
                     is SpeechFailure.Unavailable -> showNote(tr(R.string.capsule_voice_not_ready), CapsuleKind.Failed, opensMika = true, NOTE_LONG_MS)
@@ -1243,7 +1243,7 @@ class CapsuleController(
         note = null
     }
 
-    /** 胶囊上闪着一句时点它:那句说要打开 Mika 就打开,否则只收掉那句;这一下不参与单击或双击计时。 */
+    /** 胶囊上闪着一句时点它:那句说要打开 Djini 就打开,否则只收掉那句;这一下不参与单击或双击计时。 */
     private fun tapCapsule() {
         val n = note
         clearNote()
@@ -1287,11 +1287,11 @@ class CapsuleController(
     /** 展开卡片(空闲图标是空闲卡片)。每次展开都按用户此刻在哪个对话重读一次空闲卡片,不拿上次那份。 */
     private fun expand() {
         val v = view ?: return
-        // 值得提醒:单击把挑出来的几条通知写进今天的提醒对话(Mika 的一条消息,不调模型),那个对话成为当前对话;
+        // 值得提醒:单击把挑出来的几条通知写进今天的提醒对话(Djini 的一条消息,不调模型),那个对话成为当前对话;
         // 再和空闲时一样展开卡片,卡片接着的就是它。没写成(出了错)也照常展开。双击发屏幕、长按说话和空闲时一样
         if (v.kind == CapsuleKind.Notice) {
             scope.launch {
-                com.wangzan101.mika.proactive.NoticeHintList.openTalk(context)
+                com.wangzan101.djini.proactive.NoticeHintList.openTalk(context)
                 idle = loadIdle()
                 open()
                 refresh()
@@ -1374,7 +1374,7 @@ class CapsuleController(
         override fun answer(runKey: String, text: String) = TaskService.answer(context, text, runKey)
         override fun approve(runKey: String, requestKey: Int) = TaskService.approve(context, requestKey, runKey)
         override fun decline(runKey: String, requestKey: Int) = TaskService.decline(context, requestKey, runKey)
-        override fun openMika(conversationId: String) {
+        override fun openDjini(conversationId: String) {
             open(conversationId)
             collapse()
         }
@@ -1404,7 +1404,7 @@ class CapsuleController(
             quitConfirm = false
         }
         override fun quit() {
-            com.wangzan101.mika.quit.MikaQuit.quit(context)
+            com.wangzan101.djini.quit.MikaQuit.quit(context)
         }
         override fun closeKeptPage() {
             keeper.close(KeptPageClose.User)
@@ -1412,9 +1412,9 @@ class CapsuleController(
         }
         override fun teach() {
             val hint = inputUi.draft.trim().takeIf { it.isNotEmpty() }
-            val intent = com.wangzan101.mika.task.TaskService.openAppIntent(context)
-                .putExtra(com.wangzan101.mika.ui.MainActivity.EXTRA_OPEN_TEACH, true)
-            if (hint != null) intent.putExtra(com.wangzan101.mika.ui.MainActivity.EXTRA_TEACH_GOAL, hint)
+            val intent = com.wangzan101.djini.task.TaskService.openAppIntent(context)
+                .putExtra(com.wangzan101.djini.ui.MainActivity.EXTRA_OPEN_TEACH, true)
+            if (hint != null) intent.putExtra(com.wangzan101.djini.ui.MainActivity.EXTRA_TEACH_GOAL, hint)
             runCatching { context.startActivity(intent) }
             collapse()
         }
@@ -1430,7 +1430,7 @@ class CapsuleController(
     @Composable
     private fun CardOverlay() {
         val c = card ?: return
-        MikaTheme(reduceMotion = animationsOff(context)) {
+        DjiniTheme(reduceMotion = animationsOff(context)) {
             val scale = last?.cardScale ?: CapsuleCardScale.DEFAULT
             CompositionLocalProvider(
                 LocalDensity provides LocalDensity.current.zoomed(scale.factor),
@@ -1445,7 +1445,7 @@ class CapsuleController(
                     else CapsuleCard(
                         c, preview, zoomed, actions, { elapsed(it) }, input = inputUi, thread = thread, height = height, onHandle = ::onHandle,
                         queuedCount = CapsuleCards.conversationOf(c)?.let { id ->
-                            followUps.count { it.conversationId == id && !it.claimed && it.source == com.wangzan101.mika.task.QueuedSource.Explicit }
+                            followUps.count { it.conversationId == id && !it.claimed && it.source == com.wangzan101.djini.task.QueuedSource.Explicit }
                         } ?: 0,
                         onQueued = { CapsuleCards.conversationOf(c)?.let(::open) },
                     )
@@ -1461,7 +1461,7 @@ class CapsuleController(
         val a = windowOn?.overlays()?.area()
         val top = placedY + room()
         val bottom = placedY + (window?.height ?: 0) - room()
-        MikaTheme(reduceMotion = animationsOff(context)) {
+        DjiniTheme(reduceMotion = animationsOff(context)) {
             CapsuleVoicePanel(talk, top, bottom.coerceAtLeast(top), a?.insetTop ?: 0, a?.insetBottom ?: 0)
         }
     }
@@ -1475,7 +1475,7 @@ class CapsuleController(
         val v = if (n == null || shown.kind == CapsuleKind.HandedOver) shown
             else shown.copy(kind = n.kind, text = n.text, detail = null, count = 0, needCount = 0, pill = true, widthEpoch = -n.id)
         if (edgeHidden) {
-            MikaTheme(reduceMotion = animationsOff(context)) {
+            DjiniTheme(reduceMotion = animationsOff(context)) {
                 CapsuleEdgeContent(dock.side, alpha) {
                     resetTaps()
                     wake()
@@ -1485,7 +1485,7 @@ class CapsuleController(
             return
         }
         val talking = talk.active && !talk.released
-        MikaTheme(reduceMotion = animationsOff(context)) {
+        DjiniTheme(reduceMotion = animationsOff(context)) {
             OverlayMotion(open = true, origin = { TransformOrigin(if (dock.side == DockSide.Right) 1f else 0f, 0.5f) }, onClosed = {}) {
                 CapsuleContent(
                     v,
@@ -1524,10 +1524,10 @@ class CapsuleController(
         return ChatCopy.clock(now - startedAt)
     }
 
-    /** 回到 Mika 的那个对话(和点通知同一个入口)。 */
+    /** 回到 Djini 的那个对话(和点通知同一个入口)。 */
     private fun open(conversationId: String?) {
         runCatching { context.startActivity(TaskService.openAppIntent(context, conversationId)) }
-            .onFailure { Log.w(TAG, "could not open Mika from capsule", it) }
+            .onFailure { Log.w(TAG, "could not open Djini from capsule", it) }
     }
 
     private fun appLabel(pkg: String): String = appLabels.getOrPut(pkg) { ConfirmationNotifier.appLabel(context, pkg) }
@@ -1577,5 +1577,5 @@ internal data class CapsuleWindowVisibility(val capsule: Boolean, val card: Bool
 internal fun capsuleWindowVisibility(expanded: Boolean, cardOut: Boolean, closing: Boolean): CapsuleWindowVisibility =
     CapsuleWindowVisibility(capsule = !expanded || !cardOut || closing, card = expanded)
 
-/** 胶囊上临时闪的一句:[kind] 定前面的标记(办好了是勾、没办成是叹号);[opensMika] 时点它打开 Mika;[id] 每句不同(胶囊按它重新定宽)。 */
+/** 胶囊上临时闪的一句:[kind] 定前面的标记(办好了是勾、没办成是叹号);[opensMika] 时点它打开 Djini;[id] 每句不同(胶囊按它重新定宽)。 */
 private data class CapsuleNote(val text: String, val kind: CapsuleKind, val opensMika: Boolean, val id: Int)

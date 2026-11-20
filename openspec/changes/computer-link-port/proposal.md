@@ -2,7 +2,7 @@
 
 ## Why
 
-部分手机的系统服务占用 8765 端口，Mika 的电脑连接（MCP/CLI）绑定失败就无法使用（issue #392）。设置存储 `McpSettings` 其实已支持 `port` 字段（读取并校验 1024–65535、默认 8765），运行时全链路（服务绑定、`mcp-usb.json` 连接信息、`connect-computer.sh`、`adb forward` 提示、CLI 动态读端口）都已走这个值——唯独没有写入入口：没有 setter、没有设置 UI。补上这最后一环即可。
+部分手机的系统服务占用 8765 端口，Djini 的电脑连接（MCP/CLI）绑定失败就无法使用（issue #392）。设置存储 `McpSettings` 其实已支持 `port` 字段（读取并校验 1024–65535、默认 8765），运行时全链路（服务绑定、`mcp-usb.json` 连接信息、`connect-computer.sh`、`adb forward` 提示、CLI 动态读端口）都已走这个值——唯独没有写入入口：没有 setter、没有设置 UI。补上这最后一环即可。
 
 ## What Changes
 
@@ -11,7 +11,7 @@
 - 端口校验沿用读取侧的既有规则（1024–65535）；不合法输入在对话框里拦下，不落盘。
 - 文档（docs/mcp.md 等）补一句端口可在设置里改。
 
-不做：CLI/Skill 侧改动（`mika` 命令已从 `mcp-usb.json` 动态读端口）；中继网关（relay，公网部署，与手机本地端口无关）。
+不做：CLI/Skill 侧改动（`djini` 命令已从 `mcp-usb.json` 动态读端口）；中继网关（relay，公网部署，与手机本地端口无关）。
 
 ## Capabilities
 

@@ -1,9 +1,9 @@
-package com.wangzan101.mika.core.skills
+package com.wangzan101.djini.core.skills
 
-import com.wangzan101.mika.core.knowledge.PERSONAL_KIND
-import com.wangzan101.mika.core.knowledge.RECOMMEND_MIN_SCORE
-import com.wangzan101.mika.core.knowledge.GuideCatalog
-import com.wangzan101.mika.core.knowledge.GuideView
+import com.wangzan101.djini.core.knowledge.PERSONAL_KIND
+import com.wangzan101.djini.core.knowledge.RECOMMEND_MIN_SCORE
+import com.wangzan101.djini.core.knowledge.GuideCatalog
+import com.wangzan101.djini.core.knowledge.GuideView
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull

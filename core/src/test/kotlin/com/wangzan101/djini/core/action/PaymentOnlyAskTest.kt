@@ -1,24 +1,24 @@
-package com.wangzan101.mika.core.action
+package com.wangzan101.djini.core.action
 
-import com.wangzan101.mika.core.agent.AgentLoop
-import com.wangzan101.mika.core.agent.FakeModel
-import com.wangzan101.mika.core.agent.SpeedFlags
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.core.gate.ConfirmationGate
-import com.wangzan101.mika.core.model.ChatModel
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.ModelReply
-import com.wangzan101.mika.core.model.ToolSpec
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.Role
-import com.wangzan101.mika.core.model.StopReason
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.record.RunSink
-import com.wangzan101.mika.core.uistate.ActionResult
-import com.wangzan101.mika.core.uistate.ScreenPort
-import com.wangzan101.mika.core.uistate.ScreenSnapshot
-import com.wangzan101.mika.core.uistate.UiElement
-import com.wangzan101.mika.core.uistate.WebInfo
+import com.wangzan101.djini.core.agent.AgentLoop
+import com.wangzan101.djini.core.agent.FakeModel
+import com.wangzan101.djini.core.agent.SpeedFlags
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.core.gate.ConfirmationGate
+import com.wangzan101.djini.core.model.ChatModel
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.ModelReply
+import com.wangzan101.djini.core.model.ToolSpec
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.Role
+import com.wangzan101.djini.core.model.StopReason
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.record.RunSink
+import com.wangzan101.djini.core.uistate.ActionResult
+import com.wangzan101.djini.core.uistate.ScreenPort
+import com.wangzan101.djini.core.uistate.ScreenSnapshot
+import com.wangzan101.djini.core.uistate.UiElement
+import com.wangzan101.djini.core.uistate.WebInfo
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.test.advanceUntilIdle
@@ -30,7 +30,7 @@ import kotlinx.serialization.json.jsonPrimitive
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import com.wangzan101.mika.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.assembly.toolDispatcher
 
 private fun el(ref: String, role: String, name: String, b: List<Int>, editable: Boolean = false, secret: Boolean = false) =
     UiElement(ref, role, name, 0, 0, b, null, !editable, editable, false, secret = secret)
@@ -99,7 +99,7 @@ private var seq = 0
 private fun call(name: String, args: String = "{}") = Part.ToolCall("m${++seq}", name, args)
 private fun tools(vararg c: Part.ToolCall) = ModelReply(c.toList(), StopReason.ToolUse, null)
 private val OBSERVE get() = tools(call("phone_observe"))
-private val FINISH get() = com.wangzan101.mika.core.testing.answerReply("好了")
+private val FINISH get() = com.wangzan101.djini.core.testing.answerReply("好了")
 private fun tap(ref: String) = tools(call("phone_tap", """{"ref":"$ref","snapshotId":"s1"}"""))
 private fun type(ref: String, text: String) = tools(call("phone_type_text", """{"text":"$text","ref":"$ref","snapshotId":"s1"}"""))
 private val ASK_ORDER get() =
@@ -270,16 +270,16 @@ class PaymentOnlyAskTest {
     }
 
     @Test fun mikaNeverOperatesItself() = runTest {
-        // 屏上是 Mika 自己:不点
-        val s = Chat(app = "com.mika")
+        // 屏上是 Djini 自己:不点
+        val s = Chat(app = "com.djini")
         val m = FakeModel(OBSERVE, tap("@e6"), GIVE_UP)
-        loop(m, s, self = "com.mika").run("t")
+        loop(m, s, self = "com.djini").run("t")
         assertTrue(s.taps.isEmpty())
         assertEquals("own_app", m.result(2).s("error"))
-        // 从别的 App 打开 Mika、打开它的应用详情:不做
+        // 从别的 App 打开 Djini、打开它的应用详情:不做
         s.app = "com.chat"
-        val m2 = FakeModel(OBSERVE, tools(call("phone_launch_app", """{"package":"com.mika"}""")), tools(call("phone_open_link", """{"uri":"package:com.mika"}""")), GIVE_UP)
-        loop(m2, s, self = "com.mika").run("t")
+        val m2 = FakeModel(OBSERVE, tools(call("phone_launch_app", """{"package":"com.djini"}""")), tools(call("phone_open_link", """{"uri":"package:com.djini"}""")), GIVE_UP)
+        loop(m2, s, self = "com.djini").run("t")
         assertTrue(s.opened.isEmpty())
         assertEquals("own_app", m2.result(2).s("error"))
         assertEquals("own_app", m2.result(3).s("error"))

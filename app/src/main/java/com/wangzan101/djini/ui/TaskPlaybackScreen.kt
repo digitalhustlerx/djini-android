@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import android.graphics.BitmapFactory
 import androidx.activity.compose.BackHandler
@@ -37,15 +37,15 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.wangzan101.mika.R
-import com.wangzan101.mika.core.assembly.knownTools
-import com.wangzan101.mika.core.record.PlaybackMark
-import com.wangzan101.mika.ui.components.*
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
-import com.wangzan101.mika.ui.theme.MikaRadius
-import com.wangzan101.mika.ui.theme.MikaShapes
+import com.wangzan101.djini.R
+import com.wangzan101.djini.core.assembly.knownTools
+import com.wangzan101.djini.core.record.PlaybackMark
+import com.wangzan101.djini.ui.components.*
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.MikaRadius
+import com.wangzan101.djini.ui.theme.MikaShapes
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -63,7 +63,7 @@ private fun stepLabel(step: PlaybackStep): String {
 fun TaskPlaybackScreen(vm: TaskReportViewModel, initialScreenshotId: Int?, onBack: () -> Unit) {
     BackHandler(onBack = onBack)
     val (loaded, report) = rememberReport(vm)
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     var position by rememberSaveable(vm.runId, initialScreenshotId) { mutableIntStateOf(-1) }
     var speedIndex by rememberSaveable(vm.runId) { mutableIntStateOf(1) }
     val speeds = listOf(.5f, 1f, 2f)
@@ -224,7 +224,7 @@ private fun AnimatedPlaybackImage(vm: TaskReportViewModel, frame: ReplayFrame, m
             FittedPlaybackImage(loaded.bitmap, loaded.frame.mark, Modifier.fillMaxSize())
         }
         else Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            if (loaded != null) Text(stringResource(R.string.playback_missing), style = MikaType.Caption, color = MikaTheme.colors.ink2)
+            if (loaded != null) Text(stringResource(R.string.playback_missing), style = MikaType.Caption, color = DjiniTheme.colors.ink2)
         }
     }
 }
@@ -238,7 +238,7 @@ internal fun StaticPlaybackImage(vm: TaskReportViewModel, id: Int, modifier: Mod
 
 @Composable
 private fun FittedPlaybackImage(bitmap: ImageBitmap, mark: PlaybackMark?, modifier: Modifier) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     BoxWithConstraints(modifier, contentAlignment = Alignment.Center) {
         val ratio = bitmap.width.toFloat() / bitmap.height
         val width = minOf(maxWidth, maxHeight * ratio)

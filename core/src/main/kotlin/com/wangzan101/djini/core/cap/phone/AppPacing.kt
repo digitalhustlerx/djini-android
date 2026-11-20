@@ -1,8 +1,8 @@
-package com.wangzan101.mika.core.cap.phone
+package com.wangzan101.djini.core.cap.phone
 
-import com.wangzan101.mika.core.uistate.Pace
+import com.wangzan101.djini.core.uistate.Pace
 import kotlin.random.Random
-import com.wangzan101.mika.core.uistate.IdleScroll
+import com.wangzan101.djini.core.uistate.IdleScroll
 
 /**
  * 在 App 里一步一步操作的节奏(纯逻辑,不碰时钟和界面):人点完一下总要看一眼才点下一下,到了新的一屏还要先看一会儿。
@@ -18,7 +18,7 @@ import com.wangzan101.mika.core.uistate.IdleScroll
  *   [AppTempo.FAST] 的 App 里做完的动作不记停留,还把之前记下的清掉:里面不等,出去也不补旧的停留。
  * - 限制浏览快慢的 App([capped] 为真:一个任务里换到新的一屏的次数有上限([screenCap]),到了之后 [capReached] 为真,
  *   调用方不再换屏;用户答过话([userAnswered])后重新计数;本任务在这个 App 里做成过对外动作([outwardDone],发送、提交一类)
- *   之后不再设上限。和网页一页一页看的节奏([com.wangzan101.mika.core.cap.web.PagePacing])是同一套说法。
+ *   之后不再设上限。和网页一页一页看的节奏([com.wangzan101.djini.core.cap.web.PagePacing])是同一套说法。
  *
  * [Off] 从不等待,也不设上限(「快」、测试、不需要节奏的调用方用它)。
  */
@@ -45,7 +45,7 @@ class AppPacing(
         val pauseMs: LongRange = 600L..1_500L,
         /** 一次停留的上限。 */
         val maxDwellMs: Long = 3_500L,
-        /** 新的一屏上停得够久时,停留里可以轻轻滚几下(见 [com.wangzan101.mika.core.uistate.IdleScroll])。 */
+        /** 新的一屏上停得够久时,停留里可以轻轻滚几下(见 [com.wangzan101.djini.core.uistate.IdleScroll])。 */
         val idleScroll: Boolean = false,
     ) {
         companion object {

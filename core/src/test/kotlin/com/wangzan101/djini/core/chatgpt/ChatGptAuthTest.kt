@@ -1,7 +1,7 @@
-package com.wangzan101.mika.core.chatgpt
+package com.wangzan101.djini.core.chatgpt
 
-import com.wangzan101.mika.core.model.ModelError
-import com.wangzan101.mika.core.oauth.LoopbackCallback
+import com.wangzan101.djini.core.model.ModelError
+import com.wangzan101.djini.core.oauth.LoopbackCallback
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
@@ -84,7 +84,7 @@ class ChatGptAuthTest {
         assertTrue(url.startsWith("$issuer/api/accounts/authorize?"))
         val q = query(url)
         assertEquals("dynamic_agent_client", q["client_id"])
-        assertEquals("Mika", q["agent_name_hint"])
+        assertEquals("Djini", q["agent_name_hint"])
         assertEquals("urn:uuid:h", q["ext_agent_host_id"])
         assertEquals("code", q["response_type"])
         assertEquals("http://127.0.0.1:4321/auth/callback", q["redirect_uri"])

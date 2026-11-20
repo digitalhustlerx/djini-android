@@ -1,17 +1,17 @@
-package com.wangzan101.mika.core.record
+package com.wangzan101.djini.core.record
 
-import com.wangzan101.mika.core.agent.AgentLoop
-import com.wangzan101.mika.core.agent.FakeModel
-import com.wangzan101.mika.core.model.ChatModel
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.ModelReply
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.StopReason
-import com.wangzan101.mika.core.model.ToolSpec
-import com.wangzan101.mika.core.uistate.ScreenPort
-import com.wangzan101.mika.core.tool.FakeScreen
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.core.model.ModelError
+import com.wangzan101.djini.core.agent.AgentLoop
+import com.wangzan101.djini.core.agent.FakeModel
+import com.wangzan101.djini.core.model.ChatModel
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.ModelReply
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.StopReason
+import com.wangzan101.djini.core.model.ToolSpec
+import com.wangzan101.djini.core.uistate.ScreenPort
+import com.wangzan101.djini.core.tool.FakeScreen
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.core.model.ModelError
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
@@ -20,7 +20,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import com.wangzan101.mika.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.assembly.toolDispatcher
 
 class AgentLoopTimingTest {
     private var now = 0L
@@ -46,7 +46,7 @@ class AgentLoopTimingTest {
     }
 
     @Test fun modelLatencyRecorded() {
-        run(slow(FakeModel(reply(call("phone_observe")), com.wangzan101.mika.core.testing.answerReply("x")), 1200))
+        run(slow(FakeModel(reply(call("phone_observe")), com.wangzan101.djini.core.testing.answerReply("x")), 1200))
         val replies = events.filterIsInstance<RunEvent.ModelReply>()
         assertEquals(2, replies.size)
         replies.forEach { assertEquals(1200L, it.latencyMs) }
@@ -56,17 +56,17 @@ class AgentLoopTimingTest {
         val screen = object : ScreenPort by FakeScreen() {
             override suspend fun snapshot() = FakeScreen().snapshot().also { now += 300 }
         }
-        run(FakeModel(reply(call("phone_observe")), com.wangzan101.mika.core.testing.answerReply("x")), screen)
+        run(FakeModel(reply(call("phone_observe")), com.wangzan101.djini.core.testing.answerReply("x")), screen)
         val results = events.filterIsInstance<RunEvent.ToolResult>()
         val observe = results.first { it.tool == "phone_observe" }
         assertEquals(300L, observe.durationMs)
         assertEquals("model", observe.source)
     }
 
-    // 等用户回答(ask_user)的时间不算进工具耗时:那是等人,不是 Mika 慢
+    // 等用户回答(ask_user)的时间不算进工具耗时:那是等人,不是 Djini 慢
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test fun durationMsExcludesUserWaits() = runTest {
-        val m = FakeModel(reply(call("ask_user", """{"prompt":"发给谁?"}""")), com.wangzan101.mika.core.testing.answerReply("x"))
+        val m = FakeModel(reply(call("ask_user", """{"prompt":"发给谁?"}""")), com.wangzan101.djini.core.testing.answerReply("x"))
         val l = AgentLoop(m, toolDispatcher(FakeScreen(), false), "BASE", sink = sink, clock = { now })
         val run = async { l.run("查一下") }
         runCurrent()
@@ -81,7 +81,7 @@ class AgentLoopTimingTest {
     // 重试前花的时间(失败的那次请求和退避)单记 retryWaitMs,不算进这次回复的 latencyMs
     @Test fun retryWaitSplitFromLatency() {
         var first = true
-        val inner = FakeModel(com.wangzan101.mika.core.testing.answerReply("x"))
+        val inner = FakeModel(com.wangzan101.djini.core.testing.answerReply("x"))
         val flaky = object : ChatModel by inner {
             override suspend fun complete(system: String, messages: List<Message>, tools: List<ToolSpec>): ModelReply {
                 if (first) {
@@ -106,7 +106,7 @@ class AgentLoopTimingTest {
         val screen = object : ScreenPort by FakeScreen() {
             override suspend fun snapshot() = FakeScreen().snapshot().also { now += 300 }
         }
-        run(slow(FakeModel(reply(call("phone_observe")), com.wangzan101.mika.core.testing.answerReply("x")), 1000), screen)
+        run(slow(FakeModel(reply(call("phone_observe")), com.wangzan101.djini.core.testing.answerReply("x")), 1000), screen)
         val first = events.filterIsInstance<RunEvent.ModelReply>().first()
         assertEquals(1000L, first.repliedAtMs)
         assertTrue(first.atMs >= 1300)
@@ -115,7 +115,7 @@ class AgentLoopTimingTest {
 
     // 失败的结局带上类别
     @Test fun failedEndCarriesItsKind() {
-        val broken = object : ChatModel by FakeModel(com.wangzan101.mika.core.testing.answerReply("x")) {
+        val broken = object : ChatModel by FakeModel(com.wangzan101.djini.core.testing.answerReply("x")) {
             override suspend fun complete(system: String, messages: List<Message>, tools: List<ToolSpec>): ModelReply = throw ModelError.Auth()
         }
         run(broken)

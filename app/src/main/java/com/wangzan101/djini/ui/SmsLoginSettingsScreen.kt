@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -6,7 +6,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import com.wangzan101.mika.core.cap.phone.sms.SmsLoginProfile
+import com.wangzan101.djini.core.cap.phone.sms.SmsLoginProfile
 import android.Manifest
 import android.content.Intent
 import android.net.Uri
@@ -22,16 +22,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
-import com.wangzan101.mika.R
-import com.wangzan101.mika.cap.phone.PhoneServices
-import com.wangzan101.mika.ui.components.*
-import com.wangzan101.mika.ui.theme.MikaIcons
+import com.wangzan101.djini.R
+import com.wangzan101.djini.cap.phone.PhoneServices
+import com.wangzan101.djini.ui.components.*
+import com.wangzan101.djini.ui.theme.MikaIcons
 
 @Composable
 fun SmsLoginSettingsScreen(onBack: () -> Unit) {
     val context = LocalContext.current
     val runtime = remember { PhoneServices.of(context).smsLogin }
-    val access = remember { (context.applicationContext as com.wangzan101.mika.MikaApp).appAccess }
+    val access = remember { (context.applicationContext as com.wangzan101.djini.DjiniApp).appAccess }
     DisposableEffect(access) { val protection = access.protectUi(); onDispose { protection.close() } }
     val consent by runtime.settings.state.collectAsState()
     var permitted by remember { mutableStateOf(runtime.permitted(context)) }

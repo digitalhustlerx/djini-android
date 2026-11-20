@@ -1,11 +1,11 @@
-package com.wangzan101.mika.core.uistate
+package com.wangzan101.djini.core.uistate
 
 import kotlin.math.hypot
 import kotlin.math.min
 import kotlin.random.Random
 
 /**
- * 网页鼠标([com.wangzan101.mika.core.cap.web.cdp.InputPacing])和手机手势([com.wangzan101.mika.core.cap.phone.GesturePacing])
+ * 网页鼠标([com.wangzan101.djini.core.cap.web.cdp.InputPacing])和手机手势([com.wangzan101.djini.core.cap.phone.GesturePacing])
  * 共用的节奏原件:区间里有界地随机取值、略带弧度的二次贝塞尔、两头慢中间快的缓动。
  */
 object Pace {

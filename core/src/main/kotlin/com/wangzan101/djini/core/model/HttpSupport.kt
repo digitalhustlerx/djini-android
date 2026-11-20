@@ -1,9 +1,9 @@
-package com.wangzan101.mika.core.model
+package com.wangzan101.djini.core.model
 
-import com.wangzan101.mika.core.net.NetProxy
-import com.wangzan101.mika.core.net.ProxyFailure
-import com.wangzan101.mika.core.trace.TraceCall
-import com.wangzan101.mika.core.usage.ModelHttpAttempts
+import com.wangzan101.djini.core.net.NetProxy
+import com.wangzan101.djini.core.net.ProxyFailure
+import com.wangzan101.djini.core.trace.TraceCall
+import com.wangzan101.djini.core.usage.ModelHttpAttempts
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.suspendCancellableCoroutine
 import okhttp3.Call

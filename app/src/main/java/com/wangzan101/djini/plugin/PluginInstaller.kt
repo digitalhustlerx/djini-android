@@ -1,8 +1,8 @@
-package com.wangzan101.mika.plugin
+package com.wangzan101.djini.plugin
 
 import android.content.ContentResolver
 import android.net.Uri
-import com.wangzan101.mika.BuildConfig
+import com.wangzan101.djini.BuildConfig
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.InputStream

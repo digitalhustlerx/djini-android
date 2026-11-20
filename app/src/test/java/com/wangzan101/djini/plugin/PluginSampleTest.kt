@@ -1,6 +1,6 @@
-package com.wangzan101.mika.plugin
+package com.wangzan101.djini.plugin
 
-import com.wangzan101.mika.core.skills.PLUGIN_KIND
+import com.wangzan101.djini.core.skills.PLUGIN_KIND
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import org.junit.Assert.assertEquals

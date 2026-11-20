@@ -1,24 +1,24 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
-import com.wangzan101.mika.i18n.ChineseTexts
-import com.wangzan101.mika.chat.ConversationStore
-import com.wangzan101.mika.core.agent.Turn
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.record.RunRecords
-import com.wangzan101.mika.core.run.Channel
-import com.wangzan101.mika.core.run.ChannelInputSink
-import com.wangzan101.mika.core.run.ChannelPeer
-import com.wangzan101.mika.core.run.Delivery
-import com.wangzan101.mika.core.run.MemoryRunStore
-import com.wangzan101.mika.core.run.Outbox
-import com.wangzan101.mika.core.run.RunId
-import com.wangzan101.mika.core.run.RunPhase
-import com.wangzan101.mika.core.run.SendOutcome
-import com.wangzan101.mika.core.run.StoredRun
-import com.wangzan101.mika.core.run.DeliveryRecord
-import com.wangzan101.mika.core.run.DeliveryState
-import com.wangzan101.mika.core.run.MemoryOutboxStore
-import com.wangzan101.mika.chat.SharedFile
+import com.wangzan101.djini.i18n.ChineseTexts
+import com.wangzan101.djini.chat.ConversationStore
+import com.wangzan101.djini.core.agent.Turn
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.record.RunRecords
+import com.wangzan101.djini.core.run.Channel
+import com.wangzan101.djini.core.run.ChannelInputSink
+import com.wangzan101.djini.core.run.ChannelPeer
+import com.wangzan101.djini.core.run.Delivery
+import com.wangzan101.djini.core.run.MemoryRunStore
+import com.wangzan101.djini.core.run.Outbox
+import com.wangzan101.djini.core.run.RunId
+import com.wangzan101.djini.core.run.RunPhase
+import com.wangzan101.djini.core.run.SendOutcome
+import com.wangzan101.djini.core.run.StoredRun
+import com.wangzan101.djini.core.run.DeliveryRecord
+import com.wangzan101.djini.core.run.DeliveryState
+import com.wangzan101.djini.core.run.MemoryOutboxStore
+import com.wangzan101.djini.chat.SharedFile
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
@@ -66,7 +66,7 @@ class RunRecoveryTest {
         val result = Delivery.Result("result:a", peer.threadId, "截图")
         rig.store.save(run("a", RunPhase.Finishing).copy(reply = result.text, deliveryId = result.id, channelPeer = peer))
         ResultDelivery.prepare(rig.outbox, rig.channel, peer, result,
-            listOf(SharedFile("screen.png", 3L, "Download/Mika/screen.png", "content://downloads/1")))
+            listOf(SharedFile("screen.png", 3L, "Download/Djini/screen.png", "content://downloads/1")))
         rig.outbox.deliver(rig.channel, peer, result)
         rig.channel.sent.clear()
         rig.recovery.recover()
@@ -95,7 +95,7 @@ class RunRecoveryTest {
         rig.store.save(run("a").copy(channelPeer = peer))
         val result = Delivery.Result("result:a", peer.threadId, "截图")
         ResultDelivery.prepare(rig.outbox, rig.channel, peer, result,
-            listOf(SharedFile("screen.png", 3L, "Download/Mika/screen.png", "content://downloads/1")))
+            listOf(SharedFile("screen.png", 3L, "Download/Djini/screen.png", "content://downloads/1")))
         rig.recovery.recover()
         assertEquals(listOf("result:a", "result:a:image:0"), rig.channel.sent.map { it.id })
         assertEquals(RunPhase.Ended, rig.store.get(RunId("a"))?.phase)

@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.uistate
+package com.wangzan101.djini.core.uistate
 
 /** 一个键在协议里的写法;[androidKeyCode] 是没有 DevTools 时走原生按键用的键码。 */
 data class CdpKey(val key: String, val code: String, val keyCode: Int, val text: String?, val androidKeyCode: Int)

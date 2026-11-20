@@ -1,21 +1,21 @@
-package com.wangzan101.mika.settings
+package com.wangzan101.djini.settings
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.wangzan101.mika.capsule.CapsuleCardScale
-import com.wangzan101.mika.BuildConfig
-import com.wangzan101.mika.capsule.CapsuleDock
-import com.wangzan101.mika.capsule.CardDocking
-import com.wangzan101.mika.capsule.CapsuleIdleOpacity
-import com.wangzan101.mika.capsule.CapsuleMode
-import com.wangzan101.mika.capsule.DockSide
-import com.wangzan101.mika.core.agent.SpeedFlags
-import com.wangzan101.mika.core.cap.phone.OperatingPace
-import com.wangzan101.mika.core.knowledge.GuideCatalog
-import com.wangzan101.mika.chat.AutoArchive
-import com.wangzan101.mika.core.usage.ProactiveBudget
-import com.wangzan101.mika.core.usage.TokenBudgetLimits
-import com.wangzan101.mika.task.ParallelCapability
+import com.wangzan101.djini.capsule.CapsuleCardScale
+import com.wangzan101.djini.BuildConfig
+import com.wangzan101.djini.capsule.CapsuleDock
+import com.wangzan101.djini.capsule.CardDocking
+import com.wangzan101.djini.capsule.CapsuleIdleOpacity
+import com.wangzan101.djini.capsule.CapsuleMode
+import com.wangzan101.djini.capsule.DockSide
+import com.wangzan101.djini.core.agent.SpeedFlags
+import com.wangzan101.djini.core.cap.phone.OperatingPace
+import com.wangzan101.djini.core.knowledge.GuideCatalog
+import com.wangzan101.djini.chat.AutoArchive
+import com.wangzan101.djini.core.usage.ProactiveBudget
+import com.wangzan101.djini.core.usage.TokenBudgetLimits
+import com.wangzan101.djini.task.ParallelCapability
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -232,7 +232,7 @@ class FeatureFlags(private val prefs: SharedPreferences) {
     }
 
     /**
-     * 允许 Mika 改自己的设置(见 core 的 SelfConfig):模型与 Key、删数据不在允许之列。
+     * 允许 Djini 改自己的设置(见 core 的 SelfConfig):模型与 Key、删数据不在允许之列。
      * 默认关;开着的时候任务里才有 settings_list、settings_set 这两件工具。
      */
     fun selfConfig(): Boolean = prefs.getBoolean(SELF_CONFIG, false)
@@ -242,7 +242,7 @@ class FeatureFlags(private val prefs: SharedPreferences) {
     }
 
     /**
-     * 允许 Mika 操作自己的界面(见 core 的 SelfPort):打开 Mika 的页、把工作区文件用 App 内查看器打开、
+     * 允许 Djini 操作自己的界面(见 core 的 SelfPort):打开 Djini 的页、把工作区文件用 App 内查看器打开、
      * 发通知、写剪贴板。默认关;模型改不了这个开关。
      */
     fun selfOperate(): Boolean = prefs.getBoolean(SELF_OPERATE, false)
@@ -262,7 +262,7 @@ class FeatureFlags(private val prefs: SharedPreferences) {
     }
 
     /**
-     * 允许外部脚本经广播(com.wangzan101.mika.SCHEDULE)建定时任务;默认关。
+     * 允许外部脚本经广播(com.wangzan101.djini.SCHEDULE)建定时任务;默认关。
      * 开着时仍受限流(每分钟几条)并标记来源为「外部脚本」,出事能追溯。
      */
     fun externalSchedule(): Boolean = prefs.getBoolean(EXTERNAL_SCHEDULE, false)
@@ -285,7 +285,7 @@ class FeatureFlags(private val prefs: SharedPreferences) {
         prefs.edit().putInt(AUTO_ARCHIVE_DAYS, days.takeIf { it in AutoArchive.DAYS } ?: 0).commit()
     }
 
-    /** 主动能力(见 [com.wangzan101.mika.proactive.ProactiveRuntime]):读所选 App 的通知;默认关。 */
+    /** 主动能力(见 [com.wangzan101.djini.proactive.ProactiveRuntime]):读所选 App 的通知;默认关。 */
     fun proactive(): Boolean = prefs.getBoolean(PROACTIVE, false)
 
     fun setProactive(on: Boolean) {
@@ -386,7 +386,7 @@ class FeatureFlags(private val prefs: SharedPreferences) {
     }.distinctUntilChanged()
 
     /**
-     * 用户点了「完全退出」,要到下次打开 Mika 的界面为止([com.wangzan101.mika.quit.MikaQuit])。
+     * 用户点了「完全退出」,要到下次打开 Djini 的界面为止([com.wangzan101.djini.quit.MikaQuit])。
      * 在这期间进程可能被无障碍服务重新拉起:胶囊不画、后台服务不补起、自动恢复也不做,直到用户自己打开 App。
      */
     fun quitRequested(): Boolean = prefs.getBoolean(QUIT_REQUESTED, false)
@@ -416,7 +416,7 @@ class FeatureFlags(private val prefs: SharedPreferences) {
     }
 
     /**
-     * 展开的卡片停在哪:上边在可摆范围里的比例(见 [com.wangzan101.mika.capsule.CardDocking.release]);没记过时最高的卡片在正中。
+     * 展开的卡片停在哪:上边在可摆范围里的比例(见 [com.wangzan101.djini.capsule.CardDocking.release]);没记过时最高的卡片在正中。
      * 以前按固定高的卡片记的比例正好就是它的上边比例,照样读。
      */
     fun capsuleCardFraction(): Float = prefs.getFloat(CAPSULE_CARD_HEIGHT, CardDocking.DEFAULT_FRACTION).coerceIn(0f, 1f)

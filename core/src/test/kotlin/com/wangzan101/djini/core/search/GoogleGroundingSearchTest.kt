@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.search
+package com.wangzan101.djini.core.search
 
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.Json
@@ -160,10 +160,10 @@ class GoogleGroundingSearchTest {
             model = "gemini-2.5-flash",
             client = client,
         )
-        val result = search.search("mika android", count = 5) as WebSearchResult.Success
+        val result = search.search("djini android", count = 5) as WebSearchResult.Success
         assertEquals(1, result.hits.size)
         val hit = result.hits[0]
-        assertEquals("https://www.google.com/search?q=mika%20android", hit.url)
+        assertEquals("https://www.google.com/search?q=djini%20android", hit.url)
         assertEquals("Grounded answer without web chunk citations.", hit.snippet)
     }
 

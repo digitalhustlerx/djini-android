@@ -1,4 +1,4 @@
-package com.wangzan101.mika.media
+package com.wangzan101.djini.media
 
 import android.net.Uri
 

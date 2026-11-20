@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.proactive
+package com.wangzan101.djini.core.proactive
 
 /**
  * 一条通知的本机记录。所有文字都来自发通知的 App(任何人都能给用户发消息),只当数据看:

@@ -1,11 +1,11 @@
-package com.wangzan101.mika.cap.web
+package com.wangzan101.djini.cap.web
 
 import android.view.WindowManager
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.webkit.WebViewAssetLoader
-import com.wangzan101.mika.ChineseUi
-import com.wangzan101.mika.core.cap.web.KeptPageClose
+import com.wangzan101.djini.ChineseUi
+import com.wangzan101.djini.core.cap.web.KeptPageClose
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.After

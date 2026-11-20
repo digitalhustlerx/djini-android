@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.uistate
+package com.wangzan101.djini.core.uistate
 
 /**
  * 模型给这个任务里的 App 定下的「任务结束时怎么办」:留着(keep)还是关掉(close),附一句原因。

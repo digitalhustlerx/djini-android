@@ -1,4 +1,4 @@
-package com.wangzan101.mika.capsule
+package com.wangzan101.djini.capsule
 
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp

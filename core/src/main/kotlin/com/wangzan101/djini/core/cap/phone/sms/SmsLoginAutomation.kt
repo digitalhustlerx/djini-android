@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.cap.phone.sms
+package com.wangzan101.djini.core.cap.phone.sms
 
-import com.wangzan101.mika.core.uistate.ScreenSnapshot
+import com.wangzan101.djini.core.uistate.ScreenSnapshot
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.ensureActive

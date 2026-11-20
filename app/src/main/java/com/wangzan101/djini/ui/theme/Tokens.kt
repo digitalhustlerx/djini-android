@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui.theme
+package com.wangzan101.djini.ui.theme
 
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -83,7 +83,7 @@ object MikaShapes {
     val SheetTop = RoundedCornerShape(topStart = MikaRadius.Bubble, topEnd = MikaRadius.Bubble)
     /** 用户消息气泡:右下角是尾角。 */
     val UserBubble = RoundedCornerShape(MikaRadius.Bubble, MikaRadius.Bubble, MikaRadius.BubbleTail, MikaRadius.Bubble)
-    /** Mika 的回答:左下角是尾角,和用户气泡对称。 */
+    /** Djini 的回答:左下角是尾角,和用户气泡对称。 */
     val AnswerBubble = RoundedCornerShape(MikaRadius.Bubble, MikaRadius.Bubble, MikaRadius.Bubble, MikaRadius.BubbleTail)
     val Button = RoundedCornerShape(MikaRadius.Button)
     val Tile = RoundedCornerShape(MikaRadius.Tile)

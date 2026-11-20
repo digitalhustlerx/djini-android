@@ -1,14 +1,14 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
-import com.wangzan101.mika.core.assembly.toolDispatcher
-import com.wangzan101.mika.core.prompt.Feedback
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.record.RunRecords
-import com.wangzan101.mika.core.record.RunSummary
-import com.wangzan101.mika.core.run.RunId
-import com.wangzan101.mika.core.run.RunSpec
-import com.wangzan101.mika.core.testing.answerReply
-import com.wangzan101.mika.core.tool.FakeScreen
+import com.wangzan101.djini.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.prompt.Feedback
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.record.RunRecords
+import com.wangzan101.djini.core.record.RunSummary
+import com.wangzan101.djini.core.run.RunId
+import com.wangzan101.djini.core.run.RunSpec
+import com.wangzan101.djini.core.testing.answerReply
+import com.wangzan101.djini.core.tool.FakeScreen
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue

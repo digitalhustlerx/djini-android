@@ -1,10 +1,10 @@
-package com.wangzan101.mika.cap.phone.setup
+package com.wangzan101.djini.cap.phone.setup
 
 import android.content.Context
-import com.wangzan101.mika.core.shell.HelperHandoff
-import com.wangzan101.mika.core.shell.RootGrant
-import com.wangzan101.mika.core.shell.RootStart
-import com.wangzan101.mika.core.shell.SuAnswer
+import com.wangzan101.djini.core.shell.HelperHandoff
+import com.wangzan101.djini.core.shell.RootGrant
+import com.wangzan101.djini.core.shell.RootStart
+import com.wangzan101.djini.core.shell.SuAnswer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -114,7 +114,7 @@ class RootControl(context: Context, private val scope: CoroutineScope, private v
     /** Agent 能用 root 工具:用户打开了、su 答应过、su 还在。 */
     fun commandsAllowed(): Boolean = _state.value.commands && answer(KEY_COMMANDS_ANSWER) == SuAnswer.Granted && suPresent()
 
-    /** 打开或关掉「允许 Mika 执行 root 命令」。打开时以 root 问 su 一次,答应了才打开。 */
+    /** 打开或关掉「允许 Djini 执行 root 命令」。打开时以 root 问 su 一次,答应了才打开。 */
     fun setCommands(on: Boolean) {
         if (!on) {
             commandsRequest.incrementAndGet()

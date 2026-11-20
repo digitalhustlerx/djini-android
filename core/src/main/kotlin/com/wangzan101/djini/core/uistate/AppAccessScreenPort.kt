@@ -1,8 +1,8 @@
-package com.wangzan101.mika.core.uistate
+package com.wangzan101.djini.core.uistate
 
-import com.wangzan101.mika.core.access.AppAccessDenied
-import com.wangzan101.mika.core.access.AppAccessPolicy
-import com.wangzan101.mika.core.access.AppAccessState
+import com.wangzan101.djini.core.access.AppAccessDenied
+import com.wangzan101.djini.core.access.AppAccessPolicy
+import com.wangzan101.djini.core.access.AppAccessState
 import kotlinx.coroutines.delay
 
 /**
@@ -24,7 +24,7 @@ class AppAccessScreenPort(
     private val windowToken: (() -> Long)? = null,
     private val clock: () -> Long = { System.nanoTime() / 1_000_000 },
 ) : ScreenPort {
-    /** 上一次核对通过时的窗口计数、名单版本、是否在保护 Mika 自己的界面、时刻。 */
+    /** 上一次核对通过时的窗口计数、名单版本、是否在保护 Djini 自己的界面、时刻。 */
     private class Verified(val token: Long, val revision: Long, val guarded: Boolean, val at: Long)
 
     @Volatile private var verified: Verified? = null

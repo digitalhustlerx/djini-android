@@ -1,7 +1,7 @@
-package com.wangzan101.mika.proactive
+package com.wangzan101.djini.proactive
 
-import com.wangzan101.mika.core.proactive.ContactPoolData
-import com.wangzan101.mika.settings.KeyCipher
+import com.wangzan101.djini.core.proactive.ContactPoolData
+import com.wangzan101.djini.settings.KeyCipher
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -11,9 +11,9 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 /**
- * 归纳出来的联系人,整份加密成 `proactive/contacts.bin`(AES-GCM,正式用 `KeystoreKeyCipher("mika-proactive-contacts")`),
+ * 归纳出来的联系人,整份加密成 `proactive/contacts.bin`(AES-GCM,正式用 `KeystoreKeyCipher("djini-proactive-contacts")`),
  * 和话题池([TopicPoolFile])分开放、各用各的密钥。里面有别人的显示名(通知标题)、类型和关系的票、日子、连着的话题 id,
- * 还有删掉后「不再记录」的身份 id;没有消息原文。照 [com.wangzan101.mika.memory.EncryptedMemoryFile] 的做法:
+ * 还有删掉后「不再记录」的身份 id;没有消息原文。照 [com.wangzan101.djini.memory.EncryptedMemoryFile] 的做法:
  * 写临时文件后原子改名;确实坏了就改名另存,从空开始;这会儿读不了的(密钥库忙、取钥出错)照常抛出,文件不动(哪些算坏见 [StoreCodec])。
  * 另存的旧文件和 [TopicPoolFile] 的一样,用户删东西时一并删掉。
  */
@@ -71,6 +71,6 @@ class ContactPoolFile(dir: File, private val cipher: KeyCipher, private val cloc
         /** 这份存盘现在的写法是第几版;读到更新的就不碰(见 [StoreCodec])。改了写法、旧代码读了会出错或丢东西时加一。 */
         const val VERSION = 1
         const val FILE = "contacts.bin"
-        const val KEY_ALIAS = "mika-proactive-contacts"
+        const val KEY_ALIAS = "djini-proactive-contacts"
     }
 }

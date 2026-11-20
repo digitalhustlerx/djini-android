@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import android.Manifest
 import android.content.Context
@@ -88,24 +88,24 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.compose.LifecycleStartEffect
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.ui.components.ButtonKind
-import com.wangzan101.mika.ui.components.ButtonSize
-import com.wangzan101.mika.ui.components.GlassBackdrop
-import com.wangzan101.mika.ui.components.GlassBar
-import com.wangzan101.mika.ui.components.GlassBlurSupported
-import com.wangzan101.mika.ui.components.MikaButton
-import com.wangzan101.mika.ui.components.floatShadow
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
-import com.wangzan101.mika.ui.theme.MikaRadius
-import com.wangzan101.mika.ui.theme.MikaShapes
-import com.wangzan101.mika.voice.HoldToTalk
-import com.wangzan101.mika.voice.SpeechEngineSpec
-import com.wangzan101.mika.voice.SpeechFailure
-import com.wangzan101.mika.voice.VoiceSource
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.ui.components.ButtonKind
+import com.wangzan101.djini.ui.components.ButtonSize
+import com.wangzan101.djini.ui.components.GlassBackdrop
+import com.wangzan101.djini.ui.components.GlassBar
+import com.wangzan101.djini.ui.components.GlassBlurSupported
+import com.wangzan101.djini.ui.components.MikaButton
+import com.wangzan101.djini.ui.components.floatShadow
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.MikaRadius
+import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.voice.HoldToTalk
+import com.wangzan101.djini.voice.SpeechEngineSpec
+import com.wangzan101.djini.voice.SpeechFailure
+import com.wangzan101.djini.voice.VoiceSource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -156,8 +156,8 @@ internal sealed interface VoiceSheet {
     /** 已经允许录音,识别服务仍说没有权限或录音出错:说明系统的麦克风总开关和权限管理,或被别的应用占用。 */
     data object MicBlocked : VoiceSheet
     data class Unavailable(val why: SpeechEngineSpec.Why) : VoiceSheet
-    /** 缺录音权限的是识别服务(另一个应用),不是 Mika:说明这一点,「去设置」打开的是它的设置页。 */
-    data class ServicePermission(val service: com.wangzan101.mika.voice.SpeechServiceTarget) : VoiceSheet
+    /** 缺录音权限的是识别服务(另一个应用),不是 Djini:说明这一点,「去设置」打开的是它的设置页。 */
+    data class ServicePermission(val service: com.wangzan101.djini.voice.SpeechServiceTarget) : VoiceSheet
 }
 
 /**
@@ -166,7 +166,7 @@ internal sealed interface VoiceSheet {
  */
 @Composable
 internal fun HeardText(stable: String, tail: String, style: androidx.compose.ui.text.TextStyle, maxLines: Int, modifier: Modifier = Modifier) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val measurer = androidx.compose.ui.text.rememberTextMeasurer()
     androidx.compose.foundation.layout.BoxWithConstraints(modifier) {
         val width = constraints.maxWidth
@@ -393,7 +393,7 @@ internal fun rememberVoiceHold(voice: VoiceSource?, onText: (String) -> Unit, on
                     is SpeechFailure.Unavailable -> vh.sheet = VoiceSheet.Unavailable(why.why)
                     // 录音权限还没给:照旧弹系统框或「去设置」。已经给了仍报没有权限,或识别服务报录音出错:
                     // 另弹说明(系统的麦克风总开关、权限管理)。麦克风起不来的其他情况照旧提示可能被占用
-                    // 查得出来是识别服务自己没有录音权限:说明是它,带用户去它的设置页(去 Mika 的权限页是指错了地方)
+                    // 查得出来是识别服务自己没有录音权限:说明是它,带用户去它的设置页(去 Djini 的权限页是指错了地方)
                     is SpeechFailure.ServiceNoPermission -> vh.sheet = VoiceSheet.ServicePermission(why.service)
                     SpeechFailure.NoPermission -> if (vh.ensureMic()) vh.sheet = VoiceSheet.MicBlocked
                     SpeechFailure.AudioError -> vh.sheet = VoiceSheet.MicBlocked
@@ -487,7 +487,7 @@ internal fun Modifier.holdToTalk(vh: VoiceHold, onTap: () -> Unit): Modifier {
 internal fun VoiceBarCover(vh: VoiceHold, state: HoldToTalk.State, reduceMotion: Boolean, modifier: Modifier = Modifier) {
     val s = state as? HoldToTalk.State.Listening
     if (!vh.holding || s == null) return
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val label = when {
         s.cancelArmed -> stringResource(R.string.voice_release_cancel)
         s.sendArmed -> stringResource(R.string.voice_release_send)
@@ -563,7 +563,7 @@ internal fun VoiceFloat(vh: VoiceHold, state: HoldToTalk.State, title: String, b
 /** 「上滑 发送/取消」的小胶囊:往上滑进卡片是发送、再滑过卡片到这里是取消;滑到这里变红写「松开 取消」。 */
 @Composable
 private fun CancelHint(armed: Boolean, modifier: Modifier = Modifier) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val shape = MikaShapes.Card
     Row(
         modifier.floatShadow(c, shape).background(if (armed) c.bad else c.surface, shape)
@@ -586,7 +586,7 @@ private fun CancelHint(armed: Boolean, modifier: Modifier = Modifier) {
 private fun ListenCard(
     s: HoldToTalk.State.Listening, title: String, engine: String, backdrop: GlassBackdrop?, onPlaced: (Rect) -> Unit,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val shape = RoundedCornerShape(MikaRadius.Bubble)
     GlassBar(
         Modifier.fillMaxWidth().testTag("voice-listen").onGloballyPositioned { onPlaced(it.boundsInRoot()) }
@@ -631,8 +631,8 @@ private fun ListenCard(
 /** 卡片顶上那个点:在录时蓝色一圈一圈往外;要取消时变红、要直接发送时变绿,都不动。 */
 @Composable
 private fun RecDot(s: HoldToTalk.State.Listening) {
-    val c = MikaTheme.colors
-    val reduce = MikaTheme.reduceMotion
+    val c = DjiniTheme.colors
+    val reduce = DjiniTheme.reduceMotion
     val armed = s.cancelArmed || s.sendArmed
     val halo = if (armed || reduce) 0f else rememberInfiniteTransition(label = "rec").animateFloat(
         0f, 1f, infiniteRepeatable(tween(600), RepeatMode.Reverse), label = "rec-halo",
@@ -650,7 +650,7 @@ private fun RecDot(s: HoldToTalk.State.Listening) {
 /** 落点的颜色:取消红、直接发送绿,其余 [idle]。输入栏、卡片边框和卡片上的点共用,和取消一个样式。 */
 @Composable
 private fun aimTone(s: HoldToTalk.State.Listening, idle: Color): Color {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     return when {
         s.cancelArmed -> c.bad
         s.sendArmed -> c.ok
@@ -661,7 +661,7 @@ private fun aimTone(s: HoldToTalk.State.Listening, idle: Color): Color {
 /** 输入栏上方的一句轻提示(没听清、识别服务忙……),一会儿自己消失。 */
 @Composable
 private fun VoiceToast(text: String) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Text(
         text,
         Modifier.background(c.ink.copy(alpha = 0.88f), MikaShapes.Card).padding(horizontal = 16.dp, vertical = 9.dp).testTag("voice-toast"),
@@ -672,9 +672,9 @@ private fun VoiceToast(text: String) {
 /** 服务商松开后在转:输入框里转圈加「转文字…」。 */
 @Composable
 internal fun VoiceConverting(modifier: Modifier = Modifier) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Row(modifier.testTag("voice-converting"), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-        Spinner(Modifier.size(13.dp), spinning = !MikaTheme.reduceMotion, track = c.accentSoft, head = c.accent)
+        Spinner(Modifier.size(13.dp), spinning = !DjiniTheme.reduceMotion, track = c.accentSoft, head = c.accent)
         Text(stringResource(R.string.voice_converting), style = MikaType.Body, color = c.ink2, maxLines = 1)
     }
 }
@@ -682,7 +682,7 @@ internal fun VoiceConverting(modifier: Modifier = Modifier) {
 /** 能按住说话时的灰字：在可用输入区域里居中。 */
 @Composable
 internal fun VoicePlaceholder(mode: ComposerMode, modifier: Modifier = Modifier) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Row(modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
         Text(ChatCopy.voicePlaceholder(mode), style = MikaType.Body, color = c.ink3, maxLines = 1, overflow = TextOverflow.Ellipsis)
     }
@@ -702,12 +702,12 @@ internal fun Modifier.voiceDim(on: Boolean, reduceMotion: Boolean): Modifier {
     }
 }
 
-/** 「还不能语音输入」(「去选」到设置里选转文字)和录音权限的说明(「去设置」到系统里 Mika 的权限页)。 */
+/** 「还不能语音输入」(「去选」到设置里选转文字)和录音权限的说明(「去设置」到系统里 Djini 的权限页)。 */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun VoiceSheetHost(vh: VoiceHold, onPickSpeech: () -> Unit) {
     val sheet = vh.sheet ?: return
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val context = LocalContext.current
     val title: String
     val body: String
@@ -725,7 +725,7 @@ internal fun VoiceSheetHost(vh: VoiceHold, onPickSpeech: () -> Unit) {
             title = stringResource(R.string.voice_service_permission_title)
             body = stringResource(R.string.voice_service_permission_body, service.label)
             action = stringResource(R.string.voice_permission_open)
-            // Mika 不能替别的应用申请权限,只能带用户到它的设置页。回来之后不自己重新录音:下次按住时再试。
+            // Djini 不能替别的应用申请权限,只能带用户到它的设置页。回来之后不自己重新录音:下次按住时再试。
             // 这一页打不开时(有的系统不让看某些应用的详情)告诉用户到哪里找
             go = {
                 try {

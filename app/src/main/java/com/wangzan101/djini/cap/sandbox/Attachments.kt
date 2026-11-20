@@ -1,14 +1,14 @@
-package com.wangzan101.mika.cap.sandbox
+package com.wangzan101.djini.cap.sandbox
 
-import com.wangzan101.mika.core.workspace.SandboxTree
+import com.wangzan101.djini.core.workspace.SandboxTree
 import android.content.Context
 import android.net.Uri
 import android.provider.OpenableColumns
 import android.util.Log
-import com.wangzan101.mika.core.workspace.GatedFile
-import com.wangzan101.mika.core.workspace.SandboxPaths
-import com.wangzan101.mika.core.workspace.WorkspaceFileGate
-import com.wangzan101.mika.core.cap.sandbox.ShareRules
+import com.wangzan101.djini.core.workspace.GatedFile
+import com.wangzan101.djini.core.workspace.SandboxPaths
+import com.wangzan101.djini.core.workspace.WorkspaceFileGate
+import com.wangzan101.djini.core.cap.sandbox.ShareRules
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.currentCoroutineContext

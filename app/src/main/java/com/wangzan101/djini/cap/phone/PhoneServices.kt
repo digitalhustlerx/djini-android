@@ -1,18 +1,18 @@
-package com.wangzan101.mika.cap.phone
+package com.wangzan101.djini.cap.phone
 
 import android.content.Context
-import com.wangzan101.mika.cap.phone.setup.BuiltinShellManager
-import com.wangzan101.mika.cap.phone.setup.BuiltinShellRecovery
-import com.wangzan101.mika.cap.phone.setup.PairingCoordinator
-import com.wangzan101.mika.cap.phone.setup.PhoneSetupPrompt
-import com.wangzan101.mika.cap.phone.shell.BuiltinShellConnection
-import com.wangzan101.mika.cap.phone.shell.HelperHub
-import com.wangzan101.mika.cap.phone.shell.SharedShell
-import com.wangzan101.mika.core.shell.BuiltinShellControl
-import com.wangzan101.mika.settings.RecoverySettings
+import com.wangzan101.djini.cap.phone.setup.BuiltinShellManager
+import com.wangzan101.djini.cap.phone.setup.BuiltinShellRecovery
+import com.wangzan101.djini.cap.phone.setup.PairingCoordinator
+import com.wangzan101.djini.cap.phone.setup.PhoneSetupPrompt
+import com.wangzan101.djini.cap.phone.shell.BuiltinShellConnection
+import com.wangzan101.djini.cap.phone.shell.HelperHub
+import com.wangzan101.djini.cap.phone.shell.SharedShell
+import com.wangzan101.djini.core.shell.BuiltinShellControl
+import com.wangzan101.djini.settings.RecoverySettings
 
 /**
- * 手机能力在 Mika 进程里的服务,由 App 建一份、经 [Owner] 给出:内置助手(交接落点、配对与看门狗、
+ * 手机能力在 Djini 进程里的服务,由 App 建一份、经 [Owner] 给出:内置助手(交接落点、配对与看门狗、
  * 自动恢复与授权)、任务和启动恢复共用的那条 shell 连接、配对流程、「去设置」提示。
  * 助手进程(HelperMain、ShellService)跑在 shell 身份下,没有 App 对象,不经这里。
  */
@@ -23,7 +23,7 @@ class PhoneServices(context: Context) {
     val hub = HelperHub(app)
 
     /** Opt-in incoming SMS login and process-wide single-attempt admission. */
-    val smsLogin by lazy { com.wangzan101.mika.cap.phone.sms.SmsLoginRuntime(app) }
+    val smsLogin by lazy { com.wangzan101.djini.cap.phone.sms.SmsLoginRuntime(app) }
 
     /** 配对、经 adbd 起助手、看门狗。 */
     val shellManager = BuiltinShellManager(app, hub) { recoverySettings.consent.value }

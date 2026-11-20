@@ -1,7 +1,7 @@
-package com.wangzan101.mika.ui.theme
+package com.wangzan101.djini.ui.theme
 
 import androidx.compose.ui.graphics.Color
-import com.wangzan101.mika.settings.ThemeAccent
+import com.wangzan101.djini.settings.ThemeAccent
 import kotlin.math.pow
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertSame

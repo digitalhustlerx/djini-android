@@ -1,20 +1,20 @@
-package com.wangzan101.mika.core.memory
+package com.wangzan101.djini.core.memory
 
-import com.wangzan101.mika.core.agent.AgentLoop
-import com.wangzan101.mika.core.tool.execute
-import com.wangzan101.mika.core.agent.FakeModel
-import com.wangzan101.mika.core.model.ModelReply
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.StopReason
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.record.RunSink
-import com.wangzan101.mika.core.uistate.ScreenPort
-import com.wangzan101.mika.core.uistate.ScreenSnapshot
-import com.wangzan101.mika.core.uistate.UiElement
-import com.wangzan101.mika.core.tool.FakeScreen
-import com.wangzan101.mika.core.tool.HandBack
-import com.wangzan101.mika.core.tool.HandBackOutcome
-import com.wangzan101.mika.core.tool.ToolDispatcher
+import com.wangzan101.djini.core.agent.AgentLoop
+import com.wangzan101.djini.core.tool.execute
+import com.wangzan101.djini.core.agent.FakeModel
+import com.wangzan101.djini.core.model.ModelReply
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.StopReason
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.record.RunSink
+import com.wangzan101.djini.core.uistate.ScreenPort
+import com.wangzan101.djini.core.uistate.ScreenSnapshot
+import com.wangzan101.djini.core.uistate.UiElement
+import com.wangzan101.djini.core.tool.FakeScreen
+import com.wangzan101.djini.core.tool.HandBack
+import com.wangzan101.djini.core.tool.HandBackOutcome
+import com.wangzan101.djini.core.tool.ToolDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
@@ -32,7 +32,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import com.wangzan101.mika.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.assembly.toolDispatcher
 
 private class MemPersistence : MemoryPersistence {
     override fun load() = emptyList<MemoryItem>()
@@ -53,7 +53,7 @@ internal fun saveArgs(kind: String, content: String, quote: String) = buildJsonO
 internal fun editArgs(op: String, id: String, quote: String, content: String? = null) = buildJsonObject {
     put("op", op); put("id", id); put("quote", quote); content?.let { put("content", it) }
 }
-internal val finishReply = com.wangzan101.mika.core.testing.answerReply("ok")
+internal val finishReply = com.wangzan101.djini.core.testing.answerReply("ok")
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class MemoryToolsTest {
@@ -91,7 +91,7 @@ class MemoryToolsTest {
 
     // 网页上读到的字也不算用户说的话
     @Test fun quoteFromWebPageRejected() {
-        val web = com.wangzan101.mika.core.cap.web.FakeWebPort()
+        val web = com.wangzan101.djini.core.cap.web.FakeWebPort()
         web.page = web.page.copy(text = "收货人 张三 地址 浦东张江路100号")
         val store = memStore()
         val d = toolDispatcher(FakeScreen(), memory = store, utterances = UserUtterances().apply { add("帮我看看订单") }, web = web)
@@ -353,7 +353,7 @@ class MemoryToolsTest {
         assertEquals("true", d.run("memory_edit", args).s("ok"))
     }
 
-    // Mika 自己归纳的那条改写之后还是它归纳的;用户这一轮把内容亲口说了的,才改记成用户说的
+    // Djini 自己归纳的那条改写之后还是它归纳的;用户这一轮把内容亲口说了的,才改记成用户说的
     @Test fun rewordingMikasOwnConclusionKeepsItMarkedAsSuch() {
         val store = memStore(inferenceAllowed = { true })
         val item = store.add(MemoryKind.fact, "用户常在张江路100号附近点外卖", listOf("外卖"),
@@ -390,7 +390,7 @@ class MemoryToolsTest {
         assertFalse(missing.containsKey("counts_as_failure"))
     }
 
-    // ---- 「让 Mika 自己归纳着记」:开着、用户这一轮又亲口让它记时,带着用户没说过的具体值的内容照存,来源标成 Mika 归纳的 ----
+    // ---- 「让 Djini 自己归纳着记」:开着、用户这一轮又亲口让它记时,带着用户没说过的具体值的内容照存,来源标成 Djini 归纳的 ----
 
     private val askedToSum = "根据今天的消息看看我是个什么样的人,然后写入一些你觉得合适的东西到记忆里"
 
@@ -543,10 +543,10 @@ class MemoryToolsTest {
         assertEquals(2, rows.size)
         assertEquals("true", rows.single { "张江路" in it.s("content") }.s("inferred"))
         assertFalse(rows.single { "香菜" in it.s("content") }.containsKey("inferred"))
-        val obs = com.wangzan101.mika.core.general.MemorySearch.observations(
-            buildJsonObject { put("query", "外卖") }, com.wangzan101.mika.core.tool.ToolExecution(found), com.wangzan101.mika.core.tool.EvidenceLog())
-        val said = obs.single { it.kind == com.wangzan101.mika.core.observation.ObsKind.UserSaid }
-        val own = obs.single { it.kind == com.wangzan101.mika.core.observation.ObsKind.Fact }
+        val obs = com.wangzan101.djini.core.general.MemorySearch.observations(
+            buildJsonObject { put("query", "外卖") }, com.wangzan101.djini.core.tool.ToolExecution(found), com.wangzan101.djini.core.tool.EvidenceLog())
+        val said = obs.single { it.kind == com.wangzan101.djini.core.observation.ObsKind.UserSaid }
+        val own = obs.single { it.kind == com.wangzan101.djini.core.observation.ObsKind.Fact }
         assertTrue("香菜" in said.text); assertFalse("张江路" in said.text)
         assertTrue("张江路" in own.text); assertTrue("不是用户说的" in own.text); assertFalse("香菜" in own.text)
     }

@@ -1,10 +1,10 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
-import com.wangzan101.mika.core.trigger.ConditionNotify
-import com.wangzan101.mika.core.trigger.TriggerDefinition
-import com.wangzan101.mika.core.trigger.TriggerSource
-import com.wangzan101.mika.core.trigger.TriggerWindowState
-import com.wangzan101.mika.core.trigger.TriggerSnapshot
+import com.wangzan101.djini.core.trigger.ConditionNotify
+import com.wangzan101.djini.core.trigger.TriggerDefinition
+import com.wangzan101.djini.core.trigger.TriggerSource
+import com.wangzan101.djini.core.trigger.TriggerWindowState
+import com.wangzan101.djini.core.trigger.TriggerSnapshot
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import java.io.File

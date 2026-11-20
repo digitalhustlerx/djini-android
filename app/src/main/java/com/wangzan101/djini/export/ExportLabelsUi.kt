@@ -1,13 +1,13 @@
-package com.wangzan101.mika.export
+package com.wangzan101.djini.export
 
 import android.content.Context
-import com.wangzan101.mika.R
-import com.wangzan101.mika.core.export.ExportLabels
+import com.wangzan101.djini.R
+import com.wangzan101.djini.core.export.ExportLabels
 
 object ExportLabelsUi {
     fun of(context: Context) = ExportLabels(
         user = context.getString(R.string.export_label_user),
-        mika = context.getString(R.string.export_label_mika),
+        djini = context.getString(R.string.export_label_mika),
         steer = context.getString(R.string.export_label_steer),
         answer = context.getString(R.string.export_label_answer),
         toolSteps = context.getString(R.string.export_label_tool_steps),

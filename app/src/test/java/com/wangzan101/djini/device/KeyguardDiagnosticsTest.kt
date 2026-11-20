@@ -1,6 +1,6 @@
-package com.wangzan101.mika.device
+package com.wangzan101.djini.device
 
-import com.wangzan101.mika.core.device.CredentialKind
+import com.wangzan101.djini.core.device.CredentialKind
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue

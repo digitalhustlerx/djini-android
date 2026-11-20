@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.memory
+package com.wangzan101.djini.core.memory
 
-import com.wangzan101.mika.core.record.Redactor
+import com.wangzan101.djini.core.record.Redactor
 import java.text.Normalizer
 import java.time.DateTimeException
 import java.time.LocalDate

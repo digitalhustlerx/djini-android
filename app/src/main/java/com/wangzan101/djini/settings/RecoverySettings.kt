@@ -1,13 +1,13 @@
-package com.wangzan101.mika.settings
+package com.wangzan101.djini.settings
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.wangzan101.mika.core.shell.A11yLoss
-import com.wangzan101.mika.core.shell.A11yLossRecord
-import com.wangzan101.mika.core.shell.RecoveryCapability
-import com.wangzan101.mika.core.shell.RecoveryConsent
-import com.wangzan101.mika.core.shell.RecoveryConsentStore
-import com.wangzan101.mika.core.shell.RestoreOutcome
+import com.wangzan101.djini.core.shell.A11yLoss
+import com.wangzan101.djini.core.shell.A11yLossRecord
+import com.wangzan101.djini.core.shell.RecoveryCapability
+import com.wangzan101.djini.core.shell.RecoveryConsent
+import com.wangzan101.djini.core.shell.RecoveryConsentStore
+import com.wangzan101.djini.core.shell.RestoreOutcome
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -27,10 +27,10 @@ class RecoverySettings(private val prefs: SharedPreferences) : RecoveryConsentSt
     val lastRestore: StateFlow<RestoreOutcome?> = _lastRestore.asStateFlow()
 
     private val _lastA11yLoss = MutableStateFlow(readLoss())
-    /** 上一次 Mika 启动时发现无障碍服务被拿掉或没绑定(诊断信息用)。 */
+    /** 上一次 Djini 启动时发现无障碍服务被拿掉或没绑定(诊断信息用)。 */
     val lastA11yLoss: StateFlow<A11yLossRecord?> = _lastA11yLoss.asStateFlow()
 
-    /** Mika 的无障碍服务连上过:之后启动时没连上才算问题,从没设置过的不算。 */
+    /** Djini 的无障碍服务连上过:之后启动时没连上才算问题,从没设置过的不算。 */
     var accessibilitySeen: Boolean
         get() = prefs.getBoolean(A11Y_SEEN, false)
         set(v) { if (v != accessibilitySeen) prefs.edit().putBoolean(A11Y_SEEN, v).apply() }
@@ -87,7 +87,7 @@ class RecoverySettings(private val prefs: SharedPreferences) : RecoveryConsentSt
         private const val A11Y_LOSS = "a11y_loss"
         private const val A11Y_LOSS_AT = "a11y_loss_at"
 
-        /** 产品里的那份(由 [com.wangzan101.mika.cap.phone.PhoneServices] 建)读写的偏好文件。 */
+        /** 产品里的那份(由 [com.wangzan101.djini.cap.phone.PhoneServices] 建)读写的偏好文件。 */
         fun prefs(context: Context): SharedPreferences = context.applicationContext.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
     }
 }

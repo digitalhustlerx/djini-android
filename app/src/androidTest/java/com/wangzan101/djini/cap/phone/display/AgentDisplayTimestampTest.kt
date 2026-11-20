@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.phone.display
+package com.wangzan101.djini.cap.phone.display
 
 import android.hardware.display.DisplayManager
 import android.media.ImageWriter
@@ -6,7 +6,7 @@ import android.view.Display
 import android.view.Surface
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.shell.IMikaShell
+import com.wangzan101.djini.shell.IDjiniShell
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -20,7 +20,7 @@ import java.lang.reflect.Proxy
 class AgentDisplayTimestampTest {
     @Test fun aLateReadKeepsTheProducersFrameTimestamp() = runBlocking {
         lateinit var output: Surface
-        val shell = Proxy.newProxyInstance(IMikaShell::class.java.classLoader, arrayOf(IMikaShell::class.java)) { _, method, args ->
+        val shell = Proxy.newProxyInstance(IDjiniShell::class.java.classLoader, arrayOf(IDjiniShell::class.java)) { _, method, args ->
             when (method.name) {
                 "createDisplay" -> {
                     output = args!![0] as Surface
@@ -29,7 +29,7 @@ class AgentDisplayTimestampTest {
                 "releaseDisplay" -> null
                 else -> error("Unexpected shell call: ${method.name}")
             }
-        } as IMikaShell
+        } as IDjiniShell
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         val display = AgentDisplay(shell, 64, 96, 160, context.getSystemService(DisplayManager::class.java))
         try {

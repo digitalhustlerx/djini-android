@@ -1,7 +1,7 @@
-package com.wangzan101.mika.settings
+package com.wangzan101.djini.settings
 
-import com.wangzan101.mika.core.remote.RelayGateway
-import com.wangzan101.mika.core.remote.RelayPairing
+import com.wangzan101.djini.core.remote.RelayGateway
+import com.wangzan101.djini.core.remote.RelayPairing
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.serialization.json.Json

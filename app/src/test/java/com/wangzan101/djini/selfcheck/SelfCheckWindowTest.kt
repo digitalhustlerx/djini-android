@@ -1,9 +1,9 @@
-package com.wangzan101.mika.selfcheck
+package com.wangzan101.djini.selfcheck
 
-import com.wangzan101.mika.core.uistate.ScreenSnapshot
-import com.wangzan101.mika.core.uistate.UiElement
-import com.wangzan101.mika.core.uistate.UiTreeNode
-import com.wangzan101.mika.core.uistate.UiWindowTree
+import com.wangzan101.djini.core.uistate.ScreenSnapshot
+import com.wangzan101.djini.core.uistate.UiElement
+import com.wangzan101.djini.core.uistate.UiTreeNode
+import com.wangzan101.djini.core.uistate.UiWindowTree
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
@@ -14,23 +14,23 @@ import org.junit.Test
 class SelfCheckWindowTest {
     @Test
     fun systemWindowAboveCompleteMikaContentIsReady() {
-        val mika = window(1, MIKA, layer = 1, controls = EXPECTED.map { "mika-$it" to it })
+        val djini = window(1, DJINI, layer = 1, controls = EXPECTED.map { "djini-$it" to it })
         val system = window(2, SYSTEM_UI, layer = 2, controls = listOf("system-shade" to "notification_shade"))
 
-        val result = inspect(snapshot(SYSTEM_UI, system, mika), topTaskPackage = MIKA)
+        val result = inspect(snapshot(SYSTEM_UI, system, djini), topTaskPackage = DJINI)
 
         assertTrue(result.ready)
         assertFalse(result.wrongAppOnTop)
         assertEquals(EXPECTED, result.content?.elements?.map { it.resourceId })
-        assertEquals(MIKA, result.content?.packageName)
+        assertEquals(DJINI, result.content?.packageName)
     }
 
     @Test
     fun fullSystemApplicationAboveCompleteMikaContentStillFails() {
-        val mika = window(1, MIKA, layer = 1, controls = EXPECTED.map { "mika-$it" to it })
+        val djini = window(1, DJINI, layer = 1, controls = EXPECTED.map { "djini-$it" to it })
         val settings = window(2, SETTINGS, layer = 2, controls = listOf("settings-content" to "settings_content"))
 
-        val result = inspect(snapshot(SETTINGS, settings, mika), topTaskPackage = SETTINGS)
+        val result = inspect(snapshot(SETTINGS, settings, djini), topTaskPackage = SETTINGS)
 
         assertFalse(result.ready)
         assertTrue(result.wrongAppOnTop)
@@ -39,10 +39,10 @@ class SelfCheckWindowTest {
 
     @Test
     fun systemOverlayWithUnknownTaskOwnershipIsNotAssumedSafe() {
-        val mika = window(1, MIKA, layer = 1, controls = EXPECTED.map { "mika-$it" to it })
+        val djini = window(1, DJINI, layer = 1, controls = EXPECTED.map { "djini-$it" to it })
         val system = window(2, SYSTEM_UI, layer = 2, controls = listOf("system-shade" to "notification_shade"))
 
-        val result = inspect(snapshot(SYSTEM_UI, system, mika), topTaskPackage = null)
+        val result = inspect(snapshot(SYSTEM_UI, system, djini), topTaskPackage = null)
 
         assertFalse(result.ready)
         assertTrue(result.wrongAppOnTop)
@@ -51,10 +51,10 @@ class SelfCheckWindowTest {
     @Test
     fun systemWindowDoesNotHideMissingMikaControls() {
         val present = EXPECTED - BUTTON
-        val mika = window(1, MIKA, layer = 1, controls = present.map { "mika-$it" to it })
+        val djini = window(1, DJINI, layer = 1, controls = present.map { "djini-$it" to it })
         val system = window(2, SYSTEM_UI, layer = 2, controls = listOf("system-button" to BUTTON))
 
-        val result = inspect(snapshot(SYSTEM_UI, system, mika), topTaskPackage = MIKA)
+        val result = inspect(snapshot(SYSTEM_UI, system, djini), topTaskPackage = DJINI)
 
         assertFalse(result.ready)
         assertEquals(listOf(BUTTON), result.missing)
@@ -64,10 +64,10 @@ class SelfCheckWindowTest {
 
     @Test
     fun controlsInAnotherAppsWindowCannotCompleteMikaPage() {
-        val mika = window(1, MIKA, layer = 1, controls = listOf("mika-$TITLE" to TITLE))
+        val djini = window(1, DJINI, layer = 1, controls = listOf("djini-$TITLE" to TITLE))
         val other = window(2, OTHER_APP, layer = 2, controls = EXPECTED.map { "other-$it" to it })
 
-        val result = inspect(snapshot(OTHER_APP, other, mika))
+        val result = inspect(snapshot(OTHER_APP, other, djini))
 
         assertFalse(result.ready)
         assertTrue(result.wrongAppOnTop)
@@ -77,10 +77,10 @@ class SelfCheckWindowTest {
 
     @Test
     fun completeMikaContentBelowAnotherAppStillFails() {
-        val mika = window(1, MIKA, layer = 1, controls = EXPECTED.map { "mika-$it" to it })
+        val djini = window(1, DJINI, layer = 1, controls = EXPECTED.map { "djini-$it" to it })
         val other = window(2, OTHER_APP, layer = 2, controls = listOf("other-content" to "other_content"))
 
-        val result = inspect(snapshot(OTHER_APP, other, mika))
+        val result = inspect(snapshot(OTHER_APP, other, djini))
 
         assertFalse(result.ready)
         assertTrue(result.wrongAppOnTop)
@@ -100,7 +100,7 @@ class SelfCheckWindowTest {
     }
 
     private fun inspect(screen: ScreenSnapshot, topTaskPackage: String? = screen.packageName): SelfCheckWindowRead = readSelfCheckWindow(
-        screen, MIKA, topTaskPackage, EXPECTED, isSystemPackage = { it == SYSTEM_UI || it == SETTINGS },
+        screen, DJINI, topTaskPackage, EXPECTED, isSystemPackage = { it == SYSTEM_UI || it == SETTINGS },
     ) { key -> elements.firstOrNull { it.resourceId == key } }
 
     private fun snapshot(topPackage: String, vararg windows: UiWindowTree): ScreenSnapshot = ScreenSnapshot(
@@ -158,7 +158,7 @@ class SelfCheckWindowTest {
     )
 
     private companion object {
-        const val MIKA = "com.wangzan101.mika"
+        const val DJINI = "com.wangzan101.djini"
         const val SYSTEM_UI = "com.android.systemui"
         const val SETTINGS = "com.android.settings"
         const val OTHER_APP = "com.example.other"

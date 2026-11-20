@@ -1,11 +1,11 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
 import android.graphics.Bitmap
-import com.wangzan101.mika.chat.SharedFile
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.remote.RemoteSteer
-import com.wangzan101.mika.takeover.Takeover
+import com.wangzan101.djini.chat.SharedFile
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.remote.RemoteSteer
+import com.wangzan101.djini.takeover.Takeover
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -93,11 +93,11 @@ class TaskCenterState {
     val _sharedFiles = MutableStateFlow<List<SharedFile>>(emptyList())
     val sharedFiles: StateFlow<List<SharedFile>> = _sharedFiles.asStateFlow()
     /** 显示中的任务到此刻生成的音频;结束时随这一轮存进对话。 */
-    val _audios = MutableStateFlow<List<com.wangzan101.mika.core.chat.GeneratedAudio>>(emptyList())
-    val audios: StateFlow<List<com.wangzan101.mika.core.chat.GeneratedAudio>> = _audios.asStateFlow()
+    val _audios = MutableStateFlow<List<com.wangzan101.djini.core.chat.GeneratedAudio>>(emptyList())
+    val audios: StateFlow<List<com.wangzan101.djini.core.chat.GeneratedAudio>> = _audios.asStateFlow()
     /** 显示中的任务到此刻生成的图;结束时随这一轮存进对话。 */
-    val _photos = MutableStateFlow<List<com.wangzan101.mika.core.chat.GeneratedPhoto>>(emptyList())
-    val photos: StateFlow<List<com.wangzan101.mika.core.chat.GeneratedPhoto>> = _photos.asStateFlow()
+    val _photos = MutableStateFlow<List<com.wangzan101.djini.core.chat.GeneratedPhoto>>(emptyList())
+    val photos: StateFlow<List<com.wangzan101.djini.core.chat.GeneratedPhoto>> = _photos.asStateFlow()
     val _endedRunId = MutableStateFlow<String?>(null)
     val endedRunId: StateFlow<String?> = _endedRunId.asStateFlow()
     val _endedRunIds = MutableStateFlow<Map<String, String?>>(emptyMap())
@@ -114,8 +114,8 @@ class TaskCenterState {
     val _frames = MutableStateFlow<Bitmap?>(null)
     val frames: StateFlow<Bitmap?> = _frames.asStateFlow()
     /** 显示中任务的小窗输入口:只有建了虚拟屏、开着「直接操作」开关时才有,屏释放后回到 null。 */
-    val _pipInput = MutableStateFlow<com.wangzan101.mika.cap.phone.display.PipInput?>(null)
-    val pipInput: StateFlow<com.wangzan101.mika.cap.phone.display.PipInput?> = _pipInput.asStateFlow()
+    val _pipInput = MutableStateFlow<com.wangzan101.djini.cap.phone.display.PipInput?>(null)
+    val pipInput: StateFlow<com.wangzan101.djini.cap.phone.display.PipInput?> = _pipInput.asStateFlow()
     /** 显示中任务的小窗目标声音是否被用户恢复过:按钮据此显示「恢复声音」或「静音」。 */
     val _pipSoundOn = MutableStateFlow(false)
     val pipSoundOn: StateFlow<Boolean> = _pipSoundOn.asStateFlow()

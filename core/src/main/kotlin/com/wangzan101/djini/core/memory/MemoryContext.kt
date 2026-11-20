@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.memory
+package com.wangzan101.djini.core.memory
 
-import com.wangzan101.mika.core.agent.TokenEstimate
+import com.wangzan101.djini.core.agent.TokenEstimate
 
 /** [message] 为 null 表示这次没有记忆可带;[usedIds] 是块里实际列出的条目,顺序同列表。 */
 data class MemoryBlock(val message: String?, val usedIds: List<String>)
@@ -123,7 +123,7 @@ object MemoryContext {
         val message = sections.joinToString("\n\n") { (header, list) ->
             header + "\n" + list.withIndex().joinToString("\n") { (i, m) ->
                 "${i + 1}. ${if (m.kind == MemoryKind.procedure) rewrite(m.content) else m.content}" +
-                    // Mika 自己归纳出来的那几条不是用户说的:这一段的标题说的是「用户告诉你的」,逐条标出来
+                    // Djini 自己归纳出来的那几条不是用户说的:这一段的标题说的是「用户告诉你的」,逐条标出来
                     if (m.source.type == INFERRED) INFERRED_MARK else ""
             }
         }

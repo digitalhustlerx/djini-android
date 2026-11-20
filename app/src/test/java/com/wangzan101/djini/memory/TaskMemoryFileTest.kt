@@ -1,9 +1,9 @@
-package com.wangzan101.mika.memory
+package com.wangzan101.djini.memory
 
-import com.wangzan101.mika.core.memory.TaskMemory
-import com.wangzan101.mika.core.memory.TaskMemoryStep
-import com.wangzan101.mika.settings.AesGcmKeyCipher
-import com.wangzan101.mika.settings.KeyCipher
+import com.wangzan101.djini.core.memory.TaskMemory
+import com.wangzan101.djini.core.memory.TaskMemoryStep
+import com.wangzan101.djini.settings.AesGcmKeyCipher
+import com.wangzan101.djini.settings.KeyCipher
 import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse

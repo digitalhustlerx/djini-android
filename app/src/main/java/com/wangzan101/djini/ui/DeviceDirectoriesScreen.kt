@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -8,11 +8,11 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import com.wangzan101.mika.R
-import com.wangzan101.mika.cap.phone.shell.HelperHub
-import com.wangzan101.mika.settings.DeviceDirectory
-import com.wangzan101.mika.settings.DeviceDirectoryStore
-import com.wangzan101.mika.ui.components.*
+import com.wangzan101.djini.R
+import com.wangzan101.djini.cap.phone.shell.HelperHub
+import com.wangzan101.djini.settings.DeviceDirectory
+import com.wangzan101.djini.settings.DeviceDirectoryStore
+import com.wangzan101.djini.ui.components.*
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
@@ -74,7 +74,7 @@ fun DeviceDirectoriesScreen(store: DeviceDirectoryStore, hub: HelperHub, onBack:
                 }
                 val source = when (directory.source) {
                     "preset" -> stringResource(R.string.device_dirs_source_preset)
-                    "mika" -> stringResource(R.string.device_dirs_source_mika)
+                    "djini" -> stringResource(R.string.device_dirs_source_mika)
                     else -> stringResource(R.string.device_dirs_source_user)
                 }
                 ListRow(null, directory.name, "${directory.path}\n${directory.description}\n$status · $source", first = index == 0 && synced,

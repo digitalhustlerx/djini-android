@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.phone.setup
+package com.wangzan101.djini.cap.phone.setup
 
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.withTimeoutOrNull

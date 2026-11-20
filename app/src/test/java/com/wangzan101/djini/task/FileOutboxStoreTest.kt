@@ -1,10 +1,10 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
-import com.wangzan101.mika.core.run.ChannelPeer
-import com.wangzan101.mika.core.run.Delivery
-import com.wangzan101.mika.core.run.DeliveryRecord
-import com.wangzan101.mika.core.run.DeliveryState
-import com.wangzan101.mika.core.run.Outbox
+import com.wangzan101.djini.core.run.ChannelPeer
+import com.wangzan101.djini.core.run.Delivery
+import com.wangzan101.djini.core.run.DeliveryRecord
+import com.wangzan101.djini.core.run.DeliveryState
+import com.wangzan101.djini.core.run.Outbox
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -15,7 +15,7 @@ import java.nio.file.Files
 
 class FileOutboxStoreTest {
     @Test fun failedBatchWriteKeepsTheDiskAndMemoryAtThePreviousCommittedState() = runTest {
-        val dir = Files.createTempDirectory("mika-outbox-failure").toFile()
+        val dir = Files.createTempDirectory("djini-outbox-failure").toFile()
         try {
             val file = dir.resolve("outbox.json")
             val peer = ChannelPeer("wechat", "owner", "thread")
@@ -43,7 +43,7 @@ class FileOutboxStoreTest {
     }
 
     @Test fun textAndImageBatchSurvivesRestartWithTheExportIdentity() {
-        val dir = Files.createTempDirectory("mika-image-outbox").toFile()
+        val dir = Files.createTempDirectory("djini-image-outbox").toFile()
         try {
             val file = dir.resolve("outbox.json")
             val peer = ChannelPeer("wechat", "owner", "thread")
@@ -58,7 +58,7 @@ class FileOutboxStoreTest {
     }
 
     @Test fun attemptingDeliverySurvivesRestartWithoutLosingItsIdentity() {
-        val dir = Files.createTempDirectory("mika-outbox").toFile()
+        val dir = Files.createTempDirectory("djini-outbox").toFile()
         try {
             val file = dir.resolve("outbox.json")
             val peer = ChannelPeer("local", "owner", "thread")

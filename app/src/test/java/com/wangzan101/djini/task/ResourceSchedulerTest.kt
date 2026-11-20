@@ -1,4 +1,4 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
@@ -8,7 +8,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import com.wangzan101.mika.core.uistate.AppWait
+import com.wangzan101.djini.core.uistate.AppWait
 import kotlinx.coroutines.async
 import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.currentTime

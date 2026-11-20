@@ -1,16 +1,16 @@
-package com.wangzan101.mika.selfcheck
+package com.wangzan101.djini.selfcheck
 
 import android.util.Log
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.about.Diagnostics
-import com.wangzan101.mika.cap.phone.PhoneServices
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport
-import com.wangzan101.mika.core.selfcheck.CheckStatus
-import com.wangzan101.mika.core.selfcheck.SelfCheckReport
-import com.wangzan101.mika.core.selfcheck.SelfCheckRunner
-import com.wangzan101.mika.core.selfcheck.SelfCheckState
-import com.wangzan101.mika.settings.SystemStatusMonitor
+import com.wangzan101.djini.about.Diagnostics
+import com.wangzan101.djini.cap.phone.PhoneServices
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport
+import com.wangzan101.djini.core.selfcheck.CheckStatus
+import com.wangzan101.djini.core.selfcheck.SelfCheckReport
+import com.wangzan101.djini.core.selfcheck.SelfCheckRunner
+import com.wangzan101.djini.core.selfcheck.SelfCheckState
+import com.wangzan101.djini.settings.SystemStatusMonitor
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
@@ -21,7 +21,7 @@ import org.junit.runner.RunWith
 
 /**
  * 真机:把兼容性自检完整跑一遍,和设置里点「开始自检」走的是同一个 [AndroidSelfCheck]。
- * 要内置助手在运行、Mika 的无障碍开着;报告打在 logcat(标签 MikaSelfCheck)。默认只要求跑完、每项都有结论;
+ * 要内置助手在运行、Djini 的无障碍开着;报告打在 logcat(标签 MikaSelfCheck)。默认只要求跑完、每项都有结论;
  * 带 `-e selfcheck.strict true` 时还要求没有一项失败。
  */
 @RunWith(AndroidJUnit4::class)

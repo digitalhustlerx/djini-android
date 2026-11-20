@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.selfcheck
+package com.wangzan101.djini.core.selfcheck
 
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.NonCancellable

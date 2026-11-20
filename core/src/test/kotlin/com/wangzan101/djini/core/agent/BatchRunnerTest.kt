@@ -1,20 +1,20 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
-import com.wangzan101.mika.core.tool.execute
-import com.wangzan101.mika.core.guard.OperationGuards
-import com.wangzan101.mika.core.action.ActionExecutor
-import com.wangzan101.mika.core.action.ActionRecorder
-import com.wangzan101.mika.core.gate.ConfirmationGate
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.record.RunSink
-import com.wangzan101.mika.core.uistate.ActionResult
-import com.wangzan101.mika.core.uistate.Verification
-import com.wangzan101.mika.core.uistate.ScreenPort
-import com.wangzan101.mika.core.uistate.ScreenSnapshot
-import com.wangzan101.mika.core.uistate.UiElement
-import com.wangzan101.mika.core.tool.FakeScreen
-import com.wangzan101.mika.core.tool.ToolDispatcher
-import com.wangzan101.mika.core.tool.Until
+import com.wangzan101.djini.core.tool.execute
+import com.wangzan101.djini.core.guard.OperationGuards
+import com.wangzan101.djini.core.action.ActionExecutor
+import com.wangzan101.djini.core.action.ActionRecorder
+import com.wangzan101.djini.core.gate.ConfirmationGate
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.record.RunSink
+import com.wangzan101.djini.core.uistate.ActionResult
+import com.wangzan101.djini.core.uistate.Verification
+import com.wangzan101.djini.core.uistate.ScreenPort
+import com.wangzan101.djini.core.uistate.ScreenSnapshot
+import com.wangzan101.djini.core.uistate.UiElement
+import com.wangzan101.djini.core.tool.FakeScreen
+import com.wangzan101.djini.core.tool.ToolDispatcher
+import com.wangzan101.djini.core.tool.Until
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.currentTime
@@ -30,8 +30,8 @@ import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import com.wangzan101.mika.core.testing.BATCHABLE
-import com.wangzan101.mika.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.testing.BATCHABLE
+import com.wangzan101.djini.core.assembly.toolDispatcher
 
 /** 元素:名字 → 归一化 bounds;每次读屏换下一屏(读完最后一屏就停在它);动作结果按顺序取。 */
 private class BatchScreen(vararg val screens: List<Pair<String, List<Int>>>) : ScreenPort by FakeScreen() {
@@ -73,7 +73,7 @@ class BatchRunnerTest {
 
     @Test fun allStepsPassReturnsOk() = runTest {
         val s = BatchScreen(home)
-        val d = toolDispatcher(s).also { it.execute(com.wangzan101.mika.core.model.Part.ToolCall("o", "phone_observe", "{}")) }
+        val d = toolDispatcher(s).also { it.execute(com.wangzan101.djini.core.model.Part.ToolCall("o", "phone_observe", "{}")) }
         val r = runner(d).run(steps(st("phone_tap", """{"ref":"@e1","snapshotId":"p1"}"""), st("phone_type_text", """{"text":"咖啡"}"""), st("phone_back")), "c1", 3).content
         assertEquals("true", r.s("ok")); assertEquals(3, r["completed"]!!.jsonPrimitive.int); assertEquals(3, r["total"]!!.jsonPrimitive.int)
         assertEquals(listOf("tapRef @e1 p1", "type 咖啡", "back"), s.calls)
@@ -108,8 +108,8 @@ class BatchRunnerTest {
     // 子步里的等待被插话截断:这一步算没做,和后面的一起跳过,不等满也不接着做
     @Test fun steerCuttingAWaitStepSkipsItAndTheRest() = runTest {
         val s = BatchScreen(home)
-        val inbox = com.wangzan101.mika.core.run.RunInbox()
-        launch { delay(1_000); inbox.send(com.wangzan101.mika.core.run.RunInput.Steer("m1", "停一下")) }
+        val inbox = com.wangzan101.djini.core.run.RunInbox()
+        launch { delay(1_000); inbox.send(com.wangzan101.djini.core.run.RunInput.Steer("m1", "停一下")) }
         val r = withContext(inbox.signal) {
             runner(toolDispatcher(s)).run(steps(st("phone_back"), st("wait", """{"seconds":10}"""), st("phone_back")), "c1").content
         }
@@ -164,7 +164,7 @@ class BatchRunnerTest {
 
     @Test fun stopsBeforeIrreversible() = runTest {
         val s = BatchScreen(home)
-        val d = toolDispatcher(s).also { it.execute(com.wangzan101.mika.core.model.Part.ToolCall("o", "phone_observe", "{}")) }
+        val d = toolDispatcher(s).also { it.execute(com.wangzan101.djini.core.model.Part.ToolCall("o", "phone_observe", "{}")) }
         val r = runner(d).run(steps(st("phone_tap", """{"ref":"@e1","snapshotId":"p1"}"""), st("phone_type_text", """{"text":"你好"}"""),
             st("phone_tap", """{"ref":"@e3","snapshotId":"p1"}""")), "c1").content
         assertEquals("confirmation_required", r.s("error"))
@@ -195,7 +195,7 @@ class BatchRunnerTest {
         val before = listOf("搜索框" to listOf(0, 0, 999, 80), "确定" to listOf(400, 500, 600, 560))
         val s = BatchScreen(before, after)
         val d = toolDispatcher(s, inlineScreen = true)
-        d.execute(com.wangzan101.mika.core.model.Part.ToolCall("o", "phone_observe", "{}"))
+        d.execute(com.wangzan101.djini.core.model.Part.ToolCall("o", "phone_observe", "{}"))
         val r = runner(d).run(steps(st("phone_tap", """{"ref":"@e1","snapshotId":"p1"}"""), st("phone_tap", """{"ref":"@e2","snapshotId":"p1"}""")), "c1").content
         assertEquals("true", r.s("ok"))
         assertEquals(listOf("tapRef @e1 p1", "tapRef @e3 p2"), s.calls)
@@ -207,7 +207,7 @@ class BatchRunnerTest {
         val form = listOf("输入名称" to listOf(0, 100, 900, 180), "输入金额" to listOf(0, 250, 900, 330))
         val s = BatchScreen(form)
         val d = toolDispatcher(s, visionEnabled = true, adaptiveVision = true, inlineScreen = true)
-        assertTrue(d.execute(com.wangzan101.mika.core.model.Part.ToolCall("o", "phone_observe", "{}")).images.isEmpty())
+        assertTrue(d.execute(com.wangzan101.djini.core.model.Part.ToolCall("o", "phone_observe", "{}")).images.isEmpty())
         val result = runner(d).run(steps(
             st("phone_tap", """{"ref":"@e1","snapshotId":"p1"}"""),
             st("phone_type_text", """{"text":"午餐"}"""),
@@ -224,7 +224,7 @@ class BatchRunnerTest {
         val unlabeled = listOf("" to listOf(0, 0, 100, 100), "" to listOf(120, 0, 220, 100))
         val s = BatchScreen(home, unlabeled)
         val d = toolDispatcher(s, visionEnabled = true, adaptiveVision = true, inlineScreen = true)
-        d.execute(com.wangzan101.mika.core.model.Part.ToolCall("o", "phone_observe", "{}"))
+        d.execute(com.wangzan101.djini.core.model.Part.ToolCall("o", "phone_observe", "{}"))
         val result = runner(d).run(steps(st("phone_back"), st("phone_back")), "c1")
         assertEquals("screen_needs_review", result.content.s("reason"))
         assertEquals(listOf("back"), s.calls)

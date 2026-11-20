@@ -1,7 +1,7 @@
-package com.wangzan101.mika.core.cap.sandbox
+package com.wangzan101.djini.core.cap.sandbox
 
-import com.wangzan101.mika.core.workspace.SandboxError
-import com.wangzan101.mika.core.workspace.SandboxPaths
+import com.wangzan101.djini.core.workspace.SandboxError
+import com.wangzan101.djini.core.workspace.SandboxPaths
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.ensureActive

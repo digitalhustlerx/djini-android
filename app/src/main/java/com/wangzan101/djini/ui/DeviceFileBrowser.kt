@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -56,36 +56,36 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDirection
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.cap.phone.PhoneServices
-import com.wangzan101.mika.cap.sandbox.AndroidSandbox
-import com.wangzan101.mika.cap.sandbox.SandboxDirs
-import com.wangzan101.mika.cap.sandbox.SandboxState
-import com.wangzan101.mika.chat.WorkspaceResolver
-import com.wangzan101.mika.core.cap.devicefiles.DeviceFileEntry
-import com.wangzan101.mika.core.cap.devicefiles.DeviceFileSearchQuery
-import com.wangzan101.mika.core.cap.devicefiles.DeviceFilesPort
-import com.wangzan101.mika.settings.DeviceDirectoryStore
-import com.wangzan101.mika.settings.FeatureFlags
-import com.wangzan101.mika.task.AndroidDeviceFiles
-import com.wangzan101.mika.task.DeviceImportRecord
-import com.wangzan101.mika.task.DeviceImportStore
-import com.wangzan101.mika.ui.components.ActivitySizedDialog
-import com.wangzan101.mika.ui.components.BarIconButton
-import com.wangzan101.mika.ui.components.ButtonKind
-import com.wangzan101.mika.ui.components.ButtonSize
-import com.wangzan101.mika.ui.components.DirectionalIcon
-import com.wangzan101.mika.ui.components.EmptyNote
-import com.wangzan101.mika.ui.components.FieldClearButton
-import com.wangzan101.mika.ui.components.MikaButton
-import com.wangzan101.mika.ui.components.PageBackground
-import com.wangzan101.mika.ui.components.RowChevron
-import com.wangzan101.mika.ui.components.keepsKeyboard
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaShapes
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
-import com.wangzan101.mika.ui.theme.MikaRadius
+import com.wangzan101.djini.R
+import com.wangzan101.djini.cap.phone.PhoneServices
+import com.wangzan101.djini.cap.sandbox.AndroidSandbox
+import com.wangzan101.djini.cap.sandbox.SandboxDirs
+import com.wangzan101.djini.cap.sandbox.SandboxState
+import com.wangzan101.djini.chat.WorkspaceResolver
+import com.wangzan101.djini.core.cap.devicefiles.DeviceFileEntry
+import com.wangzan101.djini.core.cap.devicefiles.DeviceFileSearchQuery
+import com.wangzan101.djini.core.cap.devicefiles.DeviceFilesPort
+import com.wangzan101.djini.settings.DeviceDirectoryStore
+import com.wangzan101.djini.settings.FeatureFlags
+import com.wangzan101.djini.task.AndroidDeviceFiles
+import com.wangzan101.djini.task.DeviceImportRecord
+import com.wangzan101.djini.task.DeviceImportStore
+import com.wangzan101.djini.ui.components.ActivitySizedDialog
+import com.wangzan101.djini.ui.components.BarIconButton
+import com.wangzan101.djini.ui.components.ButtonKind
+import com.wangzan101.djini.ui.components.ButtonSize
+import com.wangzan101.djini.ui.components.DirectionalIcon
+import com.wangzan101.djini.ui.components.EmptyNote
+import com.wangzan101.djini.ui.components.FieldClearButton
+import com.wangzan101.djini.ui.components.MikaButton
+import com.wangzan101.djini.ui.components.PageBackground
+import com.wangzan101.djini.ui.components.RowChevron
+import com.wangzan101.djini.ui.components.keepsKeyboard
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.MikaRadius
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
@@ -189,7 +189,7 @@ internal fun DeviceFileBrowserScreen(
     onAddSelected: (List<String>) -> Unit,
     onClose: () -> Unit,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     var crumbs by remember { mutableStateOf<List<DeviceBreadcrumb>>(emptyList()) }
     val path = crumbs.lastOrNull()?.path
     var entries by remember { mutableStateOf<List<DeviceFileEntry>>(emptyList()) }
@@ -459,7 +459,7 @@ private fun DeviceBrowserTopBar(
     onBack: () -> Unit,
     onToggleHistory: () -> Unit,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Row(
         Modifier.fillMaxWidth()
             .heightIn(min = 60.dp).padding(start = 4.dp, end = 12.dp),
@@ -543,7 +543,7 @@ private fun BreadcrumbChip(
     enabled: Boolean,
     onClick: () -> Unit,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val shape = MikaShapes.Tile
     Row(
         Modifier.clip(shape)
@@ -572,7 +572,7 @@ private fun BreadcrumbSeparator() {
         MikaIcons.Chevron,
         null,
         Modifier.size(12.dp).padding(horizontal = 1.dp),
-        tint = MikaTheme.colors.ink3,
+        tint = DjiniTheme.colors.ink3,
     )
 }
 
@@ -585,7 +585,7 @@ private fun DeviceSearchBar(
     onSearch: () -> Unit,
     onClear: () -> Unit,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Row(
         Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp, top = 4.dp, bottom = 6.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -656,7 +656,7 @@ private fun DeviceEntryRow(
     divider: Boolean,
     onClick: () -> Unit,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val shape = MikaShapes.Chip
     Column(Modifier.fillMaxWidth()) {
         if (divider && !selected) {
@@ -725,7 +725,7 @@ private fun DeviceEntryRow(
 
 @Composable
 private fun FolderTile() {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Box(
         Modifier.size(width = 48.dp, height = 54.dp).clip(MikaShapes.Chip).background(c.fill),
         contentAlignment = Alignment.Center,
@@ -740,7 +740,7 @@ private fun DeviceImportHistoryBody(
     dateFormatter: DateFormat,
     modifier: Modifier = Modifier,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Column(modifier) {
         Text(
             stringResource(R.string.device_browser_history_hint),
@@ -794,7 +794,7 @@ private fun DeviceBrowserBottomBar(
     onCancel: () -> Unit,
     onAdd: () -> Unit,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val canAdd = selectedCount > 0 && !loading
     Column(Modifier.fillMaxWidth()) {
         Box(Modifier.fillMaxWidth().height(0.5.dp).background(c.hair))

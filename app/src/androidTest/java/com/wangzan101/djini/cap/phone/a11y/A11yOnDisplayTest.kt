@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.phone.a11y
+package com.wangzan101.djini.cap.phone.a11y
 
 import android.app.UiAutomation
 import android.graphics.Path
@@ -9,10 +9,10 @@ import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.cap.phone.display.AgentDisplay
-import com.wangzan101.mika.shell.IMikaShell
-import com.wangzan101.mika.cap.phone.PhoneServices
-import com.wangzan101.mika.cap.phone.shell.BuiltinShellConnection
+import com.wangzan101.djini.cap.phone.display.AgentDisplay
+import com.wangzan101.djini.shell.IDjiniShell
+import com.wangzan101.djini.cap.phone.PhoneServices
+import com.wangzan101.djini.cap.phone.shell.BuiltinShellConnection
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.filterNotNull
@@ -27,9 +27,9 @@ import org.junit.Assert.assertTrue
 import org.junit.BeforeClass
 import org.junit.Test
 import org.junit.runner.RunWith
-import com.wangzan101.mika.a11y.MikaAccessibilityService
+import com.wangzan101.djini.a11y.DjiniAccessibilityService
 
-/** 真机测试:需要内置助手在运行(已配对、无线调试开着),且 Mika 无障碍服务已开启。 */
+/** 真机测试:需要内置助手在运行(已配对、无线调试开着),且 Djini 无障碍服务已开启。 */
 @RunWith(AndroidJUnit4::class)
 class A11yOnDisplayTest {
     companion object {
@@ -59,11 +59,11 @@ class A11yOnDisplayTest {
         private fun rebindAccessibility() {
             if (ScreenAccessibility.instance.value != null) return
             val key = "enabled_accessibility_services"
-            val mika = "com.wangzan101.mika/${MikaAccessibilityService::class.java.name}"
+            val djini = "com.wangzan101.djini/${DjiniAccessibilityService::class.java.name}"
             val enabled = shellCommand("settings get secure $key").trim().split(':')
-            if (mika !in enabled) return
+            if (djini !in enabled) return
             try {
-                shellCommand("settings put secure $key ${enabled.filter { it != mika }.joinToString(":").ifEmpty { "\"\"" }}")
+                shellCommand("settings put secure $key ${enabled.filter { it != djini }.joinToString(":").ifEmpty { "\"\"" }}")
                 Thread.sleep(500)
             } finally {
                 // 无论如何恢复原来的完整列表(含其他 App 的服务)
@@ -72,18 +72,18 @@ class A11yOnDisplayTest {
         }
 
         private fun shellCommand(cmd: String): String {
-            // 不压制其他无障碍服务,否则 Mika 的服务会在测试期间被暂停
+            // 不压制其他无障碍服务,否则 Djini 的服务会在测试期间被暂停
             val ua = InstrumentationRegistry.getInstrumentation()
                 .getUiAutomation(UiAutomation.FLAG_DONT_SUPPRESS_ACCESSIBILITY_SERVICES)
             val pfd = ua.executeShellCommand(cmd)
             return ParcelFileDescriptor.AutoCloseInputStream(pfd).bufferedReader().use { it.readText() }
         }
 
-        private fun awaitShell(): IMikaShell =
+        private fun awaitShell(): IDjiniShell =
             DeviceSupport.awaitShell(connection)
     }
 
-    private val shell: IMikaShell get() = awaitShell()
+    private val shell: IDjiniShell get() = awaitShell()
     private var display: AgentDisplay? = null
 
     @After
@@ -93,7 +93,7 @@ class A11yOnDisplayTest {
 
     private fun service(): ScreenAccessibility = runBlocking {
         withTimeoutOrNull(10_000) { ScreenAccessibility.instance.filterNotNull().first() }
-    } ?: error("Mika accessibility service is not enabled")
+    } ?: error("Djini accessibility service is not enabled")
 
     private fun settingsOnNewDisplay(): AgentDisplay {
         val d = AgentDisplay(shell, 720, 1600, 320, InstrumentationRegistry.getInstrumentation().targetContext.getSystemService(android.hardware.display.DisplayManager::class.java)).also { display = it }

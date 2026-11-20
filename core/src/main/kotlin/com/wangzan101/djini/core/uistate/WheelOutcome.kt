@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.uistate
+package com.wangzan101.djini.core.uistate
 
 /**
  * 把滚轮转到一个值的结果。[reached] 到了;[value] 此刻显示的值(读不出为 null),[from] 开始时显示的;[attempts] 做了几次动作

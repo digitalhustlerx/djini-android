@@ -1,7 +1,7 @@
-package com.wangzan101.mika.proactive
+package com.wangzan101.djini.proactive
 
-import com.wangzan101.mika.core.proactive.TriageConsent
-import com.wangzan101.mika.settings.FeatureFlagsCapsuleTest
+import com.wangzan101.djini.core.proactive.TriageConsent
+import com.wangzan101.djini.settings.FeatureFlagsCapsuleTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull

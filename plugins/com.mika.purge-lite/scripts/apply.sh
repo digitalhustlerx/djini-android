@@ -36,7 +36,7 @@ fi
 echo "--- 规则 ---"
 grep -nE '^(\[[^]]*\])?(prefix|suffix|replace)=' "$cfg" 2>/dev/null | sed 's/^/  /' || true
 
-sample="You are Mika, the user's personal assistant on their phone.
+sample="You are Djini, the user's personal assistant on their phone.
 Rule: check the current state before acting."
 
 echo "--- 试跑(模型:${model:-未指定}) ---"

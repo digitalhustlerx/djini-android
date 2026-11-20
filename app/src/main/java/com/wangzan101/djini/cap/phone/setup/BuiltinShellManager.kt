@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.phone.setup
+package com.wangzan101.djini.cap.phone.setup
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -14,31 +14,31 @@ import android.os.Looper
 import android.os.Process
 import android.provider.Settings
 import android.util.Log
-import com.wangzan101.mika.core.adb.AdbConnectPort
-import com.wangzan101.mika.core.adb.AdbConnection
-import com.wangzan101.mika.core.adb.ConnectCandidates
-import com.wangzan101.mika.core.adb.AdbPairing
-import com.wangzan101.mika.core.adb.AdbServiceTypes
-import com.wangzan101.mika.core.adb.AdbTls
-import com.wangzan101.mika.core.adb.LocalPortScan
-import com.wangzan101.mika.core.adb.NioPortScanner
-import com.wangzan101.mika.core.adb.PortCache
-import com.wangzan101.mika.core.shell.BuiltinShellEngine
-import com.wangzan101.mika.core.shell.BuiltinShellFailure
-import com.wangzan101.mika.core.shell.BuiltinShellPlatform
-import com.wangzan101.mika.core.shell.HelperHandoff
-import com.wangzan101.mika.core.shell.PermissionCommands
-import com.wangzan101.mika.core.shell.RecoveryCapability
-import com.wangzan101.mika.core.shell.RecoveryConsent
-import com.wangzan101.mika.core.shell.WirelessDebuggingAutoOn
-import com.wangzan101.mika.core.shell.ShellCommandRunner
-import com.wangzan101.mika.core.shell.ShellTransport
-import com.wangzan101.mika.core.shell.ShizukuPlatformState
-import com.wangzan101.mika.core.shell.SuAnswer
-import com.wangzan101.mika.core.shell.SuProbe
-import com.wangzan101.mika.cap.phone.shell.HelperHub
-import com.wangzan101.mika.cap.phone.shell.adb.AndroidAdb
-import com.wangzan101.mika.cap.phone.shell.adb.NsdAdbServiceFinder
+import com.wangzan101.djini.core.adb.AdbConnectPort
+import com.wangzan101.djini.core.adb.AdbConnection
+import com.wangzan101.djini.core.adb.ConnectCandidates
+import com.wangzan101.djini.core.adb.AdbPairing
+import com.wangzan101.djini.core.adb.AdbServiceTypes
+import com.wangzan101.djini.core.adb.AdbTls
+import com.wangzan101.djini.core.adb.LocalPortScan
+import com.wangzan101.djini.core.adb.NioPortScanner
+import com.wangzan101.djini.core.adb.PortCache
+import com.wangzan101.djini.core.shell.BuiltinShellEngine
+import com.wangzan101.djini.core.shell.BuiltinShellFailure
+import com.wangzan101.djini.core.shell.BuiltinShellPlatform
+import com.wangzan101.djini.core.shell.HelperHandoff
+import com.wangzan101.djini.core.shell.PermissionCommands
+import com.wangzan101.djini.core.shell.RecoveryCapability
+import com.wangzan101.djini.core.shell.RecoveryConsent
+import com.wangzan101.djini.core.shell.WirelessDebuggingAutoOn
+import com.wangzan101.djini.core.shell.ShellCommandRunner
+import com.wangzan101.djini.core.shell.ShellTransport
+import com.wangzan101.djini.core.shell.ShizukuPlatformState
+import com.wangzan101.djini.core.shell.SuAnswer
+import com.wangzan101.djini.core.shell.SuProbe
+import com.wangzan101.djini.cap.phone.shell.HelperHub
+import com.wangzan101.djini.cap.phone.shell.adb.AndroidAdb
+import com.wangzan101.djini.cap.phone.shell.adb.NsdAdbServiceFinder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -59,7 +59,7 @@ import java.util.concurrent.TimeoutException
 import java.util.concurrent.atomic.AtomicReference
 
 /**
- * 内置助手的真实现:配对、经本机 adbd 或 su 起助手、看门狗。由 [com.wangzan101.mika.cap.phone.PhoneServices] 建一份,
+ * 内置助手的真实现:配对、经本机 adbd 或 su 起助手、看门狗。由 [com.wangzan101.djini.cap.phone.PhoneServices] 建一份,
  * App 启动时由 [start] 开始看着助手;[hub] 是助手交来 Binder 的落点;[consent] 是用户对那几项能力的选择(「自动打开无线调试」看它)。
  */
 class BuiltinShellManager(context: Context, private val hub: HelperHub, private val consent: () -> RecoveryConsent) {
@@ -72,7 +72,7 @@ class BuiltinShellManager(context: Context, private val hub: HelperHub, private 
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
-    /** 已 root 的手机上「用 root 启动手机助手」「允许 Mika 执行 root 命令」两个开关;变了就让看门狗按新的情况再试。 */
+    /** 已 root 的手机上「用 root 启动手机助手」「允许 Djini 执行 root 命令」两个开关;变了就让看门狗按新的情况再试。 */
     val root = RootControl(app, scope) { engine.rootChanged() }
 
     /** Shizuku 官方 API 通道:检查安装/运行/授权并绑定 UserService。 */
@@ -306,7 +306,7 @@ class BuiltinShellManager(context: Context, private val hub: HelperHub, private 
         override suspend fun launchHelper() {
             launchStage("preparing")
             val tls = AndroidAdb.tls(AndroidAdb.identity(app))
-            // 助手每次交接前都核对 Mika 的签名
+            // 助手每次交接前都核对 Djini 的签名
             val command = HelperHandoff.command(app.applicationInfo.sourceDir, app.packageName, Process.myUid(), ownCertPin(app))
             launchStage("adb_connecting")
             val connection = connect(tls)

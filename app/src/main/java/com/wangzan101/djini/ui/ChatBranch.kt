@@ -1,8 +1,8 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.core.agent.QuoteMessage
-import com.wangzan101.mika.core.agent.AttachedPage
-import com.wangzan101.mika.core.userscreen.UserScreenMessage
+import com.wangzan101.djini.core.agent.QuoteMessage
+import com.wangzan101.djini.core.agent.AttachedPage
+import com.wangzan101.djini.core.userscreen.UserScreenMessage
 
 /**
  * 第 [turn] 轮(0 起)此刻能不能作为分支点:轮次在范围内、这一轮已经结束、对话没有被挡住([blocked]:有任务在跑或排队、
@@ -20,7 +20,7 @@ private fun turnOf(key: String, prefix: String): Int? =
     if (key.startsWith(prefix)) key.removePrefix(prefix).toIntOrNull() else null
 
 /**
- * 长按的这条消息能不能作为分支点:只有 Mika 的回答(`r<轮次>`)且 [canBranchAt] 成立时返回轮次,否则 null。
+ * 长按的这条消息能不能作为分支点:只有 Djini 的回答(`r<轮次>`)且 [canBranchAt] 成立时返回轮次,否则 null。
  * 用户的话、插话、状态卡、过程行都不算。
  */
 internal fun branchableTurn(exchanges: List<Exchange>, key: String, blocked: Boolean): Int? =
@@ -38,7 +38,7 @@ data class BranchRetry(
     val conversationId: String,
     val prefill: String,
     val needsReattach: Boolean,
-    val failures: List<com.wangzan101.mika.chat.RetryAttachmentResult> = emptyList(),
+    val failures: List<com.wangzan101.djini.chat.RetryAttachmentResult> = emptyList(),
     val screenNeedsReattach: Boolean = false,
 )
 

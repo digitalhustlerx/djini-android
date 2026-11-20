@@ -1,7 +1,7 @@
-package com.wangzan101.mika.cap.sandbox
+package com.wangzan101.djini.cap.sandbox
 
-import com.wangzan101.mika.chat.ConversationSummary
-import com.wangzan101.mika.chat.Project
+import com.wangzan101.djini.chat.ConversationSummary
+import com.wangzan101.djini.chat.Project
 import java.nio.file.Files
 
 /**

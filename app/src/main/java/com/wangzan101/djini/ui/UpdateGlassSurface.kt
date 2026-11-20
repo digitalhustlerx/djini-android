@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import android.graphics.RenderEffect
 import android.graphics.RuntimeShader
@@ -30,8 +30,8 @@ import androidx.compose.ui.graphics.layer.drawLayer
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInRoot
 import androidx.compose.ui.unit.dp
-import com.wangzan101.mika.ui.components.GlassBackdrop
-import com.wangzan101.mika.ui.theme.MikaTheme
+import com.wangzan101.djini.ui.components.GlassBackdrop
+import com.wangzan101.djini.ui.theme.DjiniTheme
 
 /** 由调样台导出的参数。网页像素在安卓布局里按 dp 使用。 */
 internal enum class UpdateGlassMaterial(
@@ -54,9 +54,9 @@ internal enum class UpdateGlassMaterial(
 }
 
 internal val UpdateGlassInk: Color
-    @Composable get() = if (MikaTheme.colors.isDark) Color.White.copy(alpha = 0.94f) else MikaTheme.colors.ink
+    @Composable get() = if (DjiniTheme.colors.isDark) Color.White.copy(alpha = 0.94f) else DjiniTheme.colors.ink
 internal val UpdateGlassSecondaryInk: Color
-    @Composable get() = if (MikaTheme.colors.isDark) Color(0xFFEBEBF5).copy(alpha = 0.62f) else MikaTheme.colors.ink2
+    @Composable get() = if (DjiniTheme.colors.isDark) Color(0xFFEBEBF5).copy(alpha = 0.62f) else DjiniTheme.colors.ink2
 internal val UpdateGlassScrim = Color(0xFF16221B)
 private val NightTint = Color(0xFF0C1028)
 
@@ -67,7 +67,7 @@ internal fun UpdateGlassSurface(
     modifier: Modifier = Modifier,
     content: @Composable BoxScope.() -> Unit,
 ) {
-    val dark = MikaTheme.colors.isDark
+    val dark = DjiniTheme.colors.isDark
     val base = if (dark) material.darkBackdrop else Color(0xFFE9F1E6)
     val tint = if (dark) NightTint else Color.White
     val shape = RoundedCornerShape(material.radius.dp)

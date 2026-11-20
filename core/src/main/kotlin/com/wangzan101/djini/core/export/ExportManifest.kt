@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.export
+package com.wangzan101.djini.core.export
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -7,7 +7,7 @@ import kotlinx.serialization.json.Json
 
 @Serializable
 data class ExportManifest(
-    @SerialName("format") val format: String = "mika.conversation-export",
+    @SerialName("format") val format: String = "djini.conversation-export",
     val version: Int = 1,
     val appVersion: String,
     val exportedAt: String,

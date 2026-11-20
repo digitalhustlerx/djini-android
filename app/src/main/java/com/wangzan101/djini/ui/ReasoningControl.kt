@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -24,16 +24,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.core.model.ModelRole
-import com.wangzan101.mika.settings.ReasoningOptions
-import com.wangzan101.mika.settings.RoleChoice
-import com.wangzan101.mika.ui.components.FooterNote
-import com.wangzan101.mika.ui.components.MikaDialog
-import com.wangzan101.mika.ui.components.RowChevron
-import com.wangzan101.mika.ui.components.SelectChip
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
+import com.wangzan101.djini.R
+import com.wangzan101.djini.core.model.ModelRole
+import com.wangzan101.djini.settings.ReasoningOptions
+import com.wangzan101.djini.settings.RoleChoice
+import com.wangzan101.djini.ui.components.FooterNote
+import com.wangzan101.djini.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.RowChevron
+import com.wangzan101.djini.ui.components.SelectChip
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
 
 /** 每个用途自己的档位;跟随主模型时说明继承,显式选同一个模型仍能独立设置。 */
 @OptIn(ExperimentalLayoutApi::class)
@@ -84,7 +84,7 @@ internal fun ModelOptionButton(text: String, tag: String, modifier: Modifier = M
         horizontalArrangement = Arrangement.Center,
     ) {
         Text(
-            text, Modifier.weight(1f), style = MikaType.Hint, color = MikaTheme.colors.ink2,
+            text, Modifier.weight(1f), style = MikaType.Hint, color = DjiniTheme.colors.ink2,
             textAlign = TextAlign.Center, maxLines = 1, overflow = TextOverflow.Ellipsis,
         )
         RowChevron()

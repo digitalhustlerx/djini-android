@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.userscreen
+package com.wangzan101.djini.core.userscreen
 
 /**
  * 用户的一句话里带着他此刻的屏幕时怎么写:单独一行 `[[screen:<编号>]]`,其余各行是附言(可以没有)。

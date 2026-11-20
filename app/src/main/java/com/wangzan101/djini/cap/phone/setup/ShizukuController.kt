@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.phone.setup
+package com.wangzan101.djini.cap.phone.setup
 
 import android.content.ComponentName
 import android.content.Context
@@ -8,12 +8,12 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.IBinder
 import android.util.Log
-import com.wangzan101.mika.BuildConfig
-import com.wangzan101.mika.cap.phone.shell.HelperHub
-import com.wangzan101.mika.cap.phone.shell.ShizukuShellUserService
-import com.wangzan101.mika.core.shell.BuiltinShellFailure
-import com.wangzan101.mika.core.shell.ShizukuPlatformState
-import com.wangzan101.mika.shell.IMikaShell
+import com.wangzan101.djini.BuildConfig
+import com.wangzan101.djini.cap.phone.shell.HelperHub
+import com.wangzan101.djini.cap.phone.shell.ShizukuShellUserService
+import com.wangzan101.djini.core.shell.BuiltinShellFailure
+import com.wangzan101.djini.core.shell.ShizukuPlatformState
+import com.wangzan101.djini.shell.IDjiniShell
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -31,8 +31,8 @@ import rikka.shizuku.Shizuku
 class ShizukuController internal constructor(
     private val scope: CoroutineScope,
     private val bridge: Bridge,
-    private val attach: (IBinder) -> IMikaShell?,
-    private val detach: (IMikaShell?) -> Unit,
+    private val attach: (IBinder) -> IDjiniShell?,
+    private val detach: (IDjiniShell?) -> Unit,
     private val onChanged: () -> Unit,
     private val io: CoroutineDispatcher = Dispatchers.IO,
 ) {
@@ -68,7 +68,7 @@ class ShizukuController internal constructor(
     private var started = false
     private var bindRequested = false
     private var bindGeneration = 0L
-    private var boundShell: IMikaShell? = null
+    private var boundShell: IDjiniShell? = null
 
     private val _state = MutableStateFlow(ShizukuPlatformState.Unavailable)
     val state: StateFlow<ShizukuPlatformState> = _state.asStateFlow()

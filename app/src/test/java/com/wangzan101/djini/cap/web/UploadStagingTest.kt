@@ -1,6 +1,6 @@
-package com.wangzan101.mika.cap.web
+package com.wangzan101.djini.cap.web
 
-import com.wangzan101.mika.cap.sandbox.JVM_GATE
+import com.wangzan101.djini.cap.sandbox.JVM_GATE
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -45,7 +45,7 @@ class UploadStagingTest {
         assertEquals("file_not_found", refused("/workspace/link.txt"))
         assertEquals("linked_file", refused("/workspace/hard.txt"))
         assertEquals("path_outside_workspace", refused("/workspace/../etc/passwd"))
-        assertEquals("path_outside_workspace", refused("/opt/mika/skills/x"))
+        assertEquals("path_outside_workspace", refused("/opt/djini/skills/x"))
         assertEquals("file_not_found", refused("/workspace/none.txt"))
         assertEquals("file_too_large", refused("/workspace/big.bin"))
         assertEquals("file_too_large", refused("/workspace/a.bin", "/workspace/b.bin"))

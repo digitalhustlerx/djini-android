@@ -1,6 +1,6 @@
-package com.wangzan101.mika.calls.briefing
+package com.wangzan101.djini.calls.briefing
 
-import com.wangzan101.mika.calls.CallPlaybackQueue
+import com.wangzan101.djini.calls.CallPlaybackQueue
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
 import org.junit.Test

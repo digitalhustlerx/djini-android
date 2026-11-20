@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.export
+package com.wangzan101.djini.core.export
 
-import com.wangzan101.mika.core.record.Redactor
+import com.wangzan101.djini.core.record.Redactor
 
 /**
  * 导出前脱敏。密钥样式永远按运行记录那套规则处理([Redactor.text]);

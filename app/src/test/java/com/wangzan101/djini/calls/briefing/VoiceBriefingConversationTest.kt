@@ -1,7 +1,7 @@
-package com.wangzan101.mika.calls.briefing
+package com.wangzan101.djini.calls.briefing
 
-import com.wangzan101.mika.calls.CallTaskBrief
-import com.wangzan101.mika.calls.VolcRealtimeEvent
+import com.wangzan101.djini.calls.CallTaskBrief
+import com.wangzan101.djini.calls.VolcRealtimeEvent
 import org.junit.Assert.*
 import org.junit.Test
 

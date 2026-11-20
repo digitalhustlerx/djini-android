@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.web
+package com.wangzan101.djini.cap.web
 
 import android.content.ComponentCallbacks2
 import android.content.Context
@@ -7,8 +7,8 @@ import android.graphics.Bitmap
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import com.wangzan101.mika.core.cap.web.KeptPageClose
-import com.wangzan101.mika.core.cap.web.WebUrlPolicy
+import com.wangzan101.djini.core.cap.web.KeptPageClose
+import com.wangzan101.djini.core.cap.web.WebUrlPolicy
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.flowOn
 /**
  * 进程里那一份「任务结束后留下的网页」:任务结束时([WebStack.close])把模型用 web_keep_open 标过的那一页从任务的标签池里拿出来,
  * 连同它挂着的那块后台网页显示一起交到这里——页面照旧挂在任务期间那块显示上,和任务期间一样看得见、照常运行,不另做别的手脚。
- * 全局至多一页([KeptPageSlot]),[KEEP_OPEN_HOURS][com.wangzan101.mika.core.cap.web.KEEP_OPEN_HOURS] 小时后自动关;
+ * 全局至多一页([KeptPageSlot]),[KEEP_OPEN_HOURS][com.wangzan101.djini.core.cap.web.KEEP_OPEN_HOURS] 小时后自动关;
  * 内存紧张被系统要求释放、渲染进程崩了或被系统收回、用户关掉、留了另一页时也关。关的时候销毁标签、放掉显示、Cookie 写盘,
  * 并交给 [onClosed](在来源对话那一轮记下原因)。
  * 留着的那一页不在任何任务的标签池里:之后的任务列不到、关不到它;它算进各任务共用的标签总数(见 [TabBudget]),但不会被腾位置关掉。

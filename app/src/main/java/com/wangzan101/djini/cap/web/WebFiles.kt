@@ -1,9 +1,9 @@
-package com.wangzan101.mika.cap.web
+package com.wangzan101.djini.cap.web
 
 import android.content.Context
 import android.net.Uri
 import androidx.core.content.FileProvider
-import com.wangzan101.mika.core.workspace.WorkspaceFileGate
+import com.wangzan101.djini.core.workspace.WorkspaceFileGate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay

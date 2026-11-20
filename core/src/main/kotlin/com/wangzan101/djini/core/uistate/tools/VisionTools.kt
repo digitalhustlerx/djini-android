@@ -1,30 +1,30 @@
-package com.wangzan101.mika.core.uistate.tools
+package com.wangzan101.djini.core.uistate.tools
 
-import com.wangzan101.mika.core.uistate.ScreenFamily
-import com.wangzan101.mika.core.uistate.Located
-import com.wangzan101.mika.core.uistate.ScreenDiagnosis
-import com.wangzan101.mika.core.prompt.Feedback
-import com.wangzan101.mika.core.tool.Args
-import com.wangzan101.mika.core.tool.HINT_PROTECTED
-import com.wangzan101.mika.core.tool.Risk
-import com.wangzan101.mika.core.tool.ToolContext
-import com.wangzan101.mika.core.tool.ToolDef
-import com.wangzan101.mika.core.tool.ToolExecution
-import com.wangzan101.mika.core.tool.Verb
-import com.wangzan101.mika.core.tool.fail
-import com.wangzan101.mika.core.tool.failCode
-import com.wangzan101.mika.core.tool.ok
-import com.wangzan101.mika.core.tool.str
-import com.wangzan101.mika.core.vision.LocateResult
-import com.wangzan101.mika.core.vision.ScreenUnavailable
+import com.wangzan101.djini.core.uistate.ScreenFamily
+import com.wangzan101.djini.core.uistate.Located
+import com.wangzan101.djini.core.uistate.ScreenDiagnosis
+import com.wangzan101.djini.core.prompt.Feedback
+import com.wangzan101.djini.core.tool.Args
+import com.wangzan101.djini.core.tool.HINT_PROTECTED
+import com.wangzan101.djini.core.tool.Risk
+import com.wangzan101.djini.core.tool.ToolContext
+import com.wangzan101.djini.core.tool.ToolDef
+import com.wangzan101.djini.core.tool.ToolExecution
+import com.wangzan101.djini.core.tool.Verb
+import com.wangzan101.djini.core.tool.fail
+import com.wangzan101.djini.core.tool.failCode
+import com.wangzan101.djini.core.tool.ok
+import com.wangzan101.djini.core.tool.str
+import com.wangzan101.djini.core.vision.LocateResult
+import com.wangzan101.djini.core.vision.ScreenUnavailable
 import kotlinx.coroutines.CancellationException
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
-import com.wangzan101.mika.core.uistate.described
-import com.wangzan101.mika.core.uistate.locatedInfo
-import com.wangzan101.mika.core.uistate.locator
+import com.wangzan101.djini.core.uistate.described
+import com.wangzan101.djini.core.uistate.locatedInfo
+import com.wangzan101.djini.core.uistate.locator
 
 /** 看图类工具:要设置里有看图模型(视觉角色)才提供,和主模型能不能看图无关。 */
 internal class Describe(f: ScreenFamily) : ScreenTool(f, "describe") {

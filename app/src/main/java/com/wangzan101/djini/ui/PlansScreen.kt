@@ -1,16 +1,16 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.i18n.trPlural
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.i18n.trPlural
 import android.content.Context
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import com.wangzan101.mika.chat.ConversationStore
-import com.wangzan101.mika.ui.components.MikaDialog
+import com.wangzan101.djini.chat.ConversationStore
+import com.wangzan101.djini.ui.components.MikaDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -23,40 +23,40 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LifecycleResumeEffect
-import com.wangzan101.mika.core.trigger.CONDITION_COOLDOWN
-import com.wangzan101.mika.core.trigger.CONDITION_NOT_MET
-import com.wangzan101.mika.core.trigger.CONDITION_PLAN_EDITED
-import com.wangzan101.mika.core.trigger.ConditionNotify
-import com.wangzan101.mika.core.trigger.TriggerDefinition
-import com.wangzan101.mika.core.trigger.TriggerSource
-import com.wangzan101.mika.core.trigger.TriggerSnapshot
-import com.wangzan101.mika.core.trigger.TriggerWindow
-import com.wangzan101.mika.core.trigger.TriggerWindowState
-import com.wangzan101.mika.core.trigger.canToggle
-import com.wangzan101.mika.core.trigger.toCopyPlanDraft
-import com.wangzan101.mika.task.ExactAlarmGuide
-import com.wangzan101.mika.task.TriggerRuntime
-import com.wangzan101.mika.ui.components.ActionSheet
-import com.wangzan101.mika.ui.components.BarIconButton
-import com.wangzan101.mika.ui.components.ButtonKind
-import com.wangzan101.mika.ui.components.ButtonSize
-import com.wangzan101.mika.ui.components.EmptyNote
-import com.wangzan101.mika.ui.components.FooterNote
-import com.wangzan101.mika.ui.components.GroupCard
-import com.wangzan101.mika.ui.components.GroupLabel
-import com.wangzan101.mika.ui.components.ListRow
-import com.wangzan101.mika.ui.components.MikaButton
-import com.wangzan101.mika.ui.components.MikaSwitch
-import com.wangzan101.mika.ui.components.SegmentedControl
-import com.wangzan101.mika.ui.components.SheetAction
-import com.wangzan101.mika.ui.components.StateCard
-import com.wangzan101.mika.ui.components.SubPage
-import com.wangzan101.mika.ui.components.TileTone
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
+import com.wangzan101.djini.core.trigger.CONDITION_COOLDOWN
+import com.wangzan101.djini.core.trigger.CONDITION_NOT_MET
+import com.wangzan101.djini.core.trigger.CONDITION_PLAN_EDITED
+import com.wangzan101.djini.core.trigger.ConditionNotify
+import com.wangzan101.djini.core.trigger.TriggerDefinition
+import com.wangzan101.djini.core.trigger.TriggerSource
+import com.wangzan101.djini.core.trigger.TriggerSnapshot
+import com.wangzan101.djini.core.trigger.TriggerWindow
+import com.wangzan101.djini.core.trigger.TriggerWindowState
+import com.wangzan101.djini.core.trigger.canToggle
+import com.wangzan101.djini.core.trigger.toCopyPlanDraft
+import com.wangzan101.djini.task.ExactAlarmGuide
+import com.wangzan101.djini.task.TriggerRuntime
+import com.wangzan101.djini.ui.components.ActionSheet
+import com.wangzan101.djini.ui.components.BarIconButton
+import com.wangzan101.djini.ui.components.ButtonKind
+import com.wangzan101.djini.ui.components.ButtonSize
+import com.wangzan101.djini.ui.components.EmptyNote
+import com.wangzan101.djini.ui.components.FooterNote
+import com.wangzan101.djini.ui.components.GroupCard
+import com.wangzan101.djini.ui.components.GroupLabel
+import com.wangzan101.djini.ui.components.ListRow
+import com.wangzan101.djini.ui.components.MikaButton
+import com.wangzan101.djini.ui.components.MikaSwitch
+import com.wangzan101.djini.ui.components.SegmentedControl
+import com.wangzan101.djini.ui.components.SheetAction
+import com.wangzan101.djini.ui.components.StateCard
+import com.wangzan101.djini.ui.components.SubPage
+import com.wangzan101.djini.ui.components.TileTone
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
 import java.time.Instant
-import com.wangzan101.mika.i18n.uiLocale
+import com.wangzan101.djini.i18n.uiLocale
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
@@ -109,7 +109,7 @@ fun PlansScreen(context: Context, onBack: () -> Unit, onOpenConversation: (Strin
             listOf(tr(R.string.plans_running_n, running.size), tr(R.string.plans_stopped_n, stopped.size)), segment, { segment = it },
             tags = listOf("plans-segment-running", "plans-segment-stopped"),
         )
-        error?.let { Text(it, Modifier.padding(top = 8.dp), style = MikaType.Caption, color = MikaTheme.colors.bad) }
+        error?.let { Text(it, Modifier.padding(top = 8.dp), style = MikaType.Caption, color = DjiniTheme.colors.bad) }
         if (shown.isEmpty()) {
             GroupLabel("")
             EmptyNote(
@@ -191,7 +191,7 @@ fun PlansScreen(context: Context, onBack: () -> Unit, onOpenConversation: (Strin
         MikaDialog(onDismissRequest = { deleting = null }, title = { Text(tr(R.string.plans_delete_title)) },
             text = { Text(plan.goal) },
             confirmButton = { TextButton(onClick = { act { TriggerRuntime.remove(context, plan.id) }; deleting = null }) {
-                Text(tr(R.string.confirm_delete), color = MikaTheme.colors.bad)
+                Text(tr(R.string.confirm_delete), color = DjiniTheme.colors.bad)
             } }, dismissButton = { TextButton(onClick = { deleting = null }) { Text(tr(R.string.cancel)) } })
     }
 }
@@ -248,7 +248,7 @@ private fun PlanRow(plan: TriggerDefinition, last: TriggerWindow?, first: Boolea
         tr(if (plan.notifyWhen == ConditionNotify.EachTimeMet) R.string.plans_condition_each else R.string.plans_condition, it, when_)
     } ?: when_
     val sourceSubtitle = "${planSourceLabel(plan.source)} · $subtitle"
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val delivered = last?.state == TriggerWindowState.Delivered
     ListRow(
         null, plan.reminderText ?: plan.goal, sourceSubtitle, first = first,

@@ -1,27 +1,27 @@
-package com.wangzan101.mika.core.cap.web
+package com.wangzan101.djini.core.cap.web
 
-import com.wangzan101.mika.core.knowledge.SiteCommandFile
-import com.wangzan101.mika.core.net.UrlHost
-import com.wangzan101.mika.core.observation.Untrusted
-import com.wangzan101.mika.core.prompt.Prompts
-import com.wangzan101.mika.core.tool.ArgError
-import com.wangzan101.mika.core.tool.Args
-import com.wangzan101.mika.core.tool.Risk
-import com.wangzan101.mika.core.tool.ToolContext
-import com.wangzan101.mika.core.tool.ToolDef
-import com.wangzan101.mika.core.tool.ToolExecution
-import com.wangzan101.mika.core.tool.Verb
-import com.wangzan101.mika.core.tool.fail
-import com.wangzan101.mika.core.tool.failCode
-import com.wangzan101.mika.core.tool.int
-import com.wangzan101.mika.core.tool.ok
-import com.wangzan101.mika.core.tool.str
+import com.wangzan101.djini.core.knowledge.SiteCommandFile
+import com.wangzan101.djini.core.net.UrlHost
+import com.wangzan101.djini.core.observation.Untrusted
+import com.wangzan101.djini.core.prompt.Prompts
+import com.wangzan101.djini.core.tool.ArgError
+import com.wangzan101.djini.core.tool.Args
+import com.wangzan101.djini.core.tool.Risk
+import com.wangzan101.djini.core.tool.ToolContext
+import com.wangzan101.djini.core.tool.ToolDef
+import com.wangzan101.djini.core.tool.ToolExecution
+import com.wangzan101.djini.core.tool.Verb
+import com.wangzan101.djini.core.tool.fail
+import com.wangzan101.djini.core.tool.failCode
+import com.wangzan101.djini.core.tool.int
+import com.wangzan101.djini.core.tool.ok
+import com.wangzan101.djini.core.tool.str
 import kotlinx.coroutines.CancellationException
 import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
-import com.wangzan101.mika.core.uistate.lastSnapshot
+import com.wangzan101.djini.core.uistate.lastSnapshot
 
 private fun timeoutProp() = int("Time limit, 1000-$READ_SCRIPT_MAX_TIMEOUT_MS ms (default $READ_SCRIPT_DEFAULT_TIMEOUT_MS).", 1000, READ_SCRIPT_MAX_TIMEOUT_MS)
 

@@ -1,4 +1,4 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
 import android.app.Notification
 import android.app.NotificationManager
@@ -9,11 +9,11 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SdkSuppress
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.DeviceTaskState
-import com.wangzan101.mika.R
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport.pollUntil
-import com.wangzan101.mika.chat.ConversationStore
-import com.wangzan101.mika.core.agent.TaskState
+import com.wangzan101.djini.DeviceTaskState
+import com.wangzan101.djini.R
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport.pollUntil
+import com.wangzan101.djini.chat.ConversationStore
+import com.wangzan101.djini.core.agent.TaskState
 import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
@@ -32,7 +32,7 @@ class TaskLiveUpdateDeviceTest {
         val goal = "先在铁路12306查余票，再去携程看酒店，最后去小红书找攻略，先问我哪天出发。"
         val model = ScriptedModel().apply { intent = "ACT" }
         val target = TaskService.openApp(context, thread)
-        // Optional time for an observer to inspect the OEM status bar outside Mika.
+        // Optional time for an observer to inspect the OEM status bar outside Djini.
         val observeMs = InstrumentationRegistry.getArguments().getString("observeChipMs")?.toLongOrNull()?.coerceIn(0, 30_000) ?: 0
         fun progress() = nm.activeNotifications.firstOrNull {
             it.notification.channelId == TaskService.CHANNEL_PROGRESS && it.notification.contentIntent == target

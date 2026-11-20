@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import android.content.Intent
 import android.net.Uri
@@ -20,16 +20,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.wangzan101.mika.MikaApp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.about.ApkDownloadState
-import com.wangzan101.mika.about.ApkRejected
-import com.wangzan101.mika.about.DownloadPhase
-import com.wangzan101.mika.about.ReleaseInfo
-import com.wangzan101.mika.ui.components.ButtonKind
-import com.wangzan101.mika.ui.components.MikaButton
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
+import com.wangzan101.djini.DjiniApp
+import com.wangzan101.djini.R
+import com.wangzan101.djini.about.ApkDownloadState
+import com.wangzan101.djini.about.ApkRejected
+import com.wangzan101.djini.about.DownloadPhase
+import com.wangzan101.djini.about.ReleaseInfo
+import com.wangzan101.djini.ui.components.ButtonKind
+import com.wangzan101.djini.ui.components.MikaButton
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -39,7 +39,7 @@ import kotlinx.coroutines.withContext
 @Composable
 internal fun UpdateDownloadControls(release: ReleaseInfo) {
     val context = LocalContext.current
-    val app = context.applicationContext as MikaApp
+    val app = context.applicationContext as DjiniApp
     val updater = app.apkUpdater
     val scope = rememberCoroutineScope()
     var state by remember(release.apkUrl) { mutableStateOf(ApkDownloadState()) }
@@ -140,5 +140,5 @@ internal fun UpdateDownloadActions(
     }
     val note = error ?: if (state.phase == DownloadPhase.Failed) R.string.about_update_error else R.string.about_update_install_hint
     Text(stringResource(note),
-        Modifier.padding(top = 8.dp), style = MikaType.Caption, color = MikaTheme.colors.ink3)
+        Modifier.padding(top = 8.dp), style = MikaType.Caption, color = DjiniTheme.colors.ink3)
 }

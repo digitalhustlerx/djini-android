@@ -1,6 +1,6 @@
-package com.wangzan101.mika.terminal
+package com.wangzan101.djini.terminal
 
-import com.wangzan101.mika.core.cap.sandbox.SandboxShell
+import com.wangzan101.djini.core.cap.sandbox.SandboxShell
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -92,7 +92,7 @@ class TerminalSession internal constructor(
 
     private val shellClosed = AtomicBoolean()
     /** 见 [writeBytes];在 [lifecycle] 之前建好,它收尾时要关掉这个线程。 */
-    private val writer = Executors.newSingleThreadExecutor { r -> Thread(r, "mika-terminal-write").apply { isDaemon = true } }
+    private val writer = Executors.newSingleThreadExecutor { r -> Thread(r, "djini-terminal-write").apply { isDaemon = true } }
     private val lifecycle = scope.launch {
         try {
             val revocations = launch {
@@ -151,7 +151,7 @@ class TerminalSession internal constructor(
         runCatching { writer.execute { runCatching { shell.input.write(bytes); shell.input.flush() } } }
     }
 
-    /** 界面大小变了(转屏、字体变化、分屏);mikarun 会把新的行列数写进 pty。 */
+    /** 界面大小变了(转屏、字体变化、分屏);djinarun 会把新的行列数写进 pty。 */
     fun resize(cols: Int, rows: Int) {
         if (cols !in 1..1000 || rows !in 1..1000) return
         runCatching { shell.resize(cols, rows) }
@@ -172,7 +172,7 @@ class TerminalSession internal constructor(
         if (shellClosed.compareAndSet(false, true)) {
             writer.shutdownNow()
             // Pipe cleanup can block. It must outlive cancellation of the session's coroutine.
-            thread(isDaemon = true, name = "mika-terminal-close") { runCatching { shell.close() } }
+            thread(isDaemon = true, name = "djini-terminal-close") { runCatching { shell.close() } }
         }
     }
 }

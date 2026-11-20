@@ -1,16 +1,16 @@
-package com.wangzan101.mika.cap.phone.shell
+package com.wangzan101.djini.cap.phone.shell
 
 import android.content.Context
 import android.os.Bundle
 import android.view.Display
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.cap.phone.a11y.AppCopyReader
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport.TEST_PACKAGE
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport.pollUntil
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport.sh
-import com.wangzan101.mika.shell.IMikaShell
+import com.wangzan101.djini.cap.phone.a11y.AppCopyReader
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport.TEST_PACKAGE
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport.pollUntil
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport.sh
+import com.wangzan101.djini.shell.IDjiniShell
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -21,14 +21,14 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 /**
- * 任务结束时 Mika 屏上的 App 怎么办(IMikaShell.finishDisplay):没出声的留下,挪到主屏最后面、不到用户眼前;
- * 下次经启动入口打开时同一个任务挪回 Mika 的屏;正在出声的、标了 close 的随屏关掉;标了 keep 的出声也留下。
+ * 任务结束时 Djini 屏上的 App 怎么办(IDjiniShell.finishDisplay):没出声的留下,挪到主屏最后面、不到用户眼前;
+ * 下次经启动入口打开时同一个任务挪回 Djini 的屏;正在出声的、标了 close 的随屏关掉;标了 keep 的出声也留下。
  * 需要外壳已连上。用户的主屏不该有任何变化(焦点、焦点窗口都不变,留下的任务看不见)。
  */
 @RunWith(AndroidJUnit4::class)
 class AppsAfterTaskDeviceTest {
     private val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
-    private val shell: IMikaShell get() = DeviceSupport.shell()
+    private val shell: IDjiniShell get() = DeviceSupport.shell()
     private val screens = mutableListOf<ParityScreen>()
     private lateinit var probe: ShellProbe
 
@@ -79,7 +79,7 @@ class AppsAfterTaskDeviceTest {
         // 最近任务的记录里每个任务写成 Task{… #<编号> …}
         assertTrue("kept task is gone from recents", Regex("#$task\\b").containsMatchIn(sh("dumpsys activity recents")))
 
-        // 下次打开:同一个任务挪回 Mika 的新屏
+        // 下次打开:同一个任务挪回 Djini 的新屏
         val s2 = newScreen()
         probe.clear()
         assertEquals(ShellService.START_OK, shell.startApp(s2.id, TEST_PACKAGE))
@@ -123,7 +123,7 @@ class AppsAfterTaskDeviceTest {
     }
 
     private companion object {
-        const val AUDIO_PROBE = "com.wangzan101.mika.test/com.wangzan101.mika.shell.AudioProbeActivity"
+        const val AUDIO_PROBE = "com.wangzan101.djini.test/com.wangzan101.djini.shell.AudioProbeActivity"
         const val PLAYER_SETTLE_MS = 1_000L
     }
 }

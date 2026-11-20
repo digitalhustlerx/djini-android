@@ -1,24 +1,24 @@
-package com.wangzan101.mika.core.tool
+package com.wangzan101.djini.core.tool
 
-import com.wangzan101.mika.core.observation.ObsKind
-import com.wangzan101.mika.core.agent.AgentLoop
-import com.wangzan101.mika.core.agent.BatchRunner
-import com.wangzan101.mika.core.agent.FakeModel
-import com.wangzan101.mika.core.gate.ConfirmationGate
-import com.wangzan101.mika.core.model.ModelReply
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.Role
-import com.wangzan101.mika.core.model.StopReason
-import com.wangzan101.mika.core.uistate.ActionResult
-import com.wangzan101.mika.core.uistate.UiElement
-import com.wangzan101.mika.core.cap.web.CapturedResponse
-import com.wangzan101.mika.core.cap.web.EvalJs
-import com.wangzan101.mika.core.cap.web.WaitOutcome
-import com.wangzan101.mika.core.cap.web.ExternalLink
-import com.wangzan101.mika.core.cap.web.FakeWebPort
-import com.wangzan101.mika.core.cap.web.PagePacing
-import com.wangzan101.mika.core.uistate.IdleScroll
-import com.wangzan101.mika.core.uistate.PlacePace
+import com.wangzan101.djini.core.observation.ObsKind
+import com.wangzan101.djini.core.agent.AgentLoop
+import com.wangzan101.djini.core.agent.BatchRunner
+import com.wangzan101.djini.core.agent.FakeModel
+import com.wangzan101.djini.core.gate.ConfirmationGate
+import com.wangzan101.djini.core.model.ModelReply
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.Role
+import com.wangzan101.djini.core.model.StopReason
+import com.wangzan101.djini.core.uistate.ActionResult
+import com.wangzan101.djini.core.uistate.UiElement
+import com.wangzan101.djini.core.cap.web.CapturedResponse
+import com.wangzan101.djini.core.cap.web.EvalJs
+import com.wangzan101.djini.core.cap.web.WaitOutcome
+import com.wangzan101.djini.core.cap.web.ExternalLink
+import com.wangzan101.djini.core.cap.web.FakeWebPort
+import com.wangzan101.djini.core.cap.web.PagePacing
+import com.wangzan101.djini.core.uistate.IdleScroll
+import com.wangzan101.djini.core.uistate.PlacePace
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.Json
@@ -31,20 +31,20 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import com.wangzan101.mika.core.workspace.WorkspacePathCheck
-import com.wangzan101.mika.core.testing.BATCHABLE
-import com.wangzan101.mika.core.testing.verb
-import com.wangzan101.mika.core.assembly.toolDispatcher
-import com.wangzan101.mika.core.cap.web.WEB
-import com.wangzan101.mika.core.action.ActionExecutor
-import com.wangzan101.mika.core.action.ActionRecorder
-import com.wangzan101.mika.core.action.Origin
-import com.wangzan101.mika.core.action.execution
-import com.wangzan101.mika.core.guard.OperationGuards
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.record.RunSink
-import com.wangzan101.mika.core.cap.phone.PHONE
-import com.wangzan101.mika.core.testing.WEB_TOOLS
+import com.wangzan101.djini.core.workspace.WorkspacePathCheck
+import com.wangzan101.djini.core.testing.BATCHABLE
+import com.wangzan101.djini.core.testing.verb
+import com.wangzan101.djini.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.cap.web.WEB
+import com.wangzan101.djini.core.action.ActionExecutor
+import com.wangzan101.djini.core.action.ActionRecorder
+import com.wangzan101.djini.core.action.Origin
+import com.wangzan101.djini.core.action.execution
+import com.wangzan101.djini.core.guard.OperationGuards
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.record.RunSink
+import com.wangzan101.djini.core.cap.phone.PHONE
+import com.wangzan101.djini.core.testing.WEB_TOOLS
 
 class ToolDispatcherWebTest {
     private var n = 0
@@ -196,7 +196,7 @@ class ToolDispatcherWebTest {
 
     /** 裁定:网页数据脚本只读运行,轻量模型也可以用。 */
     @Test fun evaluateJsStaysAllowedForTheLightModel() {
-        assertFalse(com.wangzan101.mika.core.agent.ModelRouter.mainOnly("web_evaluate_js", verb("web_evaluate_js")))
+        assertFalse(com.wangzan101.djini.core.agent.ModelRouter.mainOnly("web_evaluate_js", verb("web_evaluate_js")))
     }
 
     @Test fun browserToolsAreNotBatchable() {
@@ -268,7 +268,7 @@ class ToolDispatcherWebTest {
     @Test fun readPageDefaultsAndCaps() = runTest {
         val web = FakeWebPort(); val t = d(web = web); t.go()
         val r = t.execute(call("web_read_page")).content
-        assertEquals(com.wangzan101.mika.core.observation.Untrusted.wrap("正文"), r.s("text")); assertEquals("下一页", r["links"]!!.jsonArray[0].jsonObject.s("text"))
+        assertEquals(com.wangzan101.djini.core.observation.Untrusted.wrap("正文"), r.s("text")); assertEquals("下一页", r["links"]!!.jsonArray[0].jsonObject.s("text"))
         assertEquals("false", r.s("truncated"))
         t.execute(call("web_read_page", """{"maxChars":30000,"offset":12000}"""))
         assertEquals(listOf("readPage 12000 0", "readPage 30000 12000"), web.calls.filter { it.startsWith("readPage") })
@@ -278,8 +278,8 @@ class ToolDispatcherWebTest {
 
     @Test fun readPageReportsQualityAndReadsUrlsInTheBackground() = runTest {
         val web = FakeWebPort(); val t = d(web = web); t.go()
-        web.quality = com.wangzan101.mika.core.cap.web.ReadQuality(
-            1234, 0.82, com.wangzan101.mika.core.cap.web.ReadVerdict.NEEDS_SIGN_IN, "password field", published = "2026-01-02", folded = 2, dialogs = 1,
+        web.quality = com.wangzan101.djini.core.cap.web.ReadQuality(
+            1234, 0.82, com.wangzan101.djini.core.cap.web.ReadVerdict.NEEDS_SIGN_IN, "password field", published = "2026-01-02", folded = 2, dialogs = 1,
         )
         val r = t.execute(call("web_read_page", """{"url":"https://news.example.com/a","unfold":true}""")).content
         assertEquals("needs_sign_in", r.s("verdict")); assertEquals("true", r.s("unfold")); assertEquals("1234", r.s("chars")); assertEquals("0.82", r.s("textDensity"))
@@ -288,7 +288,7 @@ class ToolDispatcherWebTest {
         assertEquals(listOf("readUrl https://news.example.com/a unfold"), web.calls.filter { it.startsWith("readUrl") })
         // 当前标签没被动过:没有新的导航
         assertEquals(1, web.calls.count { it.startsWith("navigate") })
-        web.quality = web.quality!!.copy(verdict = com.wangzan101.mika.core.cap.web.ReadVerdict.THIN)
+        web.quality = web.quality!!.copy(verdict = com.wangzan101.djini.core.cap.web.ReadVerdict.THIN)
         val thin = t.execute(call("web_read_page", """{"url":"https://news.example.com/b"}""")).content
         assertTrue(thin.s("hint").contains("web_navigate"))
         assertFalse(t.execute(call("web_read_page")).content.containsKey("hint"))
@@ -300,7 +300,7 @@ class ToolDispatcherWebTest {
     @Test fun evalScriptCappedAt4000() = runTest {
         val web = FakeWebPort(); val t = d(web = web); t.go()
         val ok = t.execute(call("web_evaluate_js", """{"script":"${"x".repeat(4000)}"}""")).content
-        assertEquals(com.wangzan101.mika.core.observation.Untrusted.wrap("42"), ok.s("result"))
+        assertEquals(com.wangzan101.djini.core.observation.Untrusted.wrap("42"), ok.s("result"))
         assertEquals("invalid_arguments", t.execute(call("web_evaluate_js", """{"script":"${"x".repeat(4001)}"}""")).content.s("error"))
         web.eval = EvalJs.Failed("devtools_unavailable", "no devtools")
         assertEquals("devtools_unavailable", t.execute(call("web_evaluate_js", """{"script":"document.title"}""")).content.s("error"))
@@ -311,8 +311,8 @@ class ToolDispatcherWebTest {
     }
 
     @Test fun siteCommandsAreOfferedOnlyForDeclaredSitesAndRunWithCheckedArgs() = runTest {
-        val catalog = com.wangzan101.mika.core.knowledge.testCatalog(*com.wangzan101.mika.core.knowledge.SiteCommandsTest.files)
-        val web = FakeWebPort().apply { tabList = listOf(com.wangzan101.mika.core.cap.web.TabInfo("t1", "https://www.shop.test/list", "list", true)) }
+        val catalog = com.wangzan101.djini.core.knowledge.testCatalog(*com.wangzan101.djini.core.knowledge.SiteCommandsTest.files)
+        val web = FakeWebPort().apply { tabList = listOf(com.wangzan101.djini.core.cap.web.TabInfo("t1", "https://www.shop.test/list", "list", true)) }
         val t = toolDispatcher(FakeScreen(), web = web, skills = catalog)
         assertTrue(t.definitions().any { it.name == "web_run_site_command" })
         web.eval = EvalJs.Ok("""[{"title":"a"}]""", false)
@@ -322,7 +322,7 @@ class ToolDispatcherWebTest {
         assertTrue(web.calls.last().startsWith("eval "))
         assertEquals("unknown_command", t.execute(call("web_run_site_command", """{"name":"nope"}""")).content.s("error"))
         assertEquals("invalid_arguments", t.execute(call("web_run_site_command", """{"name":"list_items","args":{"limit":2}}""")).content.s("error"))
-        web.tabList = listOf(com.wangzan101.mika.core.cap.web.TabInfo("t1", "https://other.test/", "x", true))
+        web.tabList = listOf(com.wangzan101.djini.core.cap.web.TabInfo("t1", "https://other.test/", "x", true))
         assertEquals("unknown_command", t.execute(call("web_run_site_command", """{"name":"list_items","args":{"query":"a"}}""")).content.s("error"))
     }
 
@@ -408,9 +408,9 @@ class ToolDispatcherWebTest {
         )
         val m = FakeModel(*(calls.map { reply(it) } + reply(call("end_not_done", """{"message":"停"}"""))).toTypedArray())
         val loop = AgentLoop(m, d(), "BASE", gate = { gated += step }, confirmations = ConfirmationGate(),
-            sink = object : com.wangzan101.mika.core.record.RunSink {
-                override fun event(e: com.wangzan101.mika.core.record.RunEvent) {
-                    if (e is com.wangzan101.mika.core.record.RunEvent.ToolResult) step++
+            sink = object : com.wangzan101.djini.core.record.RunSink {
+                override fun event(e: com.wangzan101.djini.core.record.RunEvent) {
+                    if (e is com.wangzan101.djini.core.record.RunEvent.ToolResult) step++
                 }
             })
         loop.run("t")
@@ -750,7 +750,7 @@ class ToolDispatcherWebTest {
         val sid = t.execute(call("web_observe")).content.s("snapshotId")
         // 停留里滚动让元素往上挪;点本身什么也没改(端口不报变没变)
         web.onIdle = { web.elements = web.elements.map { it.copy(centerY = it.centerY - 40, bounds = listOf(it.bounds[0], it.bounds[1] - 40, it.bounds[2], it.bounds[3] - 40)) } }
-        web.result = com.wangzan101.mika.core.uistate.ActionResult.Ok()
+        web.result = com.wangzan101.djini.core.uistate.ActionResult.Ok()
         val tap = t.execute(call("web_tap", """{"ref":"@e1","snapshotId":"$sid"}"""))
         assertTrue(web.calls.any { it.startsWith("idle ") })
         // 动作前的样子在滚完之后重看过:点没改什么就照实说没效果;模型手里那屏的位置已不准,标成过时

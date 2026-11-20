@@ -1,30 +1,30 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
-import com.wangzan101.mika.core.model.Author
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.Role
-import com.wangzan101.mika.core.testing.fakeModel
-import com.wangzan101.mika.core.tool.FakeScreen
+import com.wangzan101.djini.core.model.Author
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.Role
+import com.wangzan101.djini.core.testing.fakeModel
+import com.wangzan101.djini.core.tool.FakeScreen
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import com.wangzan101.mika.core.testing.TOOLS
-import com.wangzan101.mika.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.testing.TOOLS
+import com.wangzan101.djini.core.assembly.toolDispatcher
 
 class StructuredCompactionTest {
     private var seq = 0
     private val head = listOf(
         Message(Role.User, listOf(Part.Text("帮我查上海的天气")), Author.User),
-        Message(Role.User, listOf(Part.Text(ContextBuilder.envelope(ContextKind.Memory, "记忆", "1. 喜欢摄氏度"))), Author.Mika),
+        Message(Role.User, listOf(Part.Text(ContextBuilder.envelope(ContextKind.Memory, "记忆", "1. 喜欢摄氏度"))), Author.Djini),
     )
 
     private fun round(name: String, args: String = "{}", result: String = """{"ok":true,"changed":true}""", said: String? = null): List<Message> {
         val id = "c${++seq}"
         return listOf(
-            Message(Role.Assistant, listOfNotNull(said?.let { Part.Text(it) }, Part.ToolCall(id, name, args)), Author.Mika),
-            Message(Role.Tool, listOf(Part.ToolResult(id, result, isError = false)), Author.Mika),
+            Message(Role.Assistant, listOfNotNull(said?.let { Part.Text(it) }, Part.ToolCall(id, name, args)), Author.Djini),
+            Message(Role.Tool, listOf(Part.ToolResult(id, result, isError = false)), Author.Djini),
         )
     }
 

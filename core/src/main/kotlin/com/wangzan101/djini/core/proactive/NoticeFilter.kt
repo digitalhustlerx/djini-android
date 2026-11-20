@@ -1,11 +1,11 @@
-package com.wangzan101.mika.core.proactive
+package com.wangzan101.djini.core.proactive
 
 /** [NoticeFilter.decide] 的结论:留下,或者为什么丢掉。 */
 enum class NoticeDecision {
     Keep,
     /** 不在用户勾选的 App 里。 */
     NotWhitelisted,
-    /** Mika 自己(各种安装包)的通知,勾了也不收。 */
+    /** Djini 自己(各种安装包)的通知,勾了也不收。 */
     SelfPackage,
     /** 在「应用访问」里被禁用的 App。 */
     AppBlocked,
@@ -26,7 +26,7 @@ enum class NoticeDecision {
  * 包名这一关([decidePackage])在读通知内容之前就做:不在白名单里的通知连内容都不读。
  */
 object NoticeFilter {
-    const val SELF_PREFIX = "com.wangzan101.mika"
+    const val SELF_PREFIX = "com.wangzan101.djini"
     const val TITLE_MAX = 200
     const val TEXT_MAX = 2_000
     const val MESSAGES_MAX = 20
@@ -34,7 +34,7 @@ object NoticeFilter {
     /** 不收的类别(值与 android.app.Notification.CATEGORY_* 相同)。 */
     val DROPPED_CATEGORIES = setOf("progress", "transport", "service", "call", "alarm", "navigation", "stopwatch")
 
-    /** Mika 自己的包:正式版、.dev、.dev.test 等等都算。 */
+    /** Djini 自己的包:正式版、.dev、.dev.test 等等都算。 */
     fun isSelf(packageName: String): Boolean = packageName.startsWith(SELF_PREFIX)
 
     /** 只看包名的那一关;[blocked] 是「应用访问」里禁用的包名。 */

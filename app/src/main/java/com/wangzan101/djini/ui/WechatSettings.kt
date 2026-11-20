@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,28 +22,28 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.ui.components.ButtonKind
-import com.wangzan101.mika.ui.components.CapabilityTag
-import com.wangzan101.mika.ui.components.FooterNote
-import com.wangzan101.mika.ui.components.GroupCard
-import com.wangzan101.mika.ui.components.GroupLabel
-import com.wangzan101.mika.ui.components.ListRow
-import com.wangzan101.mika.ui.components.MikaButton
-import com.wangzan101.mika.ui.components.MikaCard
-import com.wangzan101.mika.ui.components.MikaDialog
-import com.wangzan101.mika.ui.components.MikaSwitch
-import com.wangzan101.mika.ui.components.PageScaffold
-import com.wangzan101.mika.ui.components.PillTone
-import com.wangzan101.mika.ui.components.RowValue
-import com.wangzan101.mika.ui.components.StateCard
-import com.wangzan101.mika.ui.components.StatusPill
-import com.wangzan101.mika.ui.components.TileTone
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
-import com.wangzan101.mika.wechat.WechatConnectionState
-import com.wangzan101.mika.wechat.WechatRuntime
+import com.wangzan101.djini.R
+import com.wangzan101.djini.ui.components.ButtonKind
+import com.wangzan101.djini.ui.components.CapabilityTag
+import com.wangzan101.djini.ui.components.FooterNote
+import com.wangzan101.djini.ui.components.GroupCard
+import com.wangzan101.djini.ui.components.GroupLabel
+import com.wangzan101.djini.ui.components.ListRow
+import com.wangzan101.djini.ui.components.MikaButton
+import com.wangzan101.djini.ui.components.MikaCard
+import com.wangzan101.djini.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.MikaSwitch
+import com.wangzan101.djini.ui.components.PageScaffold
+import com.wangzan101.djini.ui.components.PillTone
+import com.wangzan101.djini.ui.components.RowValue
+import com.wangzan101.djini.ui.components.StateCard
+import com.wangzan101.djini.ui.components.StatusPill
+import com.wangzan101.djini.ui.components.TileTone
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.wechat.WechatConnectionState
+import com.wangzan101.djini.wechat.WechatRuntime
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -172,7 +172,7 @@ fun WechatSettingsScreen(runtime: WechatRuntime, onBack: () -> Unit) {
         GroupCard {
             Text(
                 stringResource(R.string.wechat_how_body), Modifier.padding(16.dp),
-                style = MikaType.Body, color = MikaTheme.colors.ink2,
+                style = MikaType.Body, color = DjiniTheme.colors.ink2,
             )
         }
 
@@ -182,19 +182,19 @@ fun WechatSettingsScreen(runtime: WechatRuntime, onBack: () -> Unit) {
                 ::startLogin, Modifier.fillMaxWidth(), enabled = !loginBusy,
             )
         }
-        loginError?.let { FooterNote(it, color = MikaTheme.colors.bad) }
+        loginError?.let { FooterNote(it, color = DjiniTheme.colors.bad) }
 
         loginContent?.let { content ->
             MikaCard(Modifier.padding(bottom = 12.dp).testTag("wechat-login")) {
                 Column(Modifier.fillMaxWidth().padding(20.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(stringResource(R.string.wechat_qr_title), style = MikaType.BodyStrong, color = MikaTheme.colors.ink)
+                    Text(stringResource(R.string.wechat_qr_title), style = MikaType.BodyStrong, color = DjiniTheme.colors.ink)
                     QrCodeImage(
                         content, stringResource(R.string.wechat_qr_title),
                         Modifier.padding(vertical = 16.dp).size(240.dp).testTag("wechat-qr"),
                     )
                     Text(
                         stringResource(R.string.wechat_qr_help), style = MikaType.Caption,
-                        color = MikaTheme.colors.ink2, textAlign = TextAlign.Center,
+                        color = DjiniTheme.colors.ink2, textAlign = TextAlign.Center,
                     )
                     MikaButton(
                         stringResource(R.string.cancel), ::cancelLogin, Modifier.fillMaxWidth().padding(top = 8.dp),
@@ -257,10 +257,10 @@ fun WechatSettingsScreen(runtime: WechatRuntime, onBack: () -> Unit) {
                 kind = ButtonKind.Secondary, enabled = !loginBusy && !actionBusy,
             )
             TextButton({ confirmUnbind = true }, Modifier.fillMaxWidth(), enabled = !actionBusy && !loginBusy) {
-                Text(stringResource(R.string.wechat_unbind), color = MikaTheme.colors.bad)
+                Text(stringResource(R.string.wechat_unbind), color = DjiniTheme.colors.bad)
             }
         }
-        actionError?.let { FooterNote(it, color = MikaTheme.colors.bad) }
+        actionError?.let { FooterNote(it, color = DjiniTheme.colors.bad) }
 
         GroupLabel(stringResource(R.string.wechat_capabilities))
         GroupCard {
@@ -302,7 +302,7 @@ fun WechatSettingsScreen(runtime: WechatRuntime, onBack: () -> Unit) {
                             actionBusy = false
                         }
                     }
-                }) { Text(stringResource(R.string.wechat_unbind), color = MikaTheme.colors.bad) }
+                }) { Text(stringResource(R.string.wechat_unbind), color = DjiniTheme.colors.bad) }
             },
             dismissButton = { TextButton({ confirmUnbind = false }) { Text(stringResource(R.string.cancel)) } },
         )

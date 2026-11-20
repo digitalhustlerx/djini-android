@@ -1,7 +1,7 @@
-package com.wangzan101.mika.core.usage
+package com.wangzan101.djini.core.usage
 
-import com.wangzan101.mika.core.model.ModelError
-import com.wangzan101.mika.core.model.Usage
+import com.wangzan101.djini.core.model.ModelError
+import com.wangzan101.djini.core.model.Usage
 import org.junit.Assert.assertEquals
 import org.junit.Assert.fail
 import org.junit.Test

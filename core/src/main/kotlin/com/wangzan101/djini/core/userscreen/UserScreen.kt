@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.userscreen
+package com.wangzan101.djini.core.userscreen
 
 /** 屏上的一行字:[x]/[y] 是它的中心,和点按同一套 0–999 坐标(左上 0,0)。 */
 data class ScreenLine(val text: String, val x: Int, val y: Int)

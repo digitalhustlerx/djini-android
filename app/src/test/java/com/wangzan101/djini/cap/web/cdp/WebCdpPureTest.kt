@@ -1,6 +1,6 @@
-package com.wangzan101.mika.cap.web.cdp
+package com.wangzan101.djini.cap.web.cdp
 
-import com.wangzan101.mika.core.cap.web.cdp.CdpTargetInfo
+import com.wangzan101.djini.core.cap.web.cdp.CdpTargetInfo
 import kotlinx.serialization.json.boolean
 import kotlinx.serialization.json.double
 import kotlinx.serialization.json.int

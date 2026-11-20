@@ -1,14 +1,14 @@
-package com.wangzan101.mika.core.action
+package com.wangzan101.djini.core.action
 
-import com.wangzan101.mika.core.risk.IrrevAction
-import com.wangzan101.mika.core.gate.Irreversible
-import com.wangzan101.mika.core.gate.IrreversibleDetector
-import com.wangzan101.mika.core.uistate.ScreenSnapshot
-import com.wangzan101.mika.core.uistate.UiElement
+import com.wangzan101.djini.core.risk.IrrevAction
+import com.wangzan101.djini.core.gate.Irreversible
+import com.wangzan101.djini.core.gate.IrreversibleDetector
+import com.wangzan101.djini.core.uistate.ScreenSnapshot
+import com.wangzan101.djini.core.uistate.UiElement
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.contentOrNull
-import com.wangzan101.mika.core.tool.Verb
+import com.wangzan101.djini.core.tool.Verb
 
 /**
  * 一个动作的风险。[hit] 是不可逆判定的结果(不用判或没命中为 null);[screen] 是判定所依据的那一屏,用到时才读。

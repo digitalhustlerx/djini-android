@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -6,7 +6,7 @@ import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import com.wangzan101.mika.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.MikaDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -23,33 +23,33 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.core.mcp.McpUsb
-import com.wangzan101.mika.core.remote.RemoteActivity
-import com.wangzan101.mika.core.remote.RelayState
-import com.wangzan101.mika.mcp.McpRuntime
-import com.wangzan101.mika.settings.McpSettings
-import com.wangzan101.mika.mcp.McpServerState
-import com.wangzan101.mika.ui.components.ButtonKind
-import com.wangzan101.mika.ui.components.ButtonSize
-import com.wangzan101.mika.ui.components.FooterNote
-import com.wangzan101.mika.ui.components.GroupCard
-import com.wangzan101.mika.ui.components.GroupLabel
-import com.wangzan101.mika.ui.components.ListRow
-import com.wangzan101.mika.ui.components.MikaButton
-import com.wangzan101.mika.ui.components.MikaSwitch
-import com.wangzan101.mika.ui.components.PageScaffold
-import com.wangzan101.mika.ui.components.RadioRow
-import com.wangzan101.mika.ui.components.RowActions
-import com.wangzan101.mika.ui.components.SegmentedControl
-import com.wangzan101.mika.ui.components.TileTone
+import com.wangzan101.djini.R
+import com.wangzan101.djini.core.mcp.McpUsb
+import com.wangzan101.djini.core.remote.RemoteActivity
+import com.wangzan101.djini.core.remote.RelayState
+import com.wangzan101.djini.mcp.McpRuntime
+import com.wangzan101.djini.settings.McpSettings
+import com.wangzan101.djini.mcp.McpServerState
+import com.wangzan101.djini.ui.components.ButtonKind
+import com.wangzan101.djini.ui.components.ButtonSize
+import com.wangzan101.djini.ui.components.FooterNote
+import com.wangzan101.djini.ui.components.GroupCard
+import com.wangzan101.djini.ui.components.GroupLabel
+import com.wangzan101.djini.ui.components.ListRow
+import com.wangzan101.djini.ui.components.MikaButton
+import com.wangzan101.djini.ui.components.MikaSwitch
+import com.wangzan101.djini.ui.components.PageScaffold
+import com.wangzan101.djini.ui.components.RadioRow
+import com.wangzan101.djini.ui.components.RowActions
+import com.wangzan101.djini.ui.components.SegmentedControl
+import com.wangzan101.djini.ui.components.TileTone
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.ui.text.input.KeyboardType
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -154,7 +154,7 @@ internal fun ComputerAccessPage(
             transport == 2 -> relayGuide?.invoke(client == 1)
             transport == 1 -> NetworkGuide(ui, mcp = client == 1, onNetworkEnabled, onCopy)
             client == 0 -> GuideStep(stringResource(R.string.mcp_cli_connect), stringResource(R.string.mcp_cli_connect_sub),
-                stringResource(R.string.mcp_copy_command), { onCopy("mika connect") }, command = "mika connect")
+                stringResource(R.string.mcp_copy_command), { onCopy("djini connect") }, command = "djini connect")
             else -> McpUsbGuide(ui, onCopy)
         }
 
@@ -295,7 +295,7 @@ private fun NetworkGuide(ui: ComputerAccessUi, mcp: Boolean, onNetworkEnabled: (
     }
     FooterNote(stringResource(R.string.mcp_address_foot))
     if (!mcp) {
-        val command = address?.let { "mika connect --url http://$it:${ui.port} --token-file /path/to/token" }
+        val command = address?.let { "djini connect --url http://$it:${ui.port} --token-file /path/to/token" }
         GroupCard {
             ListRow(MikaIcons.Code, stringResource(R.string.mcp_cli_connect), stringResource(R.string.mcp_cli_network_sub), first = true)
             command?.let { CommandText(it) }
@@ -341,13 +341,13 @@ private fun GuideStep(title: String, body: String, button: String, onClick: () -
 @Composable
 internal fun CommandText(text: String, modifier: Modifier = Modifier) {
     Text(text, modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
-        fontFamily = FontFamily.Monospace, style = MikaType.Body, color = MikaTheme.colors.ink)
+        fontFamily = FontFamily.Monospace, style = MikaType.Body, color = DjiniTheme.colors.ink)
 }
 
 private fun clock(ms: Long): String =
     DateTimeFormatter.ofPattern("HH:mm:ss").format(Instant.ofEpochMilli(ms).atZone(ZoneId.systemDefault()))
 
 private fun copy(context: Context, text: String) {
-    context.getSystemService(ClipboardManager::class.java).setPrimaryClip(ClipData.newPlainText("Mika", text))
+    context.getSystemService(ClipboardManager::class.java).setPrimaryClip(ClipData.newPlainText("Djini", text))
     Toast.makeText(context, context.getString(R.string.mcp_copied), Toast.LENGTH_SHORT).show()
 }

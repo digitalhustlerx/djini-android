@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.phone.setup
+package com.wangzan101.djini.cap.phone.setup
 
 import android.content.Context
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.asStateFlow
 
 /**
  * 任务要用手机、内置助手却没在运行时举一下手:对话页在任务卡片下面放一行「去设置」。
- * 网页、文件类任务不会碰到这里。由 [com.wangzan101.mika.cap.phone.PhoneServices] 建一份,任务与对话页共用。
+ * 网页、文件类任务不会碰到这里。由 [com.wangzan101.djini.cap.phone.PhoneServices] 建一份,任务与对话页共用。
  */
 class PhoneSetupPrompt(context: Context) {
     private val prefs = context.applicationContext.getSharedPreferences(PREFS, Context.MODE_PRIVATE)

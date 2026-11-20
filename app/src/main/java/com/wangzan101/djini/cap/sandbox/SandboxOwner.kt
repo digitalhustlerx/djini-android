@@ -1,7 +1,7 @@
-package com.wangzan101.mika.cap.sandbox
+package com.wangzan101.djini.cap.sandbox
 
 import android.content.Context
-import com.wangzan101.mika.core.workspace.SandboxTree
+import com.wangzan101.djini.core.workspace.SandboxTree
 
 /** 沙箱在进程里的那一份状态与树锁:由 App 给出,设置页、安装、Agent 看到的是同一份。 */
 interface SandboxOwner {

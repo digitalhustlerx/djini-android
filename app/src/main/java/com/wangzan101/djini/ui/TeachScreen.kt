@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -23,20 +23,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.collectAsState
 import android.app.Activity
 import androidx.compose.ui.platform.LocalContext
-import com.wangzan101.mika.R
-import com.wangzan101.mika.core.teach.TeachPhase
-import com.wangzan101.mika.core.teach.TeachStep
-import com.wangzan101.mika.core.teach.teachGoalAccepted
-import com.wangzan101.mika.core.teach.teachLine
-import com.wangzan101.mika.teach.TeachNotice
-import com.wangzan101.mika.teach.TeachRuntime
-import com.wangzan101.mika.ui.components.ButtonKind
-import com.wangzan101.mika.ui.components.ButtonSize
-import com.wangzan101.mika.ui.components.MikaButton
-import com.wangzan101.mika.ui.components.TopBar
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
+import com.wangzan101.djini.R
+import com.wangzan101.djini.core.teach.TeachPhase
+import com.wangzan101.djini.core.teach.TeachStep
+import com.wangzan101.djini.core.teach.teachGoalAccepted
+import com.wangzan101.djini.core.teach.teachLine
+import com.wangzan101.djini.teach.TeachNotice
+import com.wangzan101.djini.teach.TeachRuntime
+import com.wangzan101.djini.ui.components.ButtonKind
+import com.wangzan101.djini.ui.components.ButtonSize
+import com.wangzan101.djini.ui.components.MikaButton
+import com.wangzan101.djini.ui.components.TopBar
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
 
 @Composable
 fun TeachScreen(runtime: TeachRuntime, onBack: () -> Unit, onOpenDrafts: () -> Unit) {
@@ -69,7 +69,7 @@ private fun Notice(notice: TeachNotice?) {
         TeachNotice.WatchLost -> stringResource(R.string.teach_watch_lost)
         null -> return
     }
-    Text(text, Modifier.padding(horizontal = 20.dp, vertical = 8.dp), color = MikaTheme.colors.warn, style = MikaType.Body)
+    Text(text, Modifier.padding(horizontal = 20.dp, vertical = 8.dp), color = DjiniTheme.colors.warn, style = MikaType.Body)
 }
 
 @Composable
@@ -84,7 +84,7 @@ private fun GoalForm(runtime: TeachRuntime, hint: String?) {
     ) {
         Notice(local)
         if (!armed) {
-            Text(stringResource(R.string.teach_disclosure), style = MikaType.Body, color = MikaTheme.colors.ink)
+            Text(stringResource(R.string.teach_disclosure), style = MikaType.Body, color = DjiniTheme.colors.ink)
             OutlinedTextField(
                 goal, { goal = it; local = null },
                 Modifier.fillMaxWidth().testTag("teach-goal"),
@@ -100,8 +100,8 @@ private fun GoalForm(runtime: TeachRuntime, hint: String?) {
                 if (local == null) armed = true
             }, kind = ButtonKind.Primary, size = ButtonSize.Medium)
         } else {
-            Text(stringResource(R.string.teach_ready_body), style = MikaType.Body, color = MikaTheme.colors.ink)
-            Text(goal, style = MikaType.Body, color = MikaTheme.colors.ink2)
+            Text(stringResource(R.string.teach_ready_body), style = MikaType.Body, color = DjiniTheme.colors.ink)
+            Text(goal, style = MikaType.Body, color = DjiniTheme.colors.ink2)
             val context = LocalContext.current
             MikaButton(stringResource(R.string.teach_start), {
                 local = runtime.start(goal)
@@ -119,10 +119,10 @@ private fun Live(runtime: TeachRuntime, phase: TeachPhase, steps: Int) {
     Column(Modifier.padding(20.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
         Text(
             stringResource(if (phase == TeachPhase.Recording) R.string.teach_learning else R.string.teach_paused),
-            style = MikaType.Title, color = MikaTheme.colors.ink,
+            style = MikaType.Title, color = DjiniTheme.colors.ink,
         )
-        Text(stringResource(R.string.teach_notification), style = MikaType.Body, color = MikaTheme.colors.ink2)
-        Text(steps.toString(), style = MikaType.Hint, color = MikaTheme.colors.ink3)
+        Text(stringResource(R.string.teach_notification), style = MikaType.Body, color = DjiniTheme.colors.ink2)
+        Text(steps.toString(), style = MikaType.Hint, color = DjiniTheme.colors.ink3)
         val context = LocalContext.current
         if (phase == TeachPhase.Recording) MikaButton(stringResource(R.string.teach_pause), runtime::pause, size = ButtonSize.Medium)
         else MikaButton(stringResource(R.string.teach_resume), {
@@ -137,7 +137,7 @@ private fun Live(runtime: TeachRuntime, phase: TeachPhase, steps: Int) {
 private fun Interrupted(runtime: TeachRuntime) {
     Column(Modifier.padding(20.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
         val context = LocalContext.current
-        Text(stringResource(R.string.teach_interrupted), style = MikaType.Body, color = MikaTheme.colors.ink)
+        Text(stringResource(R.string.teach_interrupted), style = MikaType.Body, color = DjiniTheme.colors.ink)
         MikaButton(stringResource(R.string.teach_resume), {
             if (runtime.resume() == null) (context as? Activity)?.moveTaskToBack(true)
         }, kind = ButtonKind.Primary, size = ButtonSize.Medium)
@@ -153,8 +153,8 @@ private fun Review(runtime: TeachRuntime, steps: List<TeachStep>, drafting: Bool
         Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        Text(stringResource(R.string.teach_review), style = MikaType.Title, color = MikaTheme.colors.ink)
-        if (steps.isEmpty()) Text(stringResource(R.string.teach_no_steps), color = MikaTheme.colors.ink2)
+        Text(stringResource(R.string.teach_review), style = MikaType.Title, color = DjiniTheme.colors.ink)
+        if (steps.isEmpty()) Text(stringResource(R.string.teach_no_steps), color = DjiniTheme.colors.ink2)
         steps.forEach { step -> StepEditor(runtime, step) }
         MikaButton(
             stringResource(R.string.teach_generate),
@@ -165,7 +165,7 @@ private fun Review(runtime: TeachRuntime, steps: List<TeachStep>, drafting: Bool
             modifier = Modifier.testTag("teach-generate"),
         )
         if (confirm) {
-            Text(stringResource(R.string.teach_discard_body), color = MikaTheme.colors.warn)
+            Text(stringResource(R.string.teach_discard_body), color = DjiniTheme.colors.warn)
             MikaButton(stringResource(R.string.teach_discard), runtime::discard, kind = ButtonKind.Tonal, size = ButtonSize.Medium)
         } else {
             MikaButton(stringResource(R.string.teach_discard), { confirm = true }, kind = ButtonKind.Tonal, size = ButtonSize.Medium)
@@ -178,9 +178,9 @@ private fun StepEditor(runtime: TeachRuntime, step: TeachStep) {
     var correction by remember(step.id, step.correction) { mutableStateOf(step.correction.orEmpty()) }
     var explanation by remember(step.id, step.explanation) { mutableStateOf(step.explanation.orEmpty()) }
     Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-        Text(teachLine(step), style = MikaType.Body, color = MikaTheme.colors.ink)
-        if (step.insufficient) Text(stringResource(R.string.teach_insufficient_note), style = MikaType.Hint, color = MikaTheme.colors.ink3)
-        if (step.sensitiveOmitted) Text(stringResource(R.string.teach_sensitive_note), style = MikaType.Hint, color = MikaTheme.colors.ink3)
+        Text(teachLine(step), style = MikaType.Body, color = DjiniTheme.colors.ink)
+        if (step.insufficient) Text(stringResource(R.string.teach_insufficient_note), style = MikaType.Hint, color = DjiniTheme.colors.ink3)
+        if (step.sensitiveOmitted) Text(stringResource(R.string.teach_sensitive_note), style = MikaType.Hint, color = DjiniTheme.colors.ink3)
         OutlinedTextField(
             correction,
             {
@@ -207,7 +207,7 @@ private fun StepEditor(runtime: TeachRuntime, step: TeachStep) {
 @Composable
 private fun Saved(runtime: TeachRuntime, onOpenDrafts: () -> Unit) {
     Column(Modifier.padding(20.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        Text(stringResource(R.string.teach_draft_ready), style = MikaType.Body, color = MikaTheme.colors.ink)
+        Text(stringResource(R.string.teach_draft_ready), style = MikaType.Body, color = DjiniTheme.colors.ink)
         MikaButton(stringResource(R.string.teach_open_drafts), onOpenDrafts, kind = ButtonKind.Primary, size = ButtonSize.Medium)
         MikaButton(stringResource(R.string.teach_discard), runtime::discard, kind = ButtonKind.Tonal, size = ButtonSize.Medium)
     }

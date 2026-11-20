@@ -1,10 +1,10 @@
-package com.wangzan101.mika.calls
+package com.wangzan101.djini.calls
 
 import android.content.Context
 import android.util.Base64
 import java.io.File
 import java.io.FileOutputStream
-import com.wangzan101.mika.settings.KeystoreKeyCipher
+import com.wangzan101.djini.settings.KeystoreKeyCipher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -81,7 +81,7 @@ data class CallAudioReport(
     @Serializable
     enum class Turn { NONE, SPEECH_DETECTED, TRANSCRIPT_RECEIVED, REPLY_AUDIO_RECEIVED }
 
-    fun supportSummary(): String = "Mika audio: speech_starts=$speechStarts " +
+    fun supportSummary(): String = "Djini audio: speech_starts=$speechStarts " +
         "complete_transcripts=$completeTranscripts last_observed_turn=${lastObservedTurn.name} " +
         "reply_bytes=$receivedAudioBytes pipe_bytes=$pipeWrittenBytes device_bytes=${deviceAcceptedBytes ?: "unknown"} " +
         "input_frames_after_audio_done=${inputFramesAfterLastReply ?: "unknown"} " +
@@ -202,8 +202,8 @@ internal class CallHistory(private val storage: Storage) {
     }
 
     private class EncryptedStorage(context: Context) : Storage {
-        private val prefs = context.getSharedPreferences("mika_call_history", Context.MODE_PRIVATE)
-        private val cipher = KeystoreKeyCipher("mika-call-history")
+        private val prefs = context.getSharedPreferences("djini_call_history", Context.MODE_PRIVATE)
+        private val cipher = KeystoreKeyCipher("djini-call-history")
         private val file = File(context.filesDir, "call-history-v2.enc")
 
         override fun read(): List<CallRecord> {

@@ -1,12 +1,12 @@
-package com.wangzan101.mika.core.mcp
+package com.wangzan101.djini.core.mcp
 
-import com.wangzan101.mika.core.remote.RemoteStatus
-import com.wangzan101.mika.core.remote.RemoteTask
-import com.wangzan101.mika.core.agent.FailKind
-import com.wangzan101.mika.core.agent.GateReason
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.core.gate.ConfirmationRequest
-import com.wangzan101.mika.core.risk.IrrevAction
+import com.wangzan101.djini.core.remote.RemoteStatus
+import com.wangzan101.djini.core.remote.RemoteTask
+import com.wangzan101.djini.core.agent.FailKind
+import com.wangzan101.djini.core.agent.GateReason
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.core.gate.ConfirmationRequest
+import com.wangzan101.djini.core.risk.IrrevAction
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.runTest
@@ -153,7 +153,7 @@ class McpTaskToolsTest {
     }
 
     @Test fun closedQuestionPointsToTheStatusTool() = runTest {
-        val closing = object : com.wangzan101.mika.core.remote.RemoteTasks by fake {
+        val closing = object : com.wangzan101.djini.core.remote.RemoteTasks by fake {
             override fun answer(id: String, text: String) = false
         }
         val closingTools = McpTaskTools(closing)

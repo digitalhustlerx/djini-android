@@ -1,33 +1,33 @@
-package com.wangzan101.mika.media
+package com.wangzan101.djini.media
 
 import android.content.Context
 import android.webkit.MimeTypeMap
-import com.wangzan101.mika.cap.audio.AudioExporter
-import com.wangzan101.mika.cap.sandbox.Attachments
-import com.wangzan101.mika.cap.sandbox.SandboxDirs
-import com.wangzan101.mika.cap.sandbox.WorkspaceKey
-import com.wangzan101.mika.core.cap.audio.AudioPort
-import com.wangzan101.mika.core.model.SavedAudio
-import com.wangzan101.mika.core.model.StoredAudio
-import com.wangzan101.mika.core.model.TtsCapabilities
-import com.wangzan101.mika.core.model.TtsRequest
-import com.wangzan101.mika.core.model.TtsResponse
-import com.wangzan101.mika.core.workspace.SandboxPaths
+import com.wangzan101.djini.cap.audio.AudioExporter
+import com.wangzan101.djini.cap.sandbox.Attachments
+import com.wangzan101.djini.cap.sandbox.SandboxDirs
+import com.wangzan101.djini.cap.sandbox.WorkspaceKey
+import com.wangzan101.djini.core.cap.audio.AudioPort
+import com.wangzan101.djini.core.model.SavedAudio
+import com.wangzan101.djini.core.model.StoredAudio
+import com.wangzan101.djini.core.model.TtsCapabilities
+import com.wangzan101.djini.core.model.TtsRequest
+import com.wangzan101.djini.core.model.TtsResponse
+import com.wangzan101.djini.core.workspace.SandboxPaths
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
 
 /**
  * 音频能力的手机实现:模型调用直接用 [model];合成结果经工作区文件闸门写进 `out/audio/`;
- * 存音乐库走 [AudioExporter](MediaStore Music/Mika,不需要存储权限)。
+ * 存音乐库走 [AudioExporter](MediaStore Music/Djini,不需要存储权限)。
  */
 class AndroidAudioPort(
     private val context: Context,
     private val conversationId: String,
-    private val model: com.wangzan101.mika.core.model.TtsModel,
+    private val model: com.wangzan101.djini.core.model.TtsModel,
     override val capabilities: TtsCapabilities,
     private val onSaved: (SavedAudio) -> Unit = {},
-    private val onGenerated: (com.wangzan101.mika.core.chat.GeneratedAudio) -> Unit = {},
+    private val onGenerated: (com.wangzan101.djini.core.chat.GeneratedAudio) -> Unit = {},
     private val onSpeak: suspend (TtsResponse) -> Unit = {},
     private val defaultVoice: String? = null,
     private val defaultSpeed: Float? = null,
@@ -53,7 +53,7 @@ class AndroidAudioPort(
                 try {
                     g.write(response.bytes)
                     val path = "${SandboxPaths.WORKSPACE}/$DIRECTORY/$actual"
-                    onGenerated(com.wangzan101.mika.core.chat.GeneratedAudio(path, response.durationMs, text, System.currentTimeMillis()))
+                    onGenerated(com.wangzan101.djini.core.chat.GeneratedAudio(path, response.durationMs, text, System.currentTimeMillis()))
                     StoredAudio(path, response.bytes.size, response.mime, response.durationMs)
                 } finally {
                     g.close()
@@ -63,11 +63,11 @@ class AndroidAudioPort(
     }
 
     override suspend fun saveToMusic(path: String, name: String?): SavedAudio {
-        val rel = relative(path) ?: throw com.wangzan101.mika.core.model.TtsError.Unsupported("the path must be under ${SandboxPaths.WORKSPACE}")
+        val rel = relative(path) ?: throw com.wangzan101.djini.core.model.TtsError.Unsupported("the path must be under ${SandboxPaths.WORKSPACE}")
         return dirs.tree.shared {
             withContext(Dispatchers.IO) {
                 val bytes = dirs.gate.openRead(workspace, rel).use { g ->
-                    if (g.size > MAX_AUDIO_BYTES) throw com.wangzan101.mika.core.model.TtsError.TooLarge(g.size)
+                    if (g.size > MAX_AUDIO_BYTES) throw com.wangzan101.djini.core.model.TtsError.TooLarge(g.size)
                     g.read(0, g.size.toInt())
                 }
                 val mime = MimeTypeMap.getSingleton().getMimeTypeFromExtension(path.substringAfterLast('.', "").lowercase())

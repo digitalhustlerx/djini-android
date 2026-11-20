@@ -1,4 +1,4 @@
-package com.wangzan101.mika.capsule
+package com.wangzan101.djini.capsule
 
 import android.Manifest
 import android.content.Context
@@ -53,17 +53,17 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.ui.ChatCopy
-import com.wangzan101.mika.ui.Spinner
-import com.wangzan101.mika.ui.VoiceCopy
-import com.wangzan101.mika.ui.VoiceWave
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.voice.HoldToTalk
-import com.wangzan101.mika.voice.SpeechEngineSpec
-import com.wangzan101.mika.voice.VoiceSource
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.ui.ChatCopy
+import com.wangzan101.djini.ui.Spinner
+import com.wangzan101.djini.ui.VoiceCopy
+import com.wangzan101.djini.ui.VoiceWave
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.voice.HoldToTalk
+import com.wangzan101.djini.voice.SpeechEngineSpec
+import com.wangzan101.djini.voice.VoiceSource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -339,10 +339,10 @@ private const val DIM = 0.28f
 @Composable
 internal fun CapsuleVoicePanel(talk: CapsuleTalk, anchorTop: Int, anchorBottom: Int, insetTop: Int, insetBottom: Int) {
     if (!talk.active) return
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val state by talk.hold.state.collectAsState()
     val view = LocalView.current
-    val dim by animateFloatAsState(DIM, if (MikaTheme.reduceMotion) snap() else tween(200), label = "voice-dim")
+    val dim by animateFloatAsState(DIM, if (DjiniTheme.reduceMotion) snap() else tween(200), label = "voice-dim")
     var below by remember { mutableStateOf(false) }
     // 圆在屏幕上的位置:窗口内坐标加上窗口在屏幕上的位置
     fun Rect.onScreen(): Rect {
@@ -406,8 +406,8 @@ private fun Targets(talk: CapsuleTalk, show: Boolean, onPlaced: (Rect, Rect) -> 
 
 @Composable
 private fun Target(icon: ImageVector, label: String, hot: Boolean, bad: Boolean, onPlaced: (Rect) -> Unit) {
-    val c = MikaTheme.colors
-    val scale by animateFloatAsState(if (hot) 1.18f else 1f, if (MikaTheme.reduceMotion) snap() else tween(150), label = "target")
+    val c = DjiniTheme.colors
+    val scale by animateFloatAsState(if (hot) 1.18f else 1f, if (DjiniTheme.reduceMotion) snap() else tween(150), label = "target")
     val fill = when {
         !hot -> c.surface.copy(alpha = 0.95f)
         bad -> c.bad
@@ -432,7 +432,7 @@ private fun Target(icon: ImageVector, label: String, hot: Boolean, bad: Boolean,
 /** 面板:顶上在录的点、说给谁、用的哪个转文字、用时;中间实时的字;波形;底下松开会怎样。 */
 @Composable
 private fun Panel(talk: CapsuleTalk, state: HoldToTalk.State, below: Boolean) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val listening = state as? HoldToTalk.State.Listening
     val converting = talk.released || state is HoldToTalk.State.Converting
     val aim = if (converting) CapsuleVoice.Drop.Send else talk.aim
@@ -473,7 +473,7 @@ private fun Panel(talk: CapsuleTalk, state: HoldToTalk.State, below: Boolean) {
                 Modifier.fillMaxWidth().padding(top = 10.dp).heightIn(min = 52.dp).testTag("capsule-voice-converting"),
                 verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
             ) {
-                Spinner(Modifier.size(15.dp), spinning = !MikaTheme.reduceMotion, track = c.accentSoft, head = c.accent)
+                Spinner(Modifier.size(15.dp), spinning = !DjiniTheme.reduceMotion, track = c.accentSoft, head = c.accent)
                 Text(stringResource(R.string.voice_converting), style = SaidText, color = c.ink2, maxLines = 1)
             }
         } else {
@@ -481,11 +481,11 @@ private fun Panel(talk: CapsuleTalk, state: HoldToTalk.State, below: Boolean) {
             val modifier = Modifier.fillMaxWidth().padding(top = 10.dp).heightIn(min = 52.dp).alpha(if (cancel) 0.4f else 1f)
             if (heard.isEmpty()) Text(ghost, modifier, style = style, color = c.ink3, maxLines = 5, overflow = TextOverflow.Ellipsis)
             // 字太多时去掉前面说完的整句,最新的字一直看得见(和输入框同一套)
-            else com.wangzan101.mika.ui.HeardText(listening?.stable.orEmpty(), listening?.tail.orEmpty(), style, maxLines = 5, modifier)
+            else com.wangzan101.djini.ui.HeardText(listening?.stable.orEmpty(), listening?.tail.orEmpty(), style, maxLines = 5, modifier)
         }
         if (!converting) {
             Box(Modifier.fillMaxWidth().padding(top = 8.dp), contentAlignment = Alignment.Center) {
-                VoiceWave(listening?.level ?: 0f, flat = cancel, reduceMotion = MikaTheme.reduceMotion, color = if (cancel || edit) c.ink3 else c.accent)
+                VoiceWave(listening?.level ?: 0f, flat = cancel, reduceMotion = DjiniTheme.reduceMotion, color = if (cancel || edit) c.ink3 else c.accent)
             }
         }
         // 在转时中间已经写着「转文字…」,底下不再重复

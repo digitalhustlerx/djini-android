@@ -1,6 +1,6 @@
-package com.wangzan101.mika.cap.phone.a11y
+package com.wangzan101.djini.cap.phone.a11y
 
-import com.wangzan101.mika.cap.phone.display.FrameMath
+import com.wangzan101.djini.cap.phone.display.FrameMath
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse

@@ -1,18 +1,18 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
-import com.wangzan101.mika.core.knowledge.KnowledgeStore
-import com.wangzan101.mika.core.knowledge.GuideCatalog
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.ToolSpec
-import com.wangzan101.mika.core.tool.FakeScreen
-import com.wangzan101.mika.core.testing.FakeChatModel
-import com.wangzan101.mika.core.testing.FakeRequest
-import com.wangzan101.mika.core.testing.Screen
-import com.wangzan101.mika.core.testing.ScriptedScreen
-import com.wangzan101.mika.core.testing.button
-import com.wangzan101.mika.core.testing.fakeModel
-import com.wangzan101.mika.core.testing.label
-import com.wangzan101.mika.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.knowledge.KnowledgeStore
+import com.wangzan101.djini.core.knowledge.GuideCatalog
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.ToolSpec
+import com.wangzan101.djini.core.tool.FakeScreen
+import com.wangzan101.djini.core.testing.FakeChatModel
+import com.wangzan101.djini.core.testing.FakeRequest
+import com.wangzan101.djini.core.testing.Screen
+import com.wangzan101.djini.core.testing.ScriptedScreen
+import com.wangzan101.djini.core.testing.button
+import com.wangzan101.djini.core.testing.fakeModel
+import com.wangzan101.djini.core.testing.label
+import com.wangzan101.djini.core.assembly.toolDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -112,7 +112,7 @@ class TokenProfileTest {
         rows.take(15).forEach { sb.append("%-24s %6d %6d %6d %6d\n".format(it.name, it.nameT, it.descT, it.schemaT, it.total)) }
 
         // reason 字段的重复成本:每个非 ownReason 工具都带一段 ~24 token 的说明。
-        val reasonTokens = TokenEstimate.of(com.wangzan101.mika.core.tool.REASON_NOTE)
+        val reasonTokens = TokenEstimate.of(com.wangzan101.djini.core.tool.REASON_NOTE)
         val withReason = specs.count { "\"reason\"" in it.parametersJsonSchema }
         sb.append("\n每个工具都重复的 reason 说明:${reasonTokens} token × $withReason 个工具 ≈ ${reasonTokens * withReason} token/轮\n")
         println(sb)

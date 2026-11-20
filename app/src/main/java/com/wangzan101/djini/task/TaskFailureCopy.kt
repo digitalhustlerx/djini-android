@@ -1,9 +1,9 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
-import com.wangzan101.mika.R
-import com.wangzan101.mika.core.agent.FailureCode
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.i18n.tr
+import com.wangzan101.djini.R
+import com.wangzan101.djini.core.agent.FailureCode
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.i18n.tr
 
 /** Translate structured failures before publishing or saving the result. */
 internal fun localizeTaskFailure(state: TaskState): TaskState {

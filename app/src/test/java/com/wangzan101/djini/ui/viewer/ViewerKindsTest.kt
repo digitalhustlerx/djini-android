@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui.viewer
+package com.wangzan101.djini.ui.viewer
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull

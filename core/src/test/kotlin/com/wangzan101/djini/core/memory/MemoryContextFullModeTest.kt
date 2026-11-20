@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.memory
+package com.wangzan101.djini.core.memory
 
-import com.wangzan101.mika.core.agent.TokenEstimate
+import com.wangzan101.djini.core.agent.TokenEstimate
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull

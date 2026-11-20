@@ -1,8 +1,8 @@
-package com.wangzan101.mika.core.screenmap
+package com.wangzan101.djini.core.screenmap
 
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.replay.Anchors
-import com.wangzan101.mika.core.replay.Selector
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.replay.Anchors
+import com.wangzan101.djini.core.replay.Selector
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.junit.Assert.assertEquals

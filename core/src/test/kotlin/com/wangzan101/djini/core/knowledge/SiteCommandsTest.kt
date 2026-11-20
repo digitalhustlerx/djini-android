@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.knowledge
+package com.wangzan101.djini.core.knowledge
 
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject
@@ -13,7 +13,7 @@ import java.nio.file.Files
 class SiteCommandsTest {
     companion object {
         /** 测试用的一条站点命令(只在测试里有)。 */
-        const val FIXTURE = """/* mika-command
+        const val FIXTURE = """/* djini-command
 name: list_items
 description: 列出结果页上的条目
 arg: limit integer - 最多几条

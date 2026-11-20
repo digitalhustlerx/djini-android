@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
 /**
  * 用户的话里引用了前面的一条消息时怎么写:话的最前面一行标明引的是谁的话(固定的英文,模型一看就懂;对话页认这一行),
@@ -13,9 +13,9 @@ package com.wangzan101.mika.core.agent
  * 引的那一段:语言提示和回答的语言检查不算;记忆、技能的引文只在引的是用户自己说过的话时算(见 [UserWords])。旧对话里的话没有这一行,照原样显示。
  */
 object QuoteMessage {
-    /** 引的是谁的话:Mika 的回答,还是用户自己说过的话。 */
+    /** 引的是谁的话:Djini 的回答,还是用户自己说过的话。 */
     enum class From(val header: String) {
-        Mika("> [Quoting your earlier reply]"),
+        Djini("> [Quoting your earlier reply]"),
         You("> [Quoting my earlier message]"),
     }
 

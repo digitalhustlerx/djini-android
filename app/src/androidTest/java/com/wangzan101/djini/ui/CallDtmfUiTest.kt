@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.Column
@@ -8,14 +8,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.wangzan101.mika.ChineseUi
-import com.wangzan101.mika.R
-import com.wangzan101.mika.calls.CallActionResult
-import com.wangzan101.mika.calls.CallTaskBrief
-import com.wangzan101.mika.calls.CallPhase
-import com.wangzan101.mika.calls.CallRuntimeState
-import com.wangzan101.mika.calls.CallTranscriptLine
-import com.wangzan101.mika.ui.theme.MikaTheme
+import com.wangzan101.djini.ChineseUi
+import com.wangzan101.djini.R
+import com.wangzan101.djini.calls.CallActionResult
+import com.wangzan101.djini.calls.CallTaskBrief
+import com.wangzan101.djini.calls.CallPhase
+import com.wangzan101.djini.calls.CallRuntimeState
+import com.wangzan101.djini.calls.CallTranscriptLine
+import com.wangzan101.djini.ui.theme.DjiniTheme
 import kotlinx.coroutines.CompletableDeferred
 import org.junit.Assert.*
 import org.junit.Rule
@@ -41,7 +41,7 @@ class CallDtmfUiTest {
         send: suspend (String, String) -> CallActionResult,
     ) {
         compose.setContent {
-            MikaTheme(dark = false) {
+            DjiniTheme(dark = false) {
                 Column(Modifier.fillMaxSize()) {
                     CurrentCallCard(
                         state = state.value, feedback = null, canAnswer = false, canControl = true,
@@ -183,7 +183,7 @@ class CallDtmfUiTest {
 
     @Test fun systemStatusIsNotAttributedToCallerSpeech() {
         compose.setContent {
-            MikaTheme(dark = false) {
+            DjiniTheme(dark = false) {
                 CallTranscriptText(CallTranscriptLine("system", "synthetic submission status"))
             }
         }

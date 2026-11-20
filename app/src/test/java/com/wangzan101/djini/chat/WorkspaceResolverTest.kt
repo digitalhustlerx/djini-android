@@ -1,6 +1,6 @@
-package com.wangzan101.mika.chat
+package com.wangzan101.djini.chat
 
-import com.wangzan101.mika.cap.sandbox.WorkspaceKey
+import com.wangzan101.djini.cap.sandbox.WorkspaceKey
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull

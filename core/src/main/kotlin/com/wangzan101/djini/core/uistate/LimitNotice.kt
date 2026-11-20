@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.uistate
+package com.wangzan101.djini.core.uistate
 
 /**
  * 动作之后界面上新出现的「到上限了」的说法:今天的次数用完了、操作太频繁、明天再来一类。

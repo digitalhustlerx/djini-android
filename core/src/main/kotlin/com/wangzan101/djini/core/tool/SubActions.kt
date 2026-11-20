@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.tool
+package com.wangzan101.djini.core.tool
 
-import com.wangzan101.mika.core.model.Part
+import com.wangzan101.djini.core.model.Part
 
 /**
  * 自己不动界面的工具(页面脚本)里的一个动作交回循环执行:守卫、锁屏关卡、不可逆判定、运行记录都和模型单独调用这个工具时一样。

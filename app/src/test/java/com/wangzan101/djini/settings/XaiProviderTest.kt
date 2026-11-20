@@ -1,11 +1,11 @@
-package com.wangzan101.mika.settings
+package com.wangzan101.djini.settings
 
-import com.wangzan101.mika.core.model.Capabilities
-import com.wangzan101.mika.core.model.ListedModel
-import com.wangzan101.mika.core.model.ModelListResult
-import com.wangzan101.mika.core.model.ModelRole
-import com.wangzan101.mika.core.oauth.AccountSession
-import com.wangzan101.mika.core.oauth.XaiAuth
+import com.wangzan101.djini.core.model.Capabilities
+import com.wangzan101.djini.core.model.ListedModel
+import com.wangzan101.djini.core.model.ModelListResult
+import com.wangzan101.djini.core.model.ModelRole
+import com.wangzan101.djini.core.oauth.AccountSession
+import com.wangzan101.djini.core.oauth.XaiAuth
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse

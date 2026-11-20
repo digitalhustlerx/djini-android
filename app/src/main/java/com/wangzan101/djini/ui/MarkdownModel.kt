@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.LinkAnnotation
@@ -40,9 +40,9 @@ import org.commonmark.node.StrongEmphasis
 import org.commonmark.node.Text
 import org.commonmark.node.ThematicBreak
 import org.commonmark.parser.Parser
-import com.wangzan101.mika.ui.theme.LightColors
+import com.wangzan101.djini.ui.theme.LightColors
 import java.net.URLDecoder
-import com.wangzan101.mika.ui.theme.MikaColors
+import com.wangzan101.djini.ui.theme.MikaColors
 
 /** 回答里的 Markdown 解析成的显示模型:块级结构 + 带样式的行内文字。纯数据,不依赖界面。 */
 sealed interface MdBlock {

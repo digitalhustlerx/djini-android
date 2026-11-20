@@ -1,12 +1,12 @@
-package com.wangzan101.mika.self
+package com.wangzan101.djini.self
 
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import com.wangzan101.mika.MikaApp
-import com.wangzan101.mika.core.self.SelfScreen
-import com.wangzan101.mika.settings.FeatureFlags
-import com.wangzan101.mika.ui.MainActivity
+import com.wangzan101.djini.DjiniApp
+import com.wangzan101.djini.core.self.SelfScreen
+import com.wangzan101.djini.settings.FeatureFlags
+import com.wangzan101.djini.ui.MainActivity
 
 /** Receives the app's immutable notification PendingIntent. */
 class SelfNotificationActivity : Activity() {
@@ -24,7 +24,7 @@ class SelfNotificationActivity : Activity() {
             val url = intent.getStringExtra(SelfIntents.EXTRA_URL)
             val loginHost = intent.getStringExtra(SelfIntents.EXTRA_LOGIN_HOST)
             if (screen != null || file != null || url != null || loginHost != null) {
-                (application as MikaApp).selfUi.requestOpen(
+                (application as DjiniApp).selfUi.requestOpen(
                     screen = screen,
                     file = file,
                     url = url,

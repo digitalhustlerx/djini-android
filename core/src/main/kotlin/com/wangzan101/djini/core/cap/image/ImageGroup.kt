@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.cap.image
+package com.wangzan101.djini.core.cap.image
 
-import com.wangzan101.mika.core.tool.AgentTool
+import com.wangzan101.djini.core.tool.AgentTool
 
 /** 图片一组:花一次钱生成/改图、把工作区里的图存进相册。保存的工具只在用户允许时提供。 */
 internal object ImageGroup {

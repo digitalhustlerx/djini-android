@@ -1,12 +1,12 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
 import android.util.Log
-import com.wangzan101.mika.cap.phone.shell.AppsAfterTask
-import com.wangzan101.mika.core.uistate.AfterTaskMarks
-import com.wangzan101.mika.shell.IMikaShell
+import com.wangzan101.djini.cap.phone.shell.AppsAfterTask
+import com.wangzan101.djini.core.uistate.AfterTaskMarks
+import com.wangzan101.djini.shell.IDjiniShell
 
 /**
- * 任务收尾时 Mika 屏上的 App 怎么办:把模型标下的去留交给内置助手([IMikaShell.finishDisplay]),
+ * 任务收尾时 Djini 屏上的 App 怎么办:把模型标下的去留交给内置助手([IDjiniShell.finishDisplay]),
  * 由它按规则([AppsAfterTask])留下或关掉、再释放虚拟屏。要在还原静音之前调:正在出声的先关掉,留下的不会在还原时突然响。
  * 助手没做成(出错、不认得这块屏)时屏照旧在收尾时释放,上面的 App 随屏关掉。
  */
@@ -29,7 +29,7 @@ internal object AppsAfterTaskEnd {
         val diagnostics: String get() = AppsAfterTask.diagnosticsLine(kept.size, closed, note)
     }
 
-    fun finish(shell: IMikaShell, displayId: Int, marks: AfterTaskMarks?): Outcome {
+    fun finish(shell: IDjiniShell, displayId: Int, marks: AfterTaskMarks?): Outcome {
         val keep = marks?.keepKeys().orEmpty().toTypedArray()
         val close = marks?.closeKeys().orEmpty().toTypedArray()
         val result = try {

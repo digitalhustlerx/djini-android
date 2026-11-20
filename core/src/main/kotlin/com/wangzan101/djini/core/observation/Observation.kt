@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.observation
+package com.wangzan101.djini.core.observation
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -48,7 +48,7 @@ data class Place(val kind: PlaceKind, val name: String) {
 data class InputHints(val names: List<String>, val focused: String? = null)
 
 /**
- * 带出处的一条观察:核心消费的唯一单位。能力在工具结果里给出([com.wangzan101.mika.core.tool.ToolExecution.observations]),
+ * 带出处的一条观察:核心消费的唯一单位。能力在工具结果里给出([com.wangzan101.djini.core.tool.ToolExecution.observations]),
  * 证据账本按它记,核查、回答来源、运行记录、评测都读它。
  *
  * - [source] 是给出它的能力的 id(phone、web、sandbox……;核心自己的为 core);[place] 是在哪里读的;[title] 是那一页自己的标题。

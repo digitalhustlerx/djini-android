@@ -1,7 +1,7 @@
-package com.wangzan101.mika.proactive
+package com.wangzan101.djini.proactive
 
-import com.wangzan101.mika.core.proactive.TopicPoolData
-import com.wangzan101.mika.settings.KeyCipher
+import com.wangzan101.djini.core.proactive.TopicPoolData
+import com.wangzan101.djini.settings.KeyCipher
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -11,8 +11,8 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 /**
- * 归纳出来的话题池,整份加密成 `proactive/topics.bin`(AES-GCM,正式用 `KeystoreKeyCipher("mika-proactive-topics")`)。
- * 里面只有话题名、种类、计数和时间,没有通知原文。照 [com.wangzan101.mika.memory.EncryptedMemoryFile] 的做法:
+ * 归纳出来的话题池,整份加密成 `proactive/topics.bin`(AES-GCM,正式用 `KeystoreKeyCipher("djini-proactive-topics")`)。
+ * 里面只有话题名、种类、计数和时间,没有通知原文。照 [com.wangzan101.djini.memory.EncryptedMemoryFile] 的做法:
  * 写临时文件后原子改名;确实坏了就改名另存,从空开始;这会儿读不了的(密钥库忙、取钥出错)照常抛出,文件不动(哪些算坏见 [StoreCodec])。
  * 另存的旧文件界面上看不到、也读不回来,只是留个底:用户删任何东西时一并删掉([dropBroken]),「清空全部」时整份删([wipe])。
  */
@@ -77,6 +77,6 @@ class TopicPoolFile(dir: File, private val cipher: KeyCipher, private val clock:
         /** 这份内容要按第几版写:没有并掉的名字时和第 1 版写出来的一模一样,就还写 1(换回旧版本照常读得出来)。 */
         fun versionOf(data: TopicPoolData): Int = if (data.merged.isEmpty()) 1 else VERSION
         const val FILE = "topics.bin"
-        const val KEY_ALIAS = "mika-proactive-topics"
+        const val KEY_ALIAS = "djini-proactive-topics"
     }
 }

@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotEnabled
@@ -8,13 +8,13 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.wangzan101.mika.ChineseUi
-import com.wangzan101.mika.core.selfcheck.Advice
-import com.wangzan101.mika.core.selfcheck.CheckResult
-import com.wangzan101.mika.core.selfcheck.CheckStatus
-import com.wangzan101.mika.core.selfcheck.DeviceFacts
-import com.wangzan101.mika.core.selfcheck.SelfCheck
-import com.wangzan101.mika.core.selfcheck.SelfCheckState
+import com.wangzan101.djini.ChineseUi
+import com.wangzan101.djini.core.selfcheck.Advice
+import com.wangzan101.djini.core.selfcheck.CheckResult
+import com.wangzan101.djini.core.selfcheck.CheckStatus
+import com.wangzan101.djini.core.selfcheck.DeviceFacts
+import com.wangzan101.djini.core.selfcheck.SelfCheck
+import com.wangzan101.djini.core.selfcheck.SelfCheckState
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test

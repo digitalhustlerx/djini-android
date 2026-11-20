@@ -1,9 +1,9 @@
-package com.wangzan101.mika.core.uistate
+package com.wangzan101.djini.core.uistate
 
-import com.wangzan101.mika.core.access.AppAccessDenied
-import com.wangzan101.mika.core.access.AppAccessPolicy
-import com.wangzan101.mika.core.access.AppAccessState
-import com.wangzan101.mika.core.tool.FakeScreen
+import com.wangzan101.djini.core.access.AppAccessDenied
+import com.wangzan101.djini.core.access.AppAccessPolicy
+import com.wangzan101.djini.core.access.AppAccessState
+import com.wangzan101.djini.core.tool.FakeScreen
 import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method
 import java.lang.reflect.Proxy
@@ -58,8 +58,8 @@ class AppAccessScreenPortTest {
     }
 
     @Test fun sensitiveOwnUiIsProtectedEvenWithEmptyList() = runTest {
-        val screen = AppAccessScreenPort(FakeScreen(), AppAccessPolicy.ALLOW, packages = { listOf("mika") },
-            protectedUi = { true }, ownPackage = "mika")
+        val screen = AppAccessScreenPort(FakeScreen(), AppAccessPolicy.ALLOW, packages = { listOf("djini") },
+            protectedUi = { true }, ownPackage = "djini")
         denied("app_access_protected") { screen.snapshot() }
     }
 

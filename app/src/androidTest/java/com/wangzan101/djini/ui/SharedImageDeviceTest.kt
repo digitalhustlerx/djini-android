@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import android.content.ClipData
 import android.content.ContentValues
@@ -10,8 +10,8 @@ import android.provider.MediaStore
 import androidx.test.core.app.ActivityScenario
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.MikaApp
-import com.wangzan101.mika.chat.SharedDraft
+import com.wangzan101.djini.DjiniApp
+import com.wangzan101.djini.chat.SharedDraft
 import java.io.ByteArrayOutputStream
 import java.io.File
 import org.junit.Assert.assertArrayEquals
@@ -29,7 +29,7 @@ class SharedImageDeviceTest {
     fun imageShareBecomesPrivateDraftWithoutStartingTask() {
         val instrumentation = InstrumentationRegistry.getInstrumentation()
         val target = instrumentation.targetContext
-        val app = target.applicationContext as MikaApp
+        val app = target.applicationContext as DjiniApp
         val encoded = ByteArrayOutputStream()
         val bitmap = Bitmap.createBitmap(2, 3, Bitmap.Config.ARGB_8888).apply { eraseColor(Color.rgb(36, 102, 180)) }
         assertTrue(bitmap.compress(Bitmap.CompressFormat.PNG, 100, encoded))
@@ -37,7 +37,7 @@ class SharedImageDeviceTest {
         val bytes = encoded.toByteArray()
         val resolver = target.contentResolver
         val values = ContentValues().apply {
-            put(MediaStore.Images.Media.DISPLAY_NAME, "mika-share-${SystemClock.uptimeMillis()}.png")
+            put(MediaStore.Images.Media.DISPLAY_NAME, "djini-share-${SystemClock.uptimeMillis()}.png")
             put(MediaStore.Images.Media.MIME_TYPE, "image/png")
             put(MediaStore.Images.Media.IS_PENDING, 1)
         }
@@ -90,7 +90,7 @@ class SharedImageDeviceTest {
     fun shareWhileActivityAliveTargetsCurrentConversationAndPromptsWhenDraftExists() {
         val instrumentation = InstrumentationRegistry.getInstrumentation()
         val target = instrumentation.targetContext
-        val app = target.applicationContext as MikaApp
+        val app = target.applicationContext as DjiniApp
         val launchIntent = Intent(target, MainActivity::class.java)
         val scenario = ActivityScenario.launch<MainActivity>(launchIntent)
         try {

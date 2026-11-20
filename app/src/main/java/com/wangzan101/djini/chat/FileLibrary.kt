@@ -1,8 +1,8 @@
-package com.wangzan101.mika.chat
+package com.wangzan101.djini.chat
 
-import com.wangzan101.mika.core.agent.AttachmentLines
-import com.wangzan101.mika.core.agent.QuoteMessage
-import com.wangzan101.mika.core.agent.AttachedPage
+import com.wangzan101.djini.core.agent.AttachmentLines
+import com.wangzan101.djini.core.agent.QuoteMessage
+import com.wangzan101.djini.core.agent.AttachedPage
 
 /** 已保存消息里的文件记录。只读对话，不检查文件是否仍可打开。 */
 class FileLibrary(private val conversations: ConversationStore) {

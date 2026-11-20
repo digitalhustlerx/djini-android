@@ -1,4 +1,4 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
 import android.app.NotificationManager
 import org.junit.Assert.assertEquals

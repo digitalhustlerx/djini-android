@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsEnabled
@@ -12,15 +12,15 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.wangzan101.mika.ChineseUi
-import com.wangzan101.mika.core.cap.devicefiles.DeviceFileEntry
-import com.wangzan101.mika.core.cap.devicefiles.DeviceFileImport
-import com.wangzan101.mika.core.cap.devicefiles.DeviceFilePage
-import com.wangzan101.mika.core.cap.devicefiles.DeviceFileSearchQuery
-import com.wangzan101.mika.core.cap.devicefiles.DeviceFileSearchResult
-import com.wangzan101.mika.core.cap.devicefiles.DeviceFilesPort
-import com.wangzan101.mika.task.DeviceImportRecord
-import com.wangzan101.mika.ui.theme.MikaTheme
+import com.wangzan101.djini.ChineseUi
+import com.wangzan101.djini.core.cap.devicefiles.DeviceFileEntry
+import com.wangzan101.djini.core.cap.devicefiles.DeviceFileImport
+import com.wangzan101.djini.core.cap.devicefiles.DeviceFilePage
+import com.wangzan101.djini.core.cap.devicefiles.DeviceFileSearchQuery
+import com.wangzan101.djini.core.cap.devicefiles.DeviceFileSearchResult
+import com.wangzan101.djini.core.cap.devicefiles.DeviceFilesPort
+import com.wangzan101.djini.task.DeviceImportRecord
+import com.wangzan101.djini.ui.theme.DjiniTheme
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Rule
@@ -83,7 +83,7 @@ class DeviceFileBrowserUiTest {
             ),
         )
         compose.setContent {
-            MikaTheme {
+            DjiniTheme {
                 DeviceFileBrowserDialog(
                     files = FakeDeviceFiles(),
                     loadRootDescriptions = { mapOf("/sdcard/Download" to "下载目录") },

@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.web
+package com.wangzan101.djini.cap.web
 
 import android.os.SystemClock
 import android.util.Log
@@ -6,12 +6,12 @@ import android.view.WindowManager
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.webkit.WebViewAssetLoader
-import com.wangzan101.mika.core.cap.web.cdp.CdpSession
-import com.wangzan101.mika.core.cap.web.cdp.dispatchMouseEvent
-import com.wangzan101.mika.core.cap.web.cdp.evaluate
-import com.wangzan101.mika.core.uistate.ActionResult
-import com.wangzan101.mika.cap.phone.PhoneServices
-import com.wangzan101.mika.cap.web.cdp.WebDevtools
+import com.wangzan101.djini.core.cap.web.cdp.CdpSession
+import com.wangzan101.djini.core.cap.web.cdp.dispatchMouseEvent
+import com.wangzan101.djini.core.cap.web.cdp.evaluate
+import com.wangzan101.djini.core.uistate.ActionResult
+import com.wangzan101.djini.cap.phone.PhoneServices
+import com.wangzan101.djini.cap.web.cdp.WebDevtools
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking

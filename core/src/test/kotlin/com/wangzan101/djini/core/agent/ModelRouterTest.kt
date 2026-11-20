@@ -1,18 +1,18 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
-import com.wangzan101.mika.core.observation.Place
-import com.wangzan101.mika.core.tool.placeOf
-import com.wangzan101.mika.core.model.Capabilities
-import com.wangzan101.mika.core.model.ChatModel
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.ModelReply
-import com.wangzan101.mika.core.model.ToolSpec
+import com.wangzan101.djini.core.observation.Place
+import com.wangzan101.djini.core.tool.placeOf
+import com.wangzan101.djini.core.model.Capabilities
+import com.wangzan101.djini.core.model.ChatModel
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.ModelReply
+import com.wangzan101.djini.core.model.ToolSpec
 import org.junit.Assert.assertSame
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import com.wangzan101.mika.core.testing.BATCHABLE
-import com.wangzan101.mika.core.testing.verb
-import com.wangzan101.mika.core.testing.SANDBOX_TOOLS
+import com.wangzan101.djini.core.testing.BATCHABLE
+import com.wangzan101.djini.core.testing.verb
+import com.wangzan101.djini.core.testing.SANDBOX_TOOLS
 
 private class NamedModel(override val name: String, toolCalls: Boolean = true, vision: Boolean = false) : ChatModel {
     override val capabilities = Capabilities(toolCalls = toolCalls, vision = vision, contextTokens = 64_000, reasoning = false)

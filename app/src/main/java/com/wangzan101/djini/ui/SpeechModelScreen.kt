@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -7,10 +7,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
-import com.wangzan101.mika.ui.components.RowChevron
-import com.wangzan101.mika.ui.components.SegmentedControl
-import com.wangzan101.mika.ui.theme.MikaShapes
-import com.wangzan101.mika.ui.theme.MikaType
+import com.wangzan101.djini.ui.components.RowChevron
+import com.wangzan101.djini.ui.components.SegmentedControl
+import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.MikaType
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.relocation.bringIntoViewRequester
@@ -29,30 +29,30 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.wangzan101.mika.MikaApp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.settings.ProviderStore
-import com.wangzan101.mika.ui.components.CapabilityTag
-import com.wangzan101.mika.ui.components.FooterNote
-import com.wangzan101.mika.ui.components.GroupCard
-import com.wangzan101.mika.ui.components.GroupLabel
-import com.wangzan101.mika.ui.components.PillTone
-import com.wangzan101.mika.ui.components.RadioRow
-import com.wangzan101.mika.ui.components.StatusPill
-import com.wangzan101.mika.ui.components.InputRow
-import com.wangzan101.mika.ui.components.MikaButton
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.voice.SpeechChoice
-import com.wangzan101.mika.voice.SpeechOptions
-import com.wangzan101.mika.voice.SystemSpeech
-import com.wangzan101.mika.voice.DoubaoCredentials
-import com.wangzan101.mika.voice.DoubaoProtocol
-import com.wangzan101.mika.voice.BailianProtocol
-import com.wangzan101.mika.voice.BailianRegion
-import com.wangzan101.mika.voice.FunAsrProtocol
-import com.wangzan101.mika.voice.LiveAsrTransport
-import com.wangzan101.mika.voice.probeLiveAsr
+import com.wangzan101.djini.DjiniApp
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.settings.ProviderStore
+import com.wangzan101.djini.ui.components.CapabilityTag
+import com.wangzan101.djini.ui.components.FooterNote
+import com.wangzan101.djini.ui.components.GroupCard
+import com.wangzan101.djini.ui.components.GroupLabel
+import com.wangzan101.djini.ui.components.PillTone
+import com.wangzan101.djini.ui.components.RadioRow
+import com.wangzan101.djini.ui.components.StatusPill
+import com.wangzan101.djini.ui.components.InputRow
+import com.wangzan101.djini.ui.components.MikaButton
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.voice.SpeechChoice
+import com.wangzan101.djini.voice.SpeechOptions
+import com.wangzan101.djini.voice.SystemSpeech
+import com.wangzan101.djini.voice.DoubaoCredentials
+import com.wangzan101.djini.voice.DoubaoProtocol
+import com.wangzan101.djini.voice.BailianProtocol
+import com.wangzan101.djini.voice.BailianRegion
+import com.wangzan101.djini.voice.FunAsrProtocol
+import com.wangzan101.djini.voice.LiveAsrTransport
+import com.wangzan101.djini.voice.probeLiveAsr
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -85,7 +85,7 @@ class SpeechPickActions(
 fun SpeechModelScreen(store: ProviderStore, onBack: () -> Unit) {
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
-    val settings = (context.applicationContext as? MikaApp)?.speech
+    val settings = (context.applicationContext as? DjiniApp)?.speech
     var doubaoConfigured by remember { mutableStateOf(settings?.hasDoubaoCredentials == true) }
     // 豆包的设置页叠在这一页上面;返回键先关它
     var doubaoOpen by remember { mutableStateOf(false) }
@@ -102,7 +102,7 @@ fun SpeechModelScreen(store: ProviderStore, onBack: () -> Unit) {
     var funAsrOpen by remember { mutableStateOf(false) }
     var liveProbe by remember { mutableStateOf(LiveProbeUi()) }
     // 先连一次走一遍开场和收尾,通了才存;失败留在设置页上说原因
-    fun probeThen(protocol: com.wangzan101.mika.voice.LiveAsrProtocol, url: String, headers: Map<String, String>, save: () -> Unit) {
+    fun probeThen(protocol: com.wangzan101.djini.voice.LiveAsrProtocol, url: String, headers: Map<String, String>, save: () -> Unit) {
         if (liveProbe.testing) return
         liveProbe = LiveProbeUi(testing = true)
         scope.launch {
@@ -197,7 +197,7 @@ fun SpeechModelContent(
     ui: ModelSetupUi, probe: Map<String, String>, actions: SpeechPickActions, onBack: () -> Unit, doubaoConfigured: Boolean = false,
     funAsrConfigured: Boolean = false,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val system = ui.systemSpeech
     val choice = ui.speech
     // 没选过时有手机自带就是在用它,所以「没选过」也把它标成选中
@@ -307,7 +307,7 @@ private fun planName(resource: String): Int =
  */
 @Composable
 fun DoubaoSetupPage(choice: SpeechChoice, configured: Boolean, actions: SpeechPickActions, onBack: () -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     var legacy by remember { mutableStateOf(false) }
     var key by remember { mutableStateOf("") }
     var appId by remember { mutableStateOf("") }

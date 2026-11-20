@@ -1,18 +1,18 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import com.wangzan101.mika.chat.SharedFile
-import com.wangzan101.mika.core.agent.FailKind
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.core.remote.RemoteSteer
-import com.wangzan101.mika.core.remote.RemoteOwnership
-import com.wangzan101.mika.core.remote.RemoteTask
-import com.wangzan101.mika.core.remote.RemoteTaskError
-import com.wangzan101.mika.core.remote.RemoteTaskPage
+import com.wangzan101.djini.chat.SharedFile
+import com.wangzan101.djini.core.agent.FailKind
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.core.remote.RemoteSteer
+import com.wangzan101.djini.core.remote.RemoteOwnership
+import com.wangzan101.djini.core.remote.RemoteTask
+import com.wangzan101.djini.core.remote.RemoteTaskError
+import com.wangzan101.djini.core.remote.RemoteTaskPage
 import kotlinx.serialization.json.Json
 
 /** 唯一一版远程收件迁移:v1 一次升级到同时包含附件、运行编号和令牌归属的 v2。 */

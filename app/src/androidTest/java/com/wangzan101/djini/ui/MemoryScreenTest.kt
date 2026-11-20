@@ -1,6 +1,6 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.ChineseUi
+import com.wangzan101.djini.ChineseUi
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.test.captureToImage
 import androidx.compose.ui.test.onRoot
@@ -15,14 +15,14 @@ import androidx.compose.ui.test.performTextClearance
 import androidx.compose.ui.test.performTextInput
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.core.memory.MemoryItem
-import com.wangzan101.mika.core.memory.MemoryKind
-import com.wangzan101.mika.core.memory.MemoryPersistence
-import com.wangzan101.mika.core.memory.MemorySource
-import com.wangzan101.mika.core.memory.MemoryStatus
-import com.wangzan101.mika.core.memory.MemoryStore
-import com.wangzan101.mika.skills.PersonalSkillFiles
-import com.wangzan101.mika.settings.MemorySettings
+import com.wangzan101.djini.core.memory.MemoryItem
+import com.wangzan101.djini.core.memory.MemoryKind
+import com.wangzan101.djini.core.memory.MemoryPersistence
+import com.wangzan101.djini.core.memory.MemorySource
+import com.wangzan101.djini.core.memory.MemoryStatus
+import com.wangzan101.djini.core.memory.MemoryStore
+import com.wangzan101.djini.skills.PersonalSkillFiles
+import com.wangzan101.djini.settings.MemorySettings
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob

@@ -1,8 +1,8 @@
-package com.wangzan101.mika.core.chatgpt
+package com.wangzan101.djini.core.chatgpt
 
-import com.wangzan101.mika.core.model.HttpSupport
-import com.wangzan101.mika.core.model.ModelError
-import com.wangzan101.mika.core.oauth.Pkce
+import com.wangzan101.djini.core.model.HttpSupport
+import com.wangzan101.djini.core.model.ModelError
+import com.wangzan101.djini.core.oauth.Pkce
 import kotlinx.coroutines.CancellationException
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
@@ -231,7 +231,7 @@ class ChatGptAuth(
     companion object {
         const val ISSUER = "https://auth.openai.com"
         const val REGISTER_CLIENT_ID = "dynamic_agent_client"
-        const val APP_NAME = "Mika"
+        const val APP_NAME = "Djini"
         const val PLAN_SCOPE = "chatgpt.tokens.use.direct"
         const val SCOPES = "openid profile email offline_access resource.invoke $PLAN_SCOPE"
         const val RESOURCE = "https://api.openai.com/v1"

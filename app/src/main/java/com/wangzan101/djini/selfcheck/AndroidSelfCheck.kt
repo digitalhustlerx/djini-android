@@ -1,4 +1,4 @@
-package com.wangzan101.mika.selfcheck
+package com.wangzan101.djini.selfcheck
 
 import android.app.ActivityManager
 import android.content.Context
@@ -12,41 +12,41 @@ import android.util.DisplayMetrics
 import android.view.Display
 import androidx.webkit.WebViewAssetLoader
 import androidx.webkit.WebViewCompat
-import com.wangzan101.mika.BuildConfig
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.AppLanguage
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.cap.phone.PhoneServices
-import com.wangzan101.mika.cap.phone.a11y.AndroidScreen
-import com.wangzan101.mika.cap.phone.a11y.ScreenAccessibility
-import com.wangzan101.mika.cap.phone.a11y.SystemPickers
-import com.wangzan101.mika.cap.phone.display.AgentDisplay
-import com.wangzan101.mika.cap.phone.display.FrameMath
-import com.wangzan101.mika.cap.phone.display.LazyAgentDisplay
-import com.wangzan101.mika.cap.phone.setup.DeveloperSettings
-import com.wangzan101.mika.cap.phone.shell.ShellBinding
-import com.wangzan101.mika.cap.phone.shell.ShellService
-import com.wangzan101.mika.cap.sandbox.AndroidSandbox
-import com.wangzan101.mika.cap.sandbox.SandboxState
-import com.wangzan101.mika.cap.web.WebHost
-import com.wangzan101.mika.cap.web.WebScreen
-import com.wangzan101.mika.cap.web.WebTabPool
-import com.wangzan101.mika.core.cap.sandbox.CommandResult
-import com.wangzan101.mika.core.cap.sandbox.SandboxStatus
-import com.wangzan101.mika.core.selfcheck.Advice
-import com.wangzan101.mika.core.selfcheck.CheckOutcome
-import com.wangzan101.mika.core.selfcheck.DeviceFacts
-import com.wangzan101.mika.core.selfcheck.SelfCheck
-import com.wangzan101.mika.core.selfcheck.SelfCheckPort
-import com.wangzan101.mika.core.shell.BuiltinShellStatus
-import com.wangzan101.mika.core.shell.PhoneSetupFlow
-import com.wangzan101.mika.core.uistate.ActionResult
-import com.wangzan101.mika.core.uistate.ScreenSnapshot
-import com.wangzan101.mika.core.uistate.UiElement
-import com.wangzan101.mika.core.uistate.UiTreeNode
-import com.wangzan101.mika.settings.AccessibilityState
-import com.wangzan101.mika.settings.SystemStatus
-import com.wangzan101.mika.shell.IMikaShell
+import com.wangzan101.djini.BuildConfig
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.AppLanguage
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.cap.phone.PhoneServices
+import com.wangzan101.djini.cap.phone.a11y.AndroidScreen
+import com.wangzan101.djini.cap.phone.a11y.ScreenAccessibility
+import com.wangzan101.djini.cap.phone.a11y.SystemPickers
+import com.wangzan101.djini.cap.phone.display.AgentDisplay
+import com.wangzan101.djini.cap.phone.display.FrameMath
+import com.wangzan101.djini.cap.phone.display.LazyAgentDisplay
+import com.wangzan101.djini.cap.phone.setup.DeveloperSettings
+import com.wangzan101.djini.cap.phone.shell.ShellBinding
+import com.wangzan101.djini.cap.phone.shell.ShellService
+import com.wangzan101.djini.cap.sandbox.AndroidSandbox
+import com.wangzan101.djini.cap.sandbox.SandboxState
+import com.wangzan101.djini.cap.web.WebHost
+import com.wangzan101.djini.cap.web.WebScreen
+import com.wangzan101.djini.cap.web.WebTabPool
+import com.wangzan101.djini.core.cap.sandbox.CommandResult
+import com.wangzan101.djini.core.cap.sandbox.SandboxStatus
+import com.wangzan101.djini.core.selfcheck.Advice
+import com.wangzan101.djini.core.selfcheck.CheckOutcome
+import com.wangzan101.djini.core.selfcheck.DeviceFacts
+import com.wangzan101.djini.core.selfcheck.SelfCheck
+import com.wangzan101.djini.core.selfcheck.SelfCheckPort
+import com.wangzan101.djini.core.shell.BuiltinShellStatus
+import com.wangzan101.djini.core.shell.PhoneSetupFlow
+import com.wangzan101.djini.core.uistate.ActionResult
+import com.wangzan101.djini.core.uistate.ScreenSnapshot
+import com.wangzan101.djini.core.uistate.UiElement
+import com.wangzan101.djini.core.uistate.UiTreeNode
+import com.wangzan101.djini.settings.AccessibilityState
+import com.wangzan101.djini.settings.SystemStatus
+import com.wangzan101.djini.shell.IDjiniShell
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.NonCancellable
@@ -59,7 +59,7 @@ import kotlinx.coroutines.withTimeoutOrNull
 /**
  * 兼容性自检的安卓实现。手机这几项走任务用的同一套:进程里共用的那条助手连接([PhoneServices.sharedShell])、
  * [AgentDisplay] 建屏、[AndroidScreen] 打开页面、读屏、点按、打字、滚动、返回;网页走内置浏览器的 [WebScreen];
- * 沙箱走 [AndroidSandbox]。只碰 Mika 自己的自检页和系统设置(只打开、不点),不改设置、不联网。
+ * 沙箱走 [AndroidSandbox]。只碰 Djini 自己的自检页和系统设置(只打开、不点),不改设置、不联网。
  * 报告里的事实只写状态和数字,不写别的 App 的包名、账号和用户的内容。
  * [status] 是界面那边此刻的系统状态(无障碍、通知、内置助手)。
  */
@@ -68,7 +68,7 @@ class AndroidSelfCheck(context: Context, private val status: () -> SystemStatus)
     private val phone = PhoneServices.of(app)
 
     @Volatile private var connection: ShellBinding? = null
-    @Volatile private var shell: IMikaShell? = null
+    @Volatile private var shell: IDjiniShell? = null
     @Volatile private var display: AgentDisplay? = null
     @Volatile private var screen: AndroidScreen? = null
     @Volatile private var web: Web? = null
@@ -196,7 +196,7 @@ class AndroidSelfCheck(context: Context, private val status: () -> SystemStatus)
         val s = screen ?: AndroidScreen(a11y, sh, LazyAgentDisplay(d.width, d.height) { d }.also { it.get() }).also { screen = it }
         val own = s.openOwnPage(SelfCheckTargetActivity.intent(app))
         if (own !is ActionResult.Ok || topPackage(sh, d.displayId) != app.packageName) {
-            return CheckOutcome.fail("Mika's test page did not open on Mika's display (${reason(own)})", Advice.LaunchFailed)
+            return CheckOutcome.fail("Djini's test page did not open on Djini's display (${reason(own)})", Advice.LaunchFailed)
         }
         sampleMain(sh, "test page")
         // 先关掉自检页再开系统设置:之后从头开一页,不靠把旧的那一页翻回前面
@@ -212,7 +212,7 @@ class AndroidSelfCheck(context: Context, private val status: () -> SystemStatus)
                 s.back()
                 when {
                     onMain -> SETTINGS_ON_MAIN
-                    !onMika -> "Settings did not come to the front of Mika's display"
+                    !onMika -> "Settings did not come to the front of Djini's display"
                     else -> null
                 }
             }
@@ -220,10 +220,10 @@ class AndroidSelfCheck(context: Context, private val status: () -> SystemStatus)
         // 后面几项在自检页上做:重新打开一次,从头来
         val again = s.openOwnPage(SelfCheckTargetActivity.intent(app))
         if (again !is ActionResult.Ok || !poll { withContext(Dispatchers.IO) { isTestPageOnTop(sh, d.displayId) } }) {
-            return CheckOutcome.fail("Mika's test page did not reopen after Settings (${reason(again)})", Advice.LaunchFailed)
+            return CheckOutcome.fail("Djini's test page did not reopen after Settings (${reason(again)})", Advice.LaunchFailed)
         }
         return when (settingsNote) {
-            null -> CheckOutcome.pass("Mika's test page and Settings opened on Mika's display")
+            null -> CheckOutcome.pass("Djini's test page and Settings opened on Djini's display")
             SETTINGS_ON_MAIN -> CheckOutcome.fail("test page ok; $settingsNote", Advice.OpenedOnMainScreen)
             SETTINGS_IN_USE -> CheckOutcome.partial("test page ok; $settingsNote", Advice.SettingsInUse)
             else -> CheckOutcome.partial("test page ok; $settingsNote", Advice.LaunchFailed)
@@ -237,7 +237,7 @@ class AndroidSelfCheck(context: Context, private val status: () -> SystemStatus)
         val sh = shell ?: return CheckOutcome.fail("no helper", Advice.SetUpPhoneControl)
         val d = display ?: return CheckOutcome.fail("no display", Advice.DisplayFailed)
         s.waitStable(SETTLE_MS)
-        // 页面刚开出来时树可能还没齐:只认 Mika 自己窗口里的控件,最多等一会儿。
+        // 页面刚开出来时树可能还没齐:只认 Djini 自己窗口里的控件,最多等一会儿。
         // 系统覆盖窗口不属于新任务;完整系统应用则会成为最上层任务,不能一并容忍。
         suspend fun inspect(source: ScreenSnapshot) = readSelfCheckWindow(
             source, app.packageName, withContext(Dispatchers.IO) { topPackage(sh, d.displayId) }, EXPECTED, ::systemPackage,
@@ -251,13 +251,13 @@ class AndroidSelfCheck(context: Context, private val status: () -> SystemStatus)
         }
         val result = inspected
         if (!result.ready) {
-            val wrongApp = if (result.wrongAppOnTop) "; another app is above Mika" else ""
+            val wrongApp = if (result.wrongAppOnTop) "; another app is above Djini" else ""
             return CheckOutcome.fail(
                 "missing ${result.missing.joinToString().ifEmpty { "none" }}; ${seen(result.content ?: snap)}$wrongApp",
                 Advice.ReadFailed,
             )
         }
-        val content = result.content ?: return CheckOutcome.fail("Mika's window is not readable", Advice.ReadFailed)
+        val content = result.content ?: return CheckOutcome.fail("Djini's window is not readable", Advice.ReadFailed)
         val frame = awaitFrame(d) ?: return CheckOutcome.fail("tree ok; no screenshot from the display", Advice.BlankFrames)
         val blank = try {
             val grid = FrameMath.lumaGrid(frame.width, frame.height, frame::getPixel)
@@ -266,7 +266,7 @@ class AndroidSelfCheck(context: Context, private val status: () -> SystemStatus)
             frame.recycle()
         }
         if (blank) return CheckOutcome.fail("tree ok; screenshot is blank or black", Advice.BlankFrames)
-        return CheckOutcome.pass("${content.elements.size} Mika-window elements, all expected found; screenshot not blank")
+        return CheckOutcome.pass("${content.elements.size} Djini-window elements, all expected found; screenshot not blank")
     }
 
     // ---------- 7 动作 ----------
@@ -278,7 +278,7 @@ class AndroidSelfCheck(context: Context, private val status: () -> SystemStatus)
         val ok = mutableListOf<String>()
         val bad = mutableListOf<String>()
         fun mark(name: String, passed: Boolean) { if (passed) ok += name else bad += name }
-        // 系统覆盖窗口存在时也只对 Mika 的控件做动作;编号仍属于原始快照,可直接交给动作端口。
+        // 系统覆盖窗口存在时也只对 Djini 的控件做动作;编号仍属于原始快照,可直接交给动作端口。
         fun own(source: ScreenSnapshot) = ownContent(source) ?: source.copy(elements = emptyList(), windows = emptyList())
 
         // 点按:计数加一
@@ -305,7 +305,7 @@ class AndroidSelfCheck(context: Context, private val status: () -> SystemStatus)
             mark("scroll", poll { own(s.peek()).rows().let { it.isNotEmpty() && it.first() != rowsBefore.first() } })
         } else mark("scroll", false)
 
-        // 返回:自检页离开 Mika 屏的最上面。刚打完字输入法多半还弹着,那几下是收起输入法(安卓本来如此),不算在次数里
+        // 返回:自检页离开 Djini 屏的最上面。刚打完字输入法多半还弹着,那几下是收起输入法(安卓本来如此),不算在次数里
         val gone = BackPresses.until(
             tries = BACK_TRIES,
             maxPresses = BACK_MAX_PRESSES,
@@ -338,7 +338,7 @@ class AndroidSelfCheck(context: Context, private val status: () -> SystemStatus)
         val s = screen ?: return CheckOutcome.fail("no screen", Advice.LaunchFailed)
         val d = display ?: return CheckOutcome.fail("no display", Advice.DisplayFailed)
         if (s.openOwnPage(SelfCheckTargetActivity.intent(app)) !is ActionResult.Ok) {
-            return CheckOutcome.fail("Mika's test page did not reopen", Advice.LaunchFailed)
+            return CheckOutcome.fail("Djini's test page did not reopen", Advice.LaunchFailed)
         }
         val start = SystemClock.uptimeMillis()
         var lastChange = start
@@ -372,7 +372,7 @@ class AndroidSelfCheck(context: Context, private val status: () -> SystemStatus)
         val sh = shell ?: return CheckOutcome.fail("no helper", Advice.SetUpPhoneControl)
         val before = mainBefore ?: return CheckOutcome.fail("main screen was not readable at the start", Advice.Error)
         sampleMain(sh, "end")
-        val who = if (withContext(Dispatchers.IO) { runCatching { sh.packageOfTask(before) }.getOrNull() } == app.packageName) "Mika" else "another app"
+        val who = if (withContext(Dispatchers.IO) { runCatching { sh.packageOfTask(before) }.getOrNull() } == app.packageName) "Djini" else "another app"
         return if (mainChanged.isEmpty()) CheckOutcome.pass("top task unchanged ($who stayed on top)")
         else CheckOutcome.fail("top task changed during: ${mainChanged.joinToString()}", Advice.MainScreenChanged)
     }
@@ -486,19 +486,19 @@ class AndroidSelfCheck(context: Context, private val status: () -> SystemStatus)
     }
 
     /** 主屏最上面的任务;读不到为 null。 */
-    private fun mainTop(sh: IMikaShell): Int? = runCatching { sh.topTaskId(Display.DEFAULT_DISPLAY) }.getOrNull()?.takeIf { it >= 0 }
+    private fun mainTop(sh: IDjiniShell): Int? = runCatching { sh.topTaskId(Display.DEFAULT_DISPLAY) }.getOrNull()?.takeIf { it >= 0 }
 
-    private suspend fun sampleMain(sh: IMikaShell, stage: String) {
+    private suspend fun sampleMain(sh: IDjiniShell, stage: String) {
         val before = mainBefore ?: return
         val now = withContext(Dispatchers.IO) { mainTop(sh) }
         if (now != before && stage !in mainChanged) mainChanged += stage
     }
 
-    private fun topPackage(sh: IMikaShell, displayId: Int): String? = runCatching {
+    private fun topPackage(sh: IDjiniShell, displayId: Int): String? = runCatching {
         sh.topTaskId(displayId).takeIf { it >= 0 }?.let(sh::packageOfTask)
     }.getOrNull()
 
-    private fun isTestPageOnTop(sh: IMikaShell, displayId: Int): Boolean =
+    private fun isTestPageOnTop(sh: IDjiniShell, displayId: Int): Boolean =
         runCatching { sh.topActivity(displayId) }.getOrNull()?.contains(SelfCheckTargetActivity::class.java.simpleName) == true
 
     private suspend fun awaitFrame(d: AgentDisplay): Bitmap? {
@@ -561,7 +561,7 @@ class AndroidSelfCheck(context: Context, private val status: () -> SystemStatus)
         val n = snap.elements.size
         val first = snap.elements.take(SEEN_ELEMENTS)
         return when {
-            pkg == app.packageName -> "saw Mika, $n elements: " + first.joinToString { (it.resourceId ?: it.name).take(SEEN_CHARS) }
+            pkg == app.packageName -> "saw Djini, $n elements: " + first.joinToString { (it.resourceId ?: it.name).take(SEEN_CHARS) }
             pkg == null -> "saw no readable window, $n elements"
             systemPackage(pkg) -> "saw $pkg, $n elements: " + first.joinToString { (it.resourceId ?: it.role).take(SEEN_CHARS) }
             else -> "saw another app, $n elements"
@@ -616,7 +616,7 @@ class AndroidSelfCheck(context: Context, private val status: () -> SystemStatus)
         const val LIST = "selfcheck_list"
         const val TITLE = "selfcheck_title"
         val EXPECTED = listOf(TITLE, COUNT, BUTTON, INPUT, TICK, LIST)
-        const val ASCII = "Mika 123"
+        const val ASCII = "Djini 123"
         const val CHINESE = "你好米卡"
         const val SENTINEL = 987_654_321
         /** 读屏一项等自检页出现最多这么久。 */
@@ -642,7 +642,7 @@ internal data class SelfCheckWindowRead(
 }
 
 /**
- * 把合并读屏结果收窄到 Mika 自己的应用窗口,再检查控件。只有 Mika 仍是最上层任务时,
+ * 把合并读屏结果收窄到 Djini 自己的应用窗口,再检查控件。只有 Djini 仍是最上层任务时,
  * 系统应用的覆盖窗口才不影响自检;完整系统应用有自己的顶层任务,仍算切走。
  */
 internal fun readSelfCheckWindow(

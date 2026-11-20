@@ -1,16 +1,16 @@
-package com.wangzan101.mika.core.tool
+package com.wangzan101.djini.core.tool
 
-import com.wangzan101.mika.core.agent.AgentLoop
-import com.wangzan101.mika.core.agent.FakeModel
-import com.wangzan101.mika.core.gate.ConfirmationGate
-import com.wangzan101.mika.core.model.ModelReply
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.Role
-import com.wangzan101.mika.core.model.StopReason
-import com.wangzan101.mika.core.uistate.ActionResult
-import com.wangzan101.mika.core.uistate.UiElement
-import com.wangzan101.mika.core.cap.web.DEVTOOLS_UNAVAILABLE
-import com.wangzan101.mika.core.cap.web.FakeWebPort
+import com.wangzan101.djini.core.agent.AgentLoop
+import com.wangzan101.djini.core.agent.FakeModel
+import com.wangzan101.djini.core.gate.ConfirmationGate
+import com.wangzan101.djini.core.model.ModelReply
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.Role
+import com.wangzan101.djini.core.model.StopReason
+import com.wangzan101.djini.core.uistate.ActionResult
+import com.wangzan101.djini.core.uistate.UiElement
+import com.wangzan101.djini.core.cap.web.DEVTOOLS_UNAVAILABLE
+import com.wangzan101.djini.core.cap.web.FakeWebPort
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
@@ -19,9 +19,9 @@ import kotlinx.serialization.json.jsonPrimitive
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import com.wangzan101.mika.core.testing.INTERACT_TOOL
-import com.wangzan101.mika.core.assembly.toolDispatcher
-import com.wangzan101.mika.core.assembly.knownToolNames
+import com.wangzan101.djini.core.testing.INTERACT_TOOL
+import com.wangzan101.djini.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.assembly.knownToolNames
 
 class ToolDispatcherInteractTest {
     private var n = 0

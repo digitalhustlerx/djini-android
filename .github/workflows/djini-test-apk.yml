@@ -1,4 +1,4 @@
-name: Mika test APK
+name: Djini test APK
 on:
   push:
     branches: [feature/ai-call-summary]
@@ -27,7 +27,7 @@ jobs:
         run: ./gradlew :app:testDebugUnitTest :app:assembleDebug -PdevInstall --stacktrace
       - uses: actions/upload-artifact@v7
         with:
-          name: Mika-Dev-debug-APK
+          name: Djini-Dev-debug-APK
           path: app/build/outputs/apk/debug/*.apk
           if-no-files-found: error
           retention-days: 14

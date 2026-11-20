@@ -1,25 +1,25 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
-import com.wangzan101.mika.core.tool.execute
-import com.wangzan101.mika.core.guard.OperationGuards
-import com.wangzan101.mika.core.guard.GuardVerdict
-import com.wangzan101.mika.core.action.ActionExecutor
-import com.wangzan101.mika.core.action.ActionOutcome
-import com.wangzan101.mika.core.action.ActionRecorder
-import com.wangzan101.mika.core.action.Origin
-import com.wangzan101.mika.core.action.execution
-import com.wangzan101.mika.core.model.ModelReply
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.Role
-import com.wangzan101.mika.core.model.StopReason
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.record.RunSink
-import com.wangzan101.mika.core.uistate.UiElement
-import com.wangzan101.mika.core.tool.FakeScreen
-import com.wangzan101.mika.core.tool.ScriptWebPort
-import com.wangzan101.mika.core.tool.ToolDispatcher
-import com.wangzan101.mika.core.cap.web.FakeWebPort
-import com.wangzan101.mika.core.cap.web.ScriptRun
+import com.wangzan101.djini.core.tool.execute
+import com.wangzan101.djini.core.guard.OperationGuards
+import com.wangzan101.djini.core.guard.GuardVerdict
+import com.wangzan101.djini.core.action.ActionExecutor
+import com.wangzan101.djini.core.action.ActionOutcome
+import com.wangzan101.djini.core.action.ActionRecorder
+import com.wangzan101.djini.core.action.Origin
+import com.wangzan101.djini.core.action.execution
+import com.wangzan101.djini.core.model.ModelReply
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.Role
+import com.wangzan101.djini.core.model.StopReason
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.record.RunSink
+import com.wangzan101.djini.core.uistate.UiElement
+import com.wangzan101.djini.core.tool.FakeScreen
+import com.wangzan101.djini.core.tool.ScriptWebPort
+import com.wangzan101.djini.core.tool.ToolDispatcher
+import com.wangzan101.djini.core.cap.web.FakeWebPort
+import com.wangzan101.djini.core.cap.web.ScriptRun
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.Json
@@ -33,8 +33,8 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import com.wangzan101.mika.core.testing.WEB_SCRIPT_TOOL
-import com.wangzan101.mika.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.testing.WEB_SCRIPT_TOOL
+import com.wangzan101.djini.core.assembly.toolDispatcher
 
 class ScriptStepsTest {
     private val events = mutableListOf<RunEvent>()
@@ -62,7 +62,7 @@ class ScriptStepsTest {
     }
 
     private fun steps(d: ToolDispatcher, guards: OperationGuards = OperationGuards()) =
-        Steps(ActionExecutor(d, guards, com.wangzan101.mika.core.gate.ConfirmationGate(), gate = { gates++ }, recorder = ActionRecorder(sink)), step = 4)
+        Steps(ActionExecutor(d, guards, com.wangzan101.djini.core.gate.ConfirmationGate(), gate = { gates++ }, recorder = ActionRecorder(sink)), step = 4)
 
     @Test fun ordinaryActionRunsAndIsRecordedAsScriptStep() = runTest {
         val web = shop()
@@ -96,8 +96,8 @@ class ScriptStepsTest {
 
     @Test fun startedActionFinishesAndIsRecordedEvenIfCancelled() = runTest {
         val web = shop()
-        val slow = object : com.wangzan101.mika.core.cap.web.WebPort by web {
-            override suspend fun tapRef(ref: String, snapshotId: String): com.wangzan101.mika.core.uistate.ActionResult {
+        val slow = object : com.wangzan101.djini.core.cap.web.WebPort by web {
+            override suspend fun tapRef(ref: String, snapshotId: String): com.wangzan101.djini.core.uistate.ActionResult {
                 kotlinx.coroutines.delay(5_000); return web.tapRef(ref, snapshotId)
             }
         }
@@ -134,8 +134,8 @@ class ScriptStepsTest {
         }
         val model = FakeModel(
             ModelReply(listOf(Part.ToolCall("a", "web_navigate", """{"url":"https://shop.example.com/"}""")), StopReason.ToolUse, null),
-            ModelReply(listOf(Part.ToolCall("b", WEB_SCRIPT_TOOL, """{"code":"await mika.tap('@e2')"}""")), StopReason.ToolUse, null),
-            com.wangzan101.mika.core.testing.answerReply("ok"),
+            ModelReply(listOf(Part.ToolCall("b", WEB_SCRIPT_TOOL, """{"code":"await djini.tap('@e2')"}""")), StopReason.ToolUse, null),
+            com.wangzan101.djini.core.testing.answerReply("ok"),
         )
         AgentLoop(model, toolDispatcher(FakeScreen(), web = port), "BASE", sink = sink).run("搜一下再发")
         assertEquals(1, web.calls.count { it.startsWith("tapRef") })

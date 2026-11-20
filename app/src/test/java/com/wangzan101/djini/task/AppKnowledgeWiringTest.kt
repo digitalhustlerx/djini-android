@@ -1,21 +1,21 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
-import com.wangzan101.mika.i18n.ChineseTexts
-import com.wangzan101.mika.core.agent.FailKind
-import com.wangzan101.mika.core.agent.RunOutcome
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.core.assembly.knownTools
-import com.wangzan101.mika.core.knowledge.AppKnowledgeDraft
-import com.wangzan101.mika.core.knowledge.AppKnowledgeDrafter
-import com.wangzan101.mika.core.knowledge.AppKnowledgeStage
-import com.wangzan101.mika.core.knowledge.KnowledgeStore
-import com.wangzan101.mika.core.knowledge.GuideCatalog
-import com.wangzan101.mika.core.observation.Place
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.run.RunOrigin
-import com.wangzan101.mika.knowledge.AppKnowledgeFiles
-import com.wangzan101.mika.settings.MemorySwitches
-import com.wangzan101.mika.ui.SkillsUi
+import com.wangzan101.djini.i18n.ChineseTexts
+import com.wangzan101.djini.core.agent.FailKind
+import com.wangzan101.djini.core.agent.RunOutcome
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.core.assembly.knownTools
+import com.wangzan101.djini.core.knowledge.AppKnowledgeDraft
+import com.wangzan101.djini.core.knowledge.AppKnowledgeDrafter
+import com.wangzan101.djini.core.knowledge.AppKnowledgeStage
+import com.wangzan101.djini.core.knowledge.KnowledgeStore
+import com.wangzan101.djini.core.knowledge.GuideCatalog
+import com.wangzan101.djini.core.observation.Place
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.run.RunOrigin
+import com.wangzan101.djini.knowledge.AppKnowledgeFiles
+import com.wangzan101.djini.settings.MemorySwitches
+import com.wangzan101.djini.ui.SkillsUi
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -58,7 +58,7 @@ class AppKnowledgeWiringTest {
         val learning = learning(files, TextModel(facts))
         val notes = learning.learn(aftermath(runEvents()))
         assertEquals(AppKnowledgeStage.Draft, files.all().single().stage)
-        assertEquals("Mika 记下了几条关于闲鱼的知识，等你确认", notes.skillNotes.single().text)
+        assertEquals("Djini 记下了几条关于闲鱼的知识，等你确认", notes.skillNotes.single().text)
         assertTrue(files.notes().isEmpty())
         files.approve(files.all().single().id)
         assertTrue(files.notes().getValue("xianyu").trial)
@@ -76,7 +76,7 @@ class AppKnowledgeWiringTest {
         files.approve(first.id)
         // 再来一次:对在用的那份起草修订
         val notes = learning(files, TextModel(more)).learn(aftermath(runEvents()))
-        assertEquals("Mika 修订了闲鱼的知识，等你确认", notes.skillNotes.single().text)
+        assertEquals("Djini 修订了闲鱼的知识，等你确认", notes.skillNotes.single().text)
         val ui = SkillsUi.of(MapSkills(), files).appKnowledge.single { it.stage == AppKnowledgeStage.Draft }
         assertTrue(ui.revision)
         assertEquals(listOf("+ - 「我的」页里的「我发布的」列出自己挂出的商品。"), ui.changedLines)

@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui.terminal
+package com.wangzan101.djini.ui.terminal
 
 import android.annotation.SuppressLint
 import android.content.ClipData
@@ -17,9 +17,9 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.webkit.WebViewAssetLoader
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.terminal.TerminalSession
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.terminal.TerminalSession
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -104,7 +104,7 @@ internal class TerminalBridge(    private val context: Context,
 ) {
     private val main = Handler(Looper.getMainLooper())
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
-    private val writes = Executors.newSingleThreadExecutor { r -> Thread(r, "mika-terminal-input") }
+    private val writes = Executors.newSingleThreadExecutor { r -> Thread(r, "djini-terminal-input") }
 
     @Volatile
     private var ready = false

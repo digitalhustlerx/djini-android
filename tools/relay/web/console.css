@@ -150,8 +150,8 @@ button { cursor: pointer; }
   font-size: 14px; line-height: 1.62; white-space: pre-wrap; word-break: break-word;
 }
 .bubble.user { align-self: flex-end; background: var(--blue); color: #fff; border-bottom-right-radius: 6px; }
-.bubble.mika { align-self: flex-start; background: var(--surface); border: 1px solid var(--line); border-bottom-left-radius: 6px; }
-.bubble.mika.failed { border-color: #eec4bd; }
+.bubble.djini { align-self: flex-start; background: var(--surface); border: 1px solid var(--line); border-bottom-left-radius: 6px; }
+.bubble.djini.failed { border-color: #eec4bd; }
 .turn-meta { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; color: var(--muted); font-size: 11px; }
 .turn-meta .status { font-size: 10px; }
 .steer {

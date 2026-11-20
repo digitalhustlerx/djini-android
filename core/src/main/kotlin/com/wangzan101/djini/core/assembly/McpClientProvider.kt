@@ -1,13 +1,13 @@
-package com.wangzan101.mika.core.assembly
+package com.wangzan101.djini.core.assembly
 
-import com.wangzan101.mika.core.cap.mcp.McpCapability
-import com.wangzan101.mika.core.cap.mcp.McpConnection
-import com.wangzan101.mika.core.cap.mcp.mcpAssemblyReason
-import com.wangzan101.mika.core.capability.Capability
-import com.wangzan101.mika.core.capability.CapabilityStatus
-import com.wangzan101.mika.core.capability.PromptEnv
-import com.wangzan101.mika.core.run.RunSpec
-import com.wangzan101.mika.core.tool.AgentTool
+import com.wangzan101.djini.core.cap.mcp.McpCapability
+import com.wangzan101.djini.core.cap.mcp.McpConnection
+import com.wangzan101.djini.core.cap.mcp.mcpAssemblyReason
+import com.wangzan101.djini.core.capability.Capability
+import com.wangzan101.djini.core.capability.CapabilityStatus
+import com.wangzan101.djini.core.capability.PromptEnv
+import com.wangzan101.djini.core.run.RunSpec
+import com.wangzan101.djini.core.tool.AgentTool
 
 internal class McpClientProvider(private val connection: McpConnection) : CapabilityProvider {
     override val id: String = "mcp:${connection.endpoint.serverId}"

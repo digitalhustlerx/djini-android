@@ -67,7 +67,7 @@ class DeskNotificationsTest(unittest.TestCase):
             expect(row).to_be_focused()
             expect(row).to_be_in_viewport()
             expect(page.locator("#compose-mode")).to_contain_text("第 1 轮")
-            expect(page.locator("#goal")).to_have_attribute("placeholder", "回答 Mika 的问题…")
+            expect(page.locator("#goal")).to_have_attribute("placeholder", "回答 Djini 的问题…")
             page.locator('[data-group="chat:elsewhere"]').click()
             expect(page.locator("#goal")).to_have_value("keep this draft")
 
@@ -82,7 +82,7 @@ class DeskNotificationsTest(unittest.TestCase):
             new_task = snapshot("third", "third", "New task", "failed", reason="Unavailable")
             tasks.insert(0, new_task)
             page.wait_for_function("() => notices.length === 5")
-            self.assertEqual(["Mika · 等你回答"] * 2 + ["Mika · 需手机接管", "Mika · 已返回结果", "Mika · 未能完成"],
+            self.assertEqual(["Djini · 等你回答"] * 2 + ["Djini · 需手机接管", "Djini · 已返回结果", "Djini · 未能完成"],
                              page.evaluate("notices.map(n => n.title)"))
             sibling.update(status="cancelled")
             page.locator("#connection-details summary").click()

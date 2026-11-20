@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.screenmap
+package com.wangzan101.djini.core.screenmap
 
-import com.wangzan101.mika.core.record.RunEvent
+import com.wangzan101.djini.core.record.RunEvent
 
 /**
  * 从运行记录确定性重建屏图（design D4）。原料是 `RunEvent.ActionTarget` 的 before/after 骨架锚点：

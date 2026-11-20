@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -45,19 +45,19 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
-import com.wangzan101.mika.R
-import com.wangzan101.mika.core.agent.QuoteMessage
+import com.wangzan101.djini.R
+import com.wangzan101.djini.core.agent.QuoteMessage
 import androidx.compose.ui.graphics.BlurEffect
 import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.semantics.clearAndSetSemantics
-import com.wangzan101.mika.ui.components.GlassBlurSupported
-import com.wangzan101.mika.ui.components.cardSurface
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
-import com.wangzan101.mika.ui.theme.MikaRadius
-import com.wangzan101.mika.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.components.GlassBlurSupported
+import com.wangzan101.djini.ui.components.cardSurface
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.MikaRadius
+import com.wangzan101.djini.ui.theme.MikaShapes
 
 /**
  * 对话页里长按的一条消息:[key] 认是哪一条(「选择文字」记的就是它),[from] 是谁说的,[text] 是复制、引用用的纯文字
@@ -170,19 +170,19 @@ internal fun Modifier.behindMenu(open: Boolean, progress: () -> Float): Modifier
 
 /** 把消息的纯文字放进剪贴板,提示一句「已复制」。 */
 internal fun copyMessage(context: Context, text: String) {
-    context.getSystemService(ClipboardManager::class.java).setPrimaryClip(ClipData.newPlainText("Mika", text))
+    context.getSystemService(ClipboardManager::class.java).setPrimaryClip(ClipData.newPlainText("Djini", text))
     Toast.makeText(context, context.getString(R.string.chat_copied), Toast.LENGTH_SHORT).show()
 }
 
-/** 引用怎么念给读屏:「引用 Mika:……」「引用你的话:……」。 */
+/** 引用怎么念给读屏:「引用 Djini:……」「引用你的话:……」。 */
 @Composable
 private fun quoteDescription(q: QuoteMessage.Quote): String =
-    stringResource(if (q.from == QuoteMessage.From.Mika) R.string.chat_quoting_mika else R.string.chat_quoting_you, q.text)
+    stringResource(if (q.from == QuoteMessage.From.Djini) R.string.chat_quoting_mika else R.string.chat_quoting_you, q.text)
 
 /** 输入框上方待发的引用:左边一道竖线,引的内容最多两行,右边 × 去掉。 */
 @Composable
 internal fun QuoteChip(quote: QuoteMessage.Quote, onRemove: () -> Unit, modifier: Modifier = Modifier) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val remove = stringResource(R.string.chat_quote_remove)
     val said = quoteDescription(quote)
     Row(
@@ -209,7 +209,7 @@ internal fun QuoteChip(quote: QuoteMessage.Quote, onRemove: () -> Unit, modifier
 /** 用户的话里引的那条:气泡上方一小块淡色,最多两行。 */
 @Composable
 internal fun SentQuote(quote: QuoteMessage.Quote, maxWidth: Dp) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val said = quoteDescription(quote)
     Row(
         Modifier.padding(bottom = 4.dp).widthIn(max = maxWidth).background(c.ink.copy(alpha = 0.05f), QuoteShape)

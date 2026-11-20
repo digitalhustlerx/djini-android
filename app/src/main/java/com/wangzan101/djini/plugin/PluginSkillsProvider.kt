@@ -1,9 +1,9 @@
-package com.wangzan101.mika.plugin
+package com.wangzan101.djini.plugin
 
-import com.wangzan101.mika.core.knowledge.FrontMatter
-import com.wangzan101.mika.core.knowledge.GuideInfo
-import com.wangzan101.mika.core.skills.PLUGIN_KIND
-import com.wangzan101.mika.core.skills.PluginSkills
+import com.wangzan101.djini.core.knowledge.FrontMatter
+import com.wangzan101.djini.core.knowledge.GuideInfo
+import com.wangzan101.djini.core.skills.PLUGIN_KIND
+import com.wangzan101.djini.core.skills.PluginSkills
 import java.io.File
 
 /**

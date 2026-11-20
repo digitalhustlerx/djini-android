@@ -1,20 +1,20 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
-import com.wangzan101.mika.core.knowledge.KnowledgeEntry
-import com.wangzan101.mika.core.knowledge.KnowledgeStore
-import com.wangzan101.mika.core.knowledge.Link
-import com.wangzan101.mika.core.knowledge.Surface
-import com.wangzan101.mika.core.knowledge.UNAVAILABLE_TOOLS_NOTE
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.uistate.ScreenPort
-import com.wangzan101.mika.core.uistate.ScreenSnapshot
-import com.wangzan101.mika.core.tool.FakeScreen
+import com.wangzan101.djini.core.knowledge.KnowledgeEntry
+import com.wangzan101.djini.core.knowledge.KnowledgeStore
+import com.wangzan101.djini.core.knowledge.Link
+import com.wangzan101.djini.core.knowledge.Surface
+import com.wangzan101.djini.core.knowledge.UNAVAILABLE_TOOLS_NOTE
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.uistate.ScreenPort
+import com.wangzan101.djini.core.uistate.ScreenSnapshot
+import com.wangzan101.djini.core.tool.FakeScreen
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import com.wangzan101.mika.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.assembly.toolDispatcher
 
 private class PkgScreen(private val pkgs: List<String?>) : ScreenPort by FakeScreen() {
     private var i = 0
@@ -25,7 +25,7 @@ private fun e(name: String, pkg: String, alias: String = name, body: String? = "
     KnowledgeEntry(name, name, Surface.Android, listOf(pkg), emptyList(), listOf(alias), null, "", body)
 
 private fun call(name: String, args: String = "{}") = Part.ToolCall("k$name${args.hashCode()}", name, args)
-private fun reply(vararg c: Part.ToolCall) = com.wangzan101.mika.core.model.ModelReply(c.toList(), com.wangzan101.mika.core.model.StopReason.ToolUse, null)
+private fun reply(vararg c: Part.ToolCall) = com.wangzan101.djini.core.model.ModelReply(c.toList(), com.wangzan101.djini.core.model.StopReason.ToolUse, null)
 
 /** 参考资料:来源 + 正文。 */
 private fun List<Message>.refs() = filter { ContextBuilder.kindOf(it) == ContextKind.AppKnowledge }
@@ -38,7 +38,7 @@ class AgentLoopKnowledgeTest {
         return model.requests.last()
     }
 
-    private val finish = com.wangzan101.mika.core.testing.answerReply("ok")
+    private val finish = com.wangzan101.djini.core.testing.answerReply("ok")
 
     @Test fun injectsOnTaskMatch() {
         val msgs = run("用 alpha 做点事", KnowledgeStore(listOf(e("alpha", "p.a"))), FakeScreen(), finish)

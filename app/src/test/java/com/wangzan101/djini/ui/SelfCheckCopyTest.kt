@@ -1,14 +1,14 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.about.Diagnostics
-import com.wangzan101.mika.core.selfcheck.Advice
-import com.wangzan101.mika.core.selfcheck.CheckResult
-import com.wangzan101.mika.core.selfcheck.CheckStatus
-import com.wangzan101.mika.core.selfcheck.DeviceFacts
-import com.wangzan101.mika.core.selfcheck.SelfCheck
-import com.wangzan101.mika.core.selfcheck.SelfCheckReport
-import com.wangzan101.mika.core.selfcheck.SelfCheckState
-import com.wangzan101.mika.i18n.ChineseTexts
+import com.wangzan101.djini.about.Diagnostics
+import com.wangzan101.djini.core.selfcheck.Advice
+import com.wangzan101.djini.core.selfcheck.CheckResult
+import com.wangzan101.djini.core.selfcheck.CheckStatus
+import com.wangzan101.djini.core.selfcheck.DeviceFacts
+import com.wangzan101.djini.core.selfcheck.SelfCheck
+import com.wangzan101.djini.core.selfcheck.SelfCheckReport
+import com.wangzan101.djini.core.selfcheck.SelfCheckState
+import com.wangzan101.djini.i18n.ChineseTexts
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Rule

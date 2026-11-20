@@ -1,11 +1,11 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.R
-import com.wangzan101.mika.core.agent.AttachmentLines
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.i18n.trPlural
-import com.wangzan101.mika.ui.viewer.ViewerKind
-import com.wangzan101.mika.ui.viewer.ViewerKinds
+import com.wangzan101.djini.R
+import com.wangzan101.djini.core.agent.AttachmentLines
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.i18n.trPlural
+import com.wangzan101.djini.ui.viewer.ViewerKind
+import com.wangzan101.djini.ui.viewer.ViewerKinds
 
 /**
  * 用户的话里带的附件(消息末尾每个附件一行,写法见 [AttachmentLines]):对话页据此把附件画成照片格子和文件卡片,

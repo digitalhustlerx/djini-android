@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.proactive
+package com.wangzan101.djini.core.proactive
 
 /**
  * 「从通知里归纳」的所有可调的数,集中在这里。都是暂定的:先上真机看攒出来的东西像不像样,再改。

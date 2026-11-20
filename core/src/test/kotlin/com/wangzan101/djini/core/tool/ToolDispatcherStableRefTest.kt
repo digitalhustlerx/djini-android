@@ -1,18 +1,18 @@
-package com.wangzan101.mika.core.tool
+package com.wangzan101.djini.core.tool
 
-import com.wangzan101.mika.core.agent.AgentLoop
-import com.wangzan101.mika.core.agent.FakeModel
-import com.wangzan101.mika.core.gate.IrreversibleDetector
-import com.wangzan101.mika.core.gate.classify
-import com.wangzan101.mika.core.model.ModelReply
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.StopReason
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.record.RunSink
-import com.wangzan101.mika.core.uistate.ActionResult
-import com.wangzan101.mika.core.uistate.ScreenPort
-import com.wangzan101.mika.core.uistate.ScreenSnapshot
-import com.wangzan101.mika.core.uistate.UiElement
+import com.wangzan101.djini.core.agent.AgentLoop
+import com.wangzan101.djini.core.agent.FakeModel
+import com.wangzan101.djini.core.gate.IrreversibleDetector
+import com.wangzan101.djini.core.gate.classify
+import com.wangzan101.djini.core.model.ModelReply
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.StopReason
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.record.RunSink
+import com.wangzan101.djini.core.uistate.ActionResult
+import com.wangzan101.djini.core.uistate.ScreenPort
+import com.wangzan101.djini.core.uistate.ScreenSnapshot
+import com.wangzan101.djini.core.uistate.UiElement
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.Json
@@ -25,8 +25,8 @@ import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import com.wangzan101.mika.core.assembly.toolDispatcher
-import com.wangzan101.mika.core.uistate.interfaces
+import com.wangzan101.djini.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.uistate.interfaces
 
 /** 每次读屏换下一份元素清单;端口编号每屏从 @e1 起,snapshotId 是 p1、p2…;同名元素位置不变。 */
 private class ScriptedScreen(private vararg val screens: List<String>) : ScreenPort by FakeScreen() {
@@ -134,7 +134,7 @@ class ToolDispatcherStableRefTest {
             reply(Part.ToolCall("a", "phone_observe", "{}")),
             reply(Part.ToolCall("b", "phone_observe", "{}")),
             reply(Part.ToolCall("c", "phone_tap", """{"ref":"@e2","snapshotId":"p2"}""")),
-            com.wangzan101.mika.core.testing.answerReply("好了"),
+            com.wangzan101.djini.core.testing.answerReply("好了"),
         )
         val s = ScriptedScreen(listOf("搜索", "返回"), listOf("新的", "搜索", "返回"))
         kotlinx.coroutines.runBlocking {
@@ -157,12 +157,12 @@ class ToolDispatcherStableRefTest {
             reply(Part.ToolCall("a", "phone_observe", "{}")),
             reply(Part.ToolCall("b", "phone_observe", "{}")),
             reply(Part.ToolCall("c", "phone_tap", """{"ref":"@e1","snapshotId":"p2"}""")),
-            com.wangzan101.mika.core.testing.answerReply("没发"),
+            com.wangzan101.djini.core.testing.answerReply("没发"),
         )
         val s = ScriptedScreen(listOf("提交订单", "返回"), listOf("新的", "提交订单", "返回"))
         kotlinx.coroutines.runBlocking {
             AgentLoop(m, toolDispatcher(s, stableRefs = true), "BASE", sink = sink,
-                confirmations = com.wangzan101.mika.core.gate.ConfirmationGate()).run("看看")
+                confirmations = com.wangzan101.djini.core.gate.ConfirmationGate()).run("看看")
         }
         assertTrue(s.calls.isEmpty())
         val tap = events.filterIsInstance<RunEvent.ToolResult>().single { it.tool == "phone_tap" }

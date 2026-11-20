@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.trace
+package com.wangzan101.djini.core.trace
 
 import com.google.protobuf.ByteString
 import io.opentelemetry.proto.common.v1.AnyValue

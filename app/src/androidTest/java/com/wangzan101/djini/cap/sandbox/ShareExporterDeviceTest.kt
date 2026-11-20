@@ -1,9 +1,9 @@
-package com.wangzan101.mika.cap.sandbox
+package com.wangzan101.djini.cap.sandbox
 
 import android.provider.MediaStore
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.core.workspace.SandboxError
+import com.wangzan101.djini.core.workspace.SandboxError
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -15,7 +15,7 @@ import java.io.File
 import java.io.RandomAccessFile
 import java.nio.file.Files
 
-/** 导出到「下载/Mika」:经 MediaStore 查得到、大小一致;超限、工作区外、链接一律不导。 */
+/** 导出到「下载/Djini」:经 MediaStore 查得到、大小一致;超限、工作区外、链接一律不导。 */
 @RunWith(AndroidJUnit4::class)
 class ShareExporterDeviceTest {
     private val context = InstrumentationRegistry.getInstrumentation().targetContext
@@ -37,20 +37,20 @@ class ShareExporterDeviceTest {
 
     @Test fun exportsToDownloadsMika() = runBlocking {
         val f = File(ws, "out.txt").apply { writeText("你好".repeat(1000)) }
-        val name = "mika-test-${System.currentTimeMillis()}.txt"
+        val name = "djini-test-${System.currentTimeMillis()}.txt"
         val card = export(f.name, name)
         exported += card.uri
         val saved = card.savedAs
-        assertTrue(saved, saved.startsWith("Download/Mika/"))
+        assertTrue(saved, saved.startsWith("Download/Djini/"))
         assertEquals(f.length(), card.size)
         context.contentResolver.query(
             MediaStore.Downloads.EXTERNAL_CONTENT_URI,
             arrayOf(MediaStore.Downloads.SIZE, MediaStore.Downloads.RELATIVE_PATH),
-            "${MediaStore.Downloads.DISPLAY_NAME} = ?", arrayOf(saved.removePrefix("Download/Mika/")), null,
+            "${MediaStore.Downloads.DISPLAY_NAME} = ?", arrayOf(saved.removePrefix("Download/Djini/")), null,
         )!!.use { c ->
             assertTrue("not found in MediaStore", c.moveToFirst())
             assertEquals(f.length(), c.getLong(0))
-            assertTrue(c.getString(1), c.getString(1).trimEnd('/').endsWith("Download/Mika"))
+            assertTrue(c.getString(1), c.getString(1).trimEnd('/').endsWith("Download/Djini"))
         }
     }
 
@@ -86,7 +86,7 @@ class ShareExporterDeviceTest {
         assertTrue("took ${System.currentTimeMillis() - begin} ms", System.currentTimeMillis() - begin < 3_000)
     }
 
-    /** 有多个硬链接的文件不导(可能链着 Mika 自己的私有文件)。系统不让建硬链接时跳过。 */
+    /** 有多个硬链接的文件不导(可能链着 Djini 自己的私有文件)。系统不让建硬链接时跳过。 */
     @Test fun hardLinkedFileRejected() {
         val secret = File(context.filesDir, "share-secret.txt").apply { writeText("secret") }
         val link = File(ws, "linked.txt")

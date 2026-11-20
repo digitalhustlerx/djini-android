@@ -1,20 +1,20 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.ui.semantics.SemanticsActions
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.wangzan101.mika.ChineseUi
-import com.wangzan101.mika.MikaApp
-import com.wangzan101.mika.core.model.ChatModel
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.ToolSpec
-import com.wangzan101.mika.core.model.BearerToken
-import com.wangzan101.mika.core.model.Capabilities
-import com.wangzan101.mika.core.model.ResponsesModel
-import com.wangzan101.mika.settings.Prerequisites
-import com.wangzan101.mika.task.TaskEnvironment
-import com.wangzan101.mika.task.testTasks
+import com.wangzan101.djini.ChineseUi
+import com.wangzan101.djini.DjiniApp
+import com.wangzan101.djini.core.model.ChatModel
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.ToolSpec
+import com.wangzan101.djini.core.model.BearerToken
+import com.wangzan101.djini.core.model.Capabilities
+import com.wangzan101.djini.core.model.ResponsesModel
+import com.wangzan101.djini.settings.Prerequisites
+import com.wangzan101.djini.task.TaskEnvironment
+import com.wangzan101.djini.task.testTasks
 import okhttp3.OkHttpClient
 import okhttp3.mockwebserver.Dispatcher
 import okhttp3.mockwebserver.MockResponse
@@ -33,8 +33,8 @@ class RunTraceDeviceTest {
     @get:Rule val compose = createAndroidComposeRule<MainActivity>()
 
     @Test fun releaseIgnoresAPreviouslyEnabledRecordingPreference() {
-        org.junit.Assume.assumeFalse(com.wangzan101.mika.record.DetailedTraces.supportedBuild)
-        val app = compose.activity.application as MikaApp
+        org.junit.Assume.assumeFalse(com.wangzan101.djini.record.DetailedTraces.supportedBuild)
+        val app = compose.activity.application as DjiniApp
         val prefs = app.getSharedPreferences("trace_settings", android.content.Context.MODE_PRIVATE)
         val previous = prefs.getBoolean("enabled", false)
         try {
@@ -47,8 +47,8 @@ class RunTraceDeviceTest {
     }
 
     @Test fun recordsAndViewsARequestFromTheSettingsSwitch() {
-        org.junit.Assume.assumeTrue(com.wangzan101.mika.record.DetailedTraces.supportedBuild)
-        val app = compose.activity.application as MikaApp
+        org.junit.Assume.assumeTrue(com.wangzan101.djini.record.DetailedTraces.supportedBuild)
+        val app = compose.activity.application as DjiniApp
         val previous = app.detailedTraces.enabled
         val previousLimit = app.detailedTraces.limitMiB
         MockWebServer().use { server ->
@@ -86,7 +86,7 @@ class RunTraceDeviceTest {
                 compose.onNode(hasSetTextAction()).performTextReplacement("37")
                 compose.clickInDialog("保存")
                 compose.awaitOne("37 MiB").assertExists()
-                assertTrue(com.wangzan101.mika.record.DetailedTraces(app).limitMiB == 37)
+                assertTrue(com.wangzan101.djini.record.DetailedTraces(app).limitMiB == 37)
                 compose.onNodeWithText("记录详细 Trace").performScrollTo().performClick()
                 assertTrue(app.detailedTraces.enabled)
                 compose.runOnUiThread { compose.activity.onBackPressedDispatcher.onBackPressed() }
@@ -106,7 +106,7 @@ class RunTraceDeviceTest {
                 // 页面在任务刚开始时就打开了:请求那一行要等这次请求录完、页面重读之后才出来
                 val usage = "输入 1200 · 缓存读取 512 · 未命中 688"
                 compose.waitUntil(30_000) { compose.onAllNodesWithText(usage, substring = true).fetchSemanticsNodes().isNotEmpty() }
-                val run = com.wangzan101.mika.record.RunStore(app).list().first { "TRACE_FIXTURE" in it.goal }
+                val run = com.wangzan101.djini.record.RunStore(app).list().first { "TRACE_FIXTURE" in it.goal }
                 compose.waitUntil(30_000) { !app.detailedTraces.store.recording(run.id) }
                 // 请求正文被截过,录完的整次 Trace 仍标「部分记录」
                 compose.waitUntil(5_000) { compose.onAllNodesWithText("部分记录").fetchSemanticsNodes().isNotEmpty() }

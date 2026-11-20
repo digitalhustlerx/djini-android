@@ -1,8 +1,8 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.ChineseUi
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.tr
+import com.wangzan101.djini.ChineseUi
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.tr
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.test.ExperimentalTestApi
@@ -23,27 +23,27 @@ import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.longClick
 import androidx.compose.ui.unit.dp
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.wangzan101.mika.browser.AddressInput
-import com.wangzan101.mika.browser.BrowserPage
-import com.wangzan101.mika.browser.BrowserTab
-import com.wangzan101.mika.browser.FavoriteSite
-import com.wangzan101.mika.browser.PageBookmark
-import com.wangzan101.mika.browser.FindState
-import com.wangzan101.mika.browser.RecentItem
-import com.wangzan101.mika.browser.RecentPage
-import com.wangzan101.mika.browser.SearchEngine
-import com.wangzan101.mika.browser.SiteLook
-import com.wangzan101.mika.browser.SiteLooks
-import com.wangzan101.mika.browser.StartPageModel
-import com.wangzan101.mika.settings.Prerequisites
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
+import com.wangzan101.djini.browser.AddressInput
+import com.wangzan101.djini.browser.BrowserPage
+import com.wangzan101.djini.browser.BrowserTab
+import com.wangzan101.djini.browser.FavoriteSite
+import com.wangzan101.djini.browser.PageBookmark
+import com.wangzan101.djini.browser.FindState
+import com.wangzan101.djini.browser.RecentItem
+import com.wangzan101.djini.browser.RecentPage
+import com.wangzan101.djini.browser.SearchEngine
+import com.wangzan101.djini.browser.SiteLook
+import com.wangzan101.djini.browser.SiteLooks
+import com.wangzan101.djini.browser.StartPageModel
+import com.wangzan101.djini.settings.Prerequisites
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-/** 侧栏的「浏览器」入口;起始页的几段(搜索、常用网站、整理、最近打开),网页的顶栏和工具栏、「更多」面板、「给 Mika 登录」横幅。 */
+/** 侧栏的「浏览器」入口;起始页的几段(搜索、常用网站、整理、最近打开),网页的顶栏和工具栏、「更多」面板、「给 Djini 登录」横幅。 */
 @RunWith(AndroidJUnit4::class)
 class BrowserScreenTest {
     @get:Rule(order = Int.MIN_VALUE) val chinese = ChineseUi()
@@ -64,7 +64,7 @@ class BrowserScreenTest {
 
     private fun start() {
         compose.setContent {
-            MikaTheme {
+            DjiniTheme {
                 BrowserStart(
                     sites, recent, face,
                     onBack = { calls += "back" },
@@ -149,7 +149,7 @@ class BrowserScreenTest {
     fun pageBarAndToolbar() {
         val page = BrowserPage("https://shop.example.com/", "购物", 40, loading = true, canBack = false, canForward = false, desktop = true)
         compose.setContent {
-            MikaTheme {
+            DjiniTheme {
                 Column {
                     BrowserPageBar(page, face("shop.example.com"), onClose = { calls += "close" }, onSubmit = {}, onReload = {}, onStop = { calls += "stop" })
                     BrowserToolbar(page, onBackPage = {}, onForward = {}, onHome = { calls += "home" }, onShare = { calls += "share" }, onMore = { calls += "more" })
@@ -171,7 +171,7 @@ class BrowserScreenTest {
     @Test
     fun moreSheetOffersSiteActions() {
         compose.setContent {
-            MikaTheme {
+            DjiniTheme {
                 BrowserMoreSheet(
                     face("shop.example.com"), "shop.example.com", favorite = false, desktop = false,
                     onDismiss = { calls += "dismiss" }, onReload = {}, onCopy = { calls += "copy" }, onOpenOutside = {},
@@ -191,7 +191,7 @@ class BrowserScreenTest {
     fun bookmarksSheetOpensInEditModeAndRemoves() {
         val items = listOf(PageBookmark("https://shop.example.com/item/1", "购物页", 1_000))
         compose.setContent {
-            MikaTheme {
+            DjiniTheme {
                 BookmarksSheet(
                     items, face,
                     onDismiss = {}, onOpen = { calls += "open ${it.url}" },
@@ -208,7 +208,7 @@ class BrowserScreenTest {
     @Test
     fun tabsSheetSelectsClosesAndOpensNew() {
         compose.setContent {
-            MikaTheme {
+            DjiniTheme {
                 TabsSheet(
                     listOf(BrowserTab("t1", "A", "https://a.example.com/", "a.example.com", active = true)),
                     onDismiss = {}, onSelect = { calls += "select $it" }, onClose = { calls += "close $it" }, onNew = { calls += "new" },
@@ -225,7 +225,7 @@ class BrowserScreenTest {
     fun historySheetRemovesInEditMode() {
         val pages = listOf(RecentItem("https://a.example.com/", "A", "a.example.com", null, false, 1_000))
         compose.setContent {
-            MikaTheme {
+            DjiniTheme {
                 HistorySheet(
                     pages, now = 2_000, onDismiss = {}, onOpen = { calls += "open ${it.url}" },
                     onRemove = { calls += "remove ${it.url}" }, onClear = { calls += "clear" },
@@ -239,20 +239,20 @@ class BrowserScreenTest {
 
     @Test
     fun clearDataSheetClearsTheSelectedKinds() {
-        compose.setContent { MikaTheme { ClearDataSheet({}) { h, s, c -> calls += "clear $h $s $c" } } }
+        compose.setContent { DjiniTheme { ClearDataSheet({}) { h, s, c -> calls += "clear $h $s $c" } } }
         compose.onNodeWithText("清除").performClick()
         assertEquals(listOf("clear true true true"), calls)
     }
 
     @Test
     fun findBarShowsTheCurrentMatch() {
-        compose.setContent { MikaTheme { BrowserFindBar(FindState(active = true, query = "a", matches = 3, index = 2), {}, {}, {}, {}) } }
+        compose.setContent { DjiniTheme { BrowserFindBar(FindState(active = true, query = "a", matches = 3, index = 2), {}, {}, {}, {}) } }
         compose.onNodeWithText("2/3").assertIsDisplayed()
     }
 
     @Test
     fun loginBannerConfirms() {
-        compose.setContent { MikaTheme { LoginBanner(desktop = true, onDone = { calls += "done" }) } }
+        compose.setContent { DjiniTheme { LoginBanner(desktop = true, onDone = { calls += "done" }) } }
         compose.onNodeWithTag("browser-login-banner").assertIsDisplayed()
         compose.onNodeWithText(BROWSER_LOGIN_DONE).performClick()
         assertEquals(listOf("done"), calls)
@@ -260,7 +260,7 @@ class BrowserScreenTest {
 
     @Test
     fun siteTileFallsBackToInitial() {
-        compose.setContent { MikaTheme { SiteTile(face("news.example.org"), 54.dp, RoundedCornerShape(16.dp), MikaType.Title) } }
+        compose.setContent { DjiniTheme { SiteTile(face("news.example.org"), 54.dp, RoundedCornerShape(16.dp), MikaType.Title) } }
         compose.onNodeWithText("新").assertIsDisplayed()
     }
 }

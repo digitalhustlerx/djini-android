@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.screenmap
+package com.wangzan101.djini.core.screenmap
 
 /**
  * 把屏图渲染成给模型看的紧凑地图文字（design D8）。屏没有语义名（D3），名字就用骨架锚点自描述；

@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -18,16 +18,16 @@ import androidx.compose.ui.semantics.liveRegion
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.unit.dp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.calls.CallActionResult
-import com.wangzan101.mika.calls.CallDirection
-import com.wangzan101.mika.calls.CallTaskBrief
-import com.wangzan101.mika.calls.CallRecord
-import com.wangzan101.mika.calls.CallTranscriptLine
-import com.wangzan101.mika.calls.SummaryStatus
-import com.wangzan101.mika.ui.components.*
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaTheme
+import com.wangzan101.djini.R
+import com.wangzan101.djini.calls.CallActionResult
+import com.wangzan101.djini.calls.CallDirection
+import com.wangzan101.djini.calls.CallTaskBrief
+import com.wangzan101.djini.calls.CallRecord
+import com.wangzan101.djini.calls.CallTranscriptLine
+import com.wangzan101.djini.calls.SummaryStatus
+import com.wangzan101.djini.ui.components.*
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniTheme
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 import java.text.DateFormat
@@ -129,7 +129,7 @@ internal fun CallHistorySection(
     )
     feedback?.let { result ->
         FooterNote(result.message, Modifier.semantics { liveRegion = LiveRegionMode.Polite },
-            color = if (result.ok) MikaTheme.colors.ink3 else MaterialTheme.colorScheme.error)
+            color = if (result.ok) DjiniTheme.colors.ink3 else MaterialTheme.colorScheme.error)
     }
     if (history.isNotEmpty() || historyWriteFailed) {
         TextButton(
@@ -263,7 +263,7 @@ private fun CallHistoryItem(
                 verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 HorizontalDivider()
                 Text(stringResource(R.string.calls_history_period, start, end),
-                    style = MaterialTheme.typography.bodySmall, color = MikaTheme.colors.ink3)
+                    style = MaterialTheme.typography.bodySmall, color = DjiniTheme.colors.ink3)
                 record.summary?.let { summary ->
                     summary.purpose?.let { Text("${stringResource(R.string.calls_summary_purpose)}：$it") }
                     if (summary.highlights.isNotEmpty()) {
@@ -279,9 +279,9 @@ private fun CallHistoryItem(
                         Text(stringResource(R.string.calls_summary_actions), style = MaterialTheme.typography.labelLarge)
                         summary.actions.forEach { item ->
                             val state = when (item.status) {
-                                com.wangzan101.mika.calls.CallFollowUp.Status.PENDING -> R.string.calls_summary_pending
-                                com.wangzan101.mika.calls.CallFollowUp.Status.DONE -> R.string.calls_summary_done
-                                com.wangzan101.mika.calls.CallFollowUp.Status.UNKNOWN -> R.string.calls_summary_unknown
+                                com.wangzan101.djini.calls.CallFollowUp.Status.PENDING -> R.string.calls_summary_pending
+                                com.wangzan101.djini.calls.CallFollowUp.Status.DONE -> R.string.calls_summary_done
+                                com.wangzan101.djini.calls.CallFollowUp.Status.UNKNOWN -> R.string.calls_summary_unknown
                             }
                             Text("${stringResource(state)}：${item.text}")
                         }
@@ -291,7 +291,7 @@ private fun CallHistoryItem(
                     CallFollowUpDraft(record.id, record.summary.followUpDraft, onSaveDraft)
                 }
                 if (record.summaryStatus == SummaryStatus.PENDING) {
-                    Text(stringResource(R.string.calls_summary_generating), color = MikaTheme.colors.ink3)
+                    Text(stringResource(R.string.calls_summary_generating), color = DjiniTheme.colors.ink3)
                 } else if (record.summaryStatus == SummaryStatus.FAILED) {
                     Text(stringResource(R.string.calls_summary_failed), color = MaterialTheme.colorScheme.error)
                     TextButton(onClick = onRetrySummary, enabled = !busy, modifier = Modifier.testTag("call-summary-retry")) {
@@ -300,7 +300,7 @@ private fun CallHistoryItem(
                 }
                 record.task?.let { task ->
                     Text(stringResource(R.string.calls_record_result_unconfirmed),
-                        style = MaterialTheme.typography.bodySmall, color = MikaTheme.colors.ink3)
+                        style = MaterialTheme.typography.bodySmall, color = DjiniTheme.colors.ink3)
                     TextButton(onClick = { showTask = !showTask }, modifier = Modifier.fillMaxWidth().testTag("call-record-task-toggle")) {
                         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                             Text(stringResource(R.string.calls_record_brief))
@@ -337,7 +337,7 @@ private fun CallHistoryItem(
                 }
                 if (showTranscript) {
                     if (record.transcript.isEmpty()) {
-                        Text(stringResource(R.string.calls_no_transcript), style = MaterialTheme.typography.bodySmall, color = MikaTheme.colors.ink3)
+                        Text(stringResource(R.string.calls_no_transcript), style = MaterialTheme.typography.bodySmall, color = DjiniTheme.colors.ink3)
                     } else SelectionContainer {
                         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                             record.transcript.forEach { CallTranscriptText(it) }
@@ -361,7 +361,7 @@ private fun CallHistoryItem(
                     }
                     TextButton(onClick = onDelete, enabled = !busy, modifier = Modifier.weight(1f).testTag("call-history-delete")) {
                         Text(stringResource(R.string.calls_history_delete),
-                            color = if (busy) MikaTheme.colors.ink3 else MaterialTheme.colorScheme.error)
+                            color = if (busy) DjiniTheme.colors.ink3 else MaterialTheme.colorScheme.error)
                     }
                 }
             }
@@ -373,7 +373,7 @@ private fun CallHistoryItem(
 internal fun CallTranscriptText(line: CallTranscriptLine) {
     Column {
         Text(stringResource(callTranscriptSpeakerLabel(line.role)),
-            style = MaterialTheme.typography.labelMedium, color = MikaTheme.colors.ink3)
+            style = MaterialTheme.typography.labelMedium, color = DjiniTheme.colors.ink3)
         Text(line.text, style = MaterialTheme.typography.bodyMedium)
     }
 }

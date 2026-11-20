@@ -1,9 +1,9 @@
-package com.wangzan101.mika.core.verify
+package com.wangzan101.djini.core.verify
 
-import com.wangzan101.mika.core.observation.InputHints
-import com.wangzan101.mika.core.observation.ObsKind
-import com.wangzan101.mika.core.observation.Observation
-import com.wangzan101.mika.core.record.Redactor
+import com.wangzan101.djini.core.observation.InputHints
+import com.wangzan101.djini.core.observation.ObsKind
+import com.wangzan101.djini.core.observation.Observation
+import com.wangzan101.djini.core.record.Redactor
 
 /**
  * 一次任务里助手实际读到的全部材料(证据账本):读屏、读网页、命令输出与读到的文件、工具结果里的事实。

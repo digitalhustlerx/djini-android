@@ -1,8 +1,8 @@
-package com.wangzan101.mika.core.shell
+package com.wangzan101.djini.core.shell
 
-import com.wangzan101.mika.core.adb.AdbConnectionException
-import com.wangzan101.mika.core.adb.AdbKeyUnreadableException
-import com.wangzan101.mika.core.adb.AdbPairingException
+import com.wangzan101.djini.core.adb.AdbConnectionException
+import com.wangzan101.djini.core.adb.AdbKeyUnreadableException
+import com.wangzan101.djini.core.adb.AdbPairingException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
@@ -483,7 +483,7 @@ class BuiltinShellEngineTest {
         assertEquals(0, launches())
     }
 
-    /** 没配对时电脑起的助手停了:不当作从没设置过,说它停了;Mika 自己不去起(起不来)。 */
+    /** 没配对时电脑起的助手停了:不当作从没设置过,说它停了;Djini 自己不去起(起不来)。 */
     @Test
     fun usbHelperStoppingSaysSoAndDoesNotLaunch() = runTest {
         val e = engine()

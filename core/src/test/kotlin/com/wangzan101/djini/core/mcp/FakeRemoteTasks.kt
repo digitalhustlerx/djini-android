@@ -1,10 +1,10 @@
-package com.wangzan101.mika.core.mcp
+package com.wangzan101.djini.core.mcp
 
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.core.remote.RemoteTask
-import com.wangzan101.mika.core.remote.RemoteTaskPage
-import com.wangzan101.mika.core.remote.RemoteTasks
-import com.wangzan101.mika.core.remote.StartOutcome
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.core.remote.RemoteTask
+import com.wangzan101.djini.core.remote.RemoteTaskPage
+import com.wangzan101.djini.core.remote.RemoteTasks
+import com.wangzan101.djini.core.remote.StartOutcome
 
 /** 测试用任务出入口;和生产实现一样,HTTP/MCP 的归属视图不能互看任务。 */
 class FakeRemoteTasks : RemoteTasks {
@@ -40,11 +40,11 @@ class FakeRemoteTasks : RemoteTasks {
         if (owner != null && conversation != null) {
             tasks.keys.toList().forEach { owned(owner, it) }
             if (tasks.values.any { it.conversation == conversation && it.owner != owner })
-                throw com.wangzan101.mika.core.remote.RemoteTaskError.General(
-                    com.wangzan101.mika.core.remote.RemoteTaskError.Code.NOT_FOUND, "Conversation not found")
+                throw com.wangzan101.djini.core.remote.RemoteTaskError.General(
+                    com.wangzan101.djini.core.remote.RemoteTaskError.Code.NOT_FOUND, "Conversation not found")
         }
         val n = ++next
-        val t = RemoteTask(requestId ?: "t$n", conversation ?: com.wangzan101.mika.core.remote.RemoteTaskService.newConversation(), goal, 1000L * n, null, owner = owner)
+        val t = RemoteTask(requestId ?: "t$n", conversation ?: com.wangzan101.djini.core.remote.RemoteTaskService.newConversation(), goal, 1000L * n, null, owner = owner)
         tasks[t.id] = t
         return StartOutcome.Started(t)
     }
@@ -77,7 +77,7 @@ class FakeRemoteTasks : RemoteTasks {
         val task = tasks[id]?.takeIf { it.state is TaskState.Running } ?: return null
         steered += id to text
         val messageId = "s${steered.size}"
-        tasks[id] = task.copy(steers = task.steers + com.wangzan101.mika.core.remote.RemoteSteer(messageId, "received"))
+        tasks[id] = task.copy(steers = task.steers + com.wangzan101.djini.core.remote.RemoteSteer(messageId, "received"))
         return messageId
     }
 

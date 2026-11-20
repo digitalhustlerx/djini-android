@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.phone.a11y;
+package com.wangzan101.djini.cap.phone.a11y;
 
 import android.app.ActivityOptions;
 import android.app.Service;
@@ -23,7 +23,7 @@ public class SpillLaunchService extends Service {
         String dialog = intent != null ? intent.getStringExtra(SpillTestActivity.EXTRA_DIALOG) : null;
         String component = auth != null ? auth : dialog;
         if (component != null) {
-            // 对话框样式或整屏的登录页:落在用户主屏。测试包自己在 Mika 的屏上有页面,
+            // 对话框样式或整屏的登录页:落在用户主屏。测试包自己在 Djini 的屏上有页面,
             // 不指定屏时系统也会把它放到那边;后台进程在主屏上没有页面时,系统按默认放到主屏,这里照那样指定主屏。
             Intent launch = new Intent().setComponent(new ComponentName(getPackageName(), component))
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

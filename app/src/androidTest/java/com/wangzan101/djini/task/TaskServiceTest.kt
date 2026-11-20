@@ -1,8 +1,8 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
 import org.junit.Rule
-import com.wangzan101.mika.ChineseUi
-import com.wangzan101.mika.DeviceTaskState
+import com.wangzan101.djini.ChineseUi
+import com.wangzan101.djini.DeviceTaskState
 import android.app.Notification
 import android.app.NotificationManager
 import android.content.Context
@@ -11,26 +11,26 @@ import android.os.PowerManager
 import android.view.Display
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport.SETTINGS
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport.pollUntil
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport.sh
-import com.wangzan101.mika.MikaApp
-import com.wangzan101.mika.core.agent.FailKind
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.core.model.Capabilities
-import com.wangzan101.mika.core.model.ChatModel
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.ModelReply
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.StopReason
-import com.wangzan101.mika.core.model.ToolSpec
-import com.wangzan101.mika.core.personal.PersonalTask
-import com.wangzan101.mika.core.trigger.TriggerDefinition
-import com.wangzan101.mika.core.trigger.TriggerWindowState
-import com.wangzan101.mika.core.verify.Verifier
-import com.wangzan101.mika.settings.FeatureFlags
-import com.wangzan101.mika.shell.IMikaShell
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport.SETTINGS
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport.pollUntil
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport.sh
+import com.wangzan101.djini.DjiniApp
+import com.wangzan101.djini.core.agent.FailKind
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.core.model.Capabilities
+import com.wangzan101.djini.core.model.ChatModel
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.ModelReply
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.StopReason
+import com.wangzan101.djini.core.model.ToolSpec
+import com.wangzan101.djini.core.personal.PersonalTask
+import com.wangzan101.djini.core.trigger.TriggerDefinition
+import com.wangzan101.djini.core.trigger.TriggerWindowState
+import com.wangzan101.djini.core.verify.Verifier
+import com.wangzan101.djini.settings.FeatureFlags
+import com.wangzan101.djini.shell.IDjiniShell
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -46,14 +46,14 @@ import kotlinx.coroutines.runBlocking
 
 /**
  * 真机测试:用脚本模型驱动 TaskService,在虚拟屏上打开系统设置,检验常亮、静音、被挪走暂停与锁屏等待。
- * 需要内置助手在运行、Mika 无障碍服务已开启。
+ * 需要内置助手在运行、Djini 无障碍服务已开启。
  */
 @RunWith(AndroidJUnit4::class)
 class TaskServiceTest {
     @get:Rule(order = Int.MIN_VALUE) val chinese = ChineseUi()
 
     private val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
-    private lateinit var shell: IMikaShell
+    private lateinit var shell: IDjiniShell
     /**
      * 每个任务一个脚本模型:模型的调用编号、核查次数各任务分开数。共用一个时,上一个任务没取走的调用
      * (核查、收尾)会被下一个任务的等待取到,测试就跑到了任务前面。
@@ -126,7 +126,7 @@ class TaskServiceTest {
         pollUntil(10_000) { DeviceTaskState.state.value.takeIf(predicate) } ?: error("state never matched: ${DeviceTaskState.state.value}")
 
     private fun mikaScreenLock(): String? =
-        sh("dumpsys power").lines().map { it.trim() }.firstOrNull { "'Mika:task'" in it }
+        sh("dumpsys power").lines().map { it.trim() }.firstOrNull { "'Djini:task'" in it }
 
     /**
      * 产品路径上回答不另请核查(任务以 reviewFinalAnswer = false 运行):模型给的回答原样交出,结局是办成、未经核查;
@@ -199,7 +199,7 @@ class TaskServiceTest {
 
     @Test
     fun personalReplayKeepsAFrameFromTheTaskDisplay() {
-        val personal = (context.applicationContext as MikaApp).personal
+        val personal = (context.applicationContext as DjiniApp).personal
         val id = UUID.randomUUID().toString()
         val task = PersonalTask(id, id, "打开设置", "打开设置", "test", System.currentTimeMillis())
         personal.store.update { it.copy(tasks = it.tasks + task) }
@@ -255,7 +255,7 @@ class TaskServiceTest {
     fun keepsScreenOnDuringTask() {
         startWithSettingsOpen()
         val line = mikaScreenLock()
-        assertNotNull("Mika holds no screen wake lock while running", line)
+        assertNotNull("Djini holds no screen wake lock while running", line)
         // 有的系统在类型前加锁对象编号(mLock:<id>),只认类型字样
         // 只保持亮屏、允许系统调暗,不锁在全亮
         assertTrue(line!!, "SCREEN_DIM_WAKE_LOCK" in line)
@@ -278,7 +278,7 @@ class TaskServiceTest {
         start("测试任务")
         val held = pollUntil(5_000) { mikaScreenLock() }
         opening.countDown()
-        assertNotNull("Mika holds no screen wake lock while preparing", held)
+        assertNotNull("Djini holds no screen wake lock while preparing", held)
         assertEquals(1, model.awaitCall().number)
         finishAndAwait()
     }
@@ -312,7 +312,7 @@ class TaskServiceTest {
         assertEquals(TaskState.Cancelled, awaitState { !it.running() })
         val runId = pollUntil(5_000) { DeviceTaskState.endedRunIds.value[conversation] }!!
         assertTrue(runId in pollUntil(5_000) { DeviceTaskState.summarizing.value.takeIf { runId in it } }.orEmpty())
-        val store = com.wangzan101.mika.chat.ConversationStore.shared(context)
+        val store = com.wangzan101.djini.chat.ConversationStore.shared(context)
         // 先记下「已取消」,停止不等交代
         val placeholder = pollUntil(5_000) { store.turns(conversation).lastOrNull { it.runId == runId } }!!
         assertEquals("cancelled" to "已取消", placeholder.status to placeholder.outcome)
@@ -360,7 +360,7 @@ class TaskServiceTest {
 
     @Test
     fun scheduledTaskFailsAndNotifiesWhenUnlockIsNotAllowed() {
-        val access = (context.applicationContext as MikaApp).deviceAccess
+        val access = (context.applicationContext as DjiniApp).deviceAccess
         val wasEnabled = access.settings.config.value.enabled
         val power = context.getSystemService(PowerManager::class.java)
         val notifications = context.getSystemService(NotificationManager::class.java)
@@ -375,7 +375,7 @@ class TaskServiceTest {
 
             model.feed("phone_launch_app", """{"package":"$SETTINGS"}""")
             val end = awaitState { it is TaskState.Failed } as TaskState.Failed
-            val expected = context.getString(com.wangzan101.mika.R.string.trigger_unlock_failed) + " [disabled]"
+            val expected = context.getString(com.wangzan101.djini.R.string.trigger_unlock_failed) + " [disabled]"
             assertEquals(expected, end.reason)
             assertEquals(FailKind.Environment, end.kind)
 
@@ -448,8 +448,8 @@ class TaskServiceTest {
 
     private companion object {
         const val MAX_TASKS = 4
-        val INTENT by lazy { com.wangzan101.mika.core.prompt.Prompts.role("intent_gate") }
-        val SUMMARY by lazy { com.wangzan101.mika.core.prompt.Prompts.role("stop_summary") }
-        val TITLE by lazy { com.wangzan101.mika.core.prompt.Prompts.role("conversation_title") }
+        val INTENT by lazy { com.wangzan101.djini.core.prompt.Prompts.role("intent_gate") }
+        val SUMMARY by lazy { com.wangzan101.djini.core.prompt.Prompts.role("stop_summary") }
+        val TITLE by lazy { com.wangzan101.djini.core.prompt.Prompts.role("conversation_title") }
     }
 }

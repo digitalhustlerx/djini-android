@@ -1,4 +1,4 @@
-package com.wangzan101.mika.about
+package com.wangzan101.djini.about
 
 import android.content.Context
 import android.net.ConnectivityManager

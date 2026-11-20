@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
@@ -18,19 +18,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.ui.components.*
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
-import com.wangzan101.mika.ui.theme.MikaRadius
-import com.wangzan101.mika.ui.theme.MikaShapes
+import com.wangzan101.djini.R
+import com.wangzan101.djini.ui.components.*
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.MikaRadius
+import com.wangzan101.djini.ui.theme.MikaShapes
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 @Composable
 internal fun TaskReportEntries(onReport: () -> Unit, onReplay: () -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Column(Modifier.fillMaxWidth().padding(top = 16.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
         Row(Modifier.fillMaxWidth().clip(MikaShapes.Card).background(c.surface)
             .clickable(onClick = onReport).padding(14.dp), verticalAlignment = Alignment.CenterVertically,
@@ -64,7 +64,7 @@ internal fun rememberReport(vm: TaskReportViewModel): Pair<Boolean, TaskReport?>
 fun TaskReportScreen(vm: TaskReportViewModel, onBack: () -> Unit, onReplay: (Int?) -> Unit, onTimeline: () -> Unit) {
     BackHandler(onBack = onBack)
     val (loaded, report) = rememberReport(vm)
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     PageBackground {
         Column(Modifier.fillMaxSize()) {
             TopBar(stringResource(R.string.report_title), MikaIcons.Back, onBack, stringResource(R.string.back),

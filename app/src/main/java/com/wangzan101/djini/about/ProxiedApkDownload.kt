@@ -1,4 +1,4 @@
-package com.wangzan101.mika.about
+package com.wangzan101.djini.about
 
 import android.net.Network
 import kotlinx.coroutines.CancellationException

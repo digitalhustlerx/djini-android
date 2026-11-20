@@ -1,6 +1,6 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.R
+import com.wangzan101.djini.R
 
 /** The library indexes names, so categories remain available for offline and missing files. */
 internal enum class LibraryFileType(val label: Int) {

@@ -1,9 +1,9 @@
-package com.wangzan101.mika.record
+package com.wangzan101.djini.record
 
 import android.content.Context
-import com.wangzan101.mika.BuildConfig
-import com.wangzan101.mika.core.trace.RunTrace
-import com.wangzan101.mika.core.trace.TraceStore
+import com.wangzan101.djini.BuildConfig
+import com.wangzan101.djini.core.trace.RunTrace
+import com.wangzan101.djini.core.trace.TraceStore
 import java.io.File
 
 /** One switch for all runs; a ticket taken before setup cannot be reused after stop/re-enable. */

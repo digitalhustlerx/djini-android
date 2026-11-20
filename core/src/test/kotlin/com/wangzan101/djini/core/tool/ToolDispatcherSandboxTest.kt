@@ -1,11 +1,11 @@
-package com.wangzan101.mika.core.tool
+package com.wangzan101.djini.core.tool
 
-import com.wangzan101.mika.core.observation.ObsKind
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.cap.sandbox.CommandResult
-import com.wangzan101.mika.core.cap.sandbox.FakeSandbox
-import com.wangzan101.mika.core.cap.sandbox.SandboxStatus
-import com.wangzan101.mika.core.knowledge.ScriptEntry
+import com.wangzan101.djini.core.observation.ObsKind
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.cap.sandbox.CommandResult
+import com.wangzan101.djini.core.cap.sandbox.FakeSandbox
+import com.wangzan101.djini.core.cap.sandbox.SandboxStatus
+import com.wangzan101.djini.core.knowledge.ScriptEntry
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runTest
@@ -24,12 +24,12 @@ import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.io.File
-import com.wangzan101.mika.core.cap.sandbox.SandboxTools
-import com.wangzan101.mika.core.cap.sandbox.SearchLimits
-import com.wangzan101.mika.core.assembly.toolDispatcher
-import com.wangzan101.mika.core.vision.JvmTestImageOps
-import com.wangzan101.mika.core.vision.VisionService
-import com.wangzan101.mika.core.vision.says
+import com.wangzan101.djini.core.cap.sandbox.SandboxTools
+import com.wangzan101.djini.core.cap.sandbox.SearchLimits
+import com.wangzan101.djini.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.vision.JvmTestImageOps
+import com.wangzan101.djini.core.vision.VisionService
+import com.wangzan101.djini.core.vision.says
 
 private var seq = 0
 private fun call(name: String, args: JsonObject) = Part.ToolCall("c${++seq}", name, args.toString())
@@ -119,7 +119,7 @@ class ToolDispatcherSandboxTest {
             put("source", "skills/report"); put("script", "scripts/tabulate.py"); put("args", JsonArray(args.map(::JsonPrimitive)))
         })).content
         assertEquals(r.toString(), "true", r.s("ok"))
-        assertEquals(listOf("/usr/bin/python3", "/opt/mika/skills/skills/report/scripts/tabulate.py") + args, sb.runs.single().argv)
+        assertEquals(listOf("/usr/bin/python3", "/opt/djini/skills/skills/report/scripts/tabulate.py") + args, sb.runs.single().argv)
         assertEquals(1, sb.prepares)
     }
 
@@ -146,9 +146,9 @@ class ToolDispatcherSandboxTest {
 
     // 沙箱就绪时看个人技能:照常返回正文,不列脚本(个人技能不在沙箱的技能目录里)
     @Test fun personalSkillViewWithSandboxReady() = runTest {
-        val catalog = com.wangzan101.mika.core.knowledge.GuideCatalog.withPersonal(
-            com.wangzan101.mika.core.knowledge.GuideCatalog.loadBundled(),
-            com.wangzan101.mika.core.skills.InMemoryPersonalSkills(com.wangzan101.mika.core.skills.personalSkill("my-trip")),
+        val catalog = com.wangzan101.djini.core.knowledge.GuideCatalog.withPersonal(
+            com.wangzan101.djini.core.knowledge.GuideCatalog.loadBundled(),
+            com.wangzan101.djini.core.skills.InMemoryPersonalSkills(com.wangzan101.djini.core.skills.personalSkill("my-trip")),
         )
         val d = toolDispatcher(FakeScreen(), false, catalog, sandbox = sb, workspace = { "conv1" })
         val r = d.execute(call("skill_read", buildJsonObject { put("name", "my-trip") })).content
@@ -181,13 +181,13 @@ class ToolDispatcherSandboxTest {
         assertTrue(sb.runs.isEmpty())
         sb.status = SandboxStatus.Ready(network = true)
         assertEquals("true", d.execute(script("scripts/fetch.mjs")).content.s("ok"))
-        assertEquals(listOf("/usr/bin/node", "/opt/mika/skills/skills/report/scripts/fetch.mjs"), sb.runs.single().argv)
+        assertEquals(listOf("/usr/bin/node", "/opt/djini/skills/skills/report/scripts/fetch.mjs"), sb.runs.single().argv)
     }
 
     @Test fun writeOutsideWorkspaceRejected() = runTest {
         val d = dispatcher()
         fun write(p: String) = call("write_file", buildJsonObject { put("path", p); put("content", "x") })
-        for (p in listOf("/etc/passwd", "../x", "/opt/mika/skills/app/a/SKILL.md")) {
+        for (p in listOf("/etc/passwd", "../x", "/opt/djini/skills/app/a/SKILL.md")) {
             assertEquals(p, "path_outside_workspace", d.execute(write(p)).content.s("error"))
         }
         val outside = File(sb.root, "outside").apply { mkdirs() }
@@ -206,7 +206,7 @@ class ToolDispatcherSandboxTest {
         val m = found["matches"]!!.jsonArray.single().jsonObject
         assertEquals("/workspace/out/notes.txt", m.s("file")); assertEquals("2", m.s("line"))
         val shared = d.execute(call("share_file", buildJsonObject { put("path", "out/notes.txt"); put("name", "笔记.txt") })).content
-        assertEquals("Download/Mika/笔记.txt", shared.s("savedAs"))
+        assertEquals("Download/Djini/笔记.txt", shared.s("savedAs"))
         assertEquals(File(ws, "out/notes.txt").canonicalFile, sb.shared.single().first.canonicalFile)
     }
 
@@ -216,7 +216,7 @@ class ToolDispatcherSandboxTest {
         val r = dispatcher().execute(call("run_command", buildJsonObject { put("command", "cat big") })).content
         assertEquals("true", r.s("outputTruncated"))
         val path = r.s("fullOutputPath")
-        assertTrue(path, path.startsWith("/workspace/.mika/out-"))
+        assertTrue(path, path.startsWith("/workspace/.djini/out-"))
         assertEquals(long, File(ws, path.removePrefix("/workspace/")).readText())
         assertTrue(r.s("output").contains("10000 characters omitted"))
         assertTrue(r.s("output").length < 16_100)
@@ -290,8 +290,8 @@ class ToolDispatcherSandboxTest {
     }
 
     @Test fun outputNotSavedThroughSymlinkedMikaDir() = runTest {
-        val outside = File(sb.root, "outside-mika").apply { mkdirs() }
-        java.nio.file.Files.createSymbolicLink(File(ws, ".mika").toPath(), outside.toPath())
+        val outside = File(sb.root, "outside-djini").apply { mkdirs() }
+        java.nio.file.Files.createSymbolicLink(File(ws, ".djini").toPath(), outside.toPath())
         sb.next = { CommandResult(0, false, false, 50, "x".repeat(20_000), 0, false) }
         val r = dispatcher().execute(call("run_command", buildJsonObject { put("command", "cat big") })).content
         assertEquals("true", r.s("ok"))
@@ -328,7 +328,7 @@ class ToolDispatcherSandboxTest {
         // 嵌套的懒惰重复:回溯量随长度多项式爆炸(JDK 对 (a+)+ 一类已有优化,用这种)
         File(ws, "evil.txt").writeText((1..60).joinToString(","))
         val tools = SandboxTools(sb, { "conv1" }, false, SearchLimits(timeMs = 200))
-        val def = com.wangzan101.mika.core.cap.sandbox.SearchFiles.def
+        val def = com.wangzan101.djini.core.cap.sandbox.SearchFiles.def
         val started = System.nanoTime()
         val slow = Args(def, buildJsonObject { put("pattern", "(.*?,){15}P") })
         val r = tools.run { ws, _ -> searchFiles(slow, ws) }.content
@@ -344,7 +344,7 @@ class ToolDispatcherSandboxTest {
     }
 
     @Test fun sandboxErrorsBecomeToolErrors() = runTest {
-        sb.next = { throw com.wangzan101.mika.core.workspace.SandboxError("sandbox_network_isolation_unavailable", "seccomp missing") }
+        sb.next = { throw com.wangzan101.djini.core.workspace.SandboxError("sandbox_network_isolation_unavailable", "seccomp missing") }
         val r = dispatcher().execute(call("run_command", buildJsonObject { put("command", "ls") })).content
         assertEquals("sandbox_network_isolation_unavailable", r.s("error"))
         assertEquals("false", r.s("recoverable"))
@@ -361,13 +361,13 @@ class ToolDispatcherSandboxTest {
 
     @Test fun longNamesFitInBytesAndKeepExtension() {
         val long = "长".repeat(200) + ".csv"
-        val fit = com.wangzan101.mika.core.cap.sandbox.ShareRules.fitName(long)
+        val fit = com.wangzan101.djini.core.cap.sandbox.ShareRules.fitName(long)
         assertTrue(fit.endsWith(".csv"))
-        assertTrue(fit.toByteArray().size <= com.wangzan101.mika.core.cap.sandbox.ShareRules.NAME_MAX_BYTES)
-        assertEquals("short.txt", com.wangzan101.mika.core.cap.sandbox.ShareRules.fitName("short.txt"))
-        val noExt = com.wangzan101.mika.core.cap.sandbox.ShareRules.fitName("名".repeat(200))
-        assertTrue(noExt.toByteArray().size <= com.wangzan101.mika.core.cap.sandbox.ShareRules.NAME_MAX_BYTES)
-        assertEquals("abc.d", com.wangzan101.mika.core.cap.sandbox.ShareRules.fitName("abcdefgh.d", maxChars = 5))
+        assertTrue(fit.toByteArray().size <= com.wangzan101.djini.core.cap.sandbox.ShareRules.NAME_MAX_BYTES)
+        assertEquals("short.txt", com.wangzan101.djini.core.cap.sandbox.ShareRules.fitName("short.txt"))
+        val noExt = com.wangzan101.djini.core.cap.sandbox.ShareRules.fitName("名".repeat(200))
+        assertTrue(noExt.toByteArray().size <= com.wangzan101.djini.core.cap.sandbox.ShareRules.NAME_MAX_BYTES)
+        assertEquals("abc.d", com.wangzan101.djini.core.cap.sandbox.ShareRules.fitName("abcdefgh.d", maxChars = 5))
     }
 
     /** 沙箱工具产出的事实(命令输出、读到的文件、写入与导出的路径)进核查证据;命令进动作清单。 */
@@ -384,7 +384,7 @@ class ToolDispatcherSandboxTest {
         // 写进去又读回来的是助手自己写的字:只记写入的路径,读回的内容不进证据
         assertTrue(e.read(ObsKind.Output).any { "/workspace/out/r.txt" in it })
         assertFalse(e.read(ObsKind.Output).toString(), e.read(ObsKind.Output).any { "报告正文" in it })
-        assertTrue(e.read(ObsKind.Output).any { "Download/Mika/r.txt" in it })
+        assertTrue(e.read(ObsKind.Output).any { "Download/Djini/r.txt" in it })
         assertTrue(e.actions.toString(), e.actions.any { it.contains("run_command(wc -l data.csv)") })
         assertTrue(e.actions.any { it.contains("share_file(out/r.txt)") })
         assertFalse(e.nothingRead)

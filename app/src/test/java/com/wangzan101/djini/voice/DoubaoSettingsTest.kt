@@ -1,8 +1,8 @@
-package com.wangzan101.mika.voice
+package com.wangzan101.djini.voice
 
-import com.wangzan101.mika.settings.AesGcmKeyCipher
-import com.wangzan101.mika.settings.FeatureFlagsCapsuleTest.MemoryPrefs
-import com.wangzan101.mika.settings.KeyCipher
+import com.wangzan101.djini.settings.AesGcmKeyCipher
+import com.wangzan101.djini.settings.FeatureFlagsCapsuleTest.MemoryPrefs
+import com.wangzan101.djini.settings.KeyCipher
 import javax.crypto.KeyGenerator
 import org.junit.Assert.*
 import org.junit.Test

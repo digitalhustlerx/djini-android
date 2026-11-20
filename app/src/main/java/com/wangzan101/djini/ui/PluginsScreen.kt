@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -18,26 +18,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.trPlural
-import com.wangzan101.mika.plugin.DEFAULT_PERSONA_CONF
-import com.wangzan101.mika.plugin.PluginDisclosure
-import com.wangzan101.mika.plugin.PluginErrors
-import com.wangzan101.mika.plugin.PluginInstallException
-import com.wangzan101.mika.plugin.PluginInstaller
-import com.wangzan101.mika.plugin.PluginManifest
-import com.wangzan101.mika.plugin.PluginRecord
-import com.wangzan101.mika.plugin.PluginRegistry
-import com.wangzan101.mika.plugin.disclosure
-import com.wangzan101.mika.ui.components.FooterNote
-import com.wangzan101.mika.ui.components.GroupCard
-import com.wangzan101.mika.ui.components.GroupLabel
-import com.wangzan101.mika.ui.components.ListRow
-import com.wangzan101.mika.ui.components.MikaSwitch
-import com.wangzan101.mika.ui.components.PageScaffold
-import com.wangzan101.mika.ui.components.RowChevron
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaTheme
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.trPlural
+import com.wangzan101.djini.plugin.DEFAULT_PERSONA_CONF
+import com.wangzan101.djini.plugin.PluginDisclosure
+import com.wangzan101.djini.plugin.PluginErrors
+import com.wangzan101.djini.plugin.PluginInstallException
+import com.wangzan101.djini.plugin.PluginInstaller
+import com.wangzan101.djini.plugin.PluginManifest
+import com.wangzan101.djini.plugin.PluginRecord
+import com.wangzan101.djini.plugin.PluginRegistry
+import com.wangzan101.djini.plugin.disclosure
+import com.wangzan101.djini.ui.components.FooterNote
+import com.wangzan101.djini.ui.components.GroupCard
+import com.wangzan101.djini.ui.components.GroupLabel
+import com.wangzan101.djini.ui.components.ListRow
+import com.wangzan101.djini.ui.components.MikaSwitch
+import com.wangzan101.djini.ui.components.PageScaffold
+import com.wangzan101.djini.ui.components.RowChevron
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniTheme
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -193,7 +193,7 @@ private fun PluginDetail(record: PluginRecord, registry: PluginRegistry, onBack:
             ListRow(
                 MikaIcons.Trash,
                 stringResource(R.string.plugins_uninstall),
-                titleColor = MikaTheme.colors.bad,
+                titleColor = DjiniTheme.colors.bad,
                 first = true,
                 onClick = { confirmUninstall = true },
             )

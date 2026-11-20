@@ -1,10 +1,10 @@
-package com.wangzan101.mika.browser
+package com.wangzan101.djini.browser
 
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.i18n.trPlural
-import com.wangzan101.mika.i18n.uiLocale
-import com.wangzan101.mika.core.cap.web.WebUrlPolicy
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.i18n.trPlural
+import com.wangzan101.djini.i18n.uiLocale
+import com.wangzan101.djini.core.cap.web.WebUrlPolicy
 import java.time.Instant
 import java.time.ZoneId
 import java.time.temporal.ChronoUnit

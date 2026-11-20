@@ -1,16 +1,16 @@
-package com.wangzan101.mika.cap.phone.setup
+package com.wangzan101.djini.cap.phone.setup
 
 import android.content.Context
 import android.util.Log
 import android.view.Display
 import android.view.accessibility.AccessibilityNodeInfo
-import com.wangzan101.mika.cap.phone.a11y.ScreenAccessibility
-import com.wangzan101.mika.cap.phone.a11y.SystemPickers
-import com.wangzan101.mika.core.shell.BuiltinShellControl
-import com.wangzan101.mika.core.shell.PairingDiscovery
-import com.wangzan101.mika.core.shell.PairingScreen
-import com.wangzan101.mika.core.shell.PhoneSetupFlow
-import com.wangzan101.mika.core.shell.PairingScreenReading
+import com.wangzan101.djini.cap.phone.a11y.ScreenAccessibility
+import com.wangzan101.djini.cap.phone.a11y.SystemPickers
+import com.wangzan101.djini.core.shell.BuiltinShellControl
+import com.wangzan101.djini.core.shell.PairingDiscovery
+import com.wangzan101.djini.core.shell.PairingScreen
+import com.wangzan101.djini.core.shell.PhoneSetupFlow
+import com.wangzan101.djini.core.shell.PairingScreenReading
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.conflate
@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 
 /**
- * 配对时借 Mika 的无障碍服务读出系统配对窗口上的配对码,读到就直接配对,用户不用去通知里填。
+ * 配对时借 Djini 的无障碍服务读出系统配对窗口上的配对码,读到就直接配对,用户不用去通知里填。
  * 只在 [PairingCoordinator] 开着的这段时间里跑,只看系统设置的窗口;读到的码不写日志。
  * 无障碍没开就什么也不做,配对照样走通知。
  */

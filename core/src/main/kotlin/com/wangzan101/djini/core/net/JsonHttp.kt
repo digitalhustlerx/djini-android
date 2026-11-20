@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.net
+package com.wangzan101.djini.core.net
 
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
@@ -20,7 +20,7 @@ import java.io.IOException
 internal object JsonHttp {
     private const val MAX_RESPONSE_CHARS = 1_000_000
     private val JSON_TYPE = "application/json".toMediaType()
-    private const val USER_AGENT = "Mika (+https://github.com/wangzan101/Mika)"
+    private const val USER_AGENT = "Djini (+https://github.com/wangzan101/Djini)"
 
     /** 一次调用没成的原因;由调用方换成自己的失败类型。 */
     data class Failure(val code: String, val message: String, val retryAfterSeconds: Long? = null)

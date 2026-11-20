@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -27,18 +27,18 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.core.search.WebSearchProvider
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.settings.GroundingStatus
-import com.wangzan101.mika.settings.WebSearchConfig
-import com.wangzan101.mika.settings.WebSearchEntry
-import com.wangzan101.mika.ui.components.GroupLabel
-import com.wangzan101.mika.ui.components.MikaDialog
-import com.wangzan101.mika.ui.components.MikaSwitch
-import com.wangzan101.mika.ui.components.SelectChip
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
+import com.wangzan101.djini.R
+import com.wangzan101.djini.core.search.WebSearchProvider
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.settings.GroundingStatus
+import com.wangzan101.djini.settings.WebSearchConfig
+import com.wangzan101.djini.settings.WebSearchEntry
+import com.wangzan101.djini.ui.components.GroupLabel
+import com.wangzan101.djini.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.MikaSwitch
+import com.wangzan101.djini.ui.components.SelectChip
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
 
 /** 网页搜索设置里要的文字;不碰界面,单测直接测。 */
 internal object WebSearchCopy {
@@ -165,7 +165,7 @@ fun WebSearchDialog(initial: WebSearchConfig, onDismiss: () -> Unit, onSave: (We
                                     stringResource(R.string.web_search_note_google),
                                     modifier = Modifier.padding(top = 2.dp),
                                     style = MikaType.Hint,
-                                    color = MikaTheme.colors.ink3,
+                                    color = DjiniTheme.colors.ink3,
                                 )
                             }
                         } else {
@@ -173,7 +173,7 @@ fun WebSearchDialog(initial: WebSearchConfig, onDismiss: () -> Unit, onSave: (We
                                 WebSearchCopy.groundingUnavailableMessage(grounding),
                                 modifier = Modifier.padding(top = 2.dp).testTag("web-search-grounding-unavailable"),
                                 style = MikaType.Hint,
-                                color = MikaTheme.colors.ink3,
+                                color = DjiniTheme.colors.ink3,
                             )
                         }
                     }
@@ -211,14 +211,14 @@ fun WebSearchDialog(initial: WebSearchConfig, onDismiss: () -> Unit, onSave: (We
                 }
                 Text(
                     WebSearchCopy.note(provider), Modifier.padding(top = 8.dp).testTag("web-search-note"),
-                    style = MikaType.Hint, color = MikaTheme.colors.ink3,
+                    style = MikaType.Hint, color = DjiniTheme.colors.ink3,
                 )
                 if (shows(WebSearchProvider.Problem.UnsupportedProvider)) {
                     Text(
                         WebSearchCopy.problem(provider, WebSearchProvider.Problem.UnsupportedProvider, grounding),
                         modifier = Modifier.padding(top = 4.dp).testTag("web-search-error"),
                         style = MikaType.Hint,
-                        color = MikaTheme.colors.bad,
+                        color = DjiniTheme.colors.bad,
                     )
                 }
                 if (provider.needsEndpoint) {
@@ -249,7 +249,7 @@ fun WebSearchDialog(initial: WebSearchConfig, onDismiss: () -> Unit, onSave: (We
                 // 原来那段说明里要紧的两点:密钥加密存在本机、结果按不可信内容处理
                 Text(
                     stringResource(R.string.web_search_privacy), Modifier.padding(top = 8.dp).testTag("web-search-privacy"),
-                    style = MikaType.Hint, color = MikaTheme.colors.ink3,
+                    style = MikaType.Hint, color = DjiniTheme.colors.ink3,
                 )
             }
         },

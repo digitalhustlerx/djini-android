@@ -1,4 +1,4 @@
-package com.wangzan101.mika.calls
+package com.wangzan101.djini.calls
 
 import java.util.Base64
 import kotlinx.serialization.json.Json

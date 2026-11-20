@@ -1,29 +1,29 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.core.memory.MemoryIndex
-import com.wangzan101.mika.core.memory.MemoryItem
-import com.wangzan101.mika.core.memory.MemoryKind
-import com.wangzan101.mika.core.memory.MemoryRejected
-import com.wangzan101.mika.core.memory.MemorySource
-import com.wangzan101.mika.core.memory.MemoryStatus
-import com.wangzan101.mika.core.memory.MemoryStore
-import com.wangzan101.mika.core.memory.TaskMemory
-import com.wangzan101.mika.core.memory.TaskMemoryStore
-import com.wangzan101.mika.core.knowledge.FrontMatter
-import com.wangzan101.mika.core.skills.SkillDrafter
-import com.wangzan101.mika.core.skills.SkillImport
-import com.wangzan101.mika.core.assembly.knownToolNames
-import com.wangzan101.mika.core.skills.PersonalSkill
-import com.wangzan101.mika.core.skills.PersonalSkills
-import com.wangzan101.mika.core.skills.SkillStatus
-import com.wangzan101.mika.core.knowledge.AppKnowledgeDraftStore
-import com.wangzan101.mika.core.knowledge.AppKnowledgeDrafter
-import com.wangzan101.mika.core.knowledge.AppKnowledgeStage
-import com.wangzan101.mika.core.knowledge.AppKnowledgeTrial
-import com.wangzan101.mika.settings.MemorySettings
-import com.wangzan101.mika.settings.MemorySwitches
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.core.memory.MemoryIndex
+import com.wangzan101.djini.core.memory.MemoryItem
+import com.wangzan101.djini.core.memory.MemoryKind
+import com.wangzan101.djini.core.memory.MemoryRejected
+import com.wangzan101.djini.core.memory.MemorySource
+import com.wangzan101.djini.core.memory.MemoryStatus
+import com.wangzan101.djini.core.memory.MemoryStore
+import com.wangzan101.djini.core.memory.TaskMemory
+import com.wangzan101.djini.core.memory.TaskMemoryStore
+import com.wangzan101.djini.core.knowledge.FrontMatter
+import com.wangzan101.djini.core.skills.SkillDrafter
+import com.wangzan101.djini.core.skills.SkillImport
+import com.wangzan101.djini.core.assembly.knownToolNames
+import com.wangzan101.djini.core.skills.PersonalSkill
+import com.wangzan101.djini.core.skills.PersonalSkills
+import com.wangzan101.djini.core.skills.SkillStatus
+import com.wangzan101.djini.core.knowledge.AppKnowledgeDraftStore
+import com.wangzan101.djini.core.knowledge.AppKnowledgeDrafter
+import com.wangzan101.djini.core.knowledge.AppKnowledgeStage
+import com.wangzan101.djini.core.knowledge.AppKnowledgeTrial
+import com.wangzan101.djini.settings.MemorySettings
+import com.wangzan101.djini.settings.MemorySwitches
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -35,9 +35,9 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import java.util.UUID
-import com.wangzan101.mika.i18n.uiLocale
-import com.wangzan101.mika.core.assembly.knownTools
-import com.wangzan101.mika.core.tool.Verb
+import com.wangzan101.djini.i18n.uiLocale
+import com.wangzan101.djini.core.assembly.knownTools
+import com.wangzan101.djini.core.tool.Verb
 
 /** 页面三段:已记下的、个人技能、等你确认的(待批准的做法 + 技能与 App 知识草稿)。 */
 enum class Segment { Memories, Skills, Pending }
@@ -249,8 +249,8 @@ class MemoryViewModel(
         fun sourceLine(s: MemorySource): String =
             if (s.type == "manual") tr(R.string.memory_manual)
             else SimpleDateFormat(tr(R.string.date_pattern_md), uiLocale()).format(Date(s.atMs)).let { day ->
-                // Mika 自己归纳出来的:引的是用户提出要求的那句话,不能说成「你说的」
-                if (s.type == com.wangzan101.mika.core.memory.MemoryContext.INFERRED) tr(R.string.memory_inferred, day, s.quote.orEmpty())
+                // Djini 自己归纳出来的:引的是用户提出要求的那句话,不能说成「你说的」
+                if (s.type == com.wangzan101.djini.core.memory.MemoryContext.INFERRED) tr(R.string.memory_inferred, day, s.quote.orEmpty())
                 else if (s.channel != null && s.channel != "Ui") tr(R.string.memory_said_via, day, s.channel, s.quote.orEmpty())
                 else tr(R.string.memory_said, day, s.quote.orEmpty())
             }

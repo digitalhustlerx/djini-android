@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.phone.display
+package com.wangzan101.djini.cap.phone.display
 
 /** ROTATION_0/90/180/270 分别为 0/1/2/3。物理缓冲不变,逻辑屏在四分之一圈时交换宽高。 */
 internal data class DisplayFrameGeometry(val bufferWidth: Int, val bufferHeight: Int, val rotation: Int) {

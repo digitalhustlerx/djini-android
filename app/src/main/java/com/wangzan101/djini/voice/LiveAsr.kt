@@ -1,6 +1,6 @@
-package com.wangzan101.mika.voice
+package com.wangzan101.djini.voice
 
-import com.wangzan101.mika.core.model.ModelError
+import com.wangzan101.djini.core.model.ModelError
 import java.io.IOException
 import java.nio.ByteBuffer
 import java.nio.ByteOrder

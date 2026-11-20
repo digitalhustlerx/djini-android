@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.phone.shell
+package com.wangzan101.djini.cap.phone.shell
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -456,7 +456,7 @@ internal class ShellCallAudio(private val context: Context) {
                 } finally {
                     finish(this, reason)
                 }
-            }, "mika-cellular-pcm").apply { isDaemon = true }.start()
+            }, "djini-cellular-pcm").apply { isDaemon = true }.start()
         }
 
         private fun pump(now: Long): Boolean {

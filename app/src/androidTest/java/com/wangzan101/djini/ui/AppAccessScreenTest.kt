@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
@@ -6,7 +6,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.wangzan101.mika.ChineseUi
+import com.wangzan101.djini.ChineseUi
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -17,7 +17,7 @@ class AppAccessScreenTest {
     @get:Rule val compose = createComposeRule()
 
     @Test fun appAccessLoadsWithoutModelAndRecommendedCanBeCancelled() {
-        compose.setContent { com.wangzan101.mika.ui.theme.MikaTheme { AppAccessScreen(onBack = {}, classifyApps = false) } }
+        compose.setContent { com.wangzan101.djini.ui.theme.DjiniTheme { AppAccessScreen(onBack = {}, classifyApps = false) } }
         compose.onNodeWithText("应用访问").assertIsDisplayed()
         compose.onNodeWithText("推荐禁用", substring = true).performScrollTo().performClick()
         compose.onNodeWithText("推荐禁用金融交易应用").assertIsDisplayed()

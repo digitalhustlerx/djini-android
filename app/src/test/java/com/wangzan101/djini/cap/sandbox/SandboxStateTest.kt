@@ -1,9 +1,9 @@
-package com.wangzan101.mika.cap.sandbox
+package com.wangzan101.djini.cap.sandbox
 
 import org.junit.Rule
-import com.wangzan101.mika.i18n.ChineseTexts
-import com.wangzan101.mika.core.workspace.SandboxTree
-import com.wangzan101.mika.core.cap.sandbox.SandboxStatus
+import com.wangzan101.djini.i18n.ChineseTexts
+import com.wangzan101.djini.core.workspace.SandboxTree
+import com.wangzan101.djini.core.cap.sandbox.SandboxStatus
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull

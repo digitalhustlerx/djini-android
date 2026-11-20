@@ -1,6 +1,6 @@
-package com.wangzan101.mika.cap.web
+package com.wangzan101.djini.cap.web
 
-import com.wangzan101.mika.ChineseUi
+import com.wangzan101.djini.ChineseUi
 import android.os.SystemClock
 import android.view.Display
 import android.view.MotionEvent
@@ -11,8 +11,8 @@ import android.widget.Button
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.webkit.WebViewAssetLoader
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport
-import com.wangzan101.mika.core.uistate.ActionResult
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport
+import com.wangzan101.djini.core.uistate.ActionResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -145,7 +145,7 @@ class WebTakeoverTest {
     @Test
     fun handBackCarriesInputCount() = runBlocking<Unit> {
         openForm()
-        lateinit var counted: com.wangzan101.mika.takeover.HandoverActivity
+        lateinit var counted: com.wangzan101.djini.takeover.HandoverActivity
         instr.runOnMainSync {
             WebHandover.show(ctx, tab, host, "login", null, waitKey = 1, taskId = "task", onAction = { a ->
                 actions += a

@@ -1,9 +1,9 @@
-package com.wangzan101.mika.core.memory
+package com.wangzan101.djini.core.memory
 
-import com.wangzan101.mika.core.observation.ObsKind
-import com.wangzan101.mika.core.observation.PlaceKind
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.tool.PACKAGE_NAME_RE
+import com.wangzan101.djini.core.observation.ObsKind
+import com.wangzan101.djini.core.observation.PlaceKind
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.tool.PACKAGE_NAME_RE
 
 /**
  * 把一次运行的事件压成跨会话摘要。纯函数、不请模型:[label] 把工具名换成界面的说法,[appLabel] 把包名换成 App 名。
@@ -52,7 +52,7 @@ object TaskMemoryRecorder {
 
     /**
      * 只要结局那个词(「办成」「完成」「失败」…),不带回答或理由的文字。回答里多半转述了别人写的东西的任务用它
-     * (读过通知的,见 [com.wangzan101.mika.core.proactive.NoticeRuns]):摘要会被以后的任务搜到,那段字不留。
+     * (读过通知的,见 [com.wangzan101.djini.core.proactive.NoticeRuns]):摘要会被以后的任务搜到,那段字不留。
      */
     fun outcome(events: List<RunEvent>): String = conclusion(events, text = false)
 

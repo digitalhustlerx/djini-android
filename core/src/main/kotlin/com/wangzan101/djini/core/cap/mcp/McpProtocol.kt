@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.cap.mcp
+package com.wangzan101.djini.core.cap.mcp
 
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive

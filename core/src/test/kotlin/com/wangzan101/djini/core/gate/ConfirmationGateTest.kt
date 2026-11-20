@@ -1,12 +1,12 @@
-package com.wangzan101.mika.core.gate
+package com.wangzan101.djini.core.gate
 
-import com.wangzan101.mika.core.risk.IrrevAction
-import com.wangzan101.mika.core.uistate.ScreenSnapshot
-import com.wangzan101.mika.core.uistate.UiElement
+import com.wangzan101.djini.core.risk.IrrevAction
+import com.wangzan101.djini.core.uistate.ScreenSnapshot
+import com.wangzan101.djini.core.uistate.UiElement
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import com.wangzan101.mika.core.testing.verb
+import com.wangzan101.djini.core.testing.verb
 
 /** 询问时只有花钱的那一步要同意:下面的页面上都有应付金额 ¥25,申报也都带着它。 */
 class ConfirmationGateTest {

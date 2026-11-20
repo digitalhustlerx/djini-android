@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.shell
+package com.wangzan101.djini.core.shell
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
@@ -79,8 +79,8 @@ class RootAccessTest {
     /** 经 su 起助手的命令:先打 uid,再和经无线调试起的一样(口令不在命令里)。 */
     @Test
     fun rootCommandPrintsTheUidFirstAndKeepsTheNonceOffTheCommandLine() {
-        val c = HelperHandoff.rootCommand("/data/app/x/base.apk", "com.wangzan101.mika", 10123, "ab")
+        val c = HelperHandoff.rootCommand("/data/app/x/base.apk", "com.wangzan101.djini", 10123, "ab")
         assertTrue(c.startsWith("id -u; read n; "))
-        assertEquals(c, "id -u; " + HelperHandoff.command("/data/app/x/base.apk", "com.wangzan101.mika", 10123, "ab"))
+        assertEquals(c, "id -u; " + HelperHandoff.command("/data/app/x/base.apk", "com.wangzan101.djini", 10123, "ab"))
     }
 }

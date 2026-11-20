@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.verticalScroll
@@ -34,24 +34,24 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
-import com.wangzan101.mika.R
-import com.wangzan101.mika.settings.RecommendedTask
-import com.wangzan101.mika.settings.TaskTemplate
-import com.wangzan101.mika.settings.RecommendedTaskError
-import com.wangzan101.mika.settings.RecommendedTaskStore
-import com.wangzan101.mika.ui.components.ButtonKind
-import com.wangzan101.mika.ui.components.ButtonSize
-import com.wangzan101.mika.ui.components.FooterNote
-import com.wangzan101.mika.ui.components.GroupCard
-import com.wangzan101.mika.ui.components.ListRow
-import com.wangzan101.mika.ui.components.MikaButton
-import com.wangzan101.mika.ui.components.MikaDialog
-import com.wangzan101.mika.ui.components.ReorderableRow
-import com.wangzan101.mika.ui.components.rememberReorderableRowsState
-import com.wangzan101.mika.ui.components.PageScaffold
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaSize
-import com.wangzan101.mika.ui.theme.MikaTheme
+import com.wangzan101.djini.R
+import com.wangzan101.djini.settings.RecommendedTask
+import com.wangzan101.djini.settings.TaskTemplate
+import com.wangzan101.djini.settings.RecommendedTaskError
+import com.wangzan101.djini.settings.RecommendedTaskStore
+import com.wangzan101.djini.ui.components.ButtonKind
+import com.wangzan101.djini.ui.components.ButtonSize
+import com.wangzan101.djini.ui.components.FooterNote
+import com.wangzan101.djini.ui.components.GroupCard
+import com.wangzan101.djini.ui.components.ListRow
+import com.wangzan101.djini.ui.components.MikaButton
+import com.wangzan101.djini.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.ReorderableRow
+import com.wangzan101.djini.ui.components.rememberReorderableRowsState
+import com.wangzan101.djini.ui.components.PageScaffold
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.MikaSize
+import com.wangzan101.djini.ui.theme.DjiniTheme
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -81,7 +81,7 @@ fun RecommendedTasksScreen(store: RecommendedTaskStore, onBack: () -> Unit, onPi
         },
     )
 
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     PageScaffold(stringResource(R.string.recommendations_title), onBack, scrollState = scroll,
         viewportModifier = Modifier.onGloballyPositioned { reorder.viewport = it.boundsInWindow() }) {
         onOpenChecklists?.let { open ->
@@ -245,7 +245,7 @@ internal fun RecommendedTaskDialog(store: RecommendedTaskStore, initial: Recomme
                     Text(stringResource(R.string.task_field_add))
                 }
                 error?.let {
-                    Text(recommendationError(it), Modifier.padding(top = 8.dp), color = MikaTheme.colors.bad)
+                    Text(recommendationError(it), Modifier.padding(top = 8.dp), color = DjiniTheme.colors.bad)
                 }
             }
         },
@@ -298,7 +298,7 @@ private fun DeleteTaskButton(onClick: () -> Unit) {
         Modifier.size(MikaSize.IconButton).clip(CircleShape).clickable(role = Role.Button, onClick = onClick),
         contentAlignment = Alignment.Center,
     ) {
-        Icon(MikaIcons.Trash, label, Modifier.size(MikaSize.Icon), tint = MikaTheme.colors.ink3)
+        Icon(MikaIcons.Trash, label, Modifier.size(MikaSize.Icon), tint = DjiniTheme.colors.ink3)
     }
 }
 

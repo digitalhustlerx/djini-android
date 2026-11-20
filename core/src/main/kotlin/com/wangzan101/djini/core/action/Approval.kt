@@ -1,9 +1,9 @@
-package com.wangzan101.mika.core.action
+package com.wangzan101.djini.core.action
 
-import com.wangzan101.mika.core.gate.ConfirmationRequest
-import com.wangzan101.mika.core.run.Attendance
-import com.wangzan101.mika.core.run.RunOrigin
-import com.wangzan101.mika.core.run.RunProvenance
+import com.wangzan101.djini.core.gate.ConfirmationRequest
+import com.wangzan101.djini.core.run.Attendance
+import com.wangzan101.djini.core.run.RunOrigin
+import com.wangzan101.djini.core.run.RunProvenance
 
 /**
  * 一个动作的风险等级(记进审批记录,核查据此知道任务做过对外的事)。[Read] 只看或只在界面间移动;[Change] 在界面上改东西(点、打字);

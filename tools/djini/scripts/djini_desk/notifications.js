@@ -24,8 +24,8 @@ function deskNotifications(ticket, openTurn, reschedule) {
 
   function show(task) {
     const id = task.task_id;
-    const note = new Notification("Mika · " + t(task.status), {
-      body: t("alertOpen"), icon: "/mika-logo.png"
+    const note = new Notification("Djini · " + t(task.status), {
+      body: t("alertOpen"), icon: "/djini-logo.png"
     });
     live.set(id, note);
     note.onerror = () => { deliveryFailed = true; sync(); };
@@ -126,7 +126,7 @@ function deskNotifications(ticket, openTurn, reschedule) {
   window.addEventListener("focus", sync);
   window.addEventListener("pagehide", () => { recent = null; suspended = true; sync(); });
   window.addEventListener("pageshow", () => { suspended = false; sync(); });
-  if (supported && ticket) digest(ticket).then(id => { scope = "mika-alerts-" + id; sync(); }).catch(failed);
+  if (supported && ticket) digest(ticket).then(id => { scope = "djini-alerts-" + id; sync(); }).catch(failed);
   sync();
   return {
     sync,

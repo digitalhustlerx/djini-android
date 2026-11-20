@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.remote
+package com.wangzan101.djini.core.remote
 
-import com.wangzan101.mika.core.mcp.FakeRemoteTasks
+import com.wangzan101.djini.core.mcp.FakeRemoteTasks
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.boolean
@@ -169,38 +169,38 @@ class CompanionApiTest {
     }
 
     @Test fun runningViewMapsStates() {
-        val running = RemoteRunningView.of("c1", "做一件事", com.wangzan101.mika.core.agent.TaskState.Running(3, "note", narration = "正在填写"), "r1")
+        val running = RemoteRunningView.of("c1", "做一件事", com.wangzan101.djini.core.agent.TaskState.Running(3, "note", narration = "正在填写"), "r1")
         assertEquals("running", running.status)
         assertEquals(3, running.step)
         assertEquals("正在填写", running.progress)
         assertFalse(running.needsYou)
 
-        val queued = RemoteRunningView.of("c2", "排队", com.wangzan101.mika.core.agent.TaskState.Held(com.wangzan101.mika.core.agent.GateReason.queued("前面还有任务")))
+        val queued = RemoteRunningView.of("c2", "排队", com.wangzan101.djini.core.agent.TaskState.Held(com.wangzan101.djini.core.agent.GateReason.queued("前面还有任务")))
         assertEquals("queued", queued.status)
         assertEquals("前面还有任务", queued.progress)
         assertFalse(queued.needsYou)
 
-        val answer = RemoteRunningView.of("c3", "问一句", com.wangzan101.mika.core.agent.TaskState.WaitingInput("选哪个？", listOf("A", "B")))
+        val answer = RemoteRunningView.of("c3", "问一句", com.wangzan101.djini.core.agent.TaskState.WaitingInput("选哪个？", listOf("A", "B")))
         assertEquals("waiting_for_answer", answer.status)
         assertEquals("选哪个？", answer.question)
         assertEquals(listOf("A", "B"), answer.options)
         assertTrue(answer.needsYou)
 
-        val confirmation = RemoteRunningView.of("c4", "买一件", com.wangzan101.mika.core.agent.TaskState.WaitingConfirmation(
-            com.wangzan101.mika.core.gate.ConfirmationRequest(com.wangzan101.mika.core.risk.IrrevAction.pay, "订单", "内容", "¥10", "购物 App")
+        val confirmation = RemoteRunningView.of("c4", "买一件", com.wangzan101.djini.core.agent.TaskState.WaitingConfirmation(
+            com.wangzan101.djini.core.gate.ConfirmationRequest(com.wangzan101.djini.core.risk.IrrevAction.pay, "订单", "内容", "¥10", "购物 App")
         ))
         assertEquals("waiting_on_phone", confirmation.status)
         assertEquals("购物 App", confirmation.progress)
         assertTrue(confirmation.needsYou)
 
-        val takeover = RemoteRunningView.of("c5", "付款", com.wangzan101.mika.core.agent.TaskState.WaitingTakeover("payment", "请你在手机上付款"))
+        val takeover = RemoteRunningView.of("c5", "付款", com.wangzan101.djini.core.agent.TaskState.WaitingTakeover("payment", "请你在手机上付款"))
         assertEquals("waiting_on_phone", takeover.status)
         assertEquals("请你在手机上付款", takeover.progress)
         assertTrue(takeover.needsYou)
     }
 
     @Test fun runningViewClipsLongGoal() {
-        val view = RemoteRunningView.of("c1", "长".repeat(5_000), com.wangzan101.mika.core.agent.TaskState.Running(0, "note"))
+        val view = RemoteRunningView.of("c1", "长".repeat(5_000), com.wangzan101.djini.core.agent.TaskState.Running(0, "note"))
         assertTrue(view.truncated)
         assertTrue(view.goal.endsWith("…"))
         assertEquals(RemoteCompanion.MAX_GOAL + 1, view.goal.length)

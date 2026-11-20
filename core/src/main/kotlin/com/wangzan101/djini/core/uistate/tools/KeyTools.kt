@@ -1,20 +1,20 @@
-package com.wangzan101.mika.core.uistate.tools
+package com.wangzan101.djini.core.uistate.tools
 
-import com.wangzan101.mika.core.uistate.ScreenFamily
-import com.wangzan101.mika.core.risk.GateTarget
-import com.wangzan101.mika.core.tool.ArgError
-import com.wangzan101.mika.core.tool.Args
-import com.wangzan101.mika.core.uistate.PressKeys
-import com.wangzan101.mika.core.tool.Risk
-import com.wangzan101.mika.core.tool.ToolContext
-import com.wangzan101.mika.core.tool.ToolDef
-import com.wangzan101.mika.core.tool.ToolExecution
-import com.wangzan101.mika.core.tool.Verb
-import com.wangzan101.mika.core.tool.argStr
-import com.wangzan101.mika.core.tool.str
+import com.wangzan101.djini.core.uistate.ScreenFamily
+import com.wangzan101.djini.core.risk.GateTarget
+import com.wangzan101.djini.core.tool.ArgError
+import com.wangzan101.djini.core.tool.Args
+import com.wangzan101.djini.core.uistate.PressKeys
+import com.wangzan101.djini.core.tool.Risk
+import com.wangzan101.djini.core.tool.ToolContext
+import com.wangzan101.djini.core.tool.ToolDef
+import com.wangzan101.djini.core.tool.ToolExecution
+import com.wangzan101.djini.core.tool.Verb
+import com.wangzan101.djini.core.tool.argStr
+import com.wangzan101.djini.core.tool.str
 import kotlinx.serialization.json.JsonObject
-import com.wangzan101.mika.core.uistate.action
-import com.wangzan101.mika.core.uistate.screen
+import com.wangzan101.djini.core.uistate.action
+import com.wangzan101.djini.core.uistate.screen
 
 internal class Back(f: ScreenFamily) : ScreenTool(f, "back") {
     override val verb = Verb.Back

@@ -1,4 +1,4 @@
-package com.wangzan101.mika.about
+package com.wangzan101.djini.about
 
 import android.content.ContentValues
 import android.net.Uri
@@ -6,7 +6,7 @@ import android.os.ParcelFileDescriptor
 import androidx.core.content.FileProvider
 
 /**
- * 走网络代理时由 Mika 自己下的安装包,交给系统安装器用的 content:// 地址(系统下载服务下的那份由它自己给地址)。
+ * 走网络代理时由 Djini 自己下的安装包,交给系统安装器用的 content:// 地址(系统下载服务下的那份由它自己给地址)。
  * 只覆盖更新包目录(见 res/xml/update_files.xml),只读,不对外导出,安装时临时授权。
  */
 class UpdateFilesProvider : FileProvider() {

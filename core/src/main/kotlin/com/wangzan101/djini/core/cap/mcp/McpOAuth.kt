@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.cap.mcp
+package com.wangzan101.djini.core.cap.mcp
 
-import com.wangzan101.mika.core.oauth.Pkce
+import com.wangzan101.djini.core.oauth.Pkce
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
@@ -107,7 +107,7 @@ class McpOAuth(
     }
 
     /** 动态注册公开客户端;redirect URI 用本机回调。 */
-    suspend fun register(server: McpOAuthServer, redirectUri: String, clientName: String = "Mika"): McpOAuthRegistration {
+    suspend fun register(server: McpOAuthServer, redirectUri: String, clientName: String = "Djini"): McpOAuthRegistration {
         val endpoint = server.registrationEndpoint ?: throw McpOAuthException("oauth_registration_unsupported")
         requireSafeEndpoint(endpoint)
         val body = JsonObject(

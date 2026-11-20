@@ -1,7 +1,7 @@
-package com.wangzan101.mika.core.knowledge
+package com.wangzan101.djini.core.knowledge
 
-import com.wangzan101.mika.core.skills.PLUGIN_KIND
-import com.wangzan101.mika.core.skills.PluginSkills
+import com.wangzan101.djini.core.skills.PLUGIN_KIND
+import com.wangzan101.djini.core.skills.PluginSkills
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test

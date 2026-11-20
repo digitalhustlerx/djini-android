@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.phone.shell
+package com.wangzan101.djini.cap.phone.shell
 
 /**
  * 系统接口查不了哪些页面能接一个 Intent 时(有的系统在应用这一侧的查询里另读设置,外壳身份读不了就抛错),

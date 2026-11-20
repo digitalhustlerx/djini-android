@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -14,11 +14,11 @@ import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipe
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.R
-import com.wangzan101.mika.core.personal.PersonalTask
-import com.wangzan101.mika.personal.PersonalPhonePreview
-import com.wangzan101.mika.personal.PersonalReplayFrame
-import com.wangzan101.mika.ui.theme.MikaTheme
+import com.wangzan101.djini.R
+import com.wangzan101.djini.core.personal.PersonalTask
+import com.wangzan101.djini.personal.PersonalPhonePreview
+import com.wangzan101.djini.personal.PersonalReplayFrame
+import com.wangzan101.djini.ui.theme.DjiniTheme
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -46,7 +46,7 @@ class PersonalHeaderTest {
         saved.outputStream().use { olderFrame.compress(Bitmap.CompressFormat.JPEG, 80, it) }
         val recordings = listOf(PersonalReplayFrame(1_000, saved), PersonalReplayFrame(11_000, saved))
         compose.setContent {
-            MikaTheme {
+            DjiniTheme {
                 val latest by preview.collectAsState()
                 var openedPreview by remember { mutableStateOf<PersonalPhonePreview?>(null) }
                 PersonalHeader(listOf(first, second), preview, onOpenDrawer = {}, onActivity = {}, onTask = {
@@ -65,7 +65,7 @@ class PersonalHeaderTest {
         compose.runOnIdle { preview.value = PersonalPhonePreview(second.conversationId, frame) }
         compose.onNodeWithText("正在查看日程").assertExists()
         val avatar = compose.onNodeWithTag("personal-profile").fetchSemanticsNode().boundsInRoot
-        val name = compose.onNodeWithText("Mika").fetchSemanticsNode().boundsInRoot
+        val name = compose.onNodeWithText("Djini").fetchSemanticsNode().boundsInRoot
         val thumbnail = compose.onNodeWithTag("personal-phone-preview").fetchSemanticsNode().boundsInRoot
         val progress = compose.onNodeWithTag("personal-task-progress").fetchSemanticsNode().boundsInRoot
         assertEquals(idleAvatar.center.x, avatar.center.x, 1f)

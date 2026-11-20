@@ -1,8 +1,8 @@
-package com.wangzan101.mika.core.mcp
+package com.wangzan101.djini.core.mcp
 
-import com.wangzan101.mika.core.calls.PhoneCallPort
-import com.wangzan101.mika.core.calls.PhoneCallTask
-import com.wangzan101.mika.core.remote.*
+import com.wangzan101.djini.core.calls.PhoneCallPort
+import com.wangzan101.djini.core.calls.PhoneCallTask
+import com.wangzan101.djini.core.remote.*
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.*
 import org.junit.Assert.*
@@ -27,7 +27,7 @@ class McpCallToolsTest {
     @Test fun callsStayBehindDeviceAccessAndExistingAuthentication() {
         val endpoints = RemoteEndpoints(FakeRemoteTasks(), "test", calls = port)
         val host = RemoteHost(FakeRemoteTasks(), { "test-token" }, 0, false, "test", endpoints = endpoints)
-        val body = """{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"mika_call_dial","arguments":{"number":"13800000000"}}}"""
+        val body = """{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"djini_call_dial","arguments":{"number":"13800000000"}}}"""
         fun req(token: String?, origin: String? = null, payload: String = body) = HttpRequest("POST", "/mcp", buildMap {
             put("content-type", "application/json")
             token?.let { put("authorization", "Bearer $it") }
@@ -44,7 +44,7 @@ class McpCallToolsTest {
         assertEquals("13800000000" to null, requested)
         assertNull(requestedTask)
 
-        val withTask = """{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"mika_call_dial","arguments":{"number":"13800000000","sim_id":"sim-2","task":{"goal":"确认今晚几点关门","questions":["今天几点关门？","关门前多久停止入场？"],"context":"今天是假日","constraints":"不要预约，也不要留号码"}}}}"""
+        val withTask = """{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"djini_call_dial","arguments":{"number":"13800000000","sim_id":"sim-2","task":{"goal":"确认今晚几点关门","questions":["今天几点关门？","关门前多久停止入场？"],"context":"今天是假日","constraints":"不要预约，也不要留号码"}}}}"""
         assertEquals(401, host.handle(req(null, payload = withTask)).status)
         assertTrue(endpoints.handle(req(null, payload = withTask), false).body.toString(Charsets.UTF_8).contains("Unknown tool"))
         assertEquals(1, writes)

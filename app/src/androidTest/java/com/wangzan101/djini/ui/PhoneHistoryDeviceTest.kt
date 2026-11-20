@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
@@ -6,14 +6,14 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import android.graphics.Bitmap
-import com.wangzan101.mika.ChineseUi
-import com.wangzan101.mika.MikaApp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.core.agent.Turn
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.mcp.McpServerState
-import com.wangzan101.mika.record.RunStore
-import com.wangzan101.mika.ui.theme.MikaTheme
+import com.wangzan101.djini.ChineseUi
+import com.wangzan101.djini.DjiniApp
+import com.wangzan101.djini.R
+import com.wangzan101.djini.core.agent.Turn
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.mcp.McpServerState
+import com.wangzan101.djini.record.RunStore
+import com.wangzan101.djini.ui.theme.DjiniTheme
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONObject
@@ -30,7 +30,7 @@ class PhoneHistoryDeviceTest {
     @get:Rule val compose = createComposeRule()
 
     @Test fun phonePermissionControlsSavedHistoryAndTraceThroughTheRunningServer() {
-        val app = ApplicationProvider.getApplicationContext<MikaApp>()
+        val app = ApplicationProvider.getApplicationContext<DjiniApp>()
         val runtime = app.mcp
         val oldHistory = runtime.settings.historyEnabled.value
         val oldUsb = runtime.usb.enabled.value
@@ -44,7 +44,7 @@ class PhoneHistoryDeviceTest {
         val client = OkHttpClient()
         try {
             runtime.settings.setHistoryEnabled(false)
-            compose.setContent { MikaTheme { McpScreen(runtime) {} } }
+            compose.setContent { DjiniTheme { McpScreen(runtime) {} } }
             compose.onNodeWithText(app.getString(R.string.mcp_advanced)).performScrollTo().performClick()
             compose.onNodeWithTag("computer-history").performScrollTo().assertIsOff()
             compose.runOnIdle { runtime.setUsbEnabled(true) }

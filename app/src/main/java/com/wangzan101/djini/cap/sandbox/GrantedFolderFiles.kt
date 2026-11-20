@@ -1,13 +1,13 @@
-package com.wangzan101.mika.cap.sandbox
+package com.wangzan101.djini.cap.sandbox
 
 import android.content.ContentResolver
 import android.content.Intent
 import android.net.Uri
 import android.provider.DocumentsContract as Docs
-import com.wangzan101.mika.core.cap.sandbox.FolderEntry
-import com.wangzan101.mika.core.cap.sandbox.FolderFiles
-import com.wangzan101.mika.core.cap.sandbox.FolderPage
-import com.wangzan101.mika.core.workspace.SandboxError
+import com.wangzan101.djini.core.cap.sandbox.FolderEntry
+import com.wangzan101.djini.core.cap.sandbox.FolderFiles
+import com.wangzan101.djini.core.cap.sandbox.FolderPage
+import com.wangzan101.djini.core.workspace.SandboxError
 import java.io.IOException
 import java.nio.ByteBuffer
 import java.nio.charset.CodingErrorAction
@@ -85,7 +85,7 @@ class GrantedFolderFiles(private val resolver: ContentResolver) : FolderFiles {
         val bytes = if (append && old != null) old + content else content
         checkText(bytes)
         if (existing == null && !parent.writable) fail("folder_access_denied", "This folder cannot create files.")
-        // Resolve the live grant again immediately before mutation. Revocation and Mika writes share this lock.
+        // Resolve the live grant again immediately before mutation. Revocation and Djini writes share this lock.
         resolveGrant(path, write = true)
         val uri = existing?.let { document(tree, it.id) } ?: Docs.createDocument(resolver,
             document(tree, parent.id), if (name.endsWith(".md", true)) "text/markdown" else "text/plain", name)
@@ -139,7 +139,7 @@ class GrantedFolderFiles(private val resolver: ContentResolver) : FolderFiles {
     private fun resolveGrant(path: String, write: Boolean = false): Pair<Uri, List<String>> {
         val parts = FolderFiles.parts(path)
         val permission = permissions().firstOrNull { rootPath(it.uri) == "/folders/${parts.first()}" }
-            ?: fail("folder_access_denied", "Folder access was removed. Ask the user to choose the folder again in Mika settings.")
+            ?: fail("folder_access_denied", "Folder access was removed. Ask the user to choose the folder again in Djini settings.")
         if (!permission.isReadPermission || (write && !permission.isWritePermission))
             fail("folder_access_denied", "The folder is not authorized for this operation.")
         return permission.uri to parts.drop(1)

@@ -1,9 +1,9 @@
-package com.wangzan101.mika.cap.phone.shell.adb
+package com.wangzan101.djini.cap.phone.shell.adb
 
 import android.content.Context
 import android.net.nsd.NsdManager
 import android.net.nsd.NsdServiceInfo
-import com.wangzan101.mika.core.adb.AdbServiceFinder
+import com.wangzan101.djini.core.adb.AdbServiceFinder
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.withTimeoutOrNull
 import java.net.InetAddress

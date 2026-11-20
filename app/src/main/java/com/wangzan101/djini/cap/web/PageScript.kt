@@ -1,8 +1,8 @@
-package com.wangzan101.mika.cap.web
+package com.wangzan101.djini.cap.web
 
 import androidx.webkit.WebViewCompat
 import androidx.webkit.WebViewFeature
-import com.wangzan101.mika.core.cap.web.PageDigest
+import com.wangzan101.djini.core.cap.web.PageDigest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.suspendCancellableCoroutine

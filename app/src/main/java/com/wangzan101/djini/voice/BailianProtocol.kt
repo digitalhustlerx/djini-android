@@ -1,4 +1,4 @@
-package com.wangzan101.mika.voice
+package com.wangzan101.djini.voice
 
 import java.util.UUID
 import kotlinx.serialization.json.Json

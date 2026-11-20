@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.uistate
+package com.wangzan101.djini.core.uistate
 
 /**
  * 繁体字换成简体:按钮、金额、提示语的词表都是简体写的,繁体界面(删除→刪除、结账→結帳)先换过再按同一套词表判。

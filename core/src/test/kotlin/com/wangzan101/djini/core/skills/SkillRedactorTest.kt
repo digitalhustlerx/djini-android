@@ -1,11 +1,11 @@
-package com.wangzan101.mika.core.skills
+package com.wangzan101.djini.core.skills
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import com.wangzan101.mika.core.testing.TOOLS
-import com.wangzan101.mika.core.tool.Verb
+import com.wangzan101.djini.core.testing.TOOLS
+import com.wangzan101.djini.core.tool.Verb
 
 class SkillRedactorTest {
     @Test fun literalsFromQuotesDigitsAmountsAndCriteria() {

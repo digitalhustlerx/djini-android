@@ -1,8 +1,8 @@
-package com.wangzan101.mika.core.cap.web
+package com.wangzan101.djini.core.cap.web
 
-import com.wangzan101.mika.core.cap.web.cdp.CdpEvaluationException
-import com.wangzan101.mika.core.cap.web.cdp.CdpSession
-import com.wangzan101.mika.core.uistate.ScreenSnapshot
+import com.wangzan101.djini.core.cap.web.cdp.CdpEvaluationException
+import com.wangzan101.djini.core.cap.web.cdp.CdpSession
+import com.wangzan101.djini.core.uistate.ScreenSnapshot
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.TimeoutCancellationException
@@ -264,7 +264,7 @@ class ElementProbe(private val session: CdpSession, private val timeoutMs: Long 
         private const val RELEASE_TIMEOUT_MS = 300L
         /** 除主文档外最多读这么多个框架的无障碍树。 */
         const val MAX_FRAMES = 12
-        private const val GROUP = "mika-elements"
+        private const val GROUP = "djini-elements"
         private val POINTER_EVENTS = setOf("click", "mousedown", "mouseup", "pointerdown", "pointerup", "touchstart", "touchend")
 
         /** `Page.getFrameTree` 的 frameTree → 先序的帧列表,主文档在最前。 */

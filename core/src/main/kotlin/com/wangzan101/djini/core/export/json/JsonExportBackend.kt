@@ -1,17 +1,17 @@
-package com.wangzan101.mika.core.export.json
+package com.wangzan101.djini.core.export.json
 
-import com.wangzan101.mika.core.export.AnswerOutcome
-import com.wangzan101.mika.core.export.ExportAssetReader
-import com.wangzan101.mika.core.export.ExportBackend
-import com.wangzan101.mika.core.export.ExportBlock
-import com.wangzan101.mika.core.export.ExportCapability
-import com.wangzan101.mika.core.export.ExportDescriptor
-import com.wangzan101.mika.core.export.ExportDocument
-import com.wangzan101.mika.core.export.ExportKind
-import com.wangzan101.mika.core.export.ExportPhase
-import com.wangzan101.mika.core.export.ExportPresentation
-import com.wangzan101.mika.core.export.ExportProgress
-import com.wangzan101.mika.core.export.ExportSink
+import com.wangzan101.djini.core.export.AnswerOutcome
+import com.wangzan101.djini.core.export.ExportAssetReader
+import com.wangzan101.djini.core.export.ExportBackend
+import com.wangzan101.djini.core.export.ExportBlock
+import com.wangzan101.djini.core.export.ExportCapability
+import com.wangzan101.djini.core.export.ExportDescriptor
+import com.wangzan101.djini.core.export.ExportDocument
+import com.wangzan101.djini.core.export.ExportKind
+import com.wangzan101.djini.core.export.ExportPhase
+import com.wangzan101.djini.core.export.ExportPresentation
+import com.wangzan101.djini.core.export.ExportProgress
+import com.wangzan101.djini.core.export.ExportSink
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
@@ -46,7 +46,7 @@ class JsonExportBackend : ExportBackend {
         val total = document.blocks.size
         progress(ExportProgress(ExportPhase.Rendering, 0, total))
         val root = buildJsonObject {
-            put("format", "mika.conversation-export")
+            put("format", "djini.conversation-export")
             put("version", 1)
             put("appVersion", document.meta.appVersion)
             put("exportedAt", document.meta.exportedAtMs)
@@ -137,7 +137,7 @@ class JsonExportBackend : ExportBackend {
         is AnswerOutcome.Cancelled -> buildJsonObject { put("status", "cancelled"); put("summary", outcome.summary) }
     }
 
-    private fun asset(asset: com.wangzan101.mika.core.export.ExportAsset): JsonObject = buildJsonObject {
+    private fun asset(asset: com.wangzan101.djini.core.export.ExportAsset): JsonObject = buildJsonObject {
         put("id", asset.id)
         put("kind", asset.kind.name.lowercase())
         put("path", "assets/${asset.fileName}")

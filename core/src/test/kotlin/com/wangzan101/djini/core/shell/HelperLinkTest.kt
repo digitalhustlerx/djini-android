@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.shell
+package com.wangzan101.djini.core.shell
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch

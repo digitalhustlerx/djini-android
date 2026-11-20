@@ -1,28 +1,28 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
 import android.content.Context
 import android.database.sqlite.SQLiteException
 import android.util.Log
-import com.wangzan101.mika.chat.SharedFile
-import com.wangzan101.mika.core.agent.FailKind
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.core.mcp.McpTaskHost
-import com.wangzan101.mika.core.mcp.McpTaskLink
-import com.wangzan101.mika.core.remote.RemoteSteer
-import com.wangzan101.mika.core.remote.RemoteTask
-import com.wangzan101.mika.core.remote.RemoteTaskError
-import com.wangzan101.mika.core.remote.RemoteTaskFiles
-import com.wangzan101.mika.core.remote.RemoteTaskPage
-import com.wangzan101.mika.core.remote.RemoteTaskService
-import com.wangzan101.mika.core.remote.RemoteTasks
-import com.wangzan101.mika.core.remote.RunRecordExport
-import com.wangzan101.mika.core.remote.StartOutcome
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.run.Attendance
-import com.wangzan101.mika.core.run.RunEventBus
-import com.wangzan101.mika.core.run.RunId
-import com.wangzan101.mika.core.run.RunOrigin
-import com.wangzan101.mika.core.run.RunSpec
+import com.wangzan101.djini.chat.SharedFile
+import com.wangzan101.djini.core.agent.FailKind
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.core.mcp.McpTaskHost
+import com.wangzan101.djini.core.mcp.McpTaskLink
+import com.wangzan101.djini.core.remote.RemoteSteer
+import com.wangzan101.djini.core.remote.RemoteTask
+import com.wangzan101.djini.core.remote.RemoteTaskError
+import com.wangzan101.djini.core.remote.RemoteTaskFiles
+import com.wangzan101.djini.core.remote.RemoteTaskPage
+import com.wangzan101.djini.core.remote.RemoteTaskService
+import com.wangzan101.djini.core.remote.RemoteTasks
+import com.wangzan101.djini.core.remote.RunRecordExport
+import com.wangzan101.djini.core.remote.StartOutcome
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.run.Attendance
+import com.wangzan101.djini.core.run.RunEventBus
+import com.wangzan101.djini.core.run.RunId
+import com.wangzan101.djini.core.run.RunOrigin
+import com.wangzan101.djini.core.run.RunSpec
 import org.json.JSONArray
 import java.io.IOException
 import java.util.UUID
@@ -30,7 +30,7 @@ import java.util.UUID
 /** 电脑任务的唯一索引。内部视图可维护全部收件;每个外部请求必须使用 [scope] 后的令牌归属视图。 */
 class RemoteTaskHub(
     private val context: Context,
-    private val runs: () -> List<TaskRun> = { (context.applicationContext as com.wangzan101.mika.MikaApp).taskState.runs.value },
+    private val runs: () -> List<TaskRun> = { (context.applicationContext as com.wangzan101.djini.DjiniApp).taskState.runs.value },
     private val clock: () -> Long = System::currentTimeMillis,
 ) : McpTaskHost, RemoteTasks, RemoteRunIndex {
     private val receipts by lazy { RemoteTaskReceipts(context) }
@@ -83,7 +83,7 @@ class RemoteTaskHub(
         throw e
     } catch (e: Exception) {
         Log.w(TAG, "could not start remote task", e)
-        StartOutcome.Refused("Mika could not start the task on the phone. Check its status before trying again.")
+        StartOutcome.Refused("Djini could not start the task on the phone. Check its status before trying again.")
     }
 
     private fun startWithFiles(owner: String?, id: String, goal: String, conversation: String?, attachments: List<String>): RemoteTask {
@@ -109,7 +109,7 @@ class RemoteTaskHub(
         receipts.insert(task, newChat = conversation == null, fileRequest = fileRequest)
         try { TaskService.startMcp(context, goal, task.conversation, id, attendance) }
         catch (e: Exception) {
-            receipts.finish(id, TaskState.Failed("Mika could not start the task on the phone.", FailKind.Environment), emptyList())
+            receipts.finish(id, TaskState.Failed("Djini could not start the task on the phone.", FailKind.Environment), emptyList())
             throw e
         }
         return task
@@ -119,7 +119,7 @@ class RemoteTaskHub(
         receipts.claimStart(id)
     } catch (e: SQLiteException) {
         Log.e(TAG, "Could not claim remote task", e)
-        ended(id, TaskState.Failed("Mika could not record this task's start. Check phone storage.", FailKind.Environment), emptyList())
+        ended(id, TaskState.Failed("Djini could not record this task's start. Check phone storage.", FailKind.Environment), emptyList())
         false
     }
 

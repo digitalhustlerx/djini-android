@@ -1,58 +1,58 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.R
-import com.wangzan101.mika.cap.web.KeptPage
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.i18n.trPlural
-import com.wangzan101.mika.i18n.uiLocale
-import com.wangzan101.mika.core.assembly.legacyNames
-import com.wangzan101.mika.core.tool.LegacyNames
-import com.wangzan101.mika.chat.BranchCopyResult
-import com.wangzan101.mika.chat.BranchOrigin
-import com.wangzan101.mika.chat.BranchWorkspace
-import com.wangzan101.mika.chat.RetryAttachmentResult
-import com.wangzan101.mika.chat.RetryAttachmentStatus
-import com.wangzan101.mika.chat.ConversationStore
-import com.wangzan101.mika.chat.ConversationSummary
-import com.wangzan101.mika.chat.CurrentChat
-import com.wangzan101.mika.chat.DeleteBatch
-import com.wangzan101.mika.chat.DeleteImpact
-import com.wangzan101.mika.chat.Project
-import com.wangzan101.mika.chat.ProjectDeleteImpact
-import com.wangzan101.mika.chat.ProjectStore
-import com.wangzan101.mika.chat.SharedDraft
-import com.wangzan101.mika.chat.SharedDraftStore
-import com.wangzan101.mika.chat.SharedFile
-import com.wangzan101.mika.chat.WorkspaceResolver
-import com.wangzan101.mika.cap.sandbox.ImportResult
-import com.wangzan101.mika.cap.sandbox.AttachmentFailure
-import com.wangzan101.mika.cap.sandbox.AttachmentFailureReason
-import com.wangzan101.mika.confirm.ConfirmationCopy
-import com.wangzan101.mika.confirm.ConfirmationNotifier
-import com.wangzan101.mika.core.agent.AttachmentLines
-import com.wangzan101.mika.core.agent.Conversation
-import com.wangzan101.mika.core.agent.QuoteMessage
-import com.wangzan101.mika.core.agent.GoalChecklist
-import com.wangzan101.mika.core.agent.RunProgress
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.task.TaskGate
-import com.wangzan101.mika.core.agent.NoticeTurn
-import com.wangzan101.mika.core.agent.Turn
-import com.wangzan101.mika.core.memory.MemoryItem
-import com.wangzan101.mika.core.memory.MemoryNote
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.skills.SkillNote
-import com.wangzan101.mika.memory.RunNotes
-import com.wangzan101.mika.settings.Prerequisites
-import com.wangzan101.mika.settings.Persona
-import com.wangzan101.mika.settings.PersonaStore
-import com.wangzan101.mika.settings.Problem
-import com.wangzan101.mika.takeover.Takeover
-import com.wangzan101.mika.task.SteerNote
-import com.wangzan101.mika.task.SteerState
-import com.wangzan101.mika.task.QueuedFollowUp
-import com.wangzan101.mika.task.QueuedSource
-import com.wangzan101.mika.task.unconsumed
+import com.wangzan101.djini.R
+import com.wangzan101.djini.cap.web.KeptPage
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.i18n.trPlural
+import com.wangzan101.djini.i18n.uiLocale
+import com.wangzan101.djini.core.assembly.legacyNames
+import com.wangzan101.djini.core.tool.LegacyNames
+import com.wangzan101.djini.chat.BranchCopyResult
+import com.wangzan101.djini.chat.BranchOrigin
+import com.wangzan101.djini.chat.BranchWorkspace
+import com.wangzan101.djini.chat.RetryAttachmentResult
+import com.wangzan101.djini.chat.RetryAttachmentStatus
+import com.wangzan101.djini.chat.ConversationStore
+import com.wangzan101.djini.chat.ConversationSummary
+import com.wangzan101.djini.chat.CurrentChat
+import com.wangzan101.djini.chat.DeleteBatch
+import com.wangzan101.djini.chat.DeleteImpact
+import com.wangzan101.djini.chat.Project
+import com.wangzan101.djini.chat.ProjectDeleteImpact
+import com.wangzan101.djini.chat.ProjectStore
+import com.wangzan101.djini.chat.SharedDraft
+import com.wangzan101.djini.chat.SharedDraftStore
+import com.wangzan101.djini.chat.SharedFile
+import com.wangzan101.djini.chat.WorkspaceResolver
+import com.wangzan101.djini.cap.sandbox.ImportResult
+import com.wangzan101.djini.cap.sandbox.AttachmentFailure
+import com.wangzan101.djini.cap.sandbox.AttachmentFailureReason
+import com.wangzan101.djini.confirm.ConfirmationCopy
+import com.wangzan101.djini.confirm.ConfirmationNotifier
+import com.wangzan101.djini.core.agent.AttachmentLines
+import com.wangzan101.djini.core.agent.Conversation
+import com.wangzan101.djini.core.agent.QuoteMessage
+import com.wangzan101.djini.core.agent.GoalChecklist
+import com.wangzan101.djini.core.agent.RunProgress
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.task.TaskGate
+import com.wangzan101.djini.core.agent.NoticeTurn
+import com.wangzan101.djini.core.agent.Turn
+import com.wangzan101.djini.core.memory.MemoryItem
+import com.wangzan101.djini.core.memory.MemoryNote
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.skills.SkillNote
+import com.wangzan101.djini.memory.RunNotes
+import com.wangzan101.djini.settings.Prerequisites
+import com.wangzan101.djini.settings.Persona
+import com.wangzan101.djini.settings.PersonaStore
+import com.wangzan101.djini.settings.Problem
+import com.wangzan101.djini.takeover.Takeover
+import com.wangzan101.djini.task.SteerNote
+import com.wangzan101.djini.task.SteerState
+import com.wangzan101.djini.task.QueuedFollowUp
+import com.wangzan101.djini.task.QueuedSource
+import com.wangzan101.djini.task.unconsumed
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -70,10 +70,10 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import com.wangzan101.mika.core.tool.ToolIndex
-import com.wangzan101.mika.core.assembly.knownTools
-import com.wangzan101.mika.core.agent.AttachedPage
-import com.wangzan101.mika.core.userscreen.UserScreenMessage
+import com.wangzan101.djini.core.tool.ToolIndex
+import com.wangzan101.djini.core.assembly.knownTools
+import com.wangzan101.djini.core.agent.AttachedPage
+import com.wangzan101.djini.core.userscreen.UserScreenMessage
 import kotlin.coroutines.CoroutineContext
 
 /** 界面对任务服务能做的事;真机上由 TaskService 实现,测试里换成记录调用。 */
@@ -207,12 +207,12 @@ data class Exchange(
     val usedMemory: List<String> = emptyList(),
     /** 结果卡片下的技能提示(学会了 / 最近不灵先停用了)。 */
     val skillNotes: List<SkillNote> = emptyList(),
-    /** 这一轮导出到「下载/Mika」的文件,显示成文件卡片。 */
+    /** 这一轮导出到「下载/Djini」的文件,显示成文件卡片。 */
     val files: List<SharedFile> = emptyList(),
-    /** 这一轮 Mika 生成并留在工作区里的音频,显示成音频卡片。 */
-    val audios: List<com.wangzan101.mika.core.chat.GeneratedAudio> = emptyList(),
-    /** 这一轮 Mika 生成并留在工作区里的图,显示成照片格子。 */
-    val photos: List<com.wangzan101.mika.core.chat.GeneratedPhoto> = emptyList(),
+    /** 这一轮 Djini 生成并留在工作区里的音频,显示成音频卡片。 */
+    val audios: List<com.wangzan101.djini.core.chat.GeneratedAudio> = emptyList(),
+    /** 这一轮 Djini 生成并留在工作区里的图,显示成照片格子。 */
+    val photos: List<com.wangzan101.djini.core.chat.GeneratedPhoto> = emptyList(),
     /** 这次打开 App 后开始跟的时刻(毫秒);不知道时为 0。 */
     val startedAt: Long = 0L,
     /** 结束时算出的用时;没结束或不知道开始时刻时为 null。 */
@@ -235,7 +235,7 @@ data class Exchange(
 )
 
 /**
- * 有运行记录可看的那次运行。通知提醒那一轮([NoticeTurn])是 Mika 直接写进对话的,没跑过任务,它的编号只是用来认它的:
+ * 有运行记录可看的那次运行。通知提醒那一轮([NoticeTurn])是 Djini 直接写进对话的,没跑过任务,它的编号只是用来认它的:
  * 界面上「查看过程」、来源、重新开始都按这个给,那一轮就都没有(不然点进去只会说「记录已过期」)。
  * 认轮次、和存下的那份对上([ChatViewModel] 里按 [Exchange.runId])照旧用原来的编号。
  */
@@ -466,9 +466,9 @@ class ChatViewModel(
     /** 当前任务导出的文件;任务开始时由服务清空。 */
     private val sharedFiles: StateFlow<List<SharedFile>> = MutableStateFlow(emptyList()),
     /** 当前任务生成并留在工作区里的音频;任务开始时由服务清空。 */
-    private val generatedAudios: StateFlow<List<com.wangzan101.mika.core.chat.GeneratedAudio>> = MutableStateFlow(emptyList()),
+    private val generatedAudios: StateFlow<List<com.wangzan101.djini.core.chat.GeneratedAudio>> = MutableStateFlow(emptyList()),
     /** 当前任务生成并留在工作区里的图;任务开始时由服务清空。 */
-    private val generatedPhotos: StateFlow<List<com.wangzan101.mika.core.chat.GeneratedPhoto>> = MutableStateFlow(emptyList()),
+    private val generatedPhotos: StateFlow<List<com.wangzan101.djini.core.chat.GeneratedPhoto>> = MutableStateFlow(emptyList()),
     /** 把选中的文件(内容 URI 字符串)复制进对话工作区的 inbox/。 */
     private val importAttachments: suspend (conversationId: String, uris: List<String>) -> ImportResult = { _, _ -> ImportResult(emptyList(), emptyList()) },
     /** 读出选中文件(内容 URI 字符串)的名字、大小和是不是照片;读盘的活由调用方放到后台线程。 */
@@ -508,8 +508,8 @@ class ChatViewModel(
     /** 朗读一条回答;没配置声音模型时不做。 */
     private val speakText: suspend (String) -> Unit = {},
     private val stopVoice: () -> Unit = {},
-    private val voicePlayback: StateFlow<com.wangzan101.mika.voice.VoicePlayback> =
-        MutableStateFlow(com.wangzan101.mika.voice.VoicePlayback.Idle),
+    private val voicePlayback: StateFlow<com.wangzan101.djini.voice.VoicePlayback> =
+        MutableStateFlow(com.wangzan101.djini.voice.VoicePlayback.Idle),
     private val voiceReady: StateFlow<Boolean> = MutableStateFlow(false),
     /** 人格;为 null 时不提供选择(测试或没有此功能)。 */
     private val personaStore: PersonaStore? = null,
@@ -537,7 +537,7 @@ class ChatViewModel(
     fun closeKeptPage() = closeKept()
 
     /** 说话状态;回答下面的「朗读/停止」按它显示。 */
-    val voice: StateFlow<com.wangzan101.mika.voice.VoicePlayback> get() = voicePlayback
+    val voice: StateFlow<com.wangzan101.djini.voice.VoicePlayback> get() = voicePlayback
     /** 有没有可用的声音模型;没有时不显示朗读入口。 */
     val canSpeak: StateFlow<Boolean> get() = voiceReady
 
@@ -934,7 +934,7 @@ class ChatViewModel(
         learning?.save(RunNotes(conversation, runId, ex.memoryNotes, ex.usedMemory, ex.skillNotes))
     }
 
-    private fun onAudios(audios: List<com.wangzan101.mika.core.chat.GeneratedAudio>) {
+    private fun onAudios(audios: List<com.wangzan101.djini.core.chat.GeneratedAudio>) {
         if (liveIndex < 0) return
         _ui.update { ui ->
             val exchanges = ui.exchanges.toMutableList()
@@ -952,7 +952,7 @@ class ChatViewModel(
         }
     }
 
-    private fun onPhotos(photos: List<com.wangzan101.mika.core.chat.GeneratedPhoto>) {
+    private fun onPhotos(photos: List<com.wangzan101.djini.core.chat.GeneratedPhoto>) {
         if (liveIndex < 0) return
         _ui.update { ui ->
             val exchanges = ui.exchanges.toMutableList()
@@ -985,7 +985,7 @@ class ChatViewModel(
 
     /** Copy selected device files into the conversation that opened the browser. */
     internal fun importDeviceAttachments(conversationId: String, paths: List<String>,
-        copy: suspend (String, String) -> com.wangzan101.mika.core.cap.devicefiles.DeviceFileImport) {
+        copy: suspend (String, String) -> com.wangzan101.djini.core.cap.devicefiles.DeviceFileImport) {
         if (_ui.value.conversationId != conversationId || !canAttach(_ui.value) || paths.isEmpty()) return
         val slots = (AttachTray.LIMIT - _ui.value.attachments.size).coerceAtLeast(0)
         val selected = paths.distinct().take(slots)
@@ -1006,7 +1006,7 @@ class ChatViewModel(
                         added += PendingAttachment("workspace:$conversationId:${result.path}", result.path.substringAfterLast('/'), result.size,
                             workspaceConversationId = conversationId, workspacePath = result.path)
                     } catch (e: CancellationException) { throw e } catch (e: Exception) {
-                        val reason = when ((e as? com.wangzan101.mika.core.workspace.SandboxError)?.code) {
+                        val reason = when ((e as? com.wangzan101.djini.core.workspace.SandboxError)?.code) {
                             "too_large" -> AttachmentFailureReason.TOO_LARGE
                             "low_device_space" -> AttachmentFailureReason.LOW_DEVICE_SPACE
                             "workspace_limit" -> AttachmentFailureReason.WORKSPACE_LIMIT
@@ -2476,7 +2476,7 @@ class ChatViewModel(
         private fun where(target: String, appLabel: (String) -> String): String? = when {
             target.isBlank() -> null
             target.startsWith(SITE_PREFIX) -> target.removePrefix(SITE_PREFIX)
-            com.wangzan101.mika.core.tool.PACKAGE_NAME_RE.matches(target) -> appLabel(target)
+            com.wangzan101.djini.core.tool.PACKAGE_NAME_RE.matches(target) -> appLabel(target)
             else -> target
         }
 
@@ -2550,7 +2550,7 @@ private const val SITE_PREFIX = "网站 "
 private fun placeLabel(place: String, appLabel: (String) -> String): String = when {
     place.startsWith(SITE_PREFIX) -> place.removePrefix(SITE_PREFIX)
     place.startsWith("http://") || place.startsWith("https://") -> runCatching { java.net.URI(place).host }.getOrNull() ?: place
-    com.wangzan101.mika.core.tool.PACKAGE_NAME_RE.matches(place) -> appLabel(place)
+    com.wangzan101.djini.core.tool.PACKAGE_NAME_RE.matches(place) -> appLabel(place)
     else -> place
 }
 
@@ -2659,7 +2659,7 @@ class ToolLabels(private val tools: ToolIndex, private val legacy: LegacyNames =
             "查看设置" to R.string.tool_list_settings,
             "改设置" to R.string.tool_set_setting,
             "查看自身状态" to R.string.tool_mika_status,
-            "打开 Mika 的页面" to R.string.tool_mika_open_screen,
+            "打开 Djini 的页面" to R.string.tool_mika_open_screen,
             "打开文件" to R.string.tool_mika_open_file,
             "发通知" to R.string.tool_mika_notify,
             "复制文字" to R.string.tool_mika_copy,

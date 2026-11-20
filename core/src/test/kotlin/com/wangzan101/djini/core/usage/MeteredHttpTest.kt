@@ -1,17 +1,17 @@
-package com.wangzan101.mika.core.usage
+package com.wangzan101.djini.core.usage
 
-import com.wangzan101.mika.core.model.AnthropicModel
-import com.wangzan101.mika.core.model.Author
-import com.wangzan101.mika.core.model.BearerToken
-import com.wangzan101.mika.core.model.Capabilities
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.OpenAiCompatModel
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.ResponsesModel
-import com.wangzan101.mika.core.model.Role
-import com.wangzan101.mika.core.model.SignedThinking
-import com.wangzan101.mika.core.model.StreamingChatModel
-import com.wangzan101.mika.core.model.Usage
+import com.wangzan101.djini.core.model.AnthropicModel
+import com.wangzan101.djini.core.model.Author
+import com.wangzan101.djini.core.model.BearerToken
+import com.wangzan101.djini.core.model.Capabilities
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.OpenAiCompatModel
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.ResponsesModel
+import com.wangzan101.djini.core.model.Role
+import com.wangzan101.djini.core.model.SignedThinking
+import com.wangzan101.djini.core.model.StreamingChatModel
+import com.wangzan101.djini.core.model.Usage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.launch
@@ -144,11 +144,11 @@ class MeteredHttpTest {
         val base = server.url("/").toString().trimEnd('/')
         val endpoint = "$base/v1/messages"
         val history = listOf(
-            Message(Role.User, listOf(Part.Text("go")), Author.Mika),
+            Message(Role.User, listOf(Part.Text("go")), Author.Djini),
             Message(Role.Assistant, listOf(
                 Part.Thinking("想", SignedThinking.signed(endpoint, "sig")), Part.ToolCall("t1", "phone_tap", "{}"),
-            ), Author.Mika),
-            Message(Role.Tool, listOf(Part.ToolResult("t1", "done", false)), Author.Mika),
+            ), Author.Djini),
+            Message(Role.Tool, listOf(Part.ToolResult("t1", "done", false)), Author.Djini),
         )
         server.enqueue(MockResponse().setResponseCode(400).setBody("bound to a different conversation"))
         server.enqueue(MockResponse().setHeader("Content-Type", "application/json").setBody(

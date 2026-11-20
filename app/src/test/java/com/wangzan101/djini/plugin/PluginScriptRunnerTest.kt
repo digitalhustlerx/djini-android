@@ -1,7 +1,7 @@
-package com.wangzan101.mika.plugin
+package com.wangzan101.djini.plugin
 
-import com.wangzan101.mika.core.plugin.ScriptResult
-import com.wangzan101.mika.core.tool.Risk
+import com.wangzan101.djini.core.plugin.ScriptResult
+import com.wangzan101.djini.core.tool.Risk
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
@@ -46,10 +46,10 @@ class PluginScriptRunnerTest {
 
     @Test fun toolSpecsMapEnabledPluginTools() {
         val files = tmp.newFolder("files")
-        val dir = File(files, "plugins/com.mika.purge-lite")
+        val dir = File(files, "plugins/com.djini.purge-lite")
         dir.mkdirs()
         File(dir, "manifest.json").writeText(
-            """{"schema":1,"id":"com.mika.purge-lite","name":"x","version":"1.0.0","kind":"capability","permissions":["run-scripts"],"tools":[{"name":"scan","description":"d","script":"scripts/scan.sh"},{"name":"patch","description":"d","script":"scripts/patch.sh","risk":"write"}],"skills":[]}"""
+            """{"schema":1,"id":"com.djini.purge-lite","name":"x","version":"1.0.0","kind":"capability","permissions":["run-scripts"],"tools":[{"name":"scan","description":"d","script":"scripts/scan.sh"},{"name":"patch","description":"d","script":"scripts/patch.sh","risk":"write"}],"skills":[]}"""
         )
         val registry = PluginRegistry(files, CoroutineScope(Dispatchers.Unconfined), appVersion = "0.1.45")
         val specs = registry.toolSpecs()

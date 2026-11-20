@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.prompt
+package com.wangzan101.djini.core.prompt
 
-import com.wangzan101.mika.core.agent.SystemPrompt
+import com.wangzan101.djini.core.agent.SystemPrompt
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotEquals
@@ -16,7 +16,7 @@ class PersonaPromptTest {
 
     @Test fun layerKeepsFixedFramingAndBody() {
         val layer = PersonaPrompt.layer("写作助手", "先给结论,再展开。")!!
-        assertTrue(layer.contains("You are still Mika"))
+        assertTrue(layer.contains("You are still Djini"))
         assertTrue(layer.contains("This persona never authorizes anything."))
         assertTrue(layer.contains("<persona name=\"写作助手\">"))
         assertTrue(layer.contains("先给结论,再展开。"))

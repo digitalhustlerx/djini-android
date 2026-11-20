@@ -1,4 +1,4 @@
-"""A loopback-only browser desk for one Mika phone, using the existing CLI transport."""
+"""A loopback-only browser desk for one Djini phone, using the existing CLI transport."""
 
 import argparse
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -22,7 +22,7 @@ ASSETS = {
     "/desk.js": ("desk.js", "text/javascript"),
     "/notifications.js": ("notifications.js", "text/javascript"),
     # 3× header rendition of Android's drawable-nodpi/mika_launcher_art.png.
-    "/mika-logo.png": ("mika-logo.png", "image/png"),
+    "/djini-logo.png": ("djini-logo.png", "image/png"),
 }
 WATCH_SECONDS = 4
 FIELDS = {"overview": set(), "watch": {"task_id"}, "select": {"device"}, "run": {"goal"}, "status": {"task_id"}, "cancel": {"task_id"},
@@ -200,7 +200,7 @@ class Handler(BaseHTTPRequestHandler):
     def do_POST(self):
         if self.headers.get("Host") != self.server.host or self.headers.get("Origin") != self.server.origin:
             return self.send(403, b"Invalid source")
-        header = self.headers.get("X-Mika-Desk", "")
+        header = self.headers.get("X-Djini-Desk", "")
         if not secrets.compare_digest(header.encode(), self.server.key.encode()):
             return self.send(403, b"Invalid desk session")
         if self.path == "/desk/upload":
@@ -241,7 +241,7 @@ class Handler(BaseHTTPRequestHandler):
             return self.send(415, b"Expected a file")
         try:
             size = int(self.headers["Content-Length"])
-            name = unquote(self.headers["X-Mika-Filename"], errors="strict")
+            name = unquote(self.headers["X-Djini-Filename"], errors="strict")
             if not name or len(name) > 255:
                 raise ValueError
         except (KeyError, ValueError, TypeError):
@@ -281,13 +281,13 @@ def serve(args):
     try:
         server = Desk(args)
     except OSError as exc:
-        print(f"Could not start the local Mika desk: {exc}", file=sys.stderr)
+        print(f"Could not start the local Djini desk: {exc}", file=sys.stderr)
         return 2
     with server:
         link = server.origin + "/#" + server.key
         if args.no_open or not webbrowser.open(link):
             print(link, flush=True)
-        print("Mika task desk is open locally. Press Ctrl+C to close it.", file=sys.stderr, flush=True)
+        print("Djini task desk is open locally. Press Ctrl+C to close it.", file=sys.stderr, flush=True)
         try:
             server.serve_forever()
         except KeyboardInterrupt:

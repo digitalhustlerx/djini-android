@@ -1,4 +1,4 @@
-package com.wangzan101.mika.voice
+package com.wangzan101.djini.voice
 
 import android.content.Context
 import android.media.AudioAttributes
@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.withContext
 import java.io.File
 
-/** Mika 此刻的朗读状态。 */
+/** Djini 此刻的朗读状态。 */
 sealed interface VoicePlayback {
     data object Idle : VoicePlayback
     data object Loading : VoicePlayback
@@ -21,7 +21,7 @@ sealed interface VoicePlayback {
 }
 
 /**
- * 本机朗读:Mika 的 TTS 音频先写缓存文件,再用 MediaPlayer 播;同一时间只播一条,新的替换旧的。
+ * 本机朗读:Djini 的 TTS 音频先写缓存文件,再用 MediaPlayer 播;同一时间只播一条,新的替换旧的。
  * 申请系统音频焦点(语音内容、短暂独占),来电或别的 App 出声时暂停/降低,播放结束、出错或被停下来时释放。
  */
 class VoicePlayer(private val context: Context) {

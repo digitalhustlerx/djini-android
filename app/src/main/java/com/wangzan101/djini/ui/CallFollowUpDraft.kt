@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -13,9 +13,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.calls.CallActionResult
-import com.wangzan101.mika.calls.CallHistory
+import com.wangzan101.djini.R
+import com.wangzan101.djini.calls.CallActionResult
+import com.wangzan101.djini.calls.CallHistory
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 

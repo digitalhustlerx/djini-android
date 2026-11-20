@@ -1,10 +1,10 @@
-package com.wangzan101.mika.cap.phone.a11y
+package com.wangzan101.djini.cap.phone.a11y
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.MikaApp
-import com.wangzan101.mika.cap.phone.display.AgentDisplay
-import com.wangzan101.mika.core.access.AppAccessDenied
+import com.wangzan101.djini.DjiniApp
+import com.wangzan101.djini.cap.phone.display.AgentDisplay
+import com.wangzan101.djini.core.access.AppAccessDenied
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
 import org.junit.Test
@@ -13,7 +13,7 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class AppAccessDeviceTest {
     @Test fun blockedLaunchIsDeniedWhileShellRemainsAvailable() = runBlocking {
-        val app = InstrumentationRegistry.getInstrumentation().targetContext.applicationContext as MikaApp
+        val app = InstrumentationRegistry.getInstrumentation().targetContext.applicationContext as DjiniApp
         val pkg = "com.android.settings"
         val original = app.appAccess.current()
         val script = "/sdcard/Android/data/${app.packageName}/files/usb-start.sh"
@@ -22,7 +22,7 @@ class AppAccessDeviceTest {
         val display = AgentDisplay(shell, 720, 1600, 320, InstrumentationRegistry.getInstrumentation().targetContext.getSystemService(android.hardware.display.DisplayManager::class.java))
         try {
             val native = AndroidScreen(DeviceSupport.service(), shell, DeviceSupport.ready(display), appAccess = app.appAccess)
-            val screen = com.wangzan101.mika.core.uistate.AppAccessScreenPort(native, app.appAccess,
+            val screen = com.wangzan101.djini.core.uistate.AppAccessScreenPort(native, app.appAccess,
                 packages = native::accessPackages, protectedUi = { app.appAccess.sensitiveUi }, ownPackage = app.packageName)
             app.appAccess.setBlocked(pkg, true)
             try { screen.openApp(pkg); fail("Blocked launch must be denied") }
@@ -44,7 +44,7 @@ class AppAccessDeviceTest {
      * 再允许后又能读 —— 权限每次都读最新状态,不用重启任务;沿用核对结果时名单一变也不再沿用。
      */
     @Test fun blockingWhileRunningStopsTheNextRead() = runBlocking {
-        val app = InstrumentationRegistry.getInstrumentation().targetContext.applicationContext as MikaApp
+        val app = InstrumentationRegistry.getInstrumentation().targetContext.applicationContext as DjiniApp
         val pkg = "com.android.settings"
         val original = app.appAccess.current()
         DeviceSupport.sh("sh /sdcard/Android/data/${app.packageName}/files/usb-start.sh")
@@ -52,7 +52,7 @@ class AppAccessDeviceTest {
         val display = AgentDisplay(shell, 720, 1600, 320, InstrumentationRegistry.getInstrumentation().targetContext.getSystemService(android.hardware.display.DisplayManager::class.java))
         try {
             val native = AndroidScreen(DeviceSupport.service(), shell, DeviceSupport.ready(display), appAccess = app.appAccess)
-            val screen = com.wangzan101.mika.core.uistate.AppAccessScreenPort(native, app.appAccess,
+            val screen = com.wangzan101.djini.core.uistate.AppAccessScreenPort(native, app.appAccess,
                 packages = native::accessPackages, protectedUi = { app.appAccess.sensitiveUi }, ownPackage = app.packageName,
                 windowToken = { ScreenAccessibility.windowGeneration() })
             app.appAccess.setBlocked(pkg, false)

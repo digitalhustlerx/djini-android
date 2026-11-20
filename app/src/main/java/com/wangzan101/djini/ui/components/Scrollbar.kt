@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui.components
+package com.wangzan101.djini.ui.components
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -17,7 +17,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.wangzan101.mika.ui.theme.MikaTheme
+import com.wangzan101.djini.ui.theme.DjiniTheme
 import kotlinx.coroutines.delay
 
 /**
@@ -28,7 +28,7 @@ import kotlinx.coroutines.delay
 @Composable
 fun Modifier.lazyListScrollbar(
     state: LazyListState,
-    color: Color = MikaTheme.colors.ink3,
+    color: Color = DjiniTheme.colors.ink3,
     width: Dp = 3.dp,
     edge: Dp = 2.dp,
 ): Modifier {

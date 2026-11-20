@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.cap.phone
+package com.wangzan101.djini.core.cap.phone
 
 /**
  * 一个任务开始时解析好的「操作节奏」:全局档位 + 设置里按应用覆盖的列表(未覆盖的 App 跟随全局)。

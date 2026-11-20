@@ -1,26 +1,26 @@
-package com.wangzan101.mika.teach
+package com.wangzan101.djini.teach
 
 import android.content.Context
-import com.wangzan101.mika.MikaApp
-import com.wangzan101.mika.cap.phone.a11y.ScreenAccessibility
-import com.wangzan101.mika.core.assembly.knownToolNames
-import com.wangzan101.mika.core.assembly.knownTools
-import com.wangzan101.mika.core.knowledge.GuideCatalog
-import com.wangzan101.mika.core.model.ModelRole
-import com.wangzan101.mika.core.skills.PersonalSkill
-import com.wangzan101.mika.core.teach.TeachDraft
-import com.wangzan101.mika.core.teach.TeachEdit
-import com.wangzan101.mika.core.teach.TeachObservation
-import com.wangzan101.mika.core.teach.TeachPhase
-import com.wangzan101.mika.core.teach.TeachPublish
-import com.wangzan101.mika.core.teach.TeachSession
-import com.wangzan101.mika.core.teach.TeachSkill
-import com.wangzan101.mika.core.teach.TeachTrace
-import com.wangzan101.mika.core.teach.TeachWatch
-import com.wangzan101.mika.core.teach.teachGoalAccepted
-import com.wangzan101.mika.core.tool.Verb
-import com.wangzan101.mika.settings.ProviderStore
-import com.wangzan101.mika.task.TaskCenterState
+import com.wangzan101.djini.DjiniApp
+import com.wangzan101.djini.cap.phone.a11y.ScreenAccessibility
+import com.wangzan101.djini.core.assembly.knownToolNames
+import com.wangzan101.djini.core.assembly.knownTools
+import com.wangzan101.djini.core.knowledge.GuideCatalog
+import com.wangzan101.djini.core.model.ModelRole
+import com.wangzan101.djini.core.skills.PersonalSkill
+import com.wangzan101.djini.core.teach.TeachDraft
+import com.wangzan101.djini.core.teach.TeachEdit
+import com.wangzan101.djini.core.teach.TeachObservation
+import com.wangzan101.djini.core.teach.TeachPhase
+import com.wangzan101.djini.core.teach.TeachPublish
+import com.wangzan101.djini.core.teach.TeachSession
+import com.wangzan101.djini.core.teach.TeachSkill
+import com.wangzan101.djini.core.teach.TeachTrace
+import com.wangzan101.djini.core.teach.TeachWatch
+import com.wangzan101.djini.core.teach.teachGoalAccepted
+import com.wangzan101.djini.core.tool.Verb
+import com.wangzan101.djini.settings.ProviderStore
+import com.wangzan101.djini.task.TaskCenterState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -117,7 +117,7 @@ class TeachRuntime(
             publish(null)
         }
         TeachNotifier.tryShow(app, TeachPhase.Recording)
-        (app.applicationContext as? MikaApp)?.capsule?.yieldToTeaching()
+        (app.applicationContext as? DjiniApp)?.capsule?.yieldToTeaching()
         return null
     }
 
@@ -170,7 +170,7 @@ class TeachRuntime(
             id
         }
         TeachNotifier.cancel(app)
-        if (draft != null) (app.applicationContext as? MikaApp)?.memory?.skills()?.reject(draft)
+        if (draft != null) (app.applicationContext as? DjiniApp)?.memory?.skills()?.reject(draft)
     }
 
     fun remove(stepId: Int) = edit { TeachTrace.remove(it, stepId) }
@@ -215,7 +215,7 @@ class TeachRuntime(
                 }
                 val draftId = newId()
                 val stored = runCatching {
-                    TeachPublish.toPending((app.applicationContext as MikaApp).memory.skills(), draftId, skill)
+                    TeachPublish.toPending((app.applicationContext as DjiniApp).memory.skills(), draftId, skill)
                 }.isSuccess
                 if (!stored) {
                     session = snapshot.copy(phase = TeachPhase.Reviewing)
@@ -246,7 +246,7 @@ class TeachRuntime(
     private suspend fun build(snapshot: TeachSession): PersonalSkill? {
         val store = ProviderStore.get(app)
         val model = store.modelFor(ModelRole.Light) ?: store.modelFor(ModelRole.Main)
-        val skills = (app.applicationContext as MikaApp).memory.skills()
+        val skills = (app.applicationContext as DjiniApp).memory.skills()
         val bundled = GuideCatalog.loadBundled()
         val taken = { name: String ->
             skills.get(name) != null || skills.pending().any { it.name == name } || bundled.items.any { it.name == name }
@@ -275,8 +275,8 @@ class TeachRuntime(
     }
 
     private fun openReview() {
-        val intent = com.wangzan101.mika.task.TaskService.openAppIntent(app)
-            .putExtra(com.wangzan101.mika.ui.MainActivity.EXTRA_OPEN_TEACH, true)
+        val intent = com.wangzan101.djini.task.TaskService.openAppIntent(app)
+            .putExtra(com.wangzan101.djini.ui.MainActivity.EXTRA_OPEN_TEACH, true)
         runCatching { app.startActivity(intent) }
     }
 

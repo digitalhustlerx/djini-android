@@ -1,6 +1,6 @@
-package com.wangzan101.mika.calls
+package com.wangzan101.djini.calls
 
-import com.wangzan101.mika.settings.FeatureFlagsCapsuleTest.MemoryPrefs
+import com.wangzan101.djini.settings.FeatureFlagsCapsuleTest.MemoryPrefs
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test

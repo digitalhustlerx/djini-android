@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.phone.display
+package com.wangzan101.djini.cap.phone.display
 
 import android.graphics.Bitmap
 import android.graphics.Paint
@@ -10,7 +10,7 @@ import android.os.HandlerThread
 import android.os.SystemClock
 import android.util.Log
 import android.view.Surface
-import com.wangzan101.mika.shell.IMikaShell
+import com.wangzan101.djini.shell.IDjiniShell
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,7 +22,7 @@ import java.io.ByteArrayOutputStream
  * 期间旧帧由 acquireLatestImage 丢弃。
  */
 class AgentDisplay(
-    private val shell: IMikaShell,
+    private val shell: IDjiniShell,
     private val bufferWidth: Int,
     private val bufferHeight: Int,
     dpi: Int,

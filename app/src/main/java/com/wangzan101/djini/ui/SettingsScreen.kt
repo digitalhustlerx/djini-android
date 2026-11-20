@@ -1,15 +1,15 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.i18n.trPlural
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.i18n.trPlural
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
-import com.wangzan101.mika.settings.ProviderConnection
+import com.wangzan101.djini.settings.ProviderConnection
 import android.app.ActivityManager
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
-import com.wangzan101.mika.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.MikaDialog
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -28,46 +28,46 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
-import com.wangzan101.mika.BuildConfig
-import com.wangzan101.mika.cap.sandbox.SandboxState
-import com.wangzan101.mika.capsule.CapsuleMode
-import com.wangzan101.mika.capsule.CapsuleSetup
-import com.wangzan101.mika.cap.phone.a11y.ScreenAccessibility
-import com.wangzan101.mika.core.agent.SpeedFlags
-import com.wangzan101.mika.core.cap.sandbox.SandboxStatus
-import com.wangzan101.mika.core.model.ModelRole
-import com.wangzan101.mika.core.shell.BuiltinShellStatus
-import com.wangzan101.mika.record.RunStore
-import com.wangzan101.mika.settings.AccessibilityState
-import com.wangzan101.mika.settings.FeatureFlags
-import com.wangzan101.mika.settings.Prerequisites
-import com.wangzan101.mika.settings.Problem
-import com.wangzan101.mika.settings.ProviderStore
-import com.wangzan101.mika.settings.NetProxyStore
-import com.wangzan101.mika.settings.WebSearchConfig
-import com.wangzan101.mika.settings.WebSearchSettings
-import com.wangzan101.mika.cap.web.WebProxy
-import com.wangzan101.mika.settings.SystemStatus
-import com.wangzan101.mika.settings.notificationOverview
-import com.wangzan101.mika.task.ParallelCapability
-import com.wangzan101.mika.ui.components.ButtonKind
-import com.wangzan101.mika.ui.components.ButtonSize
-import com.wangzan101.mika.ui.components.GroupCard
-import com.wangzan101.mika.ui.components.GroupLabel
-import com.wangzan101.mika.ui.components.ListRow
-import com.wangzan101.mika.ui.components.MikaButton
-import com.wangzan101.mika.ui.components.MikaSwitch
-import com.wangzan101.mika.ui.components.PageScaffold
-import com.wangzan101.mika.ui.components.PillTone
-import com.wangzan101.mika.ui.components.RowChevron
-import com.wangzan101.mika.ui.components.RowValue
-import com.wangzan101.mika.ui.components.StateCard
-import com.wangzan101.mika.ui.components.StatusPill
-import com.wangzan101.mika.ui.components.TileTone
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.i18n.AppLanguage
-import com.wangzan101.mika.wechat.WechatConnectionState
+import com.wangzan101.djini.BuildConfig
+import com.wangzan101.djini.cap.sandbox.SandboxState
+import com.wangzan101.djini.capsule.CapsuleMode
+import com.wangzan101.djini.capsule.CapsuleSetup
+import com.wangzan101.djini.cap.phone.a11y.ScreenAccessibility
+import com.wangzan101.djini.core.agent.SpeedFlags
+import com.wangzan101.djini.core.cap.sandbox.SandboxStatus
+import com.wangzan101.djini.core.model.ModelRole
+import com.wangzan101.djini.core.shell.BuiltinShellStatus
+import com.wangzan101.djini.record.RunStore
+import com.wangzan101.djini.settings.AccessibilityState
+import com.wangzan101.djini.settings.FeatureFlags
+import com.wangzan101.djini.settings.Prerequisites
+import com.wangzan101.djini.settings.Problem
+import com.wangzan101.djini.settings.ProviderStore
+import com.wangzan101.djini.settings.NetProxyStore
+import com.wangzan101.djini.settings.WebSearchConfig
+import com.wangzan101.djini.settings.WebSearchSettings
+import com.wangzan101.djini.cap.web.WebProxy
+import com.wangzan101.djini.settings.SystemStatus
+import com.wangzan101.djini.settings.notificationOverview
+import com.wangzan101.djini.task.ParallelCapability
+import com.wangzan101.djini.ui.components.ButtonKind
+import com.wangzan101.djini.ui.components.ButtonSize
+import com.wangzan101.djini.ui.components.GroupCard
+import com.wangzan101.djini.ui.components.GroupLabel
+import com.wangzan101.djini.ui.components.ListRow
+import com.wangzan101.djini.ui.components.MikaButton
+import com.wangzan101.djini.ui.components.MikaSwitch
+import com.wangzan101.djini.ui.components.PageScaffold
+import com.wangzan101.djini.ui.components.PillTone
+import com.wangzan101.djini.ui.components.RowChevron
+import com.wangzan101.djini.ui.components.RowValue
+import com.wangzan101.djini.ui.components.StateCard
+import com.wangzan101.djini.ui.components.StatusPill
+import com.wangzan101.djini.ui.components.TileTone
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.i18n.AppLanguage
+import com.wangzan101.djini.wechat.WechatConnectionState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -98,11 +98,11 @@ fun SettingsScreen(
     /** 任务运行里的「自主模式」:当前值和换它的办法。 */
     autonomous: Boolean = false,
     onAutonomous: (Boolean) -> Unit = {},
-    /** 查到的新版本号;有它时「关于 Mika」一行写「x 可更新」带红点。 */
+    /** 查到的新版本号;有它时「关于 Djini」一行写「x 可更新」带红点。 */
     updateVersion: String? = null,
     onOpenAbout: () -> Unit = {},
     /** 外部 MCP server 设置(outbound);为空时不显示入口。 */
-    mcpServers: com.wangzan101.mika.settings.McpServerStore? = null,
+    mcpServers: com.wangzan101.djini.settings.McpServerStore? = null,
     /** 人格设置;为空时不显示入口。 */
     onOpenPersonas: (() -> Unit)? = null,
     openPhoneOps: Boolean = false,
@@ -133,22 +133,22 @@ fun SettingsScreen(
 
     // 并行任务的上限只在实验开关 parallelTasks 打开时出现;设备能力按此刻算,第二块屏建失败过就按失败算
     val context = LocalContext.current
-    val recommendedTasks = remember { (context.applicationContext as com.wangzan101.mika.MikaApp).recommendedTasks }
-    val savedChecklists = remember { (context.applicationContext as com.wangzan101.mika.MikaApp).savedChecklists }
-    val workflows = remember { (context.applicationContext as com.wangzan101.mika.MikaApp).workflows }
-    val shellManager = remember { com.wangzan101.mika.cap.phone.PhoneServices.of(context).shellManager }
+    val recommendedTasks = remember { (context.applicationContext as com.wangzan101.djini.DjiniApp).recommendedTasks }
+    val savedChecklists = remember { (context.applicationContext as com.wangzan101.djini.DjiniApp).savedChecklists }
+    val workflows = remember { (context.applicationContext as com.wangzan101.djini.DjiniApp).workflows }
+    val shellManager = remember { com.wangzan101.djini.cap.phone.PhoneServices.of(context).shellManager }
     val root = remember { shellManager.root }
     val rootState by root.state.collectAsState()
     LaunchedEffect(Unit) { root.refresh() }
-    val wechat = remember { (context.applicationContext as com.wangzan101.mika.MikaApp).wechat }
+    val wechat = remember { (context.applicationContext as com.wangzan101.djini.DjiniApp).wechat }
     val wechatState by wechat.state.collectAsState()
     val flags = remember { FeatureFlags.get(context) }
     var personalStart by remember { mutableStateOf(flags.personalStart()) }
     var parallelMax by remember { mutableIntStateOf(flags.parallelMax()) }
     var keepScreenOn by remember { mutableStateOf(flags.keepScreenOn()) }
-    val pocketPrefs = remember { context.getSharedPreferences(com.wangzan101.mika.pocket.PocketGuardManager.PREFS, 0) }
-    var pocketGuard by remember { mutableStateOf(pocketPrefs.getBoolean(com.wangzan101.mika.pocket.PocketGuardManager.ENABLED, false)) }
-    var pocketCompletionLock by remember { mutableStateOf(pocketPrefs.getBoolean(com.wangzan101.mika.pocket.PocketGuardManager.LOCK_ON_COMPLETION, false)) }
+    val pocketPrefs = remember { context.getSharedPreferences(com.wangzan101.djini.pocket.PocketGuardManager.PREFS, 0) }
+    var pocketGuard by remember { mutableStateOf(pocketPrefs.getBoolean(com.wangzan101.djini.pocket.PocketGuardManager.ENABLED, false)) }
+    var pocketCompletionLock by remember { mutableStateOf(pocketPrefs.getBoolean(com.wangzan101.djini.pocket.PocketGuardManager.LOCK_ON_COMPLETION, false)) }
     var showTaskCost by remember { mutableStateOf(flags.showTaskCost()) }
     var muteTarget by remember { mutableStateOf(flags.muteTarget()) }
     var operatingPace by remember { mutableStateOf(flags.operatingPace()) }
@@ -167,7 +167,7 @@ fun SettingsScreen(
     var capsuleCardScale by remember { mutableStateOf(flags.capsuleCardScale()) }
     // 换语言时界面会重建,这里每次进来读一次即可
     val language = remember { AppLanguage.current(context) }
-    val runtimeLimit by (context.applicationContext as com.wangzan101.mika.MikaApp).taskState.parallelLimit.collectAsState()
+    val runtimeLimit by (context.applicationContext as com.wangzan101.djini.DjiniApp).taskState.parallelLimit.collectAsState()
     var speed by remember { mutableStateOf(flags.speedFlags()) }
     val scope = rememberCoroutineScope()
     val sandboxStatus by remember { SandboxState.get(context) }.status.collectAsState()
@@ -184,11 +184,11 @@ fun SettingsScreen(
     var webSearch by remember { mutableStateOf<WebSearchConfig?>(null) }
     var editingSearch by remember { mutableStateOf(false) }
     LaunchedEffect(Unit) { webSearch = withContext(Dispatchers.IO) { searchSettings.get() } }
-    val mcp = remember { (context.applicationContext as com.wangzan101.mika.MikaApp).mcp }
+    val mcp = remember { (context.applicationContext as com.wangzan101.djini.DjiniApp).mcp }
     val mcpNetworkOn by mcp.settings.enabled.collectAsState()
     val mcpUsbOn by mcp.usb.enabled.collectAsState()
     val mcpOn = mcpNetworkOn || mcpUsbOn
-    val pluginRegistry = remember { (context.applicationContext as com.wangzan101.mika.MikaApp).plugins }
+    val pluginRegistry = remember { (context.applicationContext as com.wangzan101.djini.DjiniApp).plugins }
     val pluginRecords by pluginRegistry.plugins.collectAsState()
     val parallel = if (!speed.parallelTasks) null else ParallelSetting(
         parallelMax,
@@ -199,7 +199,7 @@ fun SettingsScreen(
     )
     // 开发者选项只在调试版和性能测试版里列出:发布版的各开关按评测结果统一定默认值。
     // 主动能力不在里面:入口在设置首页,每个版本都有,默认关着
-    val showDeveloper = com.wangzan101.mika.record.DetailedTraces.supportedBuild
+    val showDeveloper = com.wangzan101.djini.record.DetailedTraces.supportedBuild
     val toHome = { page = SettingsPage.Home }
     val toAdvanced = { page = SettingsPage.Advanced }
     val back = {
@@ -280,7 +280,7 @@ fun SettingsScreen(
             onOpenShizukuGuide = { openInBrowser(context, SHIZUKU_SETUP_GUIDE_URL) },
             onRefreshShizuku = { shellManager.refreshShizukuAsync() },
         )
-        SettingsPage.Calls -> CallSettingsScreen((context.applicationContext as com.wangzan101.mika.MikaApp).calls, onBack = toHome)
+        SettingsPage.Calls -> CallSettingsScreen((context.applicationContext as com.wangzan101.djini.DjiniApp).calls, onBack = toHome)
         SettingsPage.Notifications -> NotificationsScreen(status, onFix = ::fix, onBack = back)
         SettingsPage.DuringWork -> DuringWorkScreen(
             keepScreenOn, onKeepScreenOn = { flags.setKeepScreenOn(it); keepScreenOn = it },
@@ -292,8 +292,8 @@ fun SettingsScreen(
             triggerRunMinutes = triggerRunMinutes, onTriggerRunMinutes = { flags.setTriggerRunMinutes(it); triggerRunMinutes = it },
             tokenBudget = tokenBudget, onTokenBudget = { flags.setTaskTokenBudget(it); tokenBudget = it },
             showTaskCost = showTaskCost, onShowTaskCost = { flags.setShowTaskCost(it); showTaskCost = it },
-            pocketGuard = pocketGuard, onPocketGuard = { pocketPrefs.edit().putBoolean(com.wangzan101.mika.pocket.PocketGuardManager.ENABLED, it).apply(); pocketGuard = it },
-            pocketCompletionLock = pocketCompletionLock, onPocketCompletionLock = { pocketPrefs.edit().putBoolean(com.wangzan101.mika.pocket.PocketGuardManager.LOCK_ON_COMPLETION, it).apply(); pocketCompletionLock = it },
+            pocketGuard = pocketGuard, onPocketGuard = { pocketPrefs.edit().putBoolean(com.wangzan101.djini.pocket.PocketGuardManager.ENABLED, it).apply(); pocketGuard = it },
+            pocketCompletionLock = pocketCompletionLock, onPocketCompletionLock = { pocketPrefs.edit().putBoolean(com.wangzan101.djini.pocket.PocketGuardManager.LOCK_ON_COMPLETION, it).apply(); pocketCompletionLock = it },
             selfConfig = selfConfig, onSelfConfig = { flags.setSelfConfig(it); selfConfig = it },
             selfOperate = selfOperate, onSelfOperate = { flags.setSelfOperate(it); selfOperate = it },
             pipOperate = pipOperate, onPipOperate = { flags.setPipOperate(it); pipOperate = it },
@@ -318,7 +318,7 @@ fun SettingsScreen(
             onCardScale = { flags.setCapsuleCardScale(it); capsuleCardScale = it },
         )
         SettingsPage.Plugins -> PluginsScreen(pluginRegistry, onBack = toHome)
-        SettingsPage.EnvVars -> EnvVarSettingsScreen(remember { com.wangzan101.mika.settings.EnvVarStore.get(context) }, onBack = toAdvanced)
+        SettingsPage.EnvVars -> EnvVarSettingsScreen(remember { com.wangzan101.djini.settings.EnvVarStore.get(context) }, onBack = toAdvanced)
         SettingsPage.Sandbox -> SandboxScreen(onBack = toAdvanced)
         SettingsPage.Recovery -> RecoveryScreen(onBack = toAdvanced, onOpenSelfCheck = { page = SettingsPage.SelfCheck })
         SettingsPage.SelfCheck -> SelfCheckScreen(status, onBack = back)
@@ -334,12 +334,12 @@ fun SettingsScreen(
             onDeviceDirectories = { page = SettingsPage.DeviceDirectories },
         )
         SettingsPage.DeviceDirectories -> DeviceDirectoriesScreen(
-            remember { com.wangzan101.mika.settings.DeviceDirectoryStore.get(context) },
-            remember { com.wangzan101.mika.cap.phone.PhoneServices.of(context).hub },
+            remember { com.wangzan101.djini.settings.DeviceDirectoryStore.get(context) },
+            remember { com.wangzan101.djini.cap.phone.PhoneServices.of(context).hub },
             onBack = { page = SettingsPage.Developer },
         )
         SettingsPage.RunStats -> RunStatsScreen(remember { RunStore(context).metrics }, onBack = back)
-        SettingsPage.Proactive -> com.wangzan101.mika.proactive.ProactiveScreen(onBack = back)
+        SettingsPage.Proactive -> com.wangzan101.djini.proactive.ProactiveScreen(onBack = back)
         SettingsPage.Backup -> BackupScreen(onBack = toHome)
     }
 
@@ -400,8 +400,8 @@ fun SettingsScreen(
             title = { Text(stringResource(R.string.quit_title)) },
             text = { Text(stringResource(R.string.quit_confirm_body)) },
             confirmButton = {
-                TextButton({ confirmingQuit = false; com.wangzan101.mika.quit.MikaQuit.quit(context) }) {
-                    Text(stringResource(R.string.quit_confirm_action), color = MikaTheme.colors.bad)
+                TextButton({ confirmingQuit = false; com.wangzan101.djini.quit.MikaQuit.quit(context) }) {
+                    Text(stringResource(R.string.quit_confirm_action), color = DjiniTheme.colors.bad)
                 }
             },
             dismissButton = { TextButton({ confirmingQuit = false }) { Text(stringResource(R.string.cancel)) } },
@@ -416,7 +416,7 @@ fun SettingsScreen(
                 autoArchiveDays = days
                 editingAutoArchive = false
                 // 选完马上按新设置跑一次,老对话立刻进归档
-                (context.applicationContext as com.wangzan101.mika.MikaApp).autoArchiveNow()
+                (context.applicationContext as com.wangzan101.djini.DjiniApp).autoArchiveNow()
             },
             onDismiss = { editingAutoArchive = false },
         )
@@ -669,11 +669,11 @@ fun AdvancedSettingsContent(
             }
         }
 
-        // 完全退出:和无障碍服务不同,它只是让 Mika 安静下来;下次打开 App 就回来
+        // 完全退出:和无障碍服务不同,它只是让 Djini 安静下来;下次打开 App 就回来
         GroupCard {
             ListRow(
                 MikaIcons.Power, stringResource(R.string.quit_title), stringResource(R.string.quit_row_sub),
-                first = true, titleColor = MikaTheme.colors.bad, onClick = onQuit,
+                first = true, titleColor = DjiniTheme.colors.bad, onClick = onQuit,
             ) { RowChevron() }
         }
     }

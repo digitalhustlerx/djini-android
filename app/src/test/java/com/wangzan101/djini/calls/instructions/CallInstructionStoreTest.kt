@@ -1,4 +1,4 @@
-package com.wangzan101.mika.calls.instructions
+package com.wangzan101.djini.calls.instructions
 
 import org.junit.Assert.*
 import org.junit.Test

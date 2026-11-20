@@ -1,11 +1,11 @@
-package com.wangzan101.mika.cap.sandbox
+package com.wangzan101.djini.cap.sandbox
 
-import com.wangzan101.mika.core.workspace.FdStat
-import com.wangzan101.mika.core.workspace.FdSys
-import com.wangzan101.mika.core.workspace.NioFdSys
-import com.wangzan101.mika.core.workspace.OpenFd
-import com.wangzan101.mika.core.workspace.SandboxTree
-import com.wangzan101.mika.core.workspace.WorkspaceFileGate
+import com.wangzan101.djini.core.workspace.FdStat
+import com.wangzan101.djini.core.workspace.FdSys
+import com.wangzan101.djini.core.workspace.NioFdSys
+import com.wangzan101.djini.core.workspace.OpenFd
+import com.wangzan101.djini.core.workspace.SandboxTree
+import com.wangzan101.djini.core.workspace.WorkspaceFileGate
 import java.io.File
 import java.nio.file.Files
 import java.util.concurrent.CopyOnWriteArrayList

@@ -1,29 +1,29 @@
-package com.wangzan101.mika.core.general
+package com.wangzan101.djini.core.general
 
-import com.wangzan101.mika.core.agent.DO_STEPS_TOOL
-import com.wangzan101.mika.core.knowledge.FrontMatter
-import com.wangzan101.mika.core.knowledge.PERSONAL_KIND
-import com.wangzan101.mika.core.memory.SensitiveFilter
-import com.wangzan101.mika.core.prompt.Feedback
-import com.wangzan101.mika.core.prompt.Prompts
-import com.wangzan101.mika.core.skills.PersonalSkill
-import com.wangzan101.mika.core.skills.PersonalSkills
-import com.wangzan101.mika.core.skills.SkillDrafter
-import com.wangzan101.mika.core.skills.SkillStatus
-import com.wangzan101.mika.core.tool.AgentTool
-import com.wangzan101.mika.core.tool.Args
-import com.wangzan101.mika.core.tool.Risk
-import com.wangzan101.mika.core.tool.ToolContext
-import com.wangzan101.mika.core.tool.ToolDef
-import com.wangzan101.mika.core.tool.ToolExecution
-import com.wangzan101.mika.core.tool.Verb
-import com.wangzan101.mika.core.tool.fail
-import com.wangzan101.mika.core.tool.ok
-import com.wangzan101.mika.core.tool.str
+import com.wangzan101.djini.core.agent.DO_STEPS_TOOL
+import com.wangzan101.djini.core.knowledge.FrontMatter
+import com.wangzan101.djini.core.knowledge.PERSONAL_KIND
+import com.wangzan101.djini.core.memory.SensitiveFilter
+import com.wangzan101.djini.core.prompt.Feedback
+import com.wangzan101.djini.core.prompt.Prompts
+import com.wangzan101.djini.core.skills.PersonalSkill
+import com.wangzan101.djini.core.skills.PersonalSkills
+import com.wangzan101.djini.core.skills.SkillDrafter
+import com.wangzan101.djini.core.skills.SkillStatus
+import com.wangzan101.djini.core.tool.AgentTool
+import com.wangzan101.djini.core.tool.Args
+import com.wangzan101.djini.core.tool.Risk
+import com.wangzan101.djini.core.tool.ToolContext
+import com.wangzan101.djini.core.tool.ToolDef
+import com.wangzan101.djini.core.tool.ToolExecution
+import com.wangzan101.djini.core.tool.Verb
+import com.wangzan101.djini.core.tool.fail
+import com.wangzan101.djini.core.tool.ok
+import com.wangzan101.djini.core.tool.str
 import kotlinx.serialization.json.put
 
 /**
- * 用户在任务里要求时,写下一份新的个人技能或改写一份已有的个人技能(只动 Mika 自己的技能目录,不动屏幕和外部世界)。
+ * 用户在任务里要求时,写下一份新的个人技能或改写一份已有的个人技能(只动 Djini 自己的技能目录,不动屏幕和外部世界)。
  * 格式、大小、敏感内容和自学草稿过同一道校验([SkillDrafter.validate]);引文要出自用户本次说的话,屏幕和网页上的字不能让它写。
  * 存下即进试用(和收下的草稿一样),在「记忆与技能」里标明是用户要求写下的;内置技能的名字不能用,
  * 改已有的一份要带上读它时拿到的版本号(和收下更新草稿时核对原文指纹同一个道理)。删除和改名留在设置里由用户做。

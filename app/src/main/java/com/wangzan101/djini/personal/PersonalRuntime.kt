@@ -1,19 +1,19 @@
-package com.wangzan101.mika.personal
+package com.wangzan101.djini.personal
 
 import android.graphics.Bitmap
 import android.util.AtomicFile
-import com.wangzan101.mika.MikaApp
-import com.wangzan101.mika.capsule.previewFrames
-import com.wangzan101.mika.capsule.sameFrame
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.core.memory.*
-import com.wangzan101.mika.core.model.ModelRole
-import com.wangzan101.mika.core.model.ModelSession
-import com.wangzan101.mika.core.personal.*
-import com.wangzan101.mika.core.run.RunPhase
-import com.wangzan101.mika.takeover.Takeover
-import com.wangzan101.mika.task.TaskRun
-import com.wangzan101.mika.task.TaskService
+import com.wangzan101.djini.DjiniApp
+import com.wangzan101.djini.capsule.previewFrames
+import com.wangzan101.djini.capsule.sameFrame
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.core.memory.*
+import com.wangzan101.djini.core.model.ModelRole
+import com.wangzan101.djini.core.model.ModelSession
+import com.wangzan101.djini.core.personal.*
+import com.wangzan101.djini.core.run.RunPhase
+import com.wangzan101.djini.takeover.Takeover
+import com.wangzan101.djini.task.TaskRun
+import com.wangzan101.djini.task.TaskService
 import kotlinx.coroutines.*
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -64,7 +64,7 @@ class FilePersonalStore(file: File) : PersonalStore {
 internal data class PersonalPhonePreview(val conversationId: String, val frame: Bitmap)
 
 /** Process-owned chat coordinator; execution/approvals/recovery remain with TaskService. */
-class PersonalRuntime(private val app: MikaApp) {
+class PersonalRuntime(private val app: DjiniApp) {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     val store = FilePersonalStore(File(app.filesDir, "personal/main-v1.json"))
     private val replays by lazy { PersonalReplayStore(File(app.filesDir, "personal/replays")) }
@@ -205,7 +205,7 @@ class PersonalRuntime(private val app: MikaApp) {
 
 /**
  * 给个人助理看的长期记忆:置顶在前、新的在前,最多 [PERSONAL_MEMORY_ITEMS] 条、[max] 个字。
- * 按整条装:下一条装不下就到此为止,不从中间截断。Mika 自己归纳出来的那几条不是用户说的,标记放在这一条的最前面——
+ * 按整条装:下一条装不下就到此为止,不从中间截断。Djini 自己归纳出来的那几条不是用户说的,标记放在这一条的最前面——
  * 放在后面的话,正好被截到的那一条会只剩内容、丢了这唯一的来源说明。
  */
 internal fun personalMemoryText(items: List<MemoryItem>, max: Int = PERSONAL_MEMORY_CHARS): String {
@@ -220,6 +220,6 @@ internal fun personalMemoryText(items: List<MemoryItem>, max: Int = PERSONAL_MEM
     return out.toString()
 }
 
-internal const val PERSONAL_INFERRED_MARK = "(Mika 自己归纳的,不是用户说的)"
+internal const val PERSONAL_INFERRED_MARK = "(Djini 自己归纳的,不是用户说的)"
 private const val PERSONAL_MEMORY_ITEMS = 40
 private const val PERSONAL_MEMORY_CHARS = 6500

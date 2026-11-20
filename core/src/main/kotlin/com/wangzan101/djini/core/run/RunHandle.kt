@@ -1,7 +1,7 @@
-package com.wangzan101.mika.core.run
+package com.wangzan101.djini.core.run
 
-import com.wangzan101.mika.core.agent.AgentLoop
-import com.wangzan101.mika.core.agent.TaskState
+import com.wangzan101.djini.core.agent.AgentLoop
+import com.wangzan101.djini.core.agent.TaskState
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope

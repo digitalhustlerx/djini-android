@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -16,14 +16,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.settings.EnvVarStore
-import com.wangzan101.mika.ui.components.GroupCard
-import com.wangzan101.mika.ui.components.ListRow
-import com.wangzan101.mika.ui.components.MikaDialog
-import com.wangzan101.mika.ui.components.PageScaffold
-import com.wangzan101.mika.ui.components.RowChevron
-import com.wangzan101.mika.ui.theme.MikaTheme
+import com.wangzan101.djini.R
+import com.wangzan101.djini.settings.EnvVarStore
+import com.wangzan101.djini.ui.components.GroupCard
+import com.wangzan101.djini.ui.components.ListRow
+import com.wangzan101.djini.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.PageScaffold
+import com.wangzan101.djini.ui.components.RowChevron
+import com.wangzan101.djini.ui.theme.DjiniTheme
 
 /** 设置 › 环境变量:插件脚本(如 translate)读的名字=值键值对;增删改,空值即删除。 */
 @Composable
@@ -35,7 +35,7 @@ fun EnvVarSettingsScreen(store: EnvVarStore, onBack: () -> Unit) {
             Text(
                 stringResource(R.string.env_vars_empty),
                 Modifier.padding(horizontal = 20.dp, vertical = 12.dp),
-                color = MikaTheme.colors.ink3,
+                color = DjiniTheme.colors.ink3,
             )
         } else {
             GroupCard {
@@ -44,7 +44,7 @@ fun EnvVarSettingsScreen(store: EnvVarStore, onBack: () -> Unit) {
                         Text(
                             "✕",
                             Modifier.clickable { store.remove(k) }.padding(horizontal = 12.dp, vertical = 4.dp),
-                            color = MikaTheme.colors.bad,
+                            color = DjiniTheme.colors.bad,
                         )
                     }
                 }

@@ -1,16 +1,16 @@
-package com.wangzan101.mika.core.cap.root
+package com.wangzan101.djini.core.cap.root
 
-import com.wangzan101.mika.core.capability.Capability
-import com.wangzan101.mika.core.capability.CapabilityKey
-import com.wangzan101.mika.core.capability.CapabilityStatus
-import com.wangzan101.mika.core.capability.PromptEnv
-import com.wangzan101.mika.core.prompt.Prompts
-import com.wangzan101.mika.core.tool.AgentTool
-import com.wangzan101.mika.core.tool.ToolContext
+import com.wangzan101.djini.core.capability.Capability
+import com.wangzan101.djini.core.capability.CapabilityKey
+import com.wangzan101.djini.core.capability.CapabilityStatus
+import com.wangzan101.djini.core.capability.PromptEnv
+import com.wangzan101.djini.core.prompt.Prompts
+import com.wangzan101.djini.core.tool.AgentTool
+import com.wangzan101.djini.core.tool.ToolContext
 
 internal const val ROOT = "root"
 
-/** 以 root 跑命令的端口:已 root 的手机上、用户打开了「允许 Mika 执行 root 命令」时由 App 给出,否则不给(工具也就不登记)。 */
+/** 以 root 跑命令的端口:已 root 的手机上、用户打开了「允许 Djini 执行 root 命令」时由 App 给出,否则不给(工具也就不登记)。 */
 interface RootPort {
     /** 以 root 跑 [command],最多 [timeoutMs]。会阻塞,实现自己换到 IO 线程。 */
     suspend fun run(command: String, timeoutMs: Long): RootRun

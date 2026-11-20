@@ -1,6 +1,6 @@
-package com.wangzan101.mika.capsule
+package com.wangzan101.djini.capsule
 
-import com.wangzan101.mika.i18n.tr
+import com.wangzan101.djini.i18n.tr
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
@@ -66,15 +66,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.ui.ScreenCopy
-import com.wangzan101.mika.ui.components.ButtonSize
-import com.wangzan101.mika.ui.components.MikaButton
-import com.wangzan101.mika.ui.components.MikaLogo
-import com.wangzan101.mika.ui.theme.MikaColors
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaShapes
-import com.wangzan101.mika.ui.theme.MikaTheme
+import com.wangzan101.djini.R
+import com.wangzan101.djini.ui.ScreenCopy
+import com.wangzan101.djini.ui.components.ButtonSize
+import com.wangzan101.djini.ui.components.MikaButton
+import com.wangzan101.djini.ui.components.MikaLogo
+import com.wangzan101.djini.ui.theme.MikaColors
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniTheme
 import kotlin.math.ceil
 
 /** 胶囊外面留给阴影的边:浮层窗口按内容大小,阴影画在窗口里面;留得越少,窗口挡住下面 App 的透明边越窄。 */
@@ -104,7 +104,7 @@ object CapsuleCopy {
     val EXPAND: String get() = tr(R.string.capsule_expand)
     val TALK: String get() = tr(R.string.capsule_talk)
     val SWAP_SIDE: String get() = tr(R.string.capsule_swap_side)
-    const val IDLE = "Mika"
+    const val IDLE = "Djini"
 
     /** 读屏时一颗图标的说法:在做什么、要不要你处理、结果;好几件时的件数已在 [CapsuleView.Shown.text] 里。 */
     fun describe(view: CapsuleView.Shown): String = when {
@@ -113,12 +113,12 @@ object CapsuleCopy {
         view.kind.needsYou -> tr(R.string.capsule_desc_needs, view.text)
         view.kind == CapsuleKind.Running -> tr(R.string.capsule_desc_running, view.text)
         view.kind == CapsuleKind.Held || view.kind == CapsuleKind.Cancelled -> tr(R.string.capsule_desc_other, view.text)
-        else -> "Mika ${view.text}"
+        else -> "Djini ${view.text}"
     }
 }
 
 /**
- * 悬浮胶囊,不带状态:平时是一颗 Mika 图标,状态画在外圈和角标上(干活中蓝弧绕着转、等条件灰圈、要你处理整颗变橙、
+ * 悬浮胶囊,不带状态:平时是一颗 Djini 图标,状态画在外圈和角标上(干活中蓝弧绕着转、等条件灰圈、要你处理整颗变橙、
  * 外圈一呼一吸;好几件时角上写件数;办好了绿勾,没办成、已停止灰色角标;空闲时什么都没有);
  * [CapsuleView.Shown.pill] 时展开成一行字的胶囊(要你处理、刚办完),宽度慢慢变,图标贴着停靠的那一边([side])不动;
  * App 交到你手上时是顶部那一条「你来处理 · 不做了 · 处理好了」。
@@ -149,7 +149,7 @@ fun CapsuleContent(
     talkLabel: String = "",
 ) {
     // 淡下去、恢复都慢慢来;关了动画时直接换
-    val shown = if (MikaTheme.reduceMotion) alpha else animateFloatAsState(alpha, tween(FADE_MS), label = "fade").value
+    val shown = if (DjiniTheme.reduceMotion) alpha else animateFloatAsState(alpha, tween(FADE_MS), label = "fade").value
     val a11y = Modifier.semantics {
         customActions = listOfNotNull(
             onSwapSide?.let { f -> CustomAccessibilityAction(CapsuleCopy.SWAP_SIDE) { f(); true } },
@@ -166,14 +166,14 @@ fun CapsuleContent(
 /** 一颗或展开的胶囊:同一块玻璃底,看得见的宽度在两者之间慢慢变(只在画的时候变,见 [Morph]);[end] 时贴右边(图标在右)。 */
 @Composable
 private fun Capsule(view: CapsuleView.Shown, end: Boolean, onTap: () -> Unit, tapLabel: String, a11y: Modifier, alpha: Float, flash: Int, holding: Boolean) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     // 长按说话中:放大一点、外面一圈蓝边(画在阴影边里,窗口大小不变)
-    val press = if (MikaTheme.reduceMotion) (if (holding) 1f else 0f)
+    val press = if (DjiniTheme.reduceMotion) (if (holding) 1f else 0f)
         else animateFloatAsState(if (holding) 1f else 0f, tween(HOLD_MS), label = "hold").value
     val need = view.kind.needsYou || view.needCount > 0
     // 截到屏幕:白光从亮到无,和截图时屏幕闪一下一个意思;关了动画时不闪
     val glow = remember { Animatable(0f) }
-    val still = MikaTheme.reduceMotion
+    val still = DjiniTheme.reduceMotion
     val morph = rememberMorph(animate = !still)
     LaunchedEffect(flash) {
         if (flash == 0 || still) return@LaunchedEffect
@@ -217,7 +217,7 @@ private fun Capsule(view: CapsuleView.Shown, end: Boolean, onTap: () -> Unit, ta
 /** 展开的胶囊里那一行:图标、状态标记、字;贴右边时图标在最右,和一颗时的位置一样。 */
 @Composable
 private fun PillRow(view: CapsuleView.Shown, end: Boolean, need: Boolean) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val maxWidth = (LocalConfiguration.current.screenWidthDp * 0.6f).dp
     // 同一件事、同一个状态里换句只变宽:记下这一段里最宽的时候
     var widest by remember(view.widthEpoch) { mutableIntStateOf(0) }
@@ -243,7 +243,7 @@ private fun PillRow(view: CapsuleView.Shown, end: Boolean, need: Boolean) {
 /** 文字前面的状态标记:要你处理是呼吸点,办好了是勾,没办成是叹号,已停止是停止,后台网页运行中是绿点。 */
 @Composable
 private fun Leading(kind: CapsuleKind) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     when {
         kind.needsYou -> BreathingDot(c)
         kind == CapsuleKind.Done -> Icon(MikaIcons.Check, null, Modifier.size(16.dp), tint = c.ok)
@@ -275,21 +275,21 @@ private fun BreathingDot(c: MikaColors) {
 
 /** 一呼一吸(0..1 来回);关了动画时停在 [still]。 */
 @Composable
-private fun breathe(still: Float): Float = if (MikaTheme.reduceMotion) still else rememberInfiniteTransition(label = "breathe").animateFloat(
+private fun breathe(still: Float): Float = if (DjiniTheme.reduceMotion) still else rememberInfiniteTransition(label = "breathe").animateFloat(
     0f, 1f, infiniteRepeatable(tween(700), RepeatMode.Reverse), label = "breathe",
 ).value
 
 /** 一颗图标的外圈:干活中一段蓝弧绕着转(关了动画时是一整圈不动),等条件灰色一整圈,要你处理橙色一整圈一呼一吸;其余没有。 */
 @Composable
 private fun Ring(kind: CapsuleKind, need: Boolean, modifier: Modifier) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val color = when {
         need -> c.warnSolid
         kind == CapsuleKind.Running -> c.accent
         kind == CapsuleKind.Held -> c.ink3
         else -> return
     }
-    val spin = kind == CapsuleKind.Running && !need && !MikaTheme.reduceMotion
+    val spin = kind == CapsuleKind.Running && !need && !DjiniTheme.reduceMotion
     val angle = if (!spin) 0f else rememberInfiniteTransition(label = "spin").animateFloat(
         0f, 360f, infiniteRepeatable(tween(SPIN_MS, easing = LinearEasing)), label = "spin",
     ).value
@@ -313,7 +313,7 @@ private fun Ring(kind: CapsuleKind, need: Boolean, modifier: Modifier) {
  */
 @Composable
 private fun Badge(view: CapsuleView.Shown, need: Boolean, modifier: Modifier) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     if (view.count >= 2 || (view.kind == CapsuleKind.Notice && view.count >= 1)) {
         val fill = when {
             need -> c.warnSolid
@@ -416,7 +416,7 @@ private class EdgePill(private val width: Float, private val end: Boolean, priva
 /** App 在你手上时顶部那一条:「你来处理」和下面一行小字,右边「不做了」「处理好了」。 */
 @Composable
 private fun TakeoverBar(view: CapsuleView.Shown, onStop: () -> Unit, onHandBack: () -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val maxWidth = (LocalConfiguration.current.screenWidthDp - 32).coerceAtLeast(200).dp
     Row(
         Modifier.testTag("capsule-bar")
@@ -443,7 +443,7 @@ private fun TakeoverBar(view: CapsuleView.Shown, onStop: () -> Unit, onHandBack:
     }
 }
 
-/** 胶囊上的 Mika 图标(圆形)。 */
+/** 胶囊上的 Djini 图标(圆形)。 */
 @Composable
 private fun CapsuleLogo() {
     MikaLogo(LogoSize, corner = LogoSize / 2)

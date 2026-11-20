@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.run
+package com.wangzan101.djini.core.run
 
 /** 提问从 AgentLoop 发出，由当前渠道负责送达；答案仍只从 RunInbox 回来。 */
 interface Interaction {

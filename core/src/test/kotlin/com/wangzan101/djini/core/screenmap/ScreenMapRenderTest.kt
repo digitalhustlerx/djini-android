@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.screenmap
+package com.wangzan101.djini.core.screenmap
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse

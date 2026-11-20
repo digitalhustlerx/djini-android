@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.semantics.getOrNull
@@ -17,16 +17,16 @@ import androidx.compose.ui.test.performTextReplacement
 import androidx.compose.ui.test.performTouchInput
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.ChineseUi
-import com.wangzan101.mika.chat.ConversationStore
-import com.wangzan101.mika.chat.DeleteImpact
-import com.wangzan101.mika.chat.ProjectDeleteImpact
-import com.wangzan101.mika.chat.ProjectStore
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.core.agent.Turn
-import com.wangzan101.mika.settings.Prerequisites
-import com.wangzan101.mika.settings.RecommendedTaskStore
-import com.wangzan101.mika.takeover.Takeover
+import com.wangzan101.djini.ChineseUi
+import com.wangzan101.djini.chat.ConversationStore
+import com.wangzan101.djini.chat.DeleteImpact
+import com.wangzan101.djini.chat.ProjectDeleteImpact
+import com.wangzan101.djini.chat.ProjectStore
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.core.agent.Turn
+import com.wangzan101.djini.settings.Prerequisites
+import com.wangzan101.djini.settings.RecommendedTaskStore
+import com.wangzan101.djini.takeover.Takeover
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -115,22 +115,22 @@ class ProjectDrawerUiTest {
         show(vm, drawerOpen = true)
 
         compose.onNodeWithTag("drawer-new-project").performClick()
-        compose.onNodeWithTag("project-name-field").performTextReplacement("Mika 研发")
+        compose.onNodeWithTag("project-name-field").performTextReplacement("Djini 研发")
         compose.onNodeWithTag("confirm-create-project").performClick()
         compose.waitForIdle()
 
         val created = projects.projects.value.single()
-        assertEquals("Mika 研发", created.name)
+        assertEquals("Djini 研发", created.name)
         assertEquals(created.id, vm.ui.value.projectId)
-        compose.onNodeWithTag("chat-project-pill").assertTextContains("Mika 研发")
+        compose.onNodeWithTag("chat-project-pill").assertTextContains("Djini 研发")
 
         compose.onNodeWithContentDescription("菜单").performClick()
-        compose.onNode(hasTestTag("project-header") and hasText("Mika 研发")).assertExists()
+        compose.onNode(hasTestTag("project-header") and hasText("Djini 研发")).assertExists()
         compose.onNode(hasTestTag("project-new-chat") and hasAnyAncestor(hasTestTag("drawer"))).performClick()
         compose.waitForIdle()
 
         assertEquals(created.id, vm.ui.value.projectId)
-        compose.onNodeWithTag("chat-project-pill").assertTextContains("Mika 研发")
+        compose.onNodeWithTag("chat-project-pill").assertTextContains("Djini 研发")
     }
 
     @Test fun collapseRenameAndDeleteProjectRemoveMembersOnly() {

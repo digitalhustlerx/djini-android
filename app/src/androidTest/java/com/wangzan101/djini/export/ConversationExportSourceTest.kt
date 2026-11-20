@@ -1,15 +1,15 @@
-package com.wangzan101.mika.export
+package com.wangzan101.djini.export
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.chat.ConversationStore
-import com.wangzan101.mika.chat.SharedFile
-import com.wangzan101.mika.core.agent.Turn
-import com.wangzan101.mika.core.export.ExportContent
-import com.wangzan101.mika.core.export.ExportDocumentBuilder
-import com.wangzan101.mika.core.export.ExportIds
-import com.wangzan101.mika.core.export.ExportLabels
-import com.wangzan101.mika.core.export.ExportSelection
+import com.wangzan101.djini.chat.ConversationStore
+import com.wangzan101.djini.chat.SharedFile
+import com.wangzan101.djini.core.agent.Turn
+import com.wangzan101.djini.core.export.ExportContent
+import com.wangzan101.djini.core.export.ExportDocumentBuilder
+import com.wangzan101.djini.core.export.ExportIds
+import com.wangzan101.djini.core.export.ExportLabels
+import com.wangzan101.djini.core.export.ExportSelection
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue

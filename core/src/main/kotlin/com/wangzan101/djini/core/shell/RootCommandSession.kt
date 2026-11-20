@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.shell
+package com.wangzan101.djini.core.shell
 
 /** 在 su 的执行端监督命令。标准输入留给 App，关闭时结束这次命令的进程组。 */
 object RootCommandSession {
@@ -63,7 +63,7 @@ object RootCommandSession {
                     .append(available(candidate)).append(" && ")
                     .append(invocation).append(" -w \"").append(shell).append("\" -c 'exit 0' </dev/null >/dev/null 2>&1; then ")
                     .append("exec ").append(invocation).append(" -w \"").append(shell)
-                    .append("\" -c \"${'$'}mika_supervise\" mika-root \"${'$'}c\" \"${'$'}mika_kill\" \"").append(shell).append("\"; ")
+                    .append("\" -c \"${'$'}mika_supervise\" djini-root \"${'$'}c\" \"${'$'}mika_kill\" \"").append(shell).append("\"; ")
             }
             b.append("fi; fi; ")
         }

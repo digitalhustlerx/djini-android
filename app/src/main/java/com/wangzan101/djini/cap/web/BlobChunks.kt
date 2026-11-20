@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.web
+package com.wangzan101.djini.cap.web
 
 /**
  * 页面分段交回的 blob 内容(base64)。页面报的长度、每段长度、累计长度都不信:

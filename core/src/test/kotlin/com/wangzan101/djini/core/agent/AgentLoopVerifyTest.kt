@@ -1,21 +1,21 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
-import com.wangzan101.mika.core.assembly.toolDispatcher
-import com.wangzan101.mika.core.model.Capabilities
-import com.wangzan101.mika.core.model.ChatModel
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.ModelReply
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.Role
-import com.wangzan101.mika.core.model.StopReason
-import com.wangzan101.mika.core.model.ToolSpec
-import com.wangzan101.mika.core.prompt.Feedback
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.record.RunSink
-import com.wangzan101.mika.core.uistate.ActionResult
-import com.wangzan101.mika.core.testing.answerReply
-import com.wangzan101.mika.core.tool.FakeScreen
-import com.wangzan101.mika.core.verify.Verifier
+import com.wangzan101.djini.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.model.Capabilities
+import com.wangzan101.djini.core.model.ChatModel
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.ModelReply
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.Role
+import com.wangzan101.djini.core.model.StopReason
+import com.wangzan101.djini.core.model.ToolSpec
+import com.wangzan101.djini.core.prompt.Feedback
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.record.RunSink
+import com.wangzan101.djini.core.uistate.ActionResult
+import com.wangzan101.djini.core.testing.answerReply
+import com.wangzan101.djini.core.tool.FakeScreen
+import com.wangzan101.djini.core.verify.Verifier
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitCancellation
@@ -64,7 +64,7 @@ class AgentLoopVerifyTest {
         // 聊天、常识:没调过工具,不核对,原样交出
         val checker = FakeModel()
         val r = loop(FakeModel(text("你好!有什么可以帮你?")), checker).run("你好")
-        com.wangzan101.mika.core.testing.assertAnswered("你好!有什么可以帮你?", r)
+        com.wangzan101.djini.core.testing.assertAnswered("你好!有什么可以帮你?", r)
         // 什么也没核对:不是核实过,也不是没能核实
         assertFalse((r as TaskState.Succeeded).reviewed)
         assertTrue(checker.requests.isEmpty())
@@ -147,8 +147,8 @@ class AgentLoopVerifyTest {
         lateinit var l: AgentLoop
         var seen: TaskState? = null
         val base = FakeScreen()
-        val screen = object : com.wangzan101.mika.core.uistate.ScreenPort by base {
-            override suspend fun snapshot(): com.wangzan101.mika.core.uistate.ScreenSnapshot = base.snapshot().also { if (seen == null) seen = l.state.value }
+        val screen = object : com.wangzan101.djini.core.uistate.ScreenPort by base {
+            override suspend fun snapshot(): com.wangzan101.djini.core.uistate.ScreenSnapshot = base.snapshot().also { if (seen == null) seen = l.state.value }
         }
         val main = FakeModel(ModelReply(listOf(Part.Text("先看看首页"), call("phone_observe")), StopReason.ToolUse, null), text(GROUNDED))
         l = AgentLoop(main, toolDispatcher(screen), "BASE", verifier = Verifier(FakeModel(), null))

@@ -1,14 +1,14 @@
-package com.wangzan101.mika.cap.phone.setup
+package com.wangzan101.djini.cap.phone.setup
 
 import android.app.NotificationManager
 import org.junit.Rule
-import com.wangzan101.mika.i18n.ChineseTexts
-import com.wangzan101.mika.core.shell.BuiltinShellFailure
-import com.wangzan101.mika.core.shell.BuiltinShellStatus
-import com.wangzan101.mika.core.shell.PairingChannelHealth
-import com.wangzan101.mika.core.shell.PairingDiscovery
-import com.wangzan101.mika.core.shell.PairingScreen
-import com.wangzan101.mika.core.shell.PairingScreenReading
+import com.wangzan101.djini.i18n.ChineseTexts
+import com.wangzan101.djini.core.shell.BuiltinShellFailure
+import com.wangzan101.djini.core.shell.BuiltinShellStatus
+import com.wangzan101.djini.core.shell.PairingChannelHealth
+import com.wangzan101.djini.core.shell.PairingDiscovery
+import com.wangzan101.djini.core.shell.PairingScreen
+import com.wangzan101.djini.core.shell.PairingScreenReading
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
@@ -53,14 +53,14 @@ class PairingNoticeTest {
         closed as PairingNotice.EnterCode
         assertNull(closed.port)
         assertTrue(closed.error!!.endsWith("拿新的码，再填一次"))
-        // 配对之后的失败请用户回 Mika
+        // 配对之后的失败请用户回 Djini
         assertEquals(
             PairingNotice.Problem("连上了,但没能准备好"),
             PairingNotice.of(BuiltinShellStatus.Failed(BuiltinShellFailure.HelperStartFailed), PairingDiscovery.Found(5)),
         )
     }
 
-    /** 配对失效:引导页让用户重新配对,找到配对窗口后和没配对时一样给输入框,还在找时一样先静静备好;没在找时照旧请用户回 Mika。 */
+    /** 配对失效:引导页让用户重新配对,找到配对窗口后和没配对时一样给输入框,还在找时一样先静静备好;没在找时照旧请用户回 Djini。 */
     @Test
     fun revokedPairingGetsTheInputOnceThePairingWindowIsFound() {
         val revoked = BuiltinShellStatus.Failed(BuiltinShellFailure.AuthorizationRevoked)

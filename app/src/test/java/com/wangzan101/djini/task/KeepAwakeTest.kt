@@ -1,8 +1,8 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
-import com.wangzan101.mika.core.agent.FailKind
-import com.wangzan101.mika.core.agent.GateReason
-import com.wangzan101.mika.core.agent.TaskState
+import com.wangzan101.djini.core.agent.FailKind
+import com.wangzan101.djini.core.agent.GateReason
+import com.wangzan101.djini.core.agent.TaskState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.runCurrent

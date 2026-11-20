@@ -27,16 +27,16 @@ chmod 600 owner-key
 80/443 已被现有 Nginx 使用时，改用独立的 [compose.nginx.yaml](../../tools/relay/compose.nginx.yaml)，不要与默认 Compose 文件合并。配置同一份 .env，以固定项目名执行：
 
 ```sh
-docker compose -p mika-relay -f compose.nginx.yaml build
-docker compose -p mika-relay -f compose.nginx.yaml run --rm relay -init-owner-key -owner-key-file /data/owner-key
-docker compose -p mika-relay -f compose.nginx.yaml up -d
-docker compose -p mika-relay -f compose.nginx.yaml cp relay:/data/owner-key ./owner-key
+docker compose -p djini-relay -f compose.nginx.yaml build
+docker compose -p djini-relay -f compose.nginx.yaml run --rm relay -init-owner-key -owner-key-file /data/owner-key
+docker compose -p djini-relay -f compose.nginx.yaml up -d
+docker compose -p djini-relay -f compose.nginx.yaml cp relay:/data/owner-key ./owner-key
 chmod 600 owner-key
 ```
 
 网关仅发布到服务器 127.0.0.1:18787；Nginx 须在同一台主机。将 [nginx.conf.example](../../tools/relay/nginx.conf.example) 中的域名和证书路径改为实际值，作为独立虚拟主机配置加入现有 http 配置。证书须覆盖该域名，并已有续期及续期后平滑加载安排。先检查域名、map 名称和 18787 端口没有冲突，再 nginx -t，通过后平滑 reload；失败时只撤回新配置。示例保留 WebSocket 升级，关闭缓冲、代理重试和转发请求的访问日志。
 
-后续所有 Compose 命令沿用相同项目名和 -f 参数。回滚时禁用新虚拟主机，校验并平滑加载 Nginx，再 docker compose -p mika-relay -f compose.nginx.yaml down；保留数据卷。不要改为公网绑定后端端口，也不要在此部署中启动默认 Compose 文件的 Caddy。
+后续所有 Compose 命令沿用相同项目名和 -f 参数。回滚时禁用新虚拟主机，校验并平滑加载 Nginx，再 docker compose -p djini-relay -f compose.nginx.yaml down；保留数据卷。不要改为公网绑定后端端口，也不要在此部署中启动默认 Compose 文件的 Caddy。
 
 ## 客户端与统一令牌
 
@@ -47,12 +47,12 @@ chmod 600 owner-key
 
 ```sh
 chmod 600 /path/to/token
-mika connect --url https://mika.example.com --token-file /path/to/token
-mika --url https://mika.example.com --token-file /path/to/token doctor
-mika --url https://mika.example.com --token-file /path/to/token task list --limit 5
+djini connect --url https://djini.example.com --token-file /path/to/token
+djini --url https://djini.example.com --token-file /path/to/token doctor
+djini --url https://djini.example.com --token-file /path/to/token task list --limit 5
 ```
 
-每次远程调用都须传入 `--url` 和 `--token-file`；`mika connect` 只验证连接，不保存远程配置。两种协议都访问手机同一份任务服务，任务创建、查询、等待、回答、插话和取消行为与局域网一致。
+每次远程调用都须传入 `--url` 和 `--token-file`；`djini connect` 只验证连接，不保存远程配置。两种协议都访问手机同一份任务服务，任务创建、查询、等待、回答、插话和取消行为与局域网一致。
 
 ### 经网关唤醒和解锁：默认关
 
@@ -72,7 +72,7 @@ mika --url https://mika.example.com --token-file /path/to/token task list --limi
 
 `RemoteAccess.handle` 统一鉴权和协议错误，再进入 `RemoteEndpoints`；本地监听与远程通道共用任务服务。LAN 私有地址检查保留。远程请求使用非回环来源，不获得 USB 权限。失败冷却按调用方分开记：网关把它看到的调用方地址（IPv4 地址或 IPv6 的 /64 前缀）随请求带给手机，手机按「网关 + 调用方」计数，与本地监听的地址分开。一个调用方连续猜错只冷却它自己，冷却期间连正确令牌也不放行，不会把「猜对了」透露给它。网关在反向代理后面时所有连接都来自代理，须加 `-trust-proxy`，让网关从代理追加的最后一个 X-Forwarded-For 取调用方（只在直接对端是回环或私有地址时读取）；两份 Compose 文件已加上，Nginx 示例用 `$remote_addr` 覆盖该头。网关自己的管理密钥、配对和转发限流也按同一调用方计数。`McpRuntime` 为远程通道提供手机统一令牌，远程关闭时拒绝访问；配对本身不启用远程。
 
-`RelayGateway` 校验 HTTPS 地址和配对响应，不跟随重定向。`RelayClient` 白名单放行 `/mcp`、`/api/v1` 和 `/api/v1/…` 的 GET/POST/DELETE，独立保留 query 及 Authorization、Origin、X-Mika-Client 和协议头；各端点方法、参数和任务权限由手机继续检查。网关不代理任意 URL 或 TCP。
+`RelayGateway` 校验 HTTPS 地址和配对响应，不跟随重定向。`RelayClient` 白名单放行 `/mcp`、`/api/v1` 和 `/api/v1/…` 的 GET/POST/DELETE，独立保留 query 及 Authorization、Origin、X-Djini-Client 和协议头；各端点方法、参数和任务权限由手机继续检查。网关不代理任意 URL 或 TCP。
 
 `RelaySettings` 使用独立 Keystore 密钥加密、原子保存设备配置，状态流仅含非秘密字段。`RelayNetwork` 感知网络切换，`McpService` 沿用前台服务和通知关闭动作。App 引导使用现有组件、中英繁体资源，切换引导不改变权限，复制时才读取令牌。
 

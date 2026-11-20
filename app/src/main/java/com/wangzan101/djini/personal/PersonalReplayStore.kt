@@ -1,4 +1,4 @@
-package com.wangzan101.mika.personal
+package com.wangzan101.djini.personal
 
 import java.io.File
 import java.io.IOException

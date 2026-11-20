@@ -1,18 +1,18 @@
-package com.wangzan101.mika.cap.web
+package com.wangzan101.djini.cap.web
 
 import android.os.SystemClock
 import android.view.WindowManager
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.webkit.WebViewAssetLoader
-import com.wangzan101.mika.core.uistate.CdpKeys
-import com.wangzan101.mika.core.cap.web.cdp.CdpSession
-import com.wangzan101.mika.core.uistate.ActionResult
-import com.wangzan101.mika.core.uistate.ScreenSnapshot
-import com.wangzan101.mika.core.uistate.Verification
-import com.wangzan101.mika.core.cap.web.DEVTOOLS_UNAVAILABLE
-import com.wangzan101.mika.core.cap.web.WebPoint
-import com.wangzan101.mika.cap.web.cdp.WebDevtools
+import com.wangzan101.djini.core.uistate.CdpKeys
+import com.wangzan101.djini.core.cap.web.cdp.CdpSession
+import com.wangzan101.djini.core.uistate.ActionResult
+import com.wangzan101.djini.core.uistate.ScreenSnapshot
+import com.wangzan101.djini.core.uistate.Verification
+import com.wangzan101.djini.core.cap.web.DEVTOOLS_UNAVAILABLE
+import com.wangzan101.djini.core.cap.web.WebPoint
+import com.wangzan101.djini.cap.web.cdp.WebDevtools
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
@@ -30,7 +30,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import kotlin.coroutines.resume
 import kotlin.math.roundToInt
-import com.wangzan101.mika.cap.phone.PhoneServices
+import com.wangzan101.djini.cap.phone.PhoneServices
 
 /**
  * 真机测试:有 DevTools 会话时点击、悬停、拖动、下拉选择、组合键、插入文字都是可信的鼠标键盘事件;

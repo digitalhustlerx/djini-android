@@ -1,4 +1,4 @@
-package com.wangzan101.mika.pocket;
+package com.wangzan101.djini.pocket;
 
 /** Debounces covered and dark readings, with manual-dismiss suppression. */
 public final class PocketDetector {

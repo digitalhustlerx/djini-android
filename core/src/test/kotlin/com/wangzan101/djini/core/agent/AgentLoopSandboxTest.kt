@@ -1,12 +1,12 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
-import com.wangzan101.mika.core.model.ModelReply
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.Role
-import com.wangzan101.mika.core.model.StopReason
-import com.wangzan101.mika.core.cap.sandbox.CommandResult
-import com.wangzan101.mika.core.cap.sandbox.FakeSandbox
-import com.wangzan101.mika.core.tool.FakeScreen
+import com.wangzan101.djini.core.model.ModelReply
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.Role
+import com.wangzan101.djini.core.model.StopReason
+import com.wangzan101.djini.core.cap.sandbox.CommandResult
+import com.wangzan101.djini.core.cap.sandbox.FakeSandbox
+import com.wangzan101.djini.core.tool.FakeScreen
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
@@ -18,13 +18,13 @@ import kotlinx.serialization.json.put
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import com.wangzan101.mika.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.assembly.toolDispatcher
 
 private var n = 0
 private fun call(name: String, args: JsonObject) = Part.ToolCall("s${++n}", name, args.toString())
 private fun tools(c: Part.ToolCall) = ModelReply(listOf(c), StopReason.ToolUse, null)
 private fun cmd(command: String) = tools(call("run_command", buildJsonObject { put("command", command) }))
-private fun finish() = com.wangzan101.mika.core.testing.answerReply("算好了")
+private fun finish() = com.wangzan101.djini.core.testing.answerReply("算好了")
 private fun toolResults(m: FakeModel): List<JsonObject> = m.requests.last().filter { it.role == Role.Tool }
     .flatMap { it.parts.filterIsInstance<Part.ToolResult>() }.map { Json.parseToJsonElement(it.content).jsonObject }
 

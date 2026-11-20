@@ -1,10 +1,10 @@
-package com.wangzan101.mika.core.eval
+package com.wangzan101.djini.core.eval
 
-import com.wangzan101.mika.core.assembly.legacyNames
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.testing.RECORDED_TOOLS
-import com.wangzan101.mika.core.testing.TOOLS
-import com.wangzan101.mika.core.verify.RecordedVerifications
+import com.wangzan101.djini.core.assembly.legacyNames
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.testing.RECORDED_TOOLS
+import com.wangzan101.djini.core.testing.TOOLS
+import com.wangzan101.djini.core.verify.RecordedVerifications
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Test
@@ -15,7 +15,7 @@ import org.junit.Test
  */
 class RecordedRunNamesTest {
     private var t = 0L
-    private fun screen(step: Int, app: String?, vararg names: String) = com.wangzan101.mika.core.testing.legacyScreenText(++t, step, app, names.toList())
+    private fun screen(step: Int, app: String?, vararg names: String) = com.wangzan101.djini.core.testing.legacyScreenText(++t, step, app, names.toList())
     private fun reply(step: Int, tool: String, args: String = "{}") = RunEvent.ModelReply(++t, step, "", tool, args, null, null, null)
     private fun result(step: Int, tool: String, json: String) = RunEvent.ToolResult(++t, step, tool, json, null, null)
 
@@ -46,7 +46,7 @@ class RecordedRunNamesTest {
         }
     }
 
-    private fun facts(events: List<RunEvent>, tools: com.wangzan101.mika.core.tool.ToolIndex) = listOf(
+    private fun facts(events: List<RunEvent>, tools: com.wangzan101.djini.core.tool.ToolIndex) = listOf(
         RunFacts.ledger(events, tools).all, RunFacts.appsSeen(events, tools), RunFacts.appsLaunched(events, tools),
         RunFacts.appsWrittenIn(events, tools), RunFacts.takeoverBarrier(events, tools),
     )

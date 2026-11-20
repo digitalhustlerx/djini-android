@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.record
+package com.wangzan101.djini.core.record
 
 /**
  * 一个对话里各轮合起来用了多少 token,按每轮的运行小结([RunMetrics])算,口径和「查看过程」顶上那一行同一个

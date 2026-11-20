@@ -1,4 +1,4 @@
-package com.wangzan101.mika.browser
+package com.wangzan101.djini.browser
 
 /** 网页文件选择框给的类型 → 系统选择器的 MIME 类型。 */
 object ChooserMimeTypes {

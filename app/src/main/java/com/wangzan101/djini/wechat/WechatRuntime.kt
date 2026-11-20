@@ -1,27 +1,27 @@
-package com.wangzan101.mika.wechat
+package com.wangzan101.djini.wechat
 
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.Network
 import android.util.Log
-import com.wangzan101.mika.BuildConfig
-import com.wangzan101.mika.MikaApp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.core.action.ConfirmChoice
-import com.wangzan101.mika.core.net.NetProxy
-import com.wangzan101.mika.core.run.ChannelGateway
-import com.wangzan101.mika.core.run.ChannelPeer
-import com.wangzan101.mika.core.run.Delivery
-import com.wangzan101.mika.core.run.MemoryOwnerIdentity
-import com.wangzan101.mika.core.run.RunId
-import com.wangzan101.mika.core.wechat.WechatAccount
-import com.wangzan101.mika.core.wechat.WechatApi
-import com.wangzan101.mika.core.wechat.WechatHttpException
-import com.wangzan101.mika.core.wechat.WechatQrStart
-import com.wangzan101.mika.settings.FeatureFlags
-import com.wangzan101.mika.task.TaskService
+import com.wangzan101.djini.BuildConfig
+import com.wangzan101.djini.DjiniApp
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.core.action.ConfirmChoice
+import com.wangzan101.djini.core.net.NetProxy
+import com.wangzan101.djini.core.run.ChannelGateway
+import com.wangzan101.djini.core.run.ChannelPeer
+import com.wangzan101.djini.core.run.Delivery
+import com.wangzan101.djini.core.run.MemoryOwnerIdentity
+import com.wangzan101.djini.core.run.RunId
+import com.wangzan101.djini.core.wechat.WechatAccount
+import com.wangzan101.djini.core.wechat.WechatApi
+import com.wangzan101.djini.core.wechat.WechatHttpException
+import com.wangzan101.djini.core.wechat.WechatQrStart
+import com.wangzan101.djini.settings.FeatureFlags
+import com.wangzan101.djini.task.TaskService
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -59,7 +59,7 @@ class WechatRuntime(
         .readTimeout(45, TimeUnit.SECONDS))
     private val api = WechatApi(http, BuildConfig.VERSION_NAME)
     private val owners = MemoryOwnerIdentity()
-    private val app get() = context.applicationContext as MikaApp
+    private val app get() = context.applicationContext as DjiniApp
     private val gateway = ChannelGateway(owners,
         { threadId -> app.taskState.run(threadId)?.activeAsk },
         object : ChannelGateway.Route {

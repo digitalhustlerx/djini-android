@@ -1,8 +1,8 @@
-package com.wangzan101.mika.core.mcp
+package com.wangzan101.djini.core.mcp
 
-import com.wangzan101.mika.core.remote.HttpResponse
-import com.wangzan101.mika.core.remote.HttpRequest
-import com.wangzan101.mika.core.agent.TaskState
+import com.wangzan101.djini.core.remote.HttpResponse
+import com.wangzan101.djini.core.remote.HttpRequest
+import com.wangzan101.djini.core.agent.TaskState
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.boolean
@@ -44,7 +44,7 @@ class McpRpcTest {
         assertEquals(200, r.status)
         val result = r.json()["result"]!!.jsonObject
         assertEquals("2025-06-18", result["protocolVersion"]!!.jsonPrimitive.content)
-        assertEquals("mika", result["serverInfo"]!!.jsonObject["name"]!!.jsonPrimitive.content)
+        assertEquals("djini", result["serverInfo"]!!.jsonObject["name"]!!.jsonPrimitive.content)
         assertTrue(result["capabilities"]!!.jsonObject.containsKey("tools"))
         assertNull("no sessions", r.headers["Mcp-Session-Id"])
         assertEquals(listOf<String?>("desk"), seen)
@@ -117,7 +117,7 @@ class McpRpcTest {
         val result = d.json()["result"]!!.jsonObject
         assertEquals("complete", result["resultType"]!!.jsonPrimitive.content)
         assertTrue(result["supportedVersions"]!!.jsonArray.map { it.jsonPrimitive.content }.contains(McpRpc.MODERN))
-        assertEquals("mika", result["_meta"]!!.jsonObject[McpRpc.META_SERVER]!!.jsonObject["name"]!!.jsonPrimitive.content)
+        assertEquals("djini", result["_meta"]!!.jsonObject[McpRpc.META_SERVER]!!.jsonObject["name"]!!.jsonPrimitive.content)
 
         val l = post("""{"jsonrpc":"2.0","id":2,"method":"tools/list","params":{${modernMeta()}}}""", modernHeaders("tools/list"))
         assertEquals(7, l.json()["result"]!!.jsonObject["tools"]!!.jsonArray.size)

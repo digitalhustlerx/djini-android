@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.model
+package com.wangzan101.djini.core.model
 
-import com.wangzan101.mika.core.agent.AgentLoop
+import com.wangzan101.djini.core.agent.AgentLoop
 
 /**
  * 插话打断流式回复之后发给模型的历史(见 AgentLoop.keepInterrupted):用户的话,
@@ -15,8 +15,8 @@ internal object InterruptedHistory {
 
     val messages = listOf(
         Message(Role.User, listOf(Part.Text(ASK)), Author.User),
-        Message(Role.Assistant, listOf(Part.Text(PARTIAL)), Author.Mika),
+        Message(Role.Assistant, listOf(Part.Text(PARTIAL)), Author.Djini),
         Message(Role.User, listOf(Part.Text(STEER)), Author.User),
-        Message(Role.User, listOf(Part.Text(RUNTIME)), Author.Mika),
+        Message(Role.User, listOf(Part.Text(RUNTIME)), Author.Djini),
     )
 }

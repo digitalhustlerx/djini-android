@@ -1,13 +1,13 @@
-package com.wangzan101.mika.cap.phone.a11y
+package com.wangzan101.djini.cap.phone.a11y
 
 import android.view.Display
 import android.view.KeyEvent
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport.TEST_PACKAGE
-import com.wangzan101.mika.cap.phone.shell.AsciiTextKeys
-import com.wangzan101.mika.core.assembly.toolDispatcher
-import com.wangzan101.mika.core.uistate.UiElement
-import com.wangzan101.mika.shell.IMikaShell
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport.TEST_PACKAGE
+import com.wangzan101.djini.cap.phone.shell.AsciiTextKeys
+import com.wangzan101.djini.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.uistate.UiElement
+import com.wangzan101.djini.shell.IDjiniShell
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withTimeoutOrNull
@@ -60,13 +60,13 @@ class UnseenTextKeysDeviceTest {
     }
 
     private suspend fun withEditor(
-        failPasteAfter: String?, check: suspend (IMikaShell, Int, AndroidScreen) -> Unit,
+        failPasteAfter: String?, check: suspend (IDjiniShell, Int, AndroidScreen) -> Unit,
     ) {
         val shell = DeviceSupport.shell()
         val agent = DeviceSupport.newAgent()
         val id = agent.display.displayId
         try {
-            val rejectingPaste = object : IMikaShell by shell {
+            val rejectingPaste = object : IDjiniShell by shell {
                 override fun injectCtrlKey(displayId: Int, keyCode: Int): Int {
                     // 这个夹具只模拟 V 的结果;A 固定为已投递,避免真实按键的偶发结果改变被测分支。
                     if (keyCode == KeyEvent.KEYCODE_A) return AsciiTextKeys.DISPATCHED

@@ -1,8 +1,8 @@
-package com.wangzan101.mika.core.decision
+package com.wangzan101.djini.core.decision
 
-import com.wangzan101.mika.core.model.ModelError
-import com.wangzan101.mika.core.model.Usage
-import com.wangzan101.mika.core.usage.RunUsageTally
+import com.wangzan101.djini.core.model.ModelError
+import com.wangzan101.djini.core.model.Usage
+import com.wangzan101.djini.core.usage.RunUsageTally
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.async

@@ -1,31 +1,31 @@
-package com.wangzan101.mika.core.general
+package com.wangzan101.djini.core.general
 
-import com.wangzan101.mika.core.action.ActionRisk
-import com.wangzan101.mika.core.action.Risk as ApprovalRisk
-import com.wangzan101.mika.core.observation.Untrusted
-import com.wangzan101.mika.core.prompt.Prompts
-import com.wangzan101.mika.core.tool.AgentTool
-import com.wangzan101.mika.core.tool.ArgError
-import com.wangzan101.mika.core.tool.Args
-import com.wangzan101.mika.core.tool.Risk
-import com.wangzan101.mika.core.tool.ToolContext
-import com.wangzan101.mika.core.tool.ToolDef
-import com.wangzan101.mika.core.tool.ToolExecution
-import com.wangzan101.mika.core.tool.Verb
-import com.wangzan101.mika.core.tool.bool
-import com.wangzan101.mika.core.tool.int
-import com.wangzan101.mika.core.tool.okObj
-import com.wangzan101.mika.core.tool.str
-import com.wangzan101.mika.core.tool.strArray
-import com.wangzan101.mika.core.trigger.ConditionNotify
-import com.wangzan101.mika.core.trigger.PlanRepeat
-import com.wangzan101.mika.core.trigger.PlanValidationException
-import com.wangzan101.mika.core.trigger.TriggerDefinition
-import com.wangzan101.mika.core.trigger.editedTrigger
-import com.wangzan101.mika.core.trigger.nextCalendarAt
-import com.wangzan101.mika.core.trigger.normalizedCalendarTimes
-import com.wangzan101.mika.core.trigger.toPlanDraft
-import com.wangzan101.mika.core.trigger.upcoming
+import com.wangzan101.djini.core.action.ActionRisk
+import com.wangzan101.djini.core.action.Risk as ApprovalRisk
+import com.wangzan101.djini.core.observation.Untrusted
+import com.wangzan101.djini.core.prompt.Prompts
+import com.wangzan101.djini.core.tool.AgentTool
+import com.wangzan101.djini.core.tool.ArgError
+import com.wangzan101.djini.core.tool.Args
+import com.wangzan101.djini.core.tool.Risk
+import com.wangzan101.djini.core.tool.ToolContext
+import com.wangzan101.djini.core.tool.ToolDef
+import com.wangzan101.djini.core.tool.ToolExecution
+import com.wangzan101.djini.core.tool.Verb
+import com.wangzan101.djini.core.tool.bool
+import com.wangzan101.djini.core.tool.int
+import com.wangzan101.djini.core.tool.okObj
+import com.wangzan101.djini.core.tool.str
+import com.wangzan101.djini.core.tool.strArray
+import com.wangzan101.djini.core.trigger.ConditionNotify
+import com.wangzan101.djini.core.trigger.PlanRepeat
+import com.wangzan101.djini.core.trigger.PlanValidationException
+import com.wangzan101.djini.core.trigger.TriggerDefinition
+import com.wangzan101.djini.core.trigger.editedTrigger
+import com.wangzan101.djini.core.trigger.nextCalendarAt
+import com.wangzan101.djini.core.trigger.normalizedCalendarTimes
+import com.wangzan101.djini.core.trigger.toPlanDraft
+import com.wangzan101.djini.core.trigger.upcoming
 import java.time.Instant
 import java.time.ZoneId
 import java.util.UUID
@@ -174,10 +174,10 @@ internal object ScheduleTask : AgentTool {
             if (!saved.onTime) {
                 put("exactAlarm", false)
                 put("userNotified", saved.userNotified)
-                put("message", "Saved, but the phone has not granted Mika the alarms & reminders permission, so this task may run late or not start at all. " +
-                    (if (saved.userNotified) "Mika has just shown the user a notification that opens the setting. "
+                put("message", "Saved, but the phone has not granted Djini the alarms & reminders permission, so this task may run late or not start at all. " +
+                    (if (saved.userNotified) "Djini has just shown the user a notification that opens the setting. "
                     else "The user has not been shown a prompt for it this time. ") +
-                    "Tell the user plainly that scheduled tasks need this permission and that it can be turned on from Mika's scheduled tasks page.")
+                    "Tell the user plainly that scheduled tasks need this permission and that it can be turned on from Djini's scheduled tasks page.")
             }
         })
     }

@@ -1,6 +1,6 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.ui.theme.LocalSkinBackdrop
+import com.wangzan101.djini.ui.theme.LocalSkinBackdrop
 import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -31,13 +31,13 @@ import androidx.compose.ui.text.style.TextDirection
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.calls.*
-import com.wangzan101.mika.ui.components.*
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaShapes
-import com.wangzan101.mika.ui.theme.MikaSpace
-import com.wangzan101.mika.ui.theme.MikaTheme
+import com.wangzan101.djini.R
+import com.wangzan101.djini.calls.*
+import com.wangzan101.djini.ui.components.*
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.MikaSpace
+import com.wangzan101.djini.ui.theme.DjiniTheme
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -375,10 +375,10 @@ private enum class CallWorkspaceTab(val label: Int) {
 @Composable
 private fun CallWorkspaceTabs(selected: CallWorkspaceTab, onSelect: (CallWorkspaceTab) -> Unit) {
     // 页面底有背景图片时标签栏透出它,不留一条纯色
-    val tabBg = if (LocalSkinBackdrop.current != null) Color.Transparent else MikaTheme.colors.bg
+    val tabBg = if (LocalSkinBackdrop.current != null) Color.Transparent else DjiniTheme.colors.bg
     val visibleTabs = CallWorkspaceTab.entries.filterNot { it == CallWorkspaceTab.History }
     TabRow(selectedTabIndex = if (selected == CallWorkspaceTab.History) visibleTabs.indexOf(CallWorkspaceTab.Settings) else selected.ordinal,
-        containerColor = tabBg, contentColor = MikaTheme.colors.accent) {
+        containerColor = tabBg, contentColor = DjiniTheme.colors.accent) {
         visibleTabs.forEach { tab ->
             Tab(
                 selected = tab == selected || selected == CallWorkspaceTab.History && tab == CallWorkspaceTab.Settings,
@@ -396,7 +396,7 @@ private fun CallWorkspaceTabs(selected: CallWorkspaceTab, onSelect: (CallWorkspa
 @Composable
 internal fun CallFeedback(result: CallActionResult) {
     FooterNote(result.message, Modifier.semantics { liveRegion = LiveRegionMode.Polite },
-        color = if (result.ok) MikaTheme.colors.ink3 else MaterialTheme.colorScheme.error)
+        color = if (result.ok) DjiniTheme.colors.ink3 else MaterialTheme.colorScheme.error)
 }
 
 @Composable
@@ -466,12 +466,12 @@ internal fun CurrentCallCard(
                     val direction = state.direction?.let { directionLabel(it) }
                     val subtitle = listOfNotNull(direction, party).joinToString(" · ")
                     if (subtitle.isNotBlank()) Text(subtitle, style = MaterialTheme.typography.bodySmall,
-                        color = MikaTheme.colors.ink3, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                        color = DjiniTheme.colors.ink3, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 }
                 if (state.aiActive || state.liveTranscript.isNotEmpty()) {
                     IconButton(onClick = onTranscript, modifier = Modifier.testTag("call-current-transcript")) {
                         Icon(MikaIcons.Message, contentDescription = stringResource(R.string.calls_live_transcript),
-                            tint = MikaTheme.colors.accent)
+                            tint = DjiniTheme.colors.accent)
                     }
                 }
             }
@@ -479,9 +479,9 @@ internal fun CurrentCallCard(
                 Row(Modifier.fillMaxWidth().testTag("call-current-latest"),
                     horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
                     Text(stringResource(callTranscriptSpeakerLabel(latest.role)),
-                        style = MaterialTheme.typography.bodySmall, color = MikaTheme.colors.ink3,
+                        style = MaterialTheme.typography.bodySmall, color = DjiniTheme.colors.ink3,
                         maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.widthIn(max = 80.dp))
-                    Text(latest.text, style = MaterialTheme.typography.bodySmall, color = MikaTheme.colors.ink2,
+                    Text(latest.text, style = MaterialTheme.typography.bodySmall, color = DjiniTheme.colors.ink2,
                         maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f))
                 }
             }
@@ -497,7 +497,7 @@ internal fun CurrentCallCard(
                         Button(onClick = action.second, enabled = if (cancelManual || showTakeover) canControl else canAnswer,
                             modifier = Modifier.weight(1.25f).heightIn(min = 48.dp).testTag(action.third),
                             shape = MikaShapes.Button, contentPadding = PaddingValues(horizontal = 7.dp, vertical = 6.dp),
-                            colors = ButtonDefaults.buttonColors(containerColor = MikaTheme.colors.accent, contentColor = MikaTheme.colors.onAccent),
+                            colors = ButtonDefaults.buttonColors(containerColor = DjiniTheme.colors.accent, contentColor = DjiniTheme.colors.onAccent),
                         ) { Text(stringResource(action.first), textAlign = TextAlign.Center) }
                     }
                     if (cancelAuto) OutlinedButton(onClick = onCancelAuto, enabled = canControl,
@@ -508,7 +508,7 @@ internal fun CurrentCallCard(
                         modifier = Modifier.weight(.85f).heightIn(min = 48.dp).testTag("call-hangup"),
                         contentPadding = PaddingValues(horizontal = 4.dp, vertical = 6.dp),
                     ) { Text(stringResource(R.string.calls_hangup), textAlign = TextAlign.Center,
-                        color = if (canControl) MaterialTheme.colorScheme.error else MikaTheme.colors.ink3) }
+                        color = if (canControl) MaterialTheme.colorScheme.error else DjiniTheme.colors.ink3) }
                 }
             }
             if (canUseKeypad) TextButton(
@@ -523,7 +523,7 @@ internal fun CurrentCallCard(
             feedback?.let {
                 Text(it.message, Modifier.semantics { liveRegion = LiveRegionMode.Polite },
                     style = MaterialTheme.typography.bodySmall, maxLines = 2, overflow = TextOverflow.Ellipsis,
-                    color = if (it.ok) MikaTheme.colors.ink3 else MaterialTheme.colorScheme.error)
+                    color = if (it.ok) DjiniTheme.colors.ink3 else MaterialTheme.colorScheme.error)
             }
         }
     }
@@ -539,7 +539,7 @@ internal fun LiveCallTranscript(callId: String?, lines: List<CallTranscriptLine>
         }
     }
     if (lines.isEmpty()) {
-        Text(stringResource(R.string.calls_live_waiting), style = MaterialTheme.typography.bodySmall, color = MikaTheme.colors.ink3)
+        Text(stringResource(R.string.calls_live_waiting), style = MaterialTheme.typography.bodySmall, color = DjiniTheme.colors.ink3)
     } else Column(Modifier.testTag("call-live-transcript"), verticalArrangement = Arrangement.spacedBy(6.dp)) {
         (if (expanded) lines else lines.takeLast(3)).forEach { line ->
             CallTranscriptText(line)
@@ -579,7 +579,7 @@ private fun CallReceivePage(
             })
             Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(3.dp)) {
                 Text(autoLabel, style = MaterialTheme.typography.titleMedium)
-                Text(autoAnswerSummary(config, state), style = MaterialTheme.typography.bodySmall, color = MikaTheme.colors.ink3)
+                Text(autoAnswerSummary(config, state), style = MaterialTheme.typography.bodySmall, color = DjiniTheme.colors.ink3)
             }
             MikaSwitch(
                 config.autoAnswer, onToggle,
@@ -712,7 +712,7 @@ private fun CallPreferencesPage(
                 Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
                     Text(stringResource(R.string.calls_audio_verified), style = MaterialTheme.typography.bodyMedium)
                     if (!config.audioVerified) Text(stringResource(R.string.calls_verify_note),
-                        style = MaterialTheme.typography.bodySmall, color = MikaTheme.colors.ink3)
+                        style = MaterialTheme.typography.bodySmall, color = DjiniTheme.colors.ink3)
                 }
             }
             state.audioDetail?.let { FooterNote(it) }
@@ -748,7 +748,7 @@ private fun CallPreferencesPage(
             Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 Text(stringResource(R.string.calls_summary_enable), style = MaterialTheme.typography.bodyMedium)
                 Text(stringResource(R.string.calls_summary_cloud_consent), style = MaterialTheme.typography.bodySmall,
-                    color = MikaTheme.colors.ink3)
+                    color = DjiniTheme.colors.ink3)
             }
             Switch(config.summaryEnabled, onCheckedChange = null, enabled = canConfigure,
                 modifier = Modifier.testTag("call-summary-enabled"))
@@ -809,7 +809,7 @@ private fun CallReadinessActions(
                 ready -> stringResource(R.string.calls_limits, config.maxCallSeconds)
                 else -> stringResource(R.string.calls_needs_setup)
             },
-            style = MaterialTheme.typography.bodySmall, color = MikaTheme.colors.ink3,
+            style = MaterialTheme.typography.bodySmall, color = DjiniTheme.colors.ink3,
         )
         if (canPrepare && state.prepared && (!profile.credentialsConfigured || !profile.connectionTested)) {
             CallPrimaryButton(stringResource(R.string.calls_voice_setup), enabled, onCredentials)
@@ -882,7 +882,7 @@ internal fun CallFoldRow(
         IconTile(icon)
         Column(Modifier.weight(1f)) {
             Text(title, style = MaterialTheme.typography.bodyLarge)
-            subtitle?.let { Text(it, style = MaterialTheme.typography.bodySmall, color = MikaTheme.colors.ink3) }
+            subtitle?.let { Text(it, style = MaterialTheme.typography.bodySmall, color = DjiniTheme.colors.ink3) }
         }
         CallExpandIcon(expanded)
     }
@@ -891,7 +891,7 @@ internal fun CallFoldRow(
 @Composable
 internal fun CallExpandIcon(expanded: Boolean) {
     Icon(
-        MikaIcons.Chevron, null, Modifier.size(16.dp).rotate(if (expanded) -90f else 90f), tint = MikaTheme.colors.ink3,
+        MikaIcons.Chevron, null, Modifier.size(16.dp).rotate(if (expanded) -90f else 90f), tint = DjiniTheme.colors.ink3,
     )
 }
 
@@ -900,7 +900,7 @@ internal fun CallPrimaryButton(text: String, enabled: Boolean, onClick: () -> Un
     Button(
         onClick = onClick, enabled = enabled, modifier = modifier.fillMaxWidth().heightIn(min = 48.dp),
         shape = MikaShapes.Button,
-        colors = ButtonDefaults.buttonColors(containerColor = MikaTheme.colors.accent, contentColor = MikaTheme.colors.onAccent),
+        colors = ButtonDefaults.buttonColors(containerColor = DjiniTheme.colors.accent, contentColor = DjiniTheme.colors.onAccent),
     ) { Text(text) }
 }
 

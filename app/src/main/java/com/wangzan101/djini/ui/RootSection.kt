@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -13,22 +13,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
-import com.wangzan101.mika.R
-import com.wangzan101.mika.cap.phone.PhoneServices
-import com.wangzan101.mika.cap.phone.setup.RootControl
-import com.wangzan101.mika.core.shell.RootGrant
-import com.wangzan101.mika.ui.components.FooterNote
-import com.wangzan101.mika.ui.components.GroupCard
-import com.wangzan101.mika.ui.components.GroupLabel
-import com.wangzan101.mika.ui.components.ListRow
-import com.wangzan101.mika.ui.components.MikaDialog
-import com.wangzan101.mika.ui.components.MikaSwitch
-import com.wangzan101.mika.ui.components.PageScaffold
-import com.wangzan101.mika.ui.components.RowValue
-import com.wangzan101.mika.ui.components.TileTone
-import com.wangzan101.mika.ui.components.ValueTone
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaTheme
+import com.wangzan101.djini.R
+import com.wangzan101.djini.cap.phone.PhoneServices
+import com.wangzan101.djini.cap.phone.setup.RootControl
+import com.wangzan101.djini.core.shell.RootGrant
+import com.wangzan101.djini.ui.components.FooterNote
+import com.wangzan101.djini.ui.components.GroupCard
+import com.wangzan101.djini.ui.components.GroupLabel
+import com.wangzan101.djini.ui.components.ListRow
+import com.wangzan101.djini.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.MikaSwitch
+import com.wangzan101.djini.ui.components.PageScaffold
+import com.wangzan101.djini.ui.components.RowValue
+import com.wangzan101.djini.ui.components.TileTone
+import com.wangzan101.djini.ui.components.ValueTone
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniTheme
 
 /** 设置 › 高级与其他 › Root。只有高级页检测到 su 才能进入;打开时再刷新一次能力。 */
 @Composable
@@ -90,7 +90,7 @@ fun RootSection(
             title = { Text(PhoneSetupCopy.ROOT_COMMANDS_TITLE) },
             text = { Text(PhoneSetupCopy.ROOT_COMMANDS_WARNING) },
             confirmButton = {
-                TextButton({ warn = false; onCommands(true) }) { Text(PhoneSetupCopy.ROOT_COMMANDS_CONFIRM, color = MikaTheme.colors.bad) }
+                TextButton({ warn = false; onCommands(true) }) { Text(PhoneSetupCopy.ROOT_COMMANDS_CONFIRM, color = DjiniTheme.colors.bad) }
             },
             dismissButton = { TextButton({ warn = false }) { Text(stringResource(R.string.cancel)) } },
         )

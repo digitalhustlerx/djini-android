@@ -1,7 +1,7 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.Part
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.Part
 
 /** 一次请求里去掉每步接在末尾的运行时状态,便于按旧的位置看工具结果与提示。 */
 internal fun List<Message>.withoutRuntime(): List<Message> = map(ContextBuilder::withoutRuntimeState).filter { it.parts.isNotEmpty() }
@@ -18,4 +18,4 @@ internal fun List<Message>.contextBodies(vararg kinds: ContextKind): List<String
 /** 一次请求里的运行时状态正文,按出现顺序。 */
 internal fun List<Message>.runtimeStates(): List<String> = flatMap { it.parts }.filterIsInstance<Part.Text>()
     .filter { ContextBuilder.kindOf(it.text) == ContextKind.RuntimeState }
-    .map { ContextBuilder.bodyOf(com.wangzan101.mika.core.model.Message(com.wangzan101.mika.core.model.Role.User, listOf(it), com.wangzan101.mika.core.model.Author.Mika))!! }
+    .map { ContextBuilder.bodyOf(com.wangzan101.djini.core.model.Message(com.wangzan101.djini.core.model.Role.User, listOf(it), com.wangzan101.djini.core.model.Author.Djini))!! }

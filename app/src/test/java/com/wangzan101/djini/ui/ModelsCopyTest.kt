@@ -1,15 +1,15 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import org.junit.Rule
-import com.wangzan101.mika.i18n.ChineseTexts
-import com.wangzan101.mika.core.model.Capabilities
-import com.wangzan101.mika.core.model.ListedModel
-import com.wangzan101.mika.core.model.ModelRole
-import com.wangzan101.mika.settings.Provider
-import com.wangzan101.mika.settings.ProviderConfig
-import com.wangzan101.mika.settings.ProviderPresets
-import com.wangzan101.mika.settings.RoleChoice
-import com.wangzan101.mika.settings.RoleChoices
+import com.wangzan101.djini.i18n.ChineseTexts
+import com.wangzan101.djini.core.model.Capabilities
+import com.wangzan101.djini.core.model.ListedModel
+import com.wangzan101.djini.core.model.ModelRole
+import com.wangzan101.djini.settings.Provider
+import com.wangzan101.djini.settings.ProviderConfig
+import com.wangzan101.djini.settings.ProviderPresets
+import com.wangzan101.djini.settings.RoleChoice
+import com.wangzan101.djini.settings.RoleChoices
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue

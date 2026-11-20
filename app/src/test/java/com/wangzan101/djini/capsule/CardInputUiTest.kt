@@ -1,7 +1,7 @@
-package com.wangzan101.mika.capsule
+package com.wangzan101.djini.capsule
 
-import com.wangzan101.mika.core.userscreen.CapturedScreen
-import com.wangzan101.mika.core.userscreen.UserScreen
+import com.wangzan101.djini.core.userscreen.CapturedScreen
+import com.wangzan101.djini.core.userscreen.UserScreen
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull

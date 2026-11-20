@@ -1,12 +1,12 @@
-package com.wangzan101.mika.chat
+package com.wangzan101.djini.chat
 
 import android.content.Context
-import com.wangzan101.mika.cap.sandbox.SandboxDirs
-import com.wangzan101.mika.cap.sandbox.WorkspaceKey
-import com.wangzan101.mika.core.userscreen.CapturedScreen
-import com.wangzan101.mika.core.userscreen.UserScreen
-import com.wangzan101.mika.core.userscreen.UserScreenJson
-import com.wangzan101.mika.core.userscreen.UserScreenSource
+import com.wangzan101.djini.cap.sandbox.SandboxDirs
+import com.wangzan101.djini.cap.sandbox.WorkspaceKey
+import com.wangzan101.djini.core.userscreen.CapturedScreen
+import com.wangzan101.djini.core.userscreen.UserScreen
+import com.wangzan101.djini.core.userscreen.UserScreenJson
+import com.wangzan101.djini.core.userscreen.UserScreenSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.UUID

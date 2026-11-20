@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.shell
+package com.wangzan101.djini.core.shell
 
 /** 从系统配对窗口上读到的配对码和端口;没读到或有歧义时为 null。 */
 data class PairingScreenReading(val code: String?, val port: Int?)

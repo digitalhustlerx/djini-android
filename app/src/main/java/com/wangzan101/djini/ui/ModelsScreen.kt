@@ -1,14 +1,14 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.R
-import com.wangzan101.mika.core.oauth.AccountSignInException
-import com.wangzan101.mika.core.oauth.AccountSignInFailure
-import com.wangzan101.mika.core.usage.TokenBudgetLimits
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.i18n.trPlural
+import com.wangzan101.djini.R
+import com.wangzan101.djini.core.oauth.AccountSignInException
+import com.wangzan101.djini.core.oauth.AccountSignInFailure
+import com.wangzan101.djini.core.usage.TokenBudgetLimits
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.i18n.trPlural
 import androidx.compose.ui.res.stringResource
-import com.wangzan101.mika.ui.components.keepsKeyboard
-import com.wangzan101.mika.ui.components.KeyboardDismissArea
+import com.wangzan101.djini.ui.components.keepsKeyboard
+import com.wangzan101.djini.ui.components.KeyboardDismissArea
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -31,7 +31,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
-import com.wangzan101.mika.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.MikaDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
@@ -56,46 +56,46 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.wangzan101.mika.core.chatgpt.SignInFailure
-import com.wangzan101.mika.core.model.ApiKeyText
-import com.wangzan101.mika.core.model.ModelRole
-import com.wangzan101.mika.settings.ModelOption
-import com.wangzan101.mika.settings.ModelOptions
-import com.wangzan101.mika.settings.Provider
-import com.wangzan101.mika.settings.ProviderConfig
-import com.wangzan101.mika.settings.ProviderPresets
-import com.wangzan101.mika.settings.ProviderStore
-import com.wangzan101.mika.settings.RoleChoice
-import com.wangzan101.mika.ui.components.BarIconButton
-import com.wangzan101.mika.ui.components.ButtonKind
-import com.wangzan101.mika.ui.components.ButtonSize
-import com.wangzan101.mika.ui.components.MikaButton
-import com.wangzan101.mika.ui.components.MikaSwitch
-import com.wangzan101.mika.ui.components.FieldClearButton
-import com.wangzan101.mika.ui.components.FooterNote
-import com.wangzan101.mika.ui.components.GroupCard
-import com.wangzan101.mika.ui.components.GroupLabel
-import com.wangzan101.mika.ui.components.Hairline
-import com.wangzan101.mika.ui.components.InputRow
-import com.wangzan101.mika.ui.components.ListRow
-import com.wangzan101.mika.ui.components.PageBackground
-import com.wangzan101.mika.ui.components.PillTone
-import com.wangzan101.mika.ui.components.RadioRow
-import com.wangzan101.mika.ui.components.RowChevron
-import com.wangzan101.mika.ui.components.RowValue
-import com.wangzan101.mika.ui.components.SearchField
-import com.wangzan101.mika.ui.components.StatusPill
-import com.wangzan101.mika.ui.components.TileTone
-import com.wangzan101.mika.ui.components.TopBar
-import com.wangzan101.mika.ui.components.ValueTone
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaRadius
-import com.wangzan101.mika.ui.theme.MikaShapes
-import com.wangzan101.mika.ui.theme.MikaSize
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
-import com.wangzan101.mika.voice.SpeechChoice
-import com.wangzan101.mika.voice.SpeechOptions
+import com.wangzan101.djini.core.chatgpt.SignInFailure
+import com.wangzan101.djini.core.model.ApiKeyText
+import com.wangzan101.djini.core.model.ModelRole
+import com.wangzan101.djini.settings.ModelOption
+import com.wangzan101.djini.settings.ModelOptions
+import com.wangzan101.djini.settings.Provider
+import com.wangzan101.djini.settings.ProviderConfig
+import com.wangzan101.djini.settings.ProviderPresets
+import com.wangzan101.djini.settings.ProviderStore
+import com.wangzan101.djini.settings.RoleChoice
+import com.wangzan101.djini.ui.components.BarIconButton
+import com.wangzan101.djini.ui.components.ButtonKind
+import com.wangzan101.djini.ui.components.ButtonSize
+import com.wangzan101.djini.ui.components.MikaButton
+import com.wangzan101.djini.ui.components.MikaSwitch
+import com.wangzan101.djini.ui.components.FieldClearButton
+import com.wangzan101.djini.ui.components.FooterNote
+import com.wangzan101.djini.ui.components.GroupCard
+import com.wangzan101.djini.ui.components.GroupLabel
+import com.wangzan101.djini.ui.components.Hairline
+import com.wangzan101.djini.ui.components.InputRow
+import com.wangzan101.djini.ui.components.ListRow
+import com.wangzan101.djini.ui.components.PageBackground
+import com.wangzan101.djini.ui.components.PillTone
+import com.wangzan101.djini.ui.components.RadioRow
+import com.wangzan101.djini.ui.components.RowChevron
+import com.wangzan101.djini.ui.components.RowValue
+import com.wangzan101.djini.ui.components.SearchField
+import com.wangzan101.djini.ui.components.StatusPill
+import com.wangzan101.djini.ui.components.TileTone
+import com.wangzan101.djini.ui.components.TopBar
+import com.wangzan101.djini.ui.components.ValueTone
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.MikaRadius
+import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.MikaSize
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.voice.SpeechChoice
+import com.wangzan101.djini.voice.SpeechOptions
 
 /** 设置 › 模型:和上手时的配置模型是同一页([ModelSetupScreen]),不在引导流程里。 */
 @Composable
@@ -128,7 +128,7 @@ internal fun Page(title: String, onBack: () -> Unit, content: @Composable () -> 
 /** 用途卡:大图标块、「名字 · 做什么」、选了什么(模型名用等宽字)、说明。 */
 @Composable
 internal fun RoleCard(icon: ImageVector, label: String, line: ModelsCopy.RoleLine, first: Boolean = false, tag: String, onClick: () -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Column {
         if (!first) Hairline(start = 0.dp)
         Row(
@@ -162,7 +162,7 @@ private val RoleTileShape = MikaShapes.Chip
 /** 服务商一行:左边是名字首字的图标块;[warning] 是要提醒的一句(用提醒色另起一行)。 */
 @Composable
 internal fun ProviderRow(p: Provider, line: String, first: Boolean, warning: String? = null, onClick: () -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Column {
         if (!first) Hairline()
         Row(
@@ -174,7 +174,7 @@ internal fun ProviderRow(p: Provider, line: String, first: Boolean, warning: Str
             }
             Column(Modifier.weight(1f)) {
                 Text(ModelsCopy.providerName(p), style = MikaType.Body, color = c.ink, maxLines = 1)
-                val poolCount = com.wangzan101.mika.core.model.KeyPoolManager.shared.keyCount(p.id)
+                val poolCount = com.wangzan101.djini.core.model.KeyPoolManager.shared.keyCount(p.id)
                 val poolTag = if (poolCount > 1) " · Key Pool ($poolCount keys)" else ""
                 Text(line + poolTag, Modifier.padding(top = 2.dp), style = MikaType.Caption, color = if (poolCount > 1) c.ok else c.ink3)
                 warning?.let { Text(it, Modifier.padding(top = 2.dp).testTag("provider-warning-${p.name}"), style = MikaType.Caption, color = c.warn) }
@@ -214,7 +214,7 @@ fun RolePickerContent(ui: ModelSetupUi, role: ModelRole, actions: RolePickerActi
     exclude: ((String, String) -> Boolean)? = null,
     clearAction: (() -> Unit)? = null, clearSelected: Boolean = false,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     var filter by rememberSaveable { mutableStateOf("") }
     val groups = ui.providers.map { it to ui.options(it) }
     val total = groups.sumOf { it.second.size }
@@ -293,7 +293,7 @@ internal fun ManualModel(p: Provider, state: ListState?, first: Boolean, onUse: 
     InputRow(ModelsCopy.MODEL_NAME, name, { name = it }, example, first = first, modifier = Modifier.testTag("manual-model")) {
         Text(
             if (running) ModelSetupCopy.TESTING else ModelsCopy.USE, Modifier.clickable(enabled = enabled) { onUse(name.trim()) }.testTag("manual-model-use"),
-            style = MikaType.Label, color = if (enabled) MikaTheme.colors.accent else MikaTheme.colors.ink3,
+            style = MikaType.Label, color = if (enabled) DjiniTheme.colors.accent else DjiniTheme.colors.ink3,
         )
     }
 }
@@ -335,7 +335,7 @@ class ProviderDetailActions(
  */
 @Composable
 fun ProviderDetailContent(ui: ModelSetupUi, p: Provider, actions: ProviderDetailActions, onBack: () -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     var changingKey by remember { mutableStateOf(false) }
     var addingKey by remember { mutableStateOf(false) }
     var showKeys by remember { mutableStateOf(false) }
@@ -509,7 +509,7 @@ fun ProviderDetailContent(ui: ModelSetupUi, p: Provider, actions: ProviderDetail
         var key by remember { mutableStateOf("") }
         var notice by remember { mutableStateOf(ApiKeyText.Notice.None) }
         val blocked = notice == ApiKeyText.Notice.IllegalCharacters
-        val parsedKeys = remember(key) { com.wangzan101.mika.core.model.KeyPoolManager.shared.parseKeys(key) }
+        val parsedKeys = remember(key) { com.wangzan101.djini.core.model.KeyPoolManager.shared.parseKeys(key) }
         MikaDialog(
             onDismissRequest = { changingKey = false },
             title = { Text(ModelsCopy.CHANGE_KEY) },
@@ -563,7 +563,7 @@ fun ProviderDetailContent(ui: ModelSetupUi, p: Provider, actions: ProviderDetail
             confirmButton = {
                 TextButton(
                     onClick = {
-                        val parsed = com.wangzan101.mika.core.model.KeyPoolManager.shared.parseKeys(key.trim())
+                        val parsed = com.wangzan101.djini.core.model.KeyPoolManager.shared.parseKeys(key.trim())
                         if (blocked || parsed.isEmpty() || !parsed.all { ApiKeyText.isHeaderLegal(it) }) return@TextButton
                         changingKey = false
                         actions.changeKey(key)
@@ -579,7 +579,7 @@ fun ProviderDetailContent(ui: ModelSetupUi, p: Provider, actions: ProviderDetail
         var showAddKey by remember { mutableStateOf(false) }
         var notice by remember { mutableStateOf(ApiKeyText.Notice.None) }
         val blocked = notice == ApiKeyText.Notice.IllegalCharacters
-        val parsedAdding = remember(newKeyText) { com.wangzan101.mika.core.model.KeyPoolManager.shared.parseKeys(newKeyText) }
+        val parsedAdding = remember(newKeyText) { com.wangzan101.djini.core.model.KeyPoolManager.shared.parseKeys(newKeyText) }
         MikaDialog(
             onDismissRequest = { addingKey = false },
             title = {
@@ -654,7 +654,7 @@ fun ProviderDetailContent(ui: ModelSetupUi, p: Provider, actions: ProviderDetail
             confirmButton = {
                 TextButton(
                     onClick = {
-                        val parsed = com.wangzan101.mika.core.model.KeyPoolManager.shared.parseKeys(newKeyText.trim())
+                        val parsed = com.wangzan101.djini.core.model.KeyPoolManager.shared.parseKeys(newKeyText.trim())
                         if (blocked || parsed.isEmpty() || !parsed.all { ApiKeyText.isHeaderLegal(it) }) return@TextButton
                         addingKey = false
                         actions.addKey(newKeyText.trim())
@@ -687,7 +687,7 @@ fun ProviderDetailContent(ui: ModelSetupUi, p: Provider, actions: ProviderDetail
  */
 @Composable
 private fun ChatGptConnection(ui: ModelSetupUi, state: ListState?, actions: ProviderDetailActions) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val account = ui.chatGptAccount
     val signedIn = account?.signedIn == true
     GroupCard {
@@ -721,7 +721,7 @@ private fun ChatGptConnection(ui: ModelSetupUi, state: ListState?, actions: Prov
  */
 @Composable
 private fun AccountConnection(ui: ModelSetupUi, p: Provider, state: ListState?, actions: ProviderDetailActions) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val kind = if (p.kind == ProviderConfig.Kind.Xai) SignInKind.Xai else SignInKind.OpenRouter
     val account = if (kind == SignInKind.Xai) ui.xaiAccount else ui.openRouterAccount
     val signedIn = account?.signedIn == true
@@ -761,7 +761,7 @@ private fun AccountConnection(ui: ModelSetupUi, p: Provider, state: ListState?, 
  */
 @Composable
 fun AllModelsContent(ui: ModelSetupUi, p: Provider, actions: ProviderDetailActions, onBack: () -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     var filter by rememberSaveable { mutableStateOf("") }
     var using by remember { mutableStateOf<ModelOption?>(null) }
     val state = ui.listing[p.id]
@@ -816,7 +816,7 @@ private fun ModelRow(o: ModelOption, roles: List<ModelRole>, first: Boolean, onC
             verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             Column(Modifier.weight(1f)) {
-                Text(o.id, style = ModelIdStyle, color = MikaTheme.colors.ink, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                Text(o.id, style = ModelIdStyle, color = DjiniTheme.colors.ink, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 Box(Modifier.padding(top = 4.dp)) { Tags(o, accent = false) }
             }
             roles.forEach { StatusPill(ModelsCopy.roleName(it), PillTone.Accent) }
@@ -832,7 +832,7 @@ private fun ModelRow(o: ModelOption, roles: List<ModelRole>, first: Boolean, onC
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun UseAsSheet(ui: ModelSetupUi, p: Provider, model: String, onUse: (ModelRole) -> Unit, onVision: (Boolean) -> Unit, onDismiss: () -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     ModalBottomSheet(onDismissRequest = onDismiss, sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true), containerColor = c.surface, shape = MikaShapes.SheetTop) {
         Column(Modifier.fillMaxWidth().navigationBarsPadding().padding(bottom = 8.dp).testTag("use-as")) {
             Text(model, Modifier.padding(horizontal = 16.dp), style = ModelIdStyle, color = c.ink, maxLines = 2, overflow = TextOverflow.Ellipsis)

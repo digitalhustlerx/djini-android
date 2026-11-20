@@ -1,21 +1,21 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
-import com.wangzan101.mika.core.model.ChatModel
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.ModelReply
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.StopReason
-import com.wangzan101.mika.core.model.ToolSpec
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.record.RunSink
-import com.wangzan101.mika.core.uistate.ScreenSnapshot
-import com.wangzan101.mika.core.uistate.UiElement
-import com.wangzan101.mika.core.tool.FakeScreen
+import com.wangzan101.djini.core.model.ChatModel
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.ModelReply
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.StopReason
+import com.wangzan101.djini.core.model.ToolSpec
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.record.RunSink
+import com.wangzan101.djini.core.uistate.ScreenSnapshot
+import com.wangzan101.djini.core.uistate.UiElement
+import com.wangzan101.djini.core.tool.FakeScreen
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import com.wangzan101.mika.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.assembly.toolDispatcher
 
 private class Named(override val name: String, private val inner: FakeModel) : ChatModel by inner {
     val requests get() = inner.requests
@@ -30,10 +30,10 @@ private class Events : RunSink {
 private var seq = 0
 private fun call(name: String, args: String = "{}") = Part.ToolCall("l${++seq}", name, args)
 private fun tools(vararg calls: Part.ToolCall) = ModelReply(calls.toList(), StopReason.ToolUse, null)
-private fun finish() = com.wangzan101.mika.core.testing.answerReply("done")
+private fun finish() = com.wangzan101.djini.core.testing.answerReply("done")
 
 /** 屏上有一个操作按钮;每次读取另有新序号,路由测试不会被无新数据收尾打断。 */
-private class SendScreen(private val label: String = "发送", private val inner: FakeScreen = FakeScreen()) : com.wangzan101.mika.core.uistate.ScreenPort by inner {
+private class SendScreen(private val label: String = "发送", private val inner: FakeScreen = FakeScreen()) : com.wangzan101.djini.core.uistate.ScreenPort by inner {
     private var reads = 0
     override suspend fun snapshot() = ScreenSnapshot("s1", "com.x",
         listOf(
@@ -45,7 +45,7 @@ private class SendScreen(private val label: String = "发送", private val inner
 class AgentLoopLightTest {
     private val on = SpeedFlags(lightSteps = true)
 
-    private fun loop(main: ChatModel, light: ChatModel, sink: RunSink = RunSink.NONE, screen: com.wangzan101.mika.core.uistate.ScreenPort = FakeScreen()) =
+    private fun loop(main: ChatModel, light: ChatModel, sink: RunSink = RunSink.NONE, screen: com.wangzan101.djini.core.uistate.ScreenPort = FakeScreen()) =
         AgentLoop(main, toolDispatcher(screen), "BASE", sink = sink, flags = on, router = ModelRouter(main, light))
 
     @Test fun cleanStepsGoToLightAndAreRecorded() = runTest {
@@ -66,7 +66,7 @@ class AgentLoopLightTest {
     // 不带调用的回复是最终回答,只由主模型给:轻量模型这样回就改问主模型
     @Test fun lightAnswerIsAskedAgainOfMain() = runTest {
         val main = Named("main", FakeModel(tools(call("phone_observe")), tools(call("phone_observe")), finish()))
-        val light = Named("light", FakeModel(com.wangzan101.mika.core.testing.answerReply("LIGHT_ANSWER")))
+        val light = Named("light", FakeModel(com.wangzan101.djini.core.testing.answerReply("LIGHT_ANSWER")))
         val sink = Events()
         val r = loop(main, light, sink).run("t")
         assertTrue(r is TaskState.Succeeded)
@@ -105,8 +105,8 @@ class AgentLoopLightTest {
 
     @Test fun permanentLightErrorsTurnRoutingOffIncludingTheDailyBudget() = runTest {
         for (error in listOf(
-            com.wangzan101.mika.core.model.ModelError.Auth(),
-            com.wangzan101.mika.core.model.ModelError.DailyBudgetExceeded("轻量服务商", 10_000, 10_000),
+            com.wangzan101.djini.core.model.ModelError.Auth(),
+            com.wangzan101.djini.core.model.ModelError.DailyBudgetExceeded("轻量服务商", 10_000, 10_000),
         )) {
             val main = Named("main", FakeModel(*Array(6) { tools(call("phone_observe")) }, finish()))
             val light = Named("light", FakeModel(error))
@@ -120,7 +120,7 @@ class AgentLoopLightTest {
 
     @Test fun taskBudgetExhaustionDoesNotFallBackFromLightToMain() = runTest {
         val main = Named("main", FakeModel(tools(call("phone_observe")), tools(call("phone_observe")), finish()))
-        val light = Named("light", FakeModel(com.wangzan101.mika.core.model.ModelError.TaskBudgetExceeded(5, 5)))
+        val light = Named("light", FakeModel(com.wangzan101.djini.core.model.ModelError.TaskBudgetExceeded(5, 5)))
         val end = loop(main, light).run("t")
         assertTrue("$end", end is TaskState.Failed && end.kind == FailKind.TokenLimit)
         assertEquals(1, light.requests.size)
@@ -135,10 +135,10 @@ class AgentLoopLightTest {
         val light = Named("light", FakeModel(ModelReply(listOf(Part.Thinking("tl"), theirs), StopReason.ToolUse, null), finish()))
         loop(main, light).run("t")
         // 第 3 步轻量模型;第 4 步它要交结果,改问主模型:轻量模型那条去掉思考和私有数据,主模型自己的原样
-        val toMain = main.requests[2].filter { it.role == com.wangzan101.mika.core.model.Role.Assistant }.flatMap { it.parts }
+        val toMain = main.requests[2].filter { it.role == com.wangzan101.djini.core.model.Role.Assistant }.flatMap { it.parts }
         assertTrue(mine in toMain && Part.Thinking("tm") in toMain)
         assertTrue(theirs.copy(opaque = null) in toMain && Part.Thinking("tl") !in toMain)
-        val toLight = light.requests.first().filter { it.role == com.wangzan101.mika.core.model.Role.Assistant }.flatMap { it.parts }
+        val toLight = light.requests.first().filter { it.role == com.wangzan101.djini.core.model.Role.Assistant }.flatMap { it.parts }
         assertTrue(mine.copy(opaque = null) in toLight && toLight.none { it is Part.Thinking })
     }
 
@@ -167,7 +167,7 @@ class AgentLoopLightTest {
 
     @Test fun lightErrorFallsBackToMain() = runTest {
         val main = Named("main", FakeModel(tools(call("phone_observe")), tools(call("phone_observe")), finish()))
-        val light = Named("light", FakeModel(com.wangzan101.mika.core.model.ModelError.Network()))
+        val light = Named("light", FakeModel(com.wangzan101.djini.core.model.ModelError.Network()))
         val r = loop(main, light).run("t")
         assertTrue(r is TaskState.Succeeded)
         // 轻量模型出错不重试,这一步直接改问主模型
@@ -177,7 +177,7 @@ class AgentLoopLightTest {
 
     @Test fun light503FallsBackImmediately() = runTest {
         val main = Named("main", FakeModel(tools(call("phone_observe")), tools(call("phone_observe")), finish()))
-        val light = Named("light", FakeModel(com.wangzan101.mika.core.model.ModelError.Server(503)))
+        val light = Named("light", FakeModel(com.wangzan101.djini.core.model.ModelError.Server(503)))
         val r = loop(main, light).run("t")
         assertTrue(r is TaskState.Succeeded)
         // 503 没有重发给轻量模型,这一步由主模型接
@@ -187,7 +187,7 @@ class AgentLoopLightTest {
 
     @Test fun light429FallsBackImmediatelyWithoutConsumingTaskWaitBudget() = runTest {
         val main = Named("main", FakeModel(tools(call("phone_observe")), tools(call("phone_observe")), finish()))
-        val light = Named("light", FakeModel(com.wangzan101.mika.core.model.ModelError.RateLimited(300_000)))
+        val light = Named("light", FakeModel(com.wangzan101.djini.core.model.ModelError.RateLimited(300_000)))
         val r = loop(main, light).run("t")
         assertTrue(r is TaskState.Succeeded)
         assertEquals(1, light.requests.size)

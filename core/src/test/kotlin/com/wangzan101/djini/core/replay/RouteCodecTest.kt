@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.replay
+package com.wangzan101.djini.core.replay
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

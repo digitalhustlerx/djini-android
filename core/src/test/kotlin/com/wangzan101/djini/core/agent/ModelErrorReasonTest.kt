@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
-import com.wangzan101.mika.core.model.ModelError
+import com.wangzan101.djini.core.model.ModelError
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -60,7 +60,7 @@ class ModelErrorReasonTest {
             StopRules.modelFailed(ModelError.ModelNotAvailable("qwen-max", "not activated")).reason,
         )
         assertEquals(
-            "模型「gemma」不支持调用工具,Mika 干活要靠工具。去设置 › 模型换一个会调用工具的模型。",
+            "模型「gemma」不支持调用工具,Djini 干活要靠工具。去设置 › 模型换一个会调用工具的模型。",
             StopRules.modelFailed(ModelError.ToolsUnsupported("gemma")).reason,
         )
     }

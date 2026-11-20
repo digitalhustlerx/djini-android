@@ -1,23 +1,23 @@
-package com.wangzan101.mika.core.cap.phone
+package com.wangzan101.djini.core.cap.phone
 
-import com.wangzan101.mika.core.observation.ObsKind
-import com.wangzan101.mika.core.observation.Observation
-import com.wangzan101.mika.core.prompt.Prompts
-import com.wangzan101.mika.core.tool.ArgError
-import com.wangzan101.mika.core.tool.Args
-import com.wangzan101.mika.core.tool.LinkPolicy
-import com.wangzan101.mika.core.tool.Risk
-import com.wangzan101.mika.core.tool.ToolContext
-import com.wangzan101.mika.core.tool.ToolDef
-import com.wangzan101.mika.core.tool.ToolExecution
-import com.wangzan101.mika.core.tool.Verb
-import com.wangzan101.mika.core.tool.str
-import com.wangzan101.mika.core.uistate.action
-import com.wangzan101.mika.core.workspace.SandboxPaths
+import com.wangzan101.djini.core.observation.ObsKind
+import com.wangzan101.djini.core.observation.Observation
+import com.wangzan101.djini.core.prompt.Prompts
+import com.wangzan101.djini.core.tool.ArgError
+import com.wangzan101.djini.core.tool.Args
+import com.wangzan101.djini.core.tool.LinkPolicy
+import com.wangzan101.djini.core.tool.Risk
+import com.wangzan101.djini.core.tool.ToolContext
+import com.wangzan101.djini.core.tool.ToolDef
+import com.wangzan101.djini.core.tool.ToolExecution
+import com.wangzan101.djini.core.tool.Verb
+import com.wangzan101.djini.core.tool.str
+import com.wangzan101.djini.core.uistate.action
+import com.wangzan101.djini.core.workspace.SandboxPaths
 import kotlinx.serialization.json.JsonPrimitive
 
 /**
- * 把工作区里的一张图片分享给一个 App(ACTION_SEND + EXTRA_STREAM),在 Mika 的屏上打开它的分享页:
+ * 把工作区里的一张图片分享给一个 App(ACTION_SEND + EXTRA_STREAM),在 Djini 的屏上打开它的分享页:
  * 只打开,不发出;收件人和「发送」由模型在那一页上用屏幕工具完成,发送仍走现有的确认关卡。
  */
 internal object ShareImage : PhoneTool {
@@ -57,7 +57,7 @@ internal object ShareImage : PhoneTool {
     override fun logTarget(o: kotlinx.serialization.json.JsonObject, r: ToolExecution, ctx: ToolContext) =
         (o["package"] as? JsonPrimitive)?.content
 
-    override fun observations(o: kotlinx.serialization.json.JsonObject, r: ToolExecution, log: com.wangzan101.mika.core.tool.EvidenceLog): List<Observation> {
+    override fun observations(o: kotlinx.serialization.json.JsonObject, r: ToolExecution, log: com.wangzan101.djini.core.tool.EvidenceLog): List<Observation> {
         if (r.content["ok"] != JsonPrimitive(true)) return emptyList()
         return listOfNotNull((o["package"] as? JsonPrimitive)?.content?.let { p ->
             Observation(ObsKind.Fact, "$name 打开了 $p 的图片分享页(还没发出)", source = PHONE)

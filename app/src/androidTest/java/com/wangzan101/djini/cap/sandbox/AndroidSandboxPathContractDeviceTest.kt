@@ -1,9 +1,9 @@
-package com.wangzan101.mika.cap.sandbox
+package com.wangzan101.djini.cap.sandbox
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.core.cap.sandbox.SandboxPathContract
-import com.wangzan101.mika.core.cap.sandbox.SandboxPort
+import com.wangzan101.djini.core.cap.sandbox.SandboxPathContract
+import com.wangzan101.djini.core.cap.sandbox.SandboxPort
 import org.junit.runner.RunWith
 import java.io.File
 

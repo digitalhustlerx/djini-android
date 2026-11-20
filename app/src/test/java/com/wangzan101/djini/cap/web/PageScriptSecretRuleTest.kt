@@ -1,6 +1,6 @@
-package com.wangzan101.mika.cap.web
+package com.wangzan101.djini.cap.web
 
-import com.wangzan101.mika.core.cap.web.PageScriptProtocol
+import com.wangzan101.djini.core.cap.web.PageScriptProtocol
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.io.File

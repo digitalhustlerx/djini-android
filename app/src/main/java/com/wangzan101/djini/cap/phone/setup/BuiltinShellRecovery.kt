@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.phone.setup
+package com.wangzan101.djini.cap.phone.setup
 
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.withContext
@@ -13,26 +13,26 @@ import android.database.ContentObserver
 import android.os.Build
 import android.os.UserManager
 import android.provider.Settings
-import com.wangzan101.mika.cap.phone.a11y.ScreenAccessibility
-import com.wangzan101.mika.core.shell.A11yLossRecord
-import com.wangzan101.mika.core.shell.A11yObservation
-import com.wangzan101.mika.core.shell.A11yStartCheck
-import com.wangzan101.mika.core.shell.AccessibilityList
-import com.wangzan101.mika.core.shell.AccessibilityRepair
-import com.wangzan101.mika.core.shell.BootRestore
-import com.wangzan101.mika.core.shell.BuiltinShellControl
-import com.wangzan101.mika.core.shell.BuiltinShellStatus
-import com.wangzan101.mika.core.shell.PermissionCommands
-import com.wangzan101.mika.core.shell.PermissionResult
-import com.wangzan101.mika.core.shell.RecoveryCapability
-import com.wangzan101.mika.core.shell.RecoveryInputs
-import com.wangzan101.mika.core.shell.RecoveryPermissions
-import com.wangzan101.mika.core.shell.RecoveryPolicy
-import com.wangzan101.mika.core.shell.RestoreOutcome
-import com.wangzan101.mika.core.shell.ShellCommandRunner
-import com.wangzan101.mika.core.shell.ShellTransport
-import com.wangzan101.mika.settings.FeatureFlags
-import com.wangzan101.mika.settings.RecoverySettings
+import com.wangzan101.djini.cap.phone.a11y.ScreenAccessibility
+import com.wangzan101.djini.core.shell.A11yLossRecord
+import com.wangzan101.djini.core.shell.A11yObservation
+import com.wangzan101.djini.core.shell.A11yStartCheck
+import com.wangzan101.djini.core.shell.AccessibilityList
+import com.wangzan101.djini.core.shell.AccessibilityRepair
+import com.wangzan101.djini.core.shell.BootRestore
+import com.wangzan101.djini.core.shell.BuiltinShellControl
+import com.wangzan101.djini.core.shell.BuiltinShellStatus
+import com.wangzan101.djini.core.shell.PermissionCommands
+import com.wangzan101.djini.core.shell.PermissionResult
+import com.wangzan101.djini.core.shell.RecoveryCapability
+import com.wangzan101.djini.core.shell.RecoveryInputs
+import com.wangzan101.djini.core.shell.RecoveryPermissions
+import com.wangzan101.djini.core.shell.RecoveryPolicy
+import com.wangzan101.djini.core.shell.RestoreOutcome
+import com.wangzan101.djini.core.shell.ShellCommandRunner
+import com.wangzan101.djini.core.shell.ShellTransport
+import com.wangzan101.djini.settings.FeatureFlags
+import com.wangzan101.djini.settings.RecoverySettings
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -49,7 +49,7 @@ import kotlinx.coroutines.withTimeoutOrNull
 
 /**
  * 内置助手的自动恢复和那几项能力。跑 shell 命令用 [runner](经助手或已配对的连接;两样都没有时不给);
- * 能力与开机结果记在 [settings];[control] 是内置助手本身。由 [com.wangzan101.mika.cap.phone.PhoneServices] 建一份,
+ * 能力与开机结果记在 [settings];[control] 是内置助手本身。由 [com.wangzan101.djini.cap.phone.PhoneServices] 建一份,
  * App 启动时由 [start] 开始看着连接。
  */
 class BuiltinShellRecovery(
@@ -97,7 +97,7 @@ class BuiltinShellRecovery(
                 write(AccessibilityList.without(current, me))
                 withContext(NonCancellable) {
                     delay(gapMs)
-                    // 加回失败时把原来的列表(连同总开关)写回,不让 Mika 从列表里消失;这次仍按加回失败报
+                    // 加回失败时把原来的列表(连同总开关)写回,不让 Djini 从列表里消失;这次仍按加回失败报
                     try {
                         write(AccessibilityList.with(read(), me))
                     } catch (e: Exception) {
@@ -159,7 +159,7 @@ class BuiltinShellRecovery(
         }.stateIn(scope, SharingStarted.Eagerly, read())
     }
 
-    /** 系统列表里有没有 Mika(跟着系统设置的变化)和服务实例是否连着(跟着连上、断开)。整个进程一份。 */
+    /** 系统列表里有没有 Djini(跟着系统设置的变化)和服务实例是否连着(跟着连上、断开)。整个进程一份。 */
     val accessibility: StateFlow<A11yObservation> by lazy { serviceObservations() }
 
     private fun serviceObservations(): StateFlow<A11yObservation> {
@@ -191,7 +191,7 @@ class BuiltinShellRecovery(
 
     /** 开机后按已生效的「重启后自动恢复」重新打开无线调试并重起助手;不需要动手时返回 null。 */
     suspend fun restoreAfterBoot(): RestoreOutcome? {
-        // 没配对过(助手是电脑经 USB 起的):Mika 自己起不来助手,不去动无线调试;
+        // 没配对过(助手是电脑经 USB 起的):Djini 自己起不来助手,不去动无线调试;
         // 用 root 启动、Shizuku 模式或 Shizuku 已就绪时,也不去动无线调试
         if (!control.paired || control.rootStart || control.shizukuStart || control.transport == ShellTransport.Shizuku) return null
         val holds = app.checkSelfPermission(PermissionCommands.WRITE_SECURE_SETTINGS) == PackageManager.PERMISSION_GRANTED

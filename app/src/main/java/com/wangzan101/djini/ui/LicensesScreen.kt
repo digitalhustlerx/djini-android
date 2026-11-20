@@ -1,6 +1,6 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.R
+import com.wangzan101.djini.R
 import androidx.compose.ui.res.stringResource
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
@@ -18,27 +18,27 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
-import com.wangzan101.mika.ui.components.FooterNote
-import com.wangzan101.mika.ui.components.GroupCard
-import com.wangzan101.mika.ui.components.GroupLabel
-import com.wangzan101.mika.ui.components.ListRow
-import com.wangzan101.mika.ui.components.MikaCard
-import com.wangzan101.mika.ui.components.SubPage
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
+import com.wangzan101.djini.ui.components.FooterNote
+import com.wangzan101.djini.ui.components.GroupCard
+import com.wangzan101.djini.ui.components.GroupLabel
+import com.wangzan101.djini.ui.components.ListRow
+import com.wangzan101.djini.ui.components.MikaCard
+import com.wangzan101.djini.ui.components.SubPage
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
 
 /** 许可证页上第三方组件的数据;与仓库 licenses/THIRD_PARTY_NOTICES.md 的条目一一对应(LicensesTest 核对)。 */
 object Licenses {
     data class Entry(val name: String, val license: String, val note: String)
 
     const val GPL_SOURCE_OFFER =
-        "PRoot(GPL-2.0-or-later)与 talloc(LGPL-3.0-or-later)以独立程序的形式随 Mika 安装包发布,Mika 不链接它们。" +
-            "它们的完整源码、Mika 打的补丁和编译脚本随每个版本放在 Mika 的发布页,文件名 mika-<版本>-gpl-sources.tar.gz;" +
+        "PRoot(GPL-2.0-or-later)与 talloc(LGPL-3.0-or-later)以独立程序的形式随 Djini 安装包发布,Djini 不链接它们。" +
+            "它们的完整源码、Djini 打的补丁和编译脚本随每个版本放在 Djini 的发布页,文件名 djini-<版本>-gpl-sources.tar.gz;" +
             "源码仓库的 tools/sandbox/ 里也有源码地址、校验值、补丁与编译脚本,可以自己重新编译。"
 
     const val RUNTIME_NOTE =
-        "运行 Python、Node 等程序用的系统随 Mika 安装包发布,来自 Alpine Linux 3.22,下面逐个列出其中的软件包与许可证。" +
-            "其中 GPL、LGPL、MPL 软件包的源码(Alpine 的构建配方与上游源码)同样放在 mika-<版本>-gpl-sources.tar.gz 里。"
+        "运行 Python、Node 等程序用的系统随 Djini 安装包发布,来自 Alpine Linux 3.22,下面逐个列出其中的软件包与许可证。" +
+            "其中 GPL、LGPL、MPL 软件包的源码(Alpine 的构建配方与上游源码)同样放在 djini-<版本>-gpl-sources.tar.gz 里。"
 
     /** 自带运行环境里的软件包(assets/runtime/packages.json,由 tools/sandbox/build-runtime.py 生成)。 */
     fun runtimePackages(json: String): List<Entry> =
@@ -49,7 +49,7 @@ object Licenses {
         }
 
     val ENTRIES = listOf(
-        Entry("Mika", "Apache-2.0", "Mika 本身,包括运行环境的启动器、其中的 mika 命令与技能脚本。许可证全文见本页顶上。"),
+        Entry("Djini", "Apache-2.0", "Djini 本身,包括运行环境的启动器、其中的 djini 命令与技能脚本。许可证全文见本页顶上。"),
         Entry("PRoot", "GPL-2.0-or-later", "运行 Python、Node 等程序用的环境,版本 5.4.0,打了一个补丁(PRoot 退出时结束所有子进程)。$GPL_SOURCE_OFFER"),
         Entry("talloc", "LGPL-3.0-or-later", "版本 2.4.3,未修改,静态链接进 PRoot 程序。可用 tools/sandbox/ 的源码与脚本重新链接。"),
         Entry("Apache Commons Compress", "Apache-2.0", "首次启动时解包自带的运行环境。Copyright 2002-2025 The Apache Software Foundation."),
@@ -78,7 +78,7 @@ object Licenses {
 
 /**
  * 许可证页(关于页底部「Apache-2.0 开源许可」进来):先是许可证原文(assets/licenses/Apache-2.0.txt),
- * 下面列出随 Mika 发布的第三方组件,一个组件一行(名称、许可证),说明在行下面;页脚指向完整文本。
+ * 下面列出随 Djini 发布的第三方组件,一个组件一行(名称、许可证),说明在行下面;页脚指向完整文本。
  */
 @Composable
 fun LicensesScreen(onBack: () -> Unit) {
@@ -91,14 +91,14 @@ fun LicensesScreen(onBack: () -> Unit) {
         runCatching { context.assets.open("runtime/packages.json").use { Licenses.runtimePackages(it.readBytes().decodeToString()) } }
             .getOrDefault(emptyList())
     }
-    val thirdParty = Licenses.ENTRIES.filter { it.name != "Mika" } + runtime
+    val thirdParty = Licenses.ENTRIES.filter { it.name != "Djini" } + runtime
     SubPage(AboutCopy.LICENSE_TITLE, onBack) {
         if (licenseText.isNotEmpty()) {
             MikaCard(Modifier.padding(bottom = 12.dp).testTag("license-text")) {
                 Text(
                     licenseText.trimEnd(), Modifier.padding(16.dp),
                     style = MikaType.Micro.copy(fontFamily = FontFamily.Monospace),
-                    color = MikaTheme.colors.ink2,
+                    color = DjiniTheme.colors.ink2,
                 )
             }
         }
@@ -107,7 +107,7 @@ fun LicensesScreen(onBack: () -> Unit) {
             thirdParty.forEachIndexed { i, e ->
                 Column {
                     ListRow(null, e.name, e.license, first = i == 0)
-                    Text(e.note, Modifier.padding(start = 16.dp, end = 16.dp, bottom = 12.dp), style = MikaType.Hint, color = MikaTheme.colors.ink2)
+                    Text(e.note, Modifier.padding(start = 16.dp, end = 16.dp, bottom = 12.dp), style = MikaType.Hint, color = DjiniTheme.colors.ink2)
                 }
             }
         }

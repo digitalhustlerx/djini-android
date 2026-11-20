@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -26,13 +26,13 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.cap.web.KeptPage
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
-import com.wangzan101.mika.ui.theme.MikaRadius
-import com.wangzan101.mika.ui.theme.MikaShapes
+import com.wangzan101.djini.R
+import com.wangzan101.djini.cap.web.KeptPage
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.MikaRadius
+import com.wangzan101.djini.ui.theme.MikaShapes
 import kotlinx.coroutines.delay
 
 private val RowShape = MikaShapes.Button
@@ -45,7 +45,7 @@ sealed interface KeptRow {
     companion object {
         /**
          * [ex] 那一轮下面显示什么:此刻留着的 [live] 就是这一轮留的,是 [Live];这一轮记着留过页、而它已经不在了,是 [Closed]
-         * (没记下原因的按 Mika 退出了说);别的为 null。
+         * (没记下原因的按 Djini 退出了说);别的为 null。
          */
         fun of(ex: Exchange, live: KeptPage?): KeptRow? = when {
             live != null && ex.runId != null && live.runId == ex.runId -> Live(live)
@@ -63,7 +63,7 @@ internal fun LazyListScope.keptPageRow(index: Int, ex: Exchange, live: KeptPage?
             is KeptRow.Live -> KeptLine(row.page, onClose)
             is KeptRow.Closed -> Text(
                 KeptPageCopy.closedNote(row.reason), Modifier.fillMaxWidth().padding(start = 4.dp, end = 4.dp, bottom = 10.dp).testTag("kept-closed"),
-                style = MikaType.Hint, color = MikaTheme.colors.ink3,
+                style = MikaType.Hint, color = DjiniTheme.colors.ink3,
             )
         }
     }
@@ -72,7 +72,7 @@ internal fun LazyListScope.keptPageRow(index: Int, ex: Exchange, live: KeptPage?
 /** 绿色那一行:「这一页保持在后台运行」,下面「站点 · 还剩多久后自动关」,右边「关闭」。剩下的时间每分钟走一次。 */
 @Composable
 fun KeptLine(page: KeptPage, onClose: () -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val now by produceState(System.currentTimeMillis(), page.id) {
         while (true) {
             delay(TICK_MS)

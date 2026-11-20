@@ -1,6 +1,6 @@
-package com.wangzan101.mika.settings
+package com.wangzan101.djini.settings
 
-import com.wangzan101.mika.core.prompt.PersonaPrompt
+import com.wangzan101.djini.core.prompt.PersonaPrompt
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -11,7 +11,7 @@ import java.io.File
 import java.util.UUID
 
 /**
- * 一份人格:名字、简介和一段提示词正文。正文由 [com.wangzan101.mika.core.prompt.PersonaPrompt] 拼进系统提示词,
+ * 一份人格:名字、简介和一段提示词正文。正文由 [com.wangzan101.djini.core.prompt.PersonaPrompt] 拼进系统提示词,
  * 固定头尾由代码写死。人格不带工具、权限、记忆或模型,也不参与它们的选择。
  */
 @Serializable
@@ -33,7 +33,7 @@ private data class PersonaFile(val version: Int = 1, val personas: List<Persona>
 
 /**
  * 人格设置:`files/settings/personas.json`。原子写、带版本号,读不懂时把原文件另存成 `.bad-<时间>` 并当空列表。
- * 不含密钥,不加密;同一进程一份,由 [com.wangzan101.mika.MikaApp] 给出。
+ * 不含密钥,不加密;同一进程一份,由 [com.wangzan101.djini.DjiniApp] 给出。
  */
 class PersonaStore(private val dir: File) {
     private val file = File(dir, "personas.json")

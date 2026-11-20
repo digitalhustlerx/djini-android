@@ -1,10 +1,10 @@
-package com.wangzan101.mika.cap.phone.shell
+package com.wangzan101.djini.cap.phone.shell
 
 import android.os.Handler
 import android.os.Looper
 
 /**
- * 进程内共用一条 shell 连接,按引用计数绑定/解绑;由 [com.wangzan101.mika.cap.phone.PhoneServices] 建一份。
+ * 进程内共用一条 shell 连接,按引用计数绑定/解绑;由 [com.wangzan101.djini.cap.phone.PhoneServices] 建一份。
  * 解绑会撤掉 shell 一侧的虚拟屏等改动,所以任务和启动恢复不能各自绑一条再各自解绑。[create] 第一次要用时建连接。
  */
 class SharedShell(private val create: () -> ShellBinding) {

@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.phone.setup
+package com.wangzan101.djini.cap.phone.setup
 
 import android.app.RemoteInput
 import android.content.BroadcastReceiver
@@ -6,11 +6,11 @@ import android.content.Context
 import android.content.Intent
 import android.os.SystemClock
 import android.util.Log
-import com.wangzan101.mika.cap.phone.a11y.ScreenAccessibility
-import com.wangzan101.mika.cap.phone.PhoneServices
-import com.wangzan101.mika.core.shell.BuiltinShellControl
-import com.wangzan101.mika.core.shell.PairingCode
-import com.wangzan101.mika.ui.PhoneSetupCopy
+import com.wangzan101.djini.cap.phone.a11y.ScreenAccessibility
+import com.wangzan101.djini.cap.phone.PhoneServices
+import com.wangzan101.djini.core.shell.BuiltinShellControl
+import com.wangzan101.djini.core.shell.PairingCode
+import com.wangzan101.djini.ui.PhoneSetupCopy
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.CoroutineStart
@@ -31,7 +31,7 @@ import kotlinx.coroutines.withTimeoutOrNull
 /**
  * 一次配对的全过程:找配对窗口、无障碍开着时自己读配对码([PairingCodeReader])、
  * 读不到就弹带输入框的通知、把码交给内置助手 [control]、显示结果。
- * 跟着进程走,不跟界面(用户在系统设置里看配对码时 Mika 的界面已经不在前台):由 [com.wangzan101.mika.cap.phone.PhoneServices] 建一份。
+ * 跟着进程走,不跟界面(用户在系统设置里看配对码时 Djini 的界面已经不在前台):由 [com.wangzan101.djini.cap.phone.PhoneServices] 建一份。
  */
 class PairingCoordinator(context: Context, private val control: BuiltinShellControl) {
     private val app = context.applicationContext
@@ -161,7 +161,7 @@ class PairingCoordinator(context: Context, private val control: BuiltinShellCont
 }
 
 /**
- * 通知输入框的落点。系统可能冻结后台的 Mika:收到广播时先解冻它,广播一结束又可能马上冻住,
+ * 通知输入框的落点。系统可能冻结后台的 Djini:收到广播时先解冻它,广播一结束又可能马上冻住,
  * 配对停在半路。所以等配对做完(或最多 [HOLD_MS])再结束广播,这段时间进程算在处理广播,不会被当成后台冻住。
  */
 open class PairingCodeInput : BroadcastReceiver() {

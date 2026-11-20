@@ -1,15 +1,15 @@
-package com.wangzan101.mika.proactive
+package com.wangzan101.djini.proactive
 
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
-import com.wangzan101.mika.MikaApp
+import com.wangzan101.djini.DjiniApp
 
 /**
- * 主动能力的通知监听。组件默认是停用的,功能打开时才由 [ProactiveRuntime] 启用(系统「通知使用权」列表里才有 Mika)。
+ * 主动能力的通知监听。组件默认是停用的,功能打开时才由 [ProactiveRuntime] 启用(系统「通知使用权」列表里才有 Djini)。
  * 这里只把系统回调转给 [ProactiveRuntime],连上之前什么都不做。
  */
 class NoticeListenerService : NotificationListenerService() {
-    private val runtime get() = (application as MikaApp).proactive
+    private val runtime get() = (application as DjiniApp).proactive
 
     override fun onListenerConnected() {
         runtime.onConnected(this)

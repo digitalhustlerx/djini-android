@@ -1,14 +1,14 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.util.Log
-import com.wangzan101.mika.chat.ConversationStore
-import com.wangzan101.mika.core.trigger.TriggerDefinition
-import com.wangzan101.mika.core.trigger.TriggerSource
-import com.wangzan101.mika.settings.FeatureFlags
+import com.wangzan101.djini.chat.ConversationStore
+import com.wangzan101.djini.core.trigger.TriggerDefinition
+import com.wangzan101.djini.core.trigger.TriggerSource
+import com.wangzan101.djini.settings.FeatureFlags
 import java.time.Instant
 import java.util.UUID
 import kotlinx.coroutines.CoroutineScope
@@ -16,11 +16,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 /**
- * 外部脚本经广播(com.wangzan101.mika.SCHEDULE)建定时任务的入口。
+ * 外部脚本经广播(com.wangzan101.djini.SCHEDULE)建定时任务的入口。
  * 广播是 fire-and-forget,没有返回值:拒绝原因写进 logcat,绝不静默排队。
  */
 object ExternalSchedule {
-    const val ACTION = "com.wangzan101.mika.SCHEDULE"
+    const val ACTION = "com.wangzan101.djini.SCHEDULE"
 
     /** 每分钟最多接几条;超过直接拒绝,不排队。 */
     private const val LIMIT_PER_MINUTE = 5

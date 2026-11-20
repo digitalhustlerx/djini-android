@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui.components
+package com.wangzan101.djini.ui.components
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
@@ -47,13 +47,13 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.wangzan101.mika.ui.theme.MikaMotion
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaShapes
-import com.wangzan101.mika.ui.theme.MikaSize
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
-import com.wangzan101.mika.ui.theme.MikaRadius
+import com.wangzan101.djini.ui.theme.MikaMotion
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.MikaSize
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.MikaRadius
 import androidx.compose.runtime.getValue
 
 // ---------- 开关 ----------
@@ -69,8 +69,8 @@ fun MikaSwitch(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
 ) {
-    val c = MikaTheme.colors
-    val reduce = MikaTheme.reduceMotion
+    val c = DjiniTheme.colors
+    val reduce = DjiniTheme.reduceMotion
     val position by animateFloatAsState(if (checked) 1f else 0f, MikaMotion.switch(reduce), label = "switch")
     val track by animateColorAsState(if (checked) c.accent else c.greySoft, MikaMotion.switch(reduce), label = "switch-track")
     val thumb = c.thumb
@@ -103,7 +103,7 @@ enum class PillTone { Ok, Warn, Neutral, Accent }
 /** 状态胶囊:可用、需要你、已停用;强调色的标明「在用」(例如模型在给哪个用途干活)。 */
 @Composable
 fun StatusPill(text: String, tone: PillTone = PillTone.Neutral, modifier: Modifier = Modifier) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val (bg, fg) = when (tone) {
         PillTone.Ok -> c.okSoft to c.ok
         PillTone.Warn -> c.warnSoft to c.warn
@@ -140,7 +140,7 @@ fun MikaButton(
     size: ButtonSize = ButtonSize.Large,
     enabled: Boolean = true,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val shape = size.shape
     val (bg, fg) = when (kind) {
         ButtonKind.Primary -> c.accent to c.onAccent
@@ -173,7 +173,7 @@ fun SegmentedControl(
     modifier: Modifier = Modifier,
     tags: List<String>? = null,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Row(modifier.fillMaxWidth().background(c.fill, SegmentOuter).padding(2.dp)) {
         options.forEachIndexed { i, label ->
             val on = i == selected
@@ -222,7 +222,7 @@ fun BarIconButton(
     enabled: Boolean = true,
     badge: Boolean = false,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Box(
         Modifier.size(MikaSize.IconButton)
             .then(if (glass) Modifier.floatShadow(c, CircleShape).background(c.surface, CircleShape) else Modifier)
@@ -255,9 +255,9 @@ fun TopBar(
     right: (@Composable RowScope.() -> Unit)? = null,
     subtitle: String? = null,
     subtitleColor: Color = Color.Unspecified,
-    background: Color = MikaTheme.colors.bg,
+    background: Color = DjiniTheme.colors.bg,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Box(Modifier.fillMaxWidth().pageBackground(background).windowInsetsPadding(WindowInsets.statusBars)) {
         Row(
             Modifier.fillMaxWidth().height(MikaSize.TopBar).padding(horizontal = 8.dp),
@@ -292,7 +292,7 @@ fun SelectChip(
     small: Boolean = false,
     enabled: Boolean = true,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val shape = if (small) SmallChipShape else MikaShapes.Pill
     Box(
         modifier
@@ -332,7 +332,7 @@ enum class TagTone { Neutral, Accent }
 /** 能力小标签(工具调用、看图、64K):11 / 600,圆角 7。 */
 @Composable
 fun CapabilityTag(text: String, tone: TagTone = TagTone.Neutral) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val (bg, fg) = if (tone == TagTone.Accent) c.accentSoft to c.accent else c.greySoft to c.ink2
     Text(text, Modifier.background(bg, TagShape).padding(horizontal = 7.dp, vertical = 2.dp), style = TagText, color = fg, maxLines = 1)
 }
@@ -345,7 +345,7 @@ private val TagText = MikaType.Micro.copy(fontWeight = FontWeight.SemiBold)
 /** 上手流程底部的分页点:当前一步是 18 宽的强调色短条,其余是 6 的灰点。 */
 @Composable
 fun ProgressDots(count: Int, current: Int, modifier: Modifier = Modifier) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Row(modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterHorizontally)) {
         repeat(count) { i ->
             Box(Modifier.size(if (i == current) 18.dp else 6.dp, 6.dp).background(if (i == current) c.accent else c.hair, CircleShape))

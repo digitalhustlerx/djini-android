@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.trace
+package com.wangzan101.djini.core.trace
 
 import java.io.File
 import java.io.IOException

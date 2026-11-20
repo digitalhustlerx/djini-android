@@ -1,7 +1,7 @@
-package com.wangzan101.mika.core.mcp
+package com.wangzan101.djini.core.mcp
 
-import com.wangzan101.mika.core.remote.RemoteHost
-import com.wangzan101.mika.core.agent.TaskState
+import com.wangzan101.djini.core.remote.RemoteHost
+import com.wangzan101.djini.core.agent.TaskState
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive

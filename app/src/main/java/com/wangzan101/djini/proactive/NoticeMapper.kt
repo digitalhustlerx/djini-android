@@ -1,11 +1,11 @@
-package com.wangzan101.mika.proactive
+package com.wangzan101.djini.proactive
 
 import android.app.Notification
 import android.os.Bundle
 import android.service.notification.StatusBarNotification
 import androidx.core.app.NotificationCompat
-import com.wangzan101.mika.core.proactive.NoticeMessage
-import com.wangzan101.mika.core.proactive.NoticeRecord
+import com.wangzan101.djini.core.proactive.NoticeMessage
+import com.wangzan101.djini.core.proactive.NoticeRecord
 
 /** 从系统通知里原样取出的几项(都还没清洗);[RawNotice.toRecord] 是纯函数,可以在电脑上测。 */
 data class RawNotice(

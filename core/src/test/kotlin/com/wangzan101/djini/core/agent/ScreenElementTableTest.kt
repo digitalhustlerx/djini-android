@@ -1,10 +1,10 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
-import com.wangzan101.mika.core.assembly.toolDispatcher
-import com.wangzan101.mika.core.model.*
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.record.RunSink
-import com.wangzan101.mika.core.testing.*
+import com.wangzan101.djini.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.model.*
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.record.RunSink
+import com.wangzan101.djini.core.testing.*
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.*
 import org.junit.Assert.*
@@ -95,7 +95,7 @@ class ScreenElementTableTest {
         assertEquals(2, views.size); assertEquals(views.first().content, views.last().content)
         val recorded = events.filterIsInstance<RunEvent.ToolResult>().single { it.tool == "phone_observe" }
         assertTrue(recorded.resultJson.contains("\"elements\"")); assertFalse(recorded.resultJson.contains("elementTables"))
-        assertTrue("s1" in visibleReads(listOf(Message(Role.Tool, listOf(views.first()), Author.Mika))))
+        assertTrue("s1" in visibleReads(listOf(Message(Role.Tool, listOf(views.first()), Author.Djini))))
         return views.first().content
     }
 }

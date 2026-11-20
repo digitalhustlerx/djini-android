@@ -1,7 +1,7 @@
-package com.wangzan101.mika.cap.web
+package com.wangzan101.djini.cap.web
 
 import android.util.Log
-import com.wangzan101.mika.core.cap.web.WebUrlPolicy
+import com.wangzan101.djini.core.cap.web.WebUrlPolicy
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
@@ -106,7 +106,7 @@ return JSON.stringify(out);}catch(x){return null;}})()"""
     private const val SCAN_BUDGET = 4000
     private const val TAG = "MikaLoginProbe"
     /** 解析、判断与写登记表都放在它上面,不占主线程。 */
-    private val worker = Executors.newSingleThreadExecutor { r -> Thread(r, "mika-login-probe").apply { isDaemon = true } }
+    private val worker = Executors.newSingleThreadExecutor { r -> Thread(r, "djini-login-probe").apply { isDaemon = true } }
 
     /**
      * 主线程调:在 [tab] 当前页面上看一眼登录状态(脚本在页面里跑),解析与判断在后台线程上做,回调(站点主机名, 状态)也在后台线程。

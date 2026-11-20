@@ -1,8 +1,8 @@
-package com.wangzan101.mika.core.cap.phone
+package com.wangzan101.djini.core.cap.phone
 
-import com.wangzan101.mika.core.prompt.Prompts
-import com.wangzan101.mika.core.tool.*
-import com.wangzan101.mika.core.cap.phone.sms.SmsLoginStatus
+import com.wangzan101.djini.core.prompt.Prompts
+import com.wangzan101.djini.core.tool.*
+import com.wangzan101.djini.core.cap.phone.sms.SmsLoginStatus
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 
@@ -17,8 +17,8 @@ internal object PhoneSmsLogin : PhoneTool {
     override fun available(ctx: ToolContext): Boolean {
         val run = ctx.config.runSpec ?: return false
         return ctx[PhoneCapability.KEY]?.smsLogin != null && !run.readOnly && run.parent == null &&
-            run.provenance.origin == com.wangzan101.mika.core.run.RunOrigin.Ui &&
-            run.provenance.attendance != com.wangzan101.mika.core.run.Attendance.Unattended
+            run.provenance.origin == com.wangzan101.djini.core.run.RunOrigin.Ui &&
+            run.provenance.attendance != com.wangzan101.djini.core.run.Attendance.Unattended
     }
 
     override suspend fun execute(a: Args, ctx: ToolContext): ToolExecution {

@@ -1,8 +1,8 @@
-package com.wangzan101.mika.capsule
+package com.wangzan101.djini.capsule
 
 import androidx.compose.ui.geometry.Rect
-import com.wangzan101.mika.cap.phone.a11y.HoldGesture
-import com.wangzan101.mika.i18n.ChineseTexts
+import com.wangzan101.djini.cap.phone.a11y.HoldGesture
+import com.wangzan101.djini.i18n.ChineseTexts
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.runCurrent

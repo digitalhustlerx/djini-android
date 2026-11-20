@@ -1,10 +1,10 @@
-package com.wangzan101.mika.capsule
+package com.wangzan101.djini.capsule
 
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.wangzan101.mika.ui.theme.MikaTheme
+import com.wangzan101.djini.ui.theme.DjiniTheme
 import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
@@ -19,7 +19,7 @@ class CapsuleEdgeContentTest {
 
     private fun check(side: DockSide) {
         var restored = 0
-        compose.setContent { MikaTheme { CapsuleEdgeContent(side, 0.4f) { restored++ } } }
+        compose.setContent { DjiniTheme { CapsuleEdgeContent(side, 0.4f) { restored++ } } }
         val half = compose.onNodeWithTag("capsule-edge")
         val size = half.fetchSemanticsNode().size
         assertTrue("half-circle window must be narrower than the ball: " + size, size.width < size.height)

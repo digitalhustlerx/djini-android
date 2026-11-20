@@ -1,22 +1,22 @@
-package com.wangzan101.mika.media
+package com.wangzan101.djini.media
 
 import android.content.Context
 import android.graphics.BitmapFactory
-import com.wangzan101.mika.cap.image.ImageExporter
-import com.wangzan101.mika.cap.sandbox.Attachments
-import com.wangzan101.mika.cap.sandbox.SandboxDirs
-import com.wangzan101.mika.core.cap.image.ImagePort
-import com.wangzan101.mika.core.cap.image.SavedImage
-import com.wangzan101.mika.core.cap.image.StoredImage
-import com.wangzan101.mika.core.chat.GeneratedPhoto
-import com.wangzan101.mika.core.model.GeneratedImage
-import com.wangzan101.mika.core.model.ImageCapabilities
-import com.wangzan101.mika.core.model.ImageError
-import com.wangzan101.mika.core.model.ImageModel
-import com.wangzan101.mika.core.model.ImageReference
-import com.wangzan101.mika.core.model.ImageRequest
-import com.wangzan101.mika.core.model.ImageResponse
-import com.wangzan101.mika.core.workspace.SandboxPaths
+import com.wangzan101.djini.cap.image.ImageExporter
+import com.wangzan101.djini.cap.sandbox.Attachments
+import com.wangzan101.djini.cap.sandbox.SandboxDirs
+import com.wangzan101.djini.core.cap.image.ImagePort
+import com.wangzan101.djini.core.cap.image.SavedImage
+import com.wangzan101.djini.core.cap.image.StoredImage
+import com.wangzan101.djini.core.chat.GeneratedPhoto
+import com.wangzan101.djini.core.model.GeneratedImage
+import com.wangzan101.djini.core.model.ImageCapabilities
+import com.wangzan101.djini.core.model.ImageError
+import com.wangzan101.djini.core.model.ImageModel
+import com.wangzan101.djini.core.model.ImageReference
+import com.wangzan101.djini.core.model.ImageRequest
+import com.wangzan101.djini.core.model.ImageResponse
+import com.wangzan101.djini.core.workspace.SandboxPaths
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.ensureActive
@@ -25,7 +25,7 @@ import java.io.File
 
 /**
  * 图片能力的手机实现:模型调用直接用 [model];产物经工作区文件闸门写进 `out/images/`;
- * 存相册走 [ImageExporter](MediaStore Pictures/Mika,不需要存储权限)。
+ * 存相册走 [ImageExporter](MediaStore Pictures/Djini,不需要存储权限)。
  * [onGenerated]/[onSaved] 把结果交给任务,聊天里据此出现照片格子与「已存入相册」卡片。
  */
 class AndroidImagePort(
@@ -39,7 +39,7 @@ class AndroidImagePort(
     override val modelName: String get() = model.name
 
     private val dirs by lazy { SandboxDirs(context) }
-    private val workspace: File by lazy { dirs.workspace(com.wangzan101.mika.chat.WorkspaceResolver.resolveFor(context, conversationId)) }
+    private val workspace: File by lazy { dirs.workspace(com.wangzan101.djini.chat.WorkspaceResolver.resolveFor(context, conversationId)) }
 
     override suspend fun generate(request: ImageRequest): ImageResponse = model.generate(request)
 

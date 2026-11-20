@@ -1,21 +1,21 @@
-package com.wangzan101.mika.core.export.markdown
+package com.wangzan101.djini.core.export.markdown
 
-import com.wangzan101.mika.core.export.AnswerOutcome
-import com.wangzan101.mika.core.export.AssetKind
-import com.wangzan101.mika.core.export.ExportAsset
-import com.wangzan101.mika.core.export.ExportAssetReader
-import com.wangzan101.mika.core.export.ExportBackend
-import com.wangzan101.mika.core.export.ExportBlock
-import com.wangzan101.mika.core.export.ExportCapability
-import com.wangzan101.mika.core.export.ExportDescriptor
-import com.wangzan101.mika.core.export.ExportDocument
-import com.wangzan101.mika.core.export.ExportKind
-import com.wangzan101.mika.core.export.ExportLabels
-import com.wangzan101.mika.core.export.ExportPhase
-import com.wangzan101.mika.core.export.ExportPresentation
-import com.wangzan101.mika.core.export.ExportProgress
-import com.wangzan101.mika.core.export.ExportSink
-import com.wangzan101.mika.core.export.ToolStep
+import com.wangzan101.djini.core.export.AnswerOutcome
+import com.wangzan101.djini.core.export.AssetKind
+import com.wangzan101.djini.core.export.ExportAsset
+import com.wangzan101.djini.core.export.ExportAssetReader
+import com.wangzan101.djini.core.export.ExportBackend
+import com.wangzan101.djini.core.export.ExportBlock
+import com.wangzan101.djini.core.export.ExportCapability
+import com.wangzan101.djini.core.export.ExportDescriptor
+import com.wangzan101.djini.core.export.ExportDocument
+import com.wangzan101.djini.core.export.ExportKind
+import com.wangzan101.djini.core.export.ExportLabels
+import com.wangzan101.djini.core.export.ExportPhase
+import com.wangzan101.djini.core.export.ExportPresentation
+import com.wangzan101.djini.core.export.ExportProgress
+import com.wangzan101.djini.core.export.ExportSink
+import com.wangzan101.djini.core.export.ToolStep
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -108,7 +108,7 @@ class MarkdownExportBackend(private val labels: ExportLabels = ExportLabels.Engl
     }
 
     private fun answer(out: Appendable, block: ExportBlock.Answer) {
-        out.appendLine("## ${labels.mika}${block.atMs?.let { " · ${time(it)}" }.orEmpty()}")
+        out.appendLine("## ${labels.djini}${block.atMs?.let { " · ${time(it)}" }.orEmpty()}")
         block.model?.takeIf { it.isNotBlank() }?.let { out.appendLine("*${labels.model}: ${MarkdownText.plain(oneLine(it))}*"); out.appendLine() }
         when (val o = block.outcome) {
             AnswerOutcome.Succeeded -> Unit

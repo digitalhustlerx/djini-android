@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.width
@@ -10,12 +10,12 @@ import androidx.compose.ui.test.performSemanticsAction
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.assertIsDisplayed
-import com.wangzan101.mika.memory.MemoryRuntime
+import com.wangzan101.djini.memory.MemoryRuntime
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.ui.theme.MikaTheme
+import com.wangzan101.djini.ui.theme.DjiniTheme
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import androidx.compose.material3.Text
@@ -50,7 +50,7 @@ class PersonalScreenLocaleTest {
                 LocalConfiguration provides configuration,
                 LocalDensity provides Density(density.density, 2f),
             ) {
-                MikaTheme {
+                DjiniTheme {
                     androidx.compose.foundation.layout.Box(Modifier.width(240.dp)) {
                         PersonalProfileTabs(selected.value, showIcons = false) { selected.value = it }
                     }
@@ -84,14 +84,14 @@ class PersonalScreenLocaleTest {
         compose.setContent {
             val density = LocalDensity.current
             CompositionLocalProvider(LocalDensity provides Density(density.density, 2f)) {
-                MikaTheme {
+                DjiniTheme {
                     PersonalProfileDialog(emptyList(), memory, onDismiss = {}, onTask = {})
                 }
             }
         }
-        compose.onNodeWithText(base.getString(com.wangzan101.mika.R.string.personal_tab_skills))
+        compose.onNodeWithText(base.getString(com.wangzan101.djini.R.string.personal_tab_skills))
             .performScrollTo().assertIsDisplayed()
-        compose.onNodeWithText(base.getString(com.wangzan101.mika.R.string.personal_no_tasks))
+        compose.onNodeWithText(base.getString(com.wangzan101.djini.R.string.personal_no_tasks))
             .performScrollTo().assertIsDisplayed()
     }
 
@@ -99,7 +99,7 @@ class PersonalScreenLocaleTest {
         compose.setContent {
             val density = LocalDensity.current
             CompositionLocalProvider(LocalDensity provides Density(density.density, 1f)) {
-                MikaTheme {
+                DjiniTheme {
                     androidx.compose.foundation.layout.Box(Modifier.width(360.dp)) {
                         PersonalProfileTabs(PersonalProfileTab.Tasks, showIcons = true) {}
                     }
@@ -107,8 +107,8 @@ class PersonalScreenLocaleTest {
             }
         }
         val context = InstrumentationRegistry.getInstrumentation().targetContext
-        val tops = listOf(com.wangzan101.mika.R.string.personal_tab_tasks, com.wangzan101.mika.R.string.personal_tab_memory,
-            com.wangzan101.mika.R.string.personal_tab_skills).map {
+        val tops = listOf(com.wangzan101.djini.R.string.personal_tab_tasks, com.wangzan101.djini.R.string.personal_tab_memory,
+            com.wangzan101.djini.R.string.personal_tab_skills).map {
             compose.onNodeWithText(context.getString(it)).fetchSemanticsNode().boundsInRoot.top
         }
         assertEquals(1, tops.distinct().size)

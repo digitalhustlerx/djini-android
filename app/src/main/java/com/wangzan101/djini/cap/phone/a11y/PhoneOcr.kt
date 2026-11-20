@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.phone.a11y
+package com.wangzan101.djini.cap.phone.a11y
 
 import android.graphics.Bitmap
 import android.util.Log
@@ -9,8 +9,8 @@ import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.TextRecognizer
 import com.google.mlkit.vision.text.chinese.ChineseTextRecognizerOptions
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
-import com.wangzan101.mika.core.uistate.VisibleTextLine
-import com.wangzan101.mika.core.uistate.normalize
+import com.wangzan101.djini.core.uistate.VisibleTextLine
+import com.wangzan101.djini.core.uistate.normalize
 import kotlinx.coroutines.suspendCancellableCoroutine
 import java.util.Collections
 import java.util.concurrent.atomic.AtomicInteger

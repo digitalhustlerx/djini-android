@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.visual
+package com.wangzan101.djini.core.visual
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse

@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui.viewer
+package com.wangzan101.djini.ui.viewer
 
 import android.annotation.SuppressLint
 import android.content.ClipData
@@ -96,22 +96,22 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
-import com.wangzan101.mika.R
-import com.wangzan101.mika.ui.FindHighlight
-import com.wangzan101.mika.ui.LocalFindHighlight
-import com.wangzan101.mika.ui.MarkdownBlock
-import com.wangzan101.mika.ui.MarkdownDocument
-import com.wangzan101.mika.ui.components.BarIconButton
-import com.wangzan101.mika.ui.components.ButtonKind
-import com.wangzan101.mika.ui.components.ButtonSize
-import com.wangzan101.mika.ui.components.MikaButton
-import com.wangzan101.mika.ui.components.PageBackground
-import com.wangzan101.mika.ui.components.TopBar
-import com.wangzan101.mika.ui.theme.MikaColors
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaShapes
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
+import com.wangzan101.djini.R
+import com.wangzan101.djini.ui.FindHighlight
+import com.wangzan101.djini.ui.LocalFindHighlight
+import com.wangzan101.djini.ui.MarkdownBlock
+import com.wangzan101.djini.ui.MarkdownDocument
+import com.wangzan101.djini.ui.components.BarIconButton
+import com.wangzan101.djini.ui.components.ButtonKind
+import com.wangzan101.djini.ui.components.ButtonSize
+import com.wangzan101.djini.ui.components.MikaButton
+import com.wangzan101.djini.ui.components.PageBackground
+import com.wangzan101.djini.ui.components.TopBar
+import com.wangzan101.djini.ui.theme.MikaColors
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.awaitCancellation
@@ -258,7 +258,7 @@ private fun copyText(context: Context, name: String, text: String, truncated: Bo
 /** 页内查找条:输入后自动搜,显示第几处/共几处,上一个、下一个、关闭。 */
 @Composable
 private fun ViewerFindBar(find: FindState, onQuery: (String) -> Unit, onClose: () -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val focusManager = LocalFocusManager.current
     var text by remember { mutableStateOf(find.query) }
     val focus = remember { FocusRequester() }
@@ -315,7 +315,7 @@ private fun FindAction(icon: ImageVector, label: String, tag: String, onClick: (
     Box(
         Modifier.size(36.dp).clip(CircleShape).clickable(role = Role.Button, onClickLabel = label, onClick = onClick).testTag(tag),
         contentAlignment = Alignment.Center,
-    ) { Icon(icon, label, Modifier.size(17.dp), tint = MikaTheme.colors.ink3) }
+    ) { Icon(icon, label, Modifier.size(17.dp), tint = DjiniTheme.colors.ink3) }
 }
 
 /** 命中处的底色:当前那一处用实色,其余淡一点。 */
@@ -330,7 +330,7 @@ private fun findColors(c: MikaColors): Pair<Color, Color> =
  */
 @Composable
 private fun MarkdownView(l: Loaded.Text, find: FindState) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val (soft, strong) = findColors(c)
     MarkdownDocument(l.text) { blocks ->
         val finds = remember(blocks, find.query) { findInBlocks(blocks, find.query) }
@@ -365,7 +365,7 @@ private fun MarkdownView(l: Loaded.Text, find: FindState) {
  */
 @Composable
 private fun PlainTextView(l: Loaded.Text, find: FindState) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val chunks = remember(l.text) { l.text.lines().chunked(LINES_PER_CHUNK).map { it.joinToString("\n") } }
     val finds = remember(chunks, find.query) { findInChunks(chunks, find.query) }
     LaunchedEffect(finds) { find.report(finds.hits.size, finds.more) }
@@ -499,7 +499,7 @@ private fun PdfView(uri: Uri, openElsewhere: () -> Unit) {
 
 @Composable
 private fun PdfPages(doc: PdfDoc) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val list = rememberLazyListState()
     val zoom = remember { Zoom() }
     val current by remember(list) { derivedStateOf { currentPage(list) } }
@@ -532,7 +532,7 @@ private fun currentPage(list: LazyListState): Int {
 
 @Composable
 private fun PdfPage(doc: PdfDoc, index: Int, size: IntSize) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     BoxWithConstraints(
         Modifier.fillMaxWidth().aspectRatio(size.width.toFloat() / size.height.coerceAtLeast(1))
             .background(Color.White).border(0.5.dp, c.edge),
@@ -602,7 +602,7 @@ private fun Modifier.zoomable(zoom: Zoom, panWithOneFinger: Boolean): Modifier =
 @Composable
 private fun Loading() {
     Box(Modifier.fillMaxSize().testTag("viewer.loading"), contentAlignment = Alignment.Center) {
-        CircularProgressIndicator(Modifier.size(28.dp), color = MikaTheme.colors.accent, strokeWidth = 2.5.dp)
+        CircularProgressIndicator(Modifier.size(28.dp), color = DjiniTheme.colors.accent, strokeWidth = 2.5.dp)
     }
 }
 
@@ -613,12 +613,12 @@ private fun Failure(message: String, openElsewhere: () -> Unit, modifier: Modifi
         verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text(message, style = MikaType.Body, color = MikaTheme.colors.ink2, textAlign = TextAlign.Center)
+        Text(message, style = MikaType.Body, color = DjiniTheme.colors.ink2, textAlign = TextAlign.Center)
         MikaButton(stringResource(R.string.viewer_open_elsewhere), openElsewhere, kind = ButtonKind.Secondary, size = ButtonSize.Medium)
     }
 }
 
 @Composable
 private fun TruncatedNote(modifier: Modifier = Modifier) {
-    Text(stringResource(R.string.viewer_truncated), modifier, style = MikaType.Caption, color = MikaTheme.colors.ink3)
+    Text(stringResource(R.string.viewer_truncated), modifier, style = MikaType.Caption, color = DjiniTheme.colors.ink3)
 }

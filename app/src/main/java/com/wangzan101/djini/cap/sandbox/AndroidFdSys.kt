@@ -1,16 +1,16 @@
-package com.wangzan101.mika.cap.sandbox
+package com.wangzan101.djini.cap.sandbox
 
 import android.os.ParcelFileDescriptor
 import android.system.ErrnoException
 import android.system.Os
 import android.system.OsConstants
 import android.system.StructStat
-import com.wangzan101.mika.core.workspace.FdStat
-import com.wangzan101.mika.core.workspace.FdSys
-import com.wangzan101.mika.core.workspace.FdSysException
-import com.wangzan101.mika.core.workspace.OpenFd
-import com.wangzan101.mika.core.workspace.OpenHow
-import com.wangzan101.mika.core.workspace.WorkspaceFileGate
+import com.wangzan101.djini.core.workspace.FdStat
+import com.wangzan101.djini.core.workspace.FdSys
+import com.wangzan101.djini.core.workspace.FdSysException
+import com.wangzan101.djini.core.workspace.OpenFd
+import com.wangzan101.djini.core.workspace.OpenHow
+import com.wangzan101.djini.core.workspace.WorkspaceFileGate
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream

@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.guard
+package com.wangzan101.djini.core.guard
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull

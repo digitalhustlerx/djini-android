@@ -1,15 +1,15 @@
-package com.wangzan101.mika.settings
+package com.wangzan101.djini.settings
 
 import android.content.Context
-import com.wangzan101.mika.MikaApp
-import com.wangzan101.mika.core.decision.DecisionConfig
-import com.wangzan101.mika.core.decision.DecisionModel
-import com.wangzan101.mika.core.decision.DecisionProtocol
-import com.wangzan101.mika.core.decision.GoogleDecisionModel
-import com.wangzan101.mika.core.decision.SystemOneDecisionModel
-import com.wangzan101.mika.core.usage.UsagePurpose
-import com.wangzan101.mika.core.usage.UsageSink
-import com.wangzan101.mika.core.usage.UsageSource
+import com.wangzan101.djini.DjiniApp
+import com.wangzan101.djini.core.decision.DecisionConfig
+import com.wangzan101.djini.core.decision.DecisionModel
+import com.wangzan101.djini.core.decision.DecisionProtocol
+import com.wangzan101.djini.core.decision.GoogleDecisionModel
+import com.wangzan101.djini.core.decision.SystemOneDecisionModel
+import com.wangzan101.djini.core.usage.UsagePurpose
+import com.wangzan101.djini.core.usage.UsageSink
+import com.wangzan101.djini.core.usage.UsageSource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -133,8 +133,8 @@ class DecisionSettings(
             val app = context.applicationContext
             instance ?: DecisionSettings(
                 File(app.filesDir, "settings"),
-                KeystoreKeyCipher("mika-decision-key"),
-                (app as? MikaApp)?.usage ?: UsageSink { _, _ -> },
+                KeystoreKeyCipher("djini-decision-key"),
+                (app as? DjiniApp)?.usage ?: UsageSink { _, _ -> },
                 geminiKeyProvider = { ProviderStore.get(app).geminiDeveloperApiKey() },
             ).also { instance = it }
         }

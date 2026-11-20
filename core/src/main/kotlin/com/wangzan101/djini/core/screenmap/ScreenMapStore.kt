@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.screenmap
+package com.wangzan101.djini.core.screenmap
 
 /** 屏图的存取口。读写失败等于「没有图」，调用方只计数、不影响任务（design D8）。 */
 interface ScreenMapStore {

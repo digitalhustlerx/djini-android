@@ -1,9 +1,9 @@
-package com.wangzan101.mika.core.cap.web
+package com.wangzan101.djini.core.cap.web
 
-import com.wangzan101.mika.core.uistate.ScreenFamily
-import com.wangzan101.mika.core.uistate.tools.ScreenTool
-import com.wangzan101.mika.core.tool.AgentTool
-import com.wangzan101.mika.core.tool.ToolContext
+import com.wangzan101.djini.core.uistate.ScreenFamily
+import com.wangzan101.djini.core.uistate.tools.ScreenTool
+import com.wangzan101.djini.core.tool.AgentTool
+import com.wangzan101.djini.core.tool.ToolContext
 
 /** 网页专属的工具:只有接了网页端口时才提供。 */
 internal interface WebTool : AgentTool {

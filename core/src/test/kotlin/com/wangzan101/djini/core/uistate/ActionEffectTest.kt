@@ -1,7 +1,7 @@
-package com.wangzan101.mika.core.uistate
+package com.wangzan101.djini.core.uistate
 
-import com.wangzan101.mika.core.visual.FrameChange
-import com.wangzan101.mika.core.tool.Verb
+import com.wangzan101.djini.core.visual.FrameChange
+import com.wangzan101.djini.core.tool.Verb
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import org.junit.Assert.assertEquals

@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.proactive
+package com.wangzan101.djini.core.proactive
 
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray

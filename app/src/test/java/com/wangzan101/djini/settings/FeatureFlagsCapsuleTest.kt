@@ -1,8 +1,8 @@
-package com.wangzan101.mika.settings
+package com.wangzan101.djini.settings
 
 import android.content.SharedPreferences
-import com.wangzan101.mika.capsule.CapsuleIdleOpacity
-import com.wangzan101.mika.capsule.CapsuleMode
+import com.wangzan101.djini.capsule.CapsuleIdleOpacity
+import com.wangzan101.djini.capsule.CapsuleMode
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList

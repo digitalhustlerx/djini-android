@@ -1,10 +1,10 @@
 #!/system/bin/sh
 # translate —— 调用用户自己配的 OpenAI 兼容接口，把文本翻译成目标语言。
 #
-# 跑在 Mika 的 App 进程里（没有 python3），所以只用 POSIX sh + 一个极小的 awk-JSON 解析器。
+# 跑在 Djini 的 App 进程里（没有 python3），所以只用 POSIX sh + 一个极小的 awk-JSON 解析器。
 # 参数从 $MIKA_ARGS_FILE（JSON）读，脚本本身也接受 $1 当参数文件路径。
 # 凭据走环境变量：MIKA_TRANSLATE_BASE / MIKA_TRANSLATE_KEY / MIKA_TRANSLATE_MODEL
-# （Mika 的插件脚本继承 App 进程环境，所以在系统里配好这三个变量，文本就不会经过对话）。
+# （Djini 的插件脚本继承 App 进程环境，所以在系统里配好这三个变量，文本就不会经过对话）。
 
 set -u
 

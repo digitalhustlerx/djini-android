@@ -1,7 +1,7 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.record.RunSink
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.record.RunSink
 
 /**
  * 运行记录按因果先后写:一次调用里读到、记进证据账本的观察([observed])先存着,跟在这次调用的工具结果后面写出;

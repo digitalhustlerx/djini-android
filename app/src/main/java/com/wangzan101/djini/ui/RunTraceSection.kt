@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -18,18 +18,18 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import com.wangzan101.mika.MikaApp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.core.trace.TraceArchive
-import com.wangzan101.mika.core.trace.TraceRow
-import com.wangzan101.mika.ui.components.GroupCard
-import com.wangzan101.mika.ui.components.ListRow
-import com.wangzan101.mika.ui.components.MikaSwitch
-import com.wangzan101.mika.ui.components.MikaDialog
-import com.wangzan101.mika.ui.components.RowChevron
-import com.wangzan101.mika.ui.components.RowValue
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaType
+import com.wangzan101.djini.DjiniApp
+import com.wangzan101.djini.R
+import com.wangzan101.djini.core.trace.TraceArchive
+import com.wangzan101.djini.core.trace.TraceRow
+import com.wangzan101.djini.ui.components.GroupCard
+import com.wangzan101.djini.ui.components.ListRow
+import com.wangzan101.djini.ui.components.MikaSwitch
+import com.wangzan101.djini.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.RowChevron
+import com.wangzan101.djini.ui.components.RowValue
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.MikaType
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -43,7 +43,7 @@ private const val TRACE_REFRESH_MS = 1_000L
 @Composable
 internal fun RunTraceSection(runId: String) {
     val context = LocalContext.current
-    val store = (context.applicationContext as MikaApp).detailedTraces.store
+    val store = (context.applicationContext as DjiniApp).detailedTraces.store
     // 运行过程页在任务跑着时就能打开:还在录就按秒重读,录完再读最后一次就停
     val loaded by produceState<Pair<TraceArchive, List<TraceRow>>?>(null, runId) {
         var archive: TraceArchive? = null
@@ -140,7 +140,7 @@ private fun TraceExportControls(archive: TraceArchive) {
     ListRow(null, stringResource(R.string.trace_attach), stringResource(R.string.trace_attach_hint),
         onClick = { includeBody = !includeBody }) { MikaSwitch(includeBody, null) }
     ListRow(MikaIcons.Doc, stringResource(R.string.trace_save), onClick = {
-        if (includeBody) zip.launch("mika-trace-${archive.runId}.zip") else proto.launch("mika-trace-${archive.runId}.pb")
+        if (includeBody) zip.launch("djini-trace-${archive.runId}.zip") else proto.launch("djini-trace-${archive.runId}.pb")
     }) { RowChevron() }
     if (result != 0) Text(stringResource(result), Modifier.padding(horizontal = 16.dp, vertical = 6.dp), style = MikaType.Hint)
 }
@@ -156,7 +156,7 @@ private suspend fun saveTrace(archive: TraceArchive, includeBody: Boolean, open:
 
 @Composable
 internal fun TraceSettingsRows() {
-    val traces = (LocalContext.current.applicationContext as MikaApp).detailedTraces
+    val traces = (LocalContext.current.applicationContext as DjiniApp).detailedTraces
     val scope = LocalLifecycleOwner.current.lifecycleScope
     var traceEnabled by remember { mutableStateOf(traces.enabled) }
     var traceLimitMiB by remember { mutableIntStateOf(traces.limitMiB) }

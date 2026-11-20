@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -6,10 +6,10 @@ import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.ChineseUi
-import com.wangzan101.mika.MikaApp
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.record.RunStore
+import com.wangzan101.djini.ChineseUi
+import com.wangzan101.djini.DjiniApp
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.record.RunStore
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.Assert.assertArrayEquals
@@ -32,7 +32,7 @@ class OtlpSendDeviceTest {
         val dir = Files.createTempDirectory(context.cacheDir.toPath(), "test-otlp").toFile()
         val runs = RunStore(dir, { null }, keep = 1, clock = System::currentTimeMillis) { it }
         val runId = runs.open("OTLP test").use { it.runId }
-        val store = (context.applicationContext as MikaApp).detailedTraces.store
+        val store = (context.applicationContext as DjiniApp).detailedTraces.store
         try {
             val trace = store.start(runId)!!
             trace.event(RunEvent.TaskEnded(0, "succeeded", ""))

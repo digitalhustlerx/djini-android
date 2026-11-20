@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui.components
+package com.wangzan101.djini.ui.components
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -26,10 +26,10 @@ import androidx.compose.ui.semantics.customActions
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import com.wangzan101.mika.R
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaSize
-import com.wangzan101.mika.ui.theme.MikaTheme
+import com.wangzan101.djini.R
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.MikaSize
+import com.wangzan101.djini.ui.theme.DjiniTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -141,7 +141,7 @@ fun ReorderableRow(
     }
     val moveUp = stringResource(R.string.recommendations_move_up)
     val moveDown = stringResource(R.string.recommendations_move_down)
-    val colors = MikaTheme.colors
+    val colors = DjiniTheme.colors
     Box(
         Modifier.fillMaxWidth().zIndex(if (moving) 1f else 0f)
             .graphicsLayer { translationY = offset; shadowElevation = if (moving) 8.dp.toPx() else 0f }

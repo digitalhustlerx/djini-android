@@ -1,8 +1,8 @@
-package com.wangzan101.mika.proactive
+package com.wangzan101.djini.proactive
 
-import com.wangzan101.mika.core.proactive.DigestData
-import com.wangzan101.mika.core.proactive.DigestNote
-import com.wangzan101.mika.settings.AesGcmKeyCipher
+import com.wangzan101.djini.core.proactive.DigestData
+import com.wangzan101.djini.core.proactive.DigestNote
+import com.wangzan101.djini.settings.AesGcmKeyCipher
 import java.io.File
 import javax.crypto.KeyGenerator
 import org.junit.Assert.assertEquals

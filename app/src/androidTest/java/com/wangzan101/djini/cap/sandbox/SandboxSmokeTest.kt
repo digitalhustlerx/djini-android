@@ -1,9 +1,9 @@
-package com.wangzan101.mika.cap.sandbox
+package com.wangzan101.djini.cap.sandbox
 
 import android.util.Log
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.core.cap.sandbox.RootfsExtractor
+import com.wangzan101.djini.core.cap.sandbox.RootfsExtractor
 import org.junit.Assert.assertEquals
 import org.junit.Assert.fail
 import org.junit.BeforeClass
@@ -39,7 +39,7 @@ class SandboxSmokeTest {
 
     private fun execInRootfs(vararg command: String): Result = exec(
         listOf(
-            lib("libmikarun.so"), "--",
+            lib("libdjinarun.so"), "--",
             lib("libproot.so"), "--kill-on-exit", "--link2symlink", "-0",
             "-r", rootfs.absolutePath,
         ) + ProotDevices.bindArgs() + listOf("-b", "/proc", "-b", "/sys", "-w", "/") + command,

@@ -1,11 +1,11 @@
-package com.wangzan101.mika.core.action
+package com.wangzan101.djini.core.action
 
-import com.wangzan101.mika.core.prompt.Feedback
-import com.wangzan101.mika.core.guard.GuardVerdict
-import com.wangzan101.mika.core.risk.IrrevAction
-import com.wangzan101.mika.core.gate.Irreversible
-import com.wangzan101.mika.core.uistate.ScreenSnapshot
-import com.wangzan101.mika.core.tool.ToolExecution
+import com.wangzan101.djini.core.prompt.Feedback
+import com.wangzan101.djini.core.guard.GuardVerdict
+import com.wangzan101.djini.core.risk.IrrevAction
+import com.wangzan101.djini.core.gate.Irreversible
+import com.wangzan101.djini.core.uistate.ScreenSnapshot
+import com.wangzan101.djini.core.tool.ToolExecution
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonObjectBuilder
@@ -69,12 +69,12 @@ internal object Refusals {
         }
         RefusalStyle.Script -> {
             val message = when (code) {
-                "guard_stopped" -> "Mika's operation guard stopped the task."
-                "guard_warning" -> "Mika's operation guard flagged this action; it was not run."
+                "guard_stopped" -> "Djini's operation guard stopped the task."
+                "guard_warning" -> "Djini's operation guard flagged this action; it was not run."
                 "confirmation_required" -> "this step spends money (${hit?.matched})"
                 "confirmation_mismatch" -> "this payment step (${hit?.matched}) does not match what the user approved ($reason)"
                 "approval_unavailable" -> "this step spends money and this run cannot get the user's approval; the action was not run"
-                "target_unresolved" -> "that ref is not on the latest snapshot; call mika.snapshot() again"
+                "target_unresolved" -> "that ref is not on the latest snapshot; call djini.snapshot() again"
                 OWN_APP -> Feedback["own_app"]
                 else -> error("unknown refusal $code")
             }

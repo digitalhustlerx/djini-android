@@ -1,8 +1,8 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.core.gate.ConfirmationRequest
-import com.wangzan101.mika.core.cap.phone.OperatingPace
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.core.gate.ConfirmationRequest
+import com.wangzan101.djini.core.cap.phone.OperatingPace
 
 /**
  * 评测跑器用的钩子。只在测试里设置;产品代码里全是默认值,行为不变。

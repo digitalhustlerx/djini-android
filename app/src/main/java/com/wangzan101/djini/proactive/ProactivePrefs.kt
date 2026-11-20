@@ -1,7 +1,7 @@
-package com.wangzan101.mika.proactive
+package com.wangzan101.djini.proactive
 
 import android.content.SharedPreferences
-import com.wangzan101.mika.core.proactive.TriageConsent
+import com.wangzan101.djini.core.proactive.TriageConsent
 
 /**
  * 主动能力的几项小状态:打开功能的时间、上次锁屏的时间、去重表(只有通知键的哈希和时间,不含通知内容,也没有原始的键)、
@@ -56,7 +56,7 @@ class ProactivePrefs(private val prefs: SharedPreferences) : LearnPurges, AllowR
         get() = prefs.getBoolean(LEARN_DIGEST, false)
         set(v) { prefs.edit().putBoolean(LEARN_DIGEST, v).commit() }
 
-    /** 激进程度(见 [com.wangzan101.mika.core.proactive.LearnLevel]);存的是它的名字,默认最保守的一档。 */
+    /** 激进程度(见 [com.wangzan101.djini.core.proactive.LearnLevel]);存的是它的名字,默认最保守的一档。 */
     var learnLevel: String?
         get() = prefs.getString(LEARN_LEVEL, null)
         set(v) { prefs.edit().putString(LEARN_LEVEL, v).commit() }

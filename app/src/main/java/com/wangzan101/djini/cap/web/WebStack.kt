@@ -1,21 +1,21 @@
-package com.wangzan101.mika.cap.web
+package com.wangzan101.djini.cap.web
 
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import android.content.Context
-import com.wangzan101.mika.core.cap.web.WebUrlPolicy
+import com.wangzan101.djini.core.cap.web.WebUrlPolicy
 import android.os.SystemClock
 import android.util.Log
 import androidx.webkit.WebViewAssetLoader
-import com.wangzan101.mika.core.resource.ResourceScope
-import com.wangzan101.mika.takeover.HandoverActivity
+import com.wangzan101.djini.core.resource.ResourceScope
+import com.wangzan101.djini.takeover.HandoverActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
-import com.wangzan101.mika.core.workspace.WorkspaceFileGate
-import com.wangzan101.mika.core.net.NetProxy
+import com.wangzan101.djini.core.workspace.WorkspaceFileGate
+import com.wangzan101.djini.core.net.NetProxy
 import java.io.File
-import com.wangzan101.mika.core.workspace.SandboxTree
+import com.wangzan101.djini.core.workspace.SandboxTree
 
 /**
  * 一个任务的内置浏览器:自己的一块后台网页显示、一池标签、网页端口与隔离脚本引擎。

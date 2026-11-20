@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.eval
+package com.wangzan101.djini.core.eval
 
 /**
  * 屏上看得出的障碍:登录墙、人机验证各自的字样(登录框、验证码输入、重新登录按钮……)。

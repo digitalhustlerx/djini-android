@@ -1,11 +1,11 @@
-package com.wangzan101.mika.knowledge
+package com.wangzan101.djini.knowledge
 
-import com.wangzan101.mika.core.knowledge.AppKnowledgeDraft
-import com.wangzan101.mika.core.knowledge.AppKnowledgeDraftStore
-import com.wangzan101.mika.core.knowledge.AppKnowledgeStage
-import com.wangzan101.mika.core.knowledge.AppKnowledgeTrial
-import com.wangzan101.mika.core.knowledge.LearnedNote
-import com.wangzan101.mika.core.knowledge.FrontMatter
+import com.wangzan101.djini.core.knowledge.AppKnowledgeDraft
+import com.wangzan101.djini.core.knowledge.AppKnowledgeDraftStore
+import com.wangzan101.djini.core.knowledge.AppKnowledgeStage
+import com.wangzan101.djini.core.knowledge.AppKnowledgeTrial
+import com.wangzan101.djini.core.knowledge.LearnedNote
+import com.wangzan101.djini.core.knowledge.FrontMatter
 import kotlinx.serialization.json.Json
 import java.io.File
 import java.nio.file.Files

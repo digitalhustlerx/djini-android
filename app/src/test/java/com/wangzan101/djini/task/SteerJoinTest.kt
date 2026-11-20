@@ -1,4 +1,4 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -46,14 +46,14 @@ class SteerJoinTest {
     @Test fun remoteStatusExcludesLocalMessagesAndDistinguishesReceiptConsumptionAndDiscard() {
         val local = SteerNote("local", "phone-only text", SteerState.Joined)
         val remote = SteerNote("remote", "only today", SteerState.Received, remote = true)
-        assertEquals(listOf(com.wangzan101.mika.core.remote.RemoteSteer("remote", "received")), remoteSteers(listOf(local, remote)))
+        assertEquals(listOf(com.wangzan101.djini.core.remote.RemoteSteer("remote", "received")), remoteSteers(listOf(local, remote)))
         val joined = SteerJoin().joined(listOf(local, remote), "remote")
-        assertEquals(listOf(com.wangzan101.mika.core.remote.RemoteSteer("remote", "joined")), remoteSteers(joined))
-        assertEquals(listOf(com.wangzan101.mika.core.remote.RemoteSteer("remote", "not_applied")),
+        assertEquals(listOf(com.wangzan101.djini.core.remote.RemoteSteer("remote", "joined")), remoteSteers(joined))
+        assertEquals(listOf(com.wangzan101.djini.core.remote.RemoteSteer("remote", "not_applied")),
             remoteSteers(listOf(remote.copy(state = SteerState.Cancelled))))
-        assertEquals(listOf(com.wangzan101.mika.core.remote.RemoteSteer("remote", "not_applied")),
+        assertEquals(listOf(com.wangzan101.djini.core.remote.RemoteSteer("remote", "not_applied")),
             remoteSteers(listOf(local, remote), finished = true))
-        assertEquals(listOf(com.wangzan101.mika.core.remote.RemoteSteer("remote", "joined")),
+        assertEquals(listOf(com.wangzan101.djini.core.remote.RemoteSteer("remote", "joined")),
             remoteSteers(joined, finished = true))
     }
 
@@ -61,8 +61,8 @@ class SteerJoinTest {
     @Test fun withdrawnMapsToNotAppliedAndLocalWithdrawalsStayHidden() {
         val remote = SteerNote("remote", "only today", SteerState.Withdrawn, remote = true)
         val local = SteerNote("local", "phone-only text", SteerState.Withdrawn)
-        assertEquals(listOf(com.wangzan101.mika.core.remote.RemoteSteer("remote", "not_applied")), remoteSteers(listOf(local, remote)))
-        assertEquals(listOf(com.wangzan101.mika.core.remote.RemoteSteer("remote", "not_applied")),
+        assertEquals(listOf(com.wangzan101.djini.core.remote.RemoteSteer("remote", "not_applied")), remoteSteers(listOf(local, remote)))
+        assertEquals(listOf(com.wangzan101.djini.core.remote.RemoteSteer("remote", "not_applied")),
             remoteSteers(listOf(local, remote), finished = true))
     }
 }

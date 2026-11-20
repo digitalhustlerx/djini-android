@@ -1,8 +1,8 @@
-package com.wangzan101.mika.cap.phone.a11y
+package com.wangzan101.djini.cap.phone.a11y
 
 import android.view.accessibility.AccessibilityEvent
-import com.wangzan101.mika.cap.phone.a11y.MainScreenSpill.InUse
-import com.wangzan101.mika.cap.phone.a11y.MainScreenSpill.PullBack
+import com.wangzan101.djini.cap.phone.a11y.MainScreenSpill.InUse
+import com.wangzan101.djini.cap.phone.a11y.MainScreenSpill.PullBack
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -12,7 +12,7 @@ class MainScreenSpillTest {
     private val since = 10_000L
     private val window = 6_000L
     private val launchers = setOf("com.home")
-    private val home = launchers + "com.wangzan101.mika"
+    private val home = launchers + "com.wangzan101.djini"
 
     private fun arrival(
         task: Int = 7, pkg: String? = "com.chat", at: Long = since + 500, from: Int = MainScreenSpill.NEW,
@@ -39,13 +39,13 @@ class MainScreenSpillTest {
 
     @Test fun launcherMikaAndNonStandardPagesAreNotSpills() {
         assertTrue(decide(arrival(pkg = "com.home")).isEmpty())
-        assertTrue(decide(arrival(pkg = "com.wangzan101.mika")).isEmpty())
+        assertTrue(decide(arrival(pkg = "com.wangzan101.djini")).isEmpty())
         assertTrue(decide(arrival(standard = false)).isEmpty())
         assertTrue(decide(arrival(pkg = null)).isEmpty())
     }
 
     @Test fun taskMovedFromAnotherDisplayIsATakeoverNotASpill() {
-        // 接管(本任务或别的任务)是把任务从 Mika 的屏挪到主屏
+        // 接管(本任务或别的任务)是把任务从 Djini 的屏挪到主屏
         assertTrue(decide(arrival(from = 5)).isEmpty())
     }
 
@@ -74,9 +74,9 @@ class MainScreenSpillTest {
         val opened = arrival(at = since + 900)
         // 桌面和通知栏入口不发控件点击时，先有回桌面的主屏导航也足以证明是用户入口
         assertTrue(decide(desktop, opened).isEmpty())
-        // Mika 自己的主屏页面不是桌面，不能把 Agent 的真实外溢当成用户操作
-        val mika = arrival(task = 2, pkg = "com.wangzan101.mika", at = since + 200, from = MainScreenSpill.MAIN)
-        assertEquals(listOf(PullBack(opened)), decide(mika, opened))
+        // Djini 自己的主屏页面不是桌面，不能把 Agent 的真实外溢当成用户操作
+        val djini = arrival(task = 2, pkg = "com.wangzan101.djini", at = since + 200, from = MainScreenSpill.MAIN)
+        assertEquals(listOf(PullBack(opened)), decide(djini, opened))
     }
 
     @Test fun userTappingThePopupItselfLeavesItThere() {

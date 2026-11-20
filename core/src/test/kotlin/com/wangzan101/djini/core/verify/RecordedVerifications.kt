@@ -1,8 +1,8 @@
-package com.wangzan101.mika.core.verify
+package com.wangzan101.djini.core.verify
 
-import com.wangzan101.mika.core.eval.RunFacts
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.testing.RECORDED_TOOLS
+import com.wangzan101.djini.core.eval.RunFacts
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.testing.RECORDED_TOOLS
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement

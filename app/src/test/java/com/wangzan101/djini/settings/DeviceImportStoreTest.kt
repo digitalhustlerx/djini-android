@@ -1,7 +1,7 @@
-package com.wangzan101.mika.settings
+package com.wangzan101.djini.settings
 
-import com.wangzan101.mika.task.DeviceImportRecord
-import com.wangzan101.mika.task.DeviceImportStore
+import com.wangzan101.djini.task.DeviceImportRecord
+import com.wangzan101.djini.task.DeviceImportStore
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.take

@@ -1,4 +1,4 @@
-package com.wangzan101.mika.voice
+package com.wangzan101.djini.voice
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
@@ -130,7 +130,7 @@ class FunAsrProtocolTest {
 
     @Test fun acknowledgementsDoNotChangeText() {
         val p = FunAsrProtocol()
-        assertEquals(LiveAsrUpdate.None, p.read("""{"event": "hotwords_set", "hotwords": ["Mika"]}"""))
+        assertEquals(LiveAsrUpdate.None, p.read("""{"event": "hotwords_set", "hotwords": ["Djini"]}"""))
         assertEquals(LiveAsrUpdate.None, p.read("""{"event": "language_set", "language": "中文"}"""))
     }
 

@@ -1,7 +1,7 @@
-package com.wangzan101.mika.core.remote
+package com.wangzan101.djini.core.remote
 
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.core.mcp.FakeRemoteTasks
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.core.mcp.FakeRemoteTasks
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -35,7 +35,7 @@ class RelayGatewayIntegrationTest {
         val key = "integration-test-owner-key-not-a-real-secret"
         val owner = tmp.newFile("owner-key").apply { writeText(key) }
         val log = tmp.newFile("gateway.log")
-        val process = ProcessBuilder(System.getProperty("mika.relayBinary"), "-listen", "127.0.0.1:$port", "-public-url", base,
+        val process = ProcessBuilder(System.getProperty("djini.relayBinary"), "-listen", "127.0.0.1:$port", "-public-url", base,
             "-local-http", "-trust-proxy", "-owner-key-file", owner.absolutePath, "-data", tmp.root.resolve("relay.json").absolutePath)
             .redirectErrorStream(true).redirectOutput(log).start()
         val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
@@ -82,10 +82,10 @@ class RelayGatewayIntegrationTest {
             assertTrue(endpoints.activity.value.recentClients > 0)
             // Run the shipped Python CLI through the real Go gateway and Kotlin phone API.
             val tokenFile = tmp.newFile("phone-token").apply { writeText(phoneToken.get()) }
-            val script = File("../tools/mika/scripts/mika_cli.py").canonicalPath
+            val script = File("../tools/djini/scripts/mika_cli.py").canonicalPath
             fun cli(vararg args: String): JsonObject {
                 lateinit var err: File
-                val cli = ProcessBuilder(listOf(System.getProperty("mika.python", "python3"), script,
+                val cli = ProcessBuilder(listOf(System.getProperty("djini.python", "python3"), script,
                     "--url", base, "--token-file", tokenFile.absolutePath, "--json") + args)
                     .directory(tmp.root).redirectError(File.createTempFile("cli", ".err", tmp.root).also { err = it }).start()
                 if (!cli.waitFor(10, TimeUnit.SECONDS)) { cli.destroyForcibly(); fail("Remote CLI timed out") }

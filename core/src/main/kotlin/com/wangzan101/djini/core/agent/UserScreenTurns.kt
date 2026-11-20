@@ -1,10 +1,10 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.userscreen.UserScreen
-import com.wangzan101.mika.core.userscreen.UserScreenMessage
-import com.wangzan101.mika.core.userscreen.UserScreenPrompt
-import com.wangzan101.mika.core.userscreen.UserScreenSource
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.userscreen.UserScreen
+import com.wangzan101.djini.core.userscreen.UserScreenMessage
+import com.wangzan101.djini.core.userscreen.UserScreenPrompt
+import com.wangzan101.djini.core.userscreen.UserScreenSource
 import kotlinx.coroutines.CancellationException
 import java.time.ZoneId
 
@@ -56,7 +56,7 @@ internal class UserScreenTurns(
         return turns.map { t -> t.copy(userText = one(t.userText), steers = t.steers.map(::one)) }
     }
 
-    /** 回答里带着屏幕时(Mika 问你时双击了胶囊):换成一段文字,截图要看用回看工具。 */
+    /** 回答里带着屏幕时(Djini 问你时双击了胶囊):换成一段文字,截图要看用回看工具。 */
     suspend fun asText(raw: String): String {
         val r = render(raw) ?: return raw
         return (listOf(r.said) + r.details.map { it.second }).joinToString("\n\n")

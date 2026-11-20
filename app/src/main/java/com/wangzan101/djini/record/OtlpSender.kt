@@ -1,7 +1,7 @@
-package com.wangzan101.mika.record
+package com.wangzan101.djini.record
 
-import com.wangzan101.mika.core.trace.TraceArchive
-import com.wangzan101.mika.core.net.LocalHosts
+import com.wangzan101.djini.core.trace.TraceArchive
+import com.wangzan101.djini.core.net.LocalHosts
 import io.opentelemetry.proto.collector.trace.v1.ExportTraceServiceResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine

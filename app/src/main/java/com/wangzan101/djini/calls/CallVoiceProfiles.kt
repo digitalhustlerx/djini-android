@@ -1,10 +1,10 @@
-package com.wangzan101.mika.calls
+package com.wangzan101.djini.calls
 
 import android.content.Context
 import android.os.Build
-import com.wangzan101.mika.settings.KeyCipher
+import com.wangzan101.djini.settings.KeyCipher
 import java.util.Base64
-import com.wangzan101.mika.settings.KeystoreKeyCipher
+import com.wangzan101.djini.settings.KeystoreKeyCipher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.serialization.Serializable
@@ -226,8 +226,8 @@ class CallVoiceProfileStore internal constructor(
     companion object {
         private const val MAX_STORAGE_CHARS = 500_000
         fun create(context: Context): CallVoiceProfileStore {
-            val prefs = context.applicationContext.getSharedPreferences("mika_call_voice_profiles", Context.MODE_PRIVATE)
-            val cipher = KeystoreKeyCipher("mika-call-voice-profiles")
+            val prefs = context.applicationContext.getSharedPreferences("djini_call_voice_profiles", Context.MODE_PRIVATE)
+            val cipher = KeystoreKeyCipher("djini-call-voice-profiles")
             return CallVoiceProfileStore(object : CallVoiceProfileBackend {
                 override fun read(): String? = prefs.getString("encrypted_profiles_v1", null)
                 override fun write(value: String): Boolean = prefs.edit().putString("encrypted_profiles_v1", value).commit()

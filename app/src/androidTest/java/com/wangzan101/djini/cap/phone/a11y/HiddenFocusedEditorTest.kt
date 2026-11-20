@@ -1,15 +1,15 @@
-package com.wangzan101.mika.cap.phone.a11y
+package com.wangzan101.djini.cap.phone.a11y
 
 import android.graphics.Rect
 import android.view.accessibility.AccessibilityNodeInfo
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.cap.phone.shell.AsciiTextKeys
-import com.wangzan101.mika.cap.phone.shell.ShellService
-import com.wangzan101.mika.core.uistate.ActionResult
-import com.wangzan101.mika.core.uistate.UiElement
-import com.wangzan101.mika.core.uistate.Verification
-import com.wangzan101.mika.shell.IMikaShell
+import com.wangzan101.djini.cap.phone.shell.AsciiTextKeys
+import com.wangzan101.djini.cap.phone.shell.ShellService
+import com.wangzan101.djini.core.uistate.ActionResult
+import com.wangzan101.djini.core.uistate.UiElement
+import com.wangzan101.djini.core.uistate.Verification
+import com.wangzan101.djini.shell.IDjiniShell
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withTimeout
@@ -59,7 +59,7 @@ class HiddenFocusedEditorTest {
             val a11y = DeviceSupport.service()
             val shell = DeviceSupport.shell()
             var fallbackCalls = 0
-            val guardedShell = object : IMikaShell by shell {
+            val guardedShell = object : IDjiniShell by shell {
                 override fun setClipText(text: String): Int {
                     fallbackCalls++
                     return ShellService.CLIP_FAILED

@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import android.content.Context
 import android.content.Intent
@@ -41,13 +41,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.FileProvider
-import com.wangzan101.mika.R
-import com.wangzan101.mika.about.MikaLinks
-import com.wangzan101.mika.ui.theme.LightColors
-import com.wangzan101.mika.ui.theme.LocalMikaColors
-import com.wangzan101.mika.ui.theme.MikaType
-import com.wangzan101.mika.ui.theme.MikaRadius
-import com.wangzan101.mika.ui.theme.MikaShapes
+import com.wangzan101.djini.R
+import com.wangzan101.djini.about.MikaLinks
+import com.wangzan101.djini.ui.theme.LightColors
+import com.wangzan101.djini.ui.theme.LocalMikaColors
+import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.MikaRadius
+import com.wangzan101.djini.ui.theme.MikaShapes
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -56,7 +56,7 @@ import java.io.File
 data class ShareRequest(val goal: String, val answer: String)
 
 /**
- * 分享卡片(样式 1 · 白卡):顶部 Mika logo + 名字,中间「问 + 答」,底部项目地址。
+ * 分享卡片(样式 1 · 白卡):顶部 Djini logo + 名字,中间「问 + 答」,底部项目地址。
  * 固定宽度、高度随内容撑开,白底、浅色,不随界面深浅色变化;正文用 Markdown 渲染、不截断。
  */
 @Composable
@@ -68,7 +68,7 @@ fun ShareCardContent(goal: String, answer: String, logo: ImageBitmap, modifier: 
         Row(verticalAlignment = Alignment.CenterVertically) {
             Image(logo, null, Modifier.size(40.dp).clip(MikaShapes.Chip), contentScale = ContentScale.Crop)
             Spacer(Modifier.width(10.dp))
-            Text("Mika", style = MikaType.Title.copy(fontWeight = FontWeight.Bold), color = ink)
+            Text("Djini", style = MikaType.Title.copy(fontWeight = FontWeight.Bold), color = ink)
         }
         Spacer(Modifier.height(20.dp))
         Text(stringResource(R.string.share_card_question), style = MikaType.Hint.copy(fontWeight = FontWeight.SemiBold), color = LightColors.accent)
@@ -139,7 +139,7 @@ fun ShareCardHost(request: ShareRequest?, onDone: () -> Unit) {
 /** 把卡片位图写成 PNG 放进 cache/report-share/,返回交给分享面板的只读 content:// 地址;失败为 null。 */
 private fun saveShareCard(context: Context, bitmap: Bitmap): Uri? = runCatching {
     val dir = File(context.cacheDir, "report-share").apply { mkdirs() }
-    val file = File(dir, "mika-share-${System.currentTimeMillis()}.png")
+    val file = File(dir, "djini-share-${System.currentTimeMillis()}.png")
     file.outputStream().use { bitmap.compress(Bitmap.CompressFormat.PNG, 100, it) }
     FileProvider.getUriForFile(context, "${context.packageName}.reportfiles", file)
 }.getOrNull()

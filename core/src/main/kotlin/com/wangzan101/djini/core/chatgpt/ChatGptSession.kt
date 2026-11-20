@@ -1,8 +1,8 @@
-package com.wangzan101.mika.core.chatgpt
+package com.wangzan101.djini.core.chatgpt
 
-import com.wangzan101.mika.core.model.BearerToken
-import com.wangzan101.mika.core.oauth.LoopbackCallback
-import com.wangzan101.mika.core.model.ModelError
+import com.wangzan101.djini.core.model.BearerToken
+import com.wangzan101.djini.core.oauth.LoopbackCallback
+import com.wangzan101.djini.core.model.ModelError
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.sync.Mutex

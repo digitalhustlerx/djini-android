@@ -1,14 +1,14 @@
-package com.wangzan101.mika.core.prompt
+package com.wangzan101.djini.core.prompt
 
-import com.wangzan101.mika.core.assembly.allTools
-import com.wangzan101.mika.core.assembly.knownToolNames
-import com.wangzan101.mika.core.assembly.knownTools
-import com.wangzan101.mika.core.assembly.legacyNames
-import com.wangzan101.mika.core.knowledge.KnowledgeIndex
-import com.wangzan101.mika.core.knowledge.GuideCatalog
+import com.wangzan101.djini.core.assembly.allTools
+import com.wangzan101.djini.core.assembly.knownToolNames
+import com.wangzan101.djini.core.assembly.knownTools
+import com.wangzan101.djini.core.assembly.legacyNames
+import com.wangzan101.djini.core.knowledge.KnowledgeIndex
+import com.wangzan101.djini.core.knowledge.GuideCatalog
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
-import com.wangzan101.mika.core.tool.Verb
+import com.wangzan101.djini.core.tool.Verb
 import org.junit.Test
 import java.io.File
 
@@ -58,7 +58,7 @@ class ToolNamesInTextTest {
             val entry = rel.removePrefix("knowledge/").split('/').take(2).joinToString("/")
             val text = f.readText()
             for (m in scriptPath.findAll(text)) {
-                val path = m.value.removePrefix("/opt/mika/skills/").let { if (it.startsWith("scripts/")) "$entry/$it" else it }
+                val path = m.value.removePrefix("/opt/djini/skills/").let { if (it.startsWith("scripts/")) "$entry/$it" else it }
                 if (path !in runnable) bad += "$rel: ${m.value}"
             }
             scriptFile.findAll(text).map { it.value }.filter { it !in byFileName }.forEach { bad += "$rel: $it" }

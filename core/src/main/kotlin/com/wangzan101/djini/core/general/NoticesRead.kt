@@ -1,27 +1,27 @@
-package com.wangzan101.mika.core.general
+package com.wangzan101.djini.core.general
 
-import com.wangzan101.mika.core.agent.NoticeTurn
-import com.wangzan101.mika.core.prompt.Prompts
-import com.wangzan101.mika.core.proactive.DigestLevel
-import com.wangzan101.mika.core.proactive.DigestNote
-import com.wangzan101.mika.core.proactive.DigestView
-import com.wangzan101.mika.core.proactive.DigestViewLine
-import com.wangzan101.mika.core.proactive.NoticeSource
-import com.wangzan101.mika.core.proactive.NoticeEntry
-import com.wangzan101.mika.core.proactive.NoticeFilter
-import com.wangzan101.mika.core.run.RunOrigin
-import com.wangzan101.mika.core.tool.AgentTool
-import com.wangzan101.mika.core.tool.Args
-import com.wangzan101.mika.core.tool.Concurrency
-import com.wangzan101.mika.core.tool.Risk
-import com.wangzan101.mika.core.tool.ToolContext
-import com.wangzan101.mika.core.tool.ToolDef
-import com.wangzan101.mika.core.tool.ToolExecution
-import com.wangzan101.mika.core.tool.Verb
-import com.wangzan101.mika.core.tool.fail
-import com.wangzan101.mika.core.tool.int
-import com.wangzan101.mika.core.tool.okObj
-import com.wangzan101.mika.core.tool.str
+import com.wangzan101.djini.core.agent.NoticeTurn
+import com.wangzan101.djini.core.prompt.Prompts
+import com.wangzan101.djini.core.proactive.DigestLevel
+import com.wangzan101.djini.core.proactive.DigestNote
+import com.wangzan101.djini.core.proactive.DigestView
+import com.wangzan101.djini.core.proactive.DigestViewLine
+import com.wangzan101.djini.core.proactive.NoticeSource
+import com.wangzan101.djini.core.proactive.NoticeEntry
+import com.wangzan101.djini.core.proactive.NoticeFilter
+import com.wangzan101.djini.core.run.RunOrigin
+import com.wangzan101.djini.core.tool.AgentTool
+import com.wangzan101.djini.core.tool.Args
+import com.wangzan101.djini.core.tool.Concurrency
+import com.wangzan101.djini.core.tool.Risk
+import com.wangzan101.djini.core.tool.ToolContext
+import com.wangzan101.djini.core.tool.ToolDef
+import com.wangzan101.djini.core.tool.ToolExecution
+import com.wangzan101.djini.core.tool.Verb
+import com.wangzan101.djini.core.tool.fail
+import com.wangzan101.djini.core.tool.int
+import com.wangzan101.djini.core.tool.okObj
+import com.wangzan101.djini.core.tool.str
 import java.time.Instant
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -42,9 +42,9 @@ const val NOTICES_READ = "notices_read"
  * 给出来的不是全部时都明说:记录从几点起才全(`recordedSince`、`incomplete`)、后面还有没给的(`nextOffset`)、
  * 有几个 App 因为来源档位不够格没给(`appsWithheld`)。读不出来是报错,不是「什么都没收到」。
  *
- * 只读,不碰屏幕。数据由 App 给([com.wangzan101.mika.core.proactive.NoticeSource]);没给(功能没开、不是用户在手机上发起的任务)时不出现。
+ * 只读,不碰屏幕。数据由 App 给([com.wangzan101.djini.core.proactive.NoticeSource]);没给(功能没开、不是用户在手机上发起的任务)时不出现。
  * 读到的都是别的 App、别人写的字:每一样都套不可信标记(里面自带的标记先弄坏)。不作为观察记进核查的账本;
- * 进运行记录前文字遮掉(见 [com.wangzan101.mika.core.record.Redactor.result]):通知原文只在本机留两天,不能借运行记录多留。
+ * 进运行记录前文字遮掉(见 [com.wangzan101.djini.core.record.Redactor.result]):通知原文只在本机留两天,不能借运行记录多留。
  * 读过通知的任务,结束后不自动提取记忆(见 RunLearning)。
  */
 internal object NoticesRead : AgentTool {
@@ -64,7 +64,7 @@ internal object NoticesRead : AgentTool {
         mapOf(
             "day" to str("summary and messages views only. Which day: today (default) or yesterday.", listOf("today", "yesterday")),
             "view" to str("summary (default): counts per app and the notes already written about that day. messages: the notification text itself, oldest first. " +
-                "days, weeks, months: the daily, weekly or monthly digests Mika has stored, newest first.", listOf("summary", "messages", "days", "weeks", "months")),
+                "days, weeks, months: the daily, weekly or monthly digests Djini has stored, newest first.", listOf("summary", "messages", "days", "weeks", "months")),
             "app" to str("Only this app: its name or package as listed by a summary call. Leave out for all apps."),
             "query" to str("Not for summary. Keep only items whose chat name, sender or text contains this exact piece of text (one name or phrase, not a list of keywords)."),
             "offset" to int("Item to start from, taken from nextOffset of the previous call with the same day and view (default 0).", 0),

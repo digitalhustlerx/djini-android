@@ -1,19 +1,19 @@
-package com.wangzan101.mika.core.uistate
+package com.wangzan101.djini.core.uistate
 
-import com.wangzan101.mika.core.capability.CapabilityKey
-import com.wangzan101.mika.core.prompt.Feedback
-import com.wangzan101.mika.core.tool.FAILURE_MESSAGES
-import com.wangzan101.mika.core.tool.HINT_NOT_SETTLED
-import com.wangzan101.mika.core.tool.HINT_TAP_UNCHANGED
-import com.wangzan101.mika.core.tool.ToolContext
-import com.wangzan101.mika.core.tool.ToolDispatcher
-import com.wangzan101.mika.core.tool.ToolExecution
-import com.wangzan101.mika.core.tool.fail
-import com.wangzan101.mika.core.tool.refExpired
-import com.wangzan101.mika.core.tool.okObj
-import com.wangzan101.mika.core.tool.switchHint
-import com.wangzan101.mika.core.vision.LocateRegistry
-import com.wangzan101.mika.core.vision.Locator
+import com.wangzan101.djini.core.capability.CapabilityKey
+import com.wangzan101.djini.core.prompt.Feedback
+import com.wangzan101.djini.core.tool.FAILURE_MESSAGES
+import com.wangzan101.djini.core.tool.HINT_NOT_SETTLED
+import com.wangzan101.djini.core.tool.HINT_TAP_UNCHANGED
+import com.wangzan101.djini.core.tool.ToolContext
+import com.wangzan101.djini.core.tool.ToolDispatcher
+import com.wangzan101.djini.core.tool.ToolExecution
+import com.wangzan101.djini.core.tool.fail
+import com.wangzan101.djini.core.tool.refExpired
+import com.wangzan101.djini.core.tool.okObj
+import com.wangzan101.djini.core.tool.switchHint
+import com.wangzan101.djini.core.vision.LocateRegistry
+import com.wangzan101.djini.core.vision.Locator
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
@@ -21,7 +21,7 @@ import kotlinx.serialization.json.put
 
 /*
  * 工具上下文里的界面状态:开局由 [Interfaces.attach] 放进去,有界面的工具(手机、网页、通用工具里点名屏幕的)从这里取。
- * 工具引擎(core/tool)不认识这些,只经 [com.wangzan101.mika.core.tool.SurfaceLayer] 用到界面一侧。
+ * 工具引擎(core/tool)不认识这些,只经 [com.wangzan101.djini.core.tool.SurfaceLayer] 用到界面一侧。
  */
 
 /** 界面状态在工具上下文里的键。 */
@@ -107,7 +107,7 @@ internal fun ToolContext.action(r: ActionResult): ToolExecution = when (r) {
 }
 
 /**
- * 动作让 App 开到了用户主屏上时给模型的那句:挪回来了就说在 Mika 的屏上接着做、别再点一次;系统在用户屏上问打开哪一个的,
+ * 动作让 App 开到了用户主屏上时给模型的那句:挪回来了就说在 Djini 的屏上接着做、别再点一次;系统在用户屏上问打开哪一个的,
  * 说留给用户选、别再点也别替用户选,下一个动作会等用户选完;用户关了那个问题、用户亲手处理完了的,照实说;
  * 要用户亲手处理的弹窗(登录验证一类)留在用户屏上,说别挪回来、请用户在那里点;留在用户屏上没动的(用户正用着),
  * 说别再来、请用户处理。

@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.uistate
+package com.wangzan101.djini.core.uistate
 
 /**
  * 判动作效果用的全部门槛,集中在一处。都是先定的初值,要按真机上记下的运行(动作前后的界面与结果)校准,

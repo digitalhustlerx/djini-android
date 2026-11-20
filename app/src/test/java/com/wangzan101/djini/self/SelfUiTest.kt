@@ -1,6 +1,6 @@
-package com.wangzan101.mika.self
+package com.wangzan101.djini.self
 
-import com.wangzan101.mika.core.self.SelfScreen
+import com.wangzan101.djini.core.self.SelfScreen
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test

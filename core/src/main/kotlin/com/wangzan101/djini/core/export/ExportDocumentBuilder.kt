@@ -1,11 +1,11 @@
-package com.wangzan101.mika.core.export
+package com.wangzan101.djini.core.export
 
-import com.wangzan101.mika.core.agent.AttachmentLines
-import com.wangzan101.mika.core.agent.Conversation
-import com.wangzan101.mika.core.agent.AttachedPage
-import com.wangzan101.mika.core.agent.QuoteMessage
-import com.wangzan101.mika.core.record.Redactor
-import com.wangzan101.mika.core.userscreen.UserScreenMessage
+import com.wangzan101.djini.core.agent.AttachmentLines
+import com.wangzan101.djini.core.agent.Conversation
+import com.wangzan101.djini.core.agent.AttachedPage
+import com.wangzan101.djini.core.agent.QuoteMessage
+import com.wangzan101.djini.core.record.Redactor
+import com.wangzan101.djini.core.userscreen.UserScreenMessage
 import java.util.Locale
 
 /**
@@ -113,7 +113,7 @@ class ExportDocumentBuilder(
             )
         }
 
-        val finalTitle = redact(title.trim().ifEmpty { turns.firstOrNull()?.userText?.take(80) ?: "Mika" }, content)
+        val finalTitle = redact(title.trim().ifEmpty { turns.firstOrNull()?.userText?.take(80) ?: "Djini" }, content)
         return ExportDocument(
             meta = ExportMeta(
                 conversationId = conversationId,
@@ -193,7 +193,7 @@ class ExportDocumentBuilder(
         var text = raw
         val page = AttachedPage.parse(text).let { p -> p.page?.also { text = p.words } }
         val quote = QuoteMessage.parse(text).let { p ->
-            p.quote?.also { text = p.words }?.let { q -> (if (q.from == QuoteMessage.From.Mika) QuoteSource.Mika else QuoteSource.User) to q.text }
+            p.quote?.also { text = p.words }?.let { q -> (if (q.from == QuoteMessage.From.Djini) QuoteSource.Djini else QuoteSource.User) to q.text }
         }
         val screens = UserScreenMessage.parse(text).let { p -> p.screens.also { if (it.isNotEmpty()) text = p.words } }
         val attachments = AttachmentLines.parse(text).let { p -> p.files.also { text = p.words } }

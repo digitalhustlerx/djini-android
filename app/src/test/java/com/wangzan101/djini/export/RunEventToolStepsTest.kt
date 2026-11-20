@@ -1,6 +1,6 @@
-package com.wangzan101.mika.export
+package com.wangzan101.djini.export
 
-import com.wangzan101.mika.core.record.RunEvent
+import com.wangzan101.djini.core.record.RunEvent
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test

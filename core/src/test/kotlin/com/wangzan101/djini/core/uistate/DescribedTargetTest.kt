@@ -1,8 +1,8 @@
-package com.wangzan101.mika.core.uistate
+package com.wangzan101.djini.core.uistate
 
-import com.wangzan101.mika.core.testing.button
-import com.wangzan101.mika.core.testing.field
-import com.wangzan101.mika.core.testing.label
+import com.wangzan101.djini.core.testing.button
+import com.wangzan101.djini.core.testing.field
+import com.wangzan101.djini.core.testing.label
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test

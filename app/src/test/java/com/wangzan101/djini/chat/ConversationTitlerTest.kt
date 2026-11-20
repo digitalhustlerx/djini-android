@@ -1,13 +1,13 @@
-package com.wangzan101.mika.chat
+package com.wangzan101.djini.chat
 
-import com.wangzan101.mika.core.agent.Turn
-import com.wangzan101.mika.core.model.Capabilities
-import com.wangzan101.mika.core.model.ChatModel
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.ModelReply
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.StopReason
-import com.wangzan101.mika.core.model.ToolSpec
+import com.wangzan101.djini.core.agent.Turn
+import com.wangzan101.djini.core.model.Capabilities
+import com.wangzan101.djini.core.model.ChatModel
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.ModelReply
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.StopReason
+import com.wangzan101.djini.core.model.ToolSpec
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
@@ -58,8 +58,8 @@ class ConversationTitlerTest {
     /** 在浏览器页上问的第一句:页面说明不交给起标题的模型,只给用户说的话。 */
     @Test fun pageContextIsNotPartOfTheTitleInput() = runBlocking {
         val m = Titler("挑耳机")
-        val first = com.wangzan101.mika.core.agent.AttachedPage.compose(
-            com.wangzan101.mika.core.agent.AttachedPage.Page("https://shop.example.com/s", "搜索结果"), "挑一个评价最好的")
+        val first = com.wangzan101.djini.core.agent.AttachedPage.compose(
+            com.wangzan101.djini.core.agent.AttachedPage.Page("https://shop.example.com/s", "搜索结果"), "挑一个评价最好的")
         assertEquals("挑耳机", ConversationTitler.generate(listOf(m), first))
         assertTrue(text(m).contains("挑一个评价最好的"))
         assertFalse(text(m).contains("shop.example.com"))
@@ -94,7 +94,7 @@ class ConversationTitlerTest {
 
     @Test fun screenOnlyMessageIsNotTitled() = runBlocking {
         val m = Titler("屏幕")
-        val line = com.wangzan101.mika.core.userscreen.UserScreenMessage.line("abc")
+        val line = com.wangzan101.djini.core.userscreen.UserScreenMessage.line("abc")
         assertNull(ConversationTitler.generate(listOf(m), line))
         assertTrue(m.requests.isEmpty())
         // 带附言时只把附言给模型

@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.context
+package com.wangzan101.djini.core.context
 
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put

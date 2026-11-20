@@ -1,6 +1,6 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.i18n.AppLanguage
+import com.wangzan101.djini.i18n.AppLanguage
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -8,9 +8,9 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Modifier
-import com.wangzan101.mika.ui.components.KeyboardDismissArea
-import com.wangzan101.mika.ui.components.glassSource
-import com.wangzan101.mika.ui.components.rememberGlassBackdrop
+import com.wangzan101.djini.ui.components.KeyboardDismissArea
+import com.wangzan101.djini.ui.components.glassSource
+import com.wangzan101.djini.ui.components.rememberGlassBackdrop
 import android.Manifest
 import android.content.ActivityNotFoundException
 import android.content.Context
@@ -29,8 +29,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import com.wangzan101.mika.confirm.ConfirmationNotifier
-import com.wangzan101.mika.memory.MemoryRuntime
+import com.wangzan101.djini.confirm.ConfirmationNotifier
+import com.wangzan101.djini.memory.MemoryRuntime
 import androidx.compose.runtime.rememberCoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -48,38 +48,38 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import androidx.compose.ui.platform.LocalContext
-import com.wangzan101.mika.cap.web.WebHandover
-import com.wangzan101.mika.cap.web.WebSites
-import com.wangzan101.mika.browser.UserBrowser
-import com.wangzan101.mika.BuildConfig
-import com.wangzan101.mika.R
-import com.wangzan101.mika.MikaApp
-import com.wangzan101.mika.about.Diagnostics
-import com.wangzan101.mika.about.DiagnosticsCollector
-import com.wangzan101.mika.about.MikaLinks
-import com.wangzan101.mika.about.QrImage
-import com.wangzan101.mika.about.ReleaseInfo
-import com.wangzan101.mika.chat.ConversationStore
-import com.wangzan101.mika.chat.CurrentChat
-import com.wangzan101.mika.chat.SharedDraft
-import com.wangzan101.mika.chat.SharedDraftImporter
-import com.wangzan101.mika.chat.SharedDraftStore
-import com.wangzan101.mika.record.RunStore
-import com.wangzan101.mika.replay.FileRouteStore
-import com.wangzan101.mika.task.TaskService
-import com.wangzan101.mika.settings.Prerequisites
-import com.wangzan101.mika.settings.FeatureFlags
-import com.wangzan101.mika.settings.ProviderStore
-import com.wangzan101.mika.settings.SystemStatusMonitor
-import com.wangzan101.mika.cap.phone.PhoneServices
-import com.wangzan101.mika.cap.phone.setup.DeveloperSettings
-import com.wangzan101.mika.cap.phone.setup.PairingNotifier
-import com.wangzan101.mika.core.shell.BuiltinShellStatus
-import com.wangzan101.mika.core.knowledge.GuideCatalog
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.animationsOff
-import com.wangzan101.mika.ui.theme.appearanceDark
-import com.wangzan101.mika.ui.theme.systemBarsFor
+import com.wangzan101.djini.cap.web.WebHandover
+import com.wangzan101.djini.cap.web.WebSites
+import com.wangzan101.djini.browser.UserBrowser
+import com.wangzan101.djini.BuildConfig
+import com.wangzan101.djini.R
+import com.wangzan101.djini.DjiniApp
+import com.wangzan101.djini.about.Diagnostics
+import com.wangzan101.djini.about.DiagnosticsCollector
+import com.wangzan101.djini.about.MikaLinks
+import com.wangzan101.djini.about.QrImage
+import com.wangzan101.djini.about.ReleaseInfo
+import com.wangzan101.djini.chat.ConversationStore
+import com.wangzan101.djini.chat.CurrentChat
+import com.wangzan101.djini.chat.SharedDraft
+import com.wangzan101.djini.chat.SharedDraftImporter
+import com.wangzan101.djini.chat.SharedDraftStore
+import com.wangzan101.djini.record.RunStore
+import com.wangzan101.djini.replay.FileRouteStore
+import com.wangzan101.djini.task.TaskService
+import com.wangzan101.djini.settings.Prerequisites
+import com.wangzan101.djini.settings.FeatureFlags
+import com.wangzan101.djini.settings.ProviderStore
+import com.wangzan101.djini.settings.SystemStatusMonitor
+import com.wangzan101.djini.cap.phone.PhoneServices
+import com.wangzan101.djini.cap.phone.setup.DeveloperSettings
+import com.wangzan101.djini.cap.phone.setup.PairingNotifier
+import com.wangzan101.djini.core.shell.BuiltinShellStatus
+import com.wangzan101.djini.core.knowledge.GuideCatalog
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.animationsOff
+import com.wangzan101.djini.ui.theme.appearanceDark
+import com.wangzan101.djini.ui.theme.systemBarsFor
 
 class MainActivity : ComponentActivity() {
     private lateinit var monitor: SystemStatusMonitor
@@ -108,7 +108,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null) {
-            (application as MikaApp).chat.cancelPendingSharedDraft()
+            (application as DjiniApp).chat.cancelPendingSharedDraft()
         }
         requestedConversation = intent.getStringExtra(EXTRA_OPEN_CONVERSATION)
         requestedCalls = intent.getBooleanExtra(EXTRA_OPEN_CALLS, false)
@@ -126,7 +126,7 @@ class MainActivity : ComponentActivity() {
             // 外观按设置来,改了当场换;系统栏图标的深浅跟着界面
             val dark = appearanceDark()
             LaunchedEffect(dark) { systemBarsFor(dark) }
-            MikaTheme(dark = dark, reduceMotion = animationsOff(this)) {
+            DjiniTheme(dark = dark, reduceMotion = animationsOff(this)) {
                 // 在输入框外面点一下或拖动就收起键盘,全 App 统一
                 KeyboardDismissArea(Modifier.fillMaxSize()) {
                     MikaRoot(
@@ -139,7 +139,7 @@ class MainActivity : ComponentActivity() {
                             // 处理完后换掉 intent,避免后续旋转屏幕再次把这次分享当成新分享或重复弹失败提示。
                             setIntent(Intent(this@MainActivity, MainActivity::class.java))
                             if (!accepted) {
-                                (application as MikaApp).sharedDrafts.discard(draft.image)
+                                (application as DjiniApp).sharedDrafts.discard(draft.image)
                                 Toast.makeText(this@MainActivity, R.string.share_draft_failed, Toast.LENGTH_SHORT).show()
                             }
                         },
@@ -154,7 +154,7 @@ class MainActivity : ComponentActivity() {
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         setIntent(intent)
-        val app = application as MikaApp
+        val app = application as DjiniApp
         shareJob?.cancel()
         requestedConversation = intent.getStringExtra(EXTRA_OPEN_CONVERSATION)
         requestedCalls = intent.getBooleanExtra(EXTRA_OPEN_CALLS, false)
@@ -209,7 +209,7 @@ class MainActivity : ComponentActivity() {
                 }
                 shareJob = lifecycleScope.launch {
                     val prepared = try {
-                        SharedDraftImporter(this@MainActivity, (application as MikaApp).sharedDrafts).image(text, uri, type)
+                        SharedDraftImporter(this@MainActivity, (application as DjiniApp).sharedDrafts).image(text, uri, type)
                     } catch (e: CancellationException) {
                         throw e
                     } catch (e: Exception) {
@@ -227,18 +227,18 @@ class MainActivity : ComponentActivity() {
 
     override fun onStart() {
         super.onStart()
-        // 用户先前点了「完全退出」:打开 Mika 就回来,胶囊和退出时略过的启动工作在这里补上
-        com.wangzan101.mika.quit.MikaQuit.resume(this)
+        // 用户先前点了「完全退出」:打开 Djini 就回来,胶囊和退出时略过的启动工作在这里补上
+        com.wangzan101.djini.quit.MikaQuit.resume(this)
         monitor.start()
         // 每次打开都悄悄查一次新版本(两分钟内连着打开的只查一次),失败不吭声
-        val app = application as MikaApp
+        val app = application as DjiniApp
         val check = app.updates.autoCheckInBackground()
         updateWatch = lifecycleScope.launch {
             check.join()
             app.automaticUpdates.watch(app.updates.state)
         }
         // 电脑连接开着、服务却不在(被系统停过、从后台没能起来):界面在前台时补起来
-        (application as MikaApp).mcp.ensureRunning()
+        (application as DjiniApp).mcp.ensureRunning()
     }
 
     override fun onResume() {
@@ -246,7 +246,7 @@ class MainActivity : ComponentActivity() {
         foreground = true
         monitor.refresh()
         // 回到前台时按最新设置查一次自动归档(启动时也查过,这里照顾长期不退出的进程)
-        (application as MikaApp).autoArchiveNow()
+        (application as DjiniApp).autoArchiveNow()
     }
 
     override fun onStop() {
@@ -259,10 +259,10 @@ class MainActivity : ComponentActivity() {
     override fun onDestroy() {
         shareJob?.cancel()
         // 还没绑到对话的私有副本随这次接收结束清掉;已接受的草稿由 CurrentChat 恢复,不在这里删除。
-        requestedSharedDraft?.let { (application as MikaApp).sharedDrafts.discard(it.draft.image) }
+        requestedSharedDraft?.let { (application as DjiniApp).sharedDrafts.discard(it.draft.image) }
         requestedSharedDraft = null
         if (isFinishing) {
-            (application as MikaApp).chat.cancelPendingSharedDraft()
+            (application as DjiniApp).chat.cancelPendingSharedDraft()
         }
         super.onDestroy()
     }
@@ -338,7 +338,7 @@ class MainActivity : ComponentActivity() {
     private fun takeTeach(intent: Intent) {
         if (!intent.getBooleanExtra(EXTRA_OPEN_TEACH, false)) return
         openTeach = true
-        (application as MikaApp).teach.prefill(intent.getStringExtra(EXTRA_TEACH_GOAL))
+        (application as DjiniApp).teach.prefill(intent.getStringExtra(EXTRA_TEACH_GOAL))
         intent.removeExtra(EXTRA_OPEN_TEACH)
     }
 
@@ -424,7 +424,7 @@ private fun MikaRoot(
     val roles by store.roles.collectAsState()
     val hasMain = roles.main != null
     val check = Prerequisites.check(status, hasMain)
-    val app = context.applicationContext as MikaApp
+    val app = context.applicationContext as DjiniApp
     val personasOn = FeatureFlags.get(context).persona()
     // 查到的新版本:侧栏、设置首页、关于页的红点都看它
     val updateState by app.updates.state.collectAsState()
@@ -459,7 +459,7 @@ private fun MikaRoot(
         }
     }
     // 消费任务或内部通知入口提交的自身操作请求。
-    suspend fun openSelfFile(file: com.wangzan101.mika.self.SelfFileRequest) {
+    suspend fun openSelfFile(file: com.wangzan101.djini.self.SelfFileRequest) {
         if (!AttachFiles.openSent(context, file.conversationId, file.path)) {
             Toast.makeText(context, R.string.self_file_failed, Toast.LENGTH_SHORT).show()
         }
@@ -472,7 +472,7 @@ private fun MikaRoot(
     }
     fun openSelfLogin(host: String) {
         nav.push(Route.Browser)
-        UserBrowser.of(context).openFavorite(com.wangzan101.mika.browser.FavoriteSite(host, loggedIn = false))
+        UserBrowser.of(context).openFavorite(com.wangzan101.djini.browser.FavoriteSite(host, loggedIn = false))
             ?.let { Toast.makeText(context, R.string.self_browser_failed, Toast.LENGTH_SHORT).show() }
     }
     val selfRequest by app.selfUi.request.collectAsState()
@@ -555,7 +555,7 @@ private fun MikaRoot(
             ChatWithDrawer(
                 vm = app.chat,
                 check = check,
-                reduceMotion = MikaTheme.reduceMotion,
+                reduceMotion = DjiniTheme.reduceMotion,
                 conversations = { ConversationStore.shared(context).list(includeArchived = true) },
                 conversationChanges = ConversationStore.shared(context).changes,
                 conversationTitle = { ConversationStore.shared(context).title(it) },
@@ -589,7 +589,7 @@ private fun MikaRoot(
                             pipInput = app.taskState.pipInput,
                             pipSoundOn = app.taskState.pipSoundOn,
                             pipOperateEnabled = FeatureFlags.get(context).pipOperate(),
-                            reduceMotion = MikaTheme.reduceMotion,
+                            reduceMotion = DjiniTheme.reduceMotion,
                             onOpenDrawer = openDrawer,
                             openSettings = { nav.push(Route.Settings) },
                             openRun = { runId = it; nav.push(Route.Run) },
@@ -775,7 +775,7 @@ private fun MikaRoot(
             app.teach,
             onBack = { nav.back() },
             onOpenDrafts = {
-                memoryRuntime.requestOpen(com.wangzan101.mika.memory.MemoryOpen(app.teach.ui.value.session?.draftId))
+                memoryRuntime.requestOpen(com.wangzan101.djini.memory.MemoryOpen(app.teach.ui.value.session?.draftId))
                 nav.push(Route.Memory)
             },
         )
@@ -803,15 +803,15 @@ private fun MikaRoot(
     }
 }
 
-/** 自身工具能打开的 Mika 顶层页;只给这几页,不给权限/root/开发者子页。 */
-private fun com.wangzan101.mika.core.self.SelfScreen.route(): Route = when (this) {
-    com.wangzan101.mika.core.self.SelfScreen.Chat -> Route.Chat
-    com.wangzan101.mika.core.self.SelfScreen.Settings -> Route.Settings
-    com.wangzan101.mika.core.self.SelfScreen.Memory -> Route.Memory
-    com.wangzan101.mika.core.self.SelfScreen.Plans -> Route.Plans
-    com.wangzan101.mika.core.self.SelfScreen.Browser -> Route.Browser
-    com.wangzan101.mika.core.self.SelfScreen.Models -> Route.Models
-    com.wangzan101.mika.core.self.SelfScreen.Usage -> Route.Usage
-    com.wangzan101.mika.core.self.SelfScreen.Screens -> Route.Screens
-    com.wangzan101.mika.core.self.SelfScreen.About -> Route.About
+/** 自身工具能打开的 Djini 顶层页;只给这几页,不给权限/root/开发者子页。 */
+private fun com.wangzan101.djini.core.self.SelfScreen.route(): Route = when (this) {
+    com.wangzan101.djini.core.self.SelfScreen.Chat -> Route.Chat
+    com.wangzan101.djini.core.self.SelfScreen.Settings -> Route.Settings
+    com.wangzan101.djini.core.self.SelfScreen.Memory -> Route.Memory
+    com.wangzan101.djini.core.self.SelfScreen.Plans -> Route.Plans
+    com.wangzan101.djini.core.self.SelfScreen.Browser -> Route.Browser
+    com.wangzan101.djini.core.self.SelfScreen.Models -> Route.Models
+    com.wangzan101.djini.core.self.SelfScreen.Usage -> Route.Usage
+    com.wangzan101.djini.core.self.SelfScreen.Screens -> Route.Screens
+    com.wangzan101.djini.core.self.SelfScreen.About -> Route.About
 }

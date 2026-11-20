@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.guard
+package com.wangzan101.djini.core.guard
 
-import com.wangzan101.mika.core.prompt.Feedback
+import com.wangzan101.djini.core.prompt.Feedback
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject

@@ -1,13 +1,13 @@
-package com.wangzan101.mika.core.general
+package com.wangzan101.djini.core.general
 
-import com.wangzan101.mika.core.assembly.toolDispatcher
-import com.wangzan101.mika.core.memory.TaskMemory
-import com.wangzan101.mika.core.memory.TaskMemoryPersistence
-import com.wangzan101.mika.core.memory.TaskMemoryStep
-import com.wangzan101.mika.core.memory.TaskMemoryStore
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.tool.ActionPass
-import com.wangzan101.mika.core.tool.FakeScreen
+import com.wangzan101.djini.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.memory.TaskMemory
+import com.wangzan101.djini.core.memory.TaskMemoryPersistence
+import com.wangzan101.djini.core.memory.TaskMemoryStep
+import com.wangzan101.djini.core.memory.TaskMemoryStore
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.tool.ActionPass
+import com.wangzan101.djini.core.tool.FakeScreen
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonArray

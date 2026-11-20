@@ -1,12 +1,12 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import android.app.Notification
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.settings.FeatureFlags
-import com.wangzan101.mika.settings.ScheduledQuietHours
-import com.wangzan101.mika.task.TaskService
-import com.wangzan101.mika.task.applyScheduledQuietHours
+import com.wangzan101.djini.settings.FeatureFlags
+import com.wangzan101.djini.settings.ScheduledQuietHours
+import com.wangzan101.djini.task.TaskService
+import com.wangzan101.djini.task.applyScheduledQuietHours
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull

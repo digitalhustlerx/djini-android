@@ -1,12 +1,12 @@
-package com.wangzan101.mika.ui.theme
+package com.wangzan101.djini.ui.theme
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
-import com.wangzan101.mika.settings.ThemeAccent
+import com.wangzan101.djini.settings.ThemeAccent
 
 /**
- * 界面用到的全部颜色。页面一律从 [MikaTheme.colors] 取,不写死色值。
+ * 界面用到的全部颜色。页面一律从 [DjiniTheme.colors] 取,不写死色值。
  * 实色只用在强调(主按钮、选中、开关、用户消息)和状态(成功、需要你、出错);图标块一律中性。
  */
 @Immutable
@@ -41,7 +41,7 @@ class MikaColors(
     val badSoft: Color,
     /** 图标块的底。 */
     val neutralSoft: Color,
-    /** Mika 回答的底:比页面背景深一点点的灰,和用户的蓝色气泡区分开。 */
+    /** Djini 回答的底:比页面背景深一点点的灰,和用户的蓝色气泡区分开。 */
     val answer: Color,
     /** 灰色胶囊、关着的开关。 */
     val greySoft: Color,
@@ -165,5 +165,5 @@ fun accentTone(accent: ThemeAccent, dark: Boolean): Pair<Color, Color> = when (a
     ThemeAccent.Graphite -> if (dark) Color(0xFFE5E5EA) to Color(0xFF1C1C1E) else Color(0xFF3A3A3C) to Color.White
 }
 
-/** 没有包在 [MikaTheme] 里时(比如界面测试)按浅色。 */
+/** 没有包在 [DjiniTheme] 里时(比如界面测试)按浅色。 */
 val LocalMikaColors = staticCompositionLocalOf { LightColors }

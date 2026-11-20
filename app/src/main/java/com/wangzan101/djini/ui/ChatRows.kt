@@ -1,8 +1,8 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.cap.web.KeptPage
-import com.wangzan101.mika.task.SteerNote
-import com.wangzan101.mika.task.SteerState
+import com.wangzan101.djini.cap.web.KeptPage
+import com.wangzan101.djini.task.SteerNote
+import com.wangzan101.djini.task.SteerState
 
 /**
  * 当前 UI 状态会生成的行 key,按 LazyColumn 里的顺序。自动滚到末尾和“跳到某一轮的消息”都用这一份,

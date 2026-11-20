@@ -1,4 +1,4 @@
-package com.wangzan101.mika.chat
+package com.wangzan101.djini.chat
 
 import android.content.ContentValues
 import android.net.Uri

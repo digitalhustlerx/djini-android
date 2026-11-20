@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -15,13 +15,13 @@ class LicensesTest {
         assertTrue("notices has headings", headings.size >= 16)
         val shown = Licenses.ENTRIES.map { it.name }
         headings.forEach { assertTrue("missing on licenses screen: $it", it in shown) }
-        assertEquals("Mika", shown.first())
+        assertEquals("Djini", shown.first())
     }
 
     @Test
     fun gplSourceOfferPresent() {
         val byName = Licenses.ENTRIES.associateBy { it.name }
-        assertEquals("Apache-2.0", byName.getValue("Mika").license)
+        assertEquals("Apache-2.0", byName.getValue("Djini").license)
         assertEquals("GPL-2.0-or-later", byName.getValue("PRoot").license)
         assertEquals("LGPL-3.0-or-later", byName.getValue("talloc").license)
         assertEquals("Apache-2.0", byName.getValue("Apache Commons Compress").license)

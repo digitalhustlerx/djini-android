@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.testing
+package com.wangzan101.djini.core.testing
 
-import com.wangzan101.mika.core.model.ToolSpec
+import com.wangzan101.djini.core.model.ToolSpec
 import org.junit.Assert.assertEquals
 import org.junit.Assert.fail
 import java.io.File
@@ -12,8 +12,8 @@ import java.security.MessageDigest
  *   ./gradlew :core:test --tests '*PromptSurface*' -PupdateSnapshots
  */
 object PromptSurface {
-    private val dir = File(System.getProperty("mika.promptSurfaceDir") ?: "src/test/resources/prompt-surface")
-    private val update = System.getProperty("mika.updateSnapshots") == "true"
+    private val dir = File(System.getProperty("djini.promptSurfaceDir") ?: "src/test/resources/prompt-surface")
+    private val update = System.getProperty("djini.updateSnapshots") == "true"
 
     fun check(name: String, actual: String) {
         val file = File(dir, "$name.txt")

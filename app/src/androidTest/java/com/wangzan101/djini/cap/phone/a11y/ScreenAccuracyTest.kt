@@ -1,15 +1,15 @@
-package com.wangzan101.mika.cap.phone.a11y
+package com.wangzan101.djini.cap.phone.a11y
 
-import com.wangzan101.mika.runAction
+import com.wangzan101.djini.runAction
 import android.content.Intent
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport.TEST_PACKAGE
-import com.wangzan101.mika.core.cap.phone.sms.SmsLoginMatcher
-import com.wangzan101.mika.core.uistate.ActionResult
-import com.wangzan101.mika.core.uistate.ScreenSnapshot
-import com.wangzan101.mika.core.uistate.UiElement
-import com.wangzan101.mika.core.uistate.Verification
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport.TEST_PACKAGE
+import com.wangzan101.djini.core.cap.phone.sms.SmsLoginMatcher
+import com.wangzan101.djini.core.uistate.ActionResult
+import com.wangzan101.djini.core.uistate.ScreenSnapshot
+import com.wangzan101.djini.core.uistate.UiElement
+import com.wangzan101.djini.core.uistate.Verification
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -126,8 +126,8 @@ class ScreenAccuracyTest {
     fun scrollDownShowsContentFurtherDown() = runBlocking<Unit> {
         ok(screen.openApp(DeviceSupport.SETTINGS, cold = true))
         val before = snapUntil { s -> s.elements.any { it.clickable && it.name.startsWith("WLAN") } }
-        val tools = com.wangzan101.mika.core.assembly.toolDispatcher(screen)
-        val r = tools.runAction(com.wangzan101.mika.core.model.Part.ToolCall("c1", "phone_scroll", """{"direction":"down"}""")).content
+        val tools = com.wangzan101.djini.core.assembly.toolDispatcher(screen)
+        val r = tools.runAction(com.wangzan101.djini.core.model.Part.ToolCall("c1", "phone_scroll", """{"direction":"down"}""")).content
         assertEquals(r.toString(), "true", r["changed"].toString())
         assertEquals(r.toString(), "\"up\"", r["fingerMoved"].toString())
         val after = screen.snapshot()

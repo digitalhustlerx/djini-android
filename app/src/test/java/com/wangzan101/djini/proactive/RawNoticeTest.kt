@@ -1,7 +1,7 @@
-package com.wangzan101.mika.proactive
+package com.wangzan101.djini.proactive
 
 import android.app.Notification
-import com.wangzan101.mika.core.proactive.NoticeMessage
+import com.wangzan101.djini.core.proactive.NoticeMessage
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue

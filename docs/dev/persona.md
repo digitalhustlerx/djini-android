@@ -1,6 +1,6 @@
 # 人格（可命名的自定义指令）
 
-人格是一层可命名、可复用、按对话绑定的自定义提示词。它只改变 Mika 怎么说话（语气、长度、措辞、格式、进度说明的写法），不改变 Mika 能做什么。记忆回答「知道什么」，人格回答「怎么做事」。
+人格是一层可命名、可复用、按对话绑定的自定义提示词。它只改变 Djini 怎么说话（语气、长度、措辞、格式、进度说明的写法），不改变 Djini 能做什么。记忆回答「知道什么」，人格回答「怎么做事」。
 
 > 状态：v1，位于 draft PR #292。能力收紧、导入/导出、模型组绑定按后续版本做，见文末。
 
@@ -30,7 +30,7 @@ capabilities/groups.md、channels.md、phone.md、web.md、sandbox.md …（按�
 - 不能改证据、安全、隐私、授权、确认、完成规则；
 - 人格不能授予工具、权限或访问。
 
-`PersonaPrompt`（`core/src/main/kotlin/com/wangzan101/mika/core/prompt/PersonaPrompt.kt`）负责拼装：
+`PersonaPrompt`（`core/src/main/kotlin/com/wangzan101/djini/core/prompt/PersonaPrompt.kt`）负责拼装：
 
 - 名称去掉换行，限长 40，再转义 `& < > "`；
 - 正文去掉除换行/制表符外的控制字符和 bidi 控制符；

@@ -1,4 +1,4 @@
-package com.wangzan101.mika.settings
+package com.wangzan101.djini.settings
 
 import android.content.Context
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,7 +15,7 @@ import java.nio.file.Files
 import java.nio.file.StandardCopyOption
 
 /**
- * 设置 › 环境变量:名字=值 的键值对,插件脚本和提示词钩子跑起来时经它拿到(如 `MIKA_TRANSLATE_BASE/KEY/MODEL`)。
+ * 设置 › 环境变量:名字=值 的键值对,插件脚本和提示词钩子跑起来时经它拿到(如 `DJINI_TRANSLATE_BASE/KEY/MODEL`)。
  * 值可能含密钥,但按「功能前置、安全后置」暂存明文;加密留作后置项。
  */
 class EnvVarStore(private val dir: File) {

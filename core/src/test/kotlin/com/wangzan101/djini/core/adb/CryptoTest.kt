@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.adb
+package com.wangzan101.djini.core.adb
 
-import com.wangzan101.mika.core.adb.EdPoint.Companion.hex
+import com.wangzan101.djini.core.adb.EdPoint.Companion.hex
 import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse

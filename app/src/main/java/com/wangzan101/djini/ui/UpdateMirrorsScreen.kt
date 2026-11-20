@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -33,26 +33,26 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
-import com.wangzan101.mika.R
-import com.wangzan101.mika.about.UpdateMirror
-import com.wangzan101.mika.about.UpdateMirrorError
-import com.wangzan101.mika.about.UpdateMirrorStore
-import com.wangzan101.mika.about.UpdateMirrors
-import com.wangzan101.mika.about.UpdateProbe
-import com.wangzan101.mika.ui.components.ButtonKind
-import com.wangzan101.mika.ui.components.FooterNote
-import com.wangzan101.mika.ui.components.GroupCard
-import com.wangzan101.mika.ui.components.ListRow
-import com.wangzan101.mika.ui.components.MikaButton
-import com.wangzan101.mika.ui.components.MikaDialog
-import com.wangzan101.mika.ui.components.MikaSwitch
-import com.wangzan101.mika.ui.components.ReorderableRow
-import com.wangzan101.mika.ui.components.rememberReorderableRowsState
-import com.wangzan101.mika.ui.components.PageScaffold
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaSize
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
+import com.wangzan101.djini.R
+import com.wangzan101.djini.about.UpdateMirror
+import com.wangzan101.djini.about.UpdateMirrorError
+import com.wangzan101.djini.about.UpdateMirrorStore
+import com.wangzan101.djini.about.UpdateMirrors
+import com.wangzan101.djini.about.UpdateProbe
+import com.wangzan101.djini.ui.components.ButtonKind
+import com.wangzan101.djini.ui.components.FooterNote
+import com.wangzan101.djini.ui.components.GroupCard
+import com.wangzan101.djini.ui.components.ListRow
+import com.wangzan101.djini.ui.components.MikaButton
+import com.wangzan101.djini.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.MikaSwitch
+import com.wangzan101.djini.ui.components.ReorderableRow
+import com.wangzan101.djini.ui.components.rememberReorderableRowsState
+import com.wangzan101.djini.ui.components.PageScaffold
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.MikaSize
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -70,7 +70,7 @@ fun UpdateMirrorsScreen(store: UpdateMirrorStore, onBack: () -> Unit) {
     }
     if (!ready) {
         PageScaffold(stringResource(R.string.about_mirror_sources), onBack) {
-            CircularProgressIndicator(Modifier.padding(16.dp).size(24.dp), color = MikaTheme.colors.accent)
+            CircularProgressIndicator(Modifier.padding(16.dp).size(24.dp), color = DjiniTheme.colors.accent)
         }
         return
     }
@@ -83,7 +83,7 @@ fun UpdateMirrorsScreen(store: UpdateMirrorStore, onBack: () -> Unit) {
     var resetting by remember { mutableStateOf(false) }
     var actionError by remember { mutableStateOf<UpdateMirrorError?>(null) }
     val scope = rememberCoroutineScope()
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val scroll = rememberScrollState()
     val reorder = rememberReorderableRowsState(
         ids = mirrors.map { it.id }, scroll = scroll,
@@ -218,7 +218,7 @@ private fun MirrorDialog(store: UpdateMirrorStore, initial: UpdateMirror?, onDis
     var testing by remember { mutableStateOf(false) }
     var testResult by remember { mutableStateOf<Boolean?>(null) }
     val scope = rememberCoroutineScope()
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val prefixOk = UpdateMirrors.normalizePrefix(prefix) != null
 
     fun save() {
@@ -308,7 +308,7 @@ private fun DeleteMirrorButton(onClick: () -> Unit) {
         Modifier.size(MikaSize.IconButton).clip(CircleShape).clickable(role = Role.Button, onClick = onClick),
         contentAlignment = Alignment.Center,
     ) {
-        Icon(MikaIcons.Trash, label, Modifier.size(MikaSize.Icon), tint = MikaTheme.colors.ink3)
+        Icon(MikaIcons.Trash, label, Modifier.size(MikaSize.Icon), tint = DjiniTheme.colors.ink3)
     }
 }
 

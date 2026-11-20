@@ -1,11 +1,11 @@
-package com.wangzan101.mika.cap.phone.setup
+package com.wangzan101.djini.cap.phone.setup
 
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Process
 import android.util.Log
-import com.wangzan101.mika.cap.phone.shell.HelperHub
-import com.wangzan101.mika.core.shell.HelperHandoff
+import com.wangzan101.djini.cap.phone.shell.HelperHub
+import com.wangzan101.djini.core.shell.HelperHandoff
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -70,7 +70,7 @@ class UsbStartScript(context: Context, private val hub: HelperHub) {
     }
 }
 
-/** Mika 签名证书的指纹:助手每次交接前都拿它核对 Mika(两种启动方式共用),取自本 App 自己的安装信息。 */
+/** Djini 签名证书的指纹:助手每次交接前都拿它核对 Djini(两种启动方式共用),取自本 App 自己的安装信息。 */
 internal fun ownCertPin(context: Context): String {
     val signers = context.packageManager.getPackageInfo(context.packageName, PackageManager.GET_SIGNING_CERTIFICATES)
         .signingInfo?.apkContentsSigners?.map { it.toByteArray() }

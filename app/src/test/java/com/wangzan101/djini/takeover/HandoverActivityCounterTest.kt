@@ -1,4 +1,4 @@
-package com.wangzan101.mika.takeover
+package com.wangzan101.djini.takeover
 
 import android.view.accessibility.AccessibilityEvent.TYPE_VIEW_CLICKED
 import android.view.accessibility.AccessibilityEvent.TYPE_VIEW_FOCUSED

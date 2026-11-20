@@ -1,23 +1,23 @@
-package com.wangzan101.mika.core.knowledge
+package com.wangzan101.djini.core.knowledge
 
-import com.wangzan101.mika.core.agent.FailKind
-import com.wangzan101.mika.core.agent.LearnGate
-import com.wangzan101.mika.core.agent.RunOutcome
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.core.memory.SensitiveFilter
-import com.wangzan101.mika.core.model.Author
-import com.wangzan101.mika.core.model.ChatModel
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.Role
-import com.wangzan101.mika.core.prompt.Prompts
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.skills.ActionDigest
-import com.wangzan101.mika.core.skills.ActionLine
-import com.wangzan101.mika.core.skills.Eligibility
-import com.wangzan101.mika.core.skills.SkillDrafter
-import com.wangzan101.mika.core.tool.ToolIndex
-import com.wangzan101.mika.core.tool.Verb
+import com.wangzan101.djini.core.agent.FailKind
+import com.wangzan101.djini.core.agent.LearnGate
+import com.wangzan101.djini.core.agent.RunOutcome
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.core.memory.SensitiveFilter
+import com.wangzan101.djini.core.model.Author
+import com.wangzan101.djini.core.model.ChatModel
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.Role
+import com.wangzan101.djini.core.prompt.Prompts
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.skills.ActionDigest
+import com.wangzan101.djini.core.skills.ActionLine
+import com.wangzan101.djini.core.skills.Eligibility
+import com.wangzan101.djini.core.skills.SkillDrafter
+import com.wangzan101.djini.core.tool.ToolIndex
+import com.wangzan101.djini.core.tool.Verb
 import kotlinx.coroutines.CancellationException
 import kotlinx.serialization.Serializable
 
@@ -125,7 +125,7 @@ class AppKnowledgeDrafter(private val model: ChatModel) {
             "actions" to ActionDigest.render(lines),
         ))
         val reply = try {
-            model.complete(PROMPT, listOf(Message(Role.User, listOf(Part.Text(request)), Author.Mika)), emptyList())
+            model.complete(PROMPT, listOf(Message(Role.User, listOf(Part.Text(request)), Author.Djini)), emptyList())
         } catch (e: CancellationException) { throw e }
         catch (_: Exception) { return null }
         val raw = SkillDrafter.stripFence(reply.parts.filterIsInstance<Part.Text>().joinToString("") { it.text })

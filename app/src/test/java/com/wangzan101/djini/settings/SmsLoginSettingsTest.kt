@@ -1,4 +1,4 @@
-package com.wangzan101.mika.settings
+package com.wangzan101.djini.settings
 
 import org.junit.Assert.*
 import org.junit.Rule
@@ -41,7 +41,7 @@ class SmsLoginSettingsTest {
         val file = File(tmp.root, "profiles")
         val store = SmsLoginSettings(file, cipher)
         val app = "com.example.login"
-        val p = com.wangzan101.mika.core.cap.phone.sms.SmsLoginProfile(app, "a".repeat(64), "10690001", "示例服务", "00000007788", "7788",
+        val p = com.wangzan101.djini.core.cap.phone.sms.SmsLoginProfile(app, "a".repeat(64), "10690001", "示例服务", "00000007788", "7788",
             "$app:id/account", "$app:id/otp", "$app:id/send", "$app:id/login", "$app:id/logged", "欢迎回来", "$app:id/who")
         store.saveProfile(p)
         store.setEnabled(true)

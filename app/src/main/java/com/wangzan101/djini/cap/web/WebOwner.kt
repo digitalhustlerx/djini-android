@@ -1,7 +1,7 @@
-package com.wangzan101.mika.cap.web
+package com.wangzan101.djini.cap.web
 
 import android.content.Context
-import com.wangzan101.mika.cap.web.cdp.WebDevtools
+import com.wangzan101.djini.cap.web.cdp.WebDevtools
 
 /** 网页在进程里的那一份 DevTools 会话入口、站点登记表、标签总数上限与留在后台的那一页:由 App 给出,设置页和各任务共用。 */
 interface WebOwner {

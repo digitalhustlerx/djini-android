@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.usage
+package com.wangzan101.djini.core.usage
 
 /** 用户可设的 Token 预算范围；null 在设置层表示不限制。 */
 object TokenBudgetLimits {

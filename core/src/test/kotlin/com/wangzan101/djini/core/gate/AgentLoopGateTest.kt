@@ -1,30 +1,30 @@
-package com.wangzan101.mika.core.gate
+package com.wangzan101.djini.core.gate
 
-import com.wangzan101.mika.core.action.ApprovalSettings
-import com.wangzan101.mika.core.agent.AgentLoop
-import com.wangzan101.mika.core.agent.FailKind
-import com.wangzan101.mika.core.agent.FakeModel
-import com.wangzan101.mika.core.agent.SpeedFlags
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.core.model.ModelReply
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.Role
-import com.wangzan101.mika.core.model.StopReason
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.record.RunSink
-import com.wangzan101.mika.core.risk.IrrevAction
-import com.wangzan101.mika.core.uistate.ActionResult
-import com.wangzan101.mika.core.uistate.ScreenPort
-import com.wangzan101.mika.core.uistate.ScreenSnapshot
-import com.wangzan101.mika.core.uistate.UiElement
-import com.wangzan101.mika.core.model.ChatModel
-import com.wangzan101.mika.core.model.Capabilities
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.ToolSpec
-import com.wangzan101.mika.core.vision.FRAME_A
-import com.wangzan101.mika.core.vision.JvmTestImageOps
-import com.wangzan101.mika.core.vision.VisionService
-import com.wangzan101.mika.core.vision.says
+import com.wangzan101.djini.core.action.ApprovalSettings
+import com.wangzan101.djini.core.agent.AgentLoop
+import com.wangzan101.djini.core.agent.FailKind
+import com.wangzan101.djini.core.agent.FakeModel
+import com.wangzan101.djini.core.agent.SpeedFlags
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.core.model.ModelReply
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.Role
+import com.wangzan101.djini.core.model.StopReason
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.record.RunSink
+import com.wangzan101.djini.core.risk.IrrevAction
+import com.wangzan101.djini.core.uistate.ActionResult
+import com.wangzan101.djini.core.uistate.ScreenPort
+import com.wangzan101.djini.core.uistate.ScreenSnapshot
+import com.wangzan101.djini.core.uistate.UiElement
+import com.wangzan101.djini.core.model.ChatModel
+import com.wangzan101.djini.core.model.Capabilities
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.ToolSpec
+import com.wangzan101.djini.core.vision.FRAME_A
+import com.wangzan101.djini.core.vision.JvmTestImageOps
+import com.wangzan101.djini.core.vision.VisionService
+import com.wangzan101.djini.core.vision.says
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.test.advanceUntilIdle
@@ -37,7 +37,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import com.wangzan101.mika.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.assembly.toolDispatcher
 
 /**
  * 和张三的聊天页:标题、输入框、右下角按钮,聊天里有一笔要付的「转账 ¥25」:屏上有应付金额,这里的「提交订单」就要花钱,询问时要先同意。
@@ -91,7 +91,7 @@ private fun call(name: String, args: String = "{}") = Part.ToolCall("g${++seq}",
 private fun tools(vararg c: Part.ToolCall) = ModelReply(c.toList(), StopReason.ToolUse, null)
 private const val DONE = "发好了"
 private val OBSERVE get() = tools(call("phone_observe"))
-private val FINISH get() = com.wangzan101.mika.core.testing.answerReply("发好了")
+private val FINISH get() = com.wangzan101.djini.core.testing.answerReply("发好了")
 private val TYPE get() = tools(call("phone_type_text", """{"text":"明天见","ref":"@e2","snapshotId":"s1"}"""))
 private fun tapSend(snapshot: String = "s1") = tools(call("phone_tap", """{"ref":"@e3","snapshotId":"$snapshot"}"""))
 private fun ask(action: String = "order", target: String = " 张三 ", content: String = "明天见") =
@@ -163,7 +163,7 @@ class AgentLoopGateTest {
         advanceUntilIdle()
         assertEquals(TaskState.WaitingConfirmation(ConfirmationRequest(IrrevAction.order, "张三", "明天见", "¥25", "com.chat")), l.state.value)
         l.answerConfirmation(true)
-        com.wangzan101.mika.core.testing.assertAnswered(DONE, run.await())
+        com.wangzan101.djini.core.testing.assertAnswered(DONE, run.await())
         assertEquals("true", m.result(3).s("approved"))
         assertTrue("uses it up whether it succeeds or not" in m.result(3).s("message"))
         assertEquals(listOf("@e3"), s.taps)
@@ -209,7 +209,7 @@ class AgentLoopGateTest {
         val taps = listOf(800 to 900, 850 to 900, 900 to 900, 950 to 900, 800 to 950, 850 to 950)
             .map { (x, y) -> tools(call("phone_tap", """{"x":$x,"y":$y}""")) }
         val m = FakeModel(OBSERVE, TYPE, *taps.toTypedArray(), FINISH)
-        com.wangzan101.mika.core.testing.assertAnswered(DONE, loop(m, s).run("t"))
+        com.wangzan101.djini.core.testing.assertAnswered(DONE, loop(m, s).run("t"))
         assertTrue(s.taps.isEmpty())
         for (i in 3..8) {
             val res = m.result(i)
@@ -221,7 +221,7 @@ class AgentLoopGateTest {
     @Test fun mismatchWhenDeclaredAppIsNotOnScreen() = runTest {
         val s = ChatScreen(app = "com.other")
         val m = FakeModel(OBSERVE, ask(), FINISH)
-        com.wangzan101.mika.core.testing.assertAnswered(DONE, loop(m, s).run("t"))
+        com.wangzan101.djini.core.testing.assertAnswered(DONE, loop(m, s).run("t"))
         assertEquals("confirmation_mismatch", m.result(2).s("error"))
         // M4:核对前台用 peek,不登记编号
         assertEquals(1, s.reads)
@@ -232,7 +232,7 @@ class AgentLoopGateTest {
         val s = ChatScreen()
         val m = FakeModel(OBSERVE, ask(action = "pay"), FINISH)
         val l = loop(m, s)
-        com.wangzan101.mika.core.testing.assertAnswered(DONE, l.run("t"))
+        com.wangzan101.djini.core.testing.assertAnswered(DONE, l.run("t"))
         val r = m.result(2)
         assertEquals("payment_requires_takeover", r.s("error"))
         assertTrue(r.s("message"), "hand_to_user" in r.s("message"))
@@ -269,7 +269,7 @@ class AgentLoopGateTest {
         val run = async { l.run("t") }
         advanceUntilIdle()
         l.answerConfirmation(true)
-        com.wangzan101.mika.core.testing.assertAnswered(DONE, run.await())
+        com.wangzan101.djini.core.testing.assertAnswered(DONE, run.await())
         assertEquals(listOf("@e3"), s.taps)
     }
 
@@ -281,8 +281,8 @@ class AgentLoopGateTest {
         val first = async { l.run("t1") }
         advanceUntilIdle()
         l.answerConfirmation(true)
-        com.wangzan101.mika.core.testing.assertAnswered(DONE, first.await())
-        com.wangzan101.mika.core.testing.assertAnswered(DONE, l.run("t2"))
+        com.wangzan101.djini.core.testing.assertAnswered(DONE, first.await())
+        com.wangzan101.djini.core.testing.assertAnswered(DONE, l.run("t2"))
         assertTrue(s.taps.isEmpty())
         assertEquals("confirmation_required", m.result(7).s("error"))
     }
@@ -290,7 +290,7 @@ class AgentLoopGateTest {
     @Test fun withoutGateNothingIsBlocked() = runTest {
         val s = ChatScreen()
         val m = FakeModel(OBSERVE, TYPE, tapSend(), ask(), FINISH)
-        com.wangzan101.mika.core.testing.assertAnswered(DONE, loop(m, s, gate = null).run("t"))
+        com.wangzan101.djini.core.testing.assertAnswered(DONE, loop(m, s, gate = null).run("t"))
         assertEquals(listOf("@e3"), s.taps)
         assertFalse("request_confirmation" in m.offeredTools[0])
         // M5
@@ -341,7 +341,7 @@ class AgentLoopGateTest {
         m = StepModel(lookFor("开始按钮"), { m.tapLocated()(it) }, step(FINISH))
         val l = AgentLoop(m, toolDispatcher(s, vision = VisionService(says("""{"bbox_2d":[300,400,700,500],"seen":"开始游戏"}""", "是"), JvmTestImageOps)),
             "BASE", sink = sink, confirmations = ConfirmationGate())
-        com.wangzan101.mika.core.testing.assertAnswered(DONE, l.run("t"))
+        com.wangzan101.djini.core.testing.assertAnswered(DONE, l.run("t"))
         assertEquals(1, s.taps.size)
         assertEquals(1, sink.events.filterIsInstance<RunEvent.State>().count { it.name == "gate_unresolved" })
     }
@@ -362,7 +362,7 @@ class AgentLoopGateTest {
         val s = ChatScreen().apply { png = FRAME_A }
         val desc = tools(call("phone_describe", """{"task":"看聊天对象","reason":"确认"}"""))
         val m = FakeModel(OBSERVE, desc, tools(call("phone_tap", """{"x":500,"y":40,"target":"标题 张三"}""")), FINISH)
-        com.wangzan101.mika.core.testing.assertAnswered(DONE, visionLoop(m, s, "[屏幕] 聊天页").run("t"))
+        com.wangzan101.djini.core.testing.assertAnswered(DONE, visionLoop(m, s, "[屏幕] 聊天页").run("t"))
         assertEquals(1, s.taps.size)
     }
 
@@ -382,7 +382,7 @@ class AgentLoopGateTest {
         val s = ChatScreen().apply { png = FRAME_A }
         lateinit var m: StepModel
         m = StepModel(step(OBSERVE), locate("聊天标题", "张三"), { m.tapLocated()(it) }, step(FINISH))
-        com.wangzan101.mika.core.testing.assertAnswered(DONE, visionLoop(m, s).run("t"))
+        com.wangzan101.djini.core.testing.assertAnswered(DONE, visionLoop(m, s).run("t"))
         assertEquals(listOf("540,96"), s.taps)
     }
 
@@ -414,7 +414,7 @@ class AgentLoopGateTest {
         val run = async { l.run("给张三发明天见") }
         advanceUntilIdle()
         l.answerConfirmation(true)
-        com.wangzan101.mika.core.testing.assertAnswered(DONE, run.await())
+        com.wangzan101.djini.core.testing.assertAnswered(DONE, run.await())
         assertEquals("approved_step_first", m.result(4).s("error"))
         assertTrue(m.result(4).s("message").startsWith("Do the approved step on its own first"))
         assertEquals(listOf("@e3"), s.taps)

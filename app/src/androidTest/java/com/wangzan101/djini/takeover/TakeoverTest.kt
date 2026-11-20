@@ -1,8 +1,8 @@
-package com.wangzan101.mika.takeover
+package com.wangzan101.djini.takeover
 
 import org.junit.Rule
-import com.wangzan101.mika.ChineseUi
-import com.wangzan101.mika.DeviceTaskState
+import com.wangzan101.djini.ChineseUi
+import com.wangzan101.djini.DeviceTaskState
 import android.app.Notification
 import android.app.NotificationManager
 import android.content.Context
@@ -12,18 +12,18 @@ import android.view.accessibility.AccessibilityNodeInfo
 import android.view.Display
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport.SETTINGS
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport.pollUntil
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport.sh
-import com.wangzan101.mika.core.agent.AgentLoop
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.Role
-import com.wangzan101.mika.shell.IMikaShell
-import com.wangzan101.mika.task.ScriptedModel
-import com.wangzan101.mika.task.TaskService
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport.SETTINGS
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport.pollUntil
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport.sh
+import com.wangzan101.djini.core.agent.AgentLoop
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.Role
+import com.wangzan101.djini.shell.IDjiniShell
+import com.wangzan101.djini.task.ScriptedModel
+import com.wangzan101.djini.task.TaskService
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import org.junit.After
@@ -32,20 +32,20 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import com.wangzan101.mika.task.testTasks
-import com.wangzan101.mika.task.TaskEnvironment
+import com.wangzan101.djini.task.testTasks
+import com.wangzan101.djini.task.TaskEnvironment
 
 /**
  * 真机测试:脚本模型在虚拟屏的设置子页面上请求接管;「我来处理」把设置挪到主屏并恢复声音,
  * 「处理好了」挪回虚拟屏、重新静音,Agent 下一轮先 observe。
- * 会短暂占用主屏(专用测试机),结束时把设置从主屏关掉。需要内置助手在运行、Mika 无障碍服务已开启。
+ * 会短暂占用主屏(专用测试机),结束时把设置从主屏关掉。需要内置助手在运行、Djini 无障碍服务已开启。
  */
 @RunWith(AndroidJUnit4::class)
 class TakeoverTest {
     @get:Rule(order = Int.MIN_VALUE) val chinese = ChineseUi()
 
     private val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
-    private lateinit var shell: IMikaShell
+    private lateinit var shell: IDjiniShell
     private val model = ScriptedModel()
     private var settingsTask = -1
     private lateinit var priorAudio: String

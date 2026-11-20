@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.phone.shell
+package com.wangzan101.djini.cap.phone.shell
 
 import android.content.ContentProvider
 import android.content.ContentValues
@@ -10,13 +10,13 @@ import android.os.Bundle
 import android.os.IBinder
 import android.os.SystemClock
 import android.util.Log
-import com.wangzan101.mika.cap.phone.PhoneServices
-import com.wangzan101.mika.core.shell.HandoffDiagnostics
-import com.wangzan101.mika.core.shell.HandoffNonces
-import com.wangzan101.mika.core.shell.HelperHandoff
-import com.wangzan101.mika.core.shell.HelperRestoreReport
-import com.wangzan101.mika.core.shell.NonceSlots
-import com.wangzan101.mika.core.shell.NonceStore
+import com.wangzan101.djini.cap.phone.PhoneServices
+import com.wangzan101.djini.core.shell.HandoffDiagnostics
+import com.wangzan101.djini.core.shell.HandoffNonces
+import com.wangzan101.djini.core.shell.HelperHandoff
+import com.wangzan101.djini.core.shell.HelperRestoreReport
+import com.wangzan101.djini.core.shell.NonceSlots
+import com.wangzan101.djini.core.shell.NonceStore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -26,26 +26,26 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import android.os.ParcelFileDescriptor
 import java.io.IOException
-import com.wangzan101.mika.shell.IMikaShell
+import com.wangzan101.djini.shell.IDjiniShell
 
 /**
- * Mika 进程里内置助手 Binder 的落点。助手经 [HandoffProvider] 交来 Binder,在这里核对后收下;
- * 由 [com.wangzan101.mika.cap.phone.PhoneServices] 建一份(助手只认一个进程里的一个落点),
+ * Djini 进程里内置助手 Binder 的落点。助手经 [HandoffProvider] 交来 Binder,在这里核对后收下;
+ * 由 [com.wangzan101.djini.cap.phone.PhoneServices] 建一份(助手只认一个进程里的一个落点),
  * [BuiltinShellConnection] 和看门狗都看它的 [shell]。
  */
 class HelperHub internal constructor(
     context: Context,
-    private val directoryStore: com.wangzan101.mika.settings.DeviceDirectoryStore = com.wangzan101.mika.settings.DeviceDirectoryStore.get(context),
-    initialShell: IMikaShell? = null,
+    private val directoryStore: com.wangzan101.djini.settings.DeviceDirectoryStore = com.wangzan101.djini.settings.DeviceDirectoryStore.get(context),
+    initialShell: IDjiniShell? = null,
 ) {
     private val app = context.applicationContext
 
-    private val _shell = MutableStateFlow<IMikaShell?>(initialShell)
+    private val _shell = MutableStateFlow<IDjiniShell?>(initialShell)
     /** 现在手里的助手接口;助手进程死了就变回 null。 */
-    val shell: StateFlow<IMikaShell?> = _shell.asStateFlow()
+    val shell: StateFlow<IDjiniShell?> = _shell.asStateFlow()
 
     private val _restores = MutableStateFlow<HelperRestoreReport?>(null)
-    /** 助手交接时报来的「Mika 被杀后由它拉起来」的记录(诊断信息用);没拉过为 null。 */
+    /** 助手交接时报来的「Djini 被杀后由它拉起来」的记录(诊断信息用);没拉过为 null。 */
     val restores: StateFlow<HelperRestoreReport?> = _restores.asStateFlow()
 
     private val handoffDiagnostics = HandoffDiagnostics()
@@ -72,7 +72,7 @@ class HelperHub internal constructor(
         syncDeviceFilesLocked(sh, snapshot)
     }
 
-    private fun syncDeviceFilesLocked(sh: IMikaShell, snapshot: com.wangzan101.mika.settings.DeviceDirectoryAuthorizationSnapshot): Boolean {
+    private fun syncDeviceFilesLocked(sh: IDjiniShell, snapshot: com.wangzan101.djini.settings.DeviceDirectoryAuthorizationSnapshot): Boolean {
         return try {
             val result = sh.setDeviceFilePolicy(1, deviceFilesSession, snapshot.revision, snapshot.directories.map { it.path }.toTypedArray(),
                 snapshot.directories.map { it.includeSubdirectories }.toBooleanArray())
@@ -84,7 +84,7 @@ class HelperHub internal constructor(
         } catch (_: Exception) { directoryStore.clearSync(); false }
     }
 
-    private inline fun deviceFileCall(block: (IMikaShell) -> Bundle): Bundle = synchronized(deviceFilesLock) {
+    private inline fun deviceFileCall(block: (IDjiniShell) -> Bundle): Bundle = synchronized(deviceFilesLock) {
         val sh = shell.value ?: return@synchronized Bundle().apply { putString("status", "policy_unsynced") }
         val snapshot = try { directoryStore.authorizationSnapshot() } catch (_: Exception) {
             directoryStore.clearSync(); return@synchronized Bundle().apply { putString("status", "policy_unsynced") }
@@ -99,7 +99,7 @@ class HelperHub internal constructor(
         } else response
     }
 
-    /** 以助手的 shell 权限列目录;字段及错误见 IMikaShell.listFiles。 */
+    /** 以助手的 shell 权限列目录;字段及错误见 IDjiniShell.listFiles。 */
     fun listFiles(path: String, afterName: String?, limit: Int): Bundle = deviceFileCall { it.listFiles(path, afterName, limit) }
 
     fun searchFiles(path: String, name: String?, extension: String?, after: Long, before: Long, depth: Int, entries: Int, timeout: Int): Bundle =
@@ -108,7 +108,7 @@ class HelperHub internal constructor(
     /** 成功时调用方须关闭返回的 fd。 */
     fun openFile(path: String): Bundle = deviceFileCall { it.openFile(path) }
 
-    /** 交给助手的本进程令牌:Mika 进程一死,助手就从它的死亡通知得知,撤掉 Mika 留下的改动。 */
+    /** 交给助手的本进程令牌:Djini 进程一死,助手就从它的死亡通知得知,撤掉 Djini 留下的改动。 */
     private val token = Binder()
     private val nonces: HandoffNonces by lazy { HandoffNonces(PrefsNonceStore(app), SystemClock::elapsedRealtime, System::currentTimeMillis) }
 
@@ -153,7 +153,7 @@ class HelperHub internal constructor(
         val nonce = extras?.getString(HelperHandoff.KEY_NONCE)
         // 口令不对就不碰对方给的 Binder
         if (!gate.matches(nonce)) return reject(callingUid, HelperHandoff.Reject.BadNonce)
-        val shell = IMikaShell.Stub.asInterface(binder!!)
+        val shell = IDjiniShell.Stub.asInterface(binder!!)
         val ids = runCatching { shell.identity() }.getOrNull()
         if (ids == null || ids.size < 2 || ids[0] != callingUid || ids[1] != callingPid) {
             return reject(callingUid, HelperHandoff.Reject.BinderElsewhere)
@@ -188,8 +188,8 @@ class HelperHub internal constructor(
      * Verifies the remote identity runs as shell (2000) or root (0) and links death cleanup.
      */
     @Synchronized
-    fun attachShizuku(binder: IBinder): IMikaShell? {
-        val shell = IMikaShell.Stub.asInterface(binder) ?: return null
+    fun attachShizuku(binder: IBinder): IDjiniShell? {
+        val shell = IDjiniShell.Stub.asInterface(binder) ?: return null
         val ids = runCatching { shell.identity() }.getOrNull()
         if (ids == null || ids.size < 2 || (ids[0] != HelperHandoff.SHELL_UID && ids[0] != 0)) {
             Log.w(TAG, "shizuku helper identity rejected: ${ids?.contentToString()}")
@@ -216,8 +216,8 @@ class HelperHub internal constructor(
         return shell
     }
 
-    /** Detach the Shizuku-backed helper and release any resources it held for Mika. */
-    fun detachShizuku(shell: IMikaShell? = null) {
+    /** Detach the Shizuku-backed helper and release any resources it held for Djini. */
+    fun detachShizuku(shell: IDjiniShell? = null) {
         val target = synchronized(deviceFilesLock) {
             val current = _shell.value
             if (shell == null || current === shell) {
@@ -253,7 +253,7 @@ class HelperHub internal constructor(
             prefs.getString("resume", null), prefs.getString("launch", null), prefs.getLong("launchAt", 0),
             prefs.getString("usb", null), prefs.getLong("usbAt", 0),
         )
-        // 同步写:助手拿到新口令后 Mika 可能马上被杀,新进程要认得它
+        // 同步写:助手拿到新口令后 Djini 可能马上被杀,新进程要认得它
         override fun save(slots: NonceSlots) {
             prefs.edit().putString("resume", slots.resume).putString("launch", slots.launch).putLong("launchAt", slots.launchAt)
                 .putString("usb", slots.usb).putLong("usbAt", slots.usbAt).commit()
@@ -265,7 +265,7 @@ class HelperHub internal constructor(
  * 内置助手交接 Binder 的入口。要对 shell 开放所以是 exported,清单里另要求 INTERACT_ACROSS_USERS_FULL
  * (shell 有,普通 App 没有),普通 App 连 provider 都拿不到;真正的把关在 [HelperHub.offer]。
  * 落点是 App 的那一份([PhoneServices.of]):App 对象在 provider 之前就构造好了,但交接调用可能早于或与 Application.onCreate 同时到达;
- * 安全靠 MikaApp.phone 与 [HelperHub] 里口令都是同步的 lazy(谁先到谁建、只建一次),[HelperHub.offer] 本身也加了锁,不依赖 onCreate 先跑完。
+ * 安全靠 DjiniApp.phone 与 [HelperHub] 里口令都是同步的 lazy(谁先到谁建、只建一次),[HelperHub.offer] 本身也加了锁,不依赖 onCreate 先跑完。
  */
 open class HandoffProvider : ContentProvider() {
     override fun onCreate() = true

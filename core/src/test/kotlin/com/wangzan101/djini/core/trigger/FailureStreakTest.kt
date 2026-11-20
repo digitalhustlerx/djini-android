@@ -1,10 +1,10 @@
-package com.wangzan101.mika.core.trigger
+package com.wangzan101.djini.core.trigger
 
-import com.wangzan101.mika.core.trigger.TriggerWindowState.ActionDispatched
-import com.wangzan101.mika.core.trigger.TriggerWindowState.Delivered
-import com.wangzan101.mika.core.trigger.TriggerWindowState.Failed
-import com.wangzan101.mika.core.trigger.TriggerWindowState.Skipped
-import com.wangzan101.mika.core.trigger.TriggerWindowState.Unknown
+import com.wangzan101.djini.core.trigger.TriggerWindowState.ActionDispatched
+import com.wangzan101.djini.core.trigger.TriggerWindowState.Delivered
+import com.wangzan101.djini.core.trigger.TriggerWindowState.Failed
+import com.wangzan101.djini.core.trigger.TriggerWindowState.Skipped
+import com.wangzan101.djini.core.trigger.TriggerWindowState.Unknown
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

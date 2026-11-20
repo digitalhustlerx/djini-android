@@ -1,6 +1,6 @@
-package com.wangzan101.mika.settings
+package com.wangzan101.djini.settings
 
-import com.wangzan101.mika.core.cap.phone.sms.SmsLoginProfile
+import com.wangzan101.djini.core.cap.phone.sms.SmsLoginProfile
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.serialization.Serializable
@@ -15,7 +15,7 @@ class SmsLoginSaved(val version: Int = 2, val enabled: Boolean = false, val prof
 data class SmsLoginConsent(val enabled: Boolean = false, val revision: Long = 0, val profiles: List<SmsLoginProfile> = emptyList())
 
 /** Version-2 consent covers automatic final login. Legacy per-attempt consent never enables it. */
-class SmsLoginSettings(private val file: File, private val cipher: KeyCipher = KeystoreKeyCipher("mika-sms-login-profiles")) {
+class SmsLoginSettings(private val file: File, private val cipher: KeyCipher = KeystoreKeyCipher("djini-sms-login-profiles")) {
     private val mutable = MutableStateFlow(read())
     val state = mutable.asStateFlow()
     private fun read(): SmsLoginConsent = runCatching {

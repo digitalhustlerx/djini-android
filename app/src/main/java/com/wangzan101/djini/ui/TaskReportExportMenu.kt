@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -30,11 +30,11 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.FileProvider
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import com.wangzan101.mika.R
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
-import com.wangzan101.mika.ui.theme.MikaRadius
-import com.wangzan101.mika.ui.theme.MikaShapes
+import com.wangzan101.djini.R
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.MikaRadius
+import com.wangzan101.djini.ui.theme.MikaShapes
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -92,8 +92,8 @@ internal fun ReportExportMenu(runId: String, report: TaskReport?) {
             val uri = withContext(Dispatchers.IO) {
                 try {
                     val dir = File(context.cacheDir, "report-share").apply { mkdirs() }
-                    var file = File(dir, "Mika-$runId.${format.extension}")
-                    if (file.exists()) file = File(dir, "Mika-$runId-${System.currentTimeMillis()}.${format.extension}")
+                    var file = File(dir, "Djini-$runId.${format.extension}")
+                    if (file.exists()) file = File(dir, "Djini-$runId-${System.currentTimeMillis()}.${format.extension}")
                     file.outputStream().use { TaskReportExport.write(r, format, it) }
                     FileProvider.getUriForFile(context, "${context.packageName}.reportfiles", file)
                 } catch (e: CancellationException) { throw e }
@@ -138,7 +138,7 @@ internal fun ReportExportMenu(runId: String, report: TaskReport?) {
                 DropdownMenuItem(text = { Text(label) }, onClick = {
                     open = false
                     val format = TaskReportExport.Format.entries[index]
-                    val name = "Mika-${runId}.${format.extension}"
+                    val name = "Djini-${runId}.${format.extension}"
                     when (index) { 0 -> md.launch(name); 1 -> word.launch(name); else -> txt.launch(name) }
                 })
             }
@@ -177,6 +177,6 @@ private fun ShareChoice(label: Int, tag: String, onClick: () -> Unit) {
         stringResource(label),
         Modifier.fillMaxWidth().testTag(tag).clip(MikaShapes.Chip)
             .clickable(onClick = onClick).padding(horizontal = 8.dp, vertical = 14.dp),
-        style = MikaType.Body, color = MikaTheme.colors.ink,
+        style = MikaType.Body, color = DjiniTheme.colors.ink,
     )
 }

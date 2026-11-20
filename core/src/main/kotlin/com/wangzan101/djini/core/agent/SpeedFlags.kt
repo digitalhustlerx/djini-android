@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
 /** 提速开关的显式全关值；App 的首次默认值由 FeatureFlags 决定。 */
 data class SpeedFlags(

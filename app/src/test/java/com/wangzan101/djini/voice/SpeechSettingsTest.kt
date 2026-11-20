@@ -1,6 +1,6 @@
-package com.wangzan101.mika.voice
+package com.wangzan101.djini.voice
 
-import com.wangzan101.mika.settings.FeatureFlagsCapsuleTest.MemoryPrefs
+import com.wangzan101.djini.settings.FeatureFlagsCapsuleTest.MemoryPrefs
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

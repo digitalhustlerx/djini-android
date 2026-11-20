@@ -1,4 +1,4 @@
-package com.wangzan101.mika.chat
+package com.wangzan101.djini.chat
 
 import android.content.ContentResolver
 import android.content.Context
@@ -6,7 +6,7 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.provider.OpenableColumns
 import android.webkit.MimeTypeMap
-import com.wangzan101.mika.cap.sandbox.Attachments
+import com.wangzan101.djini.cap.sandbox.Attachments
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.currentCoroutineContext
@@ -24,7 +24,7 @@ class SharedDraftImporter(private val context: Context, private val store: Share
             withContext(Dispatchers.IO) {
                 if (text.length > SharedDraftStore.MAX_TEXT_CHARS || declaredType?.startsWith("image/") != true) return@withContext null
                 if (uri.scheme != ContentResolver.SCHEME_CONTENT) return@withContext null
-                // 外部分享不应该借 Mika 自己的私有 provider 指定另一个内部文件;所有收到的内容都从外部 provider 新复制。
+                // 外部分享不应该借 Djini 自己的私有 provider 指定另一个内部文件;所有收到的内容都从外部 provider 新复制。
                 val authority = uri.authority.orEmpty()
                 if (authority == context.packageName || authority.startsWith("${context.packageName}.")) return@withContext null
                 val resolver = context.contentResolver

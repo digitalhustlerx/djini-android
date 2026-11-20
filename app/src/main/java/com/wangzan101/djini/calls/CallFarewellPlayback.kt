@@ -1,4 +1,4 @@
-package com.wangzan101.mika.calls
+package com.wangzan101.djini.calls
 
 /** A target in the shell AudioTrack's current flush epoch, excluding its priming silence. */
 internal data class CallFarewellFence(val epoch: Long, val dataBytes: Long, val explicit: Boolean) {

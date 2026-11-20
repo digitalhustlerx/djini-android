@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -25,13 +25,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.task.QueuedFollowUp
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaShapes
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.task.QueuedFollowUp
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
 
 /** 输入栏上方的补充消息:运行中可点箭头引导,没任务时可从第一件开始。 */
 @Composable
@@ -46,7 +46,7 @@ fun FollowUpTray(
     onActions: (QueuedFollowUp) -> Unit = {},
 ) {
     if (items.isEmpty()) return
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Column(
         Modifier.fillMaxWidth().testTag("follow-up-tray").heightIn(max = 180.dp)
             .verticalScroll(rememberScrollState()).padding(bottom = 6.dp),
@@ -77,7 +77,7 @@ private fun PendingRow(
     onGuide: (String) -> Unit,
     onActions: (QueuedFollowUp) -> Unit,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Row(
         Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(6.dp, Alignment.End),

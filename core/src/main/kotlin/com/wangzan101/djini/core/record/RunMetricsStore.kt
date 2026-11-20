@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.record
+package com.wangzan101.djini.core.record
 
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json

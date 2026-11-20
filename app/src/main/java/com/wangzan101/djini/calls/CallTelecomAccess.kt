@@ -1,4 +1,4 @@
-package com.wangzan101.mika.calls
+package com.wangzan101.djini.calls
 
 import android.Manifest
 import android.content.Context
@@ -7,12 +7,12 @@ import android.os.Build
 import android.os.Process
 import android.provider.Settings
 import android.telecom.TelecomManager
-import com.wangzan101.mika.shell.IMikaShell
+import com.wangzan101.djini.shell.IDjiniShell
 
-/** Manages Mika's own Telecom registration and ongoing-call permission. */
+/** Manages Djini's own Telecom registration and ongoing-call permission. */
 internal class CallTelecomAccess(private val context: Context) {
     private val telecom get() = context.getSystemService(TelecomManager::class.java)
-    private val journal = context.getSharedPreferences("mika_call_access", Context.MODE_PRIVATE)
+    private val journal = context.getSharedPreferences("djini_call_access", Context.MODE_PRIVATE)
     private val pkg = context.packageName.also { check(it.matches(Regex("[A-Za-z0-9_.]+"))) }
     private val user = Process.myUid() / 100_000
     private val boot get() = Settings.Global.getString(context.contentResolver, Settings.Global.BOOT_COUNT)
@@ -37,9 +37,9 @@ internal class CallTelecomAccess(private val context: Context) {
     private fun packageManagePermission(): Boolean =
         context.checkSelfPermission(Manifest.permission.MANAGE_ONGOING_CALLS) == PackageManager.PERMISSION_GRANTED
 
-    fun prepare(shell: IMikaShell): String? {
+    fun prepare(shell: IDjiniShell): String? {
         if (!supported) return "电话伴侣模式需要 Android 12 及以上、主用户及运营商通话功能"
-        if (!hasPhonePermissions()) return "请在 Mika 的系统权限中允许电话权限"
+        if (!hasPhonePermissions()) return "请在 Djini 的系统权限中允许电话权限"
         val original = readOp(shell) ?: return "无法读回电话权限状态"
         val systemDialer = runCatching { telecom?.defaultDialerPackage }.getOrNull()
             ?: return "无法读回系统默认拨号器"
@@ -58,7 +58,7 @@ internal class CallTelecomAccess(private val context: Context) {
                 return failure
             }
         } else if (!managePermission()) {
-            return "此系统不允许 Mika 管理运营商通话"
+            return "此系统不允许 Djini 管理运营商通话"
         }
         // No public API lists this test override. Reuse external setup when the allow was
         // already granted independently; only remove a registration made by this runtime.
@@ -84,7 +84,7 @@ internal class CallTelecomAccess(private val context: Context) {
         return null
     }
 
-    private fun prepareDefaultPermission(shell: IMikaShell): String? {
+    private fun prepareDefaultPermission(shell: IDjiniShell): String? {
         // In default mode Android can use the package's grant. Some builds keep the app-op
         // at default after appops set while accepting the grant through Package Manager.
         if (!packageManagePermission()) {
@@ -96,7 +96,7 @@ internal class CallTelecomAccess(private val context: Context) {
         return CallTelecomCommandOutcome.OK.verificationFailure("default", managePermission())
     }
 
-    fun rollback(shell: IMikaShell?): Boolean {
+    fun rollback(shell: IDjiniShell?): Boolean {
         currentBootPrepared = false
         val disabled = journal.edit().remove(PREPARED).commit()
         val ownsPackagePermission = journal.getBoolean(OWNS_PACKAGE_PERMISSION, false)
@@ -129,12 +129,12 @@ internal class CallTelecomAccess(private val context: Context) {
         return restored
     }
 
-    private fun readOp(shell: IMikaShell): String? =
+    private fun readOp(shell: IDjiniShell): String? =
         runCatching { shell.runCommand("cmd appops get --user $user $pkg MANAGE_ONGOING_CALLS") }
             .getOrNull()?.takeIf { it.getInt("exitCode", -1) == 0 }?.getString("output")
             ?.let(CallPolicy::previousAppOpMode)
 
-    private fun command(shell: IMikaShell, command: String): CallTelecomCommandOutcome {
+    private fun command(shell: IDjiniShell, command: String): CallTelecomCommandOutcome {
         val result = runCatching { shell.runCommand(command) }.getOrNull() ?: return CallTelecomCommandOutcome.FAILED
         return CallTelecomCommandOutcome.classify(result.getInt("exitCode", -1), result.getString("output").orEmpty())
     }

@@ -1,7 +1,7 @@
-package com.wangzan101.mika.chat
+package com.wangzan101.djini.chat
 
-import com.wangzan101.mika.settings.AesGcmKeyCipher
-import com.wangzan101.mika.settings.KeyCipher
+import com.wangzan101.djini.settings.AesGcmKeyCipher
+import com.wangzan101.djini.settings.KeyCipher
 import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test

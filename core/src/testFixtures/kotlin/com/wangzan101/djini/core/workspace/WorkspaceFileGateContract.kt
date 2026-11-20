@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.workspace
+package com.wangzan101.djini.core.workspace
 
 import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
@@ -128,7 +128,7 @@ abstract class WorkspaceFileGateContract {
         hardLink(File(ws, "etc/hosts"), target)
         gate.replace(ws, "etc/hosts", "127.0.0.1 localhost\n".toByteArray())
         assertEquals("h", target.readText())
-        assertTrue(File(ws, "etc").list()!!.none { it.startsWith(".mika-new-") })
+        assertTrue(File(ws, "etc").list()!!.none { it.startsWith(".djini-new-") })
     }
 
     @Test fun symlinkReplacesTheEntryAndMkdirsAnchored() {
@@ -141,9 +141,9 @@ abstract class WorkspaceFileGateContract {
     }
 
     @Test fun listAndBytes() {
-        gate.createNew(ws, ".mika/out-1.txt").use { it.write(byteArrayOf(1, 2)) }
-        assertEquals(listOf("out-1.txt"), gate.list(ws, ".mika"))
+        gate.createNew(ws, ".djini/out-1.txt").use { it.write(byteArrayOf(1, 2)) }
+        assertEquals(listOf("out-1.txt"), gate.list(ws, ".djini"))
         assertEquals(emptyList<String>(), gate.list(ws, "none"))
-        gate.openRead(ws, ".mika/out-1.txt").use { assertArrayEquals(byteArrayOf(1, 2), it.input().readBytes()) }
+        gate.openRead(ws, ".djini/out-1.txt").use { assertArrayEquals(byteArrayOf(1, 2), it.input().readBytes()) }
     }
 }

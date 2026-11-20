@@ -1,4 +1,4 @@
-package com.wangzan101.mika.capsule
+package com.wangzan101.djini.capsule
 
 /**
  * 胶囊上的单击和双击(纯逻辑,时钟、落点和输入来源由调用方给):单击展开卡片,双击截取屏幕放进卡片预览。

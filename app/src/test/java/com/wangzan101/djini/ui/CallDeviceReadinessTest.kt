@@ -1,10 +1,10 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.R
-import com.wangzan101.mika.calls.CallConfig
-import com.wangzan101.mika.calls.CallNotifications
-import com.wangzan101.mika.calls.CallRuntimeState
-import com.wangzan101.mika.calls.CallStandbyService
+import com.wangzan101.djini.R
+import com.wangzan101.djini.calls.CallConfig
+import com.wangzan101.djini.calls.CallNotifications
+import com.wangzan101.djini.calls.CallRuntimeState
+import com.wangzan101.djini.calls.CallStandbyService
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull

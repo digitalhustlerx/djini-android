@@ -1,10 +1,10 @@
-package com.wangzan101.mika.cap.phone.shell
+package com.wangzan101.djini.cap.phone.shell
 
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
-/** 主屏占用、Mika 别的屏占用、冷启动看的任务:装了两份的 App 按「包名 + 用户」分开算,只装一份的照旧。 */
+/** 主屏占用、Djini 别的屏占用、冷启动看的任务:装了两份的 App 按「包名 + 用户」分开算,只装一份的照旧。 */
 class SameCopyTest {
     private val chat = "com.example.chat"
 

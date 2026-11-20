@@ -1,6 +1,6 @@
-package com.wangzan101.mika.settings
+package com.wangzan101.djini.settings
 
-import com.wangzan101.mika.core.access.*
+import com.wangzan101.djini.core.access.*
 import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test

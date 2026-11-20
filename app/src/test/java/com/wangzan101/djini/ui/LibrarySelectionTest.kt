@@ -1,7 +1,7 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.chat.FileSource
-import com.wangzan101.mika.chat.SharedFile
+import com.wangzan101.djini.chat.FileSource
+import com.wangzan101.djini.chat.SharedFile
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Test
@@ -16,7 +16,7 @@ class LibrarySelectionTest {
     }
 
     @Test fun outputKeyUsesUriWhenPresentAndSourceWhenMissing() {
-        val file = SharedFile("x.pdf", 3, "Download/Mika/x.pdf", "")
+        val file = SharedFile("x.pdf", 3, "Download/Djini/x.pdf", "")
         val first = FileSource("a", 0, "run", 1L)
         val second = FileSource("a", 1, "run", 2L)
         assertNotEquals(LibrarySelection.outputKey(file, first), LibrarySelection.outputKey(file, second))

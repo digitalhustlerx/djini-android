@@ -1,6 +1,6 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.ChineseUi
+import com.wangzan101.djini.ChineseUi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
@@ -11,8 +11,8 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.longClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.wangzan101.mika.task.QueuedFollowUp
-import com.wangzan101.mika.ui.theme.MikaTheme
+import com.wangzan101.djini.task.QueuedFollowUp
+import com.wangzan101.djini.ui.theme.DjiniTheme
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
@@ -27,7 +27,7 @@ class ChatFollowUpTest {
     @Test fun trayShowsMessagesAndGuidesTheSelectedOne() {
         val actions = mutableListOf<String>()
         compose.setContent {
-            MikaTheme {
+            DjiniTheme {
                 FollowUpTray(
                     listOf(QueuedFollowUp("a", "c", "下一件"), QueuedFollowUp("b", "c", "再下一件")),
                     active = true, onGuide = { actions += "guide:$it" },
@@ -45,7 +45,7 @@ class ChatFollowUpTest {
     @Test fun longPressingAMessageOpensItsActions() {
         val actions = mutableListOf<String>()
         compose.setContent {
-            MikaTheme {
+            DjiniTheme {
                 FollowUpTray(
                     listOf(QueuedFollowUp("a", "c", "下一件")), active = true,
                     onEdit = {}, onCancel = {}, onStartNow = {}, onActions = { actions += "actions:${it.id}" },
@@ -59,7 +59,7 @@ class ChatFollowUpTest {
     @Test fun idleTrayStartsTheFirstQueuedTask() {
         val actions = mutableListOf<String>()
         compose.setContent {
-            MikaTheme {
+            DjiniTheme {
                 FollowUpTray(
                     listOf(QueuedFollowUp("a", "c", "下一件"), QueuedFollowUp("b", "c", "再下一件")),
                     active = false, onEdit = {}, onCancel = {}, onStartNow = { actions += "start" },

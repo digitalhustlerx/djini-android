@@ -1,14 +1,14 @@
-package com.wangzan101.mika.cap.phone.a11y
+package com.wangzan101.djini.cap.phone.a11y
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport.SETTINGS
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport.TEST_PACKAGE
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport.pollUntil
-import com.wangzan101.mika.core.uistate.ActionResult
-import com.wangzan101.mika.core.uistate.ScreenSnapshot
-import com.wangzan101.mika.core.uistate.ScreenState
-import com.wangzan101.mika.core.uistate.UiElement
-import com.wangzan101.mika.core.uistate.Verification
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport.SETTINGS
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport.TEST_PACKAGE
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport.pollUntil
+import com.wangzan101.djini.core.uistate.ActionResult
+import com.wangzan101.djini.core.uistate.ScreenSnapshot
+import com.wangzan101.djini.core.uistate.ScreenState
+import com.wangzan101.djini.core.uistate.UiElement
+import com.wangzan101.djini.core.uistate.Verification
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -62,7 +62,7 @@ class AndroidScreenTest {
         val blank = screen.snapshot()
         assertNull(blank.packageName)
         assertFalse(blank.hasWindow)
-        val command = screen.systemCommand("printf '%s' \"\$MIKA_DISPLAY_ID\"")
+        val command = screen.systemCommand("printf '%s' \"\$DJINI_DISPLAY_ID\"")
         assertNotNull(command)
         assertEquals(0, command!!.exitCode)
         assertEquals(agent.display.displayId.toString(), command.output)

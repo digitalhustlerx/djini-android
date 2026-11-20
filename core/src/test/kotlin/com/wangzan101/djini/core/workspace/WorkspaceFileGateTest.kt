@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.workspace
+package com.wangzan101.djini.core.workspace
 
 import java.io.File
 import java.nio.file.Files

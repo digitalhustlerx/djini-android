@@ -1,23 +1,23 @@
-package com.wangzan101.mika.proactive
+package com.wangzan101.djini.proactive
 
-import com.wangzan101.mika.core.model.Capabilities
-import com.wangzan101.mika.core.model.ChatModel
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.ModelReply
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.StopReason
-import com.wangzan101.mika.core.model.ToolSpec
-import com.wangzan101.mika.core.proactive.LearnTuning
-import com.wangzan101.mika.core.proactive.NoticeHints
-import com.wangzan101.mika.core.proactive.NoticeInbox
-import com.wangzan101.mika.core.proactive.NoticeRecord
-import com.wangzan101.mika.core.proactive.NoticeTriage
-import com.wangzan101.mika.core.proactive.TargetedModel
-import com.wangzan101.mika.core.proactive.TopicPoolData
-import com.wangzan101.mika.core.proactive.TriageConsent
-import com.wangzan101.mika.core.proactive.TriagePlanner
-import com.wangzan101.mika.core.proactive.TriageTarget
-import com.wangzan101.mika.core.usage.ProactiveBudget
+import com.wangzan101.djini.core.model.Capabilities
+import com.wangzan101.djini.core.model.ChatModel
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.ModelReply
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.StopReason
+import com.wangzan101.djini.core.model.ToolSpec
+import com.wangzan101.djini.core.proactive.LearnTuning
+import com.wangzan101.djini.core.proactive.NoticeHints
+import com.wangzan101.djini.core.proactive.NoticeInbox
+import com.wangzan101.djini.core.proactive.NoticeRecord
+import com.wangzan101.djini.core.proactive.NoticeTriage
+import com.wangzan101.djini.core.proactive.TargetedModel
+import com.wangzan101.djini.core.proactive.TopicPoolData
+import com.wangzan101.djini.core.proactive.TriageConsent
+import com.wangzan101.djini.core.proactive.TriagePlanner
+import com.wangzan101.djini.core.proactive.TriageTarget
+import com.wangzan101.djini.core.usage.ProactiveBudget
 import java.time.ZoneOffset
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -142,7 +142,7 @@ class BlockedAppsTest {
         assertFalse(BlockedApps.learnEligible("com.chat", setOf("com.chat"), emptySet(), setOf("com.chat")))
         assertFalse(BlockedApps.learnEligible("com.chat", setOf("com.chat"), setOf("com.chat"), emptySet()))
         assertFalse(BlockedApps.learnEligible("com.chat", emptySet(), emptySet(), emptySet()))
-        assertFalse(BlockedApps.learnEligible("com.wangzan101.mika", setOf("com.wangzan101.mika"), emptySet(), emptySet()))
+        assertFalse(BlockedApps.learnEligible("com.wangzan101.djini", setOf("com.wangzan101.djini"), emptySet(), emptySet()))
     }
 
     @Test fun blockingPurgesQueuedRecordsHintsAndEvents() = runTest {
@@ -215,7 +215,7 @@ class BlockedAppsTest {
 
     @Test fun unreadableAppAccessReadsNoNotifications() {
         val broken = java.io.File(tmp.root, "broken.json").apply { writeText("{broken") }
-        val state = com.wangzan101.mika.settings.AppAccessStore(broken).current()
+        val state = com.wangzan101.djini.settings.AppAccessStore(broken).current()
         assertFalse(state.available)
         // 读不出来时那份「禁用的」是空的:只看它会当成一个都没禁用
         assertTrue(state.blocked.isEmpty())
@@ -225,7 +225,7 @@ class BlockedAppsTest {
         assertFalse(BlockedApps.readable("com.chat", setOf("com.chat"), unknown))
         assertFalse(BlockedApps.admits(r, setOf("com.chat"), unknown))
         // 没有那份文件是读得出来的(一个都没禁用)
-        val fresh = com.wangzan101.mika.settings.AppAccessStore(java.io.File(tmp.root, "none.json")).current()
+        val fresh = com.wangzan101.djini.settings.AppAccessStore(java.io.File(tmp.root, "none.json")).current()
         val known = AppGate.of(fresh)
         assertTrue(known.known)
         assertTrue(BlockedApps.readable("com.chat", setOf("com.chat"), known))

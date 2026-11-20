@@ -1,34 +1,34 @@
-package com.wangzan101.mika.core.tool
+package com.wangzan101.djini.core.tool
 
-import com.wangzan101.mika.core.knowledge.Link
-import com.wangzan101.mika.core.observation.CORE_SOURCE
-import com.wangzan101.mika.core.observation.ObsKind
-import com.wangzan101.mika.core.observation.Observation
-import com.wangzan101.mika.core.knowledge.GuideCatalog
-import com.wangzan101.mika.core.memory.Change
-import com.wangzan101.mika.core.memory.UserUtterances
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.ToolSpec
-import com.wangzan101.mika.core.prompt.Feedback
-import com.wangzan101.mika.core.risk.GateTarget
-import com.wangzan101.mika.core.run.SKIPPED_FOR_NEW_MESSAGE
-import com.wangzan101.mika.core.run.waitOrSteer
-import com.wangzan101.mika.core.verify.Evidence
-import com.wangzan101.mika.core.vision.ImageOps
-import com.wangzan101.mika.core.vision.ModelImage
-import com.wangzan101.mika.core.vision.VisionService
+import com.wangzan101.djini.core.knowledge.Link
+import com.wangzan101.djini.core.observation.CORE_SOURCE
+import com.wangzan101.djini.core.observation.ObsKind
+import com.wangzan101.djini.core.observation.Observation
+import com.wangzan101.djini.core.knowledge.GuideCatalog
+import com.wangzan101.djini.core.memory.Change
+import com.wangzan101.djini.core.memory.UserUtterances
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.ToolSpec
+import com.wangzan101.djini.core.prompt.Feedback
+import com.wangzan101.djini.core.risk.GateTarget
+import com.wangzan101.djini.core.run.SKIPPED_FOR_NEW_MESSAGE
+import com.wangzan101.djini.core.run.waitOrSteer
+import com.wangzan101.djini.core.verify.Evidence
+import com.wangzan101.djini.core.vision.ImageOps
+import com.wangzan101.djini.core.vision.ModelImage
+import com.wangzan101.djini.core.vision.VisionService
 import kotlinx.coroutines.CancellationException
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
-import com.wangzan101.mika.core.visual.Shots
-import com.wangzan101.mika.core.capability.Capability
-import com.wangzan101.mika.core.capability.Paced
-import com.wangzan101.mika.core.capability.PromptEnv
-import com.wangzan101.mika.core.capability.PromptSections
-import com.wangzan101.mika.core.guard.OffScreenGuard
+import com.wangzan101.djini.core.visual.Shots
+import com.wangzan101.djini.core.capability.Capability
+import com.wangzan101.djini.core.capability.Paced
+import com.wangzan101.djini.core.capability.PromptEnv
+import com.wangzan101.djini.core.capability.PromptSections
+import com.wangzan101.djini.core.guard.OffScreenGuard
 
 /**
  * 工具调用的入口:解析参数,按名字在 [ToolRegistry] 里找到工具执行,再做所有工具共用的收尾
@@ -101,7 +101,7 @@ class ToolDispatcher internal constructor(
     fun preload(task: String, previous: Collection<String>): List<String> =
         capabilities.filter { it.folds && (it.id in previous || it.preload(task)) }.map { it.id }.filter(::expand)
 
-    /** 用户这句话去掉各能力的说明(见 [Capability.userWords]);他这次打的字还要再去掉引用和附件行,见 [com.wangzan101.mika.core.agent.UserWords.typed]。 */
+    /** 用户这句话去掉各能力的说明(见 [Capability.userWords]);他这次打的字还要再去掉引用和附件行,见 [com.wangzan101.djini.core.agent.UserWords.typed]。 */
     fun userWords(text: String): String = capabilities.fold(text) { t, c -> c.userWords(t) }
 
     private fun openSet(): Set<String> = expanded.let { e -> if (e.any { it in screenGroups }) e + ToolGroups.SCREENS else e }
@@ -286,7 +286,7 @@ class ToolDispatcher internal constructor(
             try {
                 if (!tool.yieldsToSteer) tool.execute(args, ctx)
                 else waitOrSteer { tool.execute(args, ctx) } ?: failCode(SKIPPED_FOR_NEW_MESSAGE)
-            } catch (e: com.wangzan101.mika.core.access.AppAccessDenied) {
+            } catch (e: com.wangzan101.djini.core.access.AppAccessDenied) {
                 throw e
             } catch (e: ArgError) {
                 invalid(e)
@@ -342,16 +342,16 @@ class ToolDispatcher internal constructor(
     /** 工具声明的风险;不认识的名字为 null。 */
     fun declaredRisk(name: String): Risk? = registry.declared(name)?.risk
     /** 工具按这次的参数声明的审批风险(不在屏上的工具才有);没声明为 null。 */
-    fun approvalRisk(name: String, args: JsonObject = JsonObject(emptyMap())): com.wangzan101.mika.core.action.Risk? =
+    fun approvalRisk(name: String, args: JsonObject = JsonObject(emptyMap())): com.wangzan101.djini.core.action.Risk? =
         registry.declared(name)?.approvalRisk(args)
 
     /** ask_user 拿到的用户回答;核查器按用户给的事实对照。 */
     /** 用户发来的一屏(屏上的字)也是依据:回答里说的屏上内容从这里来。 */
-    fun noteUserScreen(screen: com.wangzan101.mika.core.userscreen.UserScreen) {
+    fun noteUserScreen(screen: com.wangzan101.djini.core.userscreen.UserScreen) {
         if (screen.blocked || screen.lines.isEmpty()) return
         evidenceLog.observe(Observation(ObsKind.Read, screen.lines.joinToString("\n") { it.text }, source = CORE_SOURCE,
-            place = screen.packageName?.let(com.wangzan101.mika.core.observation.Place::app),
-            trust = com.wangzan101.mika.core.observation.Trust.Untrusted))
+            place = screen.packageName?.let(com.wangzan101.djini.core.observation.Place::app),
+            trust = com.wangzan101.djini.core.observation.Trust.Untrusted))
     }
 
     fun noteUserAnswer(prompt: String, answer: String) {

@@ -1,21 +1,21 @@
-package com.wangzan101.mika.core.cap.mcp
+package com.wangzan101.djini.core.cap.mcp
 
-import com.wangzan101.mika.core.action.ActionRisk
-import com.wangzan101.mika.core.action.ConfirmDecision
-import com.wangzan101.mika.core.action.Decision
-import com.wangzan101.mika.core.action.Origin
-import com.wangzan101.mika.core.assembly.toolDispatcher
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.observation.Trust
-import com.wangzan101.mika.core.run.Attendance
-import com.wangzan101.mika.core.run.RunId
-import com.wangzan101.mika.core.run.RunOrigin
-import com.wangzan101.mika.core.run.RunProvenance
-import com.wangzan101.mika.core.run.RunSpec
-import com.wangzan101.mika.core.tool.ActionPass
-import com.wangzan101.mika.core.tool.Args
-import com.wangzan101.mika.core.tool.FakeScreen
-import com.wangzan101.mika.core.tool.ToolDispatcher
+import com.wangzan101.djini.core.action.ActionRisk
+import com.wangzan101.djini.core.action.ConfirmDecision
+import com.wangzan101.djini.core.action.Decision
+import com.wangzan101.djini.core.action.Origin
+import com.wangzan101.djini.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.observation.Trust
+import com.wangzan101.djini.core.run.Attendance
+import com.wangzan101.djini.core.run.RunId
+import com.wangzan101.djini.core.run.RunOrigin
+import com.wangzan101.djini.core.run.RunProvenance
+import com.wangzan101.djini.core.run.RunSpec
+import com.wangzan101.djini.core.tool.ActionPass
+import com.wangzan101.djini.core.tool.Args
+import com.wangzan101.djini.core.tool.FakeScreen
+import com.wangzan101.djini.core.tool.ToolDispatcher
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
@@ -61,7 +61,7 @@ class McpClientTest {
         val endpoint = FakeEndpoint().apply { instructions = "Use search before fetching a result." }
         val tools = toolDispatcher(FakeScreen(), mcpServers = listOf(McpConnection(endpoint)))
         val sections = tools.promptSections(tools.definitions()).joinToString("\n")
-        assertTrue(sections, com.wangzan101.mika.core.observation.Untrusted.wrap(endpoint.instructions!!) in sections)
+        assertTrue(sections, com.wangzan101.djini.core.observation.Untrusted.wrap(endpoint.instructions!!) in sections)
         assertEquals(ActionRisk.Change, tools.approvalRisk("mcp_demo__search")?.level)
     }
 

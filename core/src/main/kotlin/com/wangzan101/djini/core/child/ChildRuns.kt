@@ -1,11 +1,11 @@
-package com.wangzan101.mika.core.child
+package com.wangzan101.djini.core.child
 
-import com.wangzan101.mika.core.agent.AgentLoop
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.core.resource.ResourceScope
-import com.wangzan101.mika.core.run.RunId
-import com.wangzan101.mika.core.run.RunInbox
-import com.wangzan101.mika.core.run.RunSpec
+import com.wangzan101.djini.core.agent.AgentLoop
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.core.resource.ResourceScope
+import com.wangzan101.djini.core.run.RunId
+import com.wangzan101.djini.core.run.RunInbox
+import com.wangzan101.djini.core.run.RunSpec
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.withContext
@@ -62,7 +62,7 @@ class ChildAgentRunner(
     }
 
     private suspend fun runChild(spec: RunSpec, format: String?, resources: ResourceScope): ChildResult {
-        require(spec.parent != null && spec.provenance.origin == com.wangzan101.mika.core.run.RunOrigin.Child)
+        require(spec.parent != null && spec.provenance.origin == com.wangzan101.djini.core.run.RunOrigin.Child)
         val parent = spec.parent
         val agent = create(spec, resources)
         val goal = spec.goal.take(200)

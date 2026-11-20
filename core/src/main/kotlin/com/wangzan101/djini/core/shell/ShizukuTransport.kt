@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.shell
+package com.wangzan101.djini.core.shell
 
 /**
  * 手机内置助手走哪条通道启动。
@@ -19,7 +19,7 @@ enum class ShellTransport {
     }
 }
 
-/** 平台上看到的 Shizuku 状态:有没有装、服务跑没跑、有没有给 Mika 授权。 */
+/** 平台上看到的 Shizuku 状态:有没有装、服务跑没跑、有没有给 Djini 授权。 */
 data class ShizukuPlatformState(
     val installed: Boolean = false,
     val running: Boolean = false,

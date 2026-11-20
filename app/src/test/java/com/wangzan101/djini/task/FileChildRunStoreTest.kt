@@ -1,7 +1,7 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
-import com.wangzan101.mika.core.child.ChildPhase
-import com.wangzan101.mika.core.child.ChildRecord
+import com.wangzan101.djini.core.child.ChildPhase
+import com.wangzan101.djini.core.child.ChildRecord
 import java.nio.file.Files
 import org.junit.Assert.assertEquals
 import org.junit.Test

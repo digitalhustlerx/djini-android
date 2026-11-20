@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.vision
+package com.wangzan101.djini.core.vision
 
 import java.nio.ByteBuffer
 import kotlin.math.max

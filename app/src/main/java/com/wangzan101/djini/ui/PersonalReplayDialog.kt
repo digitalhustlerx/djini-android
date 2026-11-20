@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -13,15 +13,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
-import com.wangzan101.mika.R
+import com.wangzan101.djini.R
 import androidx.compose.ui.unit.dp
-import com.wangzan101.mika.personal.PersonalReplayFrame
-import com.wangzan101.mika.personal.PersonalRuntime
-import com.wangzan101.mika.ui.components.ActivitySizedDialog
-import com.wangzan101.mika.ui.components.BarIconButton
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
+import com.wangzan101.djini.personal.PersonalReplayFrame
+import com.wangzan101.djini.personal.PersonalRuntime
+import com.wangzan101.djini.ui.components.ActivitySizedDialog
+import com.wangzan101.djini.ui.components.BarIconButton
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -56,7 +56,7 @@ internal fun PersonalPreviewPlayer(
     isLive: Boolean,
     onDismiss: () -> Unit,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val recorded = frames.orEmpty()
     val first = recorded.firstOrNull()?.atMs ?: 0L
     val duration = recorded.lastOrNull()?.let { it.atMs - first } ?: 0L

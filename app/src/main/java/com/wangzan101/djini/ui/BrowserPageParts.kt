@@ -1,7 +1,7 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.tr
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.tr
 import android.graphics.BitmapFactory
 import android.util.LruCache
 import androidx.compose.foundation.Image
@@ -72,25 +72,25 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.wangzan101.mika.browser.AddressInput
-import com.wangzan101.mika.browser.SearchEngine
-import com.wangzan101.mika.browser.SearchEngineSpec
-import com.wangzan101.mika.browser.BrowserPage
-import com.wangzan101.mika.browser.PageBookmark
-import com.wangzan101.mika.browser.SiteFace
-import com.wangzan101.mika.core.cap.web.WebUrlPolicy
-import com.wangzan101.mika.ui.components.BarIconButton
-import com.wangzan101.mika.ui.components.ButtonSize
-import com.wangzan101.mika.ui.components.Hairline
-import com.wangzan101.mika.ui.components.ListRow
-import com.wangzan101.mika.ui.components.MikaButton
-import com.wangzan101.mika.ui.components.MikaDialog
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaShapes
-import com.wangzan101.mika.ui.theme.MikaSize
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
-import com.wangzan101.mika.ui.theme.MikaRadius
+import com.wangzan101.djini.browser.AddressInput
+import com.wangzan101.djini.browser.SearchEngine
+import com.wangzan101.djini.browser.SearchEngineSpec
+import com.wangzan101.djini.browser.BrowserPage
+import com.wangzan101.djini.browser.PageBookmark
+import com.wangzan101.djini.browser.SiteFace
+import com.wangzan101.djini.core.cap.web.WebUrlPolicy
+import com.wangzan101.djini.ui.components.BarIconButton
+import com.wangzan101.djini.ui.components.ButtonSize
+import com.wangzan101.djini.ui.components.Hairline
+import com.wangzan101.djini.ui.components.ListRow
+import com.wangzan101.djini.ui.components.MikaButton
+import com.wangzan101.djini.ui.components.MikaDialog
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.MikaSize
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.MikaRadius
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -106,7 +106,7 @@ internal val InitialSmall = MikaType.Caption.copy(fontWeight = FontWeight.Bold)
  */
 @Composable
 fun SiteTile(face: SiteFace, size: Dp, shape: Shape, initialStyle: TextStyle) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val icon = rememberSiteIcon(face)
     if (icon != null) {
         Box(Modifier.size(size).background(Color.White, shape).border(0.5.dp, c.edge, shape).clip(shape), contentAlignment = Alignment.Center) {
@@ -149,7 +149,7 @@ fun BrowserPageBar(
     onStop: () -> Unit,
     engines: List<SearchEngineSpec> = SearchEngine.entries,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val focus = LocalFocusManager.current
     var editing by remember { mutableStateOf(false) }
     Column(Modifier.fillMaxWidth().background(c.bg).windowInsetsPadding(WindowInsets.statusBars)) {
@@ -187,7 +187,7 @@ fun BrowserPageBar(
 
 @Composable
 private fun AddressPill(page: BrowserPage, face: SiteFace?, engines: List<SearchEngineSpec>, modifier: Modifier, onClick: () -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val query = AddressInput.searchQuery(page.url, engines)
     val shown = query ?: face?.name ?: page.url
     Row(
@@ -216,7 +216,7 @@ private val TagText = MikaType.Micro.copy(fontWeight = FontWeight.SemiBold)
 /** 展开的地址栏:完整网址全选着,键盘上是「前往」。 */
 @Composable
 private fun AddressEditor(url: String, modifier: Modifier, onGo: (String) -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val focus = remember { FocusRequester() }
     var text by remember { mutableStateOf(TextFieldValue(url, TextRange(0, url.length))) }
     LaunchedEffect(Unit) { focus.requestFocus() }
@@ -248,7 +248,7 @@ fun BrowserToolbar(
     onShare: () -> Unit,
     onMore: () -> Unit,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Column(Modifier.fillMaxWidth().background(c.bg).windowInsetsPadding(WindowInsets.navigationBars)) {
         Box(Modifier.fillMaxWidth().height(0.5.dp).background(c.hair))
         Row(
@@ -265,10 +265,10 @@ fun BrowserToolbar(
     }
 }
 
-/** 「给 Mika 登录」的横幅:说明这次用的是 Mika 办事时的那一版,登录完点「登录好了」。 */
+/** 「给 Djini 登录」的横幅:说明这次用的是 Djini 办事时的那一版,登录完点「登录好了」。 */
 @Composable
 fun LoginBanner(desktop: Boolean, onDone: () -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val text = buildAnnotatedString {
         withStyle(SpanStyle(fontWeight = FontWeight.SemiBold)) { append(tr(R.string.browser_login_for_mika)) }
         append(tr(R.string.browser_login_for_mika_sub, if (desktop) tr(R.string.browser_desktop) else tr(R.string.browser_mobile)))
@@ -311,7 +311,7 @@ fun BrowserMoreSheet(
     onFind: () -> Unit = {},
     onClearData: () -> Unit = {},
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     ModalBottomSheet(onDismissRequest = onDismiss, sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true), containerColor = c.surface, shape = MikaShapes.SheetTop) {
         Column(Modifier.fillMaxWidth().navigationBarsPadding().padding(bottom = 8.dp).testTag("browser-more")) {
             if (face != null && host != null) {
@@ -373,7 +373,7 @@ fun BookmarksSheet(
     onRemove: (PageBookmark) -> Unit,
     onRename: (PageBookmark, String) -> Unit,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     var editing by rememberSaveable { mutableStateOf(false) }
     var renaming by remember { mutableStateOf<PageBookmark?>(null) }
     ModalBottomSheet(

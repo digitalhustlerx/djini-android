@@ -1,12 +1,12 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
-import com.wangzan101.mika.core.model.ModelReply
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.Role
-import com.wangzan101.mika.core.model.StopReason
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.record.RunSink
-import com.wangzan101.mika.core.tool.FakeScreen
+import com.wangzan101.djini.core.model.ModelReply
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.Role
+import com.wangzan101.djini.core.model.StopReason
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.record.RunSink
+import com.wangzan101.djini.core.tool.FakeScreen
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.test.advanceTimeBy
@@ -21,14 +21,14 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import com.wangzan101.mika.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.assembly.toolDispatcher
 
 private var seq = 0
 private fun call(name: String, args: String = "{}") = Part.ToolCall("i${++seq}", name, args)
 private fun tools(vararg calls: Part.ToolCall) = ModelReply(calls.toList(), StopReason.ToolUse, null)
 private fun text(s: String) = ModelReply(listOf(Part.Text(s)), StopReason.EndTurn, null)
 private const val DONE = "好了"
-private fun finish() = com.wangzan101.mika.core.testing.answerReply("好了")
+private fun finish() = com.wangzan101.djini.core.testing.answerReply("好了")
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class AgentLoopInputTest {
@@ -61,9 +61,9 @@ class AgentLoopInputTest {
         runCurrent() // advanceUntilIdle 会把虚拟时间推过追问时限
         assertEquals(TaskState.WaitingInput("发给哪个张伟?", listOf("同事张伟", "同学张伟")), l.state.value)
         assertTrue(l.answerInput("就第一个吧"))
-        com.wangzan101.mika.core.testing.assertAnswered(DONE, run.await())
+        com.wangzan101.djini.core.testing.assertAnswered(DONE, run.await())
         // 用户答了、模型什么也没做就要交回答:提醒一次照做(或说明为什么不做),第二次照常收下
-        val nudge = com.wangzan101.mika.core.agent.ContextBuilder.bodyOf(m.requests[2].last()).orEmpty()
+        val nudge = com.wangzan101.djini.core.agent.ContextBuilder.bodyOf(m.requests[2].last()).orEmpty()
         assertTrue(nudge, "发给哪个张伟?" in nudge && "Carry it out" in nudge)
         assertEquals(3, m.requests.size)
         val r = m.resultFor(c)
@@ -91,7 +91,7 @@ class AgentLoopInputTest {
         advanceTimeBy(59_000); runCurrent()
         assertTrue(l.state.value is TaskState.WaitingInput)
         advanceTimeBy(2_000); runCurrent()
-        com.wangzan101.mika.core.testing.assertAnswered(DONE, run.await())
+        com.wangzan101.djini.core.testing.assertAnswered(DONE, run.await())
         val r = m.resultFor(c)
         assertEquals("false", r.s("ok")); assertEquals("no_answer", r.s("error"))
         assertEquals("No answer came within the time limit.", r.s("message")); assertEquals("true", r.s("recoverable"))

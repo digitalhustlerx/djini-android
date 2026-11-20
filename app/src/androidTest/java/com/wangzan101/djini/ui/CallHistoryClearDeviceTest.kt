@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.rememberScrollState
@@ -11,12 +11,12 @@ import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.wangzan101.mika.MikaApp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.calls.CallActionResult
-import com.wangzan101.mika.calls.CallDirection
-import com.wangzan101.mika.calls.CallRecord
-import com.wangzan101.mika.ui.theme.MikaTheme
+import com.wangzan101.djini.DjiniApp
+import com.wangzan101.djini.R
+import com.wangzan101.djini.calls.CallActionResult
+import com.wangzan101.djini.calls.CallDirection
+import com.wangzan101.djini.calls.CallRecord
+import com.wangzan101.djini.ui.theme.DjiniTheme
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
@@ -29,7 +29,7 @@ class CallHistoryClearDeviceTest {
         id = "one", number = "123456789", direction = CallDirection.INCOMING,
         startedAtMs = 1, endedAtMs = 2, result = "fixture result", transcript = emptyList(),
     )
-    private val app get() = ApplicationProvider.getApplicationContext<MikaApp>()
+    private val app get() = ApplicationProvider.getApplicationContext<DjiniApp>()
 
     @Test fun cancelDoesNotClearHistory() {
         var calls = 0
@@ -46,7 +46,7 @@ class CallHistoryClearDeviceTest {
         var calls = 0
         var history by mutableStateOf(listOf(record))
         compose.setContent {
-            MikaTheme {
+            DjiniTheme {
                 Column(Modifier.verticalScroll(rememberScrollState())) {
                     CallHistorySection(history, false, { _, _ -> CallActionResult(true, "ok") },
                         { CallActionResult(true, "ok") }, onRetrySummary = { CallActionResult(true, "ok") }, onClear = {
@@ -89,7 +89,7 @@ class CallHistoryClearDeviceTest {
     @Test fun unreadableEmptyHistoryStillOffersClear() {
         var calls = 0
         compose.setContent {
-            MikaTheme {
+            DjiniTheme {
                 Column(Modifier.verticalScroll(rememberScrollState())) {
                     CallHistorySection(emptyList(), true, { _, _ -> CallActionResult(true, "ok") },
                         { CallActionResult(true, "ok") }, onRetrySummary = { CallActionResult(true, "ok") }, onClear = {
@@ -106,7 +106,7 @@ class CallHistoryClearDeviceTest {
 
     private fun showHistory(history: List<CallRecord>, onClear: suspend () -> CallActionResult) {
         compose.setContent {
-            MikaTheme {
+            DjiniTheme {
                 Column(Modifier.verticalScroll(rememberScrollState())) {
                     CallHistorySection(history, false, { _, _ -> CallActionResult(true, "ok") },
                         { CallActionResult(true, "ok") }, onRetrySummary = { CallActionResult(true, "ok") }, onClear = onClear)

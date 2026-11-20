@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.resource
+package com.wangzan101.djini.core.resource
 
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineStart

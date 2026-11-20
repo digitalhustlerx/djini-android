@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.web
+package com.wangzan101.djini.cap.web
 
 import android.content.Context
 import android.os.Handler
@@ -7,9 +7,9 @@ import android.util.Log
 import androidx.webkit.ProxyConfig
 import androidx.webkit.ProxyController
 import androidx.webkit.WebViewFeature
-import com.wangzan101.mika.core.net.LocalHosts
-import com.wangzan101.mika.core.net.NetProxy
-import com.wangzan101.mika.core.net.ProxyAddress
+import com.wangzan101.djini.core.net.LocalHosts
+import com.wangzan101.djini.core.net.NetProxy
+import com.wangzan101.djini.core.net.ProxyAddress
 
 /**
  * 内置浏览器(本进程所有 WebView)的网络代理,跟设置 › 网络代理 走同一个地址。

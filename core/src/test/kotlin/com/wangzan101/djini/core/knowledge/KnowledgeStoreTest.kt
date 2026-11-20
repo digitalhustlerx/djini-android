@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.knowledge
+package com.wangzan101.djini.core.knowledge
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -153,7 +153,7 @@ class KnowledgeStoreTest {
 
     @Test fun bundledProfilesKeepTheirLinks() {
         // 内置说明书和技能索引合并后,说明书里的链接不丢(没有链接的为空列表)
-        bundled.forEach { e -> e.links.forEach { assertNull(com.wangzan101.mika.core.tool.LinkPolicy.check(null, it.uri, it.packageName)) } }
+        bundled.forEach { e -> e.links.forEach { assertNull(com.wangzan101.djini.core.tool.LinkPolicy.check(null, it.uri, it.packageName)) } }
     }
 
     @Test fun domainMatchesRespectWordBoundaries() {

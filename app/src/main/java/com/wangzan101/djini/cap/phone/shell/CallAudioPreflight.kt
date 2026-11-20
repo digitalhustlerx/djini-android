@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.phone.shell
+package com.wangzan101.djini.cap.phone.shell
 
 import android.os.Looper
 import android.os.Process
@@ -8,7 +8,7 @@ import kotlin.system.exitProcess
 /**
  * Read-only diagnostics; no recorder, track, call, role, or app-op is opened or changed.
  * From an authorized adb shell:
- * CLASSPATH=<Mika base.apk> app_process /system/bin com.wangzan101.mika.cap.phone.shell.CallAudioPreflight
+ * CLASSPATH=<Djini base.apk> app_process /system/bin com.wangzan101.djini.cap.phone.shell.CallAudioPreflight
  */
 @Keep
 object CallAudioPreflight {

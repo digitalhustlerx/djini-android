@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.adb
+package com.wangzan101.djini.core.adb
 
-import com.wangzan101.mika.core.adb.AdbConnectionException.Reason
+import com.wangzan101.djini.core.adb.AdbConnectionException.Reason
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull

@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "id": "mika.translate",
+  "id": "djini.translate",
   "name": "页面翻译",
   "version": "1.1.0",
   "kind": "capability",
   "minApp": "0.1.46",
-  "author": "Mika",
-  "description": "把 Mika 浏览器里打开的网页翻译成你要的语言（简体/繁体中文、英文、日文、韩语或任何其他语言）：读取页面正文、按自然边界切段、逐段翻译并给出原文对照。翻译通道用你自己的 OpenAI 兼容接口，密钥走环境变量，不进对话。",
+  "author": "Djini",
+  "description": "把 Djini 浏览器里打开的网页翻译成你要的语言（简体/繁体中文、英文、日文、韩语或任何其他语言）：读取页面正文、按自然边界切段、逐段翻译并给出原文对照。翻译通道用你自己的 OpenAI 兼容接口，密钥走环境变量，不进对话。",
   "permissions": [
     "run-scripts"
   ],

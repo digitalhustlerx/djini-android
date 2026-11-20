@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.oauth
+package com.wangzan101.djini.core.oauth
 
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue

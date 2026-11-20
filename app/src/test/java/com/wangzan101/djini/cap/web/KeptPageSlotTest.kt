@@ -1,6 +1,6 @@
-package com.wangzan101.mika.cap.web
+package com.wangzan101.djini.cap.web
 
-import com.wangzan101.mika.core.cap.web.KeptPageClose
+import com.wangzan101.djini.core.cap.web.KeptPageClose
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull

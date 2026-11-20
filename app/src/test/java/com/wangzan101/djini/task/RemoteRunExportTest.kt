@@ -1,12 +1,12 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.record.RunSummary
-import com.wangzan101.mika.core.remote.RemoteTask
-import com.wangzan101.mika.core.remote.RunExportLookup
-import com.wangzan101.mika.core.remote.RunRecordExport
-import com.wangzan101.mika.record.RunStore
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.record.RunSummary
+import com.wangzan101.djini.core.remote.RemoteTask
+import com.wangzan101.djini.core.remote.RunExportLookup
+import com.wangzan101.djini.core.remote.RunRecordExport
+import com.wangzan101.djini.record.RunStore
 import kotlinx.serialization.json.boolean
 import kotlinx.serialization.json.jsonPrimitive
 import org.junit.Assert.assertEquals

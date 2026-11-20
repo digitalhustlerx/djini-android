@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.vision
+package com.wangzan101.djini.core.vision
 
 /**
  * 图像处理接口:输入是编码后的图片字节(截屏 PNG 等),输出同样是编码后的字节。

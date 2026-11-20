@@ -1,12 +1,12 @@
-package com.wangzan101.mika.cap.sandbox
+package com.wangzan101.djini.cap.sandbox
 
-import com.wangzan101.mika.runAction
+import com.wangzan101.djini.runAction
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.knowledge.ScriptManifest
-import com.wangzan101.mika.core.cap.sandbox.SandboxStatus
-import com.wangzan101.mika.core.uistate.ScreenPort
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.knowledge.ScriptManifest
+import com.wangzan101.djini.core.cap.sandbox.SandboxStatus
+import com.wangzan101.djini.core.uistate.ScreenPort
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
@@ -22,8 +22,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.File
 import java.lang.reflect.Proxy
-import com.wangzan101.mika.core.access.AppAccessPolicy
-import com.wangzan101.mika.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.access.AppAccessPolicy
+import com.wangzan101.djini.core.assembly.toolDispatcher
 
 /**
  * 随 App 打包的可运行脚本在真沙箱里经 run_bundled_script 跑一遍(和模型用的是同一条路)。
@@ -86,10 +86,10 @@ class SkillScriptsDeviceTest {
 
     @Test fun extractPdfGetsText() {
         File(SandboxDirs(context).workspace(WorkspaceKey.Conversation(ws)), "inbox/sample.pdf").apply { parentFile!!.mkdirs() }
-            .writeBytes(samplePdf("Hello from Mika page one", "Second page text"))
+            .writeBytes(samplePdf("Hello from Djini page one", "Second page text"))
         val r = runScript("skills/documents", "scripts/extract_pdf.py", "inbox/sample.pdf")
         assertRan(r)
-        assertTrue(r.toString(), r.s("output")!!.contains("--- page 1 ---\nHello from Mika page one"))
+        assertTrue(r.toString(), r.s("output")!!.contains("--- page 1 ---\nHello from Djini page one"))
         assertTrue(r.toString(), r.s("output")!!.contains("Second page text"))
         val meta = runScript("skills/documents", "scripts/extract_pdf.py", "inbox/sample.pdf", "--metadata")
         assertRan(meta)

@@ -1,7 +1,7 @@
-package com.wangzan101.mika.chat
+package com.wangzan101.djini.chat
 
-import com.wangzan101.mika.core.agent.Turn
-import com.wangzan101.mika.core.remote.RemoteCompanion
+import com.wangzan101.djini.core.agent.Turn
+import com.wangzan101.djini.core.remote.RemoteCompanion
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue

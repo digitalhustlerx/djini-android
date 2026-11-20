@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 /** 页内查找一次最多数这么多处,显示时也只标这么多处:再多也没法一个个看。 */
 internal const val FIND_LIMIT = 1000

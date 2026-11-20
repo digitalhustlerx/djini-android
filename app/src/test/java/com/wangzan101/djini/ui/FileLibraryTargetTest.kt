@@ -1,6 +1,6 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.chat.FileSource
+import com.wangzan101.djini.chat.FileSource
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

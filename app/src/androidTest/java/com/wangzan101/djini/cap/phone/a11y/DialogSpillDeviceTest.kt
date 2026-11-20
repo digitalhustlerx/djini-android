@@ -1,11 +1,11 @@
-package com.wangzan101.mika.cap.phone.a11y
+package com.wangzan101.djini.cap.phone.a11y
 
 import android.graphics.Rect
 import android.os.SystemClock
 import android.view.Display
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.cap.phone.shell.MainScreenWatch
+import com.wangzan101.djini.cap.phone.shell.MainScreenWatch
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import org.junit.After
@@ -17,7 +17,7 @@ import org.junit.runner.RunWith
 
 /**
  * 真机测试:后台进程在主屏上打开一个对话框样式的页面(登录验证、账号确认一类要用户在主屏点确认的弹窗)。
- * 这种弹窗要留在主屏给用户;Mika 的屏不该被它盖住,也不该把它挪到后台屏上。
+ * 这种弹窗要留在主屏给用户;Djini 的屏不该被它盖住,也不该把它挪到后台屏上。
  */
 @RunWith(AndroidJUnit4::class)
 class DialogSpillDeviceTest {
@@ -29,7 +29,7 @@ class DialogSpillDeviceTest {
             ctx.getSystemService(android.hardware.display.DisplayManager::class.java).getDisplay(Display.DEFAULT_DISPLAY).getRealMetrics(it)
         }
         val shell = DeviceSupport.shell()
-        val d = com.wangzan101.mika.cap.phone.display.AgentDisplay(shell, m.widthPixels, m.heightPixels, m.densityDpi, InstrumentationRegistry.getInstrumentation().targetContext.getSystemService(android.hardware.display.DisplayManager::class.java))
+        val d = com.wangzan101.djini.cap.phone.display.AgentDisplay(shell, m.widthPixels, m.heightPixels, m.densityDpi, InstrumentationRegistry.getInstrumentation().targetContext.getSystemService(android.hardware.display.DisplayManager::class.java))
         DeviceSupport.Agent(d, AndroidScreen(DeviceSupport.service(), shell, DeviceSupport.ready(d)))
     }
     private val screen get() = agent.screen
@@ -55,7 +55,7 @@ class DialogSpillDeviceTest {
 
     @Test
     fun dialogOnTheMainScreenIsLeftForTheUser() = runBlocking<Unit> {
-        // 先单独看一眼这种对话框在主屏上的窗口(不经过 Mika 的动作)
+        // 先单独看一眼这种对话框在主屏上的窗口(不经过 Djini 的动作)
         DeviceSupport.sh("am start -n ${DeviceSupport.TEST_PACKAGE}/${DialogSpillTestActivity::class.java.name}")
         DeviceSupport.pollUntil(5_000) {
             shell.topActivity(Display.DEFAULT_DISPLAY)?.takeIf { it.contains("DialogSpillTestActivity") }
@@ -89,11 +89,11 @@ class DialogSpillDeviceTest {
         assertNotNull("no arrival on the main screen was reported for the popup", dialogTask)
         dumpMainWindows("after action")
 
-        // 让 Mika 有机会处理这次冒到主屏上的任务(动作里没赶上的,读屏时会补)
+        // 让 Djini 有机会处理这次冒到主屏上的任务(动作里没赶上的,读屏时会补)
         delay(1_500)
         val now = screen.snapshot()
         delay(500)
-        val opened = now.opened ?: (r as? com.wangzan101.mika.core.uistate.ActionResult.Ok)?.opened
+        val opened = now.opened ?: (r as? com.wangzan101.djini.core.uistate.ActionResult.Ok)?.opened
         val stillThere = DeviceSupport.service().windowsOn(Display.DEFAULT_DISPLAY)
             .any { it.root?.packageName?.toString() == DeviceSupport.TEST_PACKAGE }
         println(
@@ -102,8 +102,8 @@ class DialogSpillDeviceTest {
         )
         // 弹窗还在主屏,用户能接着点确认
         assertTrue("the dialog was moved off the user's screen", stillThere)
-        // Mika 的屏还是原来那一页
-        assertEquals("Mika's screen changed", vdBefore, shell.topTaskId(vd))
+        // Djini 的屏还是原来那一页
+        assertEquals("Djini's screen changed", vdBefore, shell.topTaskId(vd))
         assertNotNull("the popup was not reported to the model", opened)
         assertEquals(DeviceSupport.TEST_PACKAGE, opened!!.packageName)
         assertTrue("the popup was reported as pulled back: $opened", !opened.pulledBack && opened.onUserScreen && opened.needsUser)

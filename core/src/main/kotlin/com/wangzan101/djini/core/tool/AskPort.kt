@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.tool
+package com.wangzan101.djini.core.tool
 
 /**
  * 工具在自己的 execute 里等用户回答一句话(自身操作的同一次同意)。

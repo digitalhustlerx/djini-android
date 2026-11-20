@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.assertIsNotEnabled
@@ -9,11 +9,11 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performTextReplacement
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.wangzan101.mika.ChineseUi
-import com.wangzan101.mika.core.decision.DecisionConfig
-import com.wangzan101.mika.settings.AesGcmKeyCipher
-import com.wangzan101.mika.settings.DecisionSettings
-import com.wangzan101.mika.ui.theme.MikaTheme
+import com.wangzan101.djini.ChineseUi
+import com.wangzan101.djini.core.decision.DecisionConfig
+import com.wangzan101.djini.settings.AesGcmKeyCipher
+import com.wangzan101.djini.settings.DecisionSettings
+import com.wangzan101.djini.ui.theme.DjiniTheme
 import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
@@ -31,7 +31,7 @@ class JevSettingsScreenTest {
 
     @Test fun enabledSettingsRequireAKeyAndChangesOnlyApplyAfterSaving() {
         val s = settings()
-        compose.setContent { MikaTheme { JevSettingsScreen(s, onBack = {}) } }
+        compose.setContent { DjiniTheme { JevSettingsScreen(s, onBack = {}) } }
         compose.onNodeWithTag("jev-test").performScrollTo().assertIsNotEnabled()
         compose.onNodeWithTag("jev-enabled").performScrollTo().performClick()
         compose.onNodeWithTag("jev-save").performScrollTo().assertIsNotEnabled()
@@ -59,7 +59,7 @@ class JevSettingsScreenTest {
                 "typesafe-key",
             )
         }
-        compose.setContent { MikaTheme { JevSettingsScreen(s, onBack = {}) } }
+        compose.setContent { DjiniTheme { JevSettingsScreen(s, onBack = {}) } }
         compose.onNodeWithTag("jev-preset-OpenRouter").performScrollTo().performClick()
         compose.onNodeWithTag("jev-endpoint").assertTextEquals(DecisionConfig.OPEN_ROUTER_ENDPOINT)
         compose.onNodeWithTag("jev-model").assertTextEquals(DecisionConfig.OPEN_ROUTER_MODEL)
@@ -74,7 +74,7 @@ class JevSettingsScreenTest {
 
     @Test fun googlePresetPrefillsStoredGeminiKeyAndSwitchingAwayClearsIt() {
         val s = DecisionSettings(tmp.root, AesGcmKeyCipher { aes }) { "AIza-stored-gemini-key" }
-        compose.setContent { MikaTheme { JevSettingsScreen(s, onBack = {}) } }
+        compose.setContent { DjiniTheme { JevSettingsScreen(s, onBack = {}) } }
         compose.onNodeWithTag("jev-preset-Google").performScrollTo()
         compose.onNodeWithTag("jev-endpoint").assertTextEquals(DecisionConfig.GOOGLE_ENDPOINT)
         compose.onNodeWithTag("jev-model").assertTextEquals(DecisionConfig.GOOGLE_MODEL)

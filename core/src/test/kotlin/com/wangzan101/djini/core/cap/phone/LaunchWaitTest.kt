@@ -1,13 +1,13 @@
-package com.wangzan101.mika.core.cap.phone
+package com.wangzan101.djini.core.cap.phone
 
-import com.wangzan101.mika.core.assembly.toolDispatcher
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.tool.FakeScreen
-import com.wangzan101.mika.core.tool.execute
-import com.wangzan101.mika.core.uistate.APP_IN_USE_BY_OTHER_TASK
-import com.wangzan101.mika.core.uistate.ActionResult
-import com.wangzan101.mika.core.uistate.AppWait
-import com.wangzan101.mika.core.uistate.ScreenPort
+import com.wangzan101.djini.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.tool.FakeScreen
+import com.wangzan101.djini.core.tool.execute
+import com.wangzan101.djini.core.uistate.APP_IN_USE_BY_OTHER_TASK
+import com.wangzan101.djini.core.uistate.ActionResult
+import com.wangzan101.djini.core.uistate.AppWait
+import com.wangzan101.djini.core.uistate.ScreenPort
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.jsonPrimitive
 import org.junit.Assert.assertEquals
@@ -32,7 +32,7 @@ class LaunchWaitTest {
     private suspend fun launch(screen: ScreenPort, args: String) =
         toolDispatcher(screen).execute(Part.ToolCall("l", "phone_launch_app", args))
 
-    private fun error(r: com.wangzan101.mika.core.tool.ToolExecution) = r.content["error"]?.jsonPrimitive?.content
+    private fun error(r: com.wangzan101.djini.core.tool.ToolExecution) = r.content["error"]?.jsonPrimitive?.content
 
     @Test fun withoutWaitTheInUseResultComesBackAtOnce() = runTest {
         val screen = BusyScreen(AppWait.Free)

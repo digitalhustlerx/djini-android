@@ -1,48 +1,48 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.core.model.ApiKeyText
-import com.wangzan101.mika.core.model.KeyPoolManager
-import com.wangzan101.mika.core.model.ListFailure
-import com.wangzan101.mika.core.net.ProxyFailure
-import com.wangzan101.mika.core.model.Capabilities
-import com.wangzan101.mika.core.model.ListedModel
-import com.wangzan101.mika.core.model.ModelEndpoint
-import com.wangzan101.mika.core.model.ModelError
-import com.wangzan101.mika.core.model.ModelListResult
-import com.wangzan101.mika.core.model.ModelRole
-import com.wangzan101.mika.core.net.LocalHosts
-import com.wangzan101.mika.settings.ModelOption
-import com.wangzan101.mika.settings.ModelOptions
-import com.wangzan101.mika.settings.Provider
-import com.wangzan101.mika.settings.ProviderConfig
-import com.wangzan101.mika.settings.ProviderConnection
-import com.wangzan101.mika.settings.ProviderPreset
-import com.wangzan101.mika.settings.ProviderPresets
-import com.wangzan101.mika.settings.ProbeResult
-import com.wangzan101.mika.settings.ProviderStore
-import com.wangzan101.mika.settings.ModelContextSettings
-import com.wangzan101.mika.settings.RoleChoice
-import com.wangzan101.mika.settings.RoleChoices
-import com.wangzan101.mika.settings.ChatGptSignIns
-import com.wangzan101.mika.settings.AccountOutcome
-import com.wangzan101.mika.settings.DevicePrompt
-import com.wangzan101.mika.settings.SignInTarget
-import com.wangzan101.mika.voice.SpeechChoice
-import com.wangzan101.mika.voice.SpeechSettings
-import com.wangzan101.mika.voice.SystemCapability
-import com.wangzan101.mika.voice.Transcriber
-import com.wangzan101.mika.core.chatgpt.ChatGptAuth
-import com.wangzan101.mika.core.chatgpt.SignInException
-import com.wangzan101.mika.core.chatgpt.SignInFailure
-import com.wangzan101.mika.core.chatgpt.signInWithChatGpt
-import com.wangzan101.mika.core.oauth.AccountSignInException
-import com.wangzan101.mika.core.oauth.AccountSignInFailure
-import com.wangzan101.mika.core.oauth.DeviceChallenge
-import com.wangzan101.mika.core.oauth.OpenRouterAuth
-import com.wangzan101.mika.core.oauth.XaiAuth
-import com.wangzan101.mika.core.oauth.signInWithOpenRouter
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.core.model.ApiKeyText
+import com.wangzan101.djini.core.model.KeyPoolManager
+import com.wangzan101.djini.core.model.ListFailure
+import com.wangzan101.djini.core.net.ProxyFailure
+import com.wangzan101.djini.core.model.Capabilities
+import com.wangzan101.djini.core.model.ListedModel
+import com.wangzan101.djini.core.model.ModelEndpoint
+import com.wangzan101.djini.core.model.ModelError
+import com.wangzan101.djini.core.model.ModelListResult
+import com.wangzan101.djini.core.model.ModelRole
+import com.wangzan101.djini.core.net.LocalHosts
+import com.wangzan101.djini.settings.ModelOption
+import com.wangzan101.djini.settings.ModelOptions
+import com.wangzan101.djini.settings.Provider
+import com.wangzan101.djini.settings.ProviderConfig
+import com.wangzan101.djini.settings.ProviderConnection
+import com.wangzan101.djini.settings.ProviderPreset
+import com.wangzan101.djini.settings.ProviderPresets
+import com.wangzan101.djini.settings.ProbeResult
+import com.wangzan101.djini.settings.ProviderStore
+import com.wangzan101.djini.settings.ModelContextSettings
+import com.wangzan101.djini.settings.RoleChoice
+import com.wangzan101.djini.settings.RoleChoices
+import com.wangzan101.djini.settings.ChatGptSignIns
+import com.wangzan101.djini.settings.AccountOutcome
+import com.wangzan101.djini.settings.DevicePrompt
+import com.wangzan101.djini.settings.SignInTarget
+import com.wangzan101.djini.voice.SpeechChoice
+import com.wangzan101.djini.voice.SpeechSettings
+import com.wangzan101.djini.voice.SystemCapability
+import com.wangzan101.djini.voice.Transcriber
+import com.wangzan101.djini.core.chatgpt.ChatGptAuth
+import com.wangzan101.djini.core.chatgpt.SignInException
+import com.wangzan101.djini.core.chatgpt.SignInFailure
+import com.wangzan101.djini.core.chatgpt.signInWithChatGpt
+import com.wangzan101.djini.core.oauth.AccountSignInException
+import com.wangzan101.djini.core.oauth.AccountSignInFailure
+import com.wangzan101.djini.core.oauth.DeviceChallenge
+import com.wangzan101.djini.core.oauth.OpenRouterAuth
+import com.wangzan101.djini.core.oauth.XaiAuth
+import com.wangzan101.djini.core.oauth.signInWithOpenRouter
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -97,7 +97,7 @@ data class AccountSignInUi(
 )
 
 /**
- * 用账号登录要用到的系统能力:在浏览器里打开授权页、登录完回到 Mika、本机回调收到后浏览器里显示的网页。
+ * 用账号登录要用到的系统能力:在浏览器里打开授权页、登录完回到 Djini、本机回调收到后浏览器里显示的网页。
  * 界面给出(要 Context);测试里不给,就不能登录。
  */
 interface SignInBrowser {
@@ -801,9 +801,9 @@ class ModelSetupViewModel(
     // ---------- 用 ChatGPT 登录 ----------
 
     /**
-     * 打开浏览器登录 ChatGPT,回调后换令牌、核对,列出模型,存成(或更新)ChatGPT 服务商,回到 Mika。
+     * 打开浏览器登录 ChatGPT,回调后换令牌、核对,列出模型,存成(或更新)ChatGPT 服务商,回到 Djini。
      * 还没有主模型时选它的一个模型为主模型。第一次注册成功后说明一次在用套餐额度。失败说原因(并记下给诊断信息)。
-     * 跑在 [signIns] 里:用户在浏览器里登录时 Mika 在后台,不能跟着界面走。
+     * 跑在 [signIns] 里:用户在浏览器里登录时 Djini 在后台,不能跟着界面走。
      */
     fun signInWithChatGpt() {
         val browser = browser ?: return
@@ -859,7 +859,7 @@ class ModelSetupViewModel(
      * 用账号登录 xAI 或 OpenRouter:xAI 在浏览器里打开核对过的验证页、界面留下短码,等用户确认;
      * OpenRouter 打开授权页,同意后回到本机回调、换到一把属于用户的 Key。
      * 成功后列出模型、存下这一家,还没有主模型时选一个,再打开它的详情页([ModelSetupUi.signedInProvider])。
-     * 失败只说类别和错误代码(并记下给诊断信息)。和 ChatGPT 一样跑在 [signIns] 里:用户在浏览器里时 Mika 在后台。
+     * 失败只说类别和错误代码(并记下给诊断信息)。和 ChatGPT 一样跑在 [signIns] 里:用户在浏览器里时 Djini 在后台。
      */
     fun signInWithAccount(provider: AccountProvider) {
         val browser = browser ?: return

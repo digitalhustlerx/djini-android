@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.export
+package com.wangzan101.djini.core.export
 
 /** 文件名与包内路径的清洗;规则和现有分享/附件保持同一方向,但这里不依赖沙箱能力包。 */
 object ExportNames {

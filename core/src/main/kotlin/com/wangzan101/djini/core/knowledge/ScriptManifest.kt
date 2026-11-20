@@ -1,9 +1,9 @@
-package com.wangzan101.mika.core.knowledge
+package com.wangzan101.djini.core.knowledge
 
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
-import com.wangzan101.mika.core.workspace.SandboxPaths
+import com.wangzan101.djini.core.workspace.SandboxPaths
 
 /** 技能脚本清单(`scripts/manifest.json`)里的一项;[file] 是技能目录下的相对路径。 */
 @Serializable
@@ -14,7 +14,7 @@ data class ScriptEntry(val file: String, val runnable: Boolean, val needs: List<
  * run_bundled_script 与 knowledge_read、skill_read 都以它为准。
  */
 object ScriptManifest {
-    const val NEEDS_NETWORK = "needs network access: the user can turn on \"Allow scripts to go online\" (允许脚本联网) in Mika's settings"
+    const val NEEDS_NETWORK = "needs network access: the user can turn on \"Allow scripts to go online\" (允许脚本联网) in Djini's settings"
     private val json = Json { ignoreUnknownKeys = true }
     private val INTERPRETERS = mapOf("py" to "/usr/bin/python3", "mjs" to "/usr/bin/node", "js" to "/usr/bin/node", "sh" to "/bin/sh")
 

@@ -1,11 +1,11 @@
-package com.wangzan101.mika.chat
+package com.wangzan101.djini.chat
 
-import com.wangzan101.mika.core.model.Usage
-import com.wangzan101.mika.core.record.RunMetrics
-import com.wangzan101.mika.core.record.RunMetricsStore
-import com.wangzan101.mika.core.usage.ConversationUsage
-import com.wangzan101.mika.core.agent.Turn
-import com.wangzan101.mika.core.chat.GeneratedAudio
+import com.wangzan101.djini.core.model.Usage
+import com.wangzan101.djini.core.record.RunMetrics
+import com.wangzan101.djini.core.record.RunMetricsStore
+import com.wangzan101.djini.core.usage.ConversationUsage
+import com.wangzan101.djini.core.agent.Turn
+import com.wangzan101.djini.core.chat.GeneratedAudio
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotEquals
@@ -338,8 +338,8 @@ class ConversationStoreTest {
     @Test fun memoryNotesStoredWithoutContentAndStripped() {
         val dir = tmp.newFolder()
         val store = ConversationStore(dir)
-        val note = com.wangzan101.mika.core.memory.MemoryNote(com.wangzan101.mika.core.memory.NoteKind.added, "m1", "t1", null)
-        val other = com.wangzan101.mika.core.memory.MemoryNote(com.wangzan101.mika.core.memory.NoteKind.pending, "m2", "t2", "m2")
+        val note = com.wangzan101.djini.core.memory.MemoryNote(com.wangzan101.djini.core.memory.NoteKind.added, "m1", "t1", null)
+        val other = com.wangzan101.djini.core.memory.MemoryNote(com.wangzan101.djini.core.memory.NoteKind.pending, "m2", "t2", "m2")
         store.append("c1", Turn("点外卖", "ok", "succeeded", runId = "r1"))
         store.updateTurn("c1", "r1") { it.copy(memoryNotes = listOf(note, other), usedMemory = listOf("m1", "m3")) }
         val raw = java.io.File(dir, "c1.json").readText()
@@ -358,7 +358,7 @@ class ConversationStoreTest {
         val dir = tmp.newFolder("c")
         val a = ConversationStore(dir)
         val id = a.newConversation()
-        val f = SharedFile("图.png", 1234, "Download/Mika/图.png", "content://media/external/downloads/7")
+        val f = SharedFile("图.png", 1234, "Download/Djini/图.png", "content://media/external/downloads/7")
         a.append(id, Turn("画图", "好了", "succeeded"), listOf(f))
         a.append(id, Turn("再来", "好", "succeeded"))
         val b = ConversationStore(dir)
@@ -370,9 +370,9 @@ class ConversationStoreTest {
     @Test fun filesSurviveNoteUpdatesAndStrip() {
         val dir = tmp.newFolder("d")
         val store = ConversationStore(dir)
-        val f = SharedFile("表.csv", 10, "Download/Mika/表.csv", "content://media/external/downloads/8")
+        val f = SharedFile("表.csv", 10, "Download/Djini/表.csv", "content://media/external/downloads/8")
         store.append("c1", Turn("导出", "好了", "succeeded", runId = "r1"), listOf(f))
-        val note = com.wangzan101.mika.core.memory.MemoryNote(com.wangzan101.mika.core.memory.NoteKind.added, "m1", "t1", null)
+        val note = com.wangzan101.djini.core.memory.MemoryNote(com.wangzan101.djini.core.memory.NoteKind.added, "m1", "t1", null)
         store.updateTurn("c1", "r1") { it.copy(memoryNotes = listOf(note)) }
         store.stripMemory(null)
         val r = ConversationStore(dir).records("c1").single()

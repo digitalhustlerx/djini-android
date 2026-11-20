@@ -1,28 +1,28 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.i18n.ChineseTexts
-import com.wangzan101.mika.core.model.ApiKeyText
-import com.wangzan101.mika.core.model.Capabilities
-import com.wangzan101.mika.core.model.ChatModel
-import com.wangzan101.mika.core.model.ListFailure
-import com.wangzan101.mika.core.model.ListedModel
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.ModelEndpoint
-import com.wangzan101.mika.core.model.ModelError
-import com.wangzan101.mika.core.model.ModelHttp
-import com.wangzan101.mika.core.model.ModelListResult
-import com.wangzan101.mika.core.model.ModelProtocol
-import com.wangzan101.mika.core.model.ModelReply
-import com.wangzan101.mika.core.model.ModelRole
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.StopReason
-import com.wangzan101.mika.core.model.ToolSpec
-import com.wangzan101.mika.settings.AesGcmKeyCipher
-import com.wangzan101.mika.settings.ClientSetup
-import com.wangzan101.mika.settings.ProviderConfig
-import com.wangzan101.mika.settings.ProviderPresets
-import com.wangzan101.mika.settings.ProviderStore
-import com.wangzan101.mika.settings.RoleChoice
+import com.wangzan101.djini.i18n.ChineseTexts
+import com.wangzan101.djini.core.model.ApiKeyText
+import com.wangzan101.djini.core.model.Capabilities
+import com.wangzan101.djini.core.model.ChatModel
+import com.wangzan101.djini.core.model.ListFailure
+import com.wangzan101.djini.core.model.ListedModel
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.ModelEndpoint
+import com.wangzan101.djini.core.model.ModelError
+import com.wangzan101.djini.core.model.ModelHttp
+import com.wangzan101.djini.core.model.ModelListResult
+import com.wangzan101.djini.core.model.ModelProtocol
+import com.wangzan101.djini.core.model.ModelReply
+import com.wangzan101.djini.core.model.ModelRole
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.StopReason
+import com.wangzan101.djini.core.model.ToolSpec
+import com.wangzan101.djini.settings.AesGcmKeyCipher
+import com.wangzan101.djini.settings.ClientSetup
+import com.wangzan101.djini.settings.ProviderConfig
+import com.wangzan101.djini.settings.ProviderPresets
+import com.wangzan101.djini.settings.ProviderStore
+import com.wangzan101.djini.settings.RoleChoice
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -56,7 +56,7 @@ class ModelSetupViewModelTest {
     private fun store() = ProviderStore(
         tmp.root, AesGcmKeyCipher { key },
         newId = { "id${++ids}" },
-        userAgent = "Mika/1.2.3",
+        userAgent = "Djini/1.2.3",
         modelFactory = { cfg, _, _, setup -> built += cfg.model to setup; Fake(cfg.capabilities) { reply() } },
         modelLister = { kind, url, apiKey, _ ->
             listBoom?.let { throw it }
@@ -139,7 +139,7 @@ class ModelSetupViewModelTest {
         val (model, setup) = built.first()
         assertEquals("deepseek-chat", model)
         assertEquals(1024, setup.maxOutputTokens)
-        assertEquals("Mika/1.2.3", setup.headers["User-Agent"])
+        assertEquals("Djini/1.2.3", setup.headers["User-Agent"])
         assertEquals("DeepSeek 没声明会话头", setOf("User-Agent"), setup.headers.keys)
         val (_, messages, tools) = probes.single()
         assertEquals(1, messages.size)
@@ -164,7 +164,7 @@ class ModelSetupViewModelTest {
         assertEquals(ListState.Idle, s.form.test)
         assertEquals(listOf("deepseek-chat", "deepseek-reasoner"), built.map { it.first })
         assertEquals(
-            "服务商已连上，但「deepseek-chat」没测试通过：它不会调用工具，Mika 干活需要会调用工具的模型。从列表里选一个你开通了的模型。\n" +
+            "服务商已连上，但「deepseek-chat」没测试通过：它不会调用工具，Djini 干活需要会调用工具的模型。从列表里选一个你开通了的模型。\n" +
                 "试了 deepseek-chat、deepseek-reasoner，都没测试通过。",
             s.probeNote,
         )
@@ -626,7 +626,7 @@ class ModelSetupViewModelTest {
         // 只回话不调用工具的,当不了主模型
         reply = { ModelReply(listOf(Part.Text("noon")), StopReason.EndTurn, null) }
         vm.pickManual(ModelRole.Main, p.id, "chatty") { picked++ }; runCurrent()
-        assertEquals(ListState.Failed("chatty 没有调用工具，Mika 干活需要会调用工具的模型，换一个当主模型。"), vm.state.value.manualPick[p.id])
+        assertEquals(ListState.Failed("chatty 没有调用工具，Djini 干活需要会调用工具的模型，换一个当主模型。"), vm.state.value.manualPick[p.id])
         assertNull(store.roles.value.main)
         reply = { ModelReply(listOf(Part.ToolCall("c1", "get_time", "{}")), StopReason.ToolUse, null) }
         vm.pickManual(ModelRole.Main, p.id, " qwen3 ") { picked++ }; runCurrent()
@@ -800,13 +800,13 @@ class ModelSetupViewModelTest {
         vm.removeProvider(p.id); runCurrent()
         assertTrue(store.providers.value.isEmpty())
         assertTrue(store.list().isEmpty())
-        assertEquals(com.wangzan101.mika.settings.RoleChoices(), store.roles.value)
+        assertEquals(com.wangzan101.djini.settings.RoleChoices(), store.roles.value)
         assertFalse(vm.state.value.canNext)
         assertTrue(vm.state.value.showForm)
     }
 
     @Test fun copyTagsMarkGuessedCapabilities() {
-        val o = com.wangzan101.mika.settings.ModelOptions.merge(
+        val o = com.wangzan101.djini.settings.ModelOptions.merge(
             listOf(ListedModel("a"), ListedModel("b", toolCalls = true, contextTokens = 64_000), ListedModel("c", toolCalls = false)),
             Capabilities(true, false, 64_000, false),
         )

@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import android.Manifest
 import androidx.activity.ComponentActivity
@@ -19,16 +19,16 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTouchInput
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.ChineseUi
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.voice.SpeechEngineSpec
-import com.wangzan101.mika.voice.SpeechEvent
-import com.wangzan101.mika.voice.SpeechSession
-import com.wangzan101.mika.voice.VoiceSource
+import com.wangzan101.djini.ChineseUi
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.voice.SpeechEngineSpec
+import com.wangzan101.djini.voice.SpeechEvent
+import com.wangzan101.djini.voice.SpeechSession
+import com.wangzan101.djini.voice.VoiceSource
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow
-import com.wangzan101.mika.voice.SpeechFailure
+import com.wangzan101.djini.voice.SpeechFailure
 import androidx.compose.ui.test.onNodeWithText
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -71,14 +71,14 @@ class VoiceHoldTest {
     private val voiceSent = mutableListOf<String>()
 
     private fun composer(text: String = "", sendVoice: Boolean = false) = compose.setContent {
-        MikaTheme {
+        DjiniTheme {
             var t by remember { mutableStateOf(text) }
             Box(Modifier.fillMaxSize()) {
                 Composer(
                     Modifier, t, { t = it }, ComposerMode.Idle, hasHistory = false, onSend = {}, onStop = {},
                     voice = voice,
-                    onVoiceText = { t = com.wangzan101.mika.voice.HoldToTalk.join(t, it) },
-                    onVoiceSend = if (sendVoice) ({ voiceSent += com.wangzan101.mika.voice.HoldToTalk.join(t, it); t = "" }) else null,
+                    onVoiceText = { t = com.wangzan101.djini.voice.HoldToTalk.join(t, it) },
+                    onVoiceSend = if (sendVoice) ({ voiceSent += com.wangzan101.djini.voice.HoldToTalk.join(t, it); t = "" }) else null,
                 )
             }
         }

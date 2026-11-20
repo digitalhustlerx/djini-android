@@ -1,4 +1,4 @@
-package com.wangzan101.mika.about
+package com.wangzan101.djini.about
 
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import java.io.File
@@ -9,9 +9,9 @@ class ApkRejected(val reason: Reason) : Exception(reason.name) {
     enum class Reason {
         /** 大小、SHA-256 对不上,或者根本读不出安装包。 */
         Corrupt,
-        /** 不是 Mika,或者版本不比已装的新。 */
+        /** 不是 Djini,或者版本不比已装的新。 */
         NotNewer,
-        /** 签名证书和已装的 Mika 不同。 */
+        /** 签名证书和已装的 Djini 不同。 */
         Signer,
     }
 }

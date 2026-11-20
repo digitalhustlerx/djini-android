@@ -1,7 +1,7 @@
-package com.wangzan101.mika.settings
+package com.wangzan101.djini.settings
 
 import android.app.NotificationManager
-import com.wangzan101.mika.task.TaskService
+import com.wangzan101.djini.task.TaskService
 
 /** 一个通知频道现在的样子(只看系统里的重要程度)。 */
 enum class ChannelLevel {

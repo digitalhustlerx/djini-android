@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import androidx.activity.ComponentActivity
 import androidx.activity.BackEventCompat
@@ -35,15 +35,15 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.ChineseUi
-import com.wangzan101.mika.chat.ConversationStore
-import com.wangzan101.mika.chat.ConversationSummary
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.core.agent.Turn
-import com.wangzan101.mika.settings.Prerequisites
-import com.wangzan101.mika.takeover.Takeover
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.systemBarsFor
+import com.wangzan101.djini.ChineseUi
+import com.wangzan101.djini.chat.ConversationStore
+import com.wangzan101.djini.chat.ConversationSummary
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.core.agent.Turn
+import com.wangzan101.djini.settings.Prerequisites
+import com.wangzan101.djini.takeover.Takeover
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.systemBarsFor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -103,7 +103,7 @@ class ChatDrawerGestureTest {
         )
         if (realChat) compose.runOnUiThread { vm.openConversation("sample") }
         compose.setContent {
-            MikaTheme(dark = dark.value) {
+            DjiniTheme(dark = dark.value) {
                 CompositionLocalProvider(LocalLayoutDirection provides if (rtl) LayoutDirection.Rtl else LayoutDirection.Ltr) {
                     BackHandler { underlyingBacks++ }
                     Box(Modifier.width(windowWidth.value).fillMaxHeight().testTag("drawer-host")) {
@@ -129,7 +129,7 @@ class ChatDrawerGestureTest {
                                     val scroll = rememberScrollState(200)
                                     scrollPosition = { scroll.value }
                                     Box(Modifier.width(360.dp).height(180.dp).horizontalScroll(scroll).testTag("wide-code")) {
-                                        Text("宽代码 ".repeat(100), Modifier.width(1500.dp).background(MikaTheme.colors.fill))
+                                        Text("宽代码 ".repeat(100), Modifier.width(1500.dp).background(DjiniTheme.colors.fill))
                                     }
                                 }
                             }

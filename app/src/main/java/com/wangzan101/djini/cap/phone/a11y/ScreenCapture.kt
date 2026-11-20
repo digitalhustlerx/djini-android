@@ -1,16 +1,16 @@
-package com.wangzan101.mika.cap.phone.a11y
+package com.wangzan101.djini.cap.phone.a11y
 
 import android.os.SystemClock
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityWindowInfo
-import com.wangzan101.mika.core.uistate.OpenedElsewhere
-import com.wangzan101.mika.core.uistate.ScreenCheck
-import com.wangzan101.mika.core.uistate.ScreenDiagnosis
-import com.wangzan101.mika.core.uistate.ScreenEvent
-import com.wangzan101.mika.core.uistate.ScreenFacts
-import com.wangzan101.mika.core.uistate.ScreenSnapshot
-import com.wangzan101.mika.core.uistate.VisibleTextLine
-import com.wangzan101.mika.core.visual.FrameGrid
+import com.wangzan101.djini.core.uistate.OpenedElsewhere
+import com.wangzan101.djini.core.uistate.ScreenCheck
+import com.wangzan101.djini.core.uistate.ScreenDiagnosis
+import com.wangzan101.djini.core.uistate.ScreenEvent
+import com.wangzan101.djini.core.uistate.ScreenFacts
+import com.wangzan101.djini.core.uistate.ScreenSnapshot
+import com.wangzan101.djini.core.uistate.VisibleTextLine
+import com.wangzan101.djini.core.visual.FrameGrid
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
@@ -106,7 +106,7 @@ internal class ScreenCapture(private val screen: AndroidScreen) {
     }
 
     /**
-     * Mika 屏上最上面的那个 App(包名、任务、所属用户),每换一个给一次:订阅时先给一次,之后窗口一变(开了新页面、
+     * Djini 屏上最上面的那个 App(包名、任务、所属用户),每换一个给一次:订阅时先给一次,之后窗口一变(开了新页面、
      * 从别的 App 里点开了另一个 App、另一份顶上来)就重读。屏还没建、没有任务时不给。在调用方的线程上问内置助手。
      */
     fun foregroundApps(): Flow<AndroidScreen.TargetApp> = flow {
@@ -241,7 +241,7 @@ internal class ScreenCapture(private val screen: AndroidScreen) {
         }
     }
 
-    internal fun containsText(node: com.wangzan101.mika.core.uistate.UiTreeNode, text: String): Boolean =
+    internal fun containsText(node: com.wangzan101.djini.core.uistate.UiTreeNode, text: String): Boolean =
         (!node.secret && (node.text?.contains(text, true) == true || node.description?.contains(text, true) == true)) ||
             node.children.any { containsText(it, text) }
 

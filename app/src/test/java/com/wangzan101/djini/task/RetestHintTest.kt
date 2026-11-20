@@ -1,9 +1,9 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
-import com.wangzan101.mika.core.agent.FailKind
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.settings.ProviderConfig
-import com.wangzan101.mika.settings.Provider
+import com.wangzan101.djini.core.agent.FailKind
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.settings.ProviderConfig
+import com.wangzan101.djini.settings.Provider
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

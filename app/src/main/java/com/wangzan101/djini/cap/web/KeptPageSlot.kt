@@ -1,7 +1,7 @@
-package com.wangzan101.mika.cap.web
+package com.wangzan101.djini.cap.web
 
-import com.wangzan101.mika.core.cap.web.KEEP_OPEN_HOURS
-import com.wangzan101.mika.core.cap.web.KeptPageClose
+import com.wangzan101.djini.core.cap.web.KEEP_OPEN_HOURS
+import com.wangzan101.djini.core.cap.web.KeptPageClose
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

@@ -1,4 +1,4 @@
-package com.wangzan101.mika.capsule
+package com.wangzan101.djini.capsule
 
 /** A docked ball may tuck away; requests, speech and open cards stay fully visible. */
 object CapsuleEdge {

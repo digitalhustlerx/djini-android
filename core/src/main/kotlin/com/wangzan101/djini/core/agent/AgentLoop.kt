@@ -1,72 +1,72 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
-import com.wangzan101.mika.core.trace.RunTrace
-import com.wangzan101.mika.core.guard.OperationGuards
-import com.wangzan101.mika.core.guard.GuardVerdict
-import com.wangzan101.mika.core.observation.Place
-import com.wangzan101.mika.core.observation.PlaceKind
-import com.wangzan101.mika.core.observation.tag
-import com.wangzan101.mika.core.prompt.Feedback
-import com.wangzan101.mika.core.prompt.PromptVersion
-import com.wangzan101.mika.core.tool.parseArgs
-import com.wangzan101.mika.core.action.ActionExecutor
-import com.wangzan101.mika.core.action.ActionOutcome
-import com.wangzan101.mika.core.action.ActionRecorder
-import com.wangzan101.mika.core.action.OutwardPacing
-import com.wangzan101.mika.core.action.ApprovalSettings
-import com.wangzan101.mika.core.action.ConfirmChoice
-import com.wangzan101.mika.core.action.FollowUp
-import com.wangzan101.mika.core.action.Origin
-import com.wangzan101.mika.core.action.Presented
-import com.wangzan101.mika.core.action.Refusals
-import com.wangzan101.mika.core.access.AppAccessDenied
-import com.wangzan101.mika.core.model.Author
-import com.wangzan101.mika.core.gate.ConfirmationGate
-import com.wangzan101.mika.core.gate.ConfirmationRequest
-import com.wangzan101.mika.core.knowledge.ChannelAdvisor
-import com.wangzan101.mika.core.knowledge.ChannelFacts
-import com.wangzan101.mika.core.knowledge.KnowledgeEntry
-import com.wangzan101.mika.core.knowledge.KnowledgeStore
-import com.wangzan101.mika.core.knowledge.GuideCatalog
-import com.wangzan101.mika.core.memory.MemoryContext
-import com.wangzan101.mika.core.memory.ProfileContext
-import com.wangzan101.mika.core.memory.ProfileEntry
-import com.wangzan101.mika.core.memory.MemoryStore
-import com.wangzan101.mika.core.knowledge.toolsNote
-import com.wangzan101.mika.core.model.ChatModel
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.ModelError
-import com.wangzan101.mika.core.model.ModelReply
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.Role
-import com.wangzan101.mika.core.model.StopReason
-import com.wangzan101.mika.core.model.ToolSpec
-import com.wangzan101.mika.core.proactive.ObservedContext
-import com.wangzan101.mika.core.record.Redactor
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.record.RunSink
-import com.wangzan101.mika.core.run.RunEventBus
-import com.wangzan101.mika.core.run.RunInbox
-import com.wangzan101.mika.core.run.RunSpec
-import com.wangzan101.mika.core.run.RunProvenance
-import com.wangzan101.mika.core.run.RunOrigin
-import com.wangzan101.mika.core.run.Interaction
-import com.wangzan101.mika.core.run.LocalInteraction
-import com.wangzan101.mika.core.run.Delivery
-import com.wangzan101.mika.core.usage.RunUsageTally
-import com.wangzan101.mika.core.tool.HandBack
-import com.wangzan101.mika.core.tool.HandBackOutcome
-import com.wangzan101.mika.core.tool.Outcome
-import com.wangzan101.mika.core.tool.AskPort
-import com.wangzan101.mika.core.tool.ToolDispatcher
-import com.wangzan101.mika.core.tool.ToolExecution
-import com.wangzan101.mika.core.tool.Verb
-import com.wangzan101.mika.core.replay.RouteMatcher
-import com.wangzan101.mika.core.replay.RouteAnchors
-import com.wangzan101.mika.core.screenmap.ScreenMapRender
-import com.wangzan101.mika.core.screenmap.ScreenMapStore
-import com.wangzan101.mika.core.uistate.interfaces
-import com.wangzan101.mika.core.verify.Verifier
+import com.wangzan101.djini.core.trace.RunTrace
+import com.wangzan101.djini.core.guard.OperationGuards
+import com.wangzan101.djini.core.guard.GuardVerdict
+import com.wangzan101.djini.core.observation.Place
+import com.wangzan101.djini.core.observation.PlaceKind
+import com.wangzan101.djini.core.observation.tag
+import com.wangzan101.djini.core.prompt.Feedback
+import com.wangzan101.djini.core.prompt.PromptVersion
+import com.wangzan101.djini.core.tool.parseArgs
+import com.wangzan101.djini.core.action.ActionExecutor
+import com.wangzan101.djini.core.action.ActionOutcome
+import com.wangzan101.djini.core.action.ActionRecorder
+import com.wangzan101.djini.core.action.OutwardPacing
+import com.wangzan101.djini.core.action.ApprovalSettings
+import com.wangzan101.djini.core.action.ConfirmChoice
+import com.wangzan101.djini.core.action.FollowUp
+import com.wangzan101.djini.core.action.Origin
+import com.wangzan101.djini.core.action.Presented
+import com.wangzan101.djini.core.action.Refusals
+import com.wangzan101.djini.core.access.AppAccessDenied
+import com.wangzan101.djini.core.model.Author
+import com.wangzan101.djini.core.gate.ConfirmationGate
+import com.wangzan101.djini.core.gate.ConfirmationRequest
+import com.wangzan101.djini.core.knowledge.ChannelAdvisor
+import com.wangzan101.djini.core.knowledge.ChannelFacts
+import com.wangzan101.djini.core.knowledge.KnowledgeEntry
+import com.wangzan101.djini.core.knowledge.KnowledgeStore
+import com.wangzan101.djini.core.knowledge.GuideCatalog
+import com.wangzan101.djini.core.memory.MemoryContext
+import com.wangzan101.djini.core.memory.ProfileContext
+import com.wangzan101.djini.core.memory.ProfileEntry
+import com.wangzan101.djini.core.memory.MemoryStore
+import com.wangzan101.djini.core.knowledge.toolsNote
+import com.wangzan101.djini.core.model.ChatModel
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.ModelError
+import com.wangzan101.djini.core.model.ModelReply
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.Role
+import com.wangzan101.djini.core.model.StopReason
+import com.wangzan101.djini.core.model.ToolSpec
+import com.wangzan101.djini.core.proactive.ObservedContext
+import com.wangzan101.djini.core.record.Redactor
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.record.RunSink
+import com.wangzan101.djini.core.run.RunEventBus
+import com.wangzan101.djini.core.run.RunInbox
+import com.wangzan101.djini.core.run.RunSpec
+import com.wangzan101.djini.core.run.RunProvenance
+import com.wangzan101.djini.core.run.RunOrigin
+import com.wangzan101.djini.core.run.Interaction
+import com.wangzan101.djini.core.run.LocalInteraction
+import com.wangzan101.djini.core.run.Delivery
+import com.wangzan101.djini.core.usage.RunUsageTally
+import com.wangzan101.djini.core.tool.HandBack
+import com.wangzan101.djini.core.tool.HandBackOutcome
+import com.wangzan101.djini.core.tool.Outcome
+import com.wangzan101.djini.core.tool.AskPort
+import com.wangzan101.djini.core.tool.ToolDispatcher
+import com.wangzan101.djini.core.tool.ToolExecution
+import com.wangzan101.djini.core.tool.Verb
+import com.wangzan101.djini.core.replay.RouteMatcher
+import com.wangzan101.djini.core.replay.RouteAnchors
+import com.wangzan101.djini.core.screenmap.ScreenMapRender
+import com.wangzan101.djini.core.screenmap.ScreenMapStore
+import com.wangzan101.djini.core.uistate.interfaces
+import com.wangzan101.djini.core.verify.Verifier
 import kotlin.coroutines.EmptyCoroutineContext
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
@@ -88,9 +88,9 @@ import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.jsonPrimitive
 import kotlinx.serialization.json.put
 import java.time.ZoneId
-import com.wangzan101.mika.core.userscreen.UserScreenSource
-import com.wangzan101.mika.core.general.HISTORY_READ
-import com.wangzan101.mika.core.general.VIEW_USER_SCREEN
+import com.wangzan101.djini.core.userscreen.UserScreenSource
+import com.wangzan101.djini.core.general.HISTORY_READ
+import com.wangzan101.djini.core.general.VIEW_USER_SCREEN
 
 /** 批做完后另看的一眼:内容和画面同一时刻。 */
 private fun batchViewNote(content: String) = Feedback.format("batch_view_note", "screen" to content)
@@ -107,7 +107,7 @@ private fun cleanReplyParts(parts: List<Part>, text: String): List<Part> {
 }
 
 /**
- * 写、改 Mika 自己的记忆不先问「是讨论还是要操作」。那个判断管的是要不要去读、去动 App 和网站;这两个工具只动 Mika 自己的记忆,
+ * 写、改 Djini 自己的记忆不先问「是讨论还是要操作」。那个判断管的是要不要去读、去动 App 和网站;这两个工具只动 Djini 自己的记忆,
  * 各有校验(引文必须出自用户这一轮的话,改删还要话里明说了要改、要删,见 MemoryTools),改动在结果卡上可以撤销。
  * 交给它判的话,「总结一下写进记忆」「把那几条改得简洁一点」这样的话在真机上都被判成了讨论:调用被丢掉、改成不带工具重问,
  * 模型只好把调用写成文字,任务以「工具调用没被识别」结束。
@@ -149,7 +149,7 @@ class AgentLoop(
     private val approvals: ApprovalSettings = ApprovalSettings.ASK,
     /** 等用户回答确认的时限,到时按不同意;为 null 时一直等(测试)。 */
     confirmTimeoutMs: Long? = null,
-    /** Mika 自己的包名:作用在它上面的写操作不做。 */
+    /** Djini 自己的包名:作用在它上面的写操作不做。 */
     private val selfPackage: String? = null,
     /** 追问(ask_user 与开工前的歧义问题)等用户回答的时限;计时走协程调度器的时钟,测试里用虚拟时间。 */
     inputTimeoutMs: Long = DEFAULT_INPUT_TIMEOUT_MS,
@@ -164,7 +164,7 @@ class AgentLoop(
     /** UI 对话第一次要用工具时的独立意图判断；null 保留评测与其他入口的原行为。 */
     private val intentJudge: ChatModel? = null,
     /** 可选的类型化意图判断;不确定或失败时仍问 intentJudge,不替代主模型与执行关卡。 */
-    intentDecision: com.wangzan101.mika.core.decision.DecisionModel? = null,
+    intentDecision: com.wangzan101.djini.core.decision.DecisionModel? = null,
     /** 经验回放的路线匹配;只在 flags.replay 打开时用。 */
     routes: RouteMatcher? = null,
     /** 技能目录(含个人技能);任务开始时列出全部技能,并按目标给几条 App/站点知识的索引。为 null 或 [recommendSkills] 关着时不给索引。 */
@@ -181,7 +181,7 @@ class AgentLoop(
     private val interaction: Interaction = LocalInteraction,
     private val profileSnapshot: List<ProfileEntry> = emptyList(),
     private val autonomous: Boolean = false,
-    /** 主动能力从通知里攒下、够格带进这次任务的那一段(见 [com.wangzan101.mika.core.proactive.ObservedContext]);没有为 null。 */
+    /** 主动能力从通知里攒下、够格带进这次任务的那一段(见 [com.wangzan101.djini.core.proactive.ObservedContext]);没有为 null。 */
     private val observed: String? = null,
     /** 交互界面开启可见文字流；评测和后台调用保持原请求格式。 */
     private val streamReplies: Boolean = false,
@@ -577,7 +577,7 @@ class AgentLoop(
             acceptProgress(parsed)
             val text = parsed.text
             val cleanParts = cleanReplyParts(reply.parts, text)
-            history += Message(Role.Assistant, cleanParts, Author.Mika).also { caller.noteReply(it, used, reply.usage) }
+            history += Message(Role.Assistant, cleanParts, Author.Djini).also { caller.noteReply(it, used, reply.usage) }
             val calls = ReplyCalls(reply.parts, ::acceptProgress)
             note = text.ifEmpty { calls.action?.name ?: note }
             val tool = calls.action?.name
@@ -761,7 +761,7 @@ class AgentLoop(
                         track.after(tools.verb(first.name), ok = false, guard = false, changed = null, recovery = false, app = null)
                         continue
                     }
-                    // 模型单步只会被守卫叫停、被确认关卡拦下或因作用在 Mika 自己身上不做;别的拒绝说明执行入口和这里对不上
+                    // 模型单步只会被守卫叫停、被确认关卡拦下或因作用在 Djini 自己身上不做;别的拒绝说明执行入口和这里对不上
                     check(action.hit != null || action.code == Refusals.OWN_APP) { "unexpected refusal ${action.code} for ${first.name}" }
                     // 被确认关卡拦下:不计入失败熔断,交给模型走确认流程
                     track.after(tools.verb(first.name), ok = false, guard = action.before.isNotEmpty(), changed = null, recovery = false, app = null)
@@ -799,7 +799,7 @@ class AgentLoop(
             if (exec.images.isNotEmpty()) {
                 // 读到的图片文件不是屏幕画面,不带 screenshotId
                 history += Message(Role.User, listOf(Part.Text(NoticePolicy.imageNote(verb, offScreen))) +
-                    exec.images.mapIndexed { i, img -> tools.modelImage(img, if (offScreen) null else exec.imageIds.getOrNull(i)) }, Author.Mika)
+                    exec.images.mapIndexed { i, img -> tools.modelImage(img, if (offScreen) null else exec.imageIds.getOrNull(i)) }, Author.Djini)
             }
             for (lookup in NoticePolicy.knowledgeAfter(verb, exec.place, !isError)) when (lookup) {
                 is KnowledgeLookup.App -> injectKnowledge(history, knowledge?.byPackage(lookup.pkg), lookup.pkg)
@@ -851,7 +851,7 @@ class AgentLoop(
         val state = ctx.runtimeState(place, place?.name?.let(labels::get), mode, step, maxSteps, now(), latestWords,
             listOfNotNull(pending, stages?.hint()).takeIf { it.isNotEmpty() }?.joinToString("\n"))
         val last = history.lastOrNull()
-        if (last == null || last.role == Role.Assistant) history += Message(Role.User, listOf(state), Author.Mika)
+        if (last == null || last.role == Role.Assistant) history += Message(Role.User, listOf(state), Author.Djini)
         else history[history.lastIndex] = last.copy(parts = last.parts + state)
     }
 
@@ -935,7 +935,7 @@ class AgentLoop(
         val partial = current?.takeIf { it.step == step }?.preview?.trim()
         if (current?.preview != null) _state.value = current.copy(preview = null)
         if (!partial.isNullOrEmpty() && steers.isNotEmpty()) {
-            history += Message(Role.Assistant, listOf(Part.Text(partial)), Author.Mika)
+            history += Message(Role.Assistant, listOf(Part.Text(partial)), Author.Djini)
             emit(RunEvent.State(now(), "reply_interrupted", RunEvent.clip(Redactor.text(partial))))
         }
         appendSteers(history, steers)
@@ -980,7 +980,7 @@ class AgentLoop(
         // 批做完(或停下)后再给模型一份当前元素表；只有元素信息不足才附画面。
         if (steps != null && ranAnyStep(exec.content)) {
             tools.lookNow()?.let { v ->
-                history += Message(Role.User, listOfNotNull(Part.Text(batchViewNote(ScreenElementTable.text(v.content, flags.tablesAtBirth))), v.image?.let { tools.modelImage(it, v.imageId) }), Author.Mika)
+                history += Message(Role.User, listOfNotNull(Part.Text(batchViewNote(ScreenElementTable.text(v.content, flags.tablesAtBirth))), v.image?.let { tools.modelImage(it, v.imageId) }), Author.Djini)
             }
         }
         recordReply(BatchRunner.redactArgs(first.argsJson))
@@ -1079,7 +1079,7 @@ class AgentLoop(
             parsed.stage?.let { stages?.reported(it) }
             acceptProgress(parsed)
             val text = parsed.text
-            history += Message(Role.Assistant, cleanReplyParts(reply.parts, text), Author.Mika)
+            history += Message(Role.Assistant, cleanReplyParts(reply.parts, text), Author.Djini)
                 .also { caller.noteReply(it, caller.lastMainUsed, reply.usage) }
             val calls = ReplyCalls(reply.parts, ::acceptProgress)
             val call = calls.actions.firstOrNull { tools.verb(it.name) in TurnPolicy.FINAL_VERBS }

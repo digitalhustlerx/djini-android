@@ -1,7 +1,7 @@
-package com.wangzan101.mika.core.oauth
+package com.wangzan101.djini.core.oauth
 
-import com.wangzan101.mika.core.model.HttpSupport
-import com.wangzan101.mika.core.model.ModelError
+import com.wangzan101.djini.core.model.HttpSupport
+import com.wangzan101.djini.core.model.ModelError
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.delay
 import kotlinx.serialization.json.Json
@@ -152,7 +152,7 @@ class DeviceCodeClient(
 
 /**
  * 等到用户在浏览器里点完,或超时、拒绝、取消。轮询间隔按服务端说的来;[slow_down] 再加 5 秒(RFC 8628)。
- * 用户在浏览器里时 Mika 在后台,网络可能一时不通:连着 [MAX_POLL_FAILURES] 次连不上才算失败,中间照常等下一轮。
+ * 用户在浏览器里时 Djini 在后台,网络可能一时不通:连着 [MAX_POLL_FAILURES] 次连不上才算失败,中间照常等下一轮。
  * [sleep] 测试里换成空等;真机用 [delay]。
  */
 suspend fun awaitDeviceGrant(

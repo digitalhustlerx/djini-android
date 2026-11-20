@@ -1,13 +1,13 @@
-package com.wangzan101.mika.capsule
+package com.wangzan101.djini.capsule
 
 import kotlinx.coroutines.delay
 
 import androidx.compose.runtime.produceState
 
-import com.wangzan101.mika.ui.KeptPageCopy
+import com.wangzan101.djini.ui.KeptPageCopy
 
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.tr
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.tr
 import android.graphics.Bitmap
 import android.graphics.Rect
 import androidx.compose.animation.core.Animatable
@@ -99,29 +99,29 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.wangzan101.mika.confirm.ConfirmationCopy
-import com.wangzan101.mika.core.userscreen.CapturedScreen
-import com.wangzan101.mika.ui.MarkdownText
-import com.wangzan101.mika.ui.FollowUpMode
-import com.wangzan101.mika.ui.ScreenCopy
-import com.wangzan101.mika.ui.ScreenThumb
-import com.wangzan101.mika.ui.UserMessage
+import com.wangzan101.djini.confirm.ConfirmationCopy
+import com.wangzan101.djini.core.userscreen.CapturedScreen
+import com.wangzan101.djini.ui.MarkdownText
+import com.wangzan101.djini.ui.FollowUpMode
+import com.wangzan101.djini.ui.ScreenCopy
+import com.wangzan101.djini.ui.ScreenThumb
+import com.wangzan101.djini.ui.UserMessage
 import androidx.compose.ui.graphics.ImageBitmap
-import com.wangzan101.mika.ui.components.ButtonKind
-import com.wangzan101.mika.ui.components.ButtonSize
-import com.wangzan101.mika.ui.components.MikaButton
-import com.wangzan101.mika.ui.components.MikaLogo
-import com.wangzan101.mika.ui.components.ScrollToBottomButton
-import com.wangzan101.mika.ui.components.StepItem
-import com.wangzan101.mika.ui.components.StepState
-import com.wangzan101.mika.ui.components.glassSource
-import com.wangzan101.mika.ui.components.rememberGlassBackdrop
-import com.wangzan101.mika.ui.components.scrollListToBottom
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaMotion
-import com.wangzan101.mika.ui.theme.MikaShapes
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.voice.HoldToTalk
+import com.wangzan101.djini.ui.components.ButtonKind
+import com.wangzan101.djini.ui.components.ButtonSize
+import com.wangzan101.djini.ui.components.MikaButton
+import com.wangzan101.djini.ui.components.MikaLogo
+import com.wangzan101.djini.ui.components.ScrollToBottomButton
+import com.wangzan101.djini.ui.components.StepItem
+import com.wangzan101.djini.ui.components.StepState
+import com.wangzan101.djini.ui.components.glassSource
+import com.wangzan101.djini.ui.components.rememberGlassBackdrop
+import com.wangzan101.djini.ui.components.scrollListToBottom
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.MikaMotion
+import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.voice.HoldToTalk
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.flow.first
@@ -147,7 +147,7 @@ object CardCopy {
     val APPROVE_ONCE_ONLY: String get() = tr(R.string.card_approve_once)
     val DECLINE: String get() = tr(R.string.action_decline)
     val SEE_PROCESS: String get() = tr(R.string.card_see_process)
-    val BACK_TO_MIKA: String get() = tr(R.string.card_back_to_mika)
+    val BACK_TO_DJINI: String get() = tr(R.string.card_back_to_mika)
     val SEND: String get() = tr(R.string.chat_send)
     val NEW_CHAT: String get() = tr(R.string.chat_new)
     val CONTINUE_LAST: String get() = tr(R.string.card_continue_last)
@@ -171,7 +171,7 @@ interface CardActions {
     fun answer(runKey: String, text: String)
     fun approve(runKey: String, requestKey: Int)
     fun decline(runKey: String, requestKey: Int)
-    fun openMika(conversationId: String)
+    fun openDjini(conversationId: String)
     fun zoom(on: Boolean)
     /** 点了底部的输入框:这时浮层才改成能接收键盘。 */
     fun openInput()
@@ -190,7 +190,7 @@ interface CardActions {
     fun closeKeptPage() {}
     /** 卡片最底下的「关闭悬浮胶囊」:设置里的开关改成关闭,胶囊和卡片当场收掉(任务照常跑、照常发通知)。 */
     fun hideCapsule() {}
-    /** 空闲卡片上的「教 Mika」。 */
+    /** 空闲卡片上的「教 Djini」。 */
     fun teach() {}
     /** 胶囊卡片里切换「引导 / 排队」。 */
     fun setFollowUpMode(mode: FollowUpMode) {}
@@ -198,7 +198,7 @@ interface CardActions {
     fun askQuit() {}
     /** 退出确认里的「取消」:回到刚才那张卡片。 */
     fun cancelQuit() {}
-    /** 退出确认里的「退出」:真正完全退出 Mika。 */
+    /** 退出确认里的「退出」:真正完全退出 Djini。 */
     fun quit() {}
 }
 
@@ -251,7 +251,7 @@ fun CapsuleCard(
     onQueued: (() -> Unit)? = null,
 ) {
     val field = CapsuleCards.input(card)
-    // 任务还在进行(干活中、Mika 问你、等条件)时,停止和对话页一样放在输入框右边,不另占一个按钮
+    // 任务还在进行(干活中、Djini 问你、等条件)时,停止和对话页一样放在输入框右边,不另占一个按钮
     val stopKey = CapsuleCards.stopKey(card)
     val h = if (height == Dp.Unspecified) (LocalConfiguration.current.screenHeightDp * CardDocking.SHARE).dp else height
     val report by rememberUpdatedState(onHandle)
@@ -283,7 +283,7 @@ fun CapsuleCard(
 fun OverlayMotion(
     open: Boolean, origin: (Size) -> TransformOrigin, onClosed: () -> Unit, onOpened: () -> Unit = {}, content: @Composable () -> Unit,
 ) {
-    val still = MikaTheme.reduceMotion
+    val still = DjiniTheme.reduceMotion
     val shown = remember { Animatable(if (still) 1f else 0f) }
     val closed by rememberUpdatedState(onClosed)
     val opened by rememberUpdatedState(onOpened)
@@ -384,7 +384,7 @@ private fun InputRow(field: CardInput, ui: CardInputUi, actions: CardActions, st
 /** 输入框左边的截屏按钮:圆钮里一块屏。 */
 @Composable
 private fun CameraKey(onClick: () -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Box(
         Modifier.testTag("capsule-camera").size(38.dp).clip(MikaShapes.Pill).background(c.ink.copy(alpha = 0.05f))
             .clickable(role = Role.Button, onClickLabel = ScreenCopy.CAMERA, onClick = onClick)
@@ -398,7 +398,7 @@ private fun CameraKey(onClick: () -> Unit) {
 /** 输入框上面那一条:缩略图、「你此刻的屏幕」、App · 时刻,右边 × 不要它;不让截图的页面写「没截到」。 */
 @Composable
 private fun ScreenChip(p: PendingScreen, onRemove: () -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val s = p.shot.screen
     Row(
         Modifier.testTag("capsule-attachment").padding(top = 8.dp).fillMaxWidth().clip(RoundedCornerShape(12.dp))
@@ -425,7 +425,7 @@ private fun ScreenChip(p: PendingScreen, onRemove: () -> Unit) {
 /** 发送键:有东西可发时是蓝底,否则灰的点不了。 */
 @Composable
 private fun SendKey(enabled: Boolean, onSend: () -> Unit, start: Dp = 0.dp) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Box(
         Modifier.testTag("capsule-send").padding(start = start).size(KeySize).clip(MikaShapes.Pill)
             .background(if (enabled) c.accent else c.ink3.copy(alpha = 0.3f))
@@ -439,7 +439,7 @@ private fun SendKey(enabled: Boolean, onSend: () -> Unit, start: Dp = 0.dp) {
 
 @Composable
 private fun InputField(field: CardInput, ui: CardInputUi, actions: CardActions, stop: (() -> Unit)?) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val shape = RoundedCornerShape(14.dp)
     val focus = remember { FocusRequester() }
     val keyboard = LocalSoftwareKeyboardController.current
@@ -492,7 +492,7 @@ private fun InputField(field: CardInput, ui: CardInputUi, actions: CardActions, 
 /** 胶囊卡片里的紧凑二选一:引导当前任务 / 排队下一件。 */
 @Composable
 private fun CapsuleFollowUpMode(mode: FollowUpMode, onMode: (FollowUpMode) -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Row(Modifier.fillMaxWidth().padding(bottom = 4.dp).testTag("capsule-follow-up-mode"), horizontalArrangement = Arrangement.spacedBy(5.dp)) {
         CapsuleModePill(FollowUpMode.Steer, mode, onMode, tr(R.string.follow_up_steer), "capsule-follow-up-steer")
         CapsuleModePill(FollowUpMode.Queue, mode, onMode, tr(R.string.follow_up_queue), "capsule-follow-up-queue")
@@ -501,7 +501,7 @@ private fun CapsuleFollowUpMode(mode: FollowUpMode, onMode: (FollowUpMode) -> Un
 
 @Composable
 private fun CapsuleModePill(value: FollowUpMode, selected: FollowUpMode, onMode: (FollowUpMode) -> Unit, label: String, tag: String) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val on = value == selected
     Box(
         Modifier.testTag(tag).heightIn(min = 26.dp).clip(MikaShapes.Pill)
@@ -518,7 +518,7 @@ private fun CapsuleModePill(value: FollowUpMode, selected: FollowUpMode, onMode:
 @Composable
 private fun QueuedLine(count: Int, onClick: (() -> Unit)?) {
     if (count <= 0) return
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Row(
         Modifier.fillMaxWidth().padding(top = 6.dp).clip(MikaShapes.Pill).background(c.fill)
             .then(if (onClick != null) Modifier.clickable(role = Role.Button, onClick = onClick) else Modifier)
@@ -537,7 +537,7 @@ private fun QueuedLine(count: Int, onClick: (() -> Unit)?) {
 /** 输入框右边的停止键:黑底圆钮里一个方块,同对话页输入栏。 */
 @Composable
 internal fun StopKey(onStop: () -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Box(
         Modifier.testTag("capsule-stop").size(KeySize).clip(MikaShapes.Pill).background(c.ink)
             .clickable(role = Role.Button, onClickLabel = CardCopy.STOP, onClick = onStop)
@@ -564,7 +564,7 @@ private fun cardWidth() = LocalCapsuleCardScale.current.width(LocalConfiguration
 /** 卡片的底:[fixed] 时就是 [height] 高(对话卡片),否则按内容高、最多 [height](任务卡片)。 */
 @Composable
 private fun CardFrame(height: Dp, fixed: Boolean = true, content: @Composable ColumnScope.() -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Column(
         Modifier.testTag("capsule-card").width(cardWidth()).then(if (fixed) Modifier.height(height) else Modifier.heightIn(max = height))
             .glass(c, CardShape, need = false).padding(12.dp),
@@ -572,10 +572,10 @@ private fun CardFrame(height: Dp, fixed: Boolean = true, content: @Composable Co
     )
 }
 
-/** 标题栏(按着它能拖卡片,见 [CapsuleCard] 的 onHandle):左边 Mika 图标,中间标题和状态,右边收起。 */
+/** 标题栏(按着它能拖卡片,见 [CapsuleCard] 的 onHandle):左边 Djini 图标,中间标题和状态,右边收起。 */
 @Composable
 private fun Header(title: String, sub: String, actions: CardActions, handle: Modifier) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Row(handle.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
         MikaLogo(28.dp, corner = 14.dp)
         Column(Modifier.weight(1f).semantics(mergeDescendants = true) {}) {
@@ -590,7 +590,7 @@ private fun Header(title: String, sub: String, actions: CardActions, handle: Mod
 /** 空闲卡片的标题栏:「接着「…」聊 · 新对话」或「新对话 · 接着上次聊」;没有任何对话时只有「新对话」。 */
 @Composable
 private fun IdleHeader(card: CardView.Chat, actions: CardActions, handle: Modifier) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val continuing = !card.fresh && card.conversationId != null
     Row(handle.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
         MikaLogo(28.dp, corner = 14.dp)
@@ -616,18 +616,18 @@ private fun IconButton(icon: ImageVector, label: String, onClick: () -> Unit) {
             .semantics { contentDescription = label },
         contentAlignment = Alignment.Center,
     ) {
-        Icon(icon, null, Modifier.size(18.dp), tint = MikaTheme.colors.ink3)
+        Icon(icon, null, Modifier.size(18.dp), tint = DjiniTheme.colors.ink3)
     }
 }
 
 /**
  * 「完全退出」的确认:标题栏的电源按钮点过后替掉卡片内容。说清楚会发生什么:后台任务停下、胶囊和通知收起,
- * 下次打开 Mika 就回来。「取消」回到刚才那张卡片,「退出」交给 [CardActions.quit]。
+ * 下次打开 Djini 就回来。「取消」回到刚才那张卡片,「退出」交给 [CardActions.quit]。
  * 卡片按内容高,最矮和任务卡片一样,最高不超过 [height]。
  */
 @Composable
 internal fun QuitCard(actions: CardActions, height: Dp = Dp.Unspecified) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val quitLabel = tr(R.string.quit_title)
     CardFrame(height, fixed = false) {
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
@@ -658,11 +658,11 @@ private fun Detail(
     card: CardView.Detail, preview: Bitmap?, actions: CardActions, elapsed: @Composable (Long?) -> String?,
     height: Dp, handle: Modifier, input: @Composable () -> Unit, queuedCount: Int = 0, onQueued: (() -> Unit)? = null,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val r = card.run
     val sub = listOfNotNull(CapsuleCards.status(r.kind), elapsed(r.startedAt)).joinToString(" · ")
     CardFrame(height, fixed = false) {
-        Header(ScreenCopy.plain(r.run.goal).ifBlank { "Mika" }, sub, actions, handle)
+        Header(ScreenCopy.plain(r.run.goal).ifBlank { "Djini" }, sub, actions, handle)
         val screen = preview?.takeIf { CapsuleCards.showsScreen(card.content) }
         // 步骤那段的高度上限 = 小画面的高;还没有画面时按主屏的宽高比算同样的高,画面来了不跳
         val config = LocalConfiguration.current
@@ -703,7 +703,7 @@ private fun Detail(
         }
         QueuedLine(queuedCount, onQueued)
         input()
-        FooterLinks(actions, CardCopy.SEE_PROCESS to { actions.openMika(r.run.conversationId) })
+        FooterLinks(actions, CardCopy.SEE_PROCESS to { actions.openDjini(r.run.conversationId) })
     }
 }
 
@@ -713,7 +713,7 @@ private fun Detail(
  */
 @Composable
 private fun KeptCard(card: CardView.Kept, preview: Bitmap?, actions: CardActions, height: Dp, handle: Modifier) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val p = card.page
     val now by produceState(System.currentTimeMillis(), p.id) {
         while (true) {
@@ -743,7 +743,7 @@ private fun KeptCard(card: CardView.Kept, preview: Bitmap?, actions: CardActions
             )
         }
         Row(Modifier.padding(top = 12.dp).fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            Box(Modifier.weight(1f).testTag("kept-open")) { Action(tr(R.string.kept_open_chat), ButtonKind.Tonal) { actions.openMika(p.conversationId) } }
+            Box(Modifier.weight(1f).testTag("kept-open")) { Action(tr(R.string.kept_open_chat), ButtonKind.Tonal) { actions.openDjini(p.conversationId) } }
             // 关闭是红字的淡红按钮,和别的按钮分开
             Box(
                 Modifier.weight(1f).height(40.dp).testTag("kept-close").clip(MikaShapes.Pill).background(c.badSoft)
@@ -785,8 +785,8 @@ internal fun Pinned(content: CardContent?, key: String, actions: CardActions) {
 }
 
 /**
- * 对话卡片:那个对话的来回在中间滚;要你回答、同意时按钮固定在来回下面,再下面是输入框和「回到 Mika」。
- * 不带任务时是空闲卡片(标题栏能切新对话)。空闲时「教 Mika」收在输入栏上方的箭头里,默认不展开。
+ * 对话卡片:那个对话的来回在中间滚;要你回答、同意时按钮固定在来回下面,再下面是输入框和「回到 Djini」。
+ * 不带任务时是空闲卡片(标题栏能切新对话)。空闲时「教 Djini」收在输入栏上方的箭头里,默认不展开。
  */
 @Composable
 private fun ChatCard(
@@ -797,7 +797,7 @@ private fun ChatCard(
     CardFrame(height) {
         if (r == null) IdleHeader(card, actions, handle)
         else Header(
-            ScreenCopy.plain(thread?.title ?: r.run.goal).ifBlank { "Mika" },
+            ScreenCopy.plain(thread?.title ?: r.run.goal).ifBlank { "Djini" },
             listOfNotNull(CapsuleCards.status(r.kind), elapsed(r.startedAt)).joinToString(" · "),
             actions, handle,
         )
@@ -809,12 +809,12 @@ private fun ChatCard(
         QueuedLine(queuedCount, onQueued)
         if (r == null) TeachShelf(actions::teach)
         input()
-        FooterLinks(actions, card.target?.let { id -> CardCopy.BACK_TO_MIKA to { actions.openMika(id) } })
+        FooterLinks(actions, card.target?.let { id -> CardCopy.BACK_TO_DJINI to { actions.openDjini(id) } })
     }
 }
 
 /**
- * 空闲卡片输入栏正上方的「教 Mika」:默认只留一个箭头,点开才出现入口,再点收起。
+ * 空闲卡片输入栏正上方的「教 Djini」:默认只留一个箭头,点开才出现入口,再点收起。
  * 收起时箭头朝上,展开时朝下。学习中的浮层不走这里。
  */
 @Composable
@@ -839,14 +839,14 @@ private fun TeachShelf(onTeach: () -> Unit) {
             Icon(
                 MikaIcons.Chevron, null,
                 Modifier.size(16.dp).graphicsLayer { rotationZ = if (open) 90f else -90f },
-                tint = MikaTheme.colors.ink3,
+                tint = DjiniTheme.colors.ink3,
             )
         }
     }
 }
 
 /**
- * 卡片最底下一行:[primary](「查看过程」「回到 Mika」;空闲卡片还没有对话时没有)和灰色的「关闭悬浮胶囊」。
+ * 卡片最底下一行:[primary](「查看过程」「回到 Djini」;空闲卡片还没有对话时没有)和灰色的「关闭悬浮胶囊」。
  * 右上角的 × 只是收起;想让胶囊不再出现的人在这里关,不用去找设置。
  */
 @Composable
@@ -857,9 +857,9 @@ private fun FooterLinks(actions: CardActions, primary: Pair<String, () -> Unit>?
     ) {
         primary?.let { (text, onClick) ->
             TextLink(text, onClick = onClick)
-            Text("·", style = Sub, color = MikaTheme.colors.ink3)
+            Text("·", style = Sub, color = DjiniTheme.colors.ink3)
         }
-        TextLink(CardCopy.HIDE_CAPSULE, MikaTheme.colors.ink3, actions::hideCapsule)
+        TextLink(CardCopy.HIDE_CAPSULE, DjiniTheme.colors.ink3, actions::hideCapsule)
     }
 }
 
@@ -869,10 +869,10 @@ private fun FooterLinks(actions: CardActions, primary: Pair<String, () -> Unit>?
  */
 @Composable
 internal fun ThreadList(thread: ChatThread, conversationId: String?, actions: CardActions, footer: (@Composable () -> Unit)? = null) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val backdrop = rememberGlassBackdrop()
     val density = LocalDensity.current
-    val reduceMotion = MikaTheme.reduceMotion
+    val reduceMotion = DjiniTheme.reduceMotion
     val scope = rememberCoroutineScope()
     val state = rememberLazyListState(initialFirstVisibleItemIndex = thread.anchor)
     var following by remember { mutableStateOf(false) }
@@ -989,7 +989,7 @@ private const val END_OFFSET = 1_000_000
  */
 @Composable
 internal fun Steps(steps: List<String>, max: Dp, tags: List<String?> = emptyList()) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     // 倒着排:第 0 项是最新一步,贴在底下
     val state = rememberLazyListState()
     var following by remember { mutableStateOf(true) }
@@ -1045,7 +1045,7 @@ private fun Action(text: String, kind: ButtonKind, onClick: () -> Unit) {
 }
 
 @Composable
-private fun TextLink(text: String, color: Color = MikaTheme.colors.accent, onClick: () -> Unit) {
+private fun TextLink(text: String, color: Color = DjiniTheme.colors.accent, onClick: () -> Unit) {
     Text(
         text, Modifier.clip(MikaShapes.Pill).clickable(role = Role.Button, onClick = onClick).padding(horizontal = 6.dp, vertical = 8.dp),
         style = Sub.copy(fontSize = 13.sp), color = color,
@@ -1055,7 +1055,7 @@ private fun TextLink(text: String, color: Color = MikaTheme.colors.accent, onCli
 /** 虚拟屏小画面,点一下放大。 */
 @Composable
 private fun MiniScreen(frame: Bitmap, onZoom: () -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val image = remember(frame) { frame.asImageBitmap() }
     Box(
         Modifier.testTag("capsule-screen").width(ScreenWidth).aspectRatio(ratio(frame)).clip(ScreenShape)
@@ -1078,7 +1078,7 @@ private fun Zoomed(frame: Bitmap, actions: CardActions) {
     val image = remember(frame) { frame.asImageBitmap() }
     val width = minOf(ZoomWidth, (LocalConfiguration.current.screenWidthDp * 0.72f).dp)
     Box(
-        Modifier.testTag("capsule-zoom").width(width).aspectRatio(ratio(frame)).glass(MikaTheme.colors, CardShape, need = false)
+        Modifier.testTag("capsule-zoom").width(width).aspectRatio(ratio(frame)).glass(DjiniTheme.colors, CardShape, need = false)
             .clickable(role = Role.Image, onClickLabel = CardCopy.ZOOMED) { actions.zoom(false) }
             .semantics { contentDescription = CardCopy.ZOOMED },
     ) {

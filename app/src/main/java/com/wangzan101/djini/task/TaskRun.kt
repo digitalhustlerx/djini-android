@@ -1,27 +1,27 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.i18n.trPlural
-import com.wangzan101.mika.core.uistate.IdleScroll
-import com.wangzan101.mika.core.cap.web.PagePacing
-import com.wangzan101.mika.core.uistate.PlacePace
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.i18n.trPlural
+import com.wangzan101.djini.core.uistate.IdleScroll
+import com.wangzan101.djini.core.cap.web.PagePacing
+import com.wangzan101.djini.core.uistate.PlacePace
 import kotlin.random.Random
-import com.wangzan101.mika.core.action.OutwardPacing
-import com.wangzan101.mika.core.cap.phone.AppPacePlan
-import com.wangzan101.mika.core.cap.phone.OperatingPace
-import com.wangzan101.mika.core.usage.DeepSeekPriceCache
-import com.wangzan101.mika.core.usage.DeepSeekRunCost
-import com.wangzan101.mika.core.usage.RunUsageTally
-import com.wangzan101.mika.core.shell.AccessibilityRepair
-import com.wangzan101.mika.core.shell.HelperRestart
-import com.wangzan101.mika.ui.StatusCopy
-import com.wangzan101.mika.cap.sandbox.SandboxState
-import com.wangzan101.mika.cap.sandbox.AndroidSandbox
-import com.wangzan101.mika.cap.sandbox.SandboxDirs
-import com.wangzan101.mika.cap.sandbox.WorkspaceKey
-import com.wangzan101.mika.chat.SharedFile
-import com.wangzan101.mika.chat.WorkspaceResolver
+import com.wangzan101.djini.core.action.OutwardPacing
+import com.wangzan101.djini.core.cap.phone.AppPacePlan
+import com.wangzan101.djini.core.cap.phone.OperatingPace
+import com.wangzan101.djini.core.usage.DeepSeekPriceCache
+import com.wangzan101.djini.core.usage.DeepSeekRunCost
+import com.wangzan101.djini.core.usage.RunUsageTally
+import com.wangzan101.djini.core.shell.AccessibilityRepair
+import com.wangzan101.djini.core.shell.HelperRestart
+import com.wangzan101.djini.ui.StatusCopy
+import com.wangzan101.djini.cap.sandbox.SandboxState
+import com.wangzan101.djini.cap.sandbox.AndroidSandbox
+import com.wangzan101.djini.cap.sandbox.SandboxDirs
+import com.wangzan101.djini.cap.sandbox.WorkspaceKey
+import com.wangzan101.djini.chat.SharedFile
+import com.wangzan101.djini.chat.WorkspaceResolver
 import android.graphics.Bitmap
 import android.hardware.display.DisplayManager
 import android.os.Build
@@ -30,101 +30,101 @@ import android.os.RemoteException
 import android.os.SystemClock
 import android.util.Log
 import android.view.Display
-import com.wangzan101.mika.BuildConfig
-import com.wangzan101.mika.cap.phone.a11y.AndroidScreen
-import com.wangzan101.mika.cap.phone.a11y.AppCopyReader
-import com.wangzan101.mika.cap.phone.a11y.CalendarBulkWriter
-import com.wangzan101.mika.cap.phone.a11y.LazyPhoneScreen
-import com.wangzan101.mika.cap.phone.a11y.ScreenAccessibility
-import com.wangzan101.mika.cap.phone.a11y.PhoneUnavailable
-import com.wangzan101.mika.cap.phone.PhoneServices
-import com.wangzan101.mika.cap.phone.setup.RootShell
-import com.wangzan101.mika.cap.root.RootCommands
-import com.wangzan101.mika.cap.phone.a11y.launchableApps
-import com.wangzan101.mika.confirm.ConfirmationNotifier
-import com.wangzan101.mika.MikaApp
-import com.wangzan101.mika.i18n.AppLanguage
-import com.wangzan101.mika.core.action.ConfirmChoice
-import com.wangzan101.mika.core.agent.TaskStages
-import com.wangzan101.mika.core.agent.AgentLoop
-import com.wangzan101.mika.core.agent.SystemPrompt
-import com.wangzan101.mika.core.prompt.PersonaPrompt
-import com.wangzan101.mika.core.record.Redactor
-import com.wangzan101.mika.core.agent.FailKind
-import com.wangzan101.mika.core.agent.ModelRouter
-import com.wangzan101.mika.core.memory.MemoryExtractor
-import com.wangzan101.mika.core.memory.MemoryStore
-import com.wangzan101.mika.core.memory.TaskMemoryRecorder
-import com.wangzan101.mika.core.memory.UserUtterances
-import com.wangzan101.mika.core.model.ChatModel
-import com.wangzan101.mika.core.model.ModelSession
-import com.wangzan101.mika.core.skills.SkillDrafter
-import com.wangzan101.mika.chat.ConversationStore
-import com.wangzan101.mika.memory.MemoryRuntime
-import com.wangzan101.mika.settings.ProviderStore
-import com.wangzan101.mika.core.model.ModelRole
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.replay.RouteMatcher
-import com.wangzan101.mika.core.replay.RouteRecorder
-import com.wangzan101.mika.replay.FileRouteStore
-import com.wangzan101.mika.core.agent.JudgedOutcome
-import com.wangzan101.mika.core.agent.LearnGate
-import com.wangzan101.mika.core.agent.OutcomeJudge
-import com.wangzan101.mika.core.agent.StopSummary
-import com.wangzan101.mika.core.assembly.knownTools
-import com.wangzan101.mika.ui.ToolLabels
-import com.wangzan101.mika.core.agent.RunOutcome
-import com.wangzan101.mika.core.agent.GateReason
-import com.wangzan101.mika.core.agent.RunProgress
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.core.agent.NoticeTurn
-import com.wangzan101.mika.core.agent.Turn
-import com.wangzan101.mika.core.run.RunId
-import com.wangzan101.mika.core.run.ChannelPeer
-import com.wangzan101.mika.core.run.RunSpec
-import com.wangzan101.mika.core.run.RunProvenance
-import com.wangzan101.mika.core.run.RunOrigin
-import com.wangzan101.mika.core.child.ChildAgentRunner
-import com.wangzan101.mika.core.run.RunInbox
-import com.wangzan101.mika.core.run.RunInput
-import com.wangzan101.mika.core.run.InputReceipt
-import com.wangzan101.mika.core.run.Delivery
-import com.wangzan101.mika.core.knowledge.KnowledgeStore
-import com.wangzan101.mika.core.knowledge.AppKnowledgeDrafter
-import com.wangzan101.mika.core.knowledge.GuideCatalog
-import com.wangzan101.mika.core.record.RunSink
-import com.wangzan101.mika.core.resource.ResourceScope
-import com.wangzan101.mika.core.tool.HandBack
-import com.wangzan101.mika.core.tool.ToolDispatcher
-import com.wangzan101.mika.core.vision.VisionService
-import com.wangzan101.mika.cap.phone.display.AgentDisplay
-import com.wangzan101.mika.cap.phone.display.LazyAgentDisplay
-import com.wangzan101.mika.cap.phone.display.PipInput
-import com.wangzan101.mika.record.RunHandle
-import com.wangzan101.mika.record.RunStore
-import com.wangzan101.mika.settings.FeatureFlags
-import com.wangzan101.mika.settings.RunApproval
-import com.wangzan101.mika.settings.Prerequisites
-import com.wangzan101.mika.takeover.HandoverActivity
-import com.wangzan101.mika.takeover.HandoverActivityCounter
-import com.wangzan101.mika.takeover.Takeover
-import com.wangzan101.mika.takeover.TakeoverPort
-import com.wangzan101.mika.takeover.stoppedAt
-import com.wangzan101.mika.vision.BitmapImageOps
+import com.wangzan101.djini.BuildConfig
+import com.wangzan101.djini.cap.phone.a11y.AndroidScreen
+import com.wangzan101.djini.cap.phone.a11y.AppCopyReader
+import com.wangzan101.djini.cap.phone.a11y.CalendarBulkWriter
+import com.wangzan101.djini.cap.phone.a11y.LazyPhoneScreen
+import com.wangzan101.djini.cap.phone.a11y.ScreenAccessibility
+import com.wangzan101.djini.cap.phone.a11y.PhoneUnavailable
+import com.wangzan101.djini.cap.phone.PhoneServices
+import com.wangzan101.djini.cap.phone.setup.RootShell
+import com.wangzan101.djini.cap.root.RootCommands
+import com.wangzan101.djini.cap.phone.a11y.launchableApps
+import com.wangzan101.djini.confirm.ConfirmationNotifier
+import com.wangzan101.djini.DjiniApp
+import com.wangzan101.djini.i18n.AppLanguage
+import com.wangzan101.djini.core.action.ConfirmChoice
+import com.wangzan101.djini.core.agent.TaskStages
+import com.wangzan101.djini.core.agent.AgentLoop
+import com.wangzan101.djini.core.agent.SystemPrompt
+import com.wangzan101.djini.core.prompt.PersonaPrompt
+import com.wangzan101.djini.core.record.Redactor
+import com.wangzan101.djini.core.agent.FailKind
+import com.wangzan101.djini.core.agent.ModelRouter
+import com.wangzan101.djini.core.memory.MemoryExtractor
+import com.wangzan101.djini.core.memory.MemoryStore
+import com.wangzan101.djini.core.memory.TaskMemoryRecorder
+import com.wangzan101.djini.core.memory.UserUtterances
+import com.wangzan101.djini.core.model.ChatModel
+import com.wangzan101.djini.core.model.ModelSession
+import com.wangzan101.djini.core.skills.SkillDrafter
+import com.wangzan101.djini.chat.ConversationStore
+import com.wangzan101.djini.memory.MemoryRuntime
+import com.wangzan101.djini.settings.ProviderStore
+import com.wangzan101.djini.core.model.ModelRole
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.replay.RouteMatcher
+import com.wangzan101.djini.core.replay.RouteRecorder
+import com.wangzan101.djini.replay.FileRouteStore
+import com.wangzan101.djini.core.agent.JudgedOutcome
+import com.wangzan101.djini.core.agent.LearnGate
+import com.wangzan101.djini.core.agent.OutcomeJudge
+import com.wangzan101.djini.core.agent.StopSummary
+import com.wangzan101.djini.core.assembly.knownTools
+import com.wangzan101.djini.ui.ToolLabels
+import com.wangzan101.djini.core.agent.RunOutcome
+import com.wangzan101.djini.core.agent.GateReason
+import com.wangzan101.djini.core.agent.RunProgress
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.core.agent.NoticeTurn
+import com.wangzan101.djini.core.agent.Turn
+import com.wangzan101.djini.core.run.RunId
+import com.wangzan101.djini.core.run.ChannelPeer
+import com.wangzan101.djini.core.run.RunSpec
+import com.wangzan101.djini.core.run.RunProvenance
+import com.wangzan101.djini.core.run.RunOrigin
+import com.wangzan101.djini.core.child.ChildAgentRunner
+import com.wangzan101.djini.core.run.RunInbox
+import com.wangzan101.djini.core.run.RunInput
+import com.wangzan101.djini.core.run.InputReceipt
+import com.wangzan101.djini.core.run.Delivery
+import com.wangzan101.djini.core.knowledge.KnowledgeStore
+import com.wangzan101.djini.core.knowledge.AppKnowledgeDrafter
+import com.wangzan101.djini.core.knowledge.GuideCatalog
+import com.wangzan101.djini.core.record.RunSink
+import com.wangzan101.djini.core.resource.ResourceScope
+import com.wangzan101.djini.core.tool.HandBack
+import com.wangzan101.djini.core.tool.ToolDispatcher
+import com.wangzan101.djini.core.vision.VisionService
+import com.wangzan101.djini.cap.phone.display.AgentDisplay
+import com.wangzan101.djini.cap.phone.display.LazyAgentDisplay
+import com.wangzan101.djini.cap.phone.display.PipInput
+import com.wangzan101.djini.record.RunHandle
+import com.wangzan101.djini.record.RunStore
+import com.wangzan101.djini.settings.FeatureFlags
+import com.wangzan101.djini.settings.RunApproval
+import com.wangzan101.djini.settings.Prerequisites
+import com.wangzan101.djini.takeover.HandoverActivity
+import com.wangzan101.djini.takeover.HandoverActivityCounter
+import com.wangzan101.djini.takeover.Takeover
+import com.wangzan101.djini.takeover.TakeoverPort
+import com.wangzan101.djini.takeover.stoppedAt
+import com.wangzan101.djini.vision.BitmapImageOps
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
-import com.wangzan101.mika.core.knowledge.ChannelFacts
+import com.wangzan101.djini.core.knowledge.ChannelFacts
 import androidx.webkit.WebViewCompat
-import com.wangzan101.mika.cap.web.LazyWebPort
-import com.wangzan101.mika.cap.web.WebHandover
-import com.wangzan101.mika.cap.web.WebSites
-import com.wangzan101.mika.cap.web.WebStack
-import com.wangzan101.mika.cap.web.KeptOrigin
-import com.wangzan101.mika.cap.web.WebTab
-import com.wangzan101.mika.browser.PageLoans
-import com.wangzan101.mika.browser.UserBrowser
+import com.wangzan101.djini.cap.web.LazyWebPort
+import com.wangzan101.djini.cap.web.WebHandover
+import com.wangzan101.djini.cap.web.WebSites
+import com.wangzan101.djini.cap.web.WebStack
+import com.wangzan101.djini.cap.web.KeptOrigin
+import com.wangzan101.djini.cap.web.WebTab
+import com.wangzan101.djini.browser.PageLoans
+import com.wangzan101.djini.browser.UserBrowser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.NonCancellable
@@ -146,10 +146,10 @@ import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeoutOrNull
 import java.io.File
 import java.util.UUID
-import com.wangzan101.mika.core.tool.ToolIndex
-import com.wangzan101.mika.core.assembly.legacyNames
-import com.wangzan101.mika.core.assembly.toolDispatcher
-import com.wangzan101.mika.core.cap.web.WEB
+import com.wangzan101.djini.core.tool.ToolIndex
+import com.wangzan101.djini.core.assembly.legacyNames
+import com.wangzan101.djini.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.cap.web.WEB
 
 /**
  * 浮层恢复声音的路由:只有真正把 App 交到用户手上的接管才处理;接管对象从任务开跑起就一直存在,
@@ -202,13 +202,13 @@ class TaskRun(
     internal val conditionCheck get() = triggerActionGoal != null
     @Volatile private var children: ChildAgentRunner? = null
     /** 这次任务连上的外部 MCP server;结束时关闭会话。 */
-    @Volatile private var mcpConnections: com.wangzan101.mika.settings.McpConnections? = null
+    @Volatile private var mcpConnections: com.wangzan101.djini.settings.McpConnections? = null
 
     /**
      * 这次任务接上的全部外部 MCP 端点,交给 toolDispatcher 的就这一份。别的来源(以后的扩展等)也提供这类端点时在这里拼上,
      * 不给 toolDispatcher 另加参数;各来源连上的都要归任务的 ResourceScope,收尾时一起关。
      */
-    private fun mcpEndpoints(): List<com.wangzan101.mika.core.cap.mcp.McpConnection> = buildList {
+    private fun mcpEndpoints(): List<com.wangzan101.djini.core.cap.mcp.McpConnection> = buildList {
         mcpConnections?.let { addAll(it.connections) }
     }
     /** 本次任务使用的沙箱工作区(同项目对话共用 `p:<projectId>`,其余沿用对话工作区)。 */
@@ -269,9 +269,9 @@ class TaskRun(
     /** 本任务导出的文件;结束时随这一轮存进对话。 */
     val sharedFiles: StateFlow<List<SharedFile>> get() = runState.sharedFiles
     /** 本任务生成并留在工作区里的音频;结束时随这一轮存进对话。 */
-    val audios: StateFlow<List<com.wangzan101.mika.core.chat.GeneratedAudio>> get() = runState.audios
+    val audios: StateFlow<List<com.wangzan101.djini.core.chat.GeneratedAudio>> get() = runState.audios
     /** 本任务生成并留在工作区里的图;结束时随这一轮存进对话。 */
-    val photos: StateFlow<List<com.wangzan101.mika.core.chat.GeneratedPhoto>> get() = runState.photos
+    val photos: StateFlow<List<com.wangzan101.djini.core.chat.GeneratedPhoto>> get() = runState.photos
     val takeoverStage: StateFlow<Takeover.Stage> get() = runState.takeoverStage
     val frames: StateFlow<Bitmap?> get() = runState.frames
     /** 个人助手的缩略图只收本任务获准展示的手机画面。 */
@@ -399,21 +399,21 @@ class TaskRun(
     /** 本任务的沙箱:一个任务一份(导出额度按任务算),工作区是本对话的。 */
     private val sandbox by lazy { AndroidSandbox(service, SandboxState.get(service), onShared = ::addShared) }
 
-    private val audioSettings by lazy { com.wangzan101.mika.settings.VoiceSettings.get(service) }
+    private val audioSettings by lazy { com.wangzan101.djini.settings.VoiceSettings.get(service) }
 
     /** 本任务的转写端口:用户选的是服务商转写模型、且这是手机上开始的任务时才建。 */
     private val transcribePort by lazy {
-        val choice = com.wangzan101.mika.voice.SpeechSettings.get(service).choice.value as? com.wangzan101.mika.voice.SpeechChoice.Provider
+        val choice = com.wangzan101.djini.voice.SpeechSettings.get(service).choice.value as? com.wangzan101.djini.voice.SpeechChoice.Provider
             ?: return@lazy null
         if (provenance.origin != RunOrigin.Ui) null
-        else com.wangzan101.mika.media.AndroidTranscribePort(service, conversationId, choice) { workspaceKey }
+        else com.wangzan101.djini.media.AndroidTranscribePort(service, conversationId, choice) { workspaceKey }
     }
 
     /**
      * 本任务的音频端口:用户配置并打开了声音模型、且这是手机上开始的任务时才建。
      * 定时、远程、子任务、条件检查没有它,音频工具也就不会发给模型。
      */
-    private val imageSettings by lazy { com.wangzan101.mika.settings.ImageModelSettings.get(service) }
+    private val imageSettings by lazy { com.wangzan101.djini.settings.ImageModelSettings.get(service) }
 
     /** 本任务的图片端口:用户配置并打开了图片模型、且这是手机上开始的任务时才建。 */
     private val imagePort by lazy {
@@ -421,29 +421,29 @@ class TaskRun(
         val choice = state.choice
         if (!state.enabled || choice == null || provenance.origin != RunOrigin.Ui) null
         else imageSettings.capabilities()?.let { caps ->
-            com.wangzan101.mika.settings.ProviderStore.get(service).imageModel(choice, caps)?.let { model ->
-                com.wangzan101.mika.media.AndroidImagePort(service, conversationId, model, caps, onGenerated = runState::addPhoto, onSaved = runState::addSaved)
+            com.wangzan101.djini.settings.ProviderStore.get(service).imageModel(choice, caps)?.let { model ->
+                com.wangzan101.djini.media.AndroidImagePort(service, conversationId, model, caps, onGenerated = runState::addPhoto, onSaved = runState::addSaved)
             }
         }
     }
 
     /** 把工作区里的一张图复制成别的 App 可读的 content URI(分享用);越界、不是图片、太大时为 null。 */
-    private suspend fun shareWorkspaceImage(path: String): com.wangzan101.mika.media.ShareableFile? = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+    private suspend fun shareWorkspaceImage(path: String): com.wangzan101.djini.media.ShareableFile? = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
         val trimmed = path.trim()
-        val prefix = com.wangzan101.mika.core.workspace.SandboxPaths.WORKSPACE + "/"
+        val prefix = com.wangzan101.djini.core.workspace.SandboxPaths.WORKSPACE + "/"
         if (!trimmed.startsWith(prefix)) return@withContext null
         val rel = trimmed.removePrefix(prefix)
         if (rel.isEmpty() || rel.split('/').any { it.isEmpty() || it == "." || it == ".." }) return@withContext null
-        val dirs = com.wangzan101.mika.cap.sandbox.SandboxDirs(service)
+        val dirs = com.wangzan101.djini.cap.sandbox.SandboxDirs(service)
         val bytes = dirs.tree.shared {
-            dirs.gate.openRead(dirs.workspace(com.wangzan101.mika.chat.WorkspaceResolver.resolveFor(service, conversationId)), rel).use { g ->
+            dirs.gate.openRead(dirs.workspace(com.wangzan101.djini.chat.WorkspaceResolver.resolveFor(service, conversationId)), rel).use { g ->
                 if (g.size > 20L * 1024 * 1024) null else g.read(0, g.size.toInt())
             }
         } ?: return@withContext null
         val opts = android.graphics.BitmapFactory.Options().apply { inJustDecodeBounds = true }
         android.graphics.BitmapFactory.decodeByteArray(bytes, 0, bytes.size, opts)
         val mime = opts.outMimeType?.takeIf { it.startsWith("image/") } ?: return@withContext null
-        com.wangzan101.mika.media.ShareFileExporter(service).save(bytes, mime, trimmed.substringAfterLast('/'))
+        com.wangzan101.djini.media.ShareFileExporter(service).save(bytes, mime, trimmed.substringAfterLast('/'))
     }
 
     private val audioPort by lazy {
@@ -451,25 +451,25 @@ class TaskRun(
         val choice = state.choice
         if (!state.enabled || choice == null || provenance.origin != RunOrigin.Ui) null
         else audioSettings.capabilities()?.let { caps ->
-            com.wangzan101.mika.settings.ProviderStore.get(service).ttsModel(choice, caps)?.let { model ->
-                com.wangzan101.mika.media.AndroidAudioPort(service, conversationId, model, caps, onSaved = ::addSavedAudio,
+            com.wangzan101.djini.settings.ProviderStore.get(service).ttsModel(choice, caps)?.let { model ->
+                com.wangzan101.djini.media.AndroidAudioPort(service, conversationId, model, caps, onSaved = ::addSavedAudio,
                     onGenerated = ::addAudio, defaultVoice = choice.voice.ifBlank { null }, defaultSpeed = choice.speed,
-                    onSpeak = { response -> (service.application as com.wangzan101.mika.MikaApp).voicePlayer.play(response.bytes, response.mime) },
+                    onSpeak = { response -> (service.application as com.wangzan101.djini.DjiniApp).voicePlayer.play(response.bytes, response.mime) },
                     resolveWorkspace = { workspaceKey })
             }
         }
     }
 
-    /** 沙箱导出了一个文件(share_file 或 `mika share`)。 */
+    /** 沙箱导出了一个文件(share_file 或 `djini share`)。 */
     fun addShared(f: SharedFile) = runState.addShared(f)
 
     /** 音频能力生成了一段音频(写进工作区时由端口回调)。 */
-    fun addAudio(a: com.wangzan101.mika.core.chat.GeneratedAudio) = runState.addAudio(a)
+    fun addAudio(a: com.wangzan101.djini.core.chat.GeneratedAudio) = runState.addAudio(a)
 
     /** 音频能力把一段音频存进了音乐库:当作这一轮导出的文件,聊天里出现卡片。 */
-    fun addSavedAudio(s: com.wangzan101.mika.core.model.SavedAudio) = runState.addSavedAudio(s)
+    fun addSavedAudio(s: com.wangzan101.djini.core.model.SavedAudio) = runState.addSavedAudio(s)
 
-    fun addSaved(s: com.wangzan101.mika.core.cap.image.SavedImage) = runState.addSaved(s)
+    fun addSaved(s: com.wangzan101.djini.core.cap.image.SavedImage) = runState.addSaved(s)
 
     fun clearTakeoverStage() = runState.clearTakeoverStage()
 
@@ -487,12 +487,12 @@ class TaskRun(
         val side: CoroutineScope,
         val resources: ResourceScope,
         val tally: RunUsageTally,
-        val approvalControl: com.wangzan101.mika.settings.ApprovalControl,
-        val connection: com.wangzan101.mika.cap.phone.shell.ShellBinding?,
-        val smsLogin: com.wangzan101.mika.cap.phone.sms.AndroidSmsLogin?,
+        val approvalControl: com.wangzan101.djini.settings.ApprovalControl,
+        val connection: com.wangzan101.djini.cap.phone.shell.ShellBinding?,
+        val smsLogin: com.wangzan101.djini.cap.phone.sms.AndroidSmsLogin?,
         val watcher: DeviceStateWatcher?,
         val mute: AudioMute?,
-        val afterTask: com.wangzan101.mika.core.uistate.AfterTaskMarks?,
+        val afterTask: com.wangzan101.djini.core.uistate.AfterTaskMarks?,
         val shellDeath: IBinder.DeathRecipient?,
         val shellBinder: IBinder?,
         val record: RunHandle?,
@@ -531,7 +531,7 @@ class TaskRun(
         withContext(Dispatchers.IO + NonCancellable) {
             // 前面哪步抛错,屏和网页显示也照放(按建的反序)
             try {
-                // 先定 Mika 屏上 App 的去留(留下的挪到主屏后面、正在出声的关掉)并释放屏,再还原静音:留下的不会突然出声
+                // 先定 Djini 屏上 App 的去留(留下的挪到主屏后面、正在出声的关掉)并释放屏,再还原静音:留下的不会突然出声
                 val apps = phone?.takeIf { !shellDied }?.let { p ->
                     p.display.current?.let { d -> AppsAfterTaskEnd.finish(p.shell, d.displayId, c.afterTask) }
                 }
@@ -568,18 +568,18 @@ class TaskRun(
     suspend fun execute(priorTurns: List<Turn>): TaskState {
         noticeTainted = NoticeTurn.tainted(priorTurns)
         // 手机一侧(内置助手、无障碍、虚拟屏)第一次 launch_app 时才接上:只用网页、沙箱的任务不需要它们
-        var connection: com.wangzan101.mika.cap.phone.shell.ShellBinding? = null
-        var smsLogin: com.wangzan101.mika.cap.phone.sms.AndroidSmsLogin? = null
+        var connection: com.wangzan101.djini.cap.phone.shell.ShellBinding? = null
+        var smsLogin: com.wangzan101.djini.cap.phone.sms.AndroidSmsLogin? = null
         phone = null
         // 虚拟屏、网页显示等:建好当场归它,收尾时一起放掉;不经「建完再记到变量」,取消落在中间也不会漏
         val resources = ResourceScope()
         var watcher: DeviceStateWatcher? = null
         var mute: AudioMute? = null
         // 模型标下的任务结束时各 App 的去留(在手机端口上);收尾时交给内置助手
-        var afterTask: com.wangzan101.mika.core.uistate.AfterTaskMarks? = null
+        var afterTask: com.wangzan101.djini.core.uistate.AfterTaskMarks? = null
         var shellDeath: IBinder.DeathRecipient? = null
         var shellBinder: IBinder? = null
-        val traces = (service.application as MikaApp).detailedTraces
+        val traces = (service.application as DjiniApp).detailedTraces
         val traceTicket = traces.ticket()
         var record: RunHandle? = null
         var runStore: RunStore? = null
@@ -594,7 +594,7 @@ class TaskRun(
         var mcpEvents: AutoCloseable? = null
         var liveFeed: AutoCloseable? = null
         // 询问 / 自主:开工时取一份,开发者选项里换开关时跟着变;收尾时交还
-        val approvalControl = (service.application as MikaApp).approvalControl
+        val approvalControl = (service.application as DjiniApp).approvalControl
         var approval: RunApproval? = null
         // 任务期间的旁路协程(助手连接状态、静音与挪走监视、状态发布),任务结束一并取消
         val side = CoroutineScope(
@@ -630,10 +630,10 @@ class TaskRun(
                 val learnedNotes = legacyNames().let { legacy -> memoryRuntime.appKnowledge().notes().mapValues { it.value.copy(text = legacy.rewrite(it.value.text)) } }
                 KnowledgeStore(KnowledgeStore.loadBundled(), userNotes, learnedNotes) to GuideCatalog.loadBundled()
             }
-            val appAccess = (service.application as MikaApp).appAccess
+            val appAccess = (service.application as DjiniApp).appAccess
             // 应用访问边界:工具和预览画面共用一份(下面接手机端口时建),窗口没变时核对结果直接沿用,预览不必每一帧都问窗口
-            var accessGuard: com.wangzan101.mika.core.uistate.AppAccessScreenPort? = null
-            var smsPrivacy: com.wangzan101.mika.core.cap.phone.sms.SmsPrivateScreen? = null
+            var accessGuard: com.wangzan101.djini.core.uistate.AppAccessScreenPort? = null
+            var smsPrivacy: com.wangzan101.djini.core.cap.phone.sms.SmsPrivateScreen? = null
             suspend fun previewAllowed(): Boolean {
                 if (smsPrivacy?.imagesPrivate == true) return false
                 val guard = accessGuard ?: return false
@@ -641,7 +641,7 @@ class TaskRun(
                     guard.checkAppAccess()
                     true
                 } catch (e: CancellationException) { throw e }
-                catch (_: com.wangzan101.mika.core.access.AppAccessDenied) { false }
+                catch (_: com.wangzan101.djini.core.access.AppAccessDenied) { false }
             }
             val metrics = phoneRuntime.mainScreenMetrics()
             // 在 App 里操作的节奏(设置 › 任务运行,未覆盖的 App 跟随全局;评测、真机验收按钩子覆盖,
@@ -764,13 +764,13 @@ class TaskRun(
                     withContext(Dispatchers.IO) { CalendarBulkWriter.insert(service, events) }
                 },
             ) { connectPhone() }
-            val accessedPhone = com.wangzan101.mika.core.uistate.AppAccessScreenPort(
+            val accessedPhone = com.wangzan101.djini.core.uistate.AppAccessScreenPort(
                 phoneScreen, appAccess,
                 packages = { phone?.screen?.accessPackages().orEmpty() },
                 protectedUi = { appAccess.sensitiveUi }, ownPackage = service.packageName,
                 windowToken = { ScreenAccessibility.windowGeneration() },
             ).also { accessGuard = it }
-            val privatePhone = com.wangzan101.mika.core.cap.phone.sms.SmsPrivateScreen(accessedPhone).also { smsPrivacy = it }
+            val privatePhone = com.wangzan101.djini.core.cap.phone.sms.SmsPrivateScreen(accessedPhone).also { smsPrivacy = it }
             afterTask = phoneScreen.afterTask
             // 挪回虚拟屏后等窗口出现,Agent 接下来读屏才读得到
             suspend fun moveTask(taskId: Int, to: Int): Boolean {
@@ -784,7 +784,7 @@ class TaskRun(
                 val id = phone?.display?.current?.displayId ?: return false
                 return moveTask(taskId, id)
             }
-            val app = service.application as MikaApp
+            val app = service.application as DjiniApp
             // 微信只使用当前绑定会话的独立授权；仍保留 Channel 来源及原有确认/接管规则。
             val unlockAuthorized = taskUnlockAuthorization(provenance.origin, channelPeer) { peer ->
                 app.wechat.store.canUnlock(peer)
@@ -816,7 +816,7 @@ class TaskRun(
                         runState._runId.value = opened.runId
                         service.rememberRecord(this@TaskRun, opened.runId)
                         mcpExternalId?.let { ext ->
-                            (service.application as? com.wangzan101.mika.MikaApp)?.remoteTasks?.rememberRun(ext, opened.runId)
+                            (service.application as? com.wangzan101.djini.DjiniApp)?.remoteTasks?.rememberRun(ext, opened.runId)
                         }
                     }
                 }.onFailure { Log.w(TAG, "run record unavailable, running without it", it) }.getOrNull()
@@ -842,7 +842,7 @@ class TaskRun(
             // 插件技能取任务开始时的快照:任务中途启停插件,下一次任务才生效
             val catalog = GuideCatalog.withPersonal(
                 skills, memoryRuntime.skills(), legacyNames()::rewrite,
-                plugins = (service.application as MikaApp).plugins.skillsSnapshot(),
+                plugins = (service.application as DjiniApp).plugins.skillsSnapshot(),
             )
             // 内置浏览器:每个任务自己的后台网页显示、标签池和脚本引擎,第一次打开网址时才建(只用手机的任务不建);
             // 系统里没有 WebView 时不提供网页工具
@@ -896,11 +896,11 @@ class TaskRun(
                 }
             }
             // 这个对话里用户发来的屏幕(跟着对话存在工作区里)
-            val userScreens = (service.application as MikaApp).userScreens.source(conversationId)
+            val userScreens = (service.application as DjiniApp).userScreens.source(conversationId)
             // 人格只属于这个对话;条件检查是内部只读 JSON 检查,不继承人格。
             // 人格被删除时 get 返回 null,按无人格跑;界面另行提示。
             val persona = if (conditionCheck || !FeatureFlags.get(service).persona()) null else {
-                val app = service.application as MikaApp
+                val app = service.application as DjiniApp
                 app.conversations.persona(conversationId)?.personaId?.let(app.personas::get)
             }
             // 人格拼在身份、准则、通用规则之后;子任务和主任务用同一份。
@@ -920,14 +920,14 @@ class TaskRun(
             // 外部 MCP server 只在主任务接;子任务/条件检查/评测不接,避免绕过父任务审批、影响评测可复现
             if (!conditionCheck) {
                 // 连上的当场归 resources:收尾(含取消、失败、连到一半被停)关作用域时一起关,stdio server 的进程和沙箱租约跟着放掉
-                mcpConnections = (service.application as MikaApp).mcpServers.connectionsFor(
+                mcpConnections = (service.application as DjiniApp).mcpServers.connectionsFor(
                     resources,
-                    com.wangzan101.mika.mcp.ConversationMcpResultStore(SandboxDirs(service), workspaceKey),
+                    com.wangzan101.djini.mcp.ConversationMcpResultStore(SandboxDirs(service), workspaceKey),
                     workspaceKey.wire,
                 )
                 // 连接失败、超过总时限没连上的只在任务卡片上提示一句,不打断任务;详情在设置页的健康状态里
                 mcpConnections?.failures?.takeIf { it.isNotEmpty() }?.let { failures ->
-                    val store = (service.application as MikaApp).mcpServers
+                    val store = (service.application as DjiniApp).mcpServers
                     val names = store.servers.value.associate { it.id to it.name }
                     (runState._state.value as? TaskState.Running)?.let {
                         publish(it.copy(note = tr(R.string.mcp_servers_run_failed, failures.joinToString(", ") { f -> names[f.first] ?: f.first })))
@@ -937,12 +937,12 @@ class TaskRun(
             // 对话里有通知提醒(第三方文字)时和电脑交来的任务一样:不管「自主模式」开没开,付款照样先问
             val runApproval = approvalControl.start(alwaysAsk = provenance.origin == RunOrigin.Mcp || noticeTainted).also { approval = it }
             // 插件:环境变量、工具规格、提示词钩子共用同一个脚本入口
-            val pluginRunner = com.wangzan101.mika.plugin.PluginScriptRunner(
-                envProvider = { com.wangzan101.mika.settings.EnvVarStore.get(service).all() })
-            val pluginTools = (service.application as MikaApp).plugins.toolSpecs()
-            val promptHook = com.wangzan101.mika.plugin.PluginPromptHook(
-                (service.application as MikaApp).plugins, pluginRunner, { model.name },
-                { com.wangzan101.mika.settings.EnvVarStore.get(service).all() })
+            val pluginRunner = com.wangzan101.djini.plugin.PluginScriptRunner(
+                envProvider = { com.wangzan101.djini.settings.EnvVarStore.get(service).all() })
+            val pluginTools = (service.application as DjiniApp).plugins.toolSpecs()
+            val promptHook = com.wangzan101.djini.plugin.PluginPromptHook(
+                (service.application as DjiniApp).plugins, pluginRunner, { model.name },
+                { com.wangzan101.djini.settings.EnvVarStore.get(service).all() })
             val childRunner = if (provenance.origin == RunOrigin.Ui && web != null) ChildAgentRunner(
                 create = { childSpec, childResources ->
                     val childWeb = if (childSpec.parallelChild) {
@@ -962,13 +962,13 @@ class TaskRun(
                         promptTransform = { promptHook.transform(it) },
                         reviewFinalAnswer = false, flags = speed, outwardPacing = OutwardPacing.human(), personaLabel = personaLabel)
                 },
-                store = (service.application as MikaApp).childRuns,
+                store = (service.application as DjiniApp).childRuns,
                 ownerAlive = { job?.isActive == true },
             ).also { children = it } else null
             // 自身端口:只给手机上、有用户的 UI 主任务;子任务、条件检查、定时、渠道、MCP 都没有。
-            // 状态只读工具一直给;操作类工具等用户打开「允许 Mika 操作自己的界面」。
+            // 状态只读工具一直给;操作类工具等用户打开「允许 Djini 操作自己的界面」。
             val selfPort = if (provenance.origin == RunOrigin.Ui && !conditionCheck) {
-                (service.application as? MikaApp)?.let { app -> com.wangzan101.mika.self.AndroidSelfPort(app, conversationId, key) }
+                (service.application as? DjiniApp)?.let { app -> com.wangzan101.djini.self.AndroidSelfPort(app, conversationId, key) }
             } else null
             val tools = toolDispatcher(privatePhone, model.capabilities.vision, catalog, recordFrames = true,
                 vision = vision?.let {
@@ -977,15 +977,15 @@ class TaskRun(
                     })
                 },
                 smsLogin = if (provenance.origin == RunOrigin.Ui && !conditionCheck && !runSpec.readOnly) {
-                    com.wangzan101.mika.cap.phone.sms.AndroidSmsLogin(service, phoneServices.smsLogin, appAccess,
+                    com.wangzan101.djini.cap.phone.sms.AndroidSmsLogin(service, phoneServices.smsLogin, appAccess,
                         accessedPhone, privatePhone) { phone?.screen }.also { smsLogin = it }
                 } else null,
-                phoneCalls = (service.application as MikaApp).callPort.takeIf {
-                    !conditionCheck && (service.application as MikaApp).calls.settings.state.value.enabled
+                phoneCalls = (service.application as DjiniApp).callPort.takeIf {
+                    !conditionCheck && (service.application as DjiniApp).calls.settings.state.value.enabled
                 },
-                // 设置里允许 Mika 改自己时,才把 settings_list、settings_set 发给模型
+                // 设置里允许 Djini 改自己时,才把 settings_list、settings_set 发给模型
                 selfConfig = if (FeatureFlags.get(service).selfConfig()) {
-                    com.wangzan101.mika.settings.SelfConfigImpl(FeatureFlags.get(service))
+                    com.wangzan101.djini.settings.SelfConfigImpl(FeatureFlags.get(service))
                 } else null,
                 stableRefs = speed.inlineScreen, inlineScreen = speed.inlineScreen,
                 adaptiveVision = speed.adaptiveVision,
@@ -1008,8 +1008,8 @@ class TaskRun(
                 // 同项目对话共用 p:<projectId>,其余按对话隔离
                 sandbox = sandbox, workspace = { workspaceKey.wire },
                 deviceFiles = if (provenance.origin == RunOrigin.Ui && !conditionCheck && FeatureFlags.get(service).deviceFiles()) {
-                    AndroidDeviceFiles(phoneServices.hub, com.wangzan101.mika.cap.sandbox.SandboxDirs(service), sandbox,
-                        com.wangzan101.mika.settings.DeviceDirectoryStore.get(service), DeviceImportStore.get(service),
+                    AndroidDeviceFiles(phoneServices.hub, com.wangzan101.djini.cap.sandbox.SandboxDirs(service), sandbox,
+                        com.wangzan101.djini.settings.DeviceDirectoryStore.get(service), DeviceImportStore.get(service),
                         resolveWorkspace = { workspaceKey }, conversationIdFor = { conversationId })
                 } else null,
                 audio = audioPort,
@@ -1036,15 +1036,15 @@ class TaskRun(
                 runRecords = RunStore(service).reader(),
                 // 这两天的通知原文和存着的各天、各周、各月的归纳(主动能力攒下的):只给用户在手机上发起的任务;主动能力没开时不去碰它
                 notices = if (provenance.origin == RunOrigin.Ui && !conditionCheck && FeatureFlags.get(service).proactive()) {
-                    (service.application as MikaApp).proactive.noticeSource()
+                    (service.application as DjiniApp).proactive.noticeSource()
                 } else null,
                 mcpServers = mcpEndpoints(),
                 // 仅用户明确配置并启用时提供通用搜索;否则继续用浏览器搜索。
-                webSearch = com.wangzan101.mika.settings.WebSearchSettings.get(service).service(),
-                // 已 root 的手机上用户打开了「允许 Mika 执行 root 命令」才登记 root 工具(子任务、条件检查不给)
+                webSearch = com.wangzan101.djini.settings.WebSearchSettings.get(service).service(),
+                // 已 root 的手机上用户打开了「允许 Djini 执行 root 命令」才登记 root 工具(子任务、条件检查不给)
                 root = phoneServices.shellManager.root.takeIf { !conditionCheck && it.commandsAllowed() }
                     ?.let { r -> RootCommands(RootShell::su, r::commandsAllowed) { a -> if (a == null) r.suGone() else r.commandsDenied(a) } },
-                // 看/操作 Mika 自己;开关关着时只给只读状态
+                // 看/操作 Djini 自己;开关关着时只给只读状态
                 self = selfPort,
                 selfOperate = selfPort?.takeIf { FeatureFlags.get(service).selfOperate() },
                 pluginTools = pluginTools, pluginScriptRunner = pluginRunner,
@@ -1054,7 +1054,7 @@ class TaskRun(
             // 主动能力没开时不去碰它(连对象都不建)
             val observed = if (provenance.origin == RunOrigin.Ui && !conditionCheck && FeatureFlags.get(service).proactive()) {
                 try {
-                    (service.application as MikaApp).proactive.observedForTasks()
+                    (service.application as DjiniApp).proactive.observedForTasks()
                 } catch (e: kotlinx.coroutines.CancellationException) {
                     throw e
                 } catch (e: Exception) {
@@ -1077,7 +1077,7 @@ class TaskRun(
                     if (phoneScreen.acquired && dispatcher?.surface != WEB) phone?.screen?.let { phoneRuntime.awaitUserPick(it, taskGate, w) }
                     taskGate.pass({ phoneScreen.acquired && dispatcher?.surface != WEB }, w)
                 }, knowledge = knowledge, screenMaps = memoryRuntime.screenMaps(), sink = sink, trace = trace, installedApps = { apps },
-                // 选渠道用的事实:装了哪些 App、在 Mika 里登录过哪些网站、有没有内置浏览器
+                // 选渠道用的事实:装了哪些 App、在 Djini 里登录过哪些网站、有没有内置浏览器
                 channelFacts = {
                     val registry = WebSites.registry(service)
                     ChannelFacts(
@@ -1121,7 +1121,7 @@ class TaskRun(
             )
             loop = agent
             liveFeed = agent.events.subscribe(liveEvents)
-            mcpExternalId?.let { mcpEvents = (service.application as MikaApp).remoteTasks.attach(it, agent.events) }
+            mcpExternalId?.let { mcpEvents = (service.application as DjiniApp).remoteTasks.attach(it, agent.events) }
             kit = LearnKit(switches, memory, utterances, tools, agent, catalog, knowledge, model, light, runStore, agent.flags.replay, priorTurns)
             suspend fun <T> io(fallback: T, call: () -> T): T =
                 withContext(Dispatchers.IO) { runCatching(call).getOrDefault(fallback) }

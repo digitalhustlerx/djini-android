@@ -1,8 +1,8 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.UiText
-import com.wangzan101.mika.i18n.UiTexts
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.UiText
+import com.wangzan101.djini.i18n.UiTexts
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue

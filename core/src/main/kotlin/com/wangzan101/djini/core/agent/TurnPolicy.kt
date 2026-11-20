@@ -1,8 +1,8 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
-import com.wangzan101.mika.core.model.ToolSpec
-import com.wangzan101.mika.core.prompt.Feedback
-import com.wangzan101.mika.core.tool.Verb
+import com.wangzan101.djini.core.model.ToolSpec
+import com.wangzan101.djini.core.prompt.Feedback
+import com.wangzan101.djini.core.tool.Verb
 
 /** 循环发给模型的一条提醒:来源标签和正文(由 [ContextBuilder.notice] 包成上下文)。 */
 internal data class Notice(val source: String, val text: String)

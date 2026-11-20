@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.phone.a11y
+package com.wangzan101.djini.cap.phone.a11y
 
 import android.content.Intent
 import androidx.test.ext.junit.runners.AndroidJUnit4

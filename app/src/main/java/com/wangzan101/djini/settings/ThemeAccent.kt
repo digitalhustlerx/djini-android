@@ -1,4 +1,4 @@
-package com.wangzan101.mika.settings
+package com.wangzan101.djini.settings
 
 /**
  * 强调色(主按钮、选中、开关、用户消息、链接):默认蓝色,和深浅色([ThemeMode])任意搭配。

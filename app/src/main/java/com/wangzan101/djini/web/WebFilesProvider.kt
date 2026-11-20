@@ -1,4 +1,4 @@
-package com.wangzan101.mika.web
+package com.wangzan101.djini.web
 
 import android.content.ContentValues
 import android.net.Uri

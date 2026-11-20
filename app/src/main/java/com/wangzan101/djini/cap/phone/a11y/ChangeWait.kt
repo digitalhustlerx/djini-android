@@ -1,6 +1,6 @@
-package com.wangzan101.mika.cap.phone.a11y
+package com.wangzan101.djini.cap.phone.a11y
 
-import com.wangzan101.mika.cap.phone.display.FrameMath
+import com.wangzan101.djini.cap.phone.display.FrameMath
 
 /**
  * 动作之后等界面稳定再判断有没有变化。只看事件安静不够:反应慢的页面安静时可能还没开始画,

@@ -1,23 +1,23 @@
-package com.wangzan101.mika.core.cap.web
+package com.wangzan101.djini.core.cap.web
 
-import com.wangzan101.mika.core.prompt.Feedback
+import com.wangzan101.djini.core.prompt.Feedback
 import kotlinx.serialization.json.JsonObject
-import com.wangzan101.mika.core.observation.Untrusted
-import com.wangzan101.mika.core.prompt.Prompts
-import com.wangzan101.mika.core.tool.ArgError
-import com.wangzan101.mika.core.tool.Args
-import com.wangzan101.mika.core.tool.Risk
-import com.wangzan101.mika.core.tool.ToolContext
-import com.wangzan101.mika.core.tool.ToolDef
-import com.wangzan101.mika.core.tool.ToolExecution
-import com.wangzan101.mika.core.tool.Verb
-import com.wangzan101.mika.core.tool.FAILURE_MESSAGES
-import com.wangzan101.mika.core.tool.fail
+import com.wangzan101.djini.core.observation.Untrusted
+import com.wangzan101.djini.core.prompt.Prompts
+import com.wangzan101.djini.core.tool.ArgError
+import com.wangzan101.djini.core.tool.Args
+import com.wangzan101.djini.core.tool.Risk
+import com.wangzan101.djini.core.tool.ToolContext
+import com.wangzan101.djini.core.tool.ToolDef
+import com.wangzan101.djini.core.tool.ToolExecution
+import com.wangzan101.djini.core.tool.Verb
+import com.wangzan101.djini.core.tool.FAILURE_MESSAGES
+import com.wangzan101.djini.core.tool.fail
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.put
-import com.wangzan101.mika.core.uistate.lastSnapshot
+import com.wangzan101.djini.core.uistate.lastSnapshot
 
 /**
  * 页面脚本:自己不动页面,脚本里的每个动作经执行入口回来(守卫、关卡、不可逆判定、记录照常);
@@ -32,7 +32,7 @@ internal object WebScriptTool : WebTool {
         mapOf(
             "code" to buildJsonObject {
                 put("type", "string"); put("minLength", 1); put("maxLength", SCRIPT_CODE_MAX_CHARS)
-                put("description", "Body of an async function, e.g. `const s = await mika.snapshot(); return s.elements.filter(e => e.role === 'link').map(e => e.name);`")
+                put("description", "Body of an async function, e.g. `const s = await djini.snapshot(); return s.elements.filter(e => e.role === 'link').map(e => e.name);`")
             },
             "timeoutMs" to buildJsonObject {
                 put("type", "integer"); put("minimum", 1000); put("maximum", SCRIPT_MAX_TIMEOUT_MS)

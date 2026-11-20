@@ -1,30 +1,30 @@
-package com.wangzan101.mika.mcp
+package com.wangzan101.djini.mcp
 
-import com.wangzan101.mika.core.mcp.McpRpc
+import com.wangzan101.djini.core.mcp.McpRpc
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import com.wangzan101.mika.BuildConfig
-import com.wangzan101.mika.core.remote.RemoteAccess
-import com.wangzan101.mika.core.remote.RemoteActivity
-import com.wangzan101.mika.core.remote.RemoteHost
-import com.wangzan101.mika.core.remote.RemoteEndpoints
-import com.wangzan101.mika.core.remote.RelayClient
-import com.wangzan101.mika.core.remote.RelayGateway
-import com.wangzan101.mika.settings.RelaySettings
+import com.wangzan101.djini.BuildConfig
+import com.wangzan101.djini.core.remote.RemoteAccess
+import com.wangzan101.djini.core.remote.RemoteActivity
+import com.wangzan101.djini.core.remote.RemoteHost
+import com.wangzan101.djini.core.remote.RemoteEndpoints
+import com.wangzan101.djini.core.remote.RelayClient
+import com.wangzan101.djini.core.remote.RelayGateway
+import com.wangzan101.djini.settings.RelaySettings
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
-import com.wangzan101.mika.core.mcp.McpUsb
-import com.wangzan101.mika.core.shell.HelperHandoff
-import com.wangzan101.mika.device.AndroidDeviceAccess
-import com.wangzan101.mika.core.remote.RemoteTasks
-import com.wangzan101.mika.core.remote.RunExportSource
-import com.wangzan101.mika.record.RunStore
-import com.wangzan101.mika.task.RemoteRunExport
-import com.wangzan101.mika.task.RemoteTaskHub
-import com.wangzan101.mika.settings.McpSettings
-import com.wangzan101.mika.settings.McpUsbSettings
+import com.wangzan101.djini.core.mcp.McpUsb
+import com.wangzan101.djini.core.shell.HelperHandoff
+import com.wangzan101.djini.device.AndroidDeviceAccess
+import com.wangzan101.djini.core.remote.RemoteTasks
+import com.wangzan101.djini.core.remote.RunExportSource
+import com.wangzan101.djini.record.RunStore
+import com.wangzan101.djini.task.RemoteRunExport
+import com.wangzan101.djini.task.RemoteTaskHub
+import com.wangzan101.djini.settings.McpSettings
+import com.wangzan101.djini.settings.McpUsbSettings
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -48,9 +48,9 @@ class McpRuntime(
     private val context: Context, val settings: McpSettings, val usb: McpUsbSettings, private val tasks: RemoteTasks,
     val device: AndroidDeviceAccess,
     val relaySettings: RelaySettings,
-    private val history: com.wangzan101.mika.core.remote.RemoteHistory? = null,
-    calls: com.wangzan101.mika.core.calls.PhoneCallPort? = null,
-    companion: com.wangzan101.mika.core.remote.RemoteCompanion? = null,
+    private val history: com.wangzan101.djini.core.remote.RemoteHistory? = null,
+    calls: com.wangzan101.djini.core.calls.PhoneCallPort? = null,
+    companion: com.wangzan101.djini.core.remote.RemoteCompanion? = null,
 ) {
     private val _state = MutableStateFlow<McpServerState>(McpServerState.Off)
     val state: StateFlow<McpServerState> = _state.asStateFlow()
@@ -127,10 +127,10 @@ class McpRuntime(
 
     /**
      * 有一种开着就把服务起来(已经在跑就让它按开关重新对一遍)。从后台起前台服务可能被系统拒绝,这时记成没开起来,
-     * 等下次打开 Mika 的界面再起。
+     * 等下次打开 Djini 的界面再起。
      */
     fun ensureRunning() {
-        if (!active || com.wangzan101.mika.settings.FeatureFlags.get(context).quitRequested()) return
+        if (!active || com.wangzan101.djini.settings.FeatureFlags.get(context).quitRequested()) return
         runCatching { context.startForegroundService(Intent(context, McpService::class.java)) }
             .onFailure { e ->
                 Log.w(TAG, "could not start computer access service", e)
@@ -143,7 +143,7 @@ class McpRuntime(
      * 本地监听和远程通道均未启用或未能启动时返回 false。
      */
     @Synchronized internal fun sync(): Boolean {
-        if (com.wangzan101.mika.settings.FeatureFlags.get(context).quitRequested()) return false
+        if (com.wangzan101.djini.settings.FeatureFlags.get(context).quitRequested()) return false
         val want = listen()
         // 端口改了也要重绑(RemoteHost 绑精确端口,boundPort 就是实际监听的口)
         if (host != null && (hostListen != want || host!!.boundPort != settings.port)) stopListener()
@@ -244,7 +244,7 @@ class McpRuntime(
         fun clientConfig(url: String, token: String): String = """
             {
               "mcpServers": {
-                "mika": {
+                "djini": {
                   "type": "http",
                   "url": "$url",
                   "headers": { "Authorization": "Bearer $token" }

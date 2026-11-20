@@ -1,4 +1,4 @@
-package com.wangzan101.mika.calls
+package com.wangzan101.djini.calls
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull

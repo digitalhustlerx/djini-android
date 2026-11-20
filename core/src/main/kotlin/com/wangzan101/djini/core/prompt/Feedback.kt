@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.prompt
+package com.wangzan101.djini.core.prompt
 
 /**
  * 工具结果与主循环里给模型的反馈文字(提示、错误说明、提醒、参考资料的标题),都在 prompts/feedback/ 下的 .md 文件里:

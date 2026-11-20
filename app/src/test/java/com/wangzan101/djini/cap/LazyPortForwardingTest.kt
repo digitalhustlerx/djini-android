@@ -1,9 +1,9 @@
-package com.wangzan101.mika.cap
+package com.wangzan101.djini.cap
 
-import com.wangzan101.mika.cap.phone.a11y.LazyPhoneScreen
-import com.wangzan101.mika.cap.web.LazyWebPort
-import com.wangzan101.mika.core.cap.web.WebPort
-import com.wangzan101.mika.core.uistate.ScreenPort
+import com.wangzan101.djini.cap.phone.a11y.LazyPhoneScreen
+import com.wangzan101.djini.cap.web.LazyWebPort
+import com.wangzan101.djini.core.cap.web.WebPort
+import com.wangzan101.djini.core.uistate.ScreenPort
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.lang.reflect.Method

@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.knowledge
+package com.wangzan101.djini.core.knowledge
 
-import com.wangzan101.mika.core.cap.sandbox.SANDBOX_PACKAGES
+import com.wangzan101.djini.core.cap.sandbox.SANDBOX_PACKAGES
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
@@ -112,6 +112,6 @@ class BundledScriptsManifestTest {
     }
 
     private companion object {
-        const val AUTH_REASON = "需要账号授权,Mika 暂不支持"
+        const val AUTH_REASON = "需要账号授权,Djini 暂不支持"
     }
 }

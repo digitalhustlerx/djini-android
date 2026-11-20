@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.web
+package com.wangzan101.djini.cap.web
 
 import android.content.ComponentCallbacks2
 import android.os.SystemClock
@@ -7,10 +7,10 @@ import android.webkit.WebResourceResponse
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.webkit.WebViewAssetLoader
-import com.wangzan101.mika.cap.phone.a11y.DeviceSupport
-import com.wangzan101.mika.core.cap.web.PageRead
-import com.wangzan101.mika.core.resource.ResourceScope
-import com.wangzan101.mika.core.uistate.ActionResult
+import com.wangzan101.djini.cap.phone.a11y.DeviceSupport
+import com.wangzan101.djini.core.cap.web.PageRead
+import com.wangzan101.djini.core.resource.ResourceScope
+import com.wangzan101.djini.core.uistate.ActionResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
@@ -60,7 +60,7 @@ class WebTabPoolTest {
             val main = WebViewAssetLoader.Builder().addPathHandler("/assets/", assets).addPathHandler("/status/", status).build()
             val other = WebViewAssetLoader.Builder().setDomain("fixtures2.androidplatform.net").addPathHandler("/assets/", assets).build()
             // 另一个可注册域名:androidplatform.net 下的子域与 appassets 同站
-            val foreign = WebViewAssetLoader.Builder().setDomain("fixtures.mika-other.test").addPathHandler("/assets/", assets).build()
+            val foreign = WebViewAssetLoader.Builder().setDomain("fixtures.djini-other.test").addPathHandler("/assets/", assets).build()
             pool = WebTabPool(ctx, host, assetLoaders = listOf(main, other, foreign))
         }
         scope.launch(start = CoroutineStart.UNDISPATCHED) { pool.events.collect { events += it } }
@@ -252,7 +252,7 @@ class WebTabPoolTest {
         DeviceSupport.pollUntil(5_000) { current("A")?.view?.let { v -> runBlocking(Dispatchers.Main) { v.url } }?.takeIf { it.endsWith("host.html") } }
         val tab = current("A")!!
         // 另一个可注册域名(androidplatform.net 下的子域彼此同站)
-        js(tab, "location.href = 'https://fixtures.mika-other.test/assets/web-fixtures/host.html'")
+        js(tab, "location.href = 'https://fixtures.djini-other.test/assets/web-fixtures/host.html'")
         delay(1_500)
         assertTrue(runBlocking(Dispatchers.Main) { tab.view.url }!!.startsWith("https://appassets.androidplatform.net/"))
         assertTrue(s.tabs().any { it.tabId == popup.tabId })

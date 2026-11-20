@@ -1,4 +1,4 @@
-package com.wangzan101.mika.calls
+package com.wangzan101.djini.calls
 
 import java.util.Base64
 import java.util.UUID
@@ -49,7 +49,7 @@ class VolcRealtimeClientTest {
                 override fun onClosed(webSocket: WebSocket, code: Int, reason: String) { protocolClosed.complete(Unit) }
             }))
             val transport = transport(server, http)
-            val connect = async { transport.connect(VolcRealtimeCredentials(apiKey = "test-key"), VolcRealtimeConfig("Mika speaks plainly.")) }
+            val connect = async { transport.connect(VolcRealtimeCredentials(apiKey = "test-key"), VolcRealtimeConfig("Djini speaks plainly.")) }
             val socket = withTimeout(3_000) { serverSocket.await() }
             val create = withTimeout(3_000) { messages.receive() }
             assertEquals("session.create", create.type)
@@ -63,7 +63,7 @@ class VolcRealtimeClientTest {
             assertNull(request.getHeader("Authorization"))
             val sessionConfig = create.getValue("session").jsonObject
             assertEquals("1.2.6.1", sessionConfig.getValue("model").jsonPrimitive.content)
-            assertEquals("Mika speaks plainly.", sessionConfig.getValue("instructions").jsonPrimitive.content)
+            assertEquals("Djini speaks plainly.", sessionConfig.getValue("instructions").jsonPrimitive.content)
             val audioConfig = sessionConfig.getValue("audio").jsonObject
             val input = audioConfig.getValue("input").jsonObject.getValue("format").jsonObject
             val output = audioConfig.getValue("output").jsonObject
@@ -490,7 +490,7 @@ class VolcRealtimeClientTest {
             frames += """{"type":"conversation.item.input_audio_transcription.completed","item_id":"authorization","text":"我说完了，你去打"}"""
             val observed = observeFrames(frames)
             val authorization = observed.filterIsInstance<VolcRealtimeEvent.UserTranscript>().single { it.isFinal }
-            val conversation = com.wangzan101.mika.calls.briefing.VoiceBriefingConversation(
+            val conversation = com.wangzan101.djini.calls.briefing.VoiceBriefingConversation(
                 CallTaskBrief(goal = "询问服务价格"),
             )
             assertTrue("Unfinished restriction must prevent dialing; identified=$identified partial=$hasPartial",
@@ -508,7 +508,7 @@ class VolcRealtimeClientTest {
             ))
             val authorization = observed.filterIsInstance<VolcRealtimeEvent.UserTranscript>().last()
             assertFalse(authorization.hasUnresolvedPriorTurn)
-            val conversation = com.wangzan101.mika.calls.briefing.VoiceBriefingConversation(CallTaskBrief(goal = "询问服务价格"))
+            val conversation = com.wangzan101.djini.calls.briefing.VoiceBriefingConversation(CallTaskBrief(goal = "询问服务价格"))
             assertNotNull(conversation.accept(authorization))
         }
     }

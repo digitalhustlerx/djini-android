@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.cap.sandbox
+package com.wangzan101.djini.core.cap.sandbox
 
-import com.wangzan101.mika.core.model.Part
+import com.wangzan101.djini.core.model.Part
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.booleanOrNull
@@ -8,10 +8,10 @@ import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.intOrNull
 import kotlinx.serialization.json.longOrNull
 import kotlinx.serialization.json.put
-import com.wangzan101.mika.core.guard.GuardVerdict
-import com.wangzan101.mika.core.guard.Severity
-import com.wangzan101.mika.core.guard.actionSignature
-import com.wangzan101.mika.core.guard.OffScreenGuard
+import com.wangzan101.djini.core.guard.GuardVerdict
+import com.wangzan101.djini.core.guard.Severity
+import com.wangzan101.djini.core.guard.actionSignature
+import com.wangzan101.djini.core.guard.OffScreenGuard
 
 /** 一个任务里沙箱命令累计最多跑这么久。 */
 const val SANDBOX_BUDGET_MS = 30 * 60_000L

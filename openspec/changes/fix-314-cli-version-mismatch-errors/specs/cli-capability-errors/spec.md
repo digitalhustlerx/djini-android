@@ -1,18 +1,18 @@
 ## ADDED Requirements
 
 ### Requirement: 能力缺失报错必须可诊断、可行动
-CLI 在手机 Mika App 广播的 capabilities 缺少当前操作所需能力而抛出 `incompatible_api` 时，错误信息 MUST 同时包含：缺失的能力名（`task_recovery` / `task_steer` / `run_export` / `task_files`）、手机已广播的 `server_version`（当且仅当 `GET /api/v1` 已返回该字段）、以及一句可执行的补救（更新手机上的 Mika，或去掉对应参数照常执行）。
+CLI 在手机 Djini App 广播的 capabilities 缺少当前操作所需能力而抛出 `incompatible_api` 时，错误信息 MUST 同时包含：缺失的能力名（`task_recovery` / `task_steer` / `run_export` / `task_files`）、手机已广播的 `server_version`（当且仅当 `GET /api/v1` 已返回该字段）、以及一句可执行的补救（更新手机上的 Djini，或去掉对应参数照常执行）。
 
 #### Scenario: 显式 --request-id 撞上无 task_recovery 的旧 App
-- **WHEN** `mika task run --request-id UUID` 且 `GET /api/v1` 返回的 capabilities 不含 `task_recovery`（含 `server_version`）
+- **WHEN** `djini task run --request-id UUID` 且 `GET /api/v1` 返回的 capabilities 不含 `task_recovery`（含 `server_version`）
 - **THEN** 以 `incompatible_api` 退出（不发起 POST），错误信息包含能力名 `task_recovery`、该 `server_version`，并写明可去掉 `--request-id` 重试以照常提交
 
 #### Scenario: steer 撞上无 task_steer 的旧 App
-- **WHEN** `mika task steer` 且 capabilities 不含 `task_steer`
+- **WHEN** `djini task steer` 且 capabilities 不含 `task_steer`
 - **THEN** `incompatible_api` 错误信息包含能力名 `task_steer` 与补救指引
 
 #### Scenario: export / 附件下载撞上对应能力缺失
-- **WHEN** `mika task export` 且无 `run_export`，或带附件/`download` 且无 `task_files`
+- **WHEN** `djini task export` 且无 `run_export`，或带附件/`download` 且无 `task_files`
 - **THEN** `incompatible_api` 错误信息分别包含 `run_export` / `task_files` 与补救指引
 
 ### Requirement: 错误输出携带结构化能力字段

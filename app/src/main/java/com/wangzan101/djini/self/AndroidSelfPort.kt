@@ -1,4 +1,4 @@
-package com.wangzan101.mika.self
+package com.wangzan101.djini.self
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -11,32 +11,32 @@ import android.os.PowerManager
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.webkit.WebViewCompat
-import com.wangzan101.mika.BuildConfig
-import com.wangzan101.mika.MikaApp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.browser.AddressInput
-import com.wangzan101.mika.browser.BrowserFavorites
-import com.wangzan101.mika.browser.FavoriteSite
-import com.wangzan101.mika.browser.UserBrowser
-import com.wangzan101.mika.cap.phone.PhoneServices
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.core.cap.sandbox.SandboxStatus
-import com.wangzan101.mika.core.self.SelfBrowserState
-import com.wangzan101.mika.core.self.SelfConsent
-import com.wangzan101.mika.core.self.SelfFavorite
-import com.wangzan101.mika.core.self.SelfPort
-import com.wangzan101.mika.core.self.SelfResult
-import com.wangzan101.mika.core.self.SelfScreen
-import com.wangzan101.mika.core.self.SelfSite
-import com.wangzan101.mika.core.self.SelfStatus
-import com.wangzan101.mika.core.shell.BuiltinShellStatus
-import com.wangzan101.mika.core.cap.web.WebUrlPolicy
-import com.wangzan101.mika.settings.AccessibilityState
-import com.wangzan101.mika.settings.FeatureFlags
-import com.wangzan101.mika.settings.ProviderConnection
-import com.wangzan101.mika.settings.SystemStatusMonitor
-import com.wangzan101.mika.settings.WebSearchSettings
-import com.wangzan101.mika.task.TriggerRuntime
+import com.wangzan101.djini.BuildConfig
+import com.wangzan101.djini.DjiniApp
+import com.wangzan101.djini.R
+import com.wangzan101.djini.browser.AddressInput
+import com.wangzan101.djini.browser.BrowserFavorites
+import com.wangzan101.djini.browser.FavoriteSite
+import com.wangzan101.djini.browser.UserBrowser
+import com.wangzan101.djini.cap.phone.PhoneServices
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.core.cap.sandbox.SandboxStatus
+import com.wangzan101.djini.core.self.SelfBrowserState
+import com.wangzan101.djini.core.self.SelfConsent
+import com.wangzan101.djini.core.self.SelfFavorite
+import com.wangzan101.djini.core.self.SelfPort
+import com.wangzan101.djini.core.self.SelfResult
+import com.wangzan101.djini.core.self.SelfScreen
+import com.wangzan101.djini.core.self.SelfSite
+import com.wangzan101.djini.core.self.SelfStatus
+import com.wangzan101.djini.core.shell.BuiltinShellStatus
+import com.wangzan101.djini.core.cap.web.WebUrlPolicy
+import com.wangzan101.djini.settings.AccessibilityState
+import com.wangzan101.djini.settings.FeatureFlags
+import com.wangzan101.djini.settings.ProviderConnection
+import com.wangzan101.djini.settings.SystemStatusMonitor
+import com.wangzan101.djini.settings.WebSearchSettings
+import com.wangzan101.djini.task.TriggerRuntime
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.concurrent.atomic.AtomicInteger
@@ -48,7 +48,7 @@ import java.util.concurrent.atomic.AtomicInteger
  * 不在后台启动 Activity,也不假装用户已经看见了。
  */
 class AndroidSelfPort(
-    private val app: MikaApp,
+    private val app: DjiniApp,
     private val conversationId: String,
     private val runKey: String,
 ) : SelfPort {
@@ -144,7 +144,7 @@ class AndroidSelfPort(
     override suspend fun copy(text: String): Boolean = withContext(Dispatchers.Main) {
         val cm = app.getSystemService(ClipboardManager::class.java) ?: return@withContext false
         runCatching {
-            cm.setPrimaryClip(ClipData.newPlainText("Mika", text))
+            cm.setPrimaryClip(ClipData.newPlainText("Djini", text))
             true
         }.getOrDefault(false)
     }

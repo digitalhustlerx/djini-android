@@ -1,4 +1,4 @@
-package com.wangzan101.mika.plugin
+package com.wangzan101.djini.plugin
 
 import kotlinx.serialization.SerializationException
 import org.junit.Assert.assertEquals

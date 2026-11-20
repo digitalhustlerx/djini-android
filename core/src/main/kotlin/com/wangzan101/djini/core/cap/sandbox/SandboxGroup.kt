@@ -1,26 +1,26 @@
-package com.wangzan101.mika.core.cap.sandbox
+package com.wangzan101.djini.core.cap.sandbox
 
-import com.wangzan101.mika.core.model.ModelError
-import com.wangzan101.mika.core.tool.Entry
-import com.wangzan101.mika.core.observation.ObsKind
-import com.wangzan101.mika.core.observation.Observation
-import com.wangzan101.mika.core.observation.Place
-import com.wangzan101.mika.core.prompt.Prompts
-import com.wangzan101.mika.core.tool.AgentTool
-import com.wangzan101.mika.core.tool.Args
-import com.wangzan101.mika.core.tool.Concurrency
-import com.wangzan101.mika.core.tool.EvidenceLog
-import com.wangzan101.mika.core.tool.Risk
-import com.wangzan101.mika.core.tool.ToolContext
-import com.wangzan101.mika.core.tool.ToolDef
-import com.wangzan101.mika.core.tool.ToolExecution
-import com.wangzan101.mika.core.tool.Verb
-import com.wangzan101.mika.core.tool.argStr
-import com.wangzan101.mika.core.tool.bool
-import com.wangzan101.mika.core.tool.fail
-import com.wangzan101.mika.core.tool.int
-import com.wangzan101.mika.core.tool.str
-import com.wangzan101.mika.core.tool.strArray
+import com.wangzan101.djini.core.model.ModelError
+import com.wangzan101.djini.core.tool.Entry
+import com.wangzan101.djini.core.observation.ObsKind
+import com.wangzan101.djini.core.observation.Observation
+import com.wangzan101.djini.core.observation.Place
+import com.wangzan101.djini.core.prompt.Prompts
+import com.wangzan101.djini.core.tool.AgentTool
+import com.wangzan101.djini.core.tool.Args
+import com.wangzan101.djini.core.tool.Concurrency
+import com.wangzan101.djini.core.tool.EvidenceLog
+import com.wangzan101.djini.core.tool.Risk
+import com.wangzan101.djini.core.tool.ToolContext
+import com.wangzan101.djini.core.tool.ToolDef
+import com.wangzan101.djini.core.tool.ToolExecution
+import com.wangzan101.djini.core.tool.Verb
+import com.wangzan101.djini.core.tool.argStr
+import com.wangzan101.djini.core.tool.bool
+import com.wangzan101.djini.core.tool.fail
+import com.wangzan101.djini.core.tool.int
+import com.wangzan101.djini.core.tool.str
+import com.wangzan101.djini.core.tool.strArray
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -37,7 +37,7 @@ private const val TIMEOUT = "Time limit in seconds, 1-600 (default 60). The comm
 
 /**
  * 沙箱一组:设备支持时提供(运行环境没准备好时工具调用会等它)。路径都是沙箱里的路径;
- * 不是屏幕操作,不过锁屏关卡,也不进屏幕守卫(沙箱守卫另管)。执行在 [com.wangzan101.mika.core.cap.sandbox.SandboxTools] 里。
+ * 不是屏幕操作,不过锁屏关卡,也不进屏幕守卫(沙箱守卫另管)。执行在 [com.wangzan101.djini.core.cap.sandbox.SandboxTools] 里。
  */
 internal interface SandboxTool : AgentTool {
     override val capability: String get() = SANDBOX
@@ -83,7 +83,7 @@ internal object RunBundledScript : SandboxTool {
     override val def = ToolDef("run_bundled_script",
         Prompts.tool("run_bundled_script"),
         mapOf(
-            "source" to str("Directory the script ships in, under /opt/mika/skills: the scriptSource from knowledge_read or skill_read, e.g. skills/documents."),
+            "source" to str("Directory the script ships in, under /opt/djini/skills: the scriptSource from knowledge_read or skill_read, e.g. skills/documents."),
             "script" to str("Path of the script inside that directory, e.g. scripts/extract_pdf.py."),
             "args" to strArray("Arguments, at most 50, each passed unchanged.", 50),
             "timeoutSec" to int(TIMEOUT, 1, 600),

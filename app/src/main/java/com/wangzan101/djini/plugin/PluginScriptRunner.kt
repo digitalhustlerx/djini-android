@@ -1,7 +1,7 @@
-package com.wangzan101.mika.plugin
+package com.wangzan101.djini.plugin
 
-import com.wangzan101.mika.core.plugin.ScriptResult
-import com.wangzan101.mika.core.plugin.ScriptRunner
+import com.wangzan101.djini.core.plugin.ScriptResult
+import com.wangzan101.djini.core.plugin.ScriptRunner
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit
 
 /**
  * 在 App 进程内跑插件脚本:`sh <script> <argsFile>`。stdout/stderr 全收,超时用 [destroyForcibly] 杀掉。
- * [shell] 默认 `/system/bin/sh`,测试里注入 `sh`;`MIKA_ARGS_FILE` 与 [envProvider] 的配置(环境变量页)都进进程环境。
+ * [shell] 默认 `/system/bin/sh`,测试里注入 `sh`;`DJINI_ARGS_FILE` 与 [envProvider] 的配置(环境变量页)都进进程环境。
  */
 class PluginScriptRunner(
     private val shell: String = "/system/bin/sh",
@@ -20,7 +20,7 @@ class PluginScriptRunner(
         withContext(Dispatchers.IO) {
             val pb = ProcessBuilder(shell, script.absolutePath, argsFile.absolutePath)
             pb.environment().apply {
-                put("MIKA_ARGS_FILE", argsFile.absolutePath)
+                put("DJINI_ARGS_FILE", argsFile.absolutePath)
                 putAll(envProvider())
                 putAll(env)
             }

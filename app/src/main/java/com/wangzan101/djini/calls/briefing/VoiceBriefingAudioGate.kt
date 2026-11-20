@@ -1,4 +1,4 @@
-package com.wangzan101.mika.calls.briefing
+package com.wangzan101.djini.calls.briefing
 
 import kotlinx.coroutines.CancellationException
 

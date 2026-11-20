@@ -1,4 +1,4 @@
-package com.wangzan101.mika.calls
+package com.wangzan101.djini.calls
 
 /** Accepts only an unambiguous closing from a caller's final utterance. No transcript is retained. */
 internal object CallFarewellPolicy {

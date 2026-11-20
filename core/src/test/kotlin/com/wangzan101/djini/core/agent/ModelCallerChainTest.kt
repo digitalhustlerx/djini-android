@@ -1,19 +1,19 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
-import com.wangzan101.mika.core.assembly.toolDispatcher
-import com.wangzan101.mika.core.model.Author
-import com.wangzan101.mika.core.model.Capabilities
-import com.wangzan101.mika.core.model.ChatModel
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.ModelError
-import com.wangzan101.mika.core.model.ModelReply
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.Role
-import com.wangzan101.mika.core.model.StopReason
-import com.wangzan101.mika.core.model.ToolSpec
-import com.wangzan101.mika.core.net.RateLimitGovernor
-import com.wangzan101.mika.core.testing.answerReply
-import com.wangzan101.mika.core.tool.FakeScreen
+import com.wangzan101.djini.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.model.Author
+import com.wangzan101.djini.core.model.Capabilities
+import com.wangzan101.djini.core.model.ChatModel
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.ModelError
+import com.wangzan101.djini.core.model.ModelReply
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.Role
+import com.wangzan101.djini.core.model.StopReason
+import com.wangzan101.djini.core.model.ToolSpec
+import com.wangzan101.djini.core.net.RateLimitGovernor
+import com.wangzan101.djini.core.testing.answerReply
+import com.wangzan101.djini.core.tool.FakeScreen
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertSame
@@ -261,7 +261,7 @@ class ModelCallerChainTest {
         val backup = Recorder("backup", null, null)
         val caller = caller(main, listOf(backup))
         val first = caller.ask(history, emptyList(), step = 1)
-        val h2 = history + Message(Role.Assistant, first.parts, Author.Mika)
+        val h2 = history + Message(Role.Assistant, first.parts, Author.Djini)
             .also { caller.noteReply(it, caller.lastMainUsed, first.usage) }
         caller.ask(h2, emptyList(), step = 2)
         assertSame(backup, caller.lastMainUsed)
@@ -275,7 +275,7 @@ class ModelCallerChainTest {
         val main = Recorder("main", richReply, null)
         val caller = caller(main, emptyList())
         val first = caller.ask(history, emptyList(), step = 1)
-        val h2 = history + Message(Role.Assistant, first.parts, Author.Mika)
+        val h2 = history + Message(Role.Assistant, first.parts, Author.Djini)
             .also { caller.noteReply(it, caller.lastMainUsed, first.usage) }
         caller.ask(h2, emptyList(), step = 2)
         val sent = main.seen.single { it.role == Role.Assistant }
@@ -289,7 +289,7 @@ class ModelCallerChainTest {
         val main = Recorder("main", null, ModelError.QuotaExceeded())
         val backup = Recorder("backup", null, null)
         val caller = caller(main, listOf(backup))
-        val h = history + Message(Role.Assistant, richReply.parts, Author.Mika)
+        val h = history + Message(Role.Assistant, richReply.parts, Author.Djini)
         caller.ask(h, emptyList(), step = 1)
         assertSame(backup, caller.lastMainUsed)
         val sent = backup.seen.single { it.role == Role.Assistant }
@@ -305,7 +305,7 @@ class ModelCallerChainTest {
         val light = Recorder("light", null, null)
         val caller = ModelCaller(main, toolDispatcher(FakeScreen()), ModelRouter(main, light),
             SpeedFlags.OFF, RetryPolicy.NONE, {}, { 0 }).also { it.reset("") }
-        val h = history + Message(Role.Assistant, richReply.parts, Author.Mika)
+        val h = history + Message(Role.Assistant, richReply.parts, Author.Djini)
         caller.ask(h, emptyList(), step = 1, using = light)
         val sent = light.seen.single { it.role == Role.Assistant }
         assertEquals(false, sent.parts.any { it is Part.Thinking })

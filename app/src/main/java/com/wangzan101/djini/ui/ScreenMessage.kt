@@ -1,7 +1,7 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.tr
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.tr
 import android.content.Context
 import android.graphics.BitmapFactory
 import android.util.LruCache
@@ -37,16 +37,16 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.wangzan101.mika.MikaApp
-import com.wangzan101.mika.core.agent.QuoteMessage
-import com.wangzan101.mika.core.agent.AttachedPage
-import com.wangzan101.mika.core.userscreen.UserScreen
-import com.wangzan101.mika.core.userscreen.UserScreenMessage
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
-import com.wangzan101.mika.ui.theme.MikaRadius
-import com.wangzan101.mika.ui.theme.MikaShapes
+import com.wangzan101.djini.DjiniApp
+import com.wangzan101.djini.core.agent.QuoteMessage
+import com.wangzan101.djini.core.agent.AttachedPage
+import com.wangzan101.djini.core.userscreen.UserScreen
+import com.wangzan101.djini.core.userscreen.UserScreenMessage
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.MikaRadius
+import com.wangzan101.djini.ui.theme.MikaShapes
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.time.Instant
@@ -98,7 +98,7 @@ private class StoredScreenShots(private val context: Context) : ScreenShots {
     override suspend fun load(conversationId: String, id: String): ShownScreen? = withContext(Dispatchers.IO) {
         val key = "$conversationId/$id"
         cache.get(key)?.let { return@withContext it }
-        val files = (context.applicationContext as MikaApp).userScreens
+        val files = (context.applicationContext as DjiniApp).userScreens
         val screen = files.screen(conversationId, id) ?: return@withContext null
         val thumb = if (screen.blocked) null else files.image(conversationId, id)?.let(::screenThumbnail)
         ShownScreen(screen, thumb).also { cache.put(key, it) }
@@ -157,7 +157,7 @@ private val TagText = MikaType.Micro
 /** 一屏:缩略图和下面那一行;还没读到时先占着位置。 */
 @Composable
 private fun ScreenItem(shown: ShownScreen?, width: Dp) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val screen = shown?.screen
     if (screen?.blocked == true) {
         Row(
@@ -183,7 +183,7 @@ private fun ScreenItem(shown: ShownScreen?, width: Dp) {
 /** 截图缩略图:按图的宽高比,圆角细边;没有图时是同样大小的一块淡灰。 */
 @Composable
 fun ScreenThumb(thumb: ImageBitmap?, width: Dp, modifier: Modifier = Modifier) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val ratio = thumb?.let { (it.width.toFloat() / it.height.coerceAtLeast(1)).coerceIn(0.3f, 1.8f) } ?: DEFAULT_RATIO
     Box(modifier.width(width).aspectRatio(ratio).clip(ThumbShape).border(1.dp, c.glassEdge, ThumbShape).background(c.ink.copy(alpha = 0.05f))) {
         thumb?.let { Image(it, null, Modifier.matchParentSize(), contentScale = ContentScale.Crop) }

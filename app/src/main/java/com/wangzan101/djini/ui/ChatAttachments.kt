@@ -1,7 +1,7 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.tr
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.tr
 import androidx.compose.ui.res.stringResource
 import androidx.core.content.ContextCompat
 import android.app.Activity
@@ -77,18 +77,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.compose.LifecycleResumeEffect
-import com.wangzan101.mika.ui.components.ButtonKind
-import com.wangzan101.mika.core.chat.GeneratedPhoto
-import com.wangzan101.mika.ui.components.ButtonSize
-import com.wangzan101.mika.ui.components.MikaButton
-import com.wangzan101.mika.ui.components.cardSurface
-import com.wangzan101.mika.ui.theme.MikaColors
-import com.wangzan101.mika.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.components.ButtonKind
+import com.wangzan101.djini.core.chat.GeneratedPhoto
+import com.wangzan101.djini.ui.components.ButtonSize
+import com.wangzan101.djini.ui.components.MikaButton
+import com.wangzan101.djini.ui.components.cardSurface
+import com.wangzan101.djini.ui.theme.MikaColors
+import com.wangzan101.djini.ui.theme.MikaIcons
 import kotlinx.coroutines.launch
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
-import com.wangzan101.mika.ui.theme.MikaRadius
-import com.wangzan101.mika.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.MikaRadius
+import com.wangzan101.djini.ui.theme.MikaShapes
 import kotlinx.coroutines.launch
 
 /** 对话页附件的说法。 */
@@ -227,7 +227,7 @@ internal fun AttachPanel(
     modifier: Modifier = Modifier,
     onDeviceFiles: (() -> Unit)? = null,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Column(modifier.fillMaxSize().testTag("attach-panel").padding(start = 12.dp, end = 12.dp, top = 12.dp, bottom = 8.dp)) {
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
             Tile(MikaIcons.PhotoCamera, AttachCopy.CAMERA, onCamera)
@@ -275,7 +275,7 @@ internal fun AttachPanel(
 
 @Composable
 private fun RowScope.Tile(icon: ImageVector, label: String, onClick: () -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Column(
         Modifier.weight(1f).height(76.dp).cardSurface(c, TileShape).clip(TileShape).clickable(role = Role.Button, onClick = onClick),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -290,14 +290,14 @@ private fun RowScope.Tile(icon: ImageVector, label: String, onClick: () -> Unit)
 private fun PanelLink(text: String, onClick: () -> Unit) {
     Text(
         text, Modifier.clip(MikaShapes.Tile).clickable(role = Role.Button, onClick = onClick).padding(horizontal = 6.dp, vertical = 4.dp),
-        style = LinkText, color = MikaTheme.colors.accent,
+        style = LinkText, color = DjiniTheme.colors.accent,
     )
 }
 
 /** 最近的一张照片:方块缩略图;选中时蓝框、淡蓝罩、右上角蓝底序号,没选时右上角一个空心圈。 */
 @Composable
 private fun RecentCell(photo: PendingAttachment, order: Int?, onClick: () -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val thumb = rememberAttachImage(AttachImage.Picked(photo.uri), RECENT_PX)
     Box(
         Modifier.testTag("recent-photo").aspectRatio(1f).clip(CellShape).background(c.fill)
@@ -327,7 +327,7 @@ internal fun PendingTray(
     modifier: Modifier = Modifier,
     onOpen: ((PendingAttachment) -> Unit)? = null,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     Row(
@@ -418,7 +418,7 @@ private val OutputRefMaxWidth = 320.dp
 
 @Composable
 private fun SentPhotos(photos: List<AttachmentMessage.Item>, conversationId: String?, maxWidth: Dp, onOpen: (AttachmentMessage.Item) -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val cols = PhotoGrid.columns(photos.size)
     if (cols == 1) {
         val p = photos.single()
@@ -453,7 +453,7 @@ private fun SentPhotos(photos: List<AttachmentMessage.Item>, conversationId: Str
 }
 
 /**
- * Mika 生成的照片:和用户附件一样的格子(1 张一大张,2 张并排,3 张起三列),点开在 App 的查看页看。
+ * Djini 生成的照片:和用户附件一样的格子(1 张一大张,2 张并排,3 张起三列),点开在 App 的查看页看。
  * 路径来自工具结果,不解析回答文字;conversationId 为 null(旧记录没有对话)时不解码。
  */
 @Composable
@@ -461,7 +461,7 @@ internal fun GeneratedPhotos(photos: List<GeneratedPhoto>, conversationId: Strin
     if (conversationId == null || photos.isEmpty()) return
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val cols = PhotoGrid.columns(photos.size)
     val gap = 4.dp
     val cell = minOf(if (cols == 1) SingleWidth else if (cols == 2) 118.dp else 96.dp, maxWidth)
@@ -490,7 +490,7 @@ internal fun GeneratedPhotos(photos: List<GeneratedPhoto>, conversationId: Strin
 }
 
 @Composable
-private fun SentFileCard(f: AttachmentMessage.Item, maxWidth: Dp, onClick: () -> Unit) {    val c = MikaTheme.colors
+private fun SentFileCard(f: AttachmentMessage.Item, maxWidth: Dp, onClick: () -> Unit) {    val c = DjiniTheme.colors
     Row(
         Modifier.testTag("sent-file").widthIn(min = minOf(220.dp, maxWidth), max = maxWidth).cardSurface(c, FileCardShape).clip(FileCardShape)
             .clickable(onClickLabel = stringResource(R.string.chat_open), role = Role.Button, onClick = onClick)
@@ -510,7 +510,7 @@ private fun SentFileCard(f: AttachmentMessage.Item, maxWidth: Dp, onClick: () ->
 @Composable
 private fun TypeBadge(name: String, modifier: Modifier, small: Boolean) {
     val shape = RoundedCornerShape(if (small) MikaRadius.Micro else MikaRadius.Tile)
-    Box(modifier.background(badgeColor(FileBadge.kind(name), MikaTheme.colors), shape), contentAlignment = Alignment.Center) {
+    Box(modifier.background(badgeColor(FileBadge.kind(name), DjiniTheme.colors), shape), contentAlignment = Alignment.Center) {
         Text(FileBadge.text(name), style = if (small) BadgeSmall else BadgeLarge, color = Color.White, maxLines = 1)
     }
 }

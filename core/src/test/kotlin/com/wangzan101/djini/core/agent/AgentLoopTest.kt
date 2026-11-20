@@ -1,35 +1,35 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
-import com.wangzan101.mika.core.guard.DIAGNOSTIC_VERBS
-import com.wangzan101.mika.core.model.Author
-import com.wangzan101.mika.core.model.Capabilities
-import com.wangzan101.mika.core.model.ChatModel
-import com.wangzan101.mika.core.model.Message
-import com.wangzan101.mika.core.model.ModelError
-import com.wangzan101.mika.core.model.ModelReply
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.Role
-import com.wangzan101.mika.core.model.StopReason
-import com.wangzan101.mika.core.model.StreamingChatModel
-import com.wangzan101.mika.core.model.ToolSpec
-import com.wangzan101.mika.core.model.Usage
-import com.wangzan101.mika.core.record.RunEvent
-import com.wangzan101.mika.core.record.RunSink
-import com.wangzan101.mika.core.run.RunId
-import com.wangzan101.mika.core.run.RunInbox
-import com.wangzan101.mika.core.run.RunSpec
-import com.wangzan101.mika.core.usage.UsagePurpose
-import com.wangzan101.mika.core.usage.UsageSource
-import com.wangzan101.mika.core.usage.metered
-import com.wangzan101.mika.core.uistate.ActionResult
-import com.wangzan101.mika.core.uistate.ScreenPort
-import com.wangzan101.mika.core.uistate.ScreenSnapshot
-import com.wangzan101.mika.core.uistate.UiElement
-import com.wangzan101.mika.core.tool.FakeScreen
-import com.wangzan101.mika.core.testing.ScriptedScreen
-import com.wangzan101.mika.core.testing.Screen
-import com.wangzan101.mika.core.testing.button
-import com.wangzan101.mika.core.testing.label
+import com.wangzan101.djini.core.guard.DIAGNOSTIC_VERBS
+import com.wangzan101.djini.core.model.Author
+import com.wangzan101.djini.core.model.Capabilities
+import com.wangzan101.djini.core.model.ChatModel
+import com.wangzan101.djini.core.model.Message
+import com.wangzan101.djini.core.model.ModelError
+import com.wangzan101.djini.core.model.ModelReply
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.Role
+import com.wangzan101.djini.core.model.StopReason
+import com.wangzan101.djini.core.model.StreamingChatModel
+import com.wangzan101.djini.core.model.ToolSpec
+import com.wangzan101.djini.core.model.Usage
+import com.wangzan101.djini.core.record.RunEvent
+import com.wangzan101.djini.core.record.RunSink
+import com.wangzan101.djini.core.run.RunId
+import com.wangzan101.djini.core.run.RunInbox
+import com.wangzan101.djini.core.run.RunSpec
+import com.wangzan101.djini.core.usage.UsagePurpose
+import com.wangzan101.djini.core.usage.UsageSource
+import com.wangzan101.djini.core.usage.metered
+import com.wangzan101.djini.core.uistate.ActionResult
+import com.wangzan101.djini.core.uistate.ScreenPort
+import com.wangzan101.djini.core.uistate.ScreenSnapshot
+import com.wangzan101.djini.core.uistate.UiElement
+import com.wangzan101.djini.core.tool.FakeScreen
+import com.wangzan101.djini.core.testing.ScriptedScreen
+import com.wangzan101.djini.core.testing.Screen
+import com.wangzan101.djini.core.testing.button
+import com.wangzan101.djini.core.testing.label
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
@@ -47,8 +47,8 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import com.wangzan101.mika.core.testing.verb
-import com.wangzan101.mika.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.testing.verb
+import com.wangzan101.djini.core.assembly.toolDispatcher
 
 /** 按脚本回复;脚本项是回复或要抛出的异常。 */
 /** 当看图模型用时默认按定位准度已验证([groundingVerified]);没验证的情形单独测。 */
@@ -74,7 +74,7 @@ private fun call(name: String, args: String = "{}") = Part.ToolCall("call${++cal
 private fun reply(vararg parts: Part) = ModelReply(parts.toList(), StopReason.ToolUse, null)
 private fun tools(vararg calls: Part.ToolCall) = reply(*calls)
 private const val DONE = "done"
-private fun finish(answer: String = DONE) = com.wangzan101.mika.core.testing.answerReply(answer)
+private fun finish(answer: String = DONE) = com.wangzan101.djini.core.testing.answerReply(answer)
 
 private fun Message.results() = parts.filterIsInstance<Part.ToolResult>()
 private fun Part.ToolResult.json() = Json.parseToJsonElement(content).jsonObject
@@ -86,7 +86,7 @@ private val FIXED_RETRY = RetryPolicy(jitter = { 1.0 })
 class AgentLoopTest {
     /** 只有手机、展开了手机一组之后的系统提示词:几组的入口、交给用户的规矩、手机一段(去掉没提供的工具那几行)。 */
     private fun phoneOpenedPrompt(base: String) = listOf(
-        base, com.wangzan101.mika.core.capability.PromptEnv(setOf("phone_launch_app", "phone_set_alarm"), false).gate(SystemPrompt.read("groups")), SystemPrompt.read("handover"),
+        base, com.wangzan101.djini.core.capability.PromptEnv(setOf("phone_launch_app", "phone_set_alarm"), false).gate(SystemPrompt.read("groups")), SystemPrompt.read("handover"),
         SystemPrompt.read("phone").lines().filterNot { "<!-- needs: phone_open_link -->" in it || "<!-- needs: phone_find_visually -->" in it || "<!-- needs: phone_sms_login -->" in it }.joinToString("\n"),
     ).joinToString("\n\n")
 
@@ -115,8 +115,8 @@ class AgentLoopTest {
         val judge = FakeModel()
         val events = mutableListOf<RunEvent>()
         val end = AgentLoop(main, toolDispatcher(FakeScreen()), "BASE", intentJudge = judge,
-            intentDecision = com.wangzan101.mika.core.decision.DecisionModel { _, _, _, _ ->
-                com.wangzan101.mika.core.decision.DecisionChoice("DISCUSS", 0.98)
+            intentDecision = com.wangzan101.djini.core.decision.DecisionModel { _, _, _, _ ->
+                com.wangzan101.djini.core.decision.DecisionChoice("DISCUSS", 0.98)
             }, sink = object : RunSink { override fun event(e: RunEvent) { events += e } })
             .run("以后可以帮我把内容同步到公众号并发送，对吧？")
         assertTrue(end is TaskState.Succeeded)
@@ -153,10 +153,10 @@ class AgentLoopTest {
 
     @Test fun discussionSkipsMatchingReplayBeforeAnyAction() = runTest {
         val goal = "以后打开备忘录看看，对吧？"
-        val route = com.wangzan101.mika.core.replay.Route("discussion", goal, 0, emptyList(), emptyMap(), emptyList(), lastUsedMs = 0)
-        val store = object : com.wangzan101.mika.core.replay.RouteStore {
+        val route = com.wangzan101.djini.core.replay.Route("discussion", goal, 0, emptyList(), emptyMap(), emptyList(), lastUsedMs = 0)
+        val store = object : com.wangzan101.djini.core.replay.RouteStore {
             override fun all() = listOf(route)
-            override fun put(r: com.wangzan101.mika.core.replay.Route) = Unit
+            override fun put(r: com.wangzan101.djini.core.replay.Route) = Unit
             override fun remove(id: String) = Unit
             override fun clear() = Unit
             override fun count() = 1
@@ -166,7 +166,7 @@ class AgentLoopTest {
         val judge = FakeModel(finish("DISCUSS"))
         val events = mutableListOf<RunEvent>()
         AgentLoop(main, toolDispatcher(FakeScreen()), "BASE", intentJudge = judge,
-            routes = com.wangzan101.mika.core.replay.RouteMatcher(picker, store, null),
+            routes = com.wangzan101.djini.core.replay.RouteMatcher(picker, store, null),
             flags = SpeedFlags(replay = true),
             sink = object : RunSink { override fun event(e: RunEvent) { events += e } }).run(goal)
         assertTrue(picker.requests.isEmpty())
@@ -245,7 +245,7 @@ class AgentLoopTest {
             Part.ToolResult("c", """{"ok":true,"screen":"${HistoryPruner.OMITTED}"}""", false),
             Part.ToolResult("d", """{"ok":true,"snapshotId":"s4","elements":[]}""", false),
         )
-        val h = calls.zip(results).flatMap { (c, r) -> listOf(Message(Role.Assistant, listOf(c), Author.Mika), Message(Role.Tool, listOf(r), Author.Mika)) }
+        val h = calls.zip(results).flatMap { (c, r) -> listOf(Message(Role.Assistant, listOf(c), Author.Djini), Message(Role.Tool, listOf(r), Author.Djini)) }
         assertEquals(setOf("s2", "s4"), visibleReads(h))
     }
 
@@ -293,7 +293,7 @@ class AgentLoopTest {
         val m = FakeModel(reply(Part.Thinking("t"), Part.Text("看一下"), call("phone_observe")), finish("找到了"))
         val l = loop(m)
         val r = l.run("帮我查")
-        com.wangzan101.mika.core.testing.assertAnswered("找到了", r)
+        com.wangzan101.djini.core.testing.assertAnswered("找到了", r)
         assertEquals(r, l.state.value)
         assertEquals(phoneOpenedPrompt("BASE"), m.system)
         val second = m.requests[1].withoutRuntime()
@@ -360,7 +360,7 @@ class AgentLoopTest {
     }
 
     @Test fun finalTurnTextIsTheAnswer() = runTest {
-        com.wangzan101.mika.core.testing.assertAnswered("查过了,没找到", loop(FakeModel(*waits(3), finish("查过了,没找到")), maxSteps = 3).run("t"))
+        com.wangzan101.djini.core.testing.assertAnswered("查过了,没找到", loop(FakeModel(*waits(3), finish("查过了,没找到")), maxSteps = 3).run("t"))
         // 最后一轮回了空话或又想调别的工具:算步数用完
         val empty = loop(FakeModel(*waits(3), reply(Part.Text(""))), maxSteps = 3).run("t")
         assertTrue("$empty", empty is TaskState.Failed && empty.kind == FailKind.StepLimit)
@@ -377,7 +377,7 @@ class AgentLoopTest {
     // 不带调用的回复就是回答,任务结束;不用再提醒
     @Test fun plainTextEndsTheTask() = runTest {
         val m = FakeModel(reply(Part.Text("我想想")), finish())
-        com.wangzan101.mika.core.testing.assertAnswered("我想想", loop(m).run("t"))
+        com.wangzan101.djini.core.testing.assertAnswered("我想想", loop(m).run("t"))
         assertEquals(1, m.requests.size)
     }
 
@@ -392,7 +392,7 @@ class AgentLoopTest {
 
     @Test fun toolTurnResetsEmptyNudge() = runTest {
         val m = FakeModel(reply(Part.Text("")), tools(call("phone_observe")), reply(Part.Text("")), finish())
-        com.wangzan101.mika.core.testing.assertAnswered(DONE, loop(m).run("t"))
+        com.wangzan101.djini.core.testing.assertAnswered(DONE, loop(m).run("t"))
     }
 
     @Test fun onlyFirstToolCallExecuted() = runTest {
@@ -409,7 +409,7 @@ class AgentLoopTest {
 
     @Test fun unknownToolReturnsErrorToModel() = runTest {
         val m = FakeModel(tools(call("fly")), finish())
-        com.wangzan101.mika.core.testing.assertAnswered(DONE, loop(m).run("t"))
+        com.wangzan101.djini.core.testing.assertAnswered(DONE, loop(m).run("t"))
         val r = m.requests[1].withoutRuntime().last().results().single()
         assertTrue(r.isError)
         assertEquals("unknown_tool", r.json().s("error"))
@@ -431,14 +431,14 @@ class AgentLoopTest {
 
     @Test fun rateLimitedFollowsRetryAfter() = runTest {
         val m = FakeModel(ModelError.RateLimited(5000), finish())
-        com.wangzan101.mika.core.testing.assertAnswered(DONE, loop(m).run("t"))
+        com.wangzan101.djini.core.testing.assertAnswered(DONE, loop(m).run("t"))
         assertTrue("cooldown should be close to Retry-After: $currentTime", currentTime in 4_000..5_000)
     }
 
     // 一时的故障(限流、网络、5xx)共用一份重试次数,按指数退避等:1 s、2 s、4 s
     @Test fun transientErrorsShareBoundedBackoff() = runTest {
         val m = FakeModel(ModelError.RateLimited(null), ModelError.Network(), ModelError.Server(503), finish())
-        com.wangzan101.mika.core.testing.assertAnswered(DONE, loop(m).run("t"))
+        com.wangzan101.djini.core.testing.assertAnswered(DONE, loop(m).run("t"))
         assertEquals(4, m.requests.size)
         assertTrue("backoff should total close to 7s: $currentTime", currentTime in 6_000..7_000)
 
@@ -450,7 +450,7 @@ class AgentLoopTest {
 
     @Test fun serverErrorsRetryOnly5xx() = runTest {
         val down = FakeModel(ModelError.Server(500), finish())
-        com.wangzan101.mika.core.testing.assertAnswered(DONE, loop(down).run("t"))
+        com.wangzan101.djini.core.testing.assertAnswered(DONE, loop(down).run("t"))
         assertEquals(2, down.requests.size)
 
         val bad = FakeModel(ModelError.Server(400), finish())
@@ -517,7 +517,7 @@ class AgentLoopTest {
             }
         }
         l = AgentLoop(model, toolDispatcher(FakeScreen()), "BASE", retry = FIXED_RETRY, streamReplies = true)
-        com.wangzan101.mika.core.testing.assertAnswered(DONE, l.run("t"))
+        com.wangzan101.djini.core.testing.assertAnswered(DONE, l.run("t"))
         assertEquals(listOf("半句", null), previews)
         assertEquals(2, requests.size)
         assertEquals(requests[0], requests[1])
@@ -547,13 +547,13 @@ class AgentLoopTest {
             }
         }
         l = AgentLoop(model, toolDispatcher(FakeScreen()), "BASE", streamReplies = true)
-        com.wangzan101.mika.core.testing.assertAnswered(DONE, l.run("t"))
+        com.wangzan101.djini.core.testing.assertAnswered(DONE, l.run("t"))
         assertEquals(listOf("保存", "保存", "保存继续"), previews)
     }
 
     @Test fun networkErrorRetriesAfterOneSecond() = runTest {
         val m = FakeModel(ModelError.Network(), finish())
-        com.wangzan101.mika.core.testing.assertAnswered(DONE, loop(m).run("t"))
+        com.wangzan101.djini.core.testing.assertAnswered(DONE, loop(m).run("t"))
         assertEquals(1000, currentTime)
     }
 
@@ -595,7 +595,7 @@ class AgentLoopTest {
         assertEquals(1, gates)
         assertTrue(s.calls.isEmpty())
         open.complete(Unit)
-        com.wangzan101.mika.core.testing.assertAnswered(DONE, run.await())
+        com.wangzan101.djini.core.testing.assertAnswered(DONE, run.await())
         assertEquals(1, s.calls.size)
         assertEquals(1, gates) // finish 不是写操作
     }
@@ -626,7 +626,7 @@ class AgentLoopTest {
         assertEquals(waiting, l.state.value)
         assertNull(stateDuringTap)
         open.complete(Unit)
-        com.wangzan101.mika.core.testing.assertAnswered(DONE, run.await())
+        com.wangzan101.djini.core.testing.assertAnswered(DONE, run.await())
         assertEquals(TaskState.Running(1, "点一下", "phone_tap", narration = "点一下"), stateDuringTap)
     }
 
@@ -790,7 +790,7 @@ class AgentLoopTest {
             finish(block("""{"confirmed":[{"id":3,"evidence":"根据五篇笔记给出推荐：拿铁"}]}""") + "推荐拿铁"),
         )
         val end = AgentLoop(m, toolDispatcher(FakeScreen()), "BASE", sink = sink).run("找咖啡馆并推荐咖啡")
-        com.wangzan101.mika.core.testing.assertAnswered("推荐拿铁", end)
+        com.wangzan101.djini.core.testing.assertAnswered("推荐拿铁", end)
         val updates = events.filterIsInstance<RunEvent.Criteria>()
         assertEquals(listOf(0, 1, 2, 2, 3), updates.map { it.confirmedIds?.size })
         assertEquals(listOf(false, false, false, false, true), updates.map { it.complete })
@@ -831,7 +831,7 @@ class AgentLoopTest {
         val events = mutableListOf<RunEvent>()
         val sink = object : RunSink { override fun event(e: RunEvent) { events += e } }
         val m = FakeModel(finish(""), tools(call("phone_list_apps")), tools(call("wait", """{"seconds":0.2}""")), finish())
-        com.wangzan101.mika.core.testing.assertAnswered(DONE, loop(m, sink = sink).run("查店"))
+        com.wangzan101.djini.core.testing.assertAnswered(DONE, loop(m, sink = sink).run("查店"))
         val runtime = m.requests.map { it.last().parts.filterIsInstance<Part.Text>().last().text }
         assertEquals(listOf(false, false, true, false), runtime.map { "No goal checklist" in it })
         assertTrue(events.none { it is RunEvent.Criteria })
@@ -848,7 +848,7 @@ class AgentLoopTest {
             tools(call("phone_observe")), // 旧行为会在这里继续自证核对
         )
         val end = AgentLoop(m, toolDispatcher(FakeScreen()), "BASE", sink = sink).run("保存两条")
-        com.wangzan101.mika.core.testing.assertAnswered(DONE, end)
+        com.wangzan101.djini.core.testing.assertAnswered(DONE, end)
         assertEquals(2, m.requests.size)
         assertEquals(listOf("end_not_done"), m.offeredTools.last())
         val criteria = events.filterIsInstance<RunEvent.Criteria>().last()
@@ -870,7 +870,7 @@ class AgentLoopTest {
             tools(call("phone_scroll", """{"direction":"down"}""")), // 停滞收尾后不得再执行
         )
         val end = AgentLoop(m, toolDispatcher(FakeScreen()), "BASE", sink = sink).run("收集记录")
-        com.wangzan101.mika.core.testing.assertAnswered(DONE, end)
+        com.wangzan101.djini.core.testing.assertAnswered(DONE, end)
         assertEquals(5, m.requests.size)
         assertEquals(listOf("end_not_done"), m.offeredTools.last())
         assertEquals(1, events.filterIsInstance<RunEvent.State>().count { it.name == "no_new_data" && it.detail == "3" })
@@ -904,7 +904,7 @@ class AgentLoopTest {
         val script = distinctWaits(10) + ModelError.ContextTooLong() + distinctWaits(1, from = 11) + finish()
         val m = FakeModel(*script.toTypedArray())
         val r = AgentLoop(m, toolDispatcher(FakeScreen()), "BASE", 60, sink = sink).run("t")
-        com.wangzan101.mika.core.testing.assertAnswered(DONE, r)
+        com.wangzan101.djini.core.testing.assertAnswered(DONE, r)
         // 第 11 次调用报超长,压得更狠后重试一次:留最近 6 次往返,之前的 4 次折成摘要
         assertEquals(13, m.requests.size)
         assertEquals(21, m.requests[10].withoutRuntime().size)
@@ -930,7 +930,7 @@ class AgentLoopTest {
             distinctWaits(1, from = 15) + finish()
         val m = FakeModel(*script.toTypedArray())
         val r = AgentLoop(m, toolDispatcher(FakeScreen()), "BASE", 60).run("t")
-        com.wangzan101.mika.core.testing.assertAnswered(DONE, r)
+        com.wangzan101.djini.core.testing.assertAnswered(DONE, r)
         val overflowed = m.requests[15].withoutRuntime()
         val retried = m.requests[16].withoutRuntime()
         assertTrue("${retried.size} < ${overflowed.size}", retried.size < overflowed.size)
@@ -970,10 +970,10 @@ class AgentLoopTest {
         val script = (1..59).map { tools(call(if (it % 2 == 1) "phone_observe" else "phone_list_elements")) } + finish()
         val m = FakeModel(*script.toTypedArray(), contextTokens = 32_000)
         val l = AgentLoop(m, toolDispatcher(screen), "BASE", 60)
-        com.wangzan101.mika.core.testing.assertAnswered(DONE, l.run("长任务"))
+        com.wangzan101.djini.core.testing.assertAnswered(DONE, l.run("长任务"))
         assertEquals(60, m.requests.size)
         // 读一次屏验证观察确实有 ~6000 字:手机那组展开后这一读会被压缩裁成占位,不能看发给模型的那份
-        val rawObservation = com.wangzan101.mika.core.uistate.ScreenJson.elements(screen.snapshot(), Int.MAX_VALUE).first
+        val rawObservation = com.wangzan101.djini.core.uistate.ScreenJson.elements(screen.snapshot(), Int.MAX_VALUE).first
         assertTrue("observation should be about 6000+ chars, was ${rawObservation.toString().length}", rawObservation.toString().length >= 6000)
         val worst = m.requests.maxOf { TokenEstimate.of(it) }
         assertTrue("sent about $worst tokens", worst * ContextCompressor.UNCALIBRATED_SCALE <= ContextLimits.of(32_000).usable)

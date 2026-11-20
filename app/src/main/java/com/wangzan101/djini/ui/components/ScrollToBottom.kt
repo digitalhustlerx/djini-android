@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui.components
+package com.wangzan101.djini.ui.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
@@ -24,11 +24,11 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaMotion
-import com.wangzan101.mika.ui.theme.MikaSize
-import com.wangzan101.mika.ui.theme.MikaTheme
+import com.wangzan101.djini.R
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.MikaMotion
+import com.wangzan101.djini.ui.theme.MikaSize
+import com.wangzan101.djini.ui.theme.DjiniTheme
 
 /**
  * 列表上滑脱离末尾后浮出的圆形磨砂玻璃「回到底部」按钮。
@@ -39,12 +39,12 @@ fun ScrollToBottomButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     backdrop: GlassBackdrop? = null,
-    reduceMotion: Boolean = MikaTheme.reduceMotion,
+    reduceMotion: Boolean = DjiniTheme.reduceMotion,
     buttonSize: Dp = MikaSize.IconButton,
     iconSize: Dp = 20.dp,
     tag: String = "scroll-to-bottom",
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     AnimatedVisibility(
         visible = visible,
         modifier = modifier,

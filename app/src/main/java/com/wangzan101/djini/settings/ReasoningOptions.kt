@@ -1,7 +1,7 @@
-package com.wangzan101.mika.settings
+package com.wangzan101.djini.settings
 
-import com.wangzan101.mika.core.proactive.ProactiveCall
-import com.wangzan101.mika.core.model.ListedModel
+import com.wangzan101.djini.core.proactive.ProactiveCall
+import com.wangzan101.djini.core.model.ListedModel
 
 /**
  * 思考档位。服务商列表写明档位的模型,四种协议(Chat Completions、Messages、generateContent、Responses)都照它给

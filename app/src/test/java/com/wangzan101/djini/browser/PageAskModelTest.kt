@@ -1,9 +1,9 @@
-package com.wangzan101.mika.browser
+package com.wangzan101.djini.browser
 
-import com.wangzan101.mika.core.agent.GateReason
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.i18n.ChineseTexts
-import com.wangzan101.mika.task.TaskGate
+import com.wangzan101.djini.core.agent.GateReason
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.i18n.ChineseTexts
+import com.wangzan101.djini.task.TaskGate
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull

@@ -1,11 +1,11 @@
-package com.wangzan101.mika.cap.sandbox
+package com.wangzan101.djini.cap.sandbox
 
 import android.system.Os
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.wangzan101.mika.core.workspace.FdSys
-import com.wangzan101.mika.core.workspace.SandboxError
-import com.wangzan101.mika.core.workspace.WorkspaceFileGateContract
+import com.wangzan101.djini.core.workspace.FdSys
+import com.wangzan101.djini.core.workspace.SandboxError
+import com.wangzan101.djini.core.workspace.WorkspaceFileGateContract
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse

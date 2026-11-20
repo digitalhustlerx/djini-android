@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.cap.root
+package com.wangzan101.djini.core.cap.root
 
-import com.wangzan101.mika.core.cap.root.RootCommandClass.Kind
+import com.wangzan101.djini.core.cap.root.RootCommandClass.Kind
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

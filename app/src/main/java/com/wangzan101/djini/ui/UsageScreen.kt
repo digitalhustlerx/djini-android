@@ -1,8 +1,8 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.i18n.trPlural
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.i18n.trPlural
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -69,28 +69,28 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.wangzan101.mika.core.usage.ModelUsage
-import com.wangzan101.mika.core.usage.ProviderUsage
-import com.wangzan101.mika.core.usage.UsageBucket
-import com.wangzan101.mika.core.usage.UsageLedger
-import com.wangzan101.mika.core.usage.UsageQuery
-import com.wangzan101.mika.core.usage.UsageRange
-import com.wangzan101.mika.core.usage.UsageReport
-import com.wangzan101.mika.core.usage.UsageStep
-import com.wangzan101.mika.core.usage.UsageTotals
-import com.wangzan101.mika.settings.ProviderStore
-import com.wangzan101.mika.ui.components.FooterNote
-import com.wangzan101.mika.ui.components.IconTile
-import com.wangzan101.mika.ui.components.MikaCard
-import com.wangzan101.mika.ui.components.PageScaffold
-import com.wangzan101.mika.ui.components.SegmentedControl
-import com.wangzan101.mika.ui.components.cardSurface
-import com.wangzan101.mika.ui.theme.MikaColors
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaShapes
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
-import com.wangzan101.mika.ui.theme.MikaRadius
+import com.wangzan101.djini.core.usage.ModelUsage
+import com.wangzan101.djini.core.usage.ProviderUsage
+import com.wangzan101.djini.core.usage.UsageBucket
+import com.wangzan101.djini.core.usage.UsageLedger
+import com.wangzan101.djini.core.usage.UsageQuery
+import com.wangzan101.djini.core.usage.UsageRange
+import com.wangzan101.djini.core.usage.UsageReport
+import com.wangzan101.djini.core.usage.UsageStep
+import com.wangzan101.djini.core.usage.UsageTotals
+import com.wangzan101.djini.settings.ProviderStore
+import com.wangzan101.djini.ui.components.FooterNote
+import com.wangzan101.djini.ui.components.IconTile
+import com.wangzan101.djini.ui.components.MikaCard
+import com.wangzan101.djini.ui.components.PageScaffold
+import com.wangzan101.djini.ui.components.SegmentedControl
+import com.wangzan101.djini.ui.components.cardSurface
+import com.wangzan101.djini.ui.theme.MikaColors
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.MikaRadius
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.math.BigDecimal
@@ -99,7 +99,7 @@ import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.ZoneOffset
-import com.wangzan101.mika.i18n.uiLocale
+import com.wangzan101.djini.i18n.uiLocale
 import kotlin.math.roundToInt
 
 /** 用量页顶上的五段:前四段是固定的范围,[Custom] 打开日期选择。 */
@@ -328,7 +328,7 @@ fun UsageContent(
     onBack: () -> Unit,
     currentAllowance: @Composable () -> Unit = {},
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     PageScaffold(UsageCopy.TITLE, onBack) {
         currentAllowance()
         SegmentedControl(
@@ -405,7 +405,7 @@ private fun seriesColor(c: MikaColors, p: ProviderUsage): Color = UsageCopy.colo
 /** 总用量卡:大字是输入加输出,下面一排输入、输出、缓存命中、调用次数。 */
 @Composable
 private fun TotalsCard(t: UsageTotals) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     MikaCard {
         Column(Modifier.padding(start = 18.dp, end = 18.dp, top = 18.dp, bottom = 16.dp)) {
             Text(UsageCopy.TOTAL, style = MikaType.Caption, color = c.ink3)
@@ -431,10 +431,10 @@ private val TotalStyle = MikaType.Display
 @Composable
 private fun Stat(label: String, value: String, modifier: Modifier) {
     Column(modifier) {
-        Text(label, style = MikaType.Hint, color = MikaTheme.colors.ink3, maxLines = 1)
+        Text(label, style = MikaType.Hint, color = DjiniTheme.colors.ink3, maxLines = 1)
         Text(
             value, Modifier.padding(top = 2.dp), style = MikaType.Value, fontWeight = FontWeight.SemiBold,
-            color = MikaTheme.colors.ink, maxLines = 1, overflow = TextOverflow.Ellipsis,
+            color = DjiniTheme.colors.ink, maxLines = 1, overflow = TextOverflow.Ellipsis,
         )
     }
 }
@@ -442,7 +442,7 @@ private fun Stat(label: String, value: String, modifier: Modifier) {
 /** 一张图的卡片:左边标题,右边一句小字。 */
 @Composable
 private fun ChartCard(title: String, hint: String, content: @Composable () -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     MikaCard(Modifier.padding(top = 12.dp)) {
         Column(Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 14.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -459,7 +459,7 @@ private val CardTitle = MikaType.Value.copy(fontWeight = FontWeight.SemiBold)
 /** 没有用量时:一张居中的说明卡。 */
 @Composable
 private fun EmptyCard() {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     MikaCard(Modifier.testTag("usage-empty")) {
         Column(
             Modifier.fillMaxWidth().padding(horizontal = 18.dp, vertical = 40.dp),
@@ -481,7 +481,7 @@ private fun RankRow(
     name: String, mono: Boolean, muted: Boolean, color: Color, fraction: Float, tokens: Long, share: Double,
     dim: Boolean = false, bold: Boolean = false, onClick: (() -> Unit)? = null, tag: String,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Row(
         Modifier.fillMaxWidth()
             .then(if (onClick != null) Modifier.clip(RowShape).clickable(role = Role.Button, onClick = onClick) else Modifier)
@@ -522,7 +522,7 @@ private val RankShare = MikaType.Micro
 /** 切换服务商的胶囊:选中时强调色实底;[deleted] 的名字变淡、后面写「（已删除）」。 */
 @Composable
 private fun UsageChip(text: String, selected: Boolean, onClick: () -> Unit, deleted: Boolean = false, tag: String) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val fg = when {
         selected -> c.onAccent
         deleted -> c.ink3
@@ -554,7 +554,7 @@ private data class StackPart(val slot: Int?, val tokens: Long)
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun TrendChart(report: UsageReport, selected: String?, today: LocalDate) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val rtl = LocalLayoutDirection.current == LayoutDirection.Rtl
     val series = report.series
     if (series.isEmpty()) return
@@ -645,7 +645,7 @@ private fun TrendChart(report: UsageReport, selected: String?, today: LocalDate)
 private fun LegendItem(color: Color, name: String) {
     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(5.dp)) {
         Box(Modifier.size(9.dp).background(color, LegendShape))
-        Text(name, style = MikaType.Hint, color = MikaTheme.colors.ink2, maxLines = 1)
+        Text(name, style = MikaType.Hint, color = DjiniTheme.colors.ink2, maxLines = 1)
     }
 }
 
@@ -653,7 +653,7 @@ private val LegendShape = MikaShapes.Micro
 
 @Composable
 private fun GridLabel(text: String, modifier: Modifier) {
-    Text(text, modifier.width(34.dp), style = GridText, color = MikaTheme.colors.ink3, textAlign = TextAlign.End, maxLines = 1)
+    Text(text, modifier.width(34.dp), style = GridText, color = DjiniTheme.colors.ink3, textAlign = TextAlign.End, maxLines = 1)
 }
 
 private val GridText = MikaType.Micro
@@ -661,7 +661,7 @@ private val GridText = MikaType.Micro
 /** 点中一根柱子时的说明:哪段时间、合计,下面各家服务商各一行(按用量从多到少);横向对着那根柱子,不出图的左右边。 */
 @Composable
 private fun TrendTip(b: UsageBucket, report: UsageReport, index: Int, gutter: Dp, today: LocalDate) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val rtl = LocalLayoutDirection.current == LayoutDirection.Rtl
     val rows = b.byProvider.entries.sortedByDescending { it.value }
     Column(

@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.observation
+package com.wangzan101.djini.core.observation
 
 /**
  * 不可信的内容(网页的正文与脚本结果、网络响应、别的 AI 的回答、渠道里的话)交给模型时套的固定标记。

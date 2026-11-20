@@ -1,37 +1,37 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
-import com.wangzan101.mika.core.model.ModelReply
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.model.StopReason
-import com.wangzan101.mika.core.cap.sandbox.FakeSandbox
-import com.wangzan101.mika.core.cap.sandbox.SandboxStatus
-import com.wangzan101.mika.core.tool.FakeScreen
-import com.wangzan101.mika.core.access.AppAccessPolicy
-import com.wangzan101.mika.core.access.AppAccessState
-import com.wangzan101.mika.core.uistate.AppAccessScreenPort
-import com.wangzan101.mika.core.tool.ToolDispatcher
-import com.wangzan101.mika.core.cap.web.FakeWebPort
+import com.wangzan101.djini.core.model.ModelReply
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.model.StopReason
+import com.wangzan101.djini.core.cap.sandbox.FakeSandbox
+import com.wangzan101.djini.core.cap.sandbox.SandboxStatus
+import com.wangzan101.djini.core.tool.FakeScreen
+import com.wangzan101.djini.core.access.AppAccessPolicy
+import com.wangzan101.djini.core.access.AppAccessState
+import com.wangzan101.djini.core.uistate.AppAccessScreenPort
+import com.wangzan101.djini.core.tool.ToolDispatcher
+import com.wangzan101.djini.core.cap.web.FakeWebPort
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.io.File
-import com.wangzan101.mika.core.assembly.toolDispatcher
-import com.wangzan101.mika.core.cap.sandbox.SandboxCapability
-import com.wangzan101.mika.core.testing.WEB_TOOLS
-import com.wangzan101.mika.core.testing.SANDBOX_TOOLS
+import com.wangzan101.djini.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.cap.sandbox.SandboxCapability
+import com.wangzan101.djini.core.testing.WEB_TOOLS
+import com.wangzan101.djini.core.testing.SANDBOX_TOOLS
 
 class SystemPromptTest {
     /** 手机一组展开后的几段:L0 身份与总规则 + 交给用户的规矩 + 手机一段。 */
     private fun rules() = SystemPrompt.identity() + "\n\n" + SystemPrompt.read("handover") + "\n\n" + SystemPrompt.read("phone")
     private fun flat() = rules().replace(Regex("\\s+"), " ")
     /** 挪进工具说明(P3)的规则:读模板原文。 */
-    private fun tool(name: String) = com.wangzan101.mika.core.prompt.Prompts.read("tools/$name.md")
+    private fun tool(name: String) = com.wangzan101.djini.core.prompt.Prompts.read("tools/$name.md")
 
     @Test fun loadsIdentityAndPhoneRules() {
         val p = rules()
-        assertTrue(SystemPrompt.identity().startsWith("You are Mika"))
+        assertTrue(SystemPrompt.identity().startsWith("You are Djini"))
         assertTrue("virtual display" in p)
         assertTrue("hand_to_user" in p && "ask_user" in p && "end_not_done" in p)
         assertFalse("adb" in p.lowercase())
@@ -63,7 +63,7 @@ class SystemPromptTest {
     // 通用的几层(身份、准则、通用能力)按「读到的」说话,不按屏幕说:屏幕只是手机、网页能力的事
     @Test fun generalLayersAreNotScreenCentric() {
         val general = listOf("system/identity.md", "system/principles.md", "capabilities/general.md")
-            .joinToString("\n") { com.wangzan101.mika.core.prompt.Prompts.read(it) }
+            .joinToString("\n") { com.wangzan101.djini.core.prompt.Prompts.read(it) }
         val screenWords = Regex("(?i)\\bscreens?\\b|on-screen|屏幕|读屏")
         assertEquals(emptyList<String>(), screenWords.findAll(general).map { it.value }.toList())
     }
@@ -195,7 +195,7 @@ class SystemPromptTest {
 class SystemPromptAssemblyTest {
     /** [open] 时上一轮用过手机、网页、沙箱:开局各组都展开(本任务提供了的);否则都收着,只有入口。 */
     private fun run(d: ToolDispatcher, flags: SpeedFlags = SpeedFlags.OFF, open: Boolean = true): FakeModel = runBlocking {
-        val m = FakeModel(com.wangzan101.mika.core.testing.answerReply("ok"))
+        val m = FakeModel(com.wangzan101.djini.core.testing.answerReply("ok"))
         AgentLoop(m, d, SystemPrompt.identity(), flags = flags).run("t", if (open) listOf(Turn("之前", "好", "succeeded", groups = listOf("phone", "web", "sandbox"))) else emptyList())
         m
     }

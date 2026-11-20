@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
 import android.util.Log
 import androidx.compose.foundation.layout.Row
@@ -17,23 +17,23 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.core.model.ModelError
-import com.wangzan101.mika.core.usage.AllowanceMoney
-import com.wangzan101.mika.core.usage.AllowanceSource
-import com.wangzan101.mika.core.usage.ProviderAllowance
-import com.wangzan101.mika.core.usage.ProviderAllowanceClient
-import com.wangzan101.mika.core.usage.ResetPeriod
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.i18n.uiLocale
-import com.wangzan101.mika.settings.AllowanceRoute
-import com.wangzan101.mika.settings.Provider
-import com.wangzan101.mika.settings.ProviderStore
-import com.wangzan101.mika.ui.components.GroupCard
-import com.wangzan101.mika.ui.components.ListRow
-import com.wangzan101.mika.ui.components.RowChevron
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
+import com.wangzan101.djini.R
+import com.wangzan101.djini.core.model.ModelError
+import com.wangzan101.djini.core.usage.AllowanceMoney
+import com.wangzan101.djini.core.usage.AllowanceSource
+import com.wangzan101.djini.core.usage.ProviderAllowance
+import com.wangzan101.djini.core.usage.ProviderAllowanceClient
+import com.wangzan101.djini.core.usage.ResetPeriod
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.i18n.uiLocale
+import com.wangzan101.djini.settings.AllowanceRoute
+import com.wangzan101.djini.settings.Provider
+import com.wangzan101.djini.settings.ProviderStore
+import com.wangzan101.djini.ui.components.GroupCard
+import com.wangzan101.djini.ui.components.ListRow
+import com.wangzan101.djini.ui.components.RowChevron
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.text.NumberFormat
@@ -53,7 +53,7 @@ internal fun UsageAllowanceCard(providers: List<Provider>, store: ProviderStore,
     GroupCard {
         Row(Modifier.padding(start = 16.dp, end = 8.dp, top = 4.dp), verticalAlignment = Alignment.CenterVertically) {
             Text(tr(R.string.usage_allowance_title), Modifier.weight(1f).padding(vertical = 12.dp),
-                style = MikaType.Body, color = MikaTheme.colors.ink)
+                style = MikaType.Body, color = DjiniTheme.colors.ink)
             if (routes.any { (_, route) -> route.source != null }) {
                 TextButton(onClick = { refresh++ }) { Text(tr(R.string.refresh)) }
             }

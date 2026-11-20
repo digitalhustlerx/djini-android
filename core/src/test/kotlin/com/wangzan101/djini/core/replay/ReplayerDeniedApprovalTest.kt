@@ -1,14 +1,14 @@
-package com.wangzan101.mika.core.replay
+package com.wangzan101.djini.core.replay
 
-import com.wangzan101.mika.core.action.ActionExecutor
-import com.wangzan101.mika.core.action.ActionRecorder
-import com.wangzan101.mika.core.assembly.toolDispatcher
-import com.wangzan101.mika.core.gate.ConfirmationGate
-import com.wangzan101.mika.core.guard.OperationGuards
-import com.wangzan101.mika.core.run.Attendance
-import com.wangzan101.mika.core.run.RunOrigin
-import com.wangzan101.mika.core.run.RunProvenance
-import com.wangzan101.mika.core.tool.ToolDispatcher
+import com.wangzan101.djini.core.action.ActionExecutor
+import com.wangzan101.djini.core.action.ActionRecorder
+import com.wangzan101.djini.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.gate.ConfirmationGate
+import com.wangzan101.djini.core.guard.OperationGuards
+import com.wangzan101.djini.core.run.Attendance
+import com.wangzan101.djini.core.run.RunOrigin
+import com.wangzan101.djini.core.run.RunProvenance
+import com.wangzan101.djini.core.tool.ToolDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertTrue
 import org.junit.Test

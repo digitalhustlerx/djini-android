@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.tool
+package com.wangzan101.djini.core.tool
 
 /**
  * 执行一个会改变外部世界的工具的凭证:[ToolDispatcher.execute] 要它。构造函数是 internal,App 模块造不出来;

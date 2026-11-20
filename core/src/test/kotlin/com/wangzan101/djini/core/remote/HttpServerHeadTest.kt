@@ -1,4 +1,4 @@
-package com.wangzan101.mika.core.remote
+package com.wangzan101.djini.core.remote
 
 import okhttp3.OkHttpClient
 import okhttp3.Request

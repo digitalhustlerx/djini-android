@@ -1,7 +1,7 @@
-package com.wangzan101.mika.cap.phone.setup
+package com.wangzan101.djini.cap.phone.setup
 
-import com.wangzan101.mika.core.shell.SuAnswer
-import com.wangzan101.mika.core.shell.SuProbe
+import com.wangzan101.djini.core.shell.SuAnswer
+import com.wangzan101.djini.core.shell.SuProbe
 import java.io.File
 import java.io.InputStream
 import java.util.concurrent.CompletableFuture
@@ -47,7 +47,7 @@ object RootShell {
 
     /** 在单独的线程上做阻塞的读(不占公共线程池)。 */
     fun <T> onThread(block: () -> T): CompletableFuture<T> = CompletableFuture<T>().also { f ->
-        Thread({ runCatching(block).fold({ f.complete(it) }, { f.completeExceptionally(it) }) }, "mika-su").apply { isDaemon = true }.start()
+        Thread({ runCatching(block).fold({ f.complete(it) }, { f.completeExceptionally(it) }) }, "djini-su").apply { isDaemon = true }.start()
     }
 
     /** 在另一条线程上把 [stream] 读完(最多 [max] 字节,多的丢掉)。 */

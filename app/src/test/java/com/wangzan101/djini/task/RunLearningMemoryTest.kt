@@ -1,22 +1,22 @@
-package com.wangzan101.mika.task
+package com.wangzan101.djini.task
 
-import com.wangzan101.mika.core.agent.TaskState
-import com.wangzan101.mika.core.knowledge.GuideCatalog
-import com.wangzan101.mika.core.memory.MemoryExtractor
-import com.wangzan101.mika.core.memory.MemoryKind
-import com.wangzan101.mika.core.memory.MemorySource
-import com.wangzan101.mika.settings.MemorySwitches
+import com.wangzan101.djini.core.agent.TaskState
+import com.wangzan101.djini.core.knowledge.GuideCatalog
+import com.wangzan101.djini.core.memory.MemoryExtractor
+import com.wangzan101.djini.core.memory.MemoryKind
+import com.wangzan101.djini.core.memory.MemorySource
+import com.wangzan101.djini.settings.MemorySwitches
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import com.wangzan101.mika.core.assembly.knownTools
+import com.wangzan101.djini.core.assembly.knownTools
 
 class RunLearningMemoryTest {
     private val catalog = GuideCatalog.loadBundled()
     private val extractJson = """{"ops":[{"op":"add","kind":"preference","content":"用户点外卖不要香菜","quote":"以后都不要香菜"}]}"""
 
-    private fun aftermath(utterances: List<String>, saved: List<com.wangzan101.mika.core.memory.Change> = emptyList()) = RunAftermath(
+    private fun aftermath(utterances: List<String>, saved: List<com.wangzan101.djini.core.memory.Change> = emptyList()) = RunAftermath(
         "conv-1", "run-1", "点外卖", TaskState.Succeeded("ok"), utterances, saved, listOf("x"), emptySet(), knownTools(), events = { emptyList() },
     )
 
@@ -76,14 +76,14 @@ class RunLearningMemoryTest {
     // 这次任务用工具读过通知:和读过网页一样,不自动从用户这次说的话里提取记忆
     @Test fun aRunThatReadNotificationsIsNotMinedForMemory() {
         val model = TextModel(extractJson)
-        val read = com.wangzan101.mika.core.record.RunEvent.Activity(0, 1, "observe", com.wangzan101.mika.core.general.NOTICES_READ)
+        val read = com.wangzan101.djini.core.record.RunEvent.Activity(0, 1, "observe", com.wangzan101.djini.core.general.NOTICES_READ)
         runBlocking {
             RunLearning(MemorySwitches(), memoryStore(), MapSkills(), catalog, MemoryExtractor(model), null, { "d" })
                 .learn(aftermath(listOf("好,就按他说的,以后都不要香菜")).copy(events = { listOf(read) }))
         }
         assertTrue(model.requests.isEmpty())
         // 别的只读工具不受影响
-        val other = com.wangzan101.mika.core.record.RunEvent.Activity(0, 1, "observe", "history_read")
+        val other = com.wangzan101.djini.core.record.RunEvent.Activity(0, 1, "observe", "history_read")
         runBlocking {
             RunLearning(MemorySwitches(), memoryStore(), MapSkills(), catalog, MemoryExtractor(model), null, { "d" })
                 .learn(aftermath(listOf("点外卖,以后都不要香菜")).copy(events = { listOf(other) }))
@@ -96,20 +96,20 @@ class RunLearningMemoryTest {
     @Test fun aRunGivenNotificationContextIsNotMinedForMemory() = runBlocking {
         fun run(observed: String?): Int {
             val store = memoryStore()
-            val utterances = com.wangzan101.mika.core.memory.UserUtterances()
-            val events = mutableListOf<com.wangzan101.mika.core.record.RunEvent>()
+            val utterances = com.wangzan101.djini.core.memory.UserUtterances()
+            val events = mutableListOf<com.wangzan101.djini.core.record.RunEvent>()
             val screen = java.lang.reflect.Proxy.newProxyInstance(
-                com.wangzan101.mika.core.uistate.ScreenPort::class.java.classLoader, arrayOf(com.wangzan101.mika.core.uistate.ScreenPort::class.java),
+                com.wangzan101.djini.core.uistate.ScreenPort::class.java.classLoader, arrayOf(com.wangzan101.djini.core.uistate.ScreenPort::class.java),
             ) { _, m, _ ->
                 when {
-                    m.name == "getAppAccess" -> com.wangzan101.mika.core.access.AppAccessPolicy.ALLOW
+                    m.name == "getAppAccess" -> com.wangzan101.djini.core.access.AppAccessPolicy.ALLOW
                     m.returnType == Boolean::class.javaPrimitiveType -> false
                     else -> error("Unexpected screen access: ${m.name}")
                 }
-            } as com.wangzan101.mika.core.uistate.ScreenPort
-            val dispatcher = com.wangzan101.mika.core.assembly.toolDispatcher(screen, memory = store, utterances = utterances)
-            val agent = com.wangzan101.mika.core.agent.AgentLoop(TextModel("好的"), dispatcher, "base", memory = store, observed = observed,
-                sink = object : com.wangzan101.mika.core.record.RunSink { override fun event(e: com.wangzan101.mika.core.record.RunEvent) { events += e } })
+            } as com.wangzan101.djini.core.uistate.ScreenPort
+            val dispatcher = com.wangzan101.djini.core.assembly.toolDispatcher(screen, memory = store, utterances = utterances)
+            val agent = com.wangzan101.djini.core.agent.AgentLoop(TextModel("好的"), dispatcher, "base", memory = store, observed = observed,
+                sink = object : com.wangzan101.djini.core.record.RunSink { override fun event(e: com.wangzan101.djini.core.record.RunEvent) { events += e } })
             val goal = "好,就按他说的,以后都不要香菜"
             val end = runBlocking { agent.run(goal, emptyList()) }
             assertTrue(end is TaskState.Succeeded)
@@ -121,7 +121,7 @@ class RunLearningMemoryTest {
             runBlocking { RunLearning(MemorySwitches(), store, MapSkills(), catalog, MemoryExtractor(extraction), null, { "id" }).learn(aftermath) }
             return extraction.requests.size
         }
-        val observed = com.wangzan101.mika.core.proactive.ObservedContext.render(listOf("群里的人点餐时说以后都不要香菜"), emptyList(), emptyList(), emptyList())!!
+        val observed = com.wangzan101.djini.core.proactive.ObservedContext.render(listOf("群里的人点餐时说以后都不要香菜"), emptyList(), emptyList(), emptyList())!!
         assertEquals(0, run(observed))
         // 没带那一段的同一个任务照常提取
         assertEquals(1, run(null))

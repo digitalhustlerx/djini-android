@@ -1,16 +1,16 @@
-package com.wangzan101.mika.core.agent
+package com.wangzan101.djini.core.agent
 
-import com.wangzan101.mika.core.knowledge.KNOWLEDGE_KINDS
-import com.wangzan101.mika.core.knowledge.KnowledgeIndex
-import com.wangzan101.mika.core.knowledge.PERSONAL_KIND
-import com.wangzan101.mika.core.knowledge.RECOMMEND_MIN_SCORE
-import com.wangzan101.mika.core.knowledge.SKILL_KINDS
-import com.wangzan101.mika.core.knowledge.GuideCatalog
-import com.wangzan101.mika.core.knowledge.GuideInfo
+import com.wangzan101.djini.core.knowledge.KNOWLEDGE_KINDS
+import com.wangzan101.djini.core.knowledge.KnowledgeIndex
+import com.wangzan101.djini.core.knowledge.PERSONAL_KIND
+import com.wangzan101.djini.core.knowledge.RECOMMEND_MIN_SCORE
+import com.wangzan101.djini.core.knowledge.SKILL_KINDS
+import com.wangzan101.djini.core.knowledge.GuideCatalog
+import com.wangzan101.djini.core.knowledge.GuideInfo
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.contentOrNull
-import com.wangzan101.mika.core.tool.Verb
+import com.wangzan101.djini.core.tool.Verb
 
 internal const val SKILL_INDEX_HEADER = "All skills you have, one line each (when one fits this task, read its full text with skill_read before acting on it):"
 internal const val KNOWLEDGE_INDEX_HEADER = "App and website knowledge you can refer to (read the full text with knowledge_read when needed):"

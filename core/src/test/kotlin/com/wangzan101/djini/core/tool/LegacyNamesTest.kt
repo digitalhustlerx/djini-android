@@ -1,23 +1,23 @@
-package com.wangzan101.mika.core.tool
+package com.wangzan101.djini.core.tool
 
-import com.wangzan101.mika.core.assembly.knownTools
-import com.wangzan101.mika.core.assembly.legacyNames
-import com.wangzan101.mika.core.assembly.toolDispatcher
-import com.wangzan101.mika.core.cap.web.FakeWebPort
-import com.wangzan101.mika.core.knowledge.GuideCatalog
-import com.wangzan101.mika.core.memory.MemoryContext
-import com.wangzan101.mika.core.memory.MemoryItem
-import com.wangzan101.mika.core.memory.MemoryKind
-import com.wangzan101.mika.core.memory.MemorySource
-import com.wangzan101.mika.core.memory.MemoryStatus
-import com.wangzan101.mika.core.model.Part
-import com.wangzan101.mika.core.replay.Anchors
-import com.wangzan101.mika.core.replay.Route
-import com.wangzan101.mika.core.replay.RouteStep
-import com.wangzan101.mika.core.replay.withCurrentToolNames
-import com.wangzan101.mika.core.skills.InMemoryPersonalSkills
-import com.wangzan101.mika.core.skills.PersonalSkill
-import com.wangzan101.mika.core.skills.SkillStatus
+import com.wangzan101.djini.core.assembly.knownTools
+import com.wangzan101.djini.core.assembly.legacyNames
+import com.wangzan101.djini.core.assembly.toolDispatcher
+import com.wangzan101.djini.core.cap.web.FakeWebPort
+import com.wangzan101.djini.core.knowledge.GuideCatalog
+import com.wangzan101.djini.core.memory.MemoryContext
+import com.wangzan101.djini.core.memory.MemoryItem
+import com.wangzan101.djini.core.memory.MemoryKind
+import com.wangzan101.djini.core.memory.MemorySource
+import com.wangzan101.djini.core.memory.MemoryStatus
+import com.wangzan101.djini.core.model.Part
+import com.wangzan101.djini.core.replay.Anchors
+import com.wangzan101.djini.core.replay.Route
+import com.wangzan101.djini.core.replay.RouteStep
+import com.wangzan101.djini.core.replay.withCurrentToolNames
+import com.wangzan101.djini.core.skills.InMemoryPersonalSkills
+import com.wangzan101.djini.core.skills.PersonalSkill
+import com.wangzan101.djini.core.skills.SkillStatus
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.jsonPrimitive
 import org.junit.Assert.assertEquals
@@ -127,7 +127,7 @@ class LegacyNamesTest {
 
     // 改名前记下的运行记录:旧名认成现在的工具
     @Test fun recordedOldNamesResolve() {
-        val tools = com.wangzan101.mika.core.assembly.recordedTools()
+        val tools = com.wangzan101.djini.core.assembly.recordedTools()
         assertEquals(Verb.EndNotDone, tools.verb("report_failure"))
         assertEquals(Verb.ListElements, tools.verb("phone_dump_elements"))
         assertEquals(Verb.ListElements, tools.verb("dump_elements"))

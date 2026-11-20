@@ -1,4 +1,4 @@
-package com.wangzan101.mika.cap.phone.display
+package com.wangzan101.djini.cap.phone.display
 
 /**
  * 对话里虚拟屏小窗的输入口:用户在预览画面上点 / 滑,换算成虚拟屏逻辑坐标注入。

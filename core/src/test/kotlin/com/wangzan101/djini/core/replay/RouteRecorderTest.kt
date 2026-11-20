@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.replay
+package com.wangzan101.djini.core.replay
 
-import com.wangzan101.mika.core.record.RunEvent
+import com.wangzan101.djini.core.record.RunEvent
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
@@ -10,7 +10,7 @@ import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import com.wangzan101.mika.core.testing.TOOLS
+import com.wangzan101.djini.core.testing.TOOLS
 
 class RouteRecorderTest {
     private val goal = "在备忘录里写今天天气不错"

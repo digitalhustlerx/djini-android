@@ -1,10 +1,10 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.tr
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.tr
 import androidx.compose.foundation.layout.Column
-import com.wangzan101.mika.ui.components.MikaDialog
-import com.wangzan101.mika.ui.components.MikaNoticeDialog
+import com.wangzan101.djini.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.MikaNoticeDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -12,20 +12,20 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import com.wangzan101.mika.cap.web.SiteEntry
+import com.wangzan101.djini.cap.web.SiteEntry
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import com.wangzan101.mika.i18n.uiLocale
-import com.wangzan101.mika.ui.components.GroupCard
-import com.wangzan101.mika.ui.components.GroupLabel
-import com.wangzan101.mika.ui.components.ListRow
-import com.wangzan101.mika.ui.components.RowValue
-import com.wangzan101.mika.ui.components.ValueTone
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.components.TileTone
-import com.wangzan101.mika.ui.components.FooterNote
+import com.wangzan101.djini.i18n.uiLocale
+import com.wangzan101.djini.ui.components.GroupCard
+import com.wangzan101.djini.ui.components.GroupLabel
+import com.wangzan101.djini.ui.components.ListRow
+import com.wangzan101.djini.ui.components.RowValue
+import com.wangzan101.djini.ui.components.ValueTone
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.components.TileTone
+import com.wangzan101.djini.ui.components.FooterNote
 
 /**
  * 设置页「网站登录」一节的数据与操作。[onOpenLogin] 为 null 时不提供「打开登录」。
@@ -68,7 +68,7 @@ fun WebSitesSection(state: WebSitesState, labeled: Boolean = true) {
             ) { RowValue(tr(R.string.web_manage), ValueTone.Link) }
         }
         ListRow(
-            MikaIcons.Close, tr(R.string.web_logout_all_title), titleColor = MikaTheme.colors.bad, tone = TileTone.Bad,
+            MikaIcons.Close, tr(R.string.web_logout_all_title), titleColor = DjiniTheme.colors.bad, tone = TileTone.Bad,
             onClick = { confirmAll = true },
         )
     }
@@ -92,7 +92,7 @@ fun WebSitesSection(state: WebSitesState, labeled: Boolean = true) {
                         picked = null
                         state.onLogout(s.host)
                         notice = if (clearing) tr(R.string.web_cleared, s.host) else tr(R.string.web_signed_out, s.host, WEB_LOGOUT_PARTIAL)
-                    }) { Text(if (clearing) tr(R.string.web_clear_site) else tr(R.string.web_sign_out_site), color = MikaTheme.colors.bad) }
+                    }) { Text(if (clearing) tr(R.string.web_clear_site) else tr(R.string.web_sign_out_site), color = DjiniTheme.colors.bad) }
                 }
             },
             dismissButton = { TextButton({ picked = null }) { Text(tr(R.string.cancel)) } },
@@ -106,7 +106,7 @@ fun WebSitesSection(state: WebSitesState, labeled: Boolean = true) {
             text = { Text(tr(R.string.web_logout_all_body)) },
             confirmButton = {
                 TextButton({ confirmAll = false; state.onLogoutAll(); notice = tr(R.string.web_logged_out_all) }) {
-                    Text(tr(R.string.web_logout_all), color = MikaTheme.colors.bad)
+                    Text(tr(R.string.web_logout_all), color = DjiniTheme.colors.bad)
                 }
             },
             dismissButton = { TextButton({ confirmAll = false }) { Text(tr(R.string.cancel)) } },

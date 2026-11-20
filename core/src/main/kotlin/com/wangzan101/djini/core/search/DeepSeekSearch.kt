@@ -1,6 +1,6 @@
-package com.wangzan101.mika.core.search
+package com.wangzan101.djini.core.search
 
-import com.wangzan101.mika.core.net.NetProxy
+import com.wangzan101.djini.core.net.NetProxy
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.buildJsonObject

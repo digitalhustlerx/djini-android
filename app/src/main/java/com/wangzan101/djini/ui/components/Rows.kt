@@ -1,4 +1,4 @@
-package com.wangzan101.mika.ui.components
+package com.wangzan101.djini.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -43,19 +43,19 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.tr
-import com.wangzan101.mika.ui.theme.MikaColors
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaShapes
-import com.wangzan101.mika.ui.theme.MikaSize
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.tr
+import com.wangzan101.djini.ui.theme.MikaColors
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.MikaSize
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
 
 /** 分组小标题:13 / 500,辅助文字色。 */
 @Composable
 fun GroupLabel(text: String, modifier: Modifier = Modifier) {
-    Text(text, modifier.padding(top = 8.dp, bottom = 8.dp), style = MikaType.Label, color = MikaTheme.colors.ink3)
+    Text(text, modifier.padding(top = 8.dp, bottom = 8.dp), style = MikaType.Label, color = DjiniTheme.colors.ink3)
 }
 
 /** 分组下面的说明,和卡片里的文字对齐。 */
@@ -63,7 +63,7 @@ fun GroupLabel(text: String, modifier: Modifier = Modifier) {
 fun FooterNote(text: String, modifier: Modifier = Modifier, color: Color = Color.Unspecified) {
     Text(
         text, modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp, bottom = 12.dp),
-        style = MikaType.Hint, color = color.takeOrElse { MikaTheme.colors.ink3 },
+        style = MikaType.Hint, color = color.takeOrElse { DjiniTheme.colors.ink3 },
     )
 }
 
@@ -72,7 +72,7 @@ fun FooterNote(text: String, modifier: Modifier = Modifier, color: Color = Color
 fun DetailNote(summary: String, detail: String, modifier: Modifier = Modifier) {
     var open by rememberSaveable { mutableStateOf(false) }
     Column(modifier) {
-        Text(summary, style = MikaType.Hint, color = MikaTheme.colors.ink3)
+        Text(summary, style = MikaType.Hint, color = DjiniTheme.colors.ink3)
         if (detail.isNotBlank()) {
             Row(
                 Modifier.clickable { open = !open }.padding(top = 4.dp),
@@ -81,15 +81,15 @@ fun DetailNote(summary: String, detail: String, modifier: Modifier = Modifier) {
                 DirectionalIcon(
                     MikaIcons.Chevron, null,
                     Modifier.size(MikaSize.SmallIcon).rotate(if (open) 90f else 0f),
-                    tint = MikaTheme.colors.accent,
+                    tint = DjiniTheme.colors.accent,
                 )
                 Text(
                     tr(R.string.details), Modifier.padding(start = 2.dp),
-                    style = MikaType.Hint.copy(fontWeight = FontWeight.SemiBold), color = MikaTheme.colors.accent,
+                    style = MikaType.Hint.copy(fontWeight = FontWeight.SemiBold), color = DjiniTheme.colors.accent,
                 )
             }
             if (open) {
-                Text(detail, Modifier.padding(top = 6.dp), style = MikaType.Hint, color = MikaTheme.colors.ink2)
+                Text(detail, Modifier.padding(top = 6.dp), style = MikaType.Hint, color = DjiniTheme.colors.ink2)
             }
         }
     }
@@ -111,7 +111,7 @@ enum class TileTone {
 /** 行左边的图标块:30dp、圆角 9,里面图形 18dp。 */
 @Composable
 fun IconTile(icon: ImageVector, tone: TileTone = TileTone.Neutral) {
-    val (bg, fg) = tone.colors(MikaTheme.colors)
+    val (bg, fg) = tone.colors(DjiniTheme.colors)
     Box(Modifier.size(MikaSize.Tile).background(bg, MikaShapes.Tile), contentAlignment = Alignment.Center) {
         Icon(icon, null, Modifier.size(MikaSize.TileIcon), tint = fg)
     }
@@ -148,7 +148,7 @@ fun ListRow(
     modifier: Modifier = Modifier,
     trailing: @Composable RowScope.() -> Unit = {},
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Row(
         modifier.fillMaxWidth()
             .topHairline(first, if (icon != null) TextStartWithIcon else TextStartPlain, c.hair)
@@ -173,7 +173,7 @@ enum class ValueTone { Plain, Ok, Warn, Bad, Link }
 /** 行尾的值。 */
 @Composable
 fun RowValue(text: String, tone: ValueTone = ValueTone.Plain) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Text(
         text, style = MikaType.Value,
         fontWeight = if (tone == ValueTone.Link) FontWeight.Medium else FontWeight.Normal,
@@ -191,7 +191,7 @@ fun RowValue(text: String, tone: ValueTone = ValueTone.Plain) {
 /** 行尾的小箭头:点进去还有一页。 */
 @Composable
 fun RowChevron() {
-    DirectionalIcon(MikaIcons.Chevron, null, Modifier.size(MikaSize.SmallIcon), tint = MikaTheme.colors.ink3)
+    DirectionalIcon(MikaIcons.Chevron, null, Modifier.size(MikaSize.SmallIcon), tint = DjiniTheme.colors.ink3)
 }
 
 /** 单选行:左边圆圈,选中时实心强调色。分隔线从文字处开始。 */
@@ -208,7 +208,7 @@ fun RadioRow(
     below: (@Composable () -> Unit)? = null,
     trailing: @Composable RowScope.() -> Unit = {},
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Row(
         Modifier.fillMaxWidth()
             .topHairline(first, 50.dp, c.hair)
@@ -230,7 +230,7 @@ fun RadioRow(
 
 @Composable
 private fun RadioMark(selected: Boolean, enabled: Boolean = true) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     if (selected && enabled) {
         Box(Modifier.size(22.dp).background(c.accent, CircleShape), contentAlignment = Alignment.Center) {
             Box(Modifier.size(10.dp).background(c.onAccent, CircleShape))
@@ -261,7 +261,7 @@ fun InputRow(
     clearModifier: Modifier = Modifier,
     trailing: (@Composable () -> Unit)? = null,
 ) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Row(
         Modifier.fillMaxWidth().topHairline(first, TextStartPlain, c.hair).keepsKeyboard()
             .heightIn(min = MikaSize.RowMin).padding(horizontal = 16.dp, vertical = 12.dp),
@@ -293,12 +293,12 @@ fun FieldClearButton(description: String, onClick: () -> Unit, modifier: Modifie
             .clickable(role = Role.Button, onClickLabel = description) { onClick() },
         contentAlignment = Alignment.Center,
     ) {
-        Icon(MikaIcons.Close, description, Modifier.size(14.dp), tint = MikaTheme.colors.ink3)
+        Icon(MikaIcons.Close, description, Modifier.size(14.dp), tint = DjiniTheme.colors.ink3)
     }
 }
 
 /** 卡片里自己排版的块之间的分隔线,从 [start] 画到右边。 */
 @Composable
 fun Hairline(start: Dp = TextStartWithIcon) {
-    Box(Modifier.fillMaxWidth().padding(start = start).height(0.5.dp).background(MikaTheme.colors.hair))
+    Box(Modifier.fillMaxWidth().padding(start = start).height(0.5.dp).background(DjiniTheme.colors.hair))
 }

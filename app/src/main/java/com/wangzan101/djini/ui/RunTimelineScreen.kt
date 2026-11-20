@@ -1,7 +1,7 @@
-package com.wangzan101.mika.ui
+package com.wangzan101.djini.ui
 
-import com.wangzan101.mika.R
-import com.wangzan101.mika.i18n.trPlural
+import com.wangzan101.djini.R
+import com.wangzan101.djini.i18n.trPlural
 import androidx.compose.ui.res.stringResource
 import android.content.ActivityNotFoundException
 import android.graphics.BitmapFactory
@@ -53,23 +53,23 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.wangzan101.mika.ui.components.EmptyNote
-import com.wangzan101.mika.ui.components.GroupCard
-import com.wangzan101.mika.ui.components.GroupLabel
-import com.wangzan101.mika.ui.components.ListRow
-import com.wangzan101.mika.ui.components.PageBackground
-import com.wangzan101.mika.ui.components.RowChevron
-import com.wangzan101.mika.ui.components.RowValue
-import com.wangzan101.mika.ui.components.StepItem
-import com.wangzan101.mika.ui.components.StepState
-import com.wangzan101.mika.ui.components.TileTone
-import com.wangzan101.mika.ui.components.TopBar
-import com.wangzan101.mika.ui.components.ValueTone
-import com.wangzan101.mika.ui.theme.MikaIcons
-import com.wangzan101.mika.ui.theme.MikaTheme
-import com.wangzan101.mika.ui.theme.MikaType
-import com.wangzan101.mika.ui.theme.MikaRadius
-import com.wangzan101.mika.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.components.EmptyNote
+import com.wangzan101.djini.ui.components.GroupCard
+import com.wangzan101.djini.ui.components.GroupLabel
+import com.wangzan101.djini.ui.components.ListRow
+import com.wangzan101.djini.ui.components.PageBackground
+import com.wangzan101.djini.ui.components.RowChevron
+import com.wangzan101.djini.ui.components.RowValue
+import com.wangzan101.djini.ui.components.StepItem
+import com.wangzan101.djini.ui.components.StepState
+import com.wangzan101.djini.ui.components.TileTone
+import com.wangzan101.djini.ui.components.TopBar
+import com.wangzan101.djini.ui.components.ValueTone
+import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniTheme
+import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.MikaRadius
+import com.wangzan101.djini.ui.theme.MikaShapes
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -122,7 +122,7 @@ fun RunTimelineScreen(vm: RunTimelineViewModel, onBack: () -> Unit) {
                     item("header") {
                         HeaderGroup(u.header, u.steps.size) {
                             try {
-                                saveLog.launch("mika-usage-${vm.runId}.jsonl")
+                                saveLog.launch("djini-usage-${vm.runId}.jsonl")
                             } catch (_: ActivityNotFoundException) {
                                 Toast.makeText(context, R.string.timeline_export_failed, Toast.LENGTH_SHORT).show()
                             }
@@ -149,7 +149,7 @@ fun RunTimelineScreen(vm: RunTimelineViewModel, onBack: () -> Unit) {
 
 @Composable
 private fun HeaderGroup(h: TimelineHeader, stepCount: Int, onExport: () -> Unit) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     var more by rememberSaveable { mutableStateOf(false) }
     // 1. 结果总览:一眼看清办没办成 + 目标 + 用时/步数/Token
     ResultSummaryCard(h, stepCount)
@@ -216,7 +216,7 @@ private fun HeaderGroup(h: TimelineHeader, stepCount: Int, onExport: () -> Unit)
 /** 结果总览卡:左边圆形状态图标 + 结局一句 + 目标,下面分隔线和用时/步数/Token 三栏,一眼看清办没办成。 */
 @Composable
 private fun ResultSummaryCard(h: TimelineHeader, stepCount: Int) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val icon = when (h.outcomeTone) {
         TileTone.Ok -> MikaIcons.Check
         TileTone.Bad -> MikaIcons.Close
@@ -252,7 +252,7 @@ private fun ResultSummaryCard(h: TimelineHeader, stepCount: Int) {
 
 @Composable
 private fun RowScope.SummaryStat(label: String, value: String) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     Column(Modifier.weight(1f)) {
         Text(label, style = MikaType.Hint, color = c.ink3)
         Text(value, Modifier.padding(top = 2.dp), style = MikaType.BodyStrong, color = c.ink, maxLines = 1)
@@ -262,7 +262,7 @@ private fun RowScope.SummaryStat(label: String, value: String) {
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun TimelineRow(s: TimelineStep, first: Boolean, last: Boolean, vm: RunTimelineViewModel) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     var open by rememberSaveable(s.step) { mutableStateOf(false) }
     val shot = s.screenshotId
     val failed = s.result?.startsWith(stringResource(R.string.result_error_prefix)) == true
@@ -320,7 +320,7 @@ private fun TimelineRow(s: TimelineStep, first: Boolean, last: Boolean, vm: RunT
 
 @Composable
 private fun TagChip(t: Tag) {
-    val c = MikaTheme.colors
+    val c = DjiniTheme.colors
     val (bg, fg) = when (t.tone) {
         TagTone.Ok -> c.okSoft to c.ok
         TagTone.Warn -> c.warnSoft to c.warn
@@ -342,7 +342,7 @@ private fun Shot(vm: RunTimelineViewModel, id: Int, step: Int) {
     image?.let {
         Image(
             it, stringResource(R.string.timeline_step_screen, step),
-            Modifier.padding(top = 8.dp).widthIn(max = 220.dp).clip(shape).background(MikaTheme.colors.fill, shape),
+            Modifier.padding(top = 8.dp).widthIn(max = 220.dp).clip(shape).background(DjiniTheme.colors.fill, shape),
             contentScale = ContentScale.FillWidth,
         )
     }

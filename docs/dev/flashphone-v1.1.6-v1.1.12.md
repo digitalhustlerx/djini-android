@@ -1,7 +1,7 @@
 # FlashPhone v1.1.6–v1.1.13 call port
 
 DJINI base: `9fd0be4ab7aec2e1167af4bb8583728b78c384ec` (main, 0.1.45).
-Previously handled baseline: FlashPhone v1.1.5, merged DJINI PR [#607](https://github.com/wangzan101/Djini/pull/607).
+Previously handled baseline: FlashPhone v1.1.5, merged DJINI PR [#607](https://github.com/digitalhustlerx/djini-android/pull/607).
 Source: [DzsGatsby/FlashPhone](https://github.com/DzsGatsby/FlashPhone), Apache-2.0.
 
 ## Duplicate and repository checks
@@ -62,7 +62,7 @@ behavior. Offline protocol and cancellation tests cannot establish those outcome
 
 The release is a single commit after v1.1.12, published 2026-11-16 16:20:54 UTC.
 Before editing, #670 was still the only open same-source port, draft, at `a10b502`;
-its [four CI jobs](https://github.com/wangzan101/Djini/actions/runs/43882563287) all succeeded.
+its [four CI jobs](https://github.com/digitalhustlerx/djini-android/actions/runs/43882563287) all succeeded.
 Latest DJINI main was `e956f5529ad4cfd7881aafaa630318097949f56a`: its change after
 `9fd0be4` only touches generic child-task code/tests and prompt goldens, not calls.
 The existing branch remains based on `9fd0be4`; no unrelated core change is copied.
@@ -91,7 +91,7 @@ local-only single-worker 6GB Kotlin compiler configuration):
 
 The three Gradle tasks completed together with `BUILD SUCCESSFUL in 8m 53s`.
 Core/CLI/relay code is unchanged in this follow-up; the appended commit is also checked
-by the existing four-job [PR CI](https://github.com/wangzan101/Djini/pull/670/checks).
+by the existing four-job [PR CI](https://github.com/digitalhustlerx/djini-android/pull/670/checks).
 
 Device tests are compiled only. No app installation, real call, microphone/provider
 session, merge/deployment, SMS-login change or maintainer write grant is performed.

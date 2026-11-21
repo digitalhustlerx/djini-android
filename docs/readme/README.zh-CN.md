@@ -9,13 +9,13 @@
 
 它在一块看不见的后台屏上干活，你照样刷你的手机。
 
-<a href="https://github.com/wangzan101/Djini"><img src="../media/star-banner-v2.png" alt="喜欢 Djini？点个 Star —— 点右上角的 Star 按钮" width="620" /></a>
+<a href="https://github.com/digitalhustlerx/djini-android"><img src="../media/star-banner-v2.png" alt="喜欢 Djini？点个 Star —— 点右上角的 Star 按钮" width="620" /></a>
 
 <br/>
-<a href="https://github.com/wangzan101/Djini/releases/latest"><img src="https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD%20APK-%E5%AE%89%E5%8D%93%2011%2B-2ea043?style=for-the-badge&logo=android&logoColor=white" alt="下载 APK" /></a> <a href="https://github.com/wangzan101/Djini"><img src="https://img.shields.io/github/stars/wangzan101/Djini?style=for-the-badge&logo=github&label=Star&color=FFD700&logoColor=white" alt="Star this repo" /></a>
+<a href="https://github.com/digitalhustlerx/djini-android/releases/latest"><img src="https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD%20APK-%E5%AE%89%E5%8D%93%2011%2B-2ea043?style=for-the-badge&logo=android&logoColor=white" alt="下载 APK" /></a> <a href="https://github.com/digitalhustlerx/djini-android"><img src="https://img.shields.io/github/stars/digitalhustlerx/djini-android?style=for-the-badge&logo=github&label=Star&color=FFD700&logoColor=white" alt="Star this repo" /></a>
 
-<a href="https://github.com/wangzan101/Djini/releases"><img src="https://img.shields.io/github/downloads/wangzan101/Djini/total?label=%E4%B8%8B%E8%BD%BD&color=2ea043" alt="downloads" /></a>
-<a href="https://github.com/wangzan101/Djini/releases/latest"><img src="https://img.shields.io/github/v/release/wangzan101/Djini?include_prereleases&label=%E7%89%88%E6%9C%AC" alt="version" /></a>
+<a href="https://github.com/digitalhustlerx/djini-android/releases"><img src="https://img.shields.io/github/downloads/digitalhustlerx/djini-android/total?label=%E4%B8%8B%E8%BD%BD&color=2ea043" alt="downloads" /></a>
+<a href="https://github.com/digitalhustlerx/djini-android/releases/latest"><img src="https://img.shields.io/github/v/release/digitalhustlerx/djini-android?include_prereleases&label=%E7%89%88%E6%9C%AC" alt="version" /></a>
 <a href="../../LICENSE"><img src="https://img.shields.io/badge/license-Apache--2.0-lightgrey" alt="license" /></a>
 
 <br/>
@@ -77,14 +77,14 @@
 
 ## 三步开始
 
-1. **下载安装**：从 [Releases](https://github.com/wangzan101/Djini/releases/latest) 下载 APK。
+1. **下载安装**：从 [Releases](https://github.com/digitalhustlerx/djini-android/releases/latest) 下载 APK。
 2. **连上模型**：设置 › 模型，选一家服务商填 API Key，或者直接用账号登录（[模型与登录](../models.md)）。
 3. **要操作手机 App 时**：按设置里「设置手机操作」的向导，在手机上配对一次无线调试（[设置指南](../setup-guide.md)）。只聊天、上网、处理文件可以跳过这一步。
 
 然后说一句试试：「帮我订明天早上 9:40 和 10:00 的闹钟」「每天早上 8 点看看天气，下雨才告诉我」。
 
 > 💡 手边有电脑？把这句话发给电脑上的 AI 助手，它会帮你装好：<br/>
-> `请按 https://github.com/wangzan101/Djini/blob/main/docs/install-with-agent.md 的步骤，帮我把 Djini 安装到通过 USB 连着的安卓手机上。`
+> `请按 https://github.com/digitalhustlerx/djini-android/blob/main/docs/install-with-agent.md 的步骤，帮我把 Djini 安装到通过 USB 连着的安卓手机上。`
 
 ## 能做什么
 
@@ -137,7 +137,7 @@
 | 操作手机 App | 安卓 12 及以上；**推荐安卓 14+**（后台屏有自己的焦点，不影响你在主屏打字） |
 | Linux 沙箱 | arm64 设备 |
 
-不确定自己的手机行不行？设置 › 恢复与修复 › **兼容性自检**，一分钟跑完 12 项，结果可以一键[反馈给我们](https://github.com/wangzan101/Djini/issues/new?template=device-report.yml)。
+不确定自己的手机行不行？设置 › 恢复与修复 › **兼容性自检**，一分钟跑完 12 项，结果可以一键[反馈给我们](https://github.com/digitalhustlerx/djini-android/issues/new?template=device-report.yml)。
 
 ## 隐私与安全
 
@@ -156,7 +156,7 @@
 
 **能用自己电脑上跑的模型吗？** 可以，服务商选「自定义」，填局域网地址即可。
 
-**更新从哪来？** 只从本仓库的 [Releases](https://github.com/wangzan101/Djini/releases) 发布；App 里「关于 › 检查更新」也能直接升级。
+**更新从哪来？** 只从本仓库的 [Releases](https://github.com/digitalhustlerx/djini-android/releases) 发布；App 里「关于 › 检查更新」也能直接升级。
 
 更多问答见[常见问题](../faq.md)。
 
@@ -167,17 +167,17 @@
 - **文档**：全部文档和阅读顺序见[文档目录](../README.md)
 - **交流**：App 里「关于 › 联系作者」扫码加作者微信（请备注 Djini）；不用微信可以加入 [X 群聊](https://x.com/i/chat/group_join/g2116926829198246025/48B52j5svL)
 - **关注作者**：X [@wangzan101](https://x.com/wangzan101)
-- **反馈问题**：[提 Issue](https://github.com/wangzan101/Djini/issues/new/choose)，App 里「关于 › 反馈问题」可以附上诊断信息
+- **反馈问题**：[提 Issue](https://github.com/digitalhustlerx/djini-android/issues/new/choose)，App 里「关于 › 反馈问题」可以附上诊断信息
 - **参与贡献**：给某个 App、网站补一份使用知识（纯文本，不用写代码），或者贡献代码，见[贡献指南](../../.github/CONTRIBUTING.zh-CN.md)
 
 <p align="center">⭐ 如果 Djini 帮你省了时间，点个 Star，让更多人找到它。</p>
 
 ## Star History
 
-<a href="https://star-history.com/#wangzan101/Djini&Date">
+<a href="https://star-history.com/#digitalhustlerx/djini-android&Date">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=wangzan101/Djini&type=Date&theme=dark&v=20261110-2017" />
-    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=wangzan101/Djini&type=Date&v=20261110-2017" width="600" />
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=digitalhustlerx/djini-android&type=Date&theme=dark&v=20261110-2017" />
+    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=digitalhustlerx/djini-android&type=Date&v=20261110-2017" width="600" />
   </picture>
 </a>
 
@@ -185,8 +185,8 @@
 
 感谢每一位参与 Djini 的人：
 
-<a href="https://github.com/wangzan101/Djini/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=wangzan101/Djini&max=100&columns=12" alt="Contributors" />
+<a href="https://github.com/digitalhustlerx/djini-android/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=digitalhustlerx/djini-android&max=100&columns=12" alt="Contributors" />
 </a>
 
 ## 许可证

@@ -4,4 +4,4 @@
 
 处理：按实际调用编号关联原图、结果图和错误。两张都有就按顺序展示；标记只属于原图。报告证据通过观测和调用编号定位结果截图。元素中心是位置示意，语义滚动只能表示方向。旧记录只有截图时不推断触点。未采集和引用文件已丢失分别处理。
 
-验证范围：原 [PR #348](https://github.com/wangzan101/Djini/pull/348) 在一台手机上复现并验证过详情页、红圈和滑动。拆分后由 `PlaybackTest`、`TaskReportViewModelTest` 和 `TaskPlaybackActionsTest` 检查事件与画面关联；单元测试不能证明某个设备的元素估算位置与真实触点相同。
+验证范围：原 [PR #348](https://github.com/digitalhustlerx/djini-android/pull/348) 在一台手机上复现并验证过详情页、红圈和滑动。拆分后由 `PlaybackTest`、`TaskReportViewModelTest` 和 `TaskPlaybackActionsTest` 检查事件与画面关联；单元测试不能证明某个设备的元素估算位置与真实触点相同。

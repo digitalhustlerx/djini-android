@@ -9,13 +9,13 @@
 
 Trabaja en una pantalla en segundo plano que no ves, así que puedes seguir usando el móvil con normalidad.
 
-<a href="https://github.com/wangzan101/Djini"><img src="../media/star-banner-v2.png" alt="¿Te gusta Djini? Dale una estrella — haz clic en Star arriba a la derecha" width="620" /></a>
+<a href="https://github.com/digitalhustlerx/djini-android"><img src="../media/star-banner-v2.png" alt="¿Te gusta Djini? Dale una estrella — haz clic en Star arriba a la derecha" width="620" /></a>
 
 <br/>
-<a href="https://github.com/wangzan101/Djini/releases/latest"><img src="https://img.shields.io/badge/Descargar%20APK-Android%2011%2B-2ea043?style=for-the-badge&logo=android&logoColor=white" alt="Descargar APK" /></a> <a href="https://github.com/wangzan101/Djini"><img src="https://img.shields.io/github/stars/wangzan101/Djini?style=for-the-badge&logo=github&label=Star&color=FFD700&logoColor=white" alt="Star this repo" /></a>
+<a href="https://github.com/digitalhustlerx/djini-android/releases/latest"><img src="https://img.shields.io/badge/Descargar%20APK-Android%2011%2B-2ea043?style=for-the-badge&logo=android&logoColor=white" alt="Descargar APK" /></a> <a href="https://github.com/digitalhustlerx/djini-android"><img src="https://img.shields.io/github/stars/digitalhustlerx/djini-android?style=for-the-badge&logo=github&label=Star&color=FFD700&logoColor=white" alt="Star this repo" /></a>
 
-<a href="https://github.com/wangzan101/Djini/releases"><img src="https://img.shields.io/github/downloads/wangzan101/Djini/total?label=descargas&color=2ea043" alt="downloads" /></a>
-<a href="https://github.com/wangzan101/Djini/releases/latest"><img src="https://img.shields.io/github/v/release/wangzan101/Djini?include_prereleases&label=versi%C3%B3n" alt="version" /></a>
+<a href="https://github.com/digitalhustlerx/djini-android/releases"><img src="https://img.shields.io/github/downloads/digitalhustlerx/djini-android/total?label=descargas&color=2ea043" alt="downloads" /></a>
+<a href="https://github.com/digitalhustlerx/djini-android/releases/latest"><img src="https://img.shields.io/github/v/release/digitalhustlerx/djini-android?include_prereleases&label=versi%C3%B3n" alt="version" /></a>
 <a href="../../LICENSE"><img src="https://img.shields.io/badge/license-Apache--2.0-lightgrey" alt="license" /></a>
 
 <br/>
@@ -81,14 +81,14 @@ Trabaja en una pantalla en segundo plano que no ves, así que puedes seguir usan
 
 ## Empieza en tres pasos
 
-1. **Instálalo**: descarga el APK desde [Releases](https://github.com/wangzan101/Djini/releases/latest).
+1. **Instálalo**: descarga el APK desde [Releases](https://github.com/digitalhustlerx/djini-android/releases/latest).
 2. **Conecta un modelo**: en Ajustes › Modelo, elige un proveedor e introduce una clave de API, o simplemente inicia sesión con una cuenta ([modelos e inicio de sesión](../models.en.md)).
 3. **Para que maneje apps del móvil**: sigue el asistente «Set up phone control» de los ajustes y empareja la depuración inalámbrica una sola vez ([guía de configuración](../setup-guide.en.md)). Si solo quieres chatear, navegar y trabajar con archivos, puedes saltarte este paso.
 
 Después, prueba a decirle: «Pon alarmas mañana a las 9:40 y a las 10:00» o «Mira el tiempo cada mañana a las 8 y avísame solo si va a llover».
 
 > 💡 ¿Tienes un ordenador a mano? Envía esta frase al agente de IA de tu ordenador y lo instalará todo por ti:<br/>
-> `Sigue los pasos de https://github.com/wangzan101/Djini/blob/main/docs/install-with-agent.en.md para instalar Djini en el móvil Android conectado por USB.`
+> `Sigue los pasos de https://github.com/digitalhustlerx/djini-android/blob/main/docs/install-with-agent.en.md para instalar Djini en el móvil Android conectado por USB.`
 
 ## Qué puede hacer
 
@@ -131,7 +131,7 @@ También puedes prescindir de la clave e iniciar sesión con una cuenta de ChatG
 | Manejar apps del móvil | Android 12 o posterior; **se recomienda Android 14+** (la pantalla en segundo plano tiene su propio foco, así que no interfiere cuando escribes en la pantalla principal) |
 | Sandbox de Linux | Dispositivos arm64 |
 
-¿No sabes si tu móvil sirve? Ejecuta Ajustes › Recuperación y reparación › **Autocomprobación de compatibilidad**: 12 comprobaciones en un minuto, y puedes [enviarnos el resultado](https://github.com/wangzan101/Djini/issues/new?template=device-report.yml) con un toque.
+¿No sabes si tu móvil sirve? Ejecuta Ajustes › Recuperación y reparación › **Autocomprobación de compatibilidad**: 12 comprobaciones en un minuto, y puedes [enviarnos el resultado](https://github.com/digitalhustlerx/djini-android/issues/new?template=device-report.yml) con un toque.
 
 ## Privacidad y seguridad
 
@@ -152,7 +152,7 @@ También puedes prescindir de la clave e iniciar sesión con una cuenta de ChatG
 
 **¿La app está en español?** Sí. La interfaz está en español, inglés, árabe, chino simplificado, chino tradicional, japonés, coreano, portugués, ruso e indonesio, sigue el idioma del sistema y se puede cambiar en Ajustes › Idioma. Puedes hablarle a Djini en español sin problema. El conocimiento integrado sobre apps y sitios web está escrito en chino, y el modelo lo entiende sin dificultad.
 
-**¿De dónde vienen las actualizaciones?** Solo de los [Releases](https://github.com/wangzan101/Djini/releases) de este repositorio; también puedes actualizar desde la app en Acerca de Djini › Buscar actualizaciones.
+**¿De dónde vienen las actualizaciones?** Solo de los [Releases](https://github.com/digitalhustlerx/djini-android/releases) de este repositorio; también puedes actualizar desde la app en Acerca de Djini › Buscar actualizaciones.
 
 Hay más respuestas en las [preguntas frecuentes](../faq.en.md).
 
@@ -163,17 +163,17 @@ Hay más respuestas en las [preguntas frecuentes](../faq.en.md).
 - **Documentación**: toda la documentación y un orden de lectura sugerido están en el [índice de documentación](../README.en.md)
 - **Comunidad**: únete al [chat de grupo en X](https://x.com/i/chat/group_join/g2116926829198246025/48B52j5svL); para escribir al autor por WeChat, escanea el código QR de la app en Acerca de Djini › Contactar con el autor (menciona «Djini» en la solicitud)
 - **Sigue al autor**: X [@wangzan101](https://x.com/wangzan101)
-- **Informa de un problema**: [abre un issue](https://github.com/wangzan101/Djini/issues/new/choose); en la app, Acerca de Djini › Enviar comentarios permite adjuntar información de diagnóstico
+- **Informa de un problema**: [abre un issue](https://github.com/digitalhustlerx/djini-android/issues/new/choose); en la app, Acerca de Djini › Enviar comentarios permite adjuntar información de diagnóstico
 - **Contribuye**: añade conocimiento de uso para una app o un sitio web (texto plano, sin programar) o contribuye con código; consulta la [guía de contribución](../../.github/CONTRIBUTING.md)
 
 <p align="center">⭐ Si Djini te ahorra tiempo, dale una estrella para que más gente lo encuentre.</p>
 
 ## Star History
 
-<a href="https://star-history.com/#wangzan101/Djini&Date">
+<a href="https://star-history.com/#digitalhustlerx/djini-android&Date">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=wangzan101/Djini&type=Date&theme=dark&v=20261110-2017" />
-    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=wangzan101/Djini&type=Date&v=20261110-2017" width="600" />
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=digitalhustlerx/djini-android&type=Date&theme=dark&v=20261110-2017" />
+    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=digitalhustlerx/djini-android&type=Date&v=20261110-2017" width="600" />
   </picture>
 </a>
 
@@ -181,8 +181,8 @@ Hay más respuestas en las [preguntas frecuentes](../faq.en.md).
 
 Gracias a todas las personas que han participado en Djini:
 
-<a href="https://github.com/wangzan101/Djini/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=wangzan101/Djini&max=100&columns=12" alt="Contributors" />
+<a href="https://github.com/digitalhustlerx/djini-android/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=digitalhustlerx/djini-android&max=100&columns=12" alt="Contributors" />
 </a>
 
 ## Licencia

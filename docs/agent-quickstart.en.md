@@ -7,11 +7,11 @@ For AI agents on a computer: follow these fixed steps to install Djini and conne
 ## 1. Resolve the latest release tag
 
 ```sh
-curl -s https://api.github.com/repos/wangzan101/Djini/releases/latest   # read tag_name
+curl -s https://api.github.com/repos/digitalhustlerx/djini-android/releases/latest   # read tag_name
 ```
 
 ```powershell
-(Invoke-RestMethod https://api.github.com/repos/wangzan101/Djini/releases/latest).tag_name
+(Invoke-RestMethod https://api.github.com/repos/digitalhustlerx/djini-android/releases/latest).tag_name
 ```
 
 Below, `<tag>` is that value (e.g. `v0.1.31`) and `<ver>` is the version without the `v` (e.g. `0.1.31`).
@@ -19,7 +19,7 @@ Below, `<tag>` is that value (e.g. `v0.1.31`) and `<ver>` is the version without
 ## 2. CLI or Skill
 
 - Agent supports skills: **install the Skill by default**; it bundles the CLI script.
-- Otherwise install the CLI: `pipx install 'git+https://github.com/wangzan101/Djini.git@<tag>#subdirectory=tools/djini'`.
+- Otherwise install the CLI: `pipx install 'git+https://github.com/digitalhustlerx/djini-android.git@<tag>#subdirectory=tools/djini'`.
 
 ## 3. Install the Skill
 
@@ -28,7 +28,7 @@ Below, `<tag>` is that value (e.g. `v0.1.31`) and `<ver>` is the version without
 POSIX:
 
 ```sh
-curl -L -o djini.zip https://github.com/wangzan101/Djini/archive/refs/tags/<tag>.zip
+curl -L -o djini.zip https://github.com/digitalhustlerx/djini-android/archive/refs/tags/<tag>.zip
 unzip -q djini.zip -d djini-src
 mkdir -p <skills-directory> && cp -R djini-src/Djini-<ver>/tools/djini <skills-directory>/djini
 python3 <skills-directory>/djini/scripts/mika_cli.py --version
@@ -37,7 +37,7 @@ python3 <skills-directory>/djini/scripts/mika_cli.py --version
 Windows PowerShell:
 
 ```powershell
-Invoke-WebRequest https://github.com/wangzan101/Djini/archive/refs/tags/<tag>.zip -OutFile djini.zip
+Invoke-WebRequest https://github.com/digitalhustlerx/djini-android/archive/refs/tags/<tag>.zip -OutFile djini.zip
 Expand-Archive djini.zip -DestinationPath djini-src
 New-Item -ItemType Directory -Force "<skills-directory>" | Out-Null
 Copy-Item -Recurse djini-src\Djini-<ver>\tools\djini "<skills-directory>\djini"

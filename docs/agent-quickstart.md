@@ -7,11 +7,11 @@
 ## 1. 解析最新版本 tag
 
 ```sh
-curl -s https://api.github.com/repos/wangzan101/Djini/releases/latest   # 取 tag_name
+curl -s https://api.github.com/repos/digitalhustlerx/djini-android/releases/latest   # 取 tag_name
 ```
 
 ```powershell
-(Invoke-RestMethod https://api.github.com/repos/wangzan101/Djini/releases/latest).tag_name
+(Invoke-RestMethod https://api.github.com/repos/digitalhustlerx/djini-android/releases/latest).tag_name
 ```
 
 下文 `<tag>` 即该值（如 `v0.1.31`），`<ver>` 是去掉 `v` 的版本号（如 `0.1.31`）。
@@ -19,7 +19,7 @@ curl -s https://api.github.com/repos/wangzan101/Djini/releases/latest   # 取 ta
 ## 2. 选 CLI 还是 Skill
 
 - Agent 支持 Skill：**默认装 Skill**，它自带 CLI 脚本。
-- 否则装 CLI：`pipx install 'git+https://github.com/wangzan101/Djini.git@<tag>#subdirectory=tools/djini'`。
+- 否则装 CLI：`pipx install 'git+https://github.com/digitalhustlerx/djini-android.git@<tag>#subdirectory=tools/djini'`。
 
 ## 3. 安装 Skill
 
@@ -28,7 +28,7 @@ curl -s https://api.github.com/repos/wangzan101/Djini/releases/latest   # 取 ta
 POSIX：
 
 ```sh
-curl -L -o djini.zip https://github.com/wangzan101/Djini/archive/refs/tags/<tag>.zip
+curl -L -o djini.zip https://github.com/digitalhustlerx/djini-android/archive/refs/tags/<tag>.zip
 unzip -q djini.zip -d djini-src
 mkdir -p <技能目录> && cp -R djini-src/Djini-<ver>/tools/djini <技能目录>/djini
 python3 <技能目录>/djini/scripts/mika_cli.py --version
@@ -37,7 +37,7 @@ python3 <技能目录>/djini/scripts/mika_cli.py --version
 Windows PowerShell：
 
 ```powershell
-Invoke-WebRequest https://github.com/wangzan101/Djini/archive/refs/tags/<tag>.zip -OutFile djini.zip
+Invoke-WebRequest https://github.com/digitalhustlerx/djini-android/archive/refs/tags/<tag>.zip -OutFile djini.zip
 Expand-Archive djini.zip -DestinationPath djini-src
 New-Item -ItemType Directory -Force "<技能目录>" | Out-Null
 Copy-Item -Recurse djini-src\Djini-<ver>\tools\djini "<技能目录>\djini"

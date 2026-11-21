@@ -129,7 +129,7 @@ Computer AI tools can use **CLI + Skill or MCP** to hand Djini tasks, check prog
 Connect the phone to your computer with a USB cable, turn on USB debugging on the phone (don't change other switches in Developer options unless the agent asks you to: some can erase the phone), and send this sentence to an AI agent on the computer that can run commands:
 
 ```
-Follow https://github.com/wangzan101/Djini/blob/main/docs/install-with-agent.en.md to install Djini on the Android phone connected over USB.
+Follow https://github.com/digitalhustlerx/djini-android/blob/main/docs/install-with-agent.en.md to install Djini on the Android phone connected over USB.
 ```
 
 It checks the phone, downloads and installs Djini, turns on the permissions it needs, and stops to tell you whenever something needs a tap on the phone. You enter your API key in Djini yourself; it never goes through the agent. If you also ask for computer access, the agent configures the access method you choose. The steps are in [Installing Djini with an AI agent](install-with-agent.en.md).

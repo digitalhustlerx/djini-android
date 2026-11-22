@@ -21,20 +21,19 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-java@v6
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: "17"
-      # 默认缓存策略：默认分支可写，其他分支（含 PR）只读。
-      - uses: gradle/actions/setup-gradle@v6
+      - uses: gradle/actions/setup-gradle@v4
         with:
           cache-provider: basic
       - name: Unit tests
         run: ./gradlew :core:test --stacktrace
       - name: Upload test reports
         if: failure()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v4
         with:
           name: core-test-results
           path: |
@@ -48,20 +47,20 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-java@v6
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: "17"
-      - uses: actions/setup-python@v7
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - uses: gradle/actions/setup-gradle@v6
+      - uses: gradle/actions/setup-gradle@v4
         with:
           cache-provider: basic
-      # cliTest 先跑 cliContractTest（经真实子进程调 Python CLI），再跑 tools/djini/tests 下的 unittest。
+      # djiniCliTest first, then standalone Python tool tests
       - name: CLI tests
-        run: ./gradlew :core:cliTest -PmikaPython=python3 --stacktrace
+        run: ./gradlew :core:cliTest -PdjiniPython=python3 --stacktrace
       - name: Translation tool tests
         run: python3 -m unittest discover -s tools/i18n -v
       - name: Translation resource checks
@@ -70,7 +69,7 @@ jobs:
         run: python3 -m unittest discover -s tools -p 'test_pull_logs.py' -v
       - name: Upload test reports
         if: failure()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v4
         with:
           name: cli-test-results
           path: |
@@ -84,25 +83,22 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 40
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-java@v6
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: "17"
-      # compileSdk 36；构建工具版本取 AGP 8.7.3 的默认值。action 顺带接受 SDK 许可。
-      - uses: android-actions/setup-android@v4
+      - uses: android-actions/setup-android@v3
         with:
           packages: "platform-tools platforms;android-36 build-tools;35.0.0"
-      - uses: gradle/actions/setup-gradle@v6
+      - uses: gradle/actions/setup-gradle@v4
         with:
           cache-provider: basic
-      # assembleDebug 验证单测碰不到的打包路径：31MB 的 rootfs、jniLibs 旧式解压、AIDL、Compose。
-      # 编译设备测试以检查设置交互等回归用例；这里没有连接设备，不执行 instrumentation。
-      - name: Unit tests, debug build, and device test compilation
+      - name: Unit tests and debug build
         run: ./gradlew :app:testDebugUnitTest :app:assembleDebug :app:compileDebugAndroidTestKotlin --stacktrace
       - name: Upload test reports
         if: failure()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v4
         with:
           name: app-test-results
           path: |
@@ -116,25 +112,20 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-java@v6
-        with:
-          distribution: temurin
-          java-version: "17"
-      - uses: actions/setup-go@v7
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
         with:
           go-version-file: tools/relay/go.mod
           cache: true
           cache-dependency-path: tools/relay/go.sum
-      - uses: gradle/actions/setup-gradle@v6
+      - uses: gradle/actions/setup-gradle@v4
         with:
           cache-provider: basic
-      # relayTest 会先 go build 出真实网关，再在回环上跑 Kotlin→网关→隧道全链路。
       - name: Relay integration test
         run: ./gradlew :core:relayTest --stacktrace
       - name: Upload test reports
         if: failure()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v4
         with:
           name: relay-test-results
           path: |

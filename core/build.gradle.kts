@@ -147,7 +147,7 @@ val cliContractTest by tasks.registering(Test::class) {
     classpath = sourceSets.main.get().output + sourceSets.test.get().runtimeClasspath
     include("**/RemoteCliContractTest*")
     inputs.dir(rootProject.file("tools/djini/scripts"))
-    systemProperty("djini.python", providers.gradleProperty("mikaPython").getOrElse("python3"))
+    systemProperty("djini.python", providers.gradleProperty("djiniPython").getOrElse("python3"))
 }
 
 // 要 Python 3.10+,不挂在 check 上;需要时显式运行 ./gradlew :core:cliTest
@@ -156,5 +156,5 @@ val cliTest by tasks.registering(Exec::class) {
     description = "CLI 进程、假 ADB、独立 Skill 与真实 HTTP 契约测试 (Python 3.10+)"
     dependsOn(cliContractTest)
     workingDir(rootProject.projectDir)
-    commandLine(providers.gradleProperty("mikaPython").getOrElse("python3"), "-m", "unittest", "discover", "-s", "tools/djini/tests", "-v")
+    commandLine(providers.gradleProperty("djiniPython").getOrElse("python3"), "-m", "unittest", "discover", "-s", "tools/djini/tests", "-v")
 }

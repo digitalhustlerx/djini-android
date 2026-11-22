@@ -26,6 +26,8 @@ jobs:
         with:
           distribution: temurin
           java-version: "17"
+      - name: Set Gradle JVM args for large Kotlin project
+        run: echo "org.gradle.jvmargs=-Xmx4g -XX:+UseParallelGC" >> gradle.properties
       - uses: gradle/actions/setup-gradle@v4
         with:
           cache-provider: basic
@@ -55,6 +57,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: Set Gradle JVM args
+        run: echo "org.gradle.jvmargs=-Xmx4g" >> gradle.properties
       - uses: gradle/actions/setup-gradle@v4
         with:
           cache-provider: basic
@@ -88,6 +92,10 @@ jobs:
         with:
           distribution: temurin
           java-version: "17"
+      - name: Set Gradle JVM args
+        run: echo "org.gradle.jvmargs=-Xmx4g" >> gradle.properties
+      - name: Accept Android SDK licenses
+        run: yes | sdkmanager --licenses >/dev/null 2>&1 || true
       - uses: android-actions/setup-android@v3
         with:
           packages: "platform-tools platforms;android-36 build-tools;35.0.0"
@@ -113,14 +121,14 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
+      - name: Set Gradle JVM args
+        run: echo "org.gradle.jvmargs=-Xmx4g" >> gradle.properties
       - uses: actions/setup-go@v5
         with:
           go-version-file: tools/relay/go.mod
           cache: true
           cache-dependency-path: tools/relay/go.sum
       - uses: gradle/actions/setup-gradle@v4
-        with:
-          cache-provider: basic
       - name: Relay integration test
         run: ./gradlew :core:relayTest --stacktrace
       - name: Upload test reports

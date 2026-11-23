@@ -15,7 +15,7 @@ import com.wangzan101.djini.R
 @Composable
 fun MikaLogo(size: Dp, modifier: Modifier = Modifier, corner: Dp = size * 0.28f) {
     Image(
-        painterResource(R.drawable.mika_launcher_art), contentDescription = null,
+        painterResource(R.drawable.djini_launcher_art), contentDescription = null,
         modifier.size(size).clip(RoundedCornerShape(corner)),
         contentScale = ContentScale.Crop,
     )

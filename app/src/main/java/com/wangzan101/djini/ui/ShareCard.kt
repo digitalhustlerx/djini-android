@@ -98,7 +98,7 @@ fun ShareCardHost(request: ShareRequest?, onDone: () -> Unit) {
     val graphicsLayer = rememberGraphicsLayer()
     val logo = remember {
         val opts = BitmapFactory.Options().apply { inSampleSize = 4 }
-        BitmapFactory.decodeResource(context.resources, R.drawable.mika_launcher_art, opts).asImageBitmap()
+        BitmapFactory.decodeResource(context.resources, R.drawable.djini_launcher_art, opts).asImageBitmap()
     }
     if (request != null) {
         Box(

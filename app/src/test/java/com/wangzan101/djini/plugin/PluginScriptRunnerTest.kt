@@ -53,7 +53,7 @@ class PluginScriptRunnerTest {
         )
         val registry = PluginRegistry(files, CoroutineScope(Dispatchers.Unconfined), appVersion = "0.1.45")
         val specs = registry.toolSpecs()
-        assertEquals(listOf("plugin_com_mika_purge-lite_scan", "plugin_com_mika_purge-lite_patch"), specs.map { it.name })
+        assertEquals(listOf("plugin_com_djini_purge-lite_scan", "plugin_com_djini_purge-lite_patch"), specs.map { it.name })
         assertEquals(Risk.Read, specs[0].risk)
         assertEquals(Risk.Write, specs[1].risk)
         assertEquals("scripts/scan.sh", specs[0].scriptPath)

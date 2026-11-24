@@ -10,7 +10,7 @@ package com.wangzan101.djini.voice
  */
 object RamblerSpeechCleaner {
     private val FILLER_REGEX = Regex(
-        """\b(?:um+|uh+|er+m?|ah+|hmm+|you know|sort of|kind of)\b[,.]?\s*""",
+        """(?:,\s*)?\b(?:um+|uh+|er+m?|ah+|hmm+|you know|sort of|kind of)\b[,.]?\s*""",
         RegexOption.IGNORE_CASE,
     )
     private val STUTTER_REGEX = Regex("""\b(\w+)\s+\1\b""", RegexOption.IGNORE_CASE)

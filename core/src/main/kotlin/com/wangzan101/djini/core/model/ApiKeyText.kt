@@ -50,6 +50,21 @@ object ApiKeyText {
      */
     fun isHeaderLegal(value: String): Boolean = value.all { c -> c == '\t' || c.code in 0x20..0x7E }
 
+    /**
+     * Strips accidental `Authorization:` / `Bearer ` prefixes copied from cURL or docs so we never
+     * send `Authorization: Bearer Bearer <key>` on the wire.
+     */
+    fun stripBearerPrefix(raw: String): String {
+        var s = raw.trim()
+        if (s.startsWith("Authorization:", ignoreCase = true)) {
+            s = s.substringAfter(':').trim()
+        }
+        while (s.startsWith("Bearer ", ignoreCase = true)) {
+            s = s.substring(7).trimStart()
+        }
+        return s
+    }
+
     /** 零宽、BOM、以及改写文字方向的格式字符。这些粘贴时常被带进来,本身不是密钥的一部分。 */
     private fun isInvisible(c: Char): Boolean = when (c) {
         '\u061C', // ARABIC LETTER MARK

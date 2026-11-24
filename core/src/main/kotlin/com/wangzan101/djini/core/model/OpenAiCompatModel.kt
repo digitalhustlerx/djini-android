@@ -121,7 +121,10 @@ class OpenAiCompatModel(
         return Request.Builder().url(endpoint)
             .withHeaders(headers)
             .header("Accept", if (stream) "text/event-stream" else "application/json")
-            .apply { if (!key.isNullOrEmpty()) headerOrReject("Authorization", "Bearer $key") }
+            .apply {
+                val clean = key?.let(ApiKeyText::stripBearerPrefix)
+                if (!clean.isNullOrEmpty()) headerOrReject("Authorization", "Bearer $clean")
+            }
             .postInference(InferenceProtocol.Chat, payload)
             .build()
     }

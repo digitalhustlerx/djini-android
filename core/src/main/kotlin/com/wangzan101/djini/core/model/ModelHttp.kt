@@ -28,13 +28,13 @@ object ModelHttp {
      */
     fun openAiError(status: Int, retryAfter: String?, body: String, model: String): ModelError =
         ModelAccessErrors.of(status, body, model) ?: reasoningEffortRejected(status, body) ?: when {
-            status == 401 -> ModelError.Auth()
+            status == 401 -> ModelError.Auth(ModelAccessErrors.jsonDetail(body))
             status == 402 || body.contains("insufficient_quota") -> ModelError.QuotaExceeded()
             status == 429 -> ModelError.RateLimited(HttpSupport.retryAfterMs(retryAfter, body))
             contextTooLong(status, body) -> ModelError.ContextTooLong()
             status == 404 -> ModelError.ModelNotFound(model, ModelAccessErrors.jsonDetail(body))
             status in 500..599 -> ModelError.Server(status)
-            status == 403 -> ModelError.Auth()
+            status == 403 -> ModelError.Auth(ModelAccessErrors.jsonDetail(body))
             else -> if (status >= 400) ModelError.Server(status, ModelAccessErrors.detail(body)) else ModelError.BadResponse("HTTP $status ${body.take(200)}")
         }
 

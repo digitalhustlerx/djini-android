@@ -156,9 +156,10 @@ class ModelCatalog(private val http: OkHttpClient) {
 
     suspend fun openAiCompat(baseUrl: String, apiKey: String?, headers: Map<String, String> = emptyMap()): ModelListResult = run {
         val url = endpoint(baseUrl, "/models") ?: return@run badUrl()
+        val cleanKey = apiKey?.let(ApiKeyText::stripBearerPrefix)
         val req = buildRequest {
             Request.Builder().url(url).get().withHeaders(headers)
-                .apply { if (!apiKey.isNullOrEmpty()) headerOrReject("Authorization", "Bearer $apiKey") }.build()
+                .apply { if (!cleanKey.isNullOrEmpty()) headerOrReject("Authorization", "Bearer $cleanKey") }.build()
         } ?: return@run illegalKey()
         val root = fetch(req).getOrElse { return@run it.asFailure() }
         val data = (root["data"] ?: root["models"]) as? JsonArray ?: return@run ModelListResult.Failed(ListFailure.BadResponse)

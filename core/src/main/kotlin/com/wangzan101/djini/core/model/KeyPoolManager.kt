@@ -61,7 +61,7 @@ class KeyPoolManager(
         return cleaned
             .split(DELIMITER_REGEX)
             .map { it.trim().trim('"', '\'') }
-            .map { ApiKeyText.accept(it).text.trim() }
+            .map { ApiKeyText.stripBearerPrefix(ApiKeyText.accept(it).text) }
             .filter { it.isNotBlank() && ApiKeyText.isHeaderLegal(it) }
             .distinct()
     }

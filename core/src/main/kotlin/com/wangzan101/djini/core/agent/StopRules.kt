@@ -64,7 +64,10 @@ internal object StopRules {
 }
 
 internal fun userReason(e: ModelError): String = when (e) {
-    is ModelError.Auth -> "Model service rejected the request: invalid API key or insufficient permissions. Check your API key and model permissions in Settings."
+    is ModelError.Auth ->
+        "Model service rejected the request: invalid API key or insufficient permissions." +
+            (if (e.detail.isNotEmpty()) " Server replied: ${quoted(e.detail)}." else "") +
+            " Check your API key, plan tier, and model permissions in Settings."
     is ModelError.IllegalHeader -> "API key contains invalid characters. In Settings › Models, paste only the key itself with no extra text, line breaks, or emoji."
     is ModelError.QuotaExceeded -> "Model account quota exceeded. Check your provider balance or plan."
     is ModelError.TaskBudgetExceeded -> "Reached this task's ${e.limit}-token budget before finishing."

@@ -797,8 +797,9 @@ class ProviderStore(
     ): ChatModel {
         val p = provider(cfg.providerId)
         val listed = listedOf(cfg)
+        val effective = effectiveEndpoint(cfg, listed)
         val source = UsageSource(cfg.providerId, p?.name ?: cfg.name, cfg.model, purpose,
-            deepSeekDirect = DeepSeekPriceTable.isOfficialEndpoint(adapterFor(cfg, listed?.endpoint).second))
+            deepSeekDirect = DeepSeekPriceTable.isOfficialEndpoint(adapterFor(cfg, effective).second))
         val settings = p?.contextSettings?.get(cfg.model)
         val configured = if (settings == null) cfg.copy(capabilities = cfg.capabilities.copy(
             compactionEveryRounds = TEMP_COMPACTION_EVERY_ROUNDS,
@@ -810,9 +811,9 @@ class ProviderStore(
         val roleEffort = _roles.value.reasoningEffort(role)
         // 主动能力:思考取服务商写明的最低档;回复短的那两种请求另设上限(见 ProactiveModelSetup)
         val (effort, cap) = if (purpose == UsagePurpose.Proactive) {
-            ProactiveModelSetup.of(adapterFor(cfg, listed?.endpoint).first, ReasoningOptions.of(cfg, listed), roleEffort, call)
+            ProactiveModelSetup.of(adapterFor(cfg, effective).first, ReasoningOptions.of(cfg, listed), roleEffort, call)
         } else roleEffort to null
-        return modelFactory(configured, apiKey(cfg.id), listed?.endpoint, ClientSetup(
+        return modelFactory(configured, apiKey(cfg.id), effective, ClientSetup(
             headers(p?.sessionHeader, session), maxOutputTokens = cap, reasoningEffort = effort,
             thinkingTypes = listed?.thinkingTypes, readTimeoutSeconds = settings?.readTimeoutSeconds,
         )).metered(source, usage, beforeRetry = beforeRetry, beforeCall = beforeCall)
@@ -1263,6 +1264,7 @@ class ProviderStore(
                 baseUrl, apiKey.orEmpty(), cfg.model, cfg.capabilities, http,
                 maxTokens = setup.maxOutputTokens,
                 headers = setup.headers, reasoningEffort = setup.reasoningEffort, thinkingTypes = setup.thinkingTypes,
+                bearerAuth = cfg.kind != ProviderConfig.Kind.Anthropic || baseUrl.contains("commandcode.ai", ignoreCase = true),
             )
             ProviderConfig.Kind.Gemini ->
                 GeminiModel(
@@ -1686,6 +1688,20 @@ class ProviderStore(
         internal fun adapterFor(cfg: ProviderConfig, endpoint: ModelEndpoint?): Pair<ProviderConfig.Kind, String> =
             if (endpoint == null || cfg.kind == ProviderConfig.Kind.Xai) cfg.kind to cfg.baseUrl
             else ProviderConfig.Kind.of(endpoint.protocol) to endpoint.adapterBaseUrl
+
+        /**
+         * Resolves per-model routing when a multi-protocol provider (like Command Code) declares
+         * `supported_endpoints` (e.g. `["/messages"]` for Claude models) without a nested `api` map.
+         */
+        internal fun effectiveEndpoint(cfg: ProviderConfig, listed: ListedModel?): ModelEndpoint? {
+            listed?.endpoint?.let { return it }
+            if (cfg.kind == ProviderConfig.Kind.Xai) return null
+            val protocols = listed?.protocols?.takeIf { it.isNotEmpty() } ?: return null
+            val current = cfg.kind.protocol
+            if (current != null && current in protocols) return null
+            val chosen = ModelProtocol.entries.firstOrNull { it in protocols } ?: return null
+            return ModelEndpoint(chosen, cfg.baseUrl)
+        }
 
         /** 产品里的那份(App 建):配置在 files/settings 下,Key 用 Android 密钥库加密,用量记到 [usage]。 */
         fun create(

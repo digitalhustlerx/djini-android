@@ -3,7 +3,10 @@ package com.wangzan101.djini.core.model
 import com.wangzan101.djini.core.net.ProxyFailure
 
 sealed class ModelError(message: String, cause: Throwable? = null) : Exception(message, cause) {
-    class Auth : ModelError("Invalid API key or insufficient permissions")
+    class Auth(val detail: String = "") : ModelError(
+        if (detail.isEmpty()) "Invalid API key or insufficient permissions"
+        else "Invalid API key or insufficient permissions: $detail",
+    )
     /**
      * 请求头的值含有 OkHttp 拒绝的字符(换行、其它控制字符、非 ASCII)。在调用 `header()` 之前抛出,
      * 避免构造 Request 时 [IllegalArgumentException] 把进程打掉。消息里不带头的原文,免得把 Key 打进日志。

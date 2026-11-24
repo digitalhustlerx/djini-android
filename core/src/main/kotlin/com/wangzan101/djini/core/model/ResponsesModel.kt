@@ -201,8 +201,8 @@ class ResponsesModel(
             ?: (if (status == 403 && accountLogin != null) ModelError.AccountPlanNotAllowed(accountLogin, err?.message.orEmpty().take(200)) else null)
             ?: ModelHttp.reasoningEffortRejected(status, body)
             ?: ModelAccessErrors.of(status, body, model) ?: when {
-            status == 401 -> ModelError.Auth()
-            status == 403 -> if (chatGptPlan) ModelError.ChatGptNotEligible(err?.message.orEmpty().take(200)) else ModelError.Auth()
+            status == 401 -> ModelError.Auth(ModelAccessErrors.jsonDetail(body))
+            status == 403 -> if (chatGptPlan) ModelError.ChatGptNotEligible(err?.message.orEmpty().take(200)) else ModelError.Auth(ModelAccessErrors.jsonDetail(body))
             status == 429 -> if (chatGptPlan) ModelError.ChatGptLimitReached() else ModelError.RateLimited(HttpSupport.retryAfterMs(retryAfter))
             status == 402 -> ModelError.QuotaExceeded()
             ModelHttp.contextTooLong(status, body) -> ModelError.ContextTooLong()

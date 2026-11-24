@@ -84,4 +84,30 @@ class ProviderPresetsTest {
         assertEquals(ProviderConfig.Kind.OpenAiCompat, coding.kind)
         assertNotEquals(standard.baseUrl, coding.baseUrl)
     }
+
+    @Test fun commandCodeRoutesClaudeModelsToMessagesEndpoint() {
+        val cc = preset("Command Code")
+        val claudeCfg = ProviderConfig(
+            id = "c1", providerId = "p1", name = cc.label, kind = cc.kind,
+            baseUrl = cc.baseUrl, model = "claude-sonnet-5-5", capabilities = cc.capabilities,
+        )
+        val claudeListed = com.wangzan101.djini.core.model.ListedModel(
+            id = "claude-sonnet-5-5",
+            protocols = listOf(com.wangzan101.djini.core.model.ModelProtocol.Messages),
+        )
+        val claudeEndpoint = ProviderStore.effectiveEndpoint(claudeCfg, claudeListed)
+        val (claudeKind, claudeBase) = ProviderStore.adapterFor(claudeCfg, claudeEndpoint)
+        assertEquals(ProviderConfig.Kind.Anthropic, claudeKind)
+        assertEquals("https://api.commandcode.ai/provider", claudeBase)
+
+        val gptCfg = claudeCfg.copy(model = "gpt-6-astra")
+        val gptListed = com.wangzan101.djini.core.model.ListedModel(
+            id = "gpt-6-astra",
+            protocols = listOf(
+                com.wangzan101.djini.core.model.ModelProtocol.ChatCompletions,
+                com.wangzan101.djini.core.model.ModelProtocol.Responses,
+            ),
+        )
+        assertNull(ProviderStore.effectiveEndpoint(gptCfg, gptListed))
+    }
 }

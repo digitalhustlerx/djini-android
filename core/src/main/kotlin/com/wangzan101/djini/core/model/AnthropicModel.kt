@@ -48,6 +48,8 @@ class AnthropicModel(
      * null 是列表没说(档位来自别的列表写法),照档位发。
      */
     private val thinkingTypes: List<String>? = null,
+    /** Send `Authorization: Bearer <key>` alongside `x-api-key` for multi-model gateways (e.g. Command Code). */
+    private val bearerAuth: Boolean = false,
 ) : StreamingChatModel {
     override val name: String get() = model
     private val endpoint = baseUrl.trimEnd('/') + "/v1/messages"
@@ -137,16 +139,18 @@ class AnthropicModel(
                 }
             }
         }
+        val cleanKey = ApiKeyText.stripBearerPrefix(apiKey)
         return Request.Builder().url(endpoint)
             .withHeaders(headers)
-            .headerOrReject("x-api-key", apiKey)
+            .apply { if (bearerAuth && cleanKey.isNotEmpty()) headerOrReject("Authorization", "Bearer $cleanKey") }
+            .headerOrReject("x-api-key", cleanKey)
             .header("anthropic-version", "2023-06-01")
             .postInference(InferenceProtocol.Anthropic, payload)
             .build()
     }
 
     private fun mapError(status: Int, retryAfter: String?, body: String): ModelError = ModelAccessErrors.of(status, body, model) ?: when {
-        status == 401 || status == 403 -> ModelError.Auth()
+        status == 401 || status == 403 -> ModelError.Auth(ModelAccessErrors.jsonDetail(body))
         status == 402 || body.contains("credit balance is too low") -> ModelError.QuotaExceeded()
         status == 429 -> ModelError.RateLimited(HttpSupport.retryAfterMs(retryAfter))
         status == 413 || body.contains("prompt is too long") || ModelHttp.contextTooLong(status, body) -> ModelError.ContextTooLong()

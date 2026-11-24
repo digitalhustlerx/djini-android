@@ -49,6 +49,14 @@ class HabitLedger(
         return pattern
     }
 
+    @Synchronized fun deleteHapticPattern(id: String): Boolean {
+        val before = config.customHaptics.size
+        val next = config.customHaptics.filterNot { it.id == id }
+        if (next.size == before) return false
+        updateConfig { it.copy(customHaptics = next) }
+        return true
+    }
+
     @Synchronized fun recordPickup(nowMs: Long = clock()) {
         val day = dateKey(nowMs)
         val rec = state.days[day] ?: DailyHabitRecord(day)
@@ -297,6 +305,71 @@ class HabitLedger(
             dailySeries = series,
             activeFocus = activeFocusLocked(nowMs),
             recentInsights = state.insights.takeLast(10).reversed(),
+        )
+    }
+
+    /**
+     * Produces a structured nightly synthesis comparing today against the 7-day rolling baseline,
+     * persists a recursive [BuddyInsight], and stamps [BuddyConfig.lastNightlyBriefDate].
+     */
+    @Synchronized fun generateNightlyBrief(nowMs: Long = clock()): NightlyBriefReport {
+        val synth = synthesize(7, nowMs)
+        val priorDays = synth.dailySeries.dropLast(1).filter { it.foregroundMinutes > 0 }
+        val avg7d = if (priorDays.isNotEmpty()) priorDays.sumOf { it.foregroundMinutes } / priorDays.size else synth.todayForegroundMinutes
+        val delta = synth.todayForegroundMinutes - avg7d
+        val topDistraction = synth.topAppsToday.firstOrNull { it.packageName in config.watchPackages }
+            ?: synth.topAppsToday.firstOrNull()
+        val topDistractionLabel = topDistraction?.let { it.appLabel.ifBlank { it.packageName } }
+
+        val trendText = when {
+            priorDays.isEmpty() -> "first tracked baseline day"
+            delta >= 20 -> "+${delta}m above your 7-day average (${avg7d}m)"
+            delta <= -20 -> "${-delta}m leaner than your 7-day average (${avg7d}m)"
+            else -> "right around your 7-day average (${avg7d}m)"
+        }
+        val headline = when {
+            synth.todayFocusMinutes >= 45 && synth.todayDoomscrollEpisodes == 0 ->
+                "Strong focus day · ${synth.todayFocusMinutes}m guarded"
+            synth.todayDoomscrollEpisodes >= 3 ->
+                "High scroll drift · ${synth.todayDoomscrollEpisodes} loops caught"
+            delta >= 30 && priorDays.isNotEmpty() ->
+                "Heavier screen day · +${delta}m vs avg"
+            else ->
+                "Nightly Pulse · ${synth.todayForegroundMinutes}m · ${synth.todayPickups} pickups"
+        }
+        val summary = buildString {
+            append("${synth.todayDateIso}: ${synth.todayForegroundMinutes}m screen time ($trendText), ")
+            append("${synth.todayPickups} pickups, ${synth.todayScrollEvents} scrolls")
+            if (synth.todayDoomscrollEpisodes > 0) append(" (${synth.todayDoomscrollEpisodes} doomscroll loops)")
+            if (synth.todayFocusMinutes > 0) append(", ${synth.todayFocusMinutes}m deep focus")
+            if (topDistractionLabel != null) append(". Top pull: $topDistractionLabel")
+            append(".")
+        }
+        val recommendation = when {
+            synth.todayDoomscrollEpisodes >= 2 && topDistractionLabel != null ->
+                "Tighten Focus Guard on $topDistractionLabel tomorrow morning and enable auto-bounce for your first 45m work block."
+            synth.todayFocusMinutes == 0 ->
+                "Schedule one 25m or 45m Focus Guard block right after your first pickup tomorrow to anchor the day."
+            delta >= 25 && priorDays.isNotEmpty() ->
+                "Drop screen time by 20m tomorrow by lowering doomscroll sensitivity to Strict (15) during peak hours."
+            else ->
+                "Keep the momentum — your focus-to-scroll ratio is steady. Start tomorrow with a single intentional Focus Guard block."
+        }
+        val saved = saveInsight("nightly", summary, recommendation, sourceDays = 7, nowMs = nowMs)
+        updateConfig { it.copy(lastNightlyBriefDate = synth.todayDateIso) }
+        return NightlyBriefReport(
+            dateIso = synth.todayDateIso,
+            headline = headline,
+            summary = summary,
+            recommendation = recommendation,
+            todayMinutes = synth.todayForegroundMinutes,
+            avgMinutes7d = avg7d,
+            deltaMinutesVsAvg = delta,
+            todayPickups = synth.todayPickups,
+            todayFocusMinutes = synth.todayFocusMinutes,
+            todayDoomscrollEpisodes = synth.todayDoomscrollEpisodes,
+            topDistractionApp = topDistractionLabel,
+            savedInsight = saved,
         )
     }
 

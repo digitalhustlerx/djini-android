@@ -16,12 +16,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -32,10 +34,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.wangzan101.djini.buddy.BuddyNightlyScheduler
 import com.wangzan101.djini.buddy.BuddyRuntime
+import com.wangzan101.djini.buddy.DjiniPulseWidgetProvider
 import com.wangzan101.djini.core.buddy.AppDailyStats
 import com.wangzan101.djini.core.buddy.BuddyInsight
 import com.wangzan101.djini.core.buddy.HabitDayPoint
+import com.wangzan101.djini.core.buddy.HapticPattern
 import com.wangzan101.djini.ui.components.ButtonKind
 import com.wangzan101.djini.ui.components.ButtonSize
 import com.wangzan101.djini.ui.components.DjiniButton
@@ -51,6 +56,12 @@ import com.wangzan101.djini.ui.components.StatusPill
 import com.wangzan101.djini.ui.theme.DjiniIcons
 import com.wangzan101.djini.ui.theme.DjiniTheme
 import com.wangzan101.djini.ui.theme.DjiniType
+
+private data class HapticBeat(
+    val pauseMs: Int,
+    val buzzMs: Int,
+    val amplitude: Int,
+)
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -70,12 +81,23 @@ fun BuddyScreen(
     var focusDuration by remember { mutableIntStateOf(45) }
     var vipDraft by remember(cfg.vipKeywords) { mutableStateOf(cfg.vipKeywords.joinToString(", ")) }
 
+    // Visual Haptic Waveform Composer state
+    var composerOpen by remember { mutableStateOf(false) }
+    var draftName by remember { mutableStateOf("") }
+    var draftDesc by remember { mutableStateOf("") }
+    val beats = remember {
+        mutableStateListOf(
+            HapticBeat(pauseMs = 0, buzzMs = 60, amplitude = 160),
+            HapticBeat(pauseMs = 70, buzzMs = 110, amplitude = 230),
+        )
+    }
+
     LaunchedEffect(Unit) {
         runtime.syncSystemUsageAsync()
     }
 
     PageScaffold("Djini Pulse", onBack) {
-        // 1. Companion Status & Permissions
+        // 1. Companion Status, Permissions & Home-Screen Widget
         GroupLabel("ACTIVE COMPANION")
         GroupCard {
             ListRow(
@@ -108,6 +130,22 @@ fun BuddyScreen(
                 onClick = onFixAccessibility,
             ) {
                 StatusPill(if (snap.hasAccessibility) "Active" else "Enable", if (snap.hasAccessibility) PillTone.Ok else PillTone.Warn)
+            }
+            ListRow(
+                DjiniIcons.Spark,
+                "Home-Screen Live Widget",
+                "Pin live screen time, pickups, 1-tap Focus Guard & Pulse Feel to your launcher",
+                onClick = {
+                    val pinned = DjiniPulseWidgetProvider.requestPin(context)
+                    val msg = if (pinned) {
+                        "Choose where to place your Djini Pulse widget"
+                    } else {
+                        "Long-press your home screen → Widgets → Djini Pulse"
+                    }
+                    Toast.makeText(context, msg, Toast.LENGTH_LONG).show()
+                },
+            ) {
+                StatusPill("Pin", PillTone.Accent)
             }
         }
 
@@ -214,31 +252,69 @@ fun BuddyScreen(
             }
         }
 
-        // 4. Recursive Synthesis & Live Buddy Chat
-        GroupLabel("RECURSIVE AI COACHING")
+        // 4. Nightly Auto-Synthesis & Recursive Coaching
+        GroupLabel("NIGHTLY AUTO-BRIEFING & COACHING")
         DjiniCard(Modifier.padding(bottom = 12.dp)) {
             Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                Text(
-                    "Synthesize your on-device usage, scroll loops, pickups, and past insights so Djini learns your patterns recursively and coaches you.",
-                    style = DjiniType.Caption,
-                    color = c.ink2,
-                )
+                Row(
+                    Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Column(Modifier.weight(1f).padding(end = 12.dp)) {
+                        Text("Scheduled Nightly Synthesis", style = DjiniType.BodyStrong, color = c.ink)
+                        val scheduleNote = if (cfg.nightlyBriefEnabled) {
+                            val last = cfg.lastNightlyBriefDate?.let { " · Last: $it" }.orEmpty()
+                            "Daily at ${BuddyNightlyScheduler.formatTime(cfg.nightlyBriefHour, cfg.nightlyBriefMinute)}$last"
+                        } else {
+                            "Off — enable for automatic evening habit synthesis & brief"
+                        }
+                        Text(scheduleNote, style = DjiniType.Caption, color = c.ink2)
+                    }
+                    DjiniSwitch(cfg.nightlyBriefEnabled, { runtime.setNightlyBrief(it) })
+                }
+                if (cfg.nightlyBriefEnabled) {
+                    FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        listOf(20 to 30, 21 to 30, 22 to 30, 23 to 0).forEach { (h, m) ->
+                            val selected = cfg.nightlyBriefHour == h && cfg.nightlyBriefMinute == m
+                            SelectChip(
+                                BuddyNightlyScheduler.formatTime(h, m),
+                                selected,
+                                { runtime.setNightlyBrief(true, h, m) },
+                            )
+                        }
+                    }
+                }
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    DjiniButton(
+                        "Run Nightly Brief Now",
+                        onClick = {
+                            runtime.runNightlyBriefAsync(fromAlarm = false)
+                            Toast.makeText(context, "Synthesizing tonight's Pulse brief…", Toast.LENGTH_SHORT).show()
+                        },
+                        modifier = Modifier.weight(1f),
+                        kind = ButtonKind.Primary,
+                        size = ButtonSize.Small,
+                    )
+                    DjiniButton(
+                        "Check-In Ping",
+                        onClick = {
+                            runtime.sendTestCheckInNotification()
+                            Toast.makeText(context, "Sent clickable Djini Pulse notification", Toast.LENGTH_SHORT).show()
+                        },
+                        modifier = Modifier.weight(1f),
+                        kind = ButtonKind.Tonal,
+                        size = ButtonSize.Small,
+                    )
+                }
                 DjiniButton(
-                    "Synthesize My Habits in Chat",
+                    "Deep AI Habit Synthesis in Chat",
                     onClick = {
                         val id = runtime.launchSynthesisCoaching()
                         onOpenConversation(id)
                     },
                     modifier = Modifier.fillMaxWidth(),
-                )
-                DjiniButton(
-                    "Send Clickable Check-In Notification",
-                    onClick = {
-                        runtime.sendTestCheckInNotification()
-                        Toast.makeText(context, "Sent Djini Pulse notification — tap it to jump into chat", Toast.LENGTH_SHORT).show()
-                    },
-                    modifier = Modifier.fillMaxWidth(),
-                    kind = ButtonKind.Tonal,
+                    kind = ButtonKind.Secondary,
                 )
                 if (synth.recentInsights.isNotEmpty()) {
                     Spacer(Modifier.height(4.dp))
@@ -250,19 +326,193 @@ fun BuddyScreen(
             }
         }
 
-        // 5. Programmable Haptics Studio
+        // 5. Programmable Haptics Studio + Visual Waveform Composer
         GroupLabel("PROGRAMMABLE HAPTICS STUDIO")
-        GroupCard {
-            val patterns = cfg.allHaptics()
-            patterns.forEachIndexed { idx, pattern ->
-                ListRow(
-                    DjiniIcons.Spark,
-                    pattern.name,
-                    "${pattern.description} (${pattern.timingsMs.sum()}ms)",
-                    first = idx == 0,
-                    onClick = { runtime.playPattern(pattern.id) },
-                ) {
-                    StatusPill("Feel", PillTone.Neutral)
+        DjiniCard(Modifier.padding(bottom = 12.dp)) {
+            Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                val patterns = cfg.allHaptics()
+                patterns.forEach { pattern ->
+                    HapticPatternRow(
+                        pattern = pattern,
+                        onPlay = { runtime.playPattern(pattern.id) },
+                        onDelete = if (!pattern.builtIn) ({ runtime.deleteCustomPattern(pattern.id) }) else null,
+                    )
+                }
+
+                DjiniButton(
+                    if (composerOpen) "Hide Waveform Composer" else "+ Compose Custom Haptic Signature",
+                    onClick = { composerOpen = !composerOpen },
+                    modifier = Modifier.fillMaxWidth(),
+                    kind = if (composerOpen) ButtonKind.Secondary else ButtonKind.Tonal,
+                    size = ButtonSize.Small,
+                )
+
+                if (composerOpen) {
+                    Column(
+                        Modifier
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(14.dp))
+                            .background(c.fill)
+                            .padding(12.dp),
+                        verticalArrangement = Arrangement.spacedBy(10.dp),
+                    ) {
+                        Text("Visual Haptic Waveform Composer", style = DjiniType.BodyStrong, color = c.ink)
+                        Text("Quick rhythm templates", style = DjiniType.Micro, color = c.ink2)
+                        FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                            listOf(
+                                "Double Tap" to listOf(HapticBeat(0, 45, 160), HapticBeat(70, 55, 225)),
+                                "Ramp Up" to listOf(HapticBeat(0, 50, 95), HapticBeat(60, 75, 175), HapticBeat(60, 120, 255)),
+                                "Calm Wave" to listOf(HapticBeat(0, 180, 90), HapticBeat(160, 260, 145)),
+                                "Morse Alert" to listOf(HapticBeat(0, 45, 230), HapticBeat(45, 45, 230), HapticBeat(45, 135, 255)),
+                            ).forEach { (tplName, tplBeats) ->
+                                SelectChip(tplName, false, {
+                                    beats.clear()
+                                    beats.addAll(tplBeats)
+                                    if (draftName.isBlank()) draftName = tplName
+                                })
+                            }
+                        }
+
+                        // Live visual waveform preview
+                        val previewTimings = beatsToTimings(beats)
+                        val previewAmps = beatsToAmps(beats)
+                        Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                            Text(
+                                "Waveform Preview · ${beats.size} beats · ${previewTimings.sum()}ms total",
+                                style = DjiniType.Micro.copy(fontWeight = FontWeight.SemiBold),
+                                color = c.ink2,
+                            )
+                            WaveformBars(previewTimings, previewAmps, heightDp = 42)
+                        }
+
+                        // Per-beat editors
+                        beats.forEachIndexed { idx, beat ->
+                            Column(
+                                Modifier
+                                    .fillMaxWidth()
+                                    .clip(RoundedCornerShape(10.dp))
+                                    .background(c.bg)
+                                    .padding(10.dp),
+                                verticalArrangement = Arrangement.spacedBy(4.dp),
+                            ) {
+                                Row(
+                                    Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    verticalAlignment = Alignment.CenterVertically,
+                                ) {
+                                    Text(
+                                        "Beat ${idx + 1} · buzz ${beat.buzzMs}ms · power ${(beat.amplitude * 100) / 255}%",
+                                        style = DjiniType.Caption.copy(fontWeight = FontWeight.SemiBold),
+                                        color = c.ink,
+                                    )
+                                    if (beats.size > 1) {
+                                        Text(
+                                            "Remove",
+                                            style = DjiniType.Micro.copy(fontWeight = FontWeight.SemiBold),
+                                            color = c.warn,
+                                            modifier = Modifier.clickable { beats.removeAt(idx) }.padding(horizontal = 4.dp, vertical = 2.dp),
+                                        )
+                                    }
+                                }
+                                if (idx > 0) {
+                                    Text("Gap before beat: ${beat.pauseMs}ms", style = DjiniType.Micro, color = c.ink2)
+                                    Slider(
+                                        value = beat.pauseMs.toFloat(),
+                                        onValueChange = { beats[idx] = beat.copy(pauseMs = it.toInt()) },
+                                        valueRange = 20f..400f,
+                                    )
+                                }
+                                Text("Pulse duration: ${beat.buzzMs}ms", style = DjiniType.Micro, color = c.ink2)
+                                Slider(
+                                    value = beat.buzzMs.toFloat(),
+                                    onValueChange = { beats[idx] = beat.copy(buzzMs = it.toInt()) },
+                                    valueRange = 20f..400f,
+                                )
+                                Text("Intensity: ${beat.amplitude}/255", style = DjiniType.Micro, color = c.ink2)
+                                Slider(
+                                    value = beat.amplitude.toFloat(),
+                                    onValueChange = { beats[idx] = beat.copy(amplitude = it.toInt()) },
+                                    valueRange = 30f..255f,
+                                )
+                            }
+                        }
+
+                        if (beats.size < 8) {
+                            DjiniButton(
+                                "+ Add Beat (${beats.size}/8)",
+                                onClick = { beats.add(HapticBeat(pauseMs = 70, buzzMs = 80, amplitude = 190)) },
+                                modifier = Modifier.fillMaxWidth(),
+                                kind = ButtonKind.Secondary,
+                                size = ButtonSize.Small,
+                            )
+                        }
+
+                        OutlinedTextField(
+                            value = draftName,
+                            onValueChange = { draftName = it },
+                            label = { Text("Signature Name") },
+                            placeholder = { Text("e.g. Morning Kickstart") },
+                            singleLine = true,
+                            modifier = Modifier.fillMaxWidth(),
+                        )
+                        OutlinedTextField(
+                            value = draftDesc,
+                            onValueChange = { draftDesc = it },
+                            label = { Text("When Djini should use it") },
+                            placeholder = { Text("e.g. Gentle cue when starting deep work") },
+                            singleLine = true,
+                            modifier = Modifier.fillMaxWidth(),
+                        )
+                        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            DjiniButton(
+                                "Preview Feel",
+                                onClick = {
+                                    runCatching {
+                                        runtime.playCustomWaveform(beatsToTimings(beats), beatsToAmps(beats))
+                                    }.onFailure {
+                                        Toast.makeText(context, it.message ?: "Invalid waveform", Toast.LENGTH_SHORT).show()
+                                    }
+                                },
+                                modifier = Modifier.weight(1f),
+                                kind = ButtonKind.Tonal,
+                                size = ButtonSize.Small,
+                            )
+                            DjiniButton(
+                                "Save Signature",
+                                onClick = {
+                                    val cleanName = draftName.trim().ifBlank { "Custom Pulse" }
+                                    val slug = cleanName.lowercase()
+                                        .replace(Regex("[^a-z0-9]+"), "_")
+                                        .trim('_')
+                                        .ifBlank { "custom_pulse" }
+                                        .take(36)
+                                    val pattern = runCatching {
+                                        HapticPattern(
+                                            id = slug,
+                                            name = cleanName.take(60),
+                                            description = draftDesc.trim().ifBlank { "Custom user haptic signature" }.take(200),
+                                            timingsMs = beatsToTimings(beats),
+                                            amplitudes = beatsToAmps(beats),
+                                            builtIn = false,
+                                        )
+                                    }
+                                    pattern.onSuccess { p ->
+                                        runtime.saveCustomPattern(p)
+                                        runtime.playPattern(p.id)
+                                        draftName = ""
+                                        draftDesc = ""
+                                        composerOpen = false
+                                        Toast.makeText(context, "Saved \"${p.name}\" (available to Djini AI too)", Toast.LENGTH_SHORT).show()
+                                    }.onFailure {
+                                        Toast.makeText(context, it.message ?: "Could not save pattern", Toast.LENGTH_SHORT).show()
+                                    }
+                                },
+                                modifier = Modifier.weight(1f),
+                                kind = ButtonKind.Primary,
+                                size = ButtonSize.Small,
+                            )
+                        }
+                    }
                 }
             }
         }
@@ -302,6 +552,92 @@ fun BuddyScreen(
                     size = ButtonSize.Small,
                 )
             }
+        }
+    }
+}
+
+private fun beatsToTimings(beats: List<HapticBeat>): List<Long> = buildList {
+    beats.forEachIndexed { idx, b ->
+        add(if (idx == 0) 0L else b.pauseMs.toLong().coerceIn(10L, 1_500L))
+        add(b.buzzMs.toLong().coerceIn(15L, 1_500L))
+    }
+}
+
+private fun beatsToAmps(beats: List<HapticBeat>): List<Int> = buildList {
+    beats.forEach { b ->
+        add(0)
+        add(b.amplitude.coerceIn(1, 255))
+    }
+}
+
+@Composable
+private fun HapticPatternRow(
+    pattern: HapticPattern,
+    onPlay: () -> Unit,
+    onDelete: (() -> Unit)?,
+) {
+    val c = DjiniTheme.colors
+    Column(
+        Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(12.dp))
+            .background(c.fill)
+            .clickable(onClick = onPlay)
+            .padding(12.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        Row(
+            Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Column(Modifier.weight(1f).padding(end = 8.dp)) {
+                Text(pattern.name, style = DjiniType.BodyStrong, color = c.ink, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                Text(
+                    "${pattern.description} (${pattern.timingsMs.sum()}ms)",
+                    style = DjiniType.Micro,
+                    color = c.ink2,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            }
+            Row(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
+                if (onDelete != null) {
+                    Text(
+                        "Del",
+                        style = DjiniType.Micro.copy(fontWeight = FontWeight.SemiBold),
+                        color = c.warn,
+                        modifier = Modifier.clickable(onClick = onDelete).padding(horizontal = 6.dp, vertical = 4.dp),
+                    )
+                }
+                StatusPill("Feel", PillTone.Accent)
+            }
+        }
+        WaveformBars(pattern.timingsMs, pattern.amplitudes, heightDp = 24)
+    }
+}
+
+@Composable
+private fun WaveformBars(timingsMs: List<Long>, amplitudes: List<Int>, heightDp: Int) {
+    val c = DjiniTheme.colors
+    val steps = timingsMs.zip(amplitudes).filter { (t, _) -> t > 0L }
+    if (steps.isEmpty()) return
+    Row(
+        Modifier.fillMaxWidth().height(heightDp.dp),
+        horizontalArrangement = Arrangement.spacedBy(3.dp),
+        verticalAlignment = Alignment.Bottom,
+    ) {
+        steps.forEach { (durationMs, amp) ->
+            val weight = durationMs.toFloat().coerceIn(20f, 350f)
+            val isBuzz = amp > 0
+            val heightFrac = if (isBuzz) (amp.toFloat() / 255f).coerceIn(0.22f, 1f) else 0.12f
+            Box(
+                Modifier
+                    .weight(weight)
+                    .height((heightDp * heightFrac).dp)
+                    .clip(RoundedCornerShape(4.dp))
+                    .background(if (isBuzz) c.accent else c.greySoft),
+            )
         }
     }
 }

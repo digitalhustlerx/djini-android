@@ -89,11 +89,13 @@ class BuddyRuntime(private val app: DjiniApp) {
                 app.registerReceiver(pickupReceiver, filter)
             }
         }.onFailure { Log.w(TAG, "Could not register pickup receiver", it) }
+        BuddyNightlyScheduler.sync(app, ledger.config())
         syncSystemUsageAsync()
     }
 
     fun refresh() {
         _snapshot.value = buildSnapshot()
+        runCatching { DjiniPulseWidgetProvider.refreshAll(app) }
     }
 
     fun syncSystemUsageAsync() {
@@ -111,11 +113,24 @@ class BuddyRuntime(private val app: DjiniApp) {
     }
 
     fun setEnabled(enabled: Boolean) {
-        ledger.updateConfig { it.copy(enabled = enabled) }
+        val cfg = ledger.updateConfig { it.copy(enabled = enabled) }
+        BuddyNightlyScheduler.sync(app, cfg)
         if (enabled) {
             playPattern("gentle_tap")
             syncSystemUsageAsync()
         }
+        refresh()
+    }
+
+    fun setNightlyBrief(enabled: Boolean, hour: Int = ledger.config().nightlyBriefHour, minute: Int = ledger.config().nightlyBriefMinute) {
+        val cfg = ledger.updateConfig {
+            it.copy(
+                nightlyBriefEnabled = enabled,
+                nightlyBriefHour = hour.coerceIn(0, 23),
+                nightlyBriefMinute = minute.coerceIn(0, 59),
+            )
+        }
+        BuddyNightlyScheduler.sync(app, cfg)
         refresh()
     }
 
@@ -192,6 +207,76 @@ class BuddyRuntime(private val app: DjiniApp) {
         val saved = ledger.saveHapticPattern(pattern)
         refresh()
         return saved
+    }
+
+    fun deleteCustomPattern(id: String): Boolean {
+        val removed = ledger.deleteHapticPattern(id)
+        if (removed) refresh()
+        return removed
+    }
+
+    /**
+     * Runs the automated (or manual) nightly habit-synthesis routine: refreshes system UsageStats,
+     * compares today vs 7-day baseline, persists a recursive nightly insight (+ mirrors to MemoryStore),
+     * fires a calm haptic cue, seeds a Nightly Pulse Brief chat thread, posts a clickable notification,
+     * and re-arms tomorrow's alarm.
+     */
+    fun runNightlyBriefAsync(fromAlarm: Boolean = false, onDone: ((String?) -> Unit)? = null) {
+        scope.launch(Dispatchers.IO) {
+            val threadId = runCatching {
+                val cfg = ledger.config()
+                if (fromAlarm && (!cfg.enabled || !cfg.nightlyBriefEnabled)) {
+                    BuddyNightlyScheduler.sync(app, cfg)
+                    return@runCatching null
+                }
+                val todayMap = usage.collectTodayUsage()
+                if (todayMap.isNotEmpty()) {
+                    val todayIso = LocalDate.now(ZoneId.systemDefault()).toString()
+                    ledger.mergeSystemUsage(todayIso, todayMap)
+                    ledger.flush()
+                }
+                val brief = ledger.generateNightlyBrief()
+                // Mirror nightly synthesis into Djini's long-term MemoryStore when memory is enabled
+                runCatching {
+                    if (app.memory.settings().switches.value.useMemory) {
+                        val content = "[Djini Pulse · Nightly ${brief.dateIso}] ${brief.summary} Next: ${brief.recommendation}"
+                        val source = MemorySource("buddy_nightly", brief.summary, "buddy-pulse", brief.savedInsight.createdAtMs)
+                        app.memory.store().add(MemoryKind.preference, content, listOf("djini-pulse", "nightly"), source)
+                    }
+                }
+                playPattern("breathing_calm")
+                val deltaStr = when {
+                    brief.deltaMinutesVsAvg > 0 -> "+${brief.deltaMinutesVsAvg}m vs 7-day avg"
+                    brief.deltaMinutesVsAvg < 0 -> "${brief.deltaMinutesVsAvg}m vs 7-day avg"
+                    else -> "on par with 7-day avg"
+                }
+                val id = seedBuddyConversation(
+                    title = "Nightly Pulse · ${brief.dateIso}",
+                    userNote = if (fromAlarm) "Scheduled nightly habit synthesis" else "On-demand nightly habit synthesis",
+                    buddyMessage = "### ${brief.headline}\n\n" +
+                        "${brief.summary}\n\n" +
+                        "- **Screen time:** ${brief.todayMinutes}m ($deltaStr)\n" +
+                        "- **Pickups:** ${brief.todayPickups}\n" +
+                        "- **Focus guarded:** ${brief.todayFocusMinutes}m\n" +
+                        "- **Doomscroll loops caught:** ${brief.todayDoomscrollEpisodes}\n" +
+                        (brief.topDistractionApp?.let { "- **Top attention pull:** $it\n" } ?: "") +
+                        "\n**Tomorrow's game plan:** ${brief.recommendation}\n\n" +
+                        "Reply here if you want to adjust tomorrow's Focus Guard rules, tweak doomscroll sensitivity, or design a new morning haptic cue.",
+                )
+                postClickableNotification(
+                    title = "Nightly Pulse · ${brief.headline}",
+                    body = "${brief.todayMinutes}m screen ($deltaStr) · ${brief.recommendation}",
+                    threadId = id,
+                )
+                BuddyNightlyScheduler.sync(app, ledger.config())
+                refresh()
+                id
+            }.onFailure {
+                Log.w(TAG, "Nightly brief failed", it)
+                BuddyNightlyScheduler.sync(app, ledger.config())
+            }.getOrNull()
+            onDone?.invoke(threadId)
+        }
     }
 
     fun saveInsight(category: String, summary: String, recommendation: String, sourceDays: Int = 7): BuddyInsight {

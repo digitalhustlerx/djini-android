@@ -170,4 +170,5 @@
     <string name="drawer_project_delete_body">All chats and shared workspace files in "%1$s" will be deleted and cannot be recovered.</string>
     <string name="drawer_project_actions">Project actions</string>
     <string name="chat_project_shared">Project</string>
+    <string name="djini_pulse_widget_desc">Live screen time, pickups, Focus Guard toggle, and quick haptic pulse check-in.</string>
 </resources>

@@ -147,6 +147,10 @@ data class BuddyConfig(
     val vipKeywords: List<String> = DEFAULT_VIP_KEYWORDS,
     val personalityTone: String = "direct",
     val customHaptics: List<HapticPattern> = emptyList(),
+    val nightlyBriefEnabled: Boolean = true,
+    val nightlyBriefHour: Int = 21,
+    val nightlyBriefMinute: Int = 30,
+    val lastNightlyBriefDate: String? = null,
 ) {
     fun allHaptics(): List<HapticPattern> {
         val byId = LinkedHashMap<String, HapticPattern>()
@@ -240,4 +244,19 @@ data class HabitSynthesis(
     val dailySeries: List<HabitDayPoint>,
     val activeFocus: FocusSession?,
     val recentInsights: List<BuddyInsight>,
+)
+
+data class NightlyBriefReport(
+    val dateIso: String,
+    val headline: String,
+    val summary: String,
+    val recommendation: String,
+    val todayMinutes: Int,
+    val avgMinutes7d: Int,
+    val deltaMinutesVsAvg: Int,
+    val todayPickups: Int,
+    val todayFocusMinutes: Int,
+    val todayDoomscrollEpisodes: Int,
+    val topDistractionApp: String?,
+    val savedInsight: BuddyInsight,
 )

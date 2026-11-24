@@ -413,6 +413,20 @@
             </intent-filter>
         </receiver>
         <receiver android:name=".teach.TeachReceiver" android:exported="false" />
+        <receiver android:name=".buddy.BuddyNightlyReceiver" android:exported="false" />
+
+        <!-- Djini Pulse live home-screen widget -->
+        <receiver
+            android:name=".buddy.DjiniPulseWidgetProvider"
+            android:exported="true"
+            android:label="Djini Pulse">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/djini_pulse_widget_info" />
+        </receiver>
     </application>
 
 </manifest>

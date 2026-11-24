@@ -125,4 +125,35 @@ class HabitLedgerTest {
         assertEquals("heartbeat", playedId)
         assertEquals("heartbeat", played["played"]!!.jsonPrimitive.content)
     }
+
+    @Test fun customHapticSaveDeleteAndNightlyBriefCompareAgainstBaseline() {
+        val dayMs = 86_400_000L
+        var now = 1_700_000_000_000L
+        val ledger = HabitLedger(tmp.newFolder("v2"), clock = { now }, zone = { ZoneOffset.UTC })
+
+        // Save and delete custom haptic, ensuring built-ins cannot be deleted
+        val custom = HapticPattern("my_wave", "My Wave", "Custom cue", listOf(0L, 60L, 40L, 90L), listOf(0, 140, 0, 220))
+        ledger.saveHapticPattern(custom)
+        assertNotNull(ledger.config().hapticById("my_wave"))
+        assertTrue(ledger.deleteHapticPattern("my_wave"))
+        assertNull(ledger.config().hapticById("my_wave"))
+        assertTrue(!ledger.deleteHapticPattern("heartbeat"))
+        assertNotNull(ledger.config().hapticById("heartbeat"))
+
+        // Seed yesterday (30m) and today (75m) -> +45m vs 7-day average
+        val yesterdayIso = java.time.Instant.ofEpochMilli(now - dayMs).atZone(ZoneOffset.UTC).toLocalDate().toString()
+        val todayIso = java.time.Instant.ofEpochMilli(now).atZone(ZoneOffset.UTC).toLocalDate().toString()
+        ledger.mergeSystemUsage(yesterdayIso, mapOf("com.instagram.android" to ("Instagram" to 30 * 60_000L)), now - dayMs)
+        ledger.mergeSystemUsage(todayIso, mapOf("com.instagram.android" to ("Instagram" to 75 * 60_000L)), now)
+        ledger.recordPickup(now)
+
+        val brief = ledger.generateNightlyBrief(now)
+        assertEquals(todayIso, brief.dateIso)
+        assertEquals(75, brief.todayMinutes)
+        assertEquals(30, brief.avgMinutes7d)
+        assertEquals(45, brief.deltaMinutesVsAvg)
+        assertEquals("Instagram", brief.topDistractionApp)
+        assertEquals("nightly", brief.savedInsight.category)
+        assertEquals(todayIso, ledger.config().lastNightlyBriefDate)
+    }
 }

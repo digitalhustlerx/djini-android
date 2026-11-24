@@ -32,6 +32,7 @@ internal data class AllowanceRoute(
                 "Kimi" -> AllowanceRoute(AllowanceSource.Kimi, "https://platform.kimi.com/console/account")
                 "SiliconFlow" -> AllowanceRoute(AllowanceSource.SiliconFlow, "https://cloud.siliconflow.cn/expensebill")
                 "OpenRouter" -> AllowanceRoute(AllowanceSource.OpenRouter, "https://openrouter.ai/settings/credits")
+                "Command Code" -> AllowanceRoute(dashboard = "https://commandcode.ai/studio")
                 "Alibaba Qwen" -> AllowanceRoute(dashboard = "https://bailian.console.aliyun.com/")
                 "Zhipu (GLM)" -> AllowanceRoute(dashboard = "https://bigmodel.cn/finance/overview")
                 "Zhipu Coding Plan" -> AllowanceRoute(dashboard = "https://www.bigmodel.cn/usercenter/glm-coding/usage")

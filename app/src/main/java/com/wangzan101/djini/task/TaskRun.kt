@@ -1048,7 +1048,10 @@ class TaskRun(
                 self = selfPort,
                 selfOperate = selfPort?.takeIf { FeatureFlags.get(service).selfOperate() },
                 pluginTools = pluginTools, pluginScriptRunner = pluginRunner,
-                pluginArgsDir = java.io.File(service.cacheDir, "plugin-args"))
+                pluginArgsDir = java.io.File(service.cacheDir, "plugin-args"),
+                buddy = if (!conditionCheck) (service.application as? DjiniApp)?.let {
+                    com.wangzan101.djini.buddy.AndroidBuddyPort(it.buddy, conversationId)
+                } else null)
             dispatcher = tools
             // 主动能力从通知里攒下、够格带进任务的那一段:只给用户在手机上发起的任务(不给定时、渠道、电脑交来的,也不给条件检查和子任务);
             // 主动能力没开时不去碰它(连对象都不建)

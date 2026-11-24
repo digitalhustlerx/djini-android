@@ -95,6 +95,7 @@ fun SettingsScreen(
     onOpenFiles: () -> Unit = {},
     onOpenPersonal: () -> Unit = {},
     onOpenPlans: () -> Unit = {},
+    onOpenBuddy: () -> Unit = {},
     /** 任务运行里的「自主模式」:当前值和换它的办法。 */
     autonomous: Boolean = false,
     onAutonomous: (Boolean) -> Unit = {},
@@ -249,6 +250,7 @@ fun SettingsScreen(
             onOpenFiles = onOpenFiles,
             onOpenPersonal = onOpenPersonal,
             onOpenPlans = onOpenPlans,
+            onOpenBuddy = onOpenBuddy,
             versionName = BuildConfig.VERSION_NAME, updateVersion = updateVersion, onOpenAbout = onOpenAbout,
         )
         SettingsPage.Advanced -> AdvancedSettingsContent(
@@ -459,6 +461,7 @@ fun SettingsContent(
     onOpenFiles: () -> Unit = {},
     onOpenPersonal: () -> Unit = {},
     onOpenPlans: () -> Unit = {},
+    onOpenBuddy: () -> Unit = {},
     versionName: String = "",
     updateVersion: String? = null,
     onOpenAbout: () -> Unit = {},
@@ -495,6 +498,7 @@ fun SettingsContent(
                 RowChevron()
             }
             ListRow(DjiniIcons.Ripple, stringResource(R.string.proactive_title), stringResource(R.string.proactive_entry_sub), onClick = onOpenProactive) { RowChevron() }
+            ListRow(DjiniIcons.Chart, "Djini Pulse", "Habit analytics, focus guard & programmable haptics", onClick = onOpenBuddy) { RowChevron() }
             if (personalStart) {
                 ListRow(DjiniIcons.Message, stringResource(R.string.drawer_personal), onClick = onOpenPersonal) { RowChevron() }
             }

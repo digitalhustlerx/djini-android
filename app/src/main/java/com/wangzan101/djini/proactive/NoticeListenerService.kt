@@ -22,6 +22,7 @@ class NoticeListenerService : NotificationListenerService() {
 
     override fun onNotificationPosted(sbn: StatusBarNotification?, rankingMap: RankingMap?) {
         sbn?.let(runtime::onPosted)
+        sbn?.let { (application as DjiniApp).buddy.onNotificationPosted(it) }
     }
 
     override fun onNotificationRemoved(sbn: StatusBarNotification?, rankingMap: RankingMap?, reason: Int) {

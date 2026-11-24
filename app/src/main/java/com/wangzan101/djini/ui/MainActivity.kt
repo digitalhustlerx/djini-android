@@ -643,6 +643,7 @@ private fun DjiniRoot(
                 onOpenFiles = { filesFromDrawer = false; filesConversation = app.chat.ui.value.conversationId; nav.push(Route.Files) },
                 onOpenPersonal = { nav.show(Route.Personal) },
                 onOpenPlans = { nav.push(Route.Plans) },
+                onOpenBuddy = { nav.push(Route.Buddy) },
                 onOpenPersonas = if (personasOn) ({ nav.push(Route.Persona) }) else null,
                 autonomous = autonomous, onAutonomous = app.approvalControl::setAutonomous,
                 updateVersion = updateState.update?.version, onOpenAbout = { nav.push(Route.About) },
@@ -653,6 +654,15 @@ private fun DjiniRoot(
         Route.VoiceModel -> VoiceModelScreen(store, onBack = back)
         Route.ImageModel -> ImageModelScreen(store, onBack = back)
         Route.Persona -> if (personasOn) PersonaScreen(app.personas, onBack = back) else LaunchedEffect(Unit) { nav.back() }
+        Route.Buddy -> BuddyScreen(
+            runtime = app.buddy,
+            onFixAccessibility = { onFix(Fix.OpenAccessibility) },
+            onOpenConversation = { id ->
+                app.chat.openConversation(id)
+                nav.reset()
+            },
+            onBack = back,
+        )
         Route.Usage -> UsageScreen(app.usage, store, onBack = back, onOpenUrl = { openInBrowser(context, it) })
         Route.SpeechModel -> SpeechModelScreen(store, onBack = back)
         Route.About -> AboutScreen(

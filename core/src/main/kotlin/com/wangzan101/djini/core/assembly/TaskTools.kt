@@ -166,6 +166,8 @@ fun toolDispatcher(
     pluginScriptRunner: ScriptRunner? = null,
     /** 插件脚本参数临时文件放哪;App 用 cacheDir,JVM 测试用 java.io.tmpdir。 */
     pluginArgsDir: File = File(System.getProperty("java.io.tmpdir"), "djini-plugin-args"),
+    /** Djini Pulse: digital habit analytics, programmable dynamic haptics, Focus Guardian, and recursive insights. */
+    buddy: com.wangzan101.djini.core.buddy.BuddyPort? = null,
 ): ToolDispatcher {
     val screenshotStore = sandbox?.takeIf {
         it.status() !is com.wangzan101.djini.core.cap.sandbox.SandboxStatus.Unsupported &&
@@ -229,6 +231,11 @@ fun toolDispatcher(
         object : CapabilityProvider {
             override val id = "plugin"
             override fun open(spec: RunSpec) = PluginCapability(pluginTools.map { PluginScriptTool(it, runner, pluginArgsDir) })
+        }
+    }, buddy?.let { port ->
+        object : CapabilityProvider {
+            override val id = com.wangzan101.djini.core.buddy.BUDDY
+            override fun open(spec: RunSpec) = com.wangzan101.djini.core.buddy.BuddyCapability(port)
         }
     }) + mcpServers.map(::McpClientProvider)
     return RunAssembler(providers).assemble(runSpec, config, stableRefs, FORMER_PREFIX, RENAMED, RETIRED, MOVED)

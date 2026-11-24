@@ -113,6 +113,9 @@ class DjiniApp : Application(), WebOwner, SandboxOwner, TaskEnvironment.Owner, P
     val calls by lazy { com.wangzan101.djini.calls.CallRuntime(this) }
     val callPort by lazy { com.wangzan101.djini.calls.AndroidPhoneCallPort(calls) }
 
+    /** Djini Pulse: 24/7 digital habit telemetry, Focus Guardian, programmable haptics, and recursive insights. */
+    val buddy by lazy { com.wangzan101.djini.buddy.BuddyRuntime(this) }
+
     /** Web 控制台读的对话与运行中任务;只读,不参与任务执行。 */
     val remoteCompanion by lazy {
         com.wangzan101.djini.chat.RemoteConversationReader(conversations) { taskState.runs.value }
@@ -582,6 +585,7 @@ class DjiniApp : Application(), WebOwner, SandboxOwner, TaskEnvironment.Owner, P
         // 用户已绑定并打开微信渠道时恢复监听；完全退出期间由各运行入口统一拒绝补起
         wechat.ensureRunning()
         if (flags.proactive()) proactive.start(paused = quit)
+        if (!quit) buddy.start()
         // 先对一下设备时区;退出期间不排闹钟,重新打开时再补排
         if (!quit) scope.launch(Dispatchers.IO) { runCatching { TriggerRuntime.syncTimeZone(this@DjiniApp); TriggerRuntime.rearm(this@DjiniApp) } }
         // 自动归档:太久没新消息的对话收进归档(设置里开着才跑);退出期间等下次打开再补
@@ -638,6 +642,7 @@ class DjiniApp : Application(), WebOwner, SandboxOwner, TaskEnvironment.Owner, P
         mcp.ensureRunning()
         wechat.ensureRunning()
         if (FeatureFlags.get(this).proactive()) proactive.start(paused = false)
+        buddy.start()
         scope.launch(Dispatchers.IO) {
             runCatching {
                 TriggerRuntime.syncTimeZone(this@DjiniApp)

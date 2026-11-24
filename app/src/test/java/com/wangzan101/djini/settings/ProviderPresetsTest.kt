@@ -48,6 +48,7 @@ class ProviderPresetsTest {
         assertEquals("Anthropic", ProviderPresets.forHost("https://api.anthropic.com/v1")?.label)
         assertEquals("OpenAI", ProviderPresets.forHost("https://api.openai.com")?.label)
         assertEquals("DeepSeek", ProviderPresets.forHost("https://api.deepseek.com/v1")?.label)
+        assertEquals("Command Code", ProviderPresets.forHost("https://api.commandcode.ai/provider/v1")?.label)
         assertEquals("Zhipu (GLM)", ProviderPresets.forHost("https://open.bigmodel.cn/api/paas/v4")?.label)
         assertEquals("Zhipu Coding Plan", ProviderPresets.forHost("https://open.bigmodel.cn/api/coding/paas/v4")?.label)
         assertNull(ProviderPresets.forHost("https://models.example.com/v1"))

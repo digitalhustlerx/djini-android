@@ -168,6 +168,8 @@ import com.wangzan101.djini.ui.viewer.FileViewer
 import com.wangzan101.djini.ui.theme.DjiniType
 import com.wangzan101.djini.ui.theme.DjiniRadius
 import com.wangzan101.djini.voice.HoldToTalk
+import com.wangzan101.djini.voice.LiveVoiceLoop
+import com.wangzan101.djini.voice.RamblerSpeechCleaner
 import com.wangzan101.djini.voice.VoicePlayback
 import com.wangzan101.djini.voice.VoiceSource
 import kotlinx.coroutines.Job
@@ -574,15 +576,19 @@ fun ChatScreen(
             quote = ui.quote,
             onRemoveQuote = vm::clearQuote,
             voice = voice,
-            // 说的话接在已有的字后面;任务在跑时先作为补充消息排队
-            onVoiceText = { vm.input(HoldToTalk.join(vm.ui.value.input, it)) },
-            // 松开在「在听」卡片里:接上已有的字直接发出;发不出去(比如还在导入附件)就留在输入框里
+            // Rambler-style cleanup on dictated text; appends cleanly to existing draft
+            onVoiceText = { vm.input(HoldToTalk.join(vm.ui.value.input, RamblerSpeechCleaner.clean(it))) },
+            // Release-to-send also cleans fillers/self-corrections before sending
             onVoiceSend = {
-                val text = HoldToTalk.join(vm.ui.value.input, it)
+                val text = HoldToTalk.join(vm.ui.value.input, RamblerSpeechCleaner.clean(it))
                 vm.input(text)
                 vm.send(text, check)
             },
             onPickSpeech = openSpeechModel,
+            latestDoneReply = ui.exchanges.lastOrNull()?.let { ex ->
+                val done = ex.status as? ExchangeStatus.Done ?: return@let null
+                (ex.runId ?: "${ex.startedAt}-${done.answer.hashCode()}") to done.answer
+            },
             steerTarget = null,
             onVoiceHolding = { voiceHolding = it },
             editRequest = editRequest,
@@ -1783,6 +1789,7 @@ internal fun Composer(
     onVoiceHolding: (Boolean) -> Unit = {},
     sendFromIme: Boolean = false,
     draftKey: String? = null,
+    latestDoneReply: Pair<String, String>? = null,
     /** 输入栏上方的人格 chip;为 null 时不显示。 */
     personaBar: (@Composable () -> Unit)? = null,
 ) {
@@ -1801,6 +1808,32 @@ internal fun Composer(
     val ime = WindowInsets.ime
     val nav = WindowInsets.navigationBars
     var panel by rememberSaveable { mutableStateOf(Panel.Closed) }
+    val liveScope = androidx.compose.runtime.rememberCoroutineScope()
+    val liveLoop = remember(voice) {
+        voice?.let { src ->
+            LiveVoiceLoop(
+                context = context,
+                voice = src,
+                scope = liveScope,
+                onSendTranscript = { cleaned ->
+                    if (onVoiceSend != null) onVoiceSend(cleaned) else {
+                        onText(cleaned)
+                        onSend()
+                    }
+                },
+                onError = { msg -> Toast.makeText(context, msg, Toast.LENGTH_SHORT).show() },
+            )
+        }
+    }
+    androidx.compose.runtime.DisposableEffect(liveLoop) {
+        onDispose { liveLoop?.release() }
+    }
+    val livePhase = liveLoop?.phase?.collectAsState()?.value ?: LiveVoiceLoop.Phase.Off
+    LaunchedEffect(latestDoneReply?.first, livePhase) {
+        if (liveLoop != null && livePhase == LiveVoiceLoop.Phase.Thinking && latestDoneReply != null) {
+            liveLoop.onAgentReply(latestDoneReply.first, latestDoneReply.second)
+        }
+    }
     // 「松开 发送」和发送键一样先收起附件面板
     val vh = androidx.compose.runtime.key(draftKey) { rememberVoiceHold(voice, onVoiceText, onVoiceSend?.let { send -> { text -> panel = Panel.Closed; send(text) } }) }
     val vState = voiceState(vh)
@@ -1899,6 +1932,40 @@ internal fun Composer(
                 else stringResource(R.string.voice_listening)
                 VoiceFloat(vh, vState, title, backdrop, reduceMotion)
             }
+            if (liveLoop != null && livePhase != LiveVoiceLoop.Phase.Off) {
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 12.dp, vertical = 4.dp)
+                        .clip(RoundedCornerShape(16.dp))
+                        .background(c.accentSoft)
+                        .padding(horizontal = 12.dp, vertical = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                ) {
+                    val statusText = when (livePhase) {
+                        is LiveVoiceLoop.Phase.Listening ->
+                            if (livePhase.partial.isNotBlank()) "Listening: ${livePhase.partial}" else "Live · Listening… speak naturally"
+                        LiveVoiceLoop.Phase.Thinking -> "Live · Thinking…"
+                        LiveVoiceLoop.Phase.Speaking -> "Live · Speaking (tap Live to interrupt)"
+                        LiveVoiceLoop.Phase.Off -> ""
+                    }
+                    Text(
+                        statusText,
+                        style = DjiniType.Caption.copy(fontWeight = FontWeight.SemiBold),
+                        color = c.accent,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.weight(1f),
+                    )
+                    Text(
+                        "End",
+                        style = DjiniType.Caption.copy(fontWeight = FontWeight.Bold),
+                        color = c.warn,
+                        modifier = Modifier.clickable { liveLoop.stop() }.padding(horizontal = 6.dp, vertical = 2.dp),
+                    )
+                }
+            }
             Box(Modifier.fillMaxWidth()) {
             GlassBar(Modifier.fillMaxWidth().keepsKeyboard(), backdrop) {
                 if (showAttach) {
@@ -1955,6 +2022,27 @@ internal fun Composer(
                         contentAlignment = Alignment.Center,
                     ) {
                         Icon(DjiniIcons.Mic, hint, Modifier.size(DjiniSize.Icon), tint = c.ink)
+                    }
+                }
+                // Hands-free Live Voice Mode pill (Listen -> Rambler clean -> Send -> Speak -> Re-listen)
+                if (liveLoop != null) {
+                    val liveOn = livePhase != LiveVoiceLoop.Phase.Off
+                    Box(
+                        Modifier
+                            .padding(end = 4.dp)
+                            .clip(RoundedCornerShape(14.dp))
+                            .background(if (liveOn) c.accent else c.greySoft)
+                            .clickable(onClickLabel = if (liveOn) "Stop Live Voice" else "Start Live Voice") {
+                                liveLoop.toggle()
+                            }
+                            .padding(horizontal = 10.dp, vertical = 7.dp),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Text(
+                            if (liveOn) "Live" else "Live",
+                            style = DjiniType.Micro.copy(fontWeight = FontWeight.Bold),
+                            color = if (liveOn) c.onAccent else c.ink2,
+                        )
                     }
                 }
                 // 任务在跑时没字就停止;写了字停止让位给发送,发出去的话交给当前任务

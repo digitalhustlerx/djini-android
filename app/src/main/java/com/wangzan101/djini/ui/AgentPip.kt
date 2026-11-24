@@ -45,7 +45,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.Role
-import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.DjiniType
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -77,9 +77,9 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaIcons
-import com.wangzan101.djini.ui.theme.MikaRadius
-import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniIcons
+import com.wangzan101.djini.ui.theme.DjiniRadius
+import com.wangzan101.djini.ui.theme.DjiniShapes
 import com.wangzan101.djini.ui.components.floatShadow
 import androidx.compose.ui.unit.Dp
 
@@ -161,7 +161,7 @@ fun AgentPip(
 @Composable
 private fun ClosedPip(needsYou: Boolean, reduceMotion: Boolean, modifier: Modifier, onReopen: () -> Unit, onAttention: () -> Unit) {
     val c = DjiniTheme.colors
-    val shape = MikaShapes.Pill
+    val shape = DjiniShapes.Pill
     val breath = if (needsYou && !reduceMotion) {
         rememberInfiniteTransition(label = "closedBreathe").animateFloat(
             1f, 0.45f, infiniteRepeatable(tween(1000), RepeatMode.Reverse), label = "closedBreathe",
@@ -179,8 +179,8 @@ private fun ClosedPip(needsYou: Boolean, reduceMotion: Boolean, modifier: Modifi
         horizontalArrangement = Arrangement.spacedBy(6.dp),
     ) {
         if (needsYou) Box(Modifier.size(7.dp).alpha(breath).background(c.warnSolid, CircleShape))
-        else Icon(MikaIcons.Screens, null, Modifier.size(14.dp), tint = c.ink2)
-        Text(label, style = MikaType.Hint, color = if (needsYou) c.warn else c.ink2)
+        else Icon(DjiniIcons.Screens, null, Modifier.size(14.dp), tint = c.ink2)
+        Text(label, style = DjiniType.Hint, color = if (needsYou) c.warn else c.ink2)
     }
 }
 
@@ -302,8 +302,8 @@ private fun PipWindow(
     }
 
     val pos = free ?: bounds.position(corner).let { (x, y) -> Offset(x, y) }
-    val outer = RoundedCornerShape(if (pip.expanded) MikaRadius.Sheet else MikaRadius.Card)
-    val inner = RoundedCornerShape(if (pip.expanded) MikaRadius.Bubble else MikaRadius.Chip)
+    val outer = RoundedCornerShape(if (pip.expanded) DjiniRadius.Sheet else DjiniRadius.Card)
+    val inner = RoundedCornerShape(if (pip.expanded) DjiniRadius.Bubble else DjiniRadius.Chip)
     val insetDp = if (pip.expanded) 4.dp else 3.dp
     // 直接操作:开了开关、小窗展开、有画面、口子还活着时才把点/滑注入到虚拟屏
     val operate = operateEnabled && pip.expanded && frame != null && pipInput != null
@@ -411,20 +411,20 @@ private fun PipWindow(
                 Row(Modifier.align(Alignment.TopStart).padding(6.dp), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                     if (operateInput != null) {
                         PipButton(
-                            icon = MikaIcons.Back,
+                            icon = DjiniIcons.Back,
                             label = stringResource(R.string.pip_back),
                             onClick = { scope.launch { operateInput.back() } },
                             tag = "pip-back",
                         )
                     }
                     PipButton(
-                        icon = if (soundOn) MikaIcons.Sound else MikaIcons.Mute,
+                        icon = if (soundOn) DjiniIcons.Sound else DjiniIcons.Mute,
                         label = stringResource(if (soundOn) R.string.pip_mute else R.string.pip_unmute),
                         onClick = onToggleSound,
                         tag = if (soundOn) "pip-mute" else "pip-unmute",
                     )
                     PipButton(
-                        icon = MikaIcons.EyeOff,
+                        icon = DjiniIcons.EyeOff,
                         label = stringResource(R.string.pip_close),
                         onClick = onClose,
                         tag = "pip-close",
@@ -435,7 +435,7 @@ private fun PipWindow(
                         .floatShadow(DjiniTheme.colors, CircleShape).background(DjiniTheme.colors.glass, CircleShape).clip(CircleShape)
                         .clickable(onClickLabel = stringResource(R.string.collapse), onClick = onCollapse),
                     contentAlignment = Alignment.Center,
-                ) { Icon(MikaIcons.Close, stringResource(R.string.collapse), Modifier.size(12.dp), tint = DjiniTheme.colors.ink) }
+                ) { Icon(DjiniIcons.Close, stringResource(R.string.collapse), Modifier.size(12.dp), tint = DjiniTheme.colors.ink) }
             }
         }
         // 边框光画在玻璃框外沿
@@ -503,6 +503,6 @@ private fun PipSizeButton(mark: String, label: String, tag: String, onClick: () 
         .background(DjiniTheme.colors.glass, CircleShape).clip(CircleShape)
         .clickable(role = Role.Button, onClickLabel = label, onClick = onClick).testTag(tag),
         contentAlignment = Alignment.Center) {
-        Text(mark, style = MikaType.Hint, color = DjiniTheme.colors.ink)
+        Text(mark, style = DjiniType.Hint, color = DjiniTheme.colors.ink)
     }
 }

@@ -6,7 +6,7 @@ import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import com.wangzan101.djini.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.DjiniDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -36,8 +36,8 @@ import com.wangzan101.djini.ui.components.FooterNote
 import com.wangzan101.djini.ui.components.GroupCard
 import com.wangzan101.djini.ui.components.GroupLabel
 import com.wangzan101.djini.ui.components.ListRow
-import com.wangzan101.djini.ui.components.MikaButton
-import com.wangzan101.djini.ui.components.MikaSwitch
+import com.wangzan101.djini.ui.components.DjiniButton
+import com.wangzan101.djini.ui.components.DjiniSwitch
 import com.wangzan101.djini.ui.components.PageScaffold
 import com.wangzan101.djini.ui.components.RadioRow
 import com.wangzan101.djini.ui.components.RowActions
@@ -47,9 +47,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.ui.text.input.KeyboardType
-import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniIcons
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.DjiniType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -90,16 +90,16 @@ fun McpScreen(runtime: McpRuntime, onBack: () -> Unit) {
         deviceSettings = {
             val historyEnabled by runtime.settings.historyEnabled.collectAsState()
             GroupCard {
-                ListRow(MikaIcons.Desktop, stringResource(R.string.mcp_history_title), stringResource(R.string.mcp_history_detail),
+                ListRow(DjiniIcons.Desktop, stringResource(R.string.mcp_history_title), stringResource(R.string.mcp_history_detail),
                     first = true, onClick = { runtime.settings.setHistoryEnabled(!historyEnabled) }) {
-                    MikaSwitch(historyEnabled, runtime.settings::setHistoryEnabled, Modifier.testTag("computer-history"))
+                    DjiniSwitch(historyEnabled, runtime.settings::setHistoryEnabled, Modifier.testTag("computer-history"))
                 }
             }
             DeviceAccessSection(runtime.device.settings)
         },
         relayGuide = { mcp -> RelaySection(runtime, mcp) { copy(context, it) } },
     )
-    if (confirmRegenerate) MikaDialog(
+    if (confirmRegenerate) DjiniDialog(
         onDismissRequest = { confirmRegenerate = false },
         title = { Text(stringResource(R.string.mcp_regenerate_title)) },
         text = { Text(stringResource(R.string.mcp_regenerate_body)) },
@@ -159,22 +159,22 @@ internal fun ComputerAccessPage(
         }
 
         GroupCard {
-            ListRow(MikaIcons.Gear, stringResource(if (advanced) R.string.mcp_advanced_hide else R.string.mcp_advanced),
+            ListRow(DjiniIcons.Gear, stringResource(if (advanced) R.string.mcp_advanced_hide else R.string.mcp_advanced),
                 stringResource(R.string.mcp_advanced_sub), first = true, onClick = { advanced = !advanced })
         }
         if (advanced) {
             GroupCard {
-                ListRow(MikaIcons.Link, stringResource(R.string.mcp_usb_title),
+                ListRow(DjiniIcons.Link, stringResource(R.string.mcp_usb_title),
                     stringResource(if (ui.usbEnabled) R.string.mcp_usb_on else R.string.mcp_usb_off_sub), first = true,
                     onClick = { onUsbEnabled(!ui.usbEnabled) }) {
-                    MikaSwitch(ui.usbEnabled, onUsbEnabled, Modifier.testTag("mcp-usb"))
+                    DjiniSwitch(ui.usbEnabled, onUsbEnabled, Modifier.testTag("mcp-usb"))
                 }
-                ListRow(MikaIcons.Desktop, stringResource(R.string.mcp_network_title), stringResource(R.string.mcp_network_scope),
+                ListRow(DjiniIcons.Desktop, stringResource(R.string.mcp_network_title), stringResource(R.string.mcp_network_scope),
                     onClick = { onNetworkEnabled(!ui.networkEnabled) }) {
-                    MikaSwitch(ui.networkEnabled, onNetworkEnabled, Modifier.testTag("mcp-enabled"))
+                    DjiniSwitch(ui.networkEnabled, onNetworkEnabled, Modifier.testTag("mcp-enabled"))
                 }
                 ListRow(
-                    MikaIcons.Link, stringResource(R.string.mcp_port_title), ui.port.toString(),
+                    DjiniIcons.Link, stringResource(R.string.mcp_port_title), ui.port.toString(),
                     // 端口被占时换一个;改动即重绑并按新端口重写电脑上的连接脚本
                     onClick = { editingPort = true },
                 )
@@ -184,10 +184,10 @@ internal fun ComputerAccessPage(
             if (ui.networkEnabled || ui.relayEnabled) {
                 GroupLabel(stringResource(R.string.mcp_token))
                 GroupCard {
-                    ListRow(MikaIcons.Key, ui.token?.let { it.take(6) + "…" + it.takeLast(4) } ?: "…", first = true)
+                    ListRow(DjiniIcons.Key, ui.token?.let { it.take(6) + "…" + it.takeLast(4) } ?: "…", first = true)
                     RowActions {
-                        MikaButton(stringResource(R.string.mcp_copy), { ui.token?.let(onCopy) }, size = ButtonSize.Small, enabled = ui.token != null)
-                        MikaButton(stringResource(R.string.mcp_regenerate), onRegenerate, kind = ButtonKind.Tonal, size = ButtonSize.Small)
+                        DjiniButton(stringResource(R.string.mcp_copy), { ui.token?.let(onCopy) }, size = ButtonSize.Small, enabled = ui.token != null)
+                        DjiniButton(stringResource(R.string.mcp_regenerate), onRegenerate, kind = ButtonKind.Tonal, size = ButtonSize.Small)
                     }
                 }
             }
@@ -201,7 +201,7 @@ internal fun ComputerAccessPage(
 private fun PortDialog(current: Int, onPick: (Int) -> Unit, onDismiss: () -> Unit) {
     var custom by remember { mutableStateOf(if (current != McpSettings.DEFAULT_PORT) current.toString() else "") }
     val value = custom.toIntOrNull()?.takeIf { it in McpSettings.PORT_RANGE }
-    MikaDialog(
+    DjiniDialog(
         onDismissRequest = onDismiss,
         title = { Text(stringResource(R.string.mcp_port_title)) },
         text = {
@@ -252,7 +252,7 @@ private fun ConnectionStatus(ui: ComputerAccessUi) {
         else stringResource(R.string.mcp_follow_steps)
     val tone = when { failure != null && enabled -> TileTone.Bad; received -> TileTone.Ok; else -> TileTone.Neutral }
     GroupCard(Modifier.testTag("computer-status")) {
-        ListRow(if (received) MikaIcons.Check else MikaIcons.Desktop, title, detail, first = true, tone = tone)
+        ListRow(if (received) DjiniIcons.Check else DjiniIcons.Desktop, title, detail, first = true, tone = tone)
     }
 }
 
@@ -287,7 +287,7 @@ private fun NetworkGuide(ui: ComputerAccessUi, mcp: Boolean, onNetworkEnabled: (
     val address = selectedAddress?.takeIf { it in ui.addresses } ?: ui.addresses.firstOrNull()
     GroupLabel(stringResource(if (mcp) R.string.mcp_network_address_step else R.string.mcp_address))
     GroupCard {
-        if (ui.addresses.isEmpty()) ListRow(MikaIcons.Link, stringResource(R.string.mcp_no_address), first = true)
+        if (ui.addresses.isEmpty()) ListRow(DjiniIcons.Link, stringResource(R.string.mcp_no_address), first = true)
         ui.addresses.forEachIndexed { i, a ->
             RadioRow(if (mcp) McpRuntime.url(a, ui.port) else "http://$a:${ui.port}",
                 a == address, { selectedAddress = a }, first = i == 0)
@@ -297,13 +297,13 @@ private fun NetworkGuide(ui: ComputerAccessUi, mcp: Boolean, onNetworkEnabled: (
     if (!mcp) {
         val command = address?.let { "djini connect --url http://$it:${ui.port} --token-file /path/to/token" }
         GroupCard {
-            ListRow(MikaIcons.Code, stringResource(R.string.mcp_cli_connect), stringResource(R.string.mcp_cli_network_sub), first = true)
+            ListRow(DjiniIcons.Code, stringResource(R.string.mcp_cli_connect), stringResource(R.string.mcp_cli_network_sub), first = true)
             command?.let { CommandText(it) }
             RowActions {
-                MikaButton(stringResource(R.string.mcp_copy_command), { command?.let(onCopy) }, size = ButtonSize.Small,
+                DjiniButton(stringResource(R.string.mcp_copy_command), { command?.let(onCopy) }, size = ButtonSize.Small,
                     enabled = command != null && ui.token != null && ui.server is McpServerState.Listening,
                     modifier = Modifier.testTag("computer-copy-cli-network"))
-                MikaButton(stringResource(R.string.mcp_copy_token), { ui.token?.let(onCopy) }, kind = ButtonKind.Tonal,
+                DjiniButton(stringResource(R.string.mcp_copy_token), { ui.token?.let(onCopy) }, kind = ButtonKind.Tonal,
                     size = ButtonSize.Small, enabled = ui.token != null)
             }
         }
@@ -311,13 +311,13 @@ private fun NetworkGuide(ui: ComputerAccessUi, mcp: Boolean, onNetworkEnabled: (
         return
     }
     GroupCard {
-        ListRow(MikaIcons.Code, stringResource(R.string.mcp_network_config_step), stringResource(R.string.mcp_network_config_sub), first = true)
+        ListRow(DjiniIcons.Code, stringResource(R.string.mcp_network_config_step), stringResource(R.string.mcp_network_config_sub), first = true)
         val canCopy = address != null && ui.token != null && ui.server is McpServerState.Listening
         RowActions {
-            MikaButton(stringResource(R.string.mcp_copy_config), {
+            DjiniButton(stringResource(R.string.mcp_copy_config), {
                 if (canCopy) onCopy(McpRuntime.clientConfig(McpRuntime.url(address!!, ui.port), ui.token!!))
             }, size = ButtonSize.Small, enabled = canCopy, modifier = Modifier.testTag("computer-copy-config"))
-            MikaButton(stringResource(if (preview) R.string.mcp_hide_preview else R.string.mcp_show_preview), { preview = !preview },
+            DjiniButton(stringResource(if (preview) R.string.mcp_hide_preview else R.string.mcp_show_preview), { preview = !preview },
                 kind = ButtonKind.Text, size = ButtonSize.Small)
         }
         if (preview) {
@@ -334,14 +334,14 @@ private fun GuideStep(title: String, body: String, button: String, onClick: () -
     GroupCard {
         ListRow(null, title, body, first = true)
         if (command != null) CommandText(command)
-        RowActions { MikaButton(button, onClick, size = ButtonSize.Small) }
+        RowActions { DjiniButton(button, onClick, size = ButtonSize.Small) }
     }
 }
 
 @Composable
 internal fun CommandText(text: String, modifier: Modifier = Modifier) {
     Text(text, modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
-        fontFamily = FontFamily.Monospace, style = MikaType.Body, color = DjiniTheme.colors.ink)
+        fontFamily = FontFamily.Monospace, style = DjiniType.Body, color = DjiniTheme.colors.ink)
 }
 
 private fun clock(ms: Long): String =

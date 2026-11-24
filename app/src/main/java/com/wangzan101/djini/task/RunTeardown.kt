@@ -202,6 +202,6 @@ internal class RunTeardown(
     }
 
     private companion object {
-        const val TAG = "MikaTask"
+        const val TAG = "DjiniTask"
     }
 }

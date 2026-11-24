@@ -9,8 +9,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import com.wangzan101.djini.ui.components.RowChevron
 import com.wangzan101.djini.ui.components.SegmentedControl
-import com.wangzan101.djini.ui.theme.MikaShapes
-import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.DjiniShapes
+import com.wangzan101.djini.ui.theme.DjiniType
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.relocation.bringIntoViewRequester
@@ -41,7 +41,7 @@ import com.wangzan101.djini.ui.components.PillTone
 import com.wangzan101.djini.ui.components.RadioRow
 import com.wangzan101.djini.ui.components.StatusPill
 import com.wangzan101.djini.ui.components.InputRow
-import com.wangzan101.djini.ui.components.MikaButton
+import com.wangzan101.djini.ui.components.DjiniButton
 import com.wangzan101.djini.ui.theme.DjiniTheme
 import com.wangzan101.djini.voice.SpeechChoice
 import com.wangzan101.djini.voice.SpeechOptions
@@ -205,7 +205,7 @@ fun SpeechModelContent(
     val systemSelected = system.usable && (choice == SpeechChoice.System || choice == SpeechChoice.Auto)
     Page(tr(R.string.role_speech), onBack) {
         Text(
-            tr(R.string.speech_hint), Modifier.padding(top = 4.dp, bottom = 12.dp), style = MikaType.Body, color = c.ink2,
+            tr(R.string.speech_hint), Modifier.padding(top = 4.dp, bottom = 12.dp), style = DjiniType.Body, color = c.ink2,
         )
         GroupCard {
             RadioRow(
@@ -317,7 +317,7 @@ fun DoubaoSetupPage(choice: SpeechChoice, configured: Boolean, actions: SpeechPi
     val credentials = DoubaoCredentials(if (legacy) "" else key.trim(), if (legacy) appId.trim() else "", if (legacy) token.trim() else "")
     val unchanged = key.isBlank() && appId.isBlank() && token.isBlank()
     Page(tr(R.string.speech_doubao_model), onBack) {
-        Text(tr(R.string.speech_doubao_setup_hint), Modifier.padding(top = 4.dp, bottom = 4.dp), style = MikaType.Body, color = c.ink2)
+        Text(tr(R.string.speech_doubao_setup_hint), Modifier.padding(top = 4.dp, bottom = 4.dp), style = DjiniType.Body, color = c.ink2)
         GroupLabel(tr(R.string.speech_doubao_credentials))
         SegmentedControl(
             listOf(tr(R.string.speech_doubao_new), tr(R.string.speech_doubao_legacy)), if (legacy) 1 else 0,
@@ -344,7 +344,7 @@ fun DoubaoSetupPage(choice: SpeechChoice, configured: Boolean, actions: SpeechPi
             )
         }
         FooterNote(tr(R.string.speech_doubao_privacy), Modifier.padding(top = 8.dp))
-        MikaButton(
+        DjiniButton(
             tr(R.string.speech_doubao_save),
             onClick = {
                 failed = runCatching {
@@ -361,9 +361,9 @@ fun DoubaoSetupPage(choice: SpeechChoice, configured: Boolean, actions: SpeechPi
             Box(Modifier.fillMaxWidth().padding(top = 6.dp), contentAlignment = Alignment.Center) {
                 Text(
                     tr(R.string.speech_doubao_remove),
-                    Modifier.clip(MikaShapes.Pill).clickable(onClick = actions.clearDoubao).padding(horizontal = 16.dp, vertical = 12.dp)
+                    Modifier.clip(DjiniShapes.Pill).clickable(onClick = actions.clearDoubao).padding(horizontal = 16.dp, vertical = 12.dp)
                         .testTag("speech-doubao-remove"),
-                    style = MikaType.Body, color = c.bad,
+                    style = DjiniType.Body, color = c.bad,
                 )
             }
         }

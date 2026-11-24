@@ -33,7 +33,7 @@ import com.wangzan101.djini.ui.components.GroupCard
 import com.wangzan101.djini.ui.components.ListRow
 import com.wangzan101.djini.ui.components.RowChevron
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.DjiniType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.text.NumberFormat
@@ -53,7 +53,7 @@ internal fun UsageAllowanceCard(providers: List<Provider>, store: ProviderStore,
     GroupCard {
         Row(Modifier.padding(start = 16.dp, end = 8.dp, top = 4.dp), verticalAlignment = Alignment.CenterVertically) {
             Text(tr(R.string.usage_allowance_title), Modifier.weight(1f).padding(vertical = 12.dp),
-                style = MikaType.Body, color = DjiniTheme.colors.ink)
+                style = DjiniType.Body, color = DjiniTheme.colors.ink)
             if (routes.any { (_, route) -> route.source != null }) {
                 TextButton(onClick = { refresh++ }) { Text(tr(R.string.refresh)) }
             }
@@ -82,10 +82,10 @@ private fun AllowanceRow(
                     store.allowanceKey(provider, revision)?.takeIf { it.isNotBlank() }?.let { allowanceClient.query(source, it) }
                 }
             } catch (error: ModelError) {
-                Log.w("MikaAllowance", "查询服务商额度失败（${source.name}，${error.javaClass.simpleName}）")
+                Log.w("DjiniAllowance", "查询服务商额度失败（${source.name}，${error.javaClass.simpleName}）")
                 null
             } catch (_: IllegalArgumentException) {
-                Log.w("MikaAllowance", "服务商额度请求无效（${source.name}）")
+                Log.w("DjiniAllowance", "服务商额度请求无效（${source.name}）")
                 null
             }
             // 列表和密钥版本可能已更新，但界面还没来得及重组。

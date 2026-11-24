@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """通过飞书自定义机器人 webhook 发一条文本消息。
 
-参数来自 MIKA_PLUGIN_ARGS 指向的 JSON 文件（P1b 的约定）；没有这个环境变量时从 stdin 读。
+参数来自 DJINI_PLUGIN_ARGS 指向的 JSON 文件（P1b 的约定）；没有这个环境变量时从 stdin 读。
 最后一行输出 JSON，供 Djini 当工具结果；失败时退出码非零。
 """
 
@@ -25,7 +25,7 @@ def fail(message, code=2):
 
 
 def load_args():
-    path = os.environ.get("MIKA_PLUGIN_ARGS", "").strip()
+    path = os.environ.get("DJINI_PLUGIN_ARGS", "").strip()
     try:
         if path:
             with open(path, encoding="utf-8") as f:

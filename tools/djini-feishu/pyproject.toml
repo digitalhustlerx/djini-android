@@ -11,7 +11,7 @@ license = {file = "LICENSE"}
 dependencies = ["lark-oapi>=1.7.5,<2", "qrcode>=8.2,<9"]
 
 [project.scripts]
-djini-feishu = "mika_feishu.__main__:main"
+djini-feishu = "djini_feishu.__main__:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

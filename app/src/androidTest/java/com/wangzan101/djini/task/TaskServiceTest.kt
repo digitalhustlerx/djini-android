@@ -125,7 +125,7 @@ class TaskServiceTest {
     private fun awaitState(predicate: (TaskState) -> Boolean): TaskState =
         pollUntil(10_000) { DeviceTaskState.state.value.takeIf(predicate) } ?: error("state never matched: ${DeviceTaskState.state.value}")
 
-    private fun mikaScreenLock(): String? =
+    private fun djiniScreenLock(): String? =
         sh("dumpsys power").lines().map { it.trim() }.firstOrNull { "'Djini:task'" in it }
 
     /**
@@ -254,7 +254,7 @@ class TaskServiceTest {
     @Test
     fun keepsScreenOnDuringTask() {
         startWithSettingsOpen()
-        val line = mikaScreenLock()
+        val line = djiniScreenLock()
         assertNotNull("Djini holds no screen wake lock while running", line)
         // 有的系统在类型前加锁对象编号(mLock:<id>),只认类型字样
         // 只保持亮屏、允许系统调暗,不锁在全亮
@@ -266,8 +266,8 @@ class TaskServiceTest {
         assertTrue(summary, if (bits != null) bits and (1 shl 2) != 0 else "SCREEN_DIM" in summary)
 
         finishAndAwait()
-        val released = pollUntil(3_000) { if (mikaScreenLock() == null) true else null }
-        assertTrue("screen wake lock still held after the task: ${mikaScreenLock()}", released == true)
+        val released = pollUntil(3_000) { if (djiniScreenLock() == null) true else null }
+        assertTrue("screen wake lock still held after the task: ${djiniScreenLock()}", released == true)
     }
 
     /** 第一步之前的准备(开模型、读知识、选路线)也算在跑:模型还没开出来时屏幕锁就已拿上。 */
@@ -276,7 +276,7 @@ class TaskServiceTest {
         val opening = java.util.concurrent.CountDownLatch(1)
         testTasks.modelFactory = { _, _ -> opening.await(); model }
         start("测试任务")
-        val held = pollUntil(5_000) { mikaScreenLock() }
+        val held = pollUntil(5_000) { djiniScreenLock() }
         opening.countDown()
         assertNotNull("Djini holds no screen wake lock while preparing", held)
         assertEquals(1, model.awaitCall().number)

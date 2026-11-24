@@ -109,12 +109,12 @@ object ReadScriptProtocol {
 
     private fun jsMap(m: Map<String, List<String>>): String = m.entries.joinToString(",", "{", "}") { (k, v) -> JsonPrimitive(k).toString() + ":" + js(v) }
 
-    /** 装进读取世界的前置脚本:冻住内置对象、登记能调的方法、定义包装、`__mikaReadRun` 与 `__mikaReadStop`。装过再装不做事。 */
+    /** 装进读取世界的前置脚本:冻住内置对象、登记能调的方法、定义包装、`__djiniReadRun` 与 `__djiniReadStop`。装过再装不做事。 */
     val PRELUDE: String = """
 (() => {
   'use strict';
   const G = globalThis, O = Object, R = Reflect;
-  if (O.prototype.hasOwnProperty.call(G, '__mikaReadRun')) return;
+  if (O.prototype.hasOwnProperty.call(G, '__djiniReadRun')) return;
   const AsyncFunction = O.getPrototypeOf(async function () {}).constructor;
   const fnBind = G.Function.prototype.bind;
   const apply = R.apply, rget = R.get, ownKeys = R.ownKeys, getDesc = O.getOwnPropertyDescriptor, getProto = O.getPrototypeOf;
@@ -377,7 +377,7 @@ ${SelectorPolicy.JS}  const DENIED = new Set(${js(DENIED_PROPS)});
   const PROVIDED = ${js(PROVIDED)};
   const ALLOWED = new Set(${js(PageScriptProtocol.ALLOWED_GLOBALS)}.concat(PROVIDED));
   const RESERVED = new Set(${js(PageScriptProtocol.RESERVED)});
-  const hidden = new Set(['globalThis', 'self', 'top', 'parent', 'frames', 'opener', '__mikaReadRun', '__mikaReadStop']);
+  const hidden = new Set(['globalThis', 'self', 'top', 'parent', 'frames', 'opener', '__djiniReadRun', '__djiniReadStop']);
   for (let o = G; o; o = getProto(o)) for (const k of names(o)) {
     if (/^[A-Za-z_$][\w$]*$/.test(k) && !ALLOWED.has(k) && !RESERVED.has(k)) hidden.add(k);
   }
@@ -396,8 +396,8 @@ ${SelectorPolicy.JS}  const DENIED = new Set(${js(DENIED_PROPS)});
     return { ok: false, error: code, message: String((e && e.message) || e), line: line > 0 ? line : null };
   };
 
-  fixed(G, '__mikaReadStop', () => { generation++; });
-  fixed(G, '__mikaReadRun', (code, args, lim) => {
+  fixed(G, '__djiniReadStop', () => { generation++; });
+  fixed(G, '__djiniReadRun', (code, args, lim) => {
     const gen = ++generation;
     const live = () => { if (gen !== generation) throw fail('script_ended', 'the script was stopped'); };
     // 不碰网络:要页面背后的数据,读页面自己收到的响应(web_capture)
@@ -435,14 +435,14 @@ ${SelectorPolicy.JS}  const DENIED = new Set(${js(DENIED_PROPS)});
 
     /** 跑一次读脚本的表达式(在读取世界里求值,等 Promise,按值返回)。[args] 是站点命令的参数。 */
     fun run(code: String, args: JsonObject?, resultChars: Int): String =
-        "globalThis.__mikaReadRun(${JsonPrimitive(code)}, ${args ?: "null"}, " +
+        "globalThis.__djiniReadRun(${JsonPrimitive(code)}, ${args ?: "null"}, " +
             "{resultChars: $resultChars, sleepMs: $READ_SLEEP_MAX_MS})"
 
     /** 到时限后让还在跑的脚本之后的 sleep 都失败。 */
-    const val STOP = "globalThis.__mikaReadStop && globalThis.__mikaReadStop()"
+    const val STOP = "globalThis.__djiniReadStop && globalThis.__djiniReadStop()"
 
     /** 读取世界装好了时返回页面的源(location.origin),没装为 null。 */
-    const val PROBE = "typeof globalThis.__mikaReadRun === 'function' ? String(location.origin) : null"
+    const val PROBE = "typeof globalThis.__djiniReadRun === 'function' ? String(location.origin) : null"
 
     /** 发起调用栈(含异步的 parent 链)里有读脚本或它的前置脚本。 */
     fun fromScript(params: JsonObject): Boolean {
@@ -480,7 +480,7 @@ ${SelectorPolicy.JS}  const DENIED = new Set(${js(DENIED_PROPS)});
     }
 
     /**
-     * `__mikaReadRun` 按值返回的对象 → 结果。结果先按网页数据的规则脱敏(凭据名字的字段、JWT、又长又杂的串、Key),再截到 [EVAL_RESULT_MAX_CHARS]。
+     * `__djiniReadRun` 按值返回的对象 → 结果。结果先按网页数据的规则脱敏(凭据名字的字段、JWT、又长又杂的串、Key),再截到 [EVAL_RESULT_MAX_CHARS]。
      * [fresh]:这次新建了读取世界(之前 state 里存的都没了)。
      */
     fun result(value: JsonObject?, fresh: Boolean): EvalJs {

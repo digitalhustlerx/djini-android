@@ -41,11 +41,11 @@ import com.wangzan101.djini.R
 import com.wangzan101.djini.core.assembly.knownTools
 import com.wangzan101.djini.core.record.PlaybackMark
 import com.wangzan101.djini.ui.components.*
-import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniIcons
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
-import com.wangzan101.djini.ui.theme.MikaRadius
-import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniType
+import com.wangzan101.djini.ui.theme.DjiniRadius
+import com.wangzan101.djini.ui.theme.DjiniShapes
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -95,7 +95,7 @@ fun TaskPlaybackScreen(vm: TaskReportViewModel, initialScreenshotId: Int?, onBac
     fun seek(frame: Int) { playing = false; position = frame.coerceIn(0, frames.lastIndex.coerceAtLeast(0)) }
     PageBackground {
         Column(Modifier.fillMaxSize()) {
-            TopBar(stringResource(R.string.playback_title), MikaIcons.Back, onBack, stringResource(R.string.back))
+            TopBar(stringResource(R.string.playback_title), DjiniIcons.Back, onBack, stringResource(R.string.back))
             val r = report
             if (r == null || frames.isEmpty()) {
                 if (loaded) EmptyNote(stringResource(if (r == null) R.string.timeline_expired else if (r.missingFrames > 0) R.string.playback_missing else R.string.playback_empty), Modifier.padding(24.dp))
@@ -107,14 +107,14 @@ fun TaskPlaybackScreen(vm: TaskReportViewModel, initialScreenshotId: Int?, onBac
                 val stageScroll = rememberLazyListState()
                 LaunchedEffect(stage) { stageScroll.animateScrollToItem(r.stages.indexOf(stage).coerceAtLeast(0)) }
                 val controls: @Composable () -> Unit = {
-                    Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(MikaRadius.Bubble)).background(c.surface).padding(horizontal = 12.dp, vertical = 8.dp)) {
+                    Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(DjiniRadius.Bubble)).background(c.surface).padding(horizontal = 12.dp, vertical = 8.dp)) {
                         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                             Text(when {
                                 finalResult -> stringResource(R.string.report_final_page)
                                 frame.resultOnly -> stringResource(R.string.playback_result)
                                 else -> stepLabel(step)
-                            }, Modifier.weight(1f), style = MikaType.BodyStrong, color = c.ink, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                            Text("${current + 1} / ${frames.size}", style = MikaType.Hint, color = c.ink2)
+                            }, Modifier.weight(1f), style = DjiniType.BodyStrong, color = c.ink, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                            Text("${current + 1} / ${frames.size}", style = DjiniType.Hint, color = c.ink2)
                         }
                         val progressLabel = stringResource(R.string.playback_progress)
                         Slider(current.toFloat(), { seek(it.toInt()) }, valueRange = 0f..frames.lastIndex.coerceAtLeast(1).toFloat(), enabled = frames.size > 1,
@@ -122,24 +122,24 @@ fun TaskPlaybackScreen(vm: TaskReportViewModel, initialScreenshotId: Int?, onBac
                             colors = SliderDefaults.colors(activeTrackColor = c.accent, inactiveTrackColor = c.fill, thumbColor = c.accent))
                         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
                             TextButton({ seek(current - 1) }, enabled = current > 0, modifier = Modifier.weight(1f), contentPadding = PaddingValues(2.dp)) {
-                                Text(stringResource(R.string.playback_previous), style = MikaType.Caption, maxLines = 1)
+                                Text(stringResource(R.string.playback_previous), style = DjiniType.Caption, maxLines = 1)
                             }
-                            MikaButton(stringResource(if (playing) R.string.playback_pause else R.string.playback_play), {
+                            DjiniButton(stringResource(if (playing) R.string.playback_pause else R.string.playback_play), {
                                 if (playing) playing = false else { if (current == frames.lastIndex) position = 0; playing = true }
                             }, Modifier.weight(1.2f), kind = ButtonKind.Primary, size = ButtonSize.Small)
                             TextButton({ seek(current + 1) }, enabled = current < frames.lastIndex, modifier = Modifier.weight(1f), contentPadding = PaddingValues(2.dp)) {
-                                Text(stringResource(R.string.playback_next), style = MikaType.Caption, maxLines = 1)
+                                Text(stringResource(R.string.playback_next), style = DjiniType.Caption, maxLines = 1)
                             }
                             TextButton({ speedIndex = (speedIndex + 1) % speeds.size }, contentPadding = PaddingValues(2.dp), modifier = Modifier.width(42.dp)) {
-                                Text(listOf("0.5×", "1×", "2×")[speedIndex], style = MikaType.Caption)
+                                Text(listOf("0.5×", "1×", "2×")[speedIndex], style = DjiniType.Caption)
                             }
                         }
-                        step.failure?.let { Text(it, style = MikaType.Hint, color = c.bad) }
+                        step.failure?.let { Text(it, style = DjiniType.Hint, color = c.bad) }
                         if (r.stages.isNotEmpty()) LazyRow(Modifier.fillMaxWidth().padding(top = 4.dp, bottom = 2.dp), state = stageScroll, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                             itemsIndexed(r.stages) { i, s ->
-                                Text("${i + 1} · ${s.title}", Modifier.widthIn(max = 180.dp).clip(MikaShapes.Tile)
+                                Text("${i + 1} · ${s.title}", Modifier.widthIn(max = 180.dp).clip(DjiniShapes.Tile)
                                     .background(if (s == stage) c.accentSoft else c.bg).clickable { seek(TaskReportViewModel.framePosition(frames, s.screenshotId, s.stepIndex)) }.padding(9.dp, 7.dp),
-                                    style = MikaType.Hint, color = if (s == stage) c.accent else c.ink2, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                                    style = DjiniType.Hint, color = if (s == stage) c.accent else c.ink2, maxLines = 1, overflow = TextOverflow.Ellipsis)
                             }
                         }
                     }
@@ -167,9 +167,9 @@ fun TaskPlaybackScreen(vm: TaskReportViewModel, initialScreenshotId: Int?, onBac
                             step.tool in listOf("phone_tap", "phone_swipe", "phone_scroll") -> R.string.playback_no_mark
                             else -> R.string.playback_image
                         }),
-                            Modifier.align(Alignment.CenterHorizontally), style = MikaType.Hint, color = c.ink2, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                            Modifier.align(Alignment.CenterHorizontally), style = DjiniType.Hint, color = c.ink2, maxLines = 1, overflow = TextOverflow.Ellipsis)
                         controls()
-                        if (r.missingFrames > 0) Text(stringResource(R.string.playback_skipped, r.missingFrames), style = MikaType.Hint, color = c.ink2)
+                        if (r.missingFrames > 0) Text(stringResource(R.string.playback_skipped, r.missingFrames), style = DjiniType.Hint, color = c.ink2)
                     }
                 }
                 if (fullscreen) Dialog(onDismissRequest = { fullscreen = false }, properties = DialogProperties(usePlatformDefaultWidth = false)) {
@@ -224,7 +224,7 @@ private fun AnimatedPlaybackImage(vm: TaskReportViewModel, frame: ReplayFrame, m
             FittedPlaybackImage(loaded.bitmap, loaded.frame.mark, Modifier.fillMaxSize())
         }
         else Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            if (loaded != null) Text(stringResource(R.string.playback_missing), style = MikaType.Caption, color = DjiniTheme.colors.ink2)
+            if (loaded != null) Text(stringResource(R.string.playback_missing), style = DjiniType.Caption, color = DjiniTheme.colors.ink2)
         }
     }
 }
@@ -242,7 +242,7 @@ private fun FittedPlaybackImage(bitmap: ImageBitmap, mark: PlaybackMark?, modifi
     BoxWithConstraints(modifier, contentAlignment = Alignment.Center) {
         val ratio = bitmap.width.toFloat() / bitmap.height
         val width = minOf(maxWidth, maxHeight * ratio)
-        Box(Modifier.size(width, width / ratio).clip(MikaShapes.Tile).testTag("playback-image")) {
+        Box(Modifier.size(width, width / ratio).clip(DjiniShapes.Tile).testTag("playback-image")) {
             Image(bitmap, stringResource(R.string.playback_image), Modifier.fillMaxSize(), contentScale = ContentScale.Fit)
             mark?.takeIf { it.valid() }?.let { m ->
                 Canvas(Modifier.matchParentSize().testTag("playback-mark-${m.kind}")) {

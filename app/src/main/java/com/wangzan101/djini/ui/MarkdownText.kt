@@ -65,11 +65,11 @@ import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
-import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniIcons
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
-import com.wangzan101.djini.ui.theme.MikaRadius
-import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniType
+import com.wangzan101.djini.ui.theme.DjiniRadius
+import com.wangzan101.djini.ui.theme.DjiniShapes
 
 /** 按 Markdown 显示一段回答；流式草稿用临时闭合的语法预览。 */
 private val LocalReportStyle = staticCompositionLocalOf { false }
@@ -168,13 +168,13 @@ private fun Block(b: MdBlock, style: TextStyle, depth: Int) {
         )
         is MdBlock.Code -> CodeBlock(b, style)
         is MdBlock.Quote -> Row(Modifier.height(IntrinsicSize.Min)) {
-            Box(Modifier.width(3.dp).fillMaxHeight().background(DjiniTheme.colors.hair, MikaShapes.Micro))
+            Box(Modifier.width(3.dp).fillMaxHeight().background(DjiniTheme.colors.hair, DjiniShapes.Micro))
             MarkdownBlocks(b.blocks, style.copy(color = DjiniTheme.colors.ink2), Modifier.padding(start = 10.dp), depth + 1)
         }
         is MdBlock.ListBlock -> Column(verticalArrangement = Arrangement.spacedBy(if (b.tight) 3.dp else 8.dp)) {
             b.items.forEachIndexed { i, item ->
                 val reportItem = LocalReportStyle.current && depth == 0
-                Row(Modifier.then(if (reportItem) Modifier.fillMaxWidth().clip(MikaShapes.Button)
+                Row(Modifier.then(if (reportItem) Modifier.fillMaxWidth().clip(DjiniShapes.Button)
                     .background(DjiniTheme.colors.bg).padding(14.dp) else Modifier)) {
                     val marker = if (b.start != null) "${b.start + i}." else if (depth % 2 == 0) "•" else "◦"
                     Text(marker, Modifier.widthIn(min = 18.dp).padding(end = 6.dp), style = style.copy(color = if (reportItem) DjiniTheme.colors.accent else DjiniTheme.colors.ink2))
@@ -196,7 +196,7 @@ private fun TableBlock(t: MdBlock.Table, style: TextStyle) {
     if (cols == 0) return
     val cellStyle = style.copy(fontSize = 13.sp, lineHeight = 19.sp)
     val rows = listOf(t.header) + t.rows
-    Box(Modifier.then(if (report) Modifier.clip(MikaShapes.Card).background(DjiniTheme.colors.surface) else Modifier)
+    Box(Modifier.then(if (report) Modifier.clip(DjiniShapes.Card).background(DjiniTheme.colors.surface) else Modifier)
         .horizontalScroll(rememberScrollState())) {
         Layout(
             content = {
@@ -215,7 +215,7 @@ private fun TableBlock(t: MdBlock.Table, style: TextStyle) {
                     }
                 }
             },
-            modifier = if (report) Modifier else Modifier.border(0.5.dp, DjiniTheme.colors.hair, MikaShapes.Micro),
+            modifier = if (report) Modifier else Modifier.border(0.5.dp, DjiniTheme.colors.hair, DjiniShapes.Micro),
         ) { measurables, _ ->
             val maxCol = 240.dp.roundToPx()
             val minCol = 48.dp.roundToPx()
@@ -256,7 +256,7 @@ private fun CodeBlock(b: MdBlock.Code, style: TextStyle) {
             copyVersion = 0
         }
     }
-    val shape = MikaShapes.Tile
+    val shape = DjiniShapes.Tile
     val language = b.language
     Column(Modifier.fillMaxWidth().clip(shape).background(c.fill)) {
         // 包进 SelectionContainer(如「选择文字」模式或个人助理回答)时,顶栏标签和按钮不参与拖选。
@@ -269,7 +269,7 @@ private fun CodeBlock(b: MdBlock.Code, style: TextStyle) {
                     Text(
                         text = language,
                         modifier = Modifier.weight(1f).padding(end = 8.dp).testTag("code-block-language"),
-                        style = MikaType.Hint.copy(fontFamily = FontFamily.Monospace, fontWeight = FontWeight.Medium),
+                        style = DjiniType.Hint.copy(fontFamily = FontFamily.Monospace, fontWeight = FontWeight.Medium),
                         color = c.ink2,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
@@ -281,7 +281,7 @@ private fun CodeBlock(b: MdBlock.Code, style: TextStyle) {
                 val tint = if (copied) c.ok else c.ink2
                 Row(
                     Modifier
-                        .clip(RoundedCornerShape(MikaRadius.BubbleTail))
+                        .clip(RoundedCornerShape(DjiniRadius.BubbleTail))
                         .alpha(if (b.code.isNotEmpty()) 1f else 0.4f)
                         .clickable(
                             enabled = b.code.isNotEmpty(),
@@ -297,8 +297,8 @@ private fun CodeBlock(b: MdBlock.Code, style: TextStyle) {
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(4.dp),
                 ) {
-                    Icon(if (copied) MikaIcons.Check else MikaIcons.Copy, contentDescription = null, modifier = Modifier.size(14.dp), tint = tint)
-                    Text(label, style = MikaType.Hint.copy(fontWeight = FontWeight.Medium), color = tint, maxLines = 1)
+                    Icon(if (copied) DjiniIcons.Check else DjiniIcons.Copy, contentDescription = null, modifier = Modifier.size(14.dp), tint = tint)
+                    Text(label, style = DjiniType.Hint.copy(fontWeight = FontWeight.Medium), color = tint, maxLines = 1)
                 }
             }
         }

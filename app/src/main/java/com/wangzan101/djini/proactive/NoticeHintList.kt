@@ -46,7 +46,7 @@ object NoticeHintList {
         null
     }
 
-    private const val TAG = "MikaNoticeHint"
+    private const val TAG = "DjiniNoticeHint"
 }
 
 /**

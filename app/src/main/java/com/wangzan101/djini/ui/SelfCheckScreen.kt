@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.sp
 import com.wangzan101.djini.DjiniApp
 import com.wangzan101.djini.R
 import com.wangzan101.djini.about.Diagnostics
-import com.wangzan101.djini.about.MikaLinks
+import com.wangzan101.djini.about.DjiniLinks
 import com.wangzan101.djini.core.selfcheck.Advice
 import com.wangzan101.djini.core.selfcheck.CheckResult
 import com.wangzan101.djini.core.selfcheck.CheckStatus
@@ -51,16 +51,16 @@ import com.wangzan101.djini.ui.components.FooterNote
 import com.wangzan101.djini.ui.components.GroupCard
 import com.wangzan101.djini.ui.components.GroupLabel
 import com.wangzan101.djini.ui.components.ListRow
-import com.wangzan101.djini.ui.components.MikaButton
+import com.wangzan101.djini.ui.components.DjiniButton
 import com.wangzan101.djini.ui.components.PageScaffold
 import com.wangzan101.djini.ui.components.RowValue
 import com.wangzan101.djini.ui.components.TileTone
 import com.wangzan101.djini.ui.components.ValueTone
-import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniIcons
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
-import com.wangzan101.djini.ui.theme.MikaRadius
-import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniType
+import com.wangzan101.djini.ui.theme.DjiniRadius
+import com.wangzan101.djini.ui.theme.DjiniShapes
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -171,7 +171,7 @@ fun SelfCheckScreen(status: SystemStatus, onBack: () -> Unit) {
         onCopy = { copyReport(context, render(state), tr(R.string.selfcheck_copied)) },
         onGithub = {
             copyReport(context, render(state), tr(R.string.selfcheck_github_copied))
-            openInBrowser(context, SelfCheckReport.issueUrl(MikaLinks.NEW_ISSUE, state.facts))
+            openInBrowser(context, SelfCheckReport.issueUrl(DjiniLinks.NEW_ISSUE, state.facts))
         },
         onBack = onBack,
     )
@@ -199,9 +199,9 @@ fun SelfCheckContent(
     PageScaffold(stringResource(R.string.selfcheck_title), onBack) {
         FooterNote(stringResource(R.string.selfcheck_intro))
         if (running) {
-            MikaButton(stringResource(R.string.selfcheck_cancel), onCancel, Modifier.fillMaxWidth().testTag("selfcheck-cancel"), kind = ButtonKind.Tonal)
+            DjiniButton(stringResource(R.string.selfcheck_cancel), onCancel, Modifier.fillMaxWidth().testTag("selfcheck-cancel"), kind = ButtonKind.Tonal)
         } else {
-            MikaButton(
+            DjiniButton(
                 stringResource(if (state.ended) R.string.selfcheck_again else R.string.selfcheck_start), onStart,
                 Modifier.fillMaxWidth().testTag("selfcheck-start"), enabled = !taskBusy,
             )
@@ -224,14 +224,14 @@ fun SelfCheckContent(
             val c = DjiniTheme.colors
             Box(
                 Modifier.fillMaxWidth().heightIn(min = 120.dp, max = 360.dp).testTag("selfcheck-report")
-                    .background(c.fill, MikaShapes.Chip).verticalScroll(rememberScrollState())
+                    .background(c.fill, DjiniShapes.Chip).verticalScroll(rememberScrollState())
                     .horizontalScroll(rememberScrollState()).padding(12.dp),
             ) {
-                Text(text, fontFamily = FontFamily.Monospace, style = MikaType.Hint, color = c.ink2)
+                Text(text, fontFamily = FontFamily.Monospace, style = DjiniType.Hint, color = c.ink2)
             }
             Row(Modifier.fillMaxWidth().padding(top = 14.dp, bottom = 8.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                MikaButton(stringResource(R.string.selfcheck_copy), onCopy, Modifier.weight(1f).testTag("selfcheck-copy"))
-                MikaButton(stringResource(R.string.selfcheck_github), onGithub, Modifier.weight(1f).testTag("selfcheck-github"), kind = ButtonKind.Tonal)
+                DjiniButton(stringResource(R.string.selfcheck_copy), onCopy, Modifier.weight(1f).testTag("selfcheck-copy"))
+                DjiniButton(stringResource(R.string.selfcheck_github), onGithub, Modifier.weight(1f).testTag("selfcheck-github"), kind = ButtonKind.Tonal)
             }
             FooterNote(stringResource(R.string.selfcheck_report_note))
         }
@@ -239,12 +239,12 @@ fun SelfCheckContent(
 }
 
 private fun look(s: CheckStatus): Pair<ImageVector, TileTone> = when (s) {
-    CheckStatus.Pending -> MikaIcons.Clock to TileTone.Neutral
-    CheckStatus.Running -> MikaIcons.Refresh to TileTone.Accent
-    CheckStatus.Pass -> MikaIcons.Check to TileTone.Ok
-    CheckStatus.Partial -> MikaIcons.Exclaim to TileTone.Warn
-    CheckStatus.Fail -> MikaIcons.Close to TileTone.Bad
-    CheckStatus.Skipped -> MikaIcons.More to TileTone.Neutral
+    CheckStatus.Pending -> DjiniIcons.Clock to TileTone.Neutral
+    CheckStatus.Running -> DjiniIcons.Refresh to TileTone.Accent
+    CheckStatus.Pass -> DjiniIcons.Check to TileTone.Ok
+    CheckStatus.Partial -> DjiniIcons.Exclaim to TileTone.Warn
+    CheckStatus.Fail -> DjiniIcons.Close to TileTone.Bad
+    CheckStatus.Skipped -> DjiniIcons.More to TileTone.Neutral
 }
 
 private fun valueTone(s: CheckStatus): ValueTone = when (s) {

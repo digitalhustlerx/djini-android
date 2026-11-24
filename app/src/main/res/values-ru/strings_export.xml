@@ -28,7 +28,7 @@
     <string name="export_warnings">Не удалось включить элементов: %1$d.</string>
     <string name="export_filename_fallback">Диалог Djini</string>
     <string name="export_label_user">Пользователь</string>
-    <string name="export_label_mika">Djini</string>
+    <string name="export_label_djini">Djini</string>
     <string name="export_label_steer">Сообщение во время задачи</string>
     <string name="export_label_answer">Ответ</string>
     <string name="export_label_tool_steps">Шаги инструментов</string>

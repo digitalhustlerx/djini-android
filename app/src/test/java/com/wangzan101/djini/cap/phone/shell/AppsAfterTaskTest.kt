@@ -20,7 +20,7 @@ class AppsAfterTaskTest {
         assertEquals(false to Why.Playing, f[2])
     }
 
-    @Test fun unknownPlaybackKeepsUnlessMikaIsMutingIt() {
+    @Test fun unknownPlaybackKeepsUnlessDjiniIsMutingIt() {
         assertEquals(true to Why.Default, fates(task(1, "a.app", playing = null))[1])
         val muted = AppsAfterTask.Task(2, listOf("a.music"), standard = true, own = false, playing = null, muted = true)
         assertEquals(false to Why.PlaybackUnknown, fates(muted)[2])

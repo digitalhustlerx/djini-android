@@ -14,7 +14,7 @@ import unittest
 from unittest.mock import patch
 from urllib.parse import urlsplit
 
-from test_mika_cli import api, DISCOVERY, SCRIPT, SNAPSHOT, TOKEN
+from test_djini_cli import api, DISCOVERY, SCRIPT, SNAPSHOT, TOKEN
 
 
 @contextmanager
@@ -141,7 +141,7 @@ class DeskTest(unittest.TestCase):
         self.assertEqual(2, result.returncode)
 
     def test_every_text_has_chinese_and_english(self):
-        desk_dir = SCRIPT.parent / "mika_desk"
+        desk_dir = SCRIPT.parent / "djini_desk"
         script = (desk_dir / "desk.js").read_text(encoding="utf-8")
         table = script[script.index("const STRINGS = {"):script.index("\n};", script.index("const STRINGS = {"))]
         strings = dict(re.findall(r'^  (\w+): \["([^"]+)", "[^"]+"\],$', table, re.M))
@@ -171,34 +171,34 @@ class DeskTest(unittest.TestCase):
 
     def test_target_choice_is_limited_to_online_devices_and_stays_pinned(self):
         with patch.object(sys, "path", [str(SCRIPT.parent), *sys.path]):
-            import mika_desk
+            import djini_desk
         args = Namespace(url=None, device=None, adb="adb")
         online = [{"device": "phone-a", "state": "device"}, {"device": "phone-b", "state": "device"},
                   {"device": "other", "state": "offline"}]
-        with patch.dict(os.environ, {"ANDROID_SERIAL": ""}), mika_desk.Desk(args) as server:
-            with patch.object(mika_desk.Adb, "start_server"), \
-                    patch.object(mika_desk.Adb, "devices", return_value=online) as listing:
+        with patch.dict(os.environ, {"ANDROID_SERIAL": ""}), djini_desk.Desk(args) as server:
+            with patch.object(djini_desk.Adb, "start_server"), \
+                    patch.object(djini_desk.Adb, "devices", return_value=online) as listing:
                 for choice in [None, "other", "unknown"]:
-                    with self.assertRaises(mika_desk.CliError) as caught:
+                    with self.assertRaises(djini_desk.CliError) as caught:
                         server.pin_target(choice)
                     self.assertEqual(["phone-a", "phone-b"], caught.exception.details["devices"])
                     self.assertFalse(args.device)
                 server.pin_target("phone-b")
                 listing.return_value = [online[0]]  # The chosen phone disconnected.
                 server.pin_target(None)
-                with self.assertRaises(mika_desk.CliError) as caught:
+                with self.assertRaises(djini_desk.CliError) as caught:
                     server.pin_target("phone-a")
                 self.assertEqual("device_pinned", caught.exception.code)
                 self.assertEqual("phone-b", args.device)
 
     def test_a_lone_unready_phone_reports_its_state(self):
         with patch.object(sys, "path", [str(SCRIPT.parent), *sys.path]):
-            import mika_desk
+            import djini_desk
         args = Namespace(url=None, device=None, adb="adb")
         with patch.dict(os.environ, {"ANDROID_SERIAL": ""}), \
-                patch.object(mika_desk.Adb, "start_server") as start, \
-                patch.object(mika_desk.Adb, "devices", return_value=[{"device": "phone-a", "state": "unauthorized"}]), \
-                mika_desk.Desk(args) as server:
+                patch.object(djini_desk.Adb, "start_server") as start, \
+                patch.object(djini_desk.Adb, "devices", return_value=[{"device": "phone-a", "state": "unauthorized"}]), \
+                djini_desk.Desk(args) as server:
             worker = threading.Thread(target=server.serve_forever, kwargs={"poll_interval": 0.01}, daemon=True)
             worker.start()
             try:

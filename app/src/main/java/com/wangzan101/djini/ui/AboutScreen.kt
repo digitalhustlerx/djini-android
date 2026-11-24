@@ -53,24 +53,24 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.wangzan101.djini.R
 import com.wangzan101.djini.about.CheckStatus
-import com.wangzan101.djini.about.MikaLinks
+import com.wangzan101.djini.about.DjiniLinks
 import com.wangzan101.djini.about.QrImage
 import com.wangzan101.djini.about.ReleaseInfo
 import com.wangzan101.djini.about.UpdateState
 import com.wangzan101.djini.ui.components.ButtonKind
 import com.wangzan101.djini.ui.components.GroupCard
 import com.wangzan101.djini.ui.components.ListRow
-import com.wangzan101.djini.ui.components.MikaSwitch
-import com.wangzan101.djini.ui.components.MikaButton
+import com.wangzan101.djini.ui.components.DjiniSwitch
+import com.wangzan101.djini.ui.components.DjiniButton
 import com.wangzan101.djini.ui.components.PageScaffold
 import com.wangzan101.djini.ui.components.RowChevron
 import com.wangzan101.djini.ui.components.RowValue
 import com.wangzan101.djini.ui.components.ValueTone
-import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniIcons
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
-import com.wangzan101.djini.ui.theme.MikaRadius
-import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniType
+import com.wangzan101.djini.ui.theme.DjiniRadius
+import com.wangzan101.djini.ui.theme.DjiniShapes
 
 /** 关于页上点开的底部面板。 */
 private enum class AboutSheet { Update, Changelog, Feedback, Group, Diagnostics }
@@ -126,7 +126,7 @@ fun AboutScreen(
         GroupCard {
             val v = AboutCopy.checkValue(update)
             ListRow(
-                MikaIcons.Refresh, AboutCopy.CHECK, if (update.hasUpdate) AboutCopy.CHECK_SUB_NEW else AboutCopy.CHECK_SUB, first = true,
+                DjiniIcons.Refresh, AboutCopy.CHECK, if (update.hasUpdate) AboutCopy.CHECK_SUB_NEW else AboutCopy.CHECK_SUB, first = true,
                 onClick = {
                     if (update.hasUpdate) sheet = AboutSheet.Update
                     else if (update.status != CheckStatus.Checking) {
@@ -139,21 +139,21 @@ fun AboutScreen(
                 RowChevron()
             }
             ListRow(
-                MikaIcons.Refresh,
+                DjiniIcons.Refresh,
                 stringResource(R.string.about_auto_update),
                 stringResource(R.string.about_auto_update_detail),
             ) {
-                MikaSwitch(autoUpdate, onAutoUpdate, Modifier.testTag("auto-update-switch"))
+                DjiniSwitch(autoUpdate, onAutoUpdate, Modifier.testTag("auto-update-switch"))
             }
             ListRow(
-                MikaIcons.Link,
+                DjiniIcons.Link,
                 stringResource(R.string.about_mirror_download),
                 stringResource(R.string.about_mirror_download_detail),
             ) {
-                MikaSwitch(mirrorEnabled, onMirrorEnabled, Modifier.testTag("mirror-download-switch"))
+                DjiniSwitch(mirrorEnabled, onMirrorEnabled, Modifier.testTag("mirror-download-switch"))
             }
             ListRow(
-                MikaIcons.Shield,
+                DjiniIcons.Shield,
                 stringResource(R.string.about_mirror_sources),
                 stringResource(R.string.about_mirror_sources_detail),
                 onClick = onOpenMirrors,
@@ -161,24 +161,24 @@ fun AboutScreen(
                 RowValue(stringResource(R.string.about_mirrors_count, mirrorCount))
                 RowChevron()
             }
-            ListRow(MikaIcons.Lines, AboutCopy.CHANGELOG, AboutCopy.CHANGELOG_SUB, onClick = { sheet = AboutSheet.Changelog }) { RowChevron() }
+            ListRow(DjiniIcons.Lines, AboutCopy.CHANGELOG, AboutCopy.CHANGELOG_SUB, onClick = { sheet = AboutSheet.Changelog }) { RowChevron() }
         }
         GroupCard {
-            ListRow(MikaIcons.Chats, AboutCopy.GROUP, AboutCopy.GROUP_SUB, first = true, onClick = { sheet = AboutSheet.Group }) { RowChevron() }
-            ListRow(MikaIcons.XMark, AboutCopy.FOLLOW, AboutCopy.FOLLOW_SUB, onClick = { onOpenUrl(MikaLinks.X) }) { ExternalMark() }
-            ListRow(MikaIcons.Bug, AboutCopy.FEEDBACK, AboutCopy.FEEDBACK_SUB, onClick = { sheet = AboutSheet.Feedback }) { RowChevron() }
+            ListRow(DjiniIcons.Chats, AboutCopy.GROUP, AboutCopy.GROUP_SUB, first = true, onClick = { sheet = AboutSheet.Group }) { RowChevron() }
+            ListRow(DjiniIcons.XMark, AboutCopy.FOLLOW, AboutCopy.FOLLOW_SUB, onClick = { onOpenUrl(DjiniLinks.X) }) { ExternalMark() }
+            ListRow(DjiniIcons.Bug, AboutCopy.FEEDBACK, AboutCopy.FEEDBACK_SUB, onClick = { sheet = AboutSheet.Feedback }) { RowChevron() }
         }
         GroupCard {
-            ListRow(MikaIcons.Code, AboutCopy.REPO, AboutCopy.REPO_SUB, first = true, onClick = { onOpenUrl(MikaLinks.REPO) }) { ExternalMark() }
-            ListRow(MikaIcons.Book, AboutCopy.GUIDE, AboutCopy.GUIDE_SUB, onClick = { onOpenUrl(MikaLinks.README) }) { ExternalMark() }
+            ListRow(DjiniIcons.Code, AboutCopy.REPO, AboutCopy.REPO_SUB, first = true, onClick = { onOpenUrl(DjiniLinks.REPO) }) { ExternalMark() }
+            ListRow(DjiniIcons.Book, AboutCopy.GUIDE, AboutCopy.GUIDE_SUB, onClick = { onOpenUrl(DjiniLinks.README) }) { ExternalMark() }
         }
 
         Row(
-            Modifier.fillMaxWidth().padding(top = 2.dp).background(c.okSoft, MikaShapes.Button).padding(horizontal = 14.dp, vertical = 12.dp),
+            Modifier.fillMaxWidth().padding(top = 2.dp).background(c.okSoft, DjiniShapes.Button).padding(horizontal = 14.dp, vertical = 12.dp),
             horizontalArrangement = Arrangement.spacedBy(10.dp),
         ) {
-            Icon(MikaIcons.Shield, null, Modifier.padding(top = 1.dp).size(18.dp), tint = c.ok)
-            Text(AboutCopy.DATA_NOTE, style = MikaType.Caption, color = c.ink2)
+            Icon(DjiniIcons.Shield, null, Modifier.padding(top = 1.dp).size(18.dp), tint = c.ok)
+            Text(AboutCopy.DATA_NOTE, style = DjiniType.Caption, color = c.ink2)
         }
 
         Column(Modifier.fillMaxWidth().padding(top = 20.dp), horizontalAlignment = Alignment.CenterHorizontally) {
@@ -189,11 +189,11 @@ fun AboutScreen(
                     withStyle(SpanStyle(color = c.accent)) { append(AboutCopy.LICENSE_LINK) }
                     append(after)
                 },
-                Modifier.clip(RoundedCornerShape(MikaRadius.BubbleTail)).clickable(onClick = onOpenLicense).padding(horizontal = 6.dp, vertical = 2.dp)
+                Modifier.clip(RoundedCornerShape(DjiniRadius.BubbleTail)).clickable(onClick = onOpenLicense).padding(horizontal = 6.dp, vertical = 2.dp)
                     .testTag("about-license"),
-                style = MikaType.Hint, color = c.ink3, textAlign = TextAlign.Center,
+                style = DjiniType.Hint, color = c.ink3, textAlign = TextAlign.Center,
             )
-            Text(AboutCopy.AUTHOR, Modifier.padding(top = 2.dp), style = MikaType.Hint, color = c.ink3)
+            Text(AboutCopy.AUTHOR, Modifier.padding(top = 2.dp), style = DjiniType.Hint, color = c.ink3)
         }
     }
 
@@ -202,7 +202,7 @@ fun AboutScreen(
         AboutSheet.Update -> update.update?.let { r ->
             UpdateSheet(r, versionName, beta, onOpenUrl = { close(); onOpenUrl(it) }, onDismiss = close)
         }
-        AboutSheet.Changelog -> ChangelogSheet(update.latest, onOpenAll = { close(); onOpenUrl(MikaLinks.RELEASES) }, onDismiss = close)
+        AboutSheet.Changelog -> ChangelogSheet(update.latest, onOpenAll = { close(); onOpenUrl(DjiniLinks.RELEASES) }, onDismiss = close)
         AboutSheet.Feedback -> FeedbackSheet(
             onGitHub = { close(); onOpenUrl(issueUrl) },
             onDiagnostics = { sheet = AboutSheet.Diagnostics },
@@ -223,19 +223,19 @@ private fun Hero(versionName: String, build: String, beta: Boolean) {
     ) {
         Image(
             painterResource(R.drawable.djini_launcher_art), contentDescription = null,
-            Modifier.size(72.dp).clip(RoundedCornerShape(MikaRadius.Bubble)),
+            Modifier.size(72.dp).clip(RoundedCornerShape(DjiniRadius.Bubble)),
         )
-        Text("Djini", Modifier.padding(top = 12.dp), style = MikaType.Title, fontWeight = FontWeight.Bold, color = c.ink)
-        Text(AboutCopy.TAGLINE, Modifier.padding(top = 4.dp), style = MikaType.Caption, color = c.ink2, textAlign = TextAlign.Center)
+        Text("Djini", Modifier.padding(top = 12.dp), style = DjiniType.Title, fontWeight = FontWeight.Bold, color = c.ink)
+        Text(AboutCopy.TAGLINE, Modifier.padding(top = 4.dp), style = DjiniType.Caption, color = c.ink2, textAlign = TextAlign.Center)
         Row(Modifier.padding(top = 10.dp).testTag("about-version"), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-            Text(AboutCopy.version(versionName), style = MikaType.Hint, color = c.ink3)
+            Text(AboutCopy.version(versionName), style = DjiniType.Hint, color = c.ink3)
             if (beta) {
                 Text(
-                    AboutCopy.BETA, Modifier.background(c.accentSoft, MikaShapes.Tile).padding(horizontal = 7.dp, vertical = 1.dp),
-                    style = MikaType.Hint, fontWeight = FontWeight.SemiBold, color = c.accent,
+                    AboutCopy.BETA, Modifier.background(c.accentSoft, DjiniShapes.Tile).padding(horizontal = 7.dp, vertical = 1.dp),
+                    style = DjiniType.Hint, fontWeight = FontWeight.SemiBold, color = c.accent,
                 )
             }
-            Text("· ${AboutCopy.buildLabel(build)}", style = MikaType.Hint, color = c.ink3)
+            Text("· ${AboutCopy.buildLabel(build)}", style = DjiniType.Hint, color = c.ink3)
         }
     }
 }
@@ -259,7 +259,7 @@ internal fun UpdateDot(modifier: Modifier = Modifier) {
 
 @Composable
 private fun ExternalMark() {
-    Icon(MikaIcons.External, null, Modifier.size(15.dp), tint = DjiniTheme.colors.ink3)
+    Icon(DjiniIcons.External, null, Modifier.size(15.dp), tint = DjiniTheme.colors.ink3)
 }
 
 // ---------- 底部面板 ----------
@@ -272,15 +272,15 @@ private fun AboutSheetFrame(title: String, sub: String?, tag: String, onDismiss:
         onDismissRequest = onDismiss,
         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
         containerColor = c.surface,
-        shape = MikaShapes.SheetTop,
+        shape = DjiniShapes.SheetTop,
     ) {
         // 面板内容太高(矮屏、大字号)时整体能滚,底下的按钮总够得着
         Column(
             Modifier.fillMaxWidth().verticalScroll(rememberScrollState()).navigationBarsPadding()
                 .padding(start = 16.dp, end = 16.dp, bottom = 16.dp).testTag(tag),
         ) {
-            Text(title, style = MikaType.Title, color = c.ink)
-            sub?.let { Text(it, Modifier.padding(top = 2.dp), style = MikaType.Caption, color = c.ink3) }
+            Text(title, style = DjiniType.Title, color = c.ink)
+            sub?.let { Text(it, Modifier.padding(top = 2.dp), style = DjiniType.Caption, color = c.ink3) }
             content()
         }
     }
@@ -292,9 +292,9 @@ private fun NotesBox(notes: String) {
     val c = DjiniTheme.colors
     Box(
         Modifier.padding(top = 12.dp).fillMaxWidth().heightIn(max = 280.dp)
-            .background(c.fill, MikaShapes.Chip).verticalScroll(rememberScrollState()).padding(12.dp),
+            .background(c.fill, DjiniShapes.Chip).verticalScroll(rememberScrollState()).padding(12.dp),
     ) {
-        MarkdownText(notes, MikaType.Caption.copy(color = c.ink2))
+        MarkdownText(notes, DjiniType.Caption.copy(color = c.ink2))
     }
 }
 
@@ -303,11 +303,11 @@ internal fun UpdateSheet(r: ReleaseInfo, current: String, beta: Boolean, onOpenU
     AboutSheetFrame(AboutCopy.updateTitle(r.version), AboutCopy.updateSub(current, beta, r.date), "update-sheet", onDismiss) {
         if (r.notes.isNotBlank()) NotesBox(r.notes)
         if (r.apkUrl != null) UpdateDownloadControls(r)
-        else MikaButton(AboutCopy.UPDATE_DOWNLOAD, { onOpenUrl(r.pageUrl) }, Modifier.fillMaxWidth().padding(top = 14.dp))
+        else DjiniButton(AboutCopy.UPDATE_DOWNLOAD, { onOpenUrl(r.pageUrl) }, Modifier.fillMaxWidth().padding(top = 14.dp))
         Text(
             AboutCopy.UPDATE_LATER,
-            Modifier.fillMaxWidth().padding(top = 8.dp).clip(MikaShapes.Tile).clickable(onClick = onDismiss).padding(vertical = 10.dp),
-            style = MikaType.Caption, color = DjiniTheme.colors.ink3, textAlign = TextAlign.Center,
+            Modifier.fillMaxWidth().padding(top = 8.dp).clip(DjiniShapes.Tile).clickable(onClick = onDismiss).padding(vertical = 10.dp),
+            style = DjiniType.Caption, color = DjiniTheme.colors.ink3, textAlign = TextAlign.Center,
         )
     }
 }
@@ -317,15 +317,15 @@ private fun ChangelogSheet(latest: ReleaseInfo?, onOpenAll: () -> Unit, onDismis
     val c = DjiniTheme.colors
     AboutSheetFrame(AboutCopy.CHANGELOG, null, "changelog-sheet", onDismiss) {
         if (latest == null) {
-            Text(AboutCopy.CHANGELOG_EMPTY, Modifier.padding(top = 10.dp), style = MikaType.Caption, color = c.ink3)
+            Text(AboutCopy.CHANGELOG_EMPTY, Modifier.padding(top = 10.dp), style = DjiniType.Caption, color = c.ink3)
         } else {
             Text(
                 latest.version + (latest.date?.let { " · $it" } ?: ""), Modifier.padding(top = 10.dp),
-                style = MikaType.Label, color = c.ink,
+                style = DjiniType.Label, color = c.ink,
             )
             if (latest.notes.isNotBlank()) NotesBox(latest.notes)
         }
-        MikaButton(AboutCopy.CHANGELOG_ALL, onOpenAll, Modifier.fillMaxWidth().padding(top = 14.dp), kind = ButtonKind.Tonal)
+        DjiniButton(AboutCopy.CHANGELOG_ALL, onOpenAll, Modifier.fillMaxWidth().padding(top = 14.dp), kind = ButtonKind.Tonal)
     }
 }
 
@@ -333,8 +333,8 @@ private fun ChangelogSheet(latest: ReleaseInfo?, onOpenAll: () -> Unit, onDismis
 private fun FeedbackSheet(onGitHub: () -> Unit, onDiagnostics: () -> Unit, onDismiss: () -> Unit) {
     AboutSheetFrame(AboutCopy.FEEDBACK, AboutCopy.FEEDBACK_SHEET_SUB, "feedback-sheet", onDismiss) {
         Column(Modifier.padding(top = 6.dp)) {
-            FeedbackOption(MikaIcons.Code, AboutCopy.FEEDBACK_GITHUB, AboutCopy.FEEDBACK_GITHUB_SUB, first = true, onGitHub)
-            FeedbackOption(MikaIcons.Copy, AboutCopy.DIAGNOSTICS, AboutCopy.DIAGNOSTICS_SUB, first = false, onDiagnostics)
+            FeedbackOption(DjiniIcons.Code, AboutCopy.FEEDBACK_GITHUB, AboutCopy.FEEDBACK_GITHUB_SUB, first = true, onGitHub)
+            FeedbackOption(DjiniIcons.Copy, AboutCopy.DIAGNOSTICS, AboutCopy.DIAGNOSTICS_SUB, first = false, onDiagnostics)
         }
     }
 }
@@ -359,11 +359,11 @@ internal fun GroupSheet(onSave: () -> Unit, onDismiss: () -> Unit) {
             qr, contentDescription = AboutCopy.GROUP_SHEET_TITLE,
             Modifier.padding(top = 12.dp, bottom = 6.dp).align(Alignment.CenterHorizontally)
                 .height(qrHeight).aspectRatio(qr.intrinsicSize.width / qr.intrinsicSize.height)
-                .clip(MikaShapes.Chip)
+                .clip(DjiniShapes.Chip)
                 .pointerInput(Unit) { detectTapGestures(onLongPress = { onSave() }) }
                 .testTag("wechat-qr"),
         )
-        Text(AboutCopy.GROUP_HINT, Modifier.fillMaxWidth(), style = MikaType.Hint, color = c.ink3, textAlign = TextAlign.Center)
-        MikaButton(AboutCopy.SAVE_QR, onSave, Modifier.fillMaxWidth().padding(top = 14.dp), kind = ButtonKind.Tonal)
+        Text(AboutCopy.GROUP_HINT, Modifier.fillMaxWidth(), style = DjiniType.Hint, color = c.ink3, textAlign = TextAlign.Center)
+        DjiniButton(AboutCopy.SAVE_QR, onSave, Modifier.fillMaxWidth().padding(top = 14.dp), kind = ButtonKind.Tonal)
     }
 }

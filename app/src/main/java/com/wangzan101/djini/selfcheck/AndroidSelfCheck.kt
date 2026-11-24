@@ -205,14 +205,14 @@ class AndroidSelfCheck(context: Context, private val status: () -> SystemStatus)
         val settingsNote = if (settings == null) "no system Settings app found" else when (val r = s.openApp(settings, cold = false)) {
             is ActionResult.Failed -> if (r.reason == "app_in_use_by_user") SETTINGS_IN_USE else "Settings did not open (${r.reason})"
             is ActionResult.Ok -> {
-                val onMika = withContext(Dispatchers.IO) { topPackage(sh, d.displayId) } == settings
+                val onDjini = withContext(Dispatchers.IO) { topPackage(sh, d.displayId) } == settings
                 val onMain = withContext(Dispatchers.IO) { mainTop(sh)?.let { runCatching { sh.packageOfTask(it) }.getOrNull() } } == settings
                 sampleMain(sh, "Settings")
                 // 只看不点:返回一次离开它
                 s.back()
                 when {
                     onMain -> SETTINGS_ON_MAIN
-                    !onMika -> "Settings did not come to the front of Djini's display"
+                    !onDjini -> "Settings did not come to the front of Djini's display"
                     else -> null
                 }
             }
@@ -617,7 +617,7 @@ class AndroidSelfCheck(context: Context, private val status: () -> SystemStatus)
         const val TITLE = "selfcheck_title"
         val EXPECTED = listOf(TITLE, COUNT, BUTTON, INPUT, TICK, LIST)
         const val ASCII = "Djini 123"
-        const val CHINESE = "你好米卡"
+        const val CHINESE = "你好 Djini"
         const val SENTINEL = 987_654_321
         /** 读屏一项等自检页出现最多这么久。 */
         const val PAGE_WAIT_MS = 5_000L

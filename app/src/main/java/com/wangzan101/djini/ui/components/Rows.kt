@@ -45,17 +45,17 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.wangzan101.djini.R
 import com.wangzan101.djini.i18n.tr
-import com.wangzan101.djini.ui.theme.MikaColors
-import com.wangzan101.djini.ui.theme.MikaIcons
-import com.wangzan101.djini.ui.theme.MikaShapes
-import com.wangzan101.djini.ui.theme.MikaSize
+import com.wangzan101.djini.ui.theme.DjiniColors
+import com.wangzan101.djini.ui.theme.DjiniIcons
+import com.wangzan101.djini.ui.theme.DjiniShapes
+import com.wangzan101.djini.ui.theme.DjiniSize
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.DjiniType
 
 /** 分组小标题:13 / 500,辅助文字色。 */
 @Composable
 fun GroupLabel(text: String, modifier: Modifier = Modifier) {
-    Text(text, modifier.padding(top = 8.dp, bottom = 8.dp), style = MikaType.Label, color = DjiniTheme.colors.ink3)
+    Text(text, modifier.padding(top = 8.dp, bottom = 8.dp), style = DjiniType.Label, color = DjiniTheme.colors.ink3)
 }
 
 /** 分组下面的说明,和卡片里的文字对齐。 */
@@ -63,7 +63,7 @@ fun GroupLabel(text: String, modifier: Modifier = Modifier) {
 fun FooterNote(text: String, modifier: Modifier = Modifier, color: Color = Color.Unspecified) {
     Text(
         text, modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp, bottom = 12.dp),
-        style = MikaType.Hint, color = color.takeOrElse { DjiniTheme.colors.ink3 },
+        style = DjiniType.Hint, color = color.takeOrElse { DjiniTheme.colors.ink3 },
     )
 }
 
@@ -72,24 +72,24 @@ fun FooterNote(text: String, modifier: Modifier = Modifier, color: Color = Color
 fun DetailNote(summary: String, detail: String, modifier: Modifier = Modifier) {
     var open by rememberSaveable { mutableStateOf(false) }
     Column(modifier) {
-        Text(summary, style = MikaType.Hint, color = DjiniTheme.colors.ink3)
+        Text(summary, style = DjiniType.Hint, color = DjiniTheme.colors.ink3)
         if (detail.isNotBlank()) {
             Row(
                 Modifier.clickable { open = !open }.padding(top = 4.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 DirectionalIcon(
-                    MikaIcons.Chevron, null,
-                    Modifier.size(MikaSize.SmallIcon).rotate(if (open) 90f else 0f),
+                    DjiniIcons.Chevron, null,
+                    Modifier.size(DjiniSize.SmallIcon).rotate(if (open) 90f else 0f),
                     tint = DjiniTheme.colors.accent,
                 )
                 Text(
                     tr(R.string.details), Modifier.padding(start = 2.dp),
-                    style = MikaType.Hint.copy(fontWeight = FontWeight.SemiBold), color = DjiniTheme.colors.accent,
+                    style = DjiniType.Hint.copy(fontWeight = FontWeight.SemiBold), color = DjiniTheme.colors.accent,
                 )
             }
             if (open) {
-                Text(detail, Modifier.padding(top = 6.dp), style = MikaType.Hint, color = DjiniTheme.colors.ink2)
+                Text(detail, Modifier.padding(top = 6.dp), style = DjiniType.Hint, color = DjiniTheme.colors.ink2)
             }
         }
     }
@@ -99,7 +99,7 @@ fun DetailNote(summary: String, detail: String, modifier: Modifier = Modifier) {
 enum class TileTone {
     Neutral, Accent, Ok, Warn, Bad;
 
-    fun colors(c: MikaColors): Pair<Color, Color> = when (this) {
+    fun colors(c: DjiniColors): Pair<Color, Color> = when (this) {
         Neutral -> c.neutralSoft to c.ink
         Accent -> c.accentSoft to c.accent
         Ok -> c.okSoft to c.ok
@@ -112,8 +112,8 @@ enum class TileTone {
 @Composable
 fun IconTile(icon: ImageVector, tone: TileTone = TileTone.Neutral) {
     val (bg, fg) = tone.colors(DjiniTheme.colors)
-    Box(Modifier.size(MikaSize.Tile).background(bg, MikaShapes.Tile), contentAlignment = Alignment.Center) {
-        Icon(icon, null, Modifier.size(MikaSize.TileIcon), tint = fg)
+    Box(Modifier.size(DjiniSize.Tile).background(bg, DjiniShapes.Tile), contentAlignment = Alignment.Center) {
+        Icon(icon, null, Modifier.size(DjiniSize.TileIcon), tint = fg)
     }
 }
 
@@ -153,16 +153,16 @@ fun ListRow(
         modifier.fillMaxWidth()
             .topHairline(first, if (icon != null) TextStartWithIcon else TextStartPlain, c.hair)
             .then(if (onClick != null) Modifier.clickable(onClick = onClick) else Modifier)
-            .heightIn(min = MikaSize.RowMin)
+            .heightIn(min = DjiniSize.RowMin)
             .padding(horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(14.dp),
     ) {
         if (icon != null) IconTile(icon, tone)
         Column(Modifier.weight(1f).padding(vertical = 11.dp)) {
-            Text(title, style = MikaType.Body, color = titleColor.takeOrElse { c.ink })
-            if (!subtitle.isNullOrEmpty()) Text(subtitle, Modifier.padding(top = 2.dp), style = MikaType.Caption, color = c.ink3)
-            if (!detail.isNullOrEmpty()) Text(detail, Modifier.padding(top = 2.dp), style = MikaType.Hint, color = detailColor.takeOrElse { c.ink3 })
+            Text(title, style = DjiniType.Body, color = titleColor.takeOrElse { c.ink })
+            if (!subtitle.isNullOrEmpty()) Text(subtitle, Modifier.padding(top = 2.dp), style = DjiniType.Caption, color = c.ink3)
+            if (!detail.isNullOrEmpty()) Text(detail, Modifier.padding(top = 2.dp), style = DjiniType.Hint, color = detailColor.takeOrElse { c.ink3 })
         }
         trailing()
     }
@@ -175,7 +175,7 @@ enum class ValueTone { Plain, Ok, Warn, Bad, Link }
 fun RowValue(text: String, tone: ValueTone = ValueTone.Plain) {
     val c = DjiniTheme.colors
     Text(
-        text, style = MikaType.Value,
+        text, style = DjiniType.Value,
         fontWeight = if (tone == ValueTone.Link) FontWeight.Medium else FontWeight.Normal,
         color = when (tone) {
             ValueTone.Plain -> c.ink3
@@ -191,7 +191,7 @@ fun RowValue(text: String, tone: ValueTone = ValueTone.Plain) {
 /** 行尾的小箭头:点进去还有一页。 */
 @Composable
 fun RowChevron() {
-    DirectionalIcon(MikaIcons.Chevron, null, Modifier.size(MikaSize.SmallIcon), tint = DjiniTheme.colors.ink3)
+    DirectionalIcon(DjiniIcons.Chevron, null, Modifier.size(DjiniSize.SmallIcon), tint = DjiniTheme.colors.ink3)
 }
 
 /** 单选行:左边圆圈,选中时实心强调色。分隔线从文字处开始。 */
@@ -203,7 +203,7 @@ fun RadioRow(
     subtitle: String? = null,
     first: Boolean = false,
     enabled: Boolean = true,
-    titleStyle: TextStyle = MikaType.Body,
+    titleStyle: TextStyle = DjiniType.Body,
     /** 标题下面的附加内容(例如能力小标签)。 */
     below: (@Composable () -> Unit)? = null,
     trailing: @Composable RowScope.() -> Unit = {},
@@ -221,7 +221,7 @@ fun RadioRow(
         RadioMark(selected, enabled)
         Column(Modifier.weight(1f).padding(vertical = 9.dp)) {
             Text(title, style = titleStyle, color = if (enabled) c.ink else c.ink3)
-            if (!subtitle.isNullOrEmpty()) Text(subtitle, Modifier.padding(top = 2.dp), style = MikaType.Caption, color = c.ink3)
+            if (!subtitle.isNullOrEmpty()) Text(subtitle, Modifier.padding(top = 2.dp), style = DjiniType.Caption, color = c.ink3)
             if (below != null) Box(Modifier.padding(top = 4.dp)) { below() }
         }
         trailing()
@@ -264,15 +264,15 @@ fun InputRow(
     val c = DjiniTheme.colors
     Row(
         Modifier.fillMaxWidth().topHairline(first, TextStartPlain, c.hair).keepsKeyboard()
-            .heightIn(min = MikaSize.RowMin).padding(horizontal = 16.dp, vertical = 12.dp),
+            .heightIn(min = DjiniSize.RowMin).padding(horizontal = 16.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Text(label, Modifier.width(labelWidth), style = MikaType.Body, color = c.ink)
+        Text(label, Modifier.width(labelWidth), style = DjiniType.Body, color = c.ink)
         Box(Modifier.weight(1f)) {
-            if (value.isEmpty()) Text(placeholder, style = MikaType.Body, color = c.ink3, maxLines = 1)
+            if (value.isEmpty()) Text(placeholder, style = DjiniType.Body, color = c.ink3, maxLines = 1)
             BasicTextField(
                 value, onChange, modifier.fillMaxWidth(), singleLine = true,
-                textStyle = MikaType.Body.copy(color = c.ink, textDirection = androidx.compose.ui.text.style.TextDirection.Content),
+                textStyle = DjiniType.Body.copy(color = c.ink, textDirection = androidx.compose.ui.text.style.TextDirection.Content),
                 cursorBrush = SolidColor(c.accent),
                 keyboardOptions = KeyboardOptions(keyboardType = keyboard, autoCorrectEnabled = false),
                 visualTransformation = if (secret) PasswordVisualTransformation() else VisualTransformation.None,
@@ -293,7 +293,7 @@ fun FieldClearButton(description: String, onClick: () -> Unit, modifier: Modifie
             .clickable(role = Role.Button, onClickLabel = description) { onClick() },
         contentAlignment = Alignment.Center,
     ) {
-        Icon(MikaIcons.Close, description, Modifier.size(14.dp), tint = DjiniTheme.colors.ink3)
+        Icon(DjiniIcons.Close, description, Modifier.size(14.dp), tint = DjiniTheme.colors.ink3)
     }
 }
 

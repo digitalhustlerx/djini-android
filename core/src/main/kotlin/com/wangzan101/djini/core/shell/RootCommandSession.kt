@@ -46,24 +46,24 @@ object RootCommandSession {
             exit "${'$'}status"
         """.trimIndent()
         val b = StringBuilder()
-        b.append("mika_supervise='").append(supervisor).append("'; mika_kill=; ")
+        b.append("djini_supervise='").append(supervisor).append("'; djini_kill=; ")
         kill.forEachIndexed { index, candidate ->
             val invocation = candidate.joinToString(" ")
             b.append(if (index == 0) "if " else "elif ")
                 .append(available(candidate)).append(" && ")
                 .append(invocation).append(" -s 0 -- \"${'$'}${'$'}\" >/dev/null 2>&1; then ")
-                .append("mika_kill=\"").append(invocation).append("\"; ")
+                .append("djini_kill=\"").append(invocation).append("\"; ")
         }
         if (kill.isNotEmpty()) b.append("fi; ")
         if (setsid.isNotEmpty()) {
-            b.append("if [ -n \"${'$'}mika_kill\" ]; then ")
+            b.append("if [ -n \"${'$'}djini_kill\" ]; then ")
             setsid.forEachIndexed { index, candidate ->
                 val invocation = candidate.joinToString(" ")
                 b.append(if (index == 0) "if " else "elif ")
                     .append(available(candidate)).append(" && ")
                     .append(invocation).append(" -w \"").append(shell).append("\" -c 'exit 0' </dev/null >/dev/null 2>&1; then ")
                     .append("exec ").append(invocation).append(" -w \"").append(shell)
-                    .append("\" -c \"${'$'}mika_supervise\" djini-root \"${'$'}c\" \"${'$'}mika_kill\" \"").append(shell).append("\"; ")
+                    .append("\" -c \"${'$'}djini_supervise\" djini-root \"${'$'}c\" \"${'$'}djini_kill\" \"").append(shell).append("\"; ")
             }
             b.append("fi; fi; ")
         }

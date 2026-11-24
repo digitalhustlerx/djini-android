@@ -240,7 +240,7 @@
     <string name="chat_retry_failed">%1$s：複製失敗</string>
     <string name="chat_select_hint">長按文字就能選取</string>
     <string name="chat_quote_remove">移除引用</string>
-    <string name="chat_quoting_mika">引用 Djini:%1$s</string>
+    <string name="chat_quoting_djini">引用 Djini:%1$s</string>
     <string name="chat_quoting_you">引用你的話:%1$s</string>
     <string name="chat_edit_message">編輯訊息</string>
     <string name="chat_withdraw_message">收回訊息</string>

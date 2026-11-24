@@ -267,7 +267,7 @@ internal class PhoneRuntime(
     }
 
     private companion object {
-        const val TAG = "MikaTask"
+        const val TAG = "DjiniTask"
         /** Djini 屏上的前台 App 两次重读之间至少隔这么久。 */
         const val FOREGROUND_GAP_MS = 300L
     }

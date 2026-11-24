@@ -1301,6 +1301,6 @@ class TaskRun(
         val NO_PHONE_HELPER: String get() = tr(R.string.task_no_phone_helper)
         val NO_PHONE_HELPER_USB: String get() = tr(R.string.task_no_phone_helper_usb)
         val NO_PHONE_HELPER_SHIZUKU: String get() = tr(R.string.task_no_phone_helper_shizuku)
-        const val TAG = "MikaTask"
+        const val TAG = "DjiniTask"
     }
 }

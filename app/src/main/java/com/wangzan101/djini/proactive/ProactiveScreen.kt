@@ -50,8 +50,8 @@ import com.wangzan101.djini.ui.components.DetailNote
 import com.wangzan101.djini.ui.components.GroupCard
 import com.wangzan101.djini.ui.components.GroupLabel
 import com.wangzan101.djini.ui.components.ListRow
-import com.wangzan101.djini.ui.components.MikaDialog
-import com.wangzan101.djini.ui.components.MikaSwitch
+import com.wangzan101.djini.ui.components.DjiniDialog
+import com.wangzan101.djini.ui.components.DjiniSwitch
 import com.wangzan101.djini.ui.components.PageScaffold
 import com.wangzan101.djini.ui.components.RowValue
 import com.wangzan101.djini.ui.components.RowChevron
@@ -60,7 +60,7 @@ import com.wangzan101.djini.core.proactive.ObservedContact
 import com.wangzan101.djini.core.proactive.NoticeInbox
 import com.wangzan101.djini.ui.components.SearchField
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.DjiniType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -171,7 +171,7 @@ fun ProactiveScreen(onBack: () -> Unit) {
         // ---- 状态卡:开关,和一句现在的状态;要用户处理时给一个按钮 ----
         GroupCard {
             ListRow(null, stringResource(R.string.proactive_switch), first = true, onClick = { toggle(!enabled) }) {
-                MikaSwitch(enabled, toggle, Modifier.testTag("proactive-switch"))
+                DjiniSwitch(enabled, toggle, Modifier.testTag("proactive-switch"))
             }
             if (enabled) when {
                 // 「应用访问」读不出来:整个停着,别的状态这时都不作数
@@ -236,7 +236,7 @@ fun ProactiveScreen(onBack: () -> Unit) {
                 null, stringResource(R.string.proactive_learn_sensitive), stringResource(R.string.proactive_learn_sensitive_sub),
                 onClick = { toggleSensitive(!sensitiveOn) },
             ) {
-                MikaSwitch(sensitiveOn, toggleSensitive, Modifier.testTag("proactive-learn-sensitive"))
+                DjiniSwitch(sensitiveOn, toggleSensitive, Modifier.testTag("proactive-learn-sensitive"))
             }
             // 当日消息归纳:要把通知原文存在本机,所以打开前单独说明、单独确认;关掉就把存着的原文删掉
             val toggleDigest: (Boolean) -> Unit = { on -> if (on) confirmDigestOn = true else runtime.setLearnDigest(false) }
@@ -245,7 +245,7 @@ fun ProactiveScreen(onBack: () -> Unit) {
                 if (digestOn) stringResource(R.string.proactive_learn_digest_on, learnState.journal) else stringResource(R.string.proactive_learn_digest_sub),
                 onClick = { toggleDigest(!digestOn) },
             ) {
-                MikaSwitch(digestOn, toggleDigest, Modifier.testTag("proactive-learn-digest"))
+                DjiniSwitch(digestOn, toggleDigest, Modifier.testTag("proactive-learn-digest"))
             }
             ListRow(
                 null,
@@ -306,7 +306,7 @@ fun ProactiveScreen(onBack: () -> Unit) {
     }
 
     confirmModel?.let { t ->
-        MikaDialog(
+        DjiniDialog(
             onDismissRequest = { confirmModel = null },
             title = { Text(stringResource(R.string.proactive_triage_consent_title)) },
             text = { Text(consentText(t, digestOn, level)) },
@@ -338,7 +338,7 @@ fun ProactiveScreen(onBack: () -> Unit) {
         unlimited = false,
     )
     if (confirmGrant) {
-        MikaDialog(
+        DjiniDialog(
             onDismissRequest = { confirmGrant = false },
             title = { Text(stringResource(R.string.proactive_helper_grant)) },
             text = { Text(stringResource(R.string.proactive_helper_grant_body)) },
@@ -363,10 +363,10 @@ fun ProactiveScreen(onBack: () -> Unit) {
         )
     }
     // 一个 App 读不读、读的话哪一档。点一项就设好并关掉,所以只有「取消」一个按钮(放在 confirmButton 上:
-    // MikaDialog 总会画出那一格)。不读和低会把它存着的原文和句子删掉,各项下面的说明里写着
+    // DjiniDialog 总会画出那一格)。不读和低会把它存着的原文和句子删掉,各项下面的说明里写着
     pickApp?.let { pkg ->
         val current = if (pkg in allowed) tierOf(pkg) else null
-        MikaDialog(
+        DjiniDialog(
             onDismissRequest = { pickApp = null },
             title = { Text(stringResource(R.string.proactive_learn_tier_title, label(pkg))) },
             text = {
@@ -389,7 +389,7 @@ fun ProactiveScreen(onBack: () -> Unit) {
         )
     }
     if (pickLevel) {
-        MikaDialog(
+        DjiniDialog(
             onDismissRequest = { pickLevel = false },
             title = { Text(stringResource(R.string.proactive_learn_level)) },
             text = {
@@ -408,7 +408,7 @@ fun ProactiveScreen(onBack: () -> Unit) {
         )
     }
     if (confirmDigestOn) {
-        MikaDialog(
+        DjiniDialog(
             onDismissRequest = { confirmDigestOn = false },
             title = { Text(stringResource(R.string.proactive_learn_digest_switch)) },
             text = { Text(stringResource(R.string.proactive_learn_digest_body)) },
@@ -422,7 +422,7 @@ fun ProactiveScreen(onBack: () -> Unit) {
         )
     }
     if (confirmSensitiveOn) {
-        MikaDialog(
+        DjiniDialog(
             onDismissRequest = { confirmSensitiveOn = false },
             title = { Text(stringResource(R.string.proactive_learn_sensitive)) },
             text = { Text(stringResource(R.string.proactive_learn_sensitive_on_body)) },
@@ -437,7 +437,7 @@ fun ProactiveScreen(onBack: () -> Unit) {
     }
     if (confirmSensitiveOff) {
         // 默认的(主按钮)是删除;另一个是保留但不再增加。点框外不关开关
-        MikaDialog(
+        DjiniDialog(
             onDismissRequest = { confirmSensitiveOff = false },
             title = { Text(stringResource(R.string.proactive_learn_sensitive_off_title)) },
             text = { Text(stringResource(R.string.proactive_learn_sensitive_off_body)) },
@@ -587,20 +587,20 @@ private fun Diagnostics(
             Column(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 10.dp)) {
                 Text(
                     "${label(r.packageName)} · ${timeFormat.format(java.util.Date(r.postedAtMs))}",
-                    style = MikaType.Hint, color = DjiniTheme.colors.ink3,
+                    style = DjiniType.Hint, color = DjiniTheme.colors.ink3,
                 )
-                if (r.title.isNotBlank()) Text(r.title, style = MikaType.Body, maxLines = 2, overflow = TextOverflow.Ellipsis)
+                if (r.title.isNotBlank()) Text(r.title, style = DjiniType.Body, maxLines = 2, overflow = TextOverflow.Ellipsis)
                 // 同一条通知重发前显示过的话(最后一段就是下面的正文,不重复);只显示最近 HISTORY_SHOWN 段,更早的给个数
                 val earlier = inbox.history[r.key].orEmpty().dropLast(1)
                 if (earlier.size > HISTORY_SHOWN) {
-                    Text(stringResource(R.string.proactive_history_more, earlier.size - HISTORY_SHOWN), style = MikaType.Hint, color = DjiniTheme.colors.ink3)
+                    Text(stringResource(R.string.proactive_history_more, earlier.size - HISTORY_SHOWN), style = DjiniType.Hint, color = DjiniTheme.colors.ink3)
                 }
                 earlier.takeLast(HISTORY_SHOWN).forEach { line ->
-                    Text(line.text, style = MikaType.Hint, color = DjiniTheme.colors.ink3, maxLines = 2, overflow = TextOverflow.Ellipsis)
+                    Text(line.text, style = DjiniType.Hint, color = DjiniTheme.colors.ink3, maxLines = 2, overflow = TextOverflow.Ellipsis)
                 }
-                if (r.said.isNotBlank()) Text(r.said, style = MikaType.Body, color = DjiniTheme.colors.ink2, maxLines = 6, overflow = TextOverflow.Ellipsis)
+                if (r.said.isNotBlank()) Text(r.said, style = DjiniType.Body, color = DjiniTheme.colors.ink2, maxLines = 6, overflow = TextOverflow.Ellipsis)
                 if (enabled) triageLabel(triage.marks, r)?.let { tag ->
-                    Text(tag, style = MikaType.Hint, color = DjiniTheme.colors.ink3, maxLines = 2, overflow = TextOverflow.Ellipsis,
+                    Text(tag, style = DjiniType.Hint, color = DjiniTheme.colors.ink3, maxLines = 2, overflow = TextOverflow.Ellipsis,
                         modifier = Modifier.testTag("proactive-triage-label"))
                 }
             }

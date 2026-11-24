@@ -87,15 +87,15 @@ object PageScriptProtocol {
     private fun js(v: List<String>): String = v.joinToString(",", "[", "]") { JsonPrimitive(it).toString() }
 
     /**
-     * 装进脚本世界的前置脚本:存下要用的原件,封掉把字符串当代码跑的路,算出要遮住的名字,定义 `__mikaRun`。
-     * 每个 djini 调用带编号放进发件箱,Kotlin 一直挂着一个 [TAKE](等到下一条就交回),结果用 `__mikaSettle(id, r)` 回传;
-     * `__mikaEnd()` 让之后的调用都失败,挂着的 [TAKE] 交回 null。不用 DevTools 的绑定:绑定要打开 Runtime,开着它页面察觉得到调试器。
+     * 装进脚本世界的前置脚本:存下要用的原件,封掉把字符串当代码跑的路,算出要遮住的名字,定义 `__djiniRun`。
+     * 每个 djini 调用带编号放进发件箱,Kotlin 一直挂着一个 [TAKE](等到下一条就交回),结果用 `__djiniSettle(id, r)` 回传;
+     * `__djiniEnd()` 让之后的调用都失败,挂着的 [TAKE] 交回 null。不用 DevTools 的绑定:绑定要打开 Runtime,开着它页面察觉得到调试器。
      */
     val PRELUDE: String = """
 (() => {
   'use strict';
   const G = globalThis, O = Object;
-  if (O.prototype.hasOwnProperty.call(G, '__mikaRun')) return;
+  if (O.prototype.hasOwnProperty.call(G, '__djiniRun')) return;
   const AsyncFunction = O.getPrototypeOf(async function () {}).constructor;
   const stringify = JSON.stringify, apply = Reflect.apply, timer = G.setTimeout, freeze = O.freeze;
   const fixed = (o, k, v) => { try { O.defineProperty(o, k, { value: v, writable: false, enumerable: false, configurable: false }); } catch (e) {} };
@@ -108,10 +108,10 @@ object PageScriptProtocol {
 
   const pending = new Map();
   let seq = 0, ended = false;
-  // 发件箱:Kotlin 挂着的 __mikaTake 等在 takers 里,来一条交一条
+  // 发件箱:Kotlin 挂着的 __djiniTake 等在 takers 里,来一条交一条
   const outbox = [], takers = [];
   const post = (s) => { const t = takers.shift(); if (t) t(s); else outbox.push(s); };
-  fixed(G, '__mikaTake', () => new Promise((r) => {
+  fixed(G, '__djiniTake', () => new Promise((r) => {
     if (outbox.length) r(outbox.shift()); else if (ended) r(null); else takers.push(r);
   }));
   const call = (op, args) => new Promise((resolve, reject) => {
@@ -120,7 +120,7 @@ object PageScriptProtocol {
     pending.set(id, { resolve, reject });
     post(stringify({ id, op, args: args || {} }));
   });
-  fixed(G, '__mikaSettle', (id, r) => {
+  fixed(G, '__djiniSettle', (id, r) => {
     const p = pending.get(id);
     if (!p) return;
     pending.delete(id);
@@ -129,7 +129,7 @@ object PageScriptProtocol {
     e.code = r && r.error;
     p.reject(e);
   });
-  fixed(G, '__mikaEnd', () => {
+  fixed(G, '__djiniEnd', () => {
     ended = true;
     for (const p of pending.values()) p.reject(new Error('script_ended'));
     pending.clear();
@@ -163,10 +163,10 @@ object PageScriptProtocol {
   for (let o = G; o; o = O.getPrototypeOf(o)) for (const k of O.getOwnPropertyNames(o)) {
     if (/^[A-Za-z_$][\w$]*$/.test(k) && !ALLOWED.has(k) && !RESERVED.has(k)) names.add(k);
   }
-  names.add('__mikaRun');
+  names.add('__djiniRun');
   const shadow = [...names];
   const blanks = shadow.map(() => undefined);
-  fixed(G, '__mikaRun', (code) => {
+  fixed(G, '__djiniRun', (code) => {
     // 模型代码放在里层的箭头函数里:它声明的名字(哪怕和遮住的同名)在自己的作用域里,不和参数冲突
     const fn = new AsyncFunction(...shadow, 'djini', "'use strict';\nreturn (async () => {\n" + code + '\n})();\n//# sourceURL=$SOURCE_URL');
     return apply(fn, undefined, [...blanks, djini]).then((r) => (r === undefined ? null : stringify(r)));
@@ -176,7 +176,7 @@ object PageScriptProtocol {
 """.trimStart()
 
     /** 跑模型代码的表达式(在脚本世界里求值,等 Promise)。 */
-    fun run(code: String): String = "globalThis.__mikaRun(${JsonPrimitive(code)})"
+    fun run(code: String): String = "globalThis.__djiniRun(${JsonPrimitive(code)})"
 
     /**
      * 模型代码里不许有 import(按词法查,字符串、注释、正则之外出现就拦):动态 import 在全局作用域里跑模块,拿得到全局对象。
@@ -193,7 +193,7 @@ object PageScriptProtocol {
     val READER: String = """
 (() => {
   'use strict';
-  if (Object.prototype.hasOwnProperty.call(globalThis, '__mikaRead')) return;
+  if (Object.prototype.hasOwnProperty.call(globalThis, '__djiniRead')) return;
   const MASK = '$SECRET_MASK';
   const SECRET_AC = new Set(${js(SECRET_AUTOCOMPLETE)});
   const SECRET_TYPES = new Set(${js(SECRET_INPUT_TYPES)});
@@ -229,7 +229,7 @@ object PageScriptProtocol {
     }
     return o;
   };
-  Object.defineProperty(globalThis, '__mikaRead', { value: (q) => {
+  Object.defineProperty(globalThis, '__djiniRead', { value: (q) => {
     if (q.mode === 'has') return { ok: true, value: String(document.body ? document.body.innerText : '').includes(q.selector) };
     let list;
     try { list = document.querySelectorAll(q.selector); } catch (e) { return { ok: false, error: 'invalid_selector', message: String(e.message) }; }
@@ -247,7 +247,7 @@ object PageScriptProtocol {
 """.trimStart()
 
     /** 在读取世界里照 [spec] 读的表达式。 */
-    fun read(spec: JsonObject): String = "globalThis.__mikaRead($spec)"
+    fun read(spec: JsonObject): String = "globalThis.__djiniRead($spec)"
 
     /**
      * 兜底:脚本还是发出了请求时,`Network.requestWillBeSent` 的发起调用栈里会有模型脚本或前置脚本。
@@ -271,7 +271,7 @@ object PageScriptProtocol {
     private val SCRIPT_URLS = setOf(SOURCE_URL, PRELUDE_URL)
 
     /** 取发件箱里下一条消息的表达式(在脚本世界里求值,等 Promise;收尾后交回 null)。 */
-    const val TAKE = "globalThis.__mikaTake()"
+    const val TAKE = "globalThis.__djiniTake()"
 
     /** 发件箱里的一条消息;不是合法的调用为 null。 */
     fun parseCall(payload: String): ScriptCall? {
@@ -283,9 +283,9 @@ object PageScriptProtocol {
     }
 
     /** 回传第 [id] 个调用的结果。结果是 JSON 对象字面量,直接嵌进表达式。 */
-    fun settle(id: Int, result: JsonObject): String = "globalThis.__mikaSettle && globalThis.__mikaSettle($id, $result)"
+    fun settle(id: Int, result: JsonObject): String = "globalThis.__djiniSettle && globalThis.__djiniSettle($id, $result)"
 
-    const val END = "globalThis.__mikaEnd && globalThis.__mikaEnd()"
+    const val END = "globalThis.__djiniEnd && globalThis.__djiniEnd()"
 
     private val STACK_LINE = Regex(Regex.escape(SOURCE_URL) + ":(\\d+):\\d+")
 

@@ -32,9 +32,9 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.wangzan101.djini.R
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
-import com.wangzan101.djini.ui.theme.MikaRadius
-import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniType
+import com.wangzan101.djini.ui.theme.DjiniRadius
+import com.wangzan101.djini.ui.theme.DjiniShapes
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -119,7 +119,7 @@ internal fun ReportExportMenu(runId: String, report: TaskReport?) {
     val word = rememberLauncherForActivityResult(CreateDocument(TaskReportExport.Format.Word.mime)) { save(it, TaskReportExport.Format.Word) }
     val txt = rememberLauncherForActivityResult(CreateDocument(TaskReportExport.Format.Text.mime)) { save(it, TaskReportExport.Format.Text) }
     Box {
-        TextButton({ open = true }, enabled = report != null && !saving && !sharing) { Text(stringResource(R.string.report_export), style = MikaType.Caption) }
+        TextButton({ open = true }, enabled = report != null && !saving && !sharing) { Text(stringResource(R.string.report_export), style = DjiniType.Caption) }
         DropdownMenu(open, { open = false }) {
             DropdownMenuItem(text = { Text(stringResource(R.string.report_copy_markdown)) }, onClick = {
                 open = false
@@ -175,8 +175,8 @@ internal fun ReportExportMenu(runId: String, report: TaskReport?) {
 private fun ShareChoice(label: Int, tag: String, onClick: () -> Unit) {
     Text(
         stringResource(label),
-        Modifier.fillMaxWidth().testTag(tag).clip(MikaShapes.Chip)
+        Modifier.fillMaxWidth().testTag(tag).clip(DjiniShapes.Chip)
             .clickable(onClick = onClick).padding(horizontal = 8.dp, vertical = 14.dp),
-        style = MikaType.Body, color = DjiniTheme.colors.ink,
+        style = DjiniType.Body, color = DjiniTheme.colors.ink,
     )
 }

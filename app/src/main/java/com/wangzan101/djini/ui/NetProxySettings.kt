@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import com.wangzan101.djini.ui.components.DetailNote
-import com.wangzan101.djini.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.DjiniDialog
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -23,7 +23,7 @@ import com.wangzan101.djini.core.net.ProxyAddress
 import com.wangzan101.djini.i18n.tr
 import com.wangzan101.djini.settings.NetProxyStore
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.DjiniType
 
 /**
  * 设置 › 网络代理 的文案(纯函数,便于测试)。地址只写协议、主机、端口,不带账号密码(这一行随时看得到)。
@@ -58,7 +58,7 @@ object NetProxyCopy {
 fun NetProxyDialog(initial: String, onDismiss: () -> Unit, onSave: (String) -> Unit) {
     var text by remember { mutableStateOf(initial) }
     val ok = NetProxyStore.valid(text)
-    MikaDialog(
+    DjiniDialog(
         onDismissRequest = onDismiss,
         title = { Text(NetProxyCopy.TITLE) },
         text = {
@@ -68,7 +68,7 @@ fun NetProxyDialog(initial: String, onDismiss: () -> Unit, onSave: (String) -> U
                     text, { text = it }, Modifier.fillMaxWidth().padding(top = 8.dp).testTag("net-proxy-input"),
                     singleLine = true, isError = !ok, placeholder = { Text("http://127.0.0.1:7890") },
                 )
-                if (!ok) Text(NetProxyCopy.INVALID, Modifier.padding(top = 4.dp), style = MikaType.Hint, color = DjiniTheme.colors.bad)
+                if (!ok) Text(NetProxyCopy.INVALID, Modifier.padding(top = 4.dp), style = DjiniType.Hint, color = DjiniTheme.colors.bad)
             }
         },
         confirmButton = { TextButton({ onSave(text) }, enabled = ok) { Text(stringResource(R.string.save)) } },

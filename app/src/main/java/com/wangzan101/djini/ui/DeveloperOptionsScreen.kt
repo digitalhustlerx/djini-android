@@ -10,7 +10,7 @@ import com.wangzan101.djini.ui.components.FooterNote
 import com.wangzan101.djini.ui.components.GroupCard
 import com.wangzan101.djini.ui.components.GroupLabel
 import com.wangzan101.djini.ui.components.ListRow
-import com.wangzan101.djini.ui.components.MikaSwitch
+import com.wangzan101.djini.ui.components.DjiniSwitch
 import com.wangzan101.djini.ui.components.PageScaffold
 import com.wangzan101.djini.ui.components.RowChevron
 
@@ -78,7 +78,7 @@ fun DeveloperOptionsScreen(
         GroupLabel(tr(R.string.dev_experiments))
         SwitchGroup(DeveloperSwitches.experimental(speed), onSpeed) {
             ListRow(null, tr(R.string.dev_device_files), tr(R.string.dev_device_files_sub), onClick = { onDeviceFiles(!deviceFiles) }) {
-                MikaSwitch(deviceFiles, onDeviceFiles, Modifier.testTag("dev-device-files"))
+                DjiniSwitch(deviceFiles, onDeviceFiles, Modifier.testTag("dev-device-files"))
             }
             if (onDeviceDirectories != null) {
                 ListRow(null, tr(R.string.device_dirs_entry), tr(R.string.device_dirs_entry_sub), onClick = onDeviceDirectories) { RowChevron() }
@@ -88,7 +88,7 @@ fun DeveloperOptionsScreen(
             GroupLabel(GroundingCopy.GROUP)
             GroupCard {
                 ListRow(null, GroundingCopy.TITLE, GroundingCopy.subtitle(grounding.model), first = true, onClick = { onGrounding(!grounding.verified) }) {
-                    MikaSwitch(grounding.verified, onGrounding, Modifier.testTag("dev-grounding-verified"))
+                    DjiniSwitch(grounding.verified, onGrounding, Modifier.testTag("dev-grounding-verified"))
                 }
             }
         }
@@ -109,7 +109,7 @@ private fun SwitchGroup(switches: List<DevSwitch>, onSpeed: (SpeedFlags) -> Unit
         switches.forEachIndexed { i, s ->
             // 整行都能点:开关小,行大
             ListRow(null, s.title, s.subtitle, first = i == 0, onClick = { onSpeed(s.change(!s.checked)) }) {
-                MikaSwitch(s.checked, { onSpeed(s.change(it)) }, Modifier.testTag("dev-${s.id}"))
+                DjiniSwitch(s.checked, { onSpeed(s.change(it)) }, Modifier.testTag("dev-${s.id}"))
             }
         }
         extra()

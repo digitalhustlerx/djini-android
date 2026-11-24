@@ -25,16 +25,16 @@ import com.wangzan101.djini.ui.components.FooterNote
 import com.wangzan101.djini.ui.components.GroupCard
 import com.wangzan101.djini.ui.components.GroupLabel
 import com.wangzan101.djini.ui.components.InputRow
-import com.wangzan101.djini.ui.components.MikaButton
+import com.wangzan101.djini.ui.components.DjiniButton
 import com.wangzan101.djini.ui.components.PillTone
 import com.wangzan101.djini.ui.components.RadioRow
 import com.wangzan101.djini.ui.components.RowChevron
 import com.wangzan101.djini.ui.components.SegmentedControl
 import com.wangzan101.djini.ui.components.SelectChip
 import com.wangzan101.djini.ui.components.StatusPill
-import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniShapes
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.DjiniType
 import com.wangzan101.djini.voice.AsrLanguage
 import com.wangzan101.djini.voice.BailianProtocol
 import com.wangzan101.djini.voice.BailianRegion
@@ -61,10 +61,10 @@ internal fun LiveServiceRow(
         trailing = {
             if (configured) {
                 Row(
-                    Modifier.clip(MikaShapes.Pill).clickable(onClick = onOpen).padding(start = 8.dp, top = 6.dp, bottom = 6.dp).testTag(tag),
+                    Modifier.clip(DjiniShapes.Pill).clickable(onClick = onOpen).padding(start = 8.dp, top = 6.dp, bottom = 6.dp).testTag(tag),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Text(tr(R.string.speech_doubao_edit), style = MikaType.Value, color = c.ink2)
+                    Text(tr(R.string.speech_doubao_edit), style = DjiniType.Value, color = c.ink2)
                     RowChevron()
                 }
             } else {
@@ -175,14 +175,14 @@ private fun LocalFunAsr(savedUrl: String?, savedLanguage: AsrLanguage, probe: Li
     var address by remember { mutableStateOf(savedUrl.orEmpty()) }
     var language by remember { mutableStateOf(savedLanguage) }
     val url = FunAsrProtocol.normalize(address)
-    Text(tr(R.string.speech_funasr_setup_hint), Modifier.padding(top = 4.dp, bottom = 4.dp), style = MikaType.Body, color = c.ink2)
+    Text(tr(R.string.speech_funasr_setup_hint), Modifier.padding(top = 4.dp, bottom = 4.dp), style = DjiniType.Body, color = c.ink2)
     // 两种模型各怎么部署写在仓库文档里;没有能打开网页的应用时 openUri 会抛错,这时什么都不做
     val uri = LocalUriHandler.current
     Text(
         tr(R.string.speech_funasr_deploy_guide),
-        Modifier.clip(MikaShapes.Pill).clickable { runCatching { uri.openUri(FunAsrProtocol.DEPLOY_GUIDE) } }
+        Modifier.clip(DjiniShapes.Pill).clickable { runCatching { uri.openUri(FunAsrProtocol.DEPLOY_GUIDE) } }
             .padding(vertical = 6.dp).testTag("speech-funasr-guide"),
-        style = MikaType.Body, color = c.accent,
+        style = DjiniType.Body, color = c.accent,
     )
     GroupLabel(tr(R.string.speech_funasr_server))
     GroupCard {
@@ -195,7 +195,7 @@ private fun LocalFunAsr(savedUrl: String?, savedLanguage: AsrLanguage, probe: Li
     else if (url != null && url != address.trim()) FooterNote(url, Modifier.padding(top = 8.dp))
     LanguagePicker(language) { language = it }
     FooterNote(tr(R.string.speech_funasr_privacy), Modifier.padding(top = 8.dp))
-    MikaButton(
+    DjiniButton(
         tr(if (probe.testing) R.string.speech_live_testing else R.string.speech_live_save),
         onClick = { url?.let { onSave(it, language) } },
         Modifier.fillMaxWidth().padding(top = 8.dp).testTag("speech-funasr-save"),
@@ -216,7 +216,7 @@ private fun BailianFunAsr(
     var language by remember { mutableStateOf(savedLanguage) }
     val workspace = BailianProtocol.workspace(workspaceText)
     val modelOk = BailianProtocol.validModel(model)
-    Text(tr(R.string.speech_bailian_setup_hint), Modifier.padding(top = 4.dp, bottom = 4.dp), style = MikaType.Body, color = c.ink2)
+    Text(tr(R.string.speech_bailian_setup_hint), Modifier.padding(top = 4.dp, bottom = 4.dp), style = DjiniType.Body, color = c.ink2)
     GroupLabel(tr(R.string.speech_doubao_credentials))
     GroupCard {
         InputRow(
@@ -249,7 +249,7 @@ private fun BailianFunAsr(
     }
     LanguagePicker(language) { language = it }
     FooterNote(tr(R.string.speech_bailian_privacy), Modifier.padding(top = 8.dp))
-    MikaButton(
+    DjiniButton(
         tr(if (probe.testing) R.string.speech_live_testing else R.string.speech_live_save),
         onClick = { workspace?.let { onSave(BailianInput(key.trim(), model.trim(), region, it, language)) }; key = "" },
         Modifier.fillMaxWidth().padding(top = 8.dp).testTag("speech-bailian-save"),
@@ -260,9 +260,9 @@ private fun BailianFunAsr(
         Box(Modifier.fillMaxWidth().padding(top = 6.dp), contentAlignment = Alignment.Center) {
             Text(
                 tr(R.string.speech_bailian_remove),
-                Modifier.clip(MikaShapes.Pill).clickable(onClick = { onClear(region) }).padding(horizontal = 16.dp, vertical = 12.dp)
+                Modifier.clip(DjiniShapes.Pill).clickable(onClick = { onClear(region) }).padding(horizontal = 16.dp, vertical = 12.dp)
                     .testTag("speech-bailian-remove"),
-                style = MikaType.Body, color = c.bad,
+                style = DjiniType.Body, color = c.bad,
             )
         }
     }

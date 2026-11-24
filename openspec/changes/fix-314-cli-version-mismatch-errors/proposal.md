@@ -20,7 +20,7 @@
 
 ## Impact
 
-- `tools/djini/scripts/mika_cli.py`：新增 `incompatible(info, capability, remedy)` 辅助函数；替换 4 处门禁的 `CliError` 构造（`run_with_files`、`execute` 的 steer/export 分支、`require_files`）。`discover()` 404 / api_version 不符两条路径保持原文案（此时无 server_version 可报）。
-- `tools/djini/tests/test_mika_cli.py`：既有 3 处 `incompatible_api` 断言补文案与结构化字段检查；新增 export 门禁文案断言。
+- `tools/djini/scripts/djini_cli.py`：新增 `incompatible(info, capability, remedy)` 辅助函数；替换 4 处门禁的 `CliError` 构造（`run_with_files`、`execute` 的 steer/export 分支、`require_files`）。`discover()` 404 / api_version 不符两条路径保持原文案（此时无 server_version 可报）。
+- `tools/djini/tests/test_djini_cli.py`：既有 3 处 `incompatible_api` 断言补文案与结构化字段检查；新增 export 门禁文案断言。
 - `tools/djini/SKILL.md`：错误表 1 行 + `--request-id` 段落 1 句。
 - 不改 App 侧（Kotlin）：API 已正确广播 capabilities，旧 APK 无法追改；`RemoteCliContractTest` 走的happy path 不受影响。

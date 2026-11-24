@@ -43,9 +43,9 @@ import com.wangzan101.djini.R
 import androidx.compose.ui.semantics.Role
 import com.wangzan101.djini.ui.components.SegmentedControl
 import com.wangzan101.djini.ui.components.keepsKeyboard
-import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniIcons
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.DjiniType
 
 /** 搜索时按归档状态筛选:[All] 全部(归档的带上标记)、[Active] 只看未归档、[Archived] 只看已归档。 */
 enum class SearchArchiveFilter { All, Active, Archived }
@@ -75,7 +75,7 @@ internal fun DrawerSearchField(query: String, onQueryChange: (String) -> Unit, m
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        Icon(MikaIcons.Search, null, Modifier.size(16.dp), tint = c.ink3)
+        Icon(DjiniIcons.Search, null, Modifier.size(16.dp), tint = c.ink3)
         Box(Modifier.weight(1f), contentAlignment = Alignment.CenterStart) {
             if (query.isEmpty()) {
                 Text(stringResource(R.string.drawer_search_hint), style = SearchText, color = c.ink3, maxLines = 1)
@@ -97,7 +97,7 @@ internal fun DrawerSearchField(query: String, onQueryChange: (String) -> Unit, m
                     .clickable(role = Role.Button, onClickLabel = clear) { onQueryChange("") }
                     .testTag("drawer-search-clear"),
                 contentAlignment = Alignment.Center,
-            ) { Icon(MikaIcons.Close, clear, Modifier.size(14.dp), tint = c.ink3) }
+            ) { Icon(DjiniIcons.Close, clear, Modifier.size(14.dp), tint = c.ink3) }
         }
     }
 }
@@ -123,7 +123,7 @@ internal fun SearchArchiveFilterRow(selected: SearchArchiveFilter, onSelect: (Se
 internal fun SearchHint(text: String) {
     Text(
         text, Modifier.fillMaxWidth().padding(start = 24.dp, end = 24.dp, top = 6.dp, bottom = 4.dp),
-        style = MikaType.Hint, color = DjiniTheme.colors.ink3,
+        style = DjiniType.Hint, color = DjiniTheme.colors.ink3,
     )
 }
 
@@ -136,13 +136,13 @@ internal fun SearchEmpty(query: String) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(6.dp),
     ) {
-        Icon(MikaIcons.Search, null, Modifier.size(22.dp), tint = c.ink3)
+        Icon(DjiniIcons.Search, null, Modifier.size(22.dp), tint = c.ink3)
         Text(
-            stringResource(R.string.drawer_search_empty, query), style = MikaType.Body, color = c.ink2,
+            stringResource(R.string.drawer_search_empty, query), style = DjiniType.Body, color = c.ink2,
             textAlign = TextAlign.Center,
         )
         Text(
-            stringResource(R.string.drawer_search_empty_hint), style = MikaType.Hint, color = c.ink3,
+            stringResource(R.string.drawer_search_empty_hint), style = DjiniType.Hint, color = c.ink3,
             textAlign = TextAlign.Center,
         )
     }
@@ -186,4 +186,4 @@ internal fun matchRanges(text: String, terms: List<String>): List<IntRange> {
     return merged
 }
 
-private val SearchText = MikaType.Body
+private val SearchText = DjiniType.Body

@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import com.wangzan101.djini.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.DjiniDialog
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -28,13 +28,13 @@ import com.wangzan101.djini.settings.McpServerStore
 import com.wangzan101.djini.ui.components.GroupCard
 import com.wangzan101.djini.ui.components.GroupLabel
 import com.wangzan101.djini.ui.components.ListRow
-import com.wangzan101.djini.ui.components.MikaSwitch
+import com.wangzan101.djini.ui.components.DjiniSwitch
 import com.wangzan101.djini.ui.components.PageScaffold
 import com.wangzan101.djini.ui.components.SegmentedControl
 import com.wangzan101.djini.ui.components.RowChevron
-import com.wangzan101.djini.ui.components.MikaButton
+import com.wangzan101.djini.ui.components.DjiniButton
 import com.wangzan101.djini.ui.components.ButtonSize
-import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniIcons
 import android.content.Intent
 import android.net.Uri
 import kotlinx.coroutines.launch
@@ -52,7 +52,7 @@ fun McpServersScreen(store: McpServerStore, onBack: () -> Unit) {
     PageScaffold(stringResource(R.string.mcp_servers_title), onBack) {
         if (servers.isEmpty()) {
             GroupCard {
-                ListRow(MikaIcons.Link, stringResource(R.string.mcp_servers_empty), stringResource(R.string.mcp_servers_empty_sub), first = true)
+                ListRow(DjiniIcons.Link, stringResource(R.string.mcp_servers_empty), stringResource(R.string.mcp_servers_empty_sub), first = true)
             }
         } else {
             GroupCard {
@@ -60,7 +60,7 @@ fun McpServersScreen(store: McpServerStore, onBack: () -> Unit) {
                     val state = health[server.id]
                     val address = if (server.transport == "stdio") server.command else server.url
                     ListRow(
-                        MikaIcons.Link, server.name,
+                        DjiniIcons.Link, server.name,
                         subtitle = (state?.let {
                             if (it.ok) stringResource(R.string.mcp_servers_status_ok, it.tools.size)
                             else stringResource(R.string.mcp_servers_status_fail, it.message.orEmpty())
@@ -69,14 +69,14 @@ fun McpServersScreen(store: McpServerStore, onBack: () -> Unit) {
                         first = i == 0,
                         onClick = { editing = server },
                     ) {
-                        MikaSwitch(server.enabled, { on -> store.setEnabled(server.id, on) })
+                        DjiniSwitch(server.enabled, { on -> store.setEnabled(server.id, on) })
                     }
                 }
             }
         }
         Row(Modifier.padding(top = 12.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            MikaButton(stringResource(R.string.mcp_servers_add), { adding = true }, size = ButtonSize.Small)
-            MikaButton(
+            DjiniButton(stringResource(R.string.mcp_servers_add), { adding = true }, size = ButtonSize.Small)
+            DjiniButton(
                 stringResource(if (refreshing) R.string.mcp_servers_testing else R.string.mcp_servers_refresh_all),
                 {
                     refreshing = true
@@ -164,7 +164,7 @@ private fun McpServerDialog(
         return cfg
     }
 
-    MikaDialog(
+    DjiniDialog(
         onDismissRequest = onDismiss,
         title = { Text(stringResource(if (initial == null) R.string.mcp_servers_add else R.string.mcp_servers_edit)) },
         text = {

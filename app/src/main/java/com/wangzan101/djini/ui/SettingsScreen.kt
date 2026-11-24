@@ -9,7 +9,7 @@ import com.wangzan101.djini.settings.ProviderConnection
 import android.app.ActivityManager
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
-import com.wangzan101.djini.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.DjiniDialog
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -55,8 +55,8 @@ import com.wangzan101.djini.ui.components.ButtonSize
 import com.wangzan101.djini.ui.components.GroupCard
 import com.wangzan101.djini.ui.components.GroupLabel
 import com.wangzan101.djini.ui.components.ListRow
-import com.wangzan101.djini.ui.components.MikaButton
-import com.wangzan101.djini.ui.components.MikaSwitch
+import com.wangzan101.djini.ui.components.DjiniButton
+import com.wangzan101.djini.ui.components.DjiniSwitch
 import com.wangzan101.djini.ui.components.PageScaffold
 import com.wangzan101.djini.ui.components.PillTone
 import com.wangzan101.djini.ui.components.RowChevron
@@ -64,7 +64,7 @@ import com.wangzan101.djini.ui.components.RowValue
 import com.wangzan101.djini.ui.components.StateCard
 import com.wangzan101.djini.ui.components.StatusPill
 import com.wangzan101.djini.ui.components.TileTone
-import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniIcons
 import com.wangzan101.djini.ui.theme.DjiniTheme
 import com.wangzan101.djini.i18n.AppLanguage
 import com.wangzan101.djini.wechat.WechatConnectionState
@@ -369,7 +369,7 @@ fun SettingsScreen(
 
     explaining?.let { p ->
         val e = StatusCopy.explain(p, androidRelease)
-        MikaDialog(
+        DjiniDialog(
             onDismissRequest = { explaining = null },
             title = { Text(e.title) },
             text = {
@@ -400,7 +400,7 @@ fun SettingsScreen(
             title = { Text(stringResource(R.string.quit_title)) },
             text = { Text(stringResource(R.string.quit_confirm_body)) },
             confirmButton = {
-                TextButton({ confirmingQuit = false; com.wangzan101.djini.quit.MikaQuit.quit(context) }) {
+                TextButton({ confirmingQuit = false; com.wangzan101.djini.quit.DjiniQuit.quit(context) }) {
                     Text(stringResource(R.string.quit_confirm_action), color = DjiniTheme.colors.bad)
                 }
             },
@@ -474,7 +474,7 @@ fun SettingsContent(
 
         GroupLabel(stringResource(R.string.settings_model))
         GroupCard {
-            ListRow(MikaIcons.Spark, stringResource(R.string.settings_model), stringResource(R.string.settings_model_sub), first = true, onClick = onOpenModels) {
+            ListRow(DjiniIcons.Spark, stringResource(R.string.settings_model), stringResource(R.string.settings_model_sub), first = true, onClick = onOpenModels) {
                 RowValue(mainModel ?: stringResource(R.string.settings_not_set))
                 RowChevron()
             }
@@ -482,44 +482,44 @@ fun SettingsContent(
 
         GroupLabel(stringResource(R.string.settings_capabilities))
         GroupCard {
-            ListRow(MikaIcons.Phone, stringResource(R.string.settings_phone_ops), first = true, onClick = onOpenPhoneOps) {
+            ListRow(DjiniIcons.Phone, stringResource(R.string.settings_phone_ops), first = true, onClick = onOpenPhoneOps) {
                 PhoneOpsPill(status)
                 RowChevron()
             }
-            ListRow(MikaIcons.Clock, stringResource(R.string.drawer_plans), onClick = onOpenPlans) { RowChevron() }
-            ListRow(MikaIcons.Globe, stringResource(R.string.drawer_browser), onClick = onOpenBrowser) { RowChevron() }
-            ListRow(MikaIcons.Paperclip, stringResource(R.string.file_library_title), onClick = onOpenFiles) { RowChevron() }
-            ListRow(MikaIcons.Phone, stringResource(R.string.calls_title), stringResource(R.string.calls_entry_sub), onClick = onOpenCalls) { RowChevron() }
-            ListRow(MikaIcons.Chats, stringResource(R.string.wechat_title), stringResource(R.string.wechat_settings_sub), onClick = onOpenWechat) {
+            ListRow(DjiniIcons.Clock, stringResource(R.string.drawer_plans), onClick = onOpenPlans) { RowChevron() }
+            ListRow(DjiniIcons.Globe, stringResource(R.string.drawer_browser), onClick = onOpenBrowser) { RowChevron() }
+            ListRow(DjiniIcons.Paperclip, stringResource(R.string.file_library_title), onClick = onOpenFiles) { RowChevron() }
+            ListRow(DjiniIcons.Phone, stringResource(R.string.calls_title), stringResource(R.string.calls_entry_sub), onClick = onOpenCalls) { RowChevron() }
+            ListRow(DjiniIcons.Chats, stringResource(R.string.wechat_title), stringResource(R.string.wechat_settings_sub), onClick = onOpenWechat) {
                 WechatEntryStatus(wechatState, wechatBound)
                 RowChevron()
             }
-            ListRow(MikaIcons.Ripple, stringResource(R.string.proactive_title), stringResource(R.string.proactive_entry_sub), onClick = onOpenProactive) { RowChevron() }
+            ListRow(DjiniIcons.Ripple, stringResource(R.string.proactive_title), stringResource(R.string.proactive_entry_sub), onClick = onOpenProactive) { RowChevron() }
             if (personalStart) {
-                ListRow(MikaIcons.Message, stringResource(R.string.drawer_personal), onClick = onOpenPersonal) { RowChevron() }
+                ListRow(DjiniIcons.Message, stringResource(R.string.drawer_personal), onClick = onOpenPersonal) { RowChevron() }
             }
         }
 
         GroupLabel(stringResource(R.string.settings_preferences))
         GroupCard {
-            ListRow(MikaIcons.Moon, stringResource(R.string.settings_during_work), stringResource(R.string.settings_during_work_sub), first = true, onClick = onOpenDuringWork) { RowChevron() }
-            ListRow(MikaIcons.Message, CapsuleSettingsCopy.TITLE, CapsuleSettingsCopy.SUBTITLE, onClick = onOpenCapsule) {
+            ListRow(DjiniIcons.Moon, stringResource(R.string.settings_during_work), stringResource(R.string.settings_during_work_sub), first = true, onClick = onOpenDuringWork) { RowChevron() }
+            ListRow(DjiniIcons.Message, CapsuleSettingsCopy.TITLE, CapsuleSettingsCopy.SUBTITLE, onClick = onOpenCapsule) {
                 RowValue(CapsuleSettingsCopy.label(capsuleMode))
                 RowChevron()
             }
-            ListRow(MikaIcons.Globe, stringResource(R.string.settings_language_appearance), onClick = onOpenLanguage) {
+            ListRow(DjiniIcons.Globe, stringResource(R.string.settings_language_appearance), onClick = onOpenLanguage) {
                 RowValue(languageLabel(language))
                 RowChevron()
             }
             val (notifText, notifTone) = StatusCopy.notificationSummary(status.notificationOverview().summary)
-            ListRow(MikaIcons.Bell, StatusCopy.NOTIFICATIONS, stringResource(R.string.settings_notif_sub), onClick = onOpenNotifications) {
+            ListRow(DjiniIcons.Bell, StatusCopy.NOTIFICATIONS, stringResource(R.string.settings_notif_sub), onClick = onOpenNotifications) {
                 RowValue(notifText, notifTone)
                 RowChevron()
             }
             onPersonalStart?.let { change ->
                 val label = stringResource(R.string.settings_personal_start)
-                ListRow(MikaIcons.Spark, label, stringResource(R.string.settings_personal_start_sub)) {
-                    MikaSwitch(personalStart, change, Modifier.semantics { contentDescription = label })
+                ListRow(DjiniIcons.Spark, label, stringResource(R.string.settings_personal_start_sub)) {
+                    DjiniSwitch(personalStart, change, Modifier.semantics { contentDescription = label })
                 }
             }
         }
@@ -527,16 +527,16 @@ fun SettingsContent(
         GroupLabel(stringResource(R.string.settings_data))
         GroupCard {
             onOpenMemory?.let {
-                ListRow(MikaIcons.Heart, stringResource(R.string.memory_and_skills), stringResource(R.string.settings_memory_sub), first = true, onClick = it) { RowChevron() }
+                ListRow(DjiniIcons.Heart, stringResource(R.string.memory_and_skills), stringResource(R.string.settings_memory_sub), first = true, onClick = it) { RowChevron() }
             }
             onOpenPersonas?.let {
-                ListRow(MikaIcons.Spark, stringResource(R.string.persona_title), stringResource(R.string.persona_sub), first = onOpenMemory == null, onClick = it) { RowChevron() }
+                ListRow(DjiniIcons.Spark, stringResource(R.string.persona_title), stringResource(R.string.persona_sub), first = onOpenMemory == null, onClick = it) { RowChevron() }
             }
             onOpenBackup?.let {
-                ListRow(MikaIcons.Archive, stringResource(R.string.backup_title), stringResource(R.string.backup_sub), first = onOpenMemory == null && onOpenPersonas == null, onClick = it) { RowChevron() }
+                ListRow(DjiniIcons.Archive, stringResource(R.string.backup_title), stringResource(R.string.backup_sub), first = onOpenMemory == null && onOpenPersonas == null, onClick = it) { RowChevron() }
             }
             ListRow(
-                MikaIcons.Archive,
+                DjiniIcons.Archive,
                 stringResource(R.string.settings_auto_archive),
                 stringResource(R.string.settings_auto_archive_sub),
                 first = onOpenMemory == null && onOpenPersonas == null && onOpenBackup == null,
@@ -549,21 +549,21 @@ fun SettingsContent(
                 RowChevron()
             }
             ListRow(
-                MikaIcons.Message,
+                DjiniIcons.Message,
                 stringResource(R.string.recommendations_title),
                 stringResource(R.string.recommendations_sub),
                 onClick = onOpenRecommendations,
             ) { RowChevron() }
-            ListRow(MikaIcons.Shield, stringResource(R.string.appaccess_title), stringResource(R.string.appaccess_row_sub), onClick = onOpenAppAccess) { RowChevron() }
-            ListRow(MikaIcons.Shield, stringResource(R.string.sms_login_title), stringResource(R.string.sms_login_default_off), onClick = onOpenSmsLogin) { RowChevron() }
+            ListRow(DjiniIcons.Shield, stringResource(R.string.appaccess_title), stringResource(R.string.appaccess_row_sub), onClick = onOpenAppAccess) { RowChevron() }
+            ListRow(DjiniIcons.Shield, stringResource(R.string.sms_login_title), stringResource(R.string.sms_login_default_off), onClick = onOpenSmsLogin) { RowChevron() }
         }
 
         GroupLabel(stringResource(R.string.settings_advanced))
         GroupCard {
-            ListRow(MikaIcons.Wrench, stringResource(R.string.settings_advanced), stringResource(R.string.settings_advanced_sub), first = true, onClick = onOpenAdvanced) { RowChevron() }
+            ListRow(DjiniIcons.Wrench, stringResource(R.string.settings_advanced), stringResource(R.string.settings_advanced_sub), first = true, onClick = onOpenAdvanced) { RowChevron() }
         }
         GroupCard {
-            ListRow(MikaIcons.Info, stringResource(R.string.settings_about), first = true, onClick = onOpenAbout) {
+            ListRow(DjiniIcons.Info, stringResource(R.string.settings_about), first = true, onClick = onOpenAbout) {
                 TrailingValue(AboutCopy.settingsValue(updateVersion, versionName))
                 RowChevron()
             }
@@ -606,29 +606,29 @@ fun AdvancedSettingsContent(
                 var first = true
                 fun take(): Boolean = first.also { first = false }
                 computerAccess?.let { on ->
-                    ListRow(MikaIcons.Desktop, stringResource(R.string.mcp_title), first = take(), onClick = onOpenComputerAccess) {
+                    ListRow(DjiniIcons.Desktop, stringResource(R.string.mcp_title), first = take(), onClick = onOpenComputerAccess) {
                         RowValue(stringResource(if (on) R.string.state_on else R.string.state_off)); RowChevron()
                     }
                 }
                 mcpServersCount?.let { count ->
-                    ListRow(MikaIcons.Link, stringResource(R.string.mcp_servers_title), first = take(), onClick = onOpenMcpServers) {
+                    ListRow(DjiniIcons.Link, stringResource(R.string.mcp_servers_title), first = take(), onClick = onOpenMcpServers) {
                         RowValue(stringResource(R.string.mcp_servers_count, count)); RowChevron()
                     }
                 }
                 pluginsCount?.let {
-                    ListRow(MikaIcons.Spark, stringResource(R.string.plugins_title), first = take(), onClick = onOpenPlugins) {
+                    ListRow(DjiniIcons.Spark, stringResource(R.string.plugins_title), first = take(), onClick = onOpenPlugins) {
                         RowValue(trPlural(R.plurals.plugins_count, it)); RowChevron()
                     }
                 }
                 if (showRoot) {
-                    ListRow(MikaIcons.Key, PhoneSetupCopy.ROOT_GROUP, PhoneSetupCopy.rootEntryLine(rootCommands), first = take(), onClick = onOpenRoot) {
+                    ListRow(DjiniIcons.Key, PhoneSetupCopy.ROOT_GROUP, PhoneSetupCopy.rootEntryLine(rootCommands), first = take(), onClick = onOpenRoot) {
                         RowChevron()
                     }
                 }
             }
         }
         GroupCard {
-            ListRow(MikaIcons.Code, stringResource(R.string.env_vars_title), first = true, onClick = onOpenEnvVars) { RowChevron() }
+            ListRow(DjiniIcons.Code, stringResource(R.string.env_vars_title), first = true, onClick = onOpenEnvVars) { RowChevron() }
         }
         if (proxy != null || webSearch != null) {
             GroupLabel(stringResource(R.string.settings_network))
@@ -636,13 +636,13 @@ fun AdvancedSettingsContent(
                 var first = true
                 fun take(): Boolean = first.also { first = false }
                 proxy?.let {
-                    ListRow(MikaIcons.Link, NetProxyCopy.TITLE, proxyNote, first = take(), onClick = onOpenProxy) {
+                    ListRow(DjiniIcons.Link, NetProxyCopy.TITLE, proxyNote, first = take(), onClick = onOpenProxy) {
                         RowValue(NetProxyCopy.value(it))
                         RowChevron()
                     }
                 }
                 webSearch?.let { config ->
-                    ListRow(MikaIcons.Globe, stringResource(R.string.web_search_title), stringResource(R.string.web_search_row_sub), first = take(), onClick = onOpenWebSearch) {
+                    ListRow(DjiniIcons.Globe, stringResource(R.string.web_search_title), stringResource(R.string.web_search_row_sub), first = take(), onClick = onOpenWebSearch) {
                         RowValue(WebSearchCopy.value(config)); RowChevron()
                     }
                 }
@@ -651,7 +651,7 @@ fun AdvancedSettingsContent(
         if (sandboxRow != null) {
             GroupLabel(stringResource(R.string.settings_runtime))
             GroupCard {
-                ListRow(MikaIcons.Terminal, stringResource(R.string.settings_sandbox), first = true, onClick = onOpenSandbox) {
+                ListRow(DjiniIcons.Terminal, stringResource(R.string.settings_sandbox), first = true, onClick = onOpenSandbox) {
                     RowValue(sandboxValue(sandboxRow)); RowChevron()
                 }
             }
@@ -659,20 +659,20 @@ fun AdvancedSettingsContent(
         if (showRecovery) {
             GroupLabel(stringResource(R.string.settings_maintenance))
             GroupCard {
-                ListRow(MikaIcons.Wrench, stringResource(R.string.settings_recovery), first = true, onClick = onOpenRecovery) { RowChevron() }
+                ListRow(DjiniIcons.Wrench, stringResource(R.string.settings_recovery), first = true, onClick = onOpenRecovery) { RowChevron() }
             }
         }
         if (showDeveloper) {
             GroupLabel(stringResource(R.string.settings_developer_group))
             GroupCard {
-                ListRow(MikaIcons.Code, stringResource(R.string.settings_developer), first = true, onClick = onOpenDeveloper) { RowChevron() }
+                ListRow(DjiniIcons.Code, stringResource(R.string.settings_developer), first = true, onClick = onOpenDeveloper) { RowChevron() }
             }
         }
 
         // 完全退出:和无障碍服务不同,它只是让 Djini 安静下来;下次打开 App 就回来
         GroupCard {
             ListRow(
-                MikaIcons.Power, stringResource(R.string.quit_title), stringResource(R.string.quit_row_sub),
+                DjiniIcons.Power, stringResource(R.string.quit_title), stringResource(R.string.quit_row_sub),
                 first = true, titleColor = DjiniTheme.colors.bad, onClick = onQuit,
             ) { RowChevron() }
         }
@@ -704,15 +704,15 @@ private fun sandboxValue(s: SandboxStatus): String = when (s) {
 private fun StatusSummary(check: Prerequisites.Check, onProblem: (Problem) -> Unit) {
     val problem = check.problems.firstOrNull { it != Problem.FocusMayLeak }
     if (problem == null) {
-        StateCard(MikaIcons.Check, stringResource(R.string.all_ready), stringResource(R.string.settings_all_ready_detail), TileTone.Ok, Modifier.testTag("settings-status"))
+        StateCard(DjiniIcons.Check, stringResource(R.string.all_ready), stringResource(R.string.settings_all_ready_detail), TileTone.Ok, Modifier.testTag("settings-status"))
     } else {
         val copy = StatusCopy.banner(problem)
         StateCard(
-            MikaIcons.Exclaim, copy.title, copy.detail,
+            DjiniIcons.Exclaim, copy.title, copy.detail,
             if (problem in check.blockers) TileTone.Bad else TileTone.Warn,
             Modifier.testTag("settings-status"),
         ) {
-            MikaButton(copy.link, { onProblem(problem) }, kind = ButtonKind.Tonal, size = ButtonSize.Small)
+            DjiniButton(copy.link, { onProblem(problem) }, kind = ButtonKind.Tonal, size = ButtonSize.Small)
         }
     }
 }

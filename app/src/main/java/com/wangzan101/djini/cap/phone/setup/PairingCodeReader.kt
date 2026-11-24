@@ -27,7 +27,7 @@ internal object PairingCodeReader {
     /** 窗口内容常常分几次刷出来,等它稳一下再读。 */
     private const val SETTLE_MS = 300L
     private const val MAX_NODES = 400
-    private const val TAG = "MikaPairing"
+    private const val TAG = "DjiniPairing"
 
     suspend fun run(context: Context, control: BuiltinShellControl, coordinator: PairingCoordinator) {
         val settings = SystemPickers.settingsPackage(context.packageManager) ?: run {

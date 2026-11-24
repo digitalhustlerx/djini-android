@@ -11,7 +11,7 @@ Djini runs its own agent on Android. Give it the user's complete goal, target an
 
 Do these in order, without asking the user unless a step says so.
 
-1. Pick the command. If `djini --version` works, use `djini`. Otherwise use the bundled script (skill-dir = the folder containing this SKILL.md; Python 3.10+): POSIX `python3 <skill-dir>/scripts/mika_cli.py`, Windows `py -3 <skill-dir>\scripts\mika_cli.py`. Below, `djini` means whichever you chose.
+1. Pick the command. If `djini --version` works, use `djini`. Otherwise use the bundled script (skill-dir = the folder containing this SKILL.md; Python 3.10+): POSIX `python3 <skill-dir>/scripts/djini_cli.py`, Windows `py -3 <skill-dir>\scripts\djini_cli.py`. Below, `djini` means whichever you chose.
 2. Use the connection method the user picked on the phone. You cannot see the phone: if the user has not said which one, ask once.
 3. USB/ADB: `djini devices --json` lists ADB phones; run `djini connect --device SERIAL --json` for the chosen one. This enables computer access through Djini's official bootstrap script. With several phones online, ask the user which one, then keep that device for the whole task.
 4. `djini doctor --device SERIAL --json` checks connection and phone state. Only then submit tasks.

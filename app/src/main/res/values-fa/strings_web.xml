@@ -11,7 +11,7 @@
     <string name="web_manage">مدیریت</string>
     <string name="web_logout_all_title">خروج از همهٔ سایت‌ها و پاک کردن داده‌های وب</string>
     <string name="web_you_signed_in">شما در میکا وارد این سایت شده‌اید.</string>
-    <string name="web_mika_visited">میکا از این سایت بازدید کرده است.</string>
+    <string name="web_djini_visited">میکا از این سایت بازدید کرده است.</string>
     <string name="web_open_login">باز کردن صفحهٔ ورود</string>
     <string name="web_cleared">کوکی‌ها و فضای ذخیره‌سازی وب %1$s پاک شد؛ باید دوباره وارد شوید. ممکن است برخی داده‌ها باقی مانده باشند؛ برای پاک کردن همه‌چیز از «خروج از همه» استفاده کنید.</string>
     <string name="web_signed_out">از %1$s خارج شدید. %2$s</string>

@@ -31,10 +31,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.wangzan101.djini.ui.theme.MikaIcons
-import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniIcons
+import com.wangzan101.djini.ui.theme.DjiniShapes
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.DjiniType
 
 /**
  * 二级页的骨架:页面底 + 顶栏(左上角返回)+ 下面可滚动的内容(左右各 16)。
@@ -50,7 +50,7 @@ fun SubPage(
 ) {
     PageBackground {
         Column(Modifier.fillMaxSize()) {
-            TopBar(title, MikaIcons.Back, onBack, stringResource(R.string.back), right = right)
+            TopBar(title, DjiniIcons.Back, onBack, stringResource(R.string.back), right = right)
             Column(
                 modifier.fillMaxSize().verticalScroll(rememberScrollState()).navigationBarsPadding()
                     .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 24.dp),
@@ -82,16 +82,16 @@ fun SearchField(
 ) {
     val c = DjiniTheme.colors
     Row(
-        Modifier.fillMaxWidth().height(40.dp).keepsKeyboard().background(c.fill, MikaShapes.Button).padding(horizontal = 12.dp),
+        Modifier.fillMaxWidth().height(40.dp).keepsKeyboard().background(c.fill, DjiniShapes.Button).padding(horizontal = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        Icon(MikaIcons.Search, null, Modifier.size(18.dp), tint = c.ink3)
+        Icon(DjiniIcons.Search, null, Modifier.size(18.dp), tint = c.ink3)
         Box(Modifier.weight(1f), contentAlignment = Alignment.CenterStart) {
-            if (value.isEmpty()) Text(placeholder, style = MikaType.Body, color = c.ink3)
+            if (value.isEmpty()) Text(placeholder, style = DjiniType.Body, color = c.ink3)
             BasicTextField(
                 value, onValueChange, modifier.fillMaxWidth(), singleLine = true,
-                textStyle = MikaType.Body.copy(color = c.ink, textDirection = androidx.compose.ui.text.style.TextDirection.Content), cursorBrush = SolidColor(c.accent),
+                textStyle = DjiniType.Body.copy(color = c.ink, textDirection = androidx.compose.ui.text.style.TextDirection.Content), cursorBrush = SolidColor(c.accent),
                 keyboardOptions = if (onSubmit != null) KeyboardOptions(imeAction = ImeAction.Go) else KeyboardOptions.Default,
                 keyboardActions = KeyboardActions(onGo = { onSubmit?.invoke() }),
             )
@@ -104,6 +104,6 @@ fun SearchField(
 fun EmptyNote(text: String, modifier: Modifier = Modifier) {
     Text(
         text, modifier.fillMaxWidth().padding(horizontal = 24.dp, vertical = 28.dp),
-        style = MikaType.Body, color = DjiniTheme.colors.ink3, textAlign = TextAlign.Center,
+        style = DjiniType.Body, color = DjiniTheme.colors.ink3, textAlign = TextAlign.Center,
     )
 }

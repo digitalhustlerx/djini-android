@@ -31,7 +31,7 @@ POSIX：
 curl -L -o djini.zip https://github.com/digitalhustlerx/djini-android/archive/refs/tags/<tag>.zip
 unzip -q djini.zip -d djini-src
 mkdir -p <技能目录> && cp -R djini-src/Djini-<ver>/tools/djini <技能目录>/djini
-python3 <技能目录>/djini/scripts/mika_cli.py --version
+python3 <技能目录>/djini/scripts/djini_cli.py --version
 ```
 
 Windows PowerShell：
@@ -41,10 +41,10 @@ Invoke-WebRequest https://github.com/digitalhustlerx/djini-android/archive/refs/
 Expand-Archive djini.zip -DestinationPath djini-src
 New-Item -ItemType Directory -Force "<技能目录>" | Out-Null
 Copy-Item -Recurse djini-src\Djini-<ver>\tools\djini "<技能目录>\djini"
-py -3 "<技能目录>\djini\scripts\mika_cli.py" --version
+py -3 "<技能目录>\djini\scripts\djini_cli.py" --version
 ```
 
-解释器：Windows 用 `py -3`，其他系统用 `python3`。下文 `djini` 在只装 Skill 时即 `python3 <技能目录>/djini/scripts/mika_cli.py`（Windows `py -3 ...`）。
+解释器：Windows 用 `py -3`，其他系统用 `python3`。下文 `djini` 在只装 Skill 时即 `python3 <技能目录>/djini/scripts/djini_cli.py`（Windows `py -3 ...`）。
 
 ## 4. 连接
 

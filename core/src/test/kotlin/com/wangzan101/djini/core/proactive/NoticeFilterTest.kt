@@ -32,7 +32,7 @@ class NoticeFilterTest {
         assertEquals(NoticeDecision.NotWhitelisted, NoticeFilter.decidePackage("com.other", white, setOf("com.other")))
     }
 
-    @Test fun mikaItselfIsAlwaysDroppedEvenWhenWhitelisted() {
+    @Test fun djiniItselfIsAlwaysDroppedEvenWhenWhitelisted() {
         for (pkg in listOf("com.wangzan101.djini", "com.wangzan101.djini.dev", "com.wangzan101.djini.dev.test")) {
             assertEquals(pkg, NoticeDecision.SelfPackage, decide(base.copy(packageName = pkg), whitelist = setOf(pkg)))
         }

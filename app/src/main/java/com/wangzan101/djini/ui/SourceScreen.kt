@@ -47,10 +47,10 @@ import com.wangzan101.djini.ui.components.GroupCard
 import com.wangzan101.djini.ui.components.EmptyNote
 import com.wangzan101.djini.ui.components.TopBar
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaIcons
-import com.wangzan101.djini.ui.theme.MikaType
-import com.wangzan101.djini.ui.theme.MikaRadius
-import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniIcons
+import com.wangzan101.djini.ui.theme.DjiniType
+import com.wangzan101.djini.ui.theme.DjiniRadius
+import com.wangzan101.djini.ui.theme.DjiniShapes
 
 /** 一次答复的来源:每条是「第几步 · 在哪 · 标题」,下面是当时的画面;没有画面的(后台读的网页正文、文件、命令输出)是摘录原文。 */
 @Composable
@@ -61,14 +61,14 @@ fun SourceScreen(vm: SourceViewModel, onBack: () -> Unit) {
     val c = DjiniTheme.colors
     PageBackground {
         Column(Modifier.fillMaxSize()) {
-            TopBar(stringResource(R.string.source_label), left = MikaIcons.Back, leftLabel = stringResource(R.string.back), onLeft = onBack)
+            TopBar(stringResource(R.string.source_label), left = DjiniIcons.Back, leftLabel = stringResource(R.string.back), onLeft = onBack)
             ui?.let { source ->
                 LazyColumn(
                     Modifier.fillMaxSize(),
                     contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 8.dp, bottom = bottom + 16.dp),
                 ) {
                     source.legacyText?.takeIf(String::isNotBlank)?.let { legacy ->
-                        item("legacy") { GroupCard { Text(legacy, Modifier.padding(16.dp), style = MikaType.Body, color = c.ink) } }
+                        item("legacy") { GroupCard { Text(legacy, Modifier.padding(16.dp), style = DjiniType.Body, color = c.ink) } }
                     }
                     source.entries.forEachIndexed { index, entry ->
                         item("source-$index") {
@@ -76,11 +76,11 @@ fun SourceScreen(vm: SourceViewModel, onBack: () -> Unit) {
                                 Column(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 14.dp)) {
                                     Text(
                                         listOfNotNull(stringResource(R.string.step_number, entry.step), entry.place, entry.title).joinToString(" · "),
-                                        style = MikaType.BodyStrong, color = c.ink,
+                                        style = DjiniType.BodyStrong, color = c.ink,
                                     )
                                     // 有画面就只给画面:识别出的文字和画面重复;没有画面时摘录就是唯一的依据
                                     if (entry.screenshots.isEmpty()) {
-                                        entry.text?.let { Text(it, Modifier.padding(top = 6.dp), style = MikaType.Caption, color = c.ink2) }
+                                        entry.text?.let { Text(it, Modifier.padding(top = 6.dp), style = DjiniType.Caption, color = c.ink2) }
                                     }
                                     entry.screenshots.forEach { id -> SourceShot(vm, id) }
                                 }
@@ -103,7 +103,7 @@ private fun SourceShot(vm: SourceViewModel, id: Int) {
     }
     var zoomed by remember { mutableStateOf(false) }
     image?.let {
-        Image(it, stringResource(R.string.source_image), Modifier.fillMaxWidth().padding(top = 10.dp).clip(MikaShapes.Chip)
+        Image(it, stringResource(R.string.source_image), Modifier.fillMaxWidth().padding(top = 10.dp).clip(DjiniShapes.Chip)
             .clickable(onClickLabel = stringResource(R.string.zoom_in)) { zoomed = true },
             contentScale = ContentScale.FillWidth)
         if (zoomed) ZoomedShot(it) { zoomed = false }

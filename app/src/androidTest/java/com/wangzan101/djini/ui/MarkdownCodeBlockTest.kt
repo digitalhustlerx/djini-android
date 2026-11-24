@@ -14,7 +14,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.wangzan101.djini.R
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.DjiniType
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
@@ -42,7 +42,7 @@ class MarkdownCodeBlockTest {
                 SelectionContainer {
                     MarkdownText(
                         "前文说明。\n\n```kotlin\nval answer = 42\nprintln(answer)\n```\n\n后文说明。",
-                        MikaType.Body,
+                        DjiniType.Body,
                     )
                 }
             }
@@ -60,7 +60,7 @@ class MarkdownCodeBlockTest {
         val copyLabel = context.getString(R.string.chat_copy)
         compose.setContent {
             DjiniTheme {
-                MarkdownText("```\necho hello\n```", MikaType.Body)
+                MarkdownText("```\necho hello\n```", DjiniType.Body)
             }
         }
         assertEquals(0, compose.onAllNodesWithTag("code-block-language").fetchSemanticsNodes().size)

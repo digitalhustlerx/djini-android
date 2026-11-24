@@ -167,7 +167,7 @@ class DjiniApp : Application(), WebOwner, SandboxOwner, TaskEnvironment.Owner, P
     /** 已安装的插件:zip 安装、启停与只读技能;任务开始时给技能目录一份固定快照。 */
     val plugins by lazy {
         com.wangzan101.djini.plugin.PluginRegistry(filesDir, scope,
-            log = { msg, e -> Log.w("MikaPlugin", msg, e) })
+            log = { msg, e -> Log.w("DjiniPlugin", msg, e) })
     }
 
     /** 人格:命名的自定义提示词层,存在 settings 目录;不加密,不含密钥。 */
@@ -211,7 +211,7 @@ class DjiniApp : Application(), WebOwner, SandboxOwner, TaskEnvironment.Owner, P
     val chatGptSignIn by lazy {
         com.wangzan101.djini.settings.ChatGptSignIns(scope,
             keepAlive = { com.wangzan101.djini.settings.ChatGptSignInService.start(this) },
-            log = { msg, e -> Log.w("MikaChatGpt", msg, e) })
+            log = { msg, e -> Log.w("DjiniChatGpt", msg, e) })
     }
 
     /** 经验路线。 */
@@ -548,7 +548,7 @@ class DjiniApp : Application(), WebOwner, SandboxOwner, TaskEnvironment.Owner, P
         scope.launch(Dispatchers.IO) {
             runCatching { updateMirrors.ensureLoaded() }
             runCatching { com.wangzan101.djini.task.AndroidDeviceFiles.cleanupStaging(SandboxDirs(this@DjiniApp)) }
-                .onFailure { Log.w("MikaImport", "Could not clean device import staging", it) }
+                .onFailure { Log.w("DjiniImport", "Could not clean device import staging", it) }
         }
         // 界面以外的文字(通知、服务、悬浮胶囊)按 App 语言取
         AppLanguage.applyDefaultLocale(this)
@@ -578,7 +578,7 @@ class DjiniApp : Application(), WebOwner, SandboxOwner, TaskEnvironment.Owner, P
         // 上次异常退出时留下的改动(App 被静音)在这里恢复
         scope.launch { taskRecovery.recover() }
         // 上次进程被杀时没结束的运行:现在就标为中断并告知,不等任务服务起来
-        if (!quit) runRecovery.recover().let { if (it.isNotEmpty()) Log.w("MikaTask", "${it.size} runs interrupted by process restart") }
+        if (!quit) runRecovery.recover().let { if (it.isNotEmpty()) Log.w("DjiniTask", "${it.size} runs interrupted by process restart") }
         // 用户已绑定并打开微信渠道时恢复监听；完全退出期间由各运行入口统一拒绝补起
         wechat.ensureRunning()
         if (flags.proactive()) proactive.start(paused = quit)
@@ -587,7 +587,7 @@ class DjiniApp : Application(), WebOwner, SandboxOwner, TaskEnvironment.Owner, P
         // 自动归档:太久没新消息的对话收进归档(设置里开着才跑);退出期间等下次打开再补
         if (!quit) autoArchiveNow()
         // 给电脑跑的「经 USB 连接」脚本;顺带清掉上次开机留下的 USB 连接信息
-        scope.launch(Dispatchers.IO) { runCatching { mcp.writeUsbScript() }.onFailure { Log.w("MikaMcp", "cannot write USB script", it) } }
+        scope.launch(Dispatchers.IO) { runCatching { mcp.writeUsbScript() }.onFailure { Log.w("DjiniMcp", "cannot write USB script", it) } }
         // 上次导出写到一半被杀留下的空壳条目
         scope.launch { runCatching { ShareExporter(this@DjiniApp).cleanPending() } }
         // 上次存音乐库写到一半被杀留下的空壳条目
@@ -626,11 +626,11 @@ class DjiniApp : Application(), WebOwner, SandboxOwner, TaskEnvironment.Owner, P
                     currentId = (conversations.currentChat() as? CurrentChat.Open)?.id,
                     isRunning = { it in taskState.activeConversations.value },
                 )
-            }.onFailure { Log.w("MikaChat", "could not auto archive conversations", it) }
+            }.onFailure { Log.w("DjiniChat", "could not auto archive conversations", it) }
         }
     }
 
-    /** 用户重新打开 Djini:补上退出时略过的启动工作(见 [com.wangzan101.djini.quit.MikaQuit])。 */
+    /** 用户重新打开 Djini:补上退出时略过的启动工作(见 [com.wangzan101.djini.quit.DjiniQuit])。 */
     fun resumeAfterQuit() {
         runRecovery.recover()
         RuntimePreparer.ensure(this)
@@ -642,7 +642,7 @@ class DjiniApp : Application(), WebOwner, SandboxOwner, TaskEnvironment.Owner, P
             runCatching {
                 TriggerRuntime.syncTimeZone(this@DjiniApp)
                 TriggerRuntime.rearm(this@DjiniApp)
-            }.onFailure { Log.w("MikaTrigger", "could not restore schedules after quit", it) }
+            }.onFailure { Log.w("DjiniTrigger", "could not restore schedules after quit", it) }
         }
     }
 }

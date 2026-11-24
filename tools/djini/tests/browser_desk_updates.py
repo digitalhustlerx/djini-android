@@ -17,8 +17,8 @@ try:
 except ImportError:
     sync_playwright = None
 
-from test_mika_cli import api, DISCOVERY, SNAPSHOT, TOKEN
-from test_mika_desk import desk
+from test_djini_cli import api, DISCOVERY, SNAPSHOT, TOKEN
+from test_djini_desk import desk
 
 
 @contextmanager
@@ -32,7 +32,7 @@ def browser_desk(respond, locale="zh-CN"):
             except PlaywrightError as exc:
                 raise unittest.SkipTest(f"Playwright's Chromium is unavailable: {exc}")
             try:
-                # The assertions read the Chinese strings; test_mika_desk checks both languages exist.
+                # The assertions read the Chinese strings; test_djini_desk checks both languages exist.
                 page = browser.new_context(locale=locale).new_page()
                 page.goto(url.geturl())
                 yield page, phone

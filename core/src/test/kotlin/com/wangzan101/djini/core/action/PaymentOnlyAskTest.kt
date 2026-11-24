@@ -269,7 +269,7 @@ class PaymentOnlyAskTest {
         assertEquals(listOf(null, "timed_out"), sink.all.filterIsInstance<RunEvent.Confirmation>().map { it.decision })
     }
 
-    @Test fun mikaNeverOperatesItself() = runTest {
+    @Test fun djiniNeverOperatesItself() = runTest {
         // 屏上是 Djini 自己:不点
         val s = Chat(app = "com.djini")
         val m = FakeModel(OBSERVE, tap("@e6"), GIVE_UP)

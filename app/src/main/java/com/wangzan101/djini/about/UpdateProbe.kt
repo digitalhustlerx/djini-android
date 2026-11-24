@@ -92,8 +92,8 @@ internal object UpdateProbe {
     suspend fun test(
         prefix: String,
         client: OkHttpClient = testClient,
-        apiUrl: String = MikaLinks.LATEST_RELEASE_API,
-        releasesUrl: String = MikaLinks.RELEASES,
+        apiUrl: String = DjiniLinks.LATEST_RELEASE_API,
+        releasesUrl: String = DjiniLinks.RELEASES,
         timeoutMs: Long = 12_000L,
     ): ReleaseInfo? = withTimeoutOrNull(timeoutMs) {
         try {

@@ -77,7 +77,7 @@ object TriggerRuntime {
             .setSmallIcon(R.drawable.ic_notification).setContentTitle(ExactAlarmGuide.TITLE)
             .setContentText(ExactAlarmGuide.BODY).setStyle(Notification.BigTextStyle().bigText(ExactAlarmGuide.BODY))
             .setContentIntent(open).setAutoCancel(true).build()) }
-            .onFailure { Log.w("MikaTrigger", "exact alarm prompt failed", it) }.isSuccess
+            .onFailure { Log.w("DjiniTrigger", "exact alarm prompt failed", it) }.isSuccess
     }
 
     @Synchronized fun rearm(context: Context) {
@@ -127,7 +127,7 @@ object TriggerRuntime {
         store.windows().firstOrNull { it.key == key }?.let { window ->
             store.get(window.triggerId)?.let { trigger ->
                 if (!hasSavedResult(context, key)) runCatching { reportUncertain(context, trigger, key) }
-                    .onFailure { Log.w("MikaTrigger", "could not report interrupted task", it) }
+                    .onFailure { Log.w("DjiniTrigger", "could not report interrupted task", it) }
             }
         }
         engine(context, store).rearm(System.currentTimeMillis())
@@ -228,7 +228,7 @@ object TriggerRuntime {
                 store.mark(it.key, TriggerWindowState.Unknown, reason)
                 if (trigger != null && !hasSavedResult(context, it.key))
                     runCatching { reportUncertain(context, trigger, it.key) }
-                        .onFailure { error -> Log.w("MikaTrigger", "could not report recovered task", error) }
+                        .onFailure { error -> Log.w("DjiniTrigger", "could not report recovered task", error) }
             }
         }
     }
@@ -256,7 +256,7 @@ object TriggerRuntime {
     private fun reportStartFailure(context: Context, store: FileTriggerStore, trigger: TriggerDefinition,
         key: String, error: Exception, before: TriggerDefinition? = null) {
         val message = tr(R.string.trigger_not_started_body)
-        Log.w("MikaTrigger", "scheduled task could not start", error)
+        Log.w("DjiniTrigger", "scheduled task could not start", error)
         store.mark(key, TriggerWindowState.Failed, tr(R.string.trigger_start_failed))
         if (before != null) store.get(trigger.id)?.let { store.upsert(it.revertFire(before)) }
         val conversations = ConversationStore.shared(context)
@@ -295,7 +295,7 @@ object TriggerRuntime {
                 .setSmallIcon(R.drawable.ic_notification).setContentTitle(title)
                 .setContentText(text).setStyle(Notification.BigTextStyle().bigText(text))
                 .setContentIntent(open).setAutoCancel(true).applyScheduledQuietHours(context).build()) }
-                .onFailure { Log.w("MikaTrigger", "reminder notification failed", it) }
+                .onFailure { Log.w("DjiniTrigger", "reminder notification failed", it) }
         }
     }
 
@@ -331,7 +331,7 @@ class TriggerAlarmReceiver : BroadcastReceiver() {
         val pending = goAsync()
         CoroutineScope(Dispatchers.IO).launch {
             try { TriggerRuntime.fire(context.applicationContext) }
-            catch (e: Exception) { Log.e("MikaTrigger", "alarm dispatch failed", e) }
+            catch (e: Exception) { Log.e("DjiniTrigger", "alarm dispatch failed", e) }
             finally { pending.finish() }
         }
     }

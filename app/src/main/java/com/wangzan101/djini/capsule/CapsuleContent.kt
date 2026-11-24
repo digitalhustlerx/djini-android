@@ -69,11 +69,11 @@ import androidx.compose.ui.unit.sp
 import com.wangzan101.djini.R
 import com.wangzan101.djini.ui.ScreenCopy
 import com.wangzan101.djini.ui.components.ButtonSize
-import com.wangzan101.djini.ui.components.MikaButton
-import com.wangzan101.djini.ui.components.MikaLogo
-import com.wangzan101.djini.ui.theme.MikaColors
-import com.wangzan101.djini.ui.theme.MikaIcons
-import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.components.DjiniButton
+import com.wangzan101.djini.ui.components.DjiniLogo
+import com.wangzan101.djini.ui.theme.DjiniColors
+import com.wangzan101.djini.ui.theme.DjiniIcons
+import com.wangzan101.djini.ui.theme.DjiniShapes
 import com.wangzan101.djini.ui.theme.DjiniTheme
 import kotlin.math.ceil
 
@@ -246,9 +246,9 @@ private fun Leading(kind: CapsuleKind) {
     val c = DjiniTheme.colors
     when {
         kind.needsYou -> BreathingDot(c)
-        kind == CapsuleKind.Done -> Icon(MikaIcons.Check, null, Modifier.size(16.dp), tint = c.ok)
-        kind == CapsuleKind.Failed -> Icon(MikaIcons.Exclaim, null, Modifier.size(16.dp), tint = c.ink3)
-        kind == CapsuleKind.Cancelled -> Icon(MikaIcons.Stop, null, Modifier.size(16.dp), tint = c.ink3)
+        kind == CapsuleKind.Done -> Icon(DjiniIcons.Check, null, Modifier.size(16.dp), tint = c.ok)
+        kind == CapsuleKind.Failed -> Icon(DjiniIcons.Exclaim, null, Modifier.size(16.dp), tint = c.ink3)
+        kind == CapsuleKind.Cancelled -> Icon(DjiniIcons.Stop, null, Modifier.size(16.dp), tint = c.ink3)
         kind == CapsuleKind.KeptPage -> LiveDot(c)
         else -> Unit
     }
@@ -256,20 +256,20 @@ private fun Leading(kind: CapsuleKind) {
 
 /** 后台网页运行中:绿色圆点,外面一圈淡绿。 */
 @Composable
-private fun LiveDot(c: MikaColors) {
+private fun LiveDot(c: DjiniColors) {
     Box(Modifier.size(14.dp).testTag("capsule-live-dot"), contentAlignment = Alignment.Center) {
-        Box(Modifier.size(14.dp).background(c.okSoft, MikaShapes.Pill))
-        Box(Modifier.size(8.dp).background(c.ok, MikaShapes.Pill))
+        Box(Modifier.size(14.dp).background(c.okSoft, DjiniShapes.Pill))
+        Box(Modifier.size(8.dp).background(c.ok, DjiniShapes.Pill))
     }
 }
 
 /** 需要你:橙色圆点,外面一圈淡橙一呼一吸;关了动画时不动。 */
 @Composable
-private fun BreathingDot(c: MikaColors) {
+private fun BreathingDot(c: DjiniColors) {
     val halo = breathe(still = 0f)
     Box(Modifier.size(14.dp), contentAlignment = Alignment.Center) {
-        Box(Modifier.size(14.dp).graphicsLayer { alpha = halo }.background(c.warnSoft, MikaShapes.Pill))
-        Box(Modifier.size(8.dp).background(c.warnSolid, MikaShapes.Pill))
+        Box(Modifier.size(14.dp).graphicsLayer { alpha = halo }.background(c.warnSoft, DjiniShapes.Pill))
+        Box(Modifier.size(8.dp).background(c.warnSolid, DjiniShapes.Pill))
     }
 }
 
@@ -321,8 +321,8 @@ private fun Badge(view: CapsuleView.Shown, need: Boolean, modifier: Modifier) {
             else -> c.accent
         }
         Box(
-            modifier.testTag("capsule-count").background(c.surface, MikaShapes.Pill).padding(1.5.dp)
-                .sizeIn(minWidth = 15.dp, minHeight = 15.dp).background(fill, MikaShapes.Pill).padding(horizontal = 3.dp),
+            modifier.testTag("capsule-count").background(c.surface, DjiniShapes.Pill).padding(1.5.dp)
+                .sizeIn(minWidth = 15.dp, minHeight = 15.dp).background(fill, DjiniShapes.Pill).padding(horizontal = 3.dp),
             contentAlignment = Alignment.Center,
         ) {
             Text("${view.count}", style = CountText, color = c.onAccent, maxLines = 1)
@@ -330,14 +330,14 @@ private fun Badge(view: CapsuleView.Shown, need: Boolean, modifier: Modifier) {
         return
     }
     val (icon, tint) = when (view.kind) {
-        CapsuleKind.Done -> MikaIcons.Check to c.ok
-        CapsuleKind.Failed -> MikaIcons.Exclaim to c.ink3
-        CapsuleKind.Cancelled -> MikaIcons.Stop to c.ink3
+        CapsuleKind.Done -> DjiniIcons.Check to c.ok
+        CapsuleKind.Failed -> DjiniIcons.Exclaim to c.ink3
+        CapsuleKind.Cancelled -> DjiniIcons.Stop to c.ink3
         else -> return
     }
     Box(
-        modifier.testTag("capsule-badge").size(16.dp).background(c.surface, MikaShapes.Pill).padding(1.5.dp)
-            .background(tint, MikaShapes.Pill),
+        modifier.testTag("capsule-badge").size(16.dp).background(c.surface, DjiniShapes.Pill).padding(1.5.dp)
+            .background(tint, DjiniShapes.Pill),
         contentAlignment = Alignment.Center,
     ) {
         Icon(icon, null, Modifier.size(9.dp), tint = c.surface)
@@ -383,7 +383,7 @@ private fun Modifier.morphLayout(m: Morph, end: Boolean): Modifier = layout { me
  * 玻璃底(同 [glass]),只画看得见的那一段宽、贴着停靠的那一边:阴影、裁切、底色和描边都按它,宽度变时只重画图层。
  * [alpha] 淡底和里面的图标。
  */
-private fun Modifier.morphGlass(m: Morph, end: Boolean, c: MikaColors, need: Boolean, alpha: Float): Modifier =
+private fun Modifier.morphGlass(m: Morph, end: Boolean, c: DjiniColors, need: Boolean, alpha: Float): Modifier =
     graphicsLayer {
         this.alpha = alpha
         shadowElevation = 8.dp.toPx()
@@ -420,7 +420,7 @@ private fun TakeoverBar(view: CapsuleView.Shown, onStop: () -> Unit, onHandBack:
     val maxWidth = (LocalConfiguration.current.screenWidthDp - 32).coerceAtLeast(200).dp
     Row(
         Modifier.testTag("capsule-bar")
-            .glass(c, MikaShapes.Pill, need = false)
+            .glass(c, DjiniShapes.Pill, need = false)
             .widthIn(max = maxWidth)
             .height(BarHeight)
             .padding(horizontal = 6.dp),
@@ -433,27 +433,27 @@ private fun TakeoverBar(view: CapsuleView.Shown, onStop: () -> Unit, onHandBack:
             view.detail?.let { Text(it, style = BarDetail, color = c.ink3, maxLines = 1, overflow = TextOverflow.Ellipsis) }
         }
         Box(
-            Modifier.clip(MikaShapes.Pill).clickable(role = Role.Button, onClick = onStop)
+            Modifier.clip(DjiniShapes.Pill).clickable(role = Role.Button, onClick = onStop)
                 .heightIn(min = 36.dp).padding(horizontal = 10.dp),
             contentAlignment = Alignment.Center,
         ) {
             Text(CapsuleCopy.STOP, style = CapsuleText.copy(fontWeight = FontWeight.Normal), color = c.ink2, maxLines = 1)
         }
-        MikaButton(stringResource(R.string.action_hand_back), onHandBack, size = ButtonSize.Small)
+        DjiniButton(stringResource(R.string.action_hand_back), onHandBack, size = ButtonSize.Small)
     }
 }
 
 /** 胶囊上的 Djini 图标(圆形)。 */
 @Composable
 private fun CapsuleLogo() {
-    MikaLogo(LogoSize, corner = LogoSize / 2)
+    DjiniLogo(LogoSize, corner = LogoSize / 2)
 }
 
 /**
  * 浮在别的 App 上的玻璃底:浮层窗口里拿不到下面 App 的画面做模糊,用接近不透明的卡片底、细描边和悬浮阴影;
  * 需要你时叠一层淡橙、描边变橙。
  */
-internal fun Modifier.glass(c: MikaColors, shape: Shape, need: Boolean): Modifier =
+internal fun Modifier.glass(c: DjiniColors, shape: Shape, need: Boolean): Modifier =
     shadow(8.dp, shape, clip = false, ambientColor = c.floatShadow.copy(alpha = 0.25f), spotColor = c.floatShadow.copy(alpha = 0.3f))
         .clip(shape)
         .background(c.surface.copy(alpha = 0.95f))

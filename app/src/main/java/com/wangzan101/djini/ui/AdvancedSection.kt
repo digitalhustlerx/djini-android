@@ -6,7 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import com.wangzan101.djini.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.DjiniDialog
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -31,10 +31,10 @@ import kotlinx.coroutines.launch
 import com.wangzan101.djini.ui.components.GroupCard
 import com.wangzan101.djini.ui.components.ListRow
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniIcons
 import com.wangzan101.djini.ui.components.TileTone
-import com.wangzan101.djini.ui.components.MikaSwitch
-import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.components.DjiniSwitch
+import com.wangzan101.djini.ui.theme.DjiniType
 import com.wangzan101.djini.ui.components.RowValue
 import com.wangzan101.djini.ui.components.RowChevron
 import com.wangzan101.djini.ui.components.GroupLabel
@@ -176,19 +176,19 @@ fun AdvancedSection(
     var clearingAll by remember { mutableStateOf(false) }
 
     GroupCard {
-        ListRow(MikaIcons.Link, SandboxCopy.NETWORK_TITLE, SandboxCopy.NETWORK_SUBTITLE, first = true) {
-            MikaSwitch(networkAllowed, onNetworkChange, Modifier.testTag("sandbox-network"))
+        ListRow(DjiniIcons.Link, SandboxCopy.NETWORK_TITLE, SandboxCopy.NETWORK_SUBTITLE, first = true) {
+            DjiniSwitch(networkAllowed, onNetworkChange, Modifier.testTag("sandbox-network"))
         }
         Note(SandboxCopy.NETWORK_EXPLAIN, if (networkAllowed) DjiniTheme.colors.warn else DjiniTheme.colors.ink3)
         if (isolationIssue) Note(SandboxCopy.ISOLATION_UNAVAILABLE, DjiniTheme.colors.bad)
-        ListRow(MikaIcons.Close, tr(R.string.sandbox_reset), SandboxCopy.resetSubtitle(status), titleColor = DjiniTheme.colors.bad, tone = TileTone.Bad,
+        ListRow(DjiniIcons.Close, tr(R.string.sandbox_reset), SandboxCopy.resetSubtitle(status), titleColor = DjiniTheme.colors.bad, tone = TileTone.Bad,
             onClick = if (status is SandboxStatus.Installing) null else ({ confirming = true }))
     }
 
     usage?.let { u -> UsageGroup(u, onOpenTerminal, onClear = { clearing = it }, onClearAll = { clearingAll = true }) }
 
     clearing?.let { w ->
-        MikaDialog(
+        DjiniDialog(
             onDismissRequest = { clearing = null },
             title = { Text(SandboxCopy.CLEAR_TITLE) },
             text = { Text(SandboxCopy.clearBody(w)) },
@@ -197,7 +197,7 @@ fun AdvancedSection(
         )
     }
     if (clearingAll) {
-        MikaDialog(
+        DjiniDialog(
             onDismissRequest = { clearingAll = false },
             title = { Text(SandboxCopy.CLEAR_ALL_TITLE) },
             text = { Text(SandboxCopy.CLEAR_ALL_BODY) },
@@ -207,7 +207,7 @@ fun AdvancedSection(
     }
 
     if (confirming) {
-        MikaDialog(
+        DjiniDialog(
             onDismissRequest = { confirming = false },
             title = { Text(SandboxCopy.RESET_TITLE) },
             text = { Text(SandboxCopy.RESET_BODY) },
@@ -219,7 +219,7 @@ fun AdvancedSection(
 
 @Composable
 private fun Note(text: String, color: Color) {
-    Text(text, Modifier.fillMaxWidth().padding(start = 60.dp, end = 16.dp, bottom = 10.dp), style = MikaType.Hint, color = color)
+    Text(text, Modifier.fillMaxWidth().padding(start = 60.dp, end = 16.dp, bottom = 10.dp), style = DjiniType.Hint, color = color)
 }
 
 /**
@@ -254,7 +254,7 @@ private fun UsageGroup(
                                 .clickable { onOpenTerminal(w) }
                                 .padding(end = 12.dp)
                                 .testTag("sandbox-workspace-terminal"),
-                            style = MikaType.Caption,
+                            style = DjiniType.Caption,
                             color = c.accent,
                         )
                     }
@@ -266,5 +266,5 @@ private fun UsageGroup(
             }
         }
     }
-    Text(SandboxCopy.USAGE_NOTE, Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp, top = 8.dp), style = MikaType.Hint, color = c.ink3)
+    Text(SandboxCopy.USAGE_NOTE, Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp, top = 8.dp), style = DjiniType.Hint, color = c.ink3)
 }

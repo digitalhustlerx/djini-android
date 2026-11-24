@@ -2,7 +2,7 @@
 <resources>
     <string name="card_approve_once">Yalnızca bu kez onayla</string>
     <string name="card_see_process">Tüm süreç için Djini\'ya dön</string>
-    <string name="card_back_to_mika">Djini\'ya dön</string>
+    <string name="card_back_to_djini">Djini\'ya dön</string>
     <string name="card_continue_last">Son sohbeti sürdür</string>
     <string name="card_screen">Arka plan ekranı, büyütmek için dokunun</string>
     <string name="card_screen_label">Arka plan</string>

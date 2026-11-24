@@ -24,12 +24,12 @@ import com.wangzan101.djini.core.trace.TraceArchive
 import com.wangzan101.djini.core.trace.TraceRow
 import com.wangzan101.djini.ui.components.GroupCard
 import com.wangzan101.djini.ui.components.ListRow
-import com.wangzan101.djini.ui.components.MikaSwitch
-import com.wangzan101.djini.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.DjiniSwitch
+import com.wangzan101.djini.ui.components.DjiniDialog
 import com.wangzan101.djini.ui.components.RowChevron
 import com.wangzan101.djini.ui.components.RowValue
-import com.wangzan101.djini.ui.theme.MikaIcons
-import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.DjiniIcons
+import com.wangzan101.djini.ui.theme.DjiniType
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -64,7 +64,7 @@ private fun TraceDetails(archive: TraceArchive, all: List<TraceRow>) {
     val root = all.firstOrNull()
     var expanded by rememberSaveable(archive.runId) { mutableStateOf(false) }
     GroupCard {
-        ListRow(MikaIcons.Code, stringResource(R.string.trace_title),
+        ListRow(DjiniIcons.Code, stringResource(R.string.trace_title),
             stringResource(if (root == null || root.status == "partial") R.string.trace_partial else R.string.trace_recorded),
             first = true, onClick = { expanded = !expanded }) { RowChevron() }
         if (expanded && root != null) {
@@ -110,7 +110,7 @@ private fun TraceEntryRow(archive: TraceArchive, row: TraceRow, worst: Boolean) 
         }
         body?.let { result ->
             Column(Modifier.padding(horizontal = 16.dp)) {
-                SelectionContainer { Text(result.text.ifEmpty { unknown }, style = MikaType.Hint) }
+                SelectionContainer { Text(result.text.ifEmpty { unknown }, style = DjiniType.Hint) }
                 if (page > 0 || result.hasMore) Row {
                     TextButton(onClick = { page-- }, enabled = page > 0) { Text("‹") }
                     Text((page + 1).toString())
@@ -138,11 +138,11 @@ private fun TraceExportControls(archive: TraceArchive) {
         }
     }
     ListRow(null, stringResource(R.string.trace_attach), stringResource(R.string.trace_attach_hint),
-        onClick = { includeBody = !includeBody }) { MikaSwitch(includeBody, null) }
-    ListRow(MikaIcons.Doc, stringResource(R.string.trace_save), onClick = {
+        onClick = { includeBody = !includeBody }) { DjiniSwitch(includeBody, null) }
+    ListRow(DjiniIcons.Doc, stringResource(R.string.trace_save), onClick = {
         if (includeBody) zip.launch("djini-trace-${archive.runId}.zip") else proto.launch("djini-trace-${archive.runId}.pb")
     }) { RowChevron() }
-    if (result != 0) Text(stringResource(result), Modifier.padding(horizontal = 16.dp, vertical = 6.dp), style = MikaType.Hint)
+    if (result != 0) Text(stringResource(result), Modifier.padding(horizontal = 16.dp, vertical = 6.dp), style = DjiniType.Hint)
 }
 
 private suspend fun saveTrace(archive: TraceArchive, includeBody: Boolean, open: () -> java.io.OutputStream?): Int =
@@ -167,7 +167,7 @@ internal fun TraceSettingsRows() {
     }
 
     ListRow(null, stringResource(R.string.trace_switch), stringResource(R.string.trace_switch_detail), first = true, onClick = { onTrace(!traceEnabled) }) {
-        MikaSwitch(traceEnabled, ::onTrace, Modifier.testTag("dev-trace"))
+        DjiniSwitch(traceEnabled, ::onTrace, Modifier.testTag("dev-trace"))
     }
     ListRow(null, stringResource(R.string.trace_storage_limit), stringResource(R.string.trace_storage_hint), onClick = { editingLimit = true }) {
         RowValue(stringResource(R.string.trace_storage_value, traceLimitMiB))
@@ -175,7 +175,7 @@ internal fun TraceSettingsRows() {
     if (editingLimit) {
         var text by rememberSaveable { mutableStateOf(traceLimitMiB.toString()) }
         val limit = text.toIntOrNull()?.takeIf { it > 0 }
-        MikaDialog(
+        DjiniDialog(
             onDismissRequest = { editingLimit = false },
             title = { Text(stringResource(R.string.trace_storage_limit)) },
             text = {

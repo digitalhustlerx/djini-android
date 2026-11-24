@@ -218,8 +218,8 @@ class McpRpc(
         const val META_CAPABILITIES = "io.modelcontextprotocol/clientCapabilities"
         const val META_SERVER = "io.modelcontextprotocol/serverInfo"
 
-        const val INSTRUCTIONS = "Djini is an AI agent running on the user's Android phone. Hand it whole tasks with mika_run_task " +
-            "(it operates the phone's apps and browser itself), then follow them with mika_wait_task. Answer its questions with mika_answer. " +
+        const val INSTRUCTIONS = "Djini is an AI agent running on the user's Android phone. Hand it whole tasks with djini_run_task " +
+            "(it operates the phone's apps and browser itself), then follow them with djini_wait_task. Answer its questions with djini_answer. " +
             "Payments, confirmations and steps handed to the user can only be done by the user on the phone."
 
         private val json = Json { ignoreUnknownKeys = true }

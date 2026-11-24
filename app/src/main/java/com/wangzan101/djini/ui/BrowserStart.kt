@@ -74,17 +74,17 @@ import com.wangzan101.djini.core.cap.web.WebUrlPolicy
 import com.wangzan101.djini.ui.components.BarIconButton
 import com.wangzan101.djini.ui.components.GroupCard
 import com.wangzan101.djini.ui.components.Hairline
-import com.wangzan101.djini.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.DjiniDialog
 import com.wangzan101.djini.ui.components.RadioRow
 import com.wangzan101.djini.ui.components.TopBar
 import com.wangzan101.djini.ui.components.cardSurface
 import com.wangzan101.djini.ui.components.keepsKeyboard
-import com.wangzan101.djini.ui.theme.MikaIcons
-import com.wangzan101.djini.ui.theme.MikaShapes
-import com.wangzan101.djini.ui.theme.MikaSpace
+import com.wangzan101.djini.ui.theme.DjiniIcons
+import com.wangzan101.djini.ui.theme.DjiniShapes
+import com.wangzan101.djini.ui.theme.DjiniSpace
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
-import com.wangzan101.djini.ui.theme.MikaRadius
+import com.wangzan101.djini.ui.theme.DjiniType
+import com.wangzan101.djini.ui.theme.DjiniRadius
 
 val BROWSER_SEARCH_HINT: String get() = tr(R.string.browser_search_hint)
 val BROWSER_LOGIN_LEGEND: String get() = tr(R.string.browser_login_legend)
@@ -139,26 +139,26 @@ fun BrowserStart(
         if (editing) {
             TopBar(tr(R.string.browser_edit_favorites), right = {
                 Text(
-                    tr(R.string.done), Modifier.clip(MikaShapes.Pill).clickable(role = Role.Button) { editing = false }.padding(horizontal = 12.dp, vertical = 8.dp),
-                    style = MikaType.BodyStrong, color = c.accent,
+                    tr(R.string.done), Modifier.clip(DjiniShapes.Pill).clickable(role = Role.Button) { editing = false }.padding(horizontal = 12.dp, vertical = 8.dp),
+                    style = DjiniType.BodyStrong, color = c.accent,
                 )
             })
         } else {
-            TopBar(tr(R.string.drawer_browser), MikaIcons.Back, onBack, tr(R.string.back), right = {
-                BarIconButton(MikaIcons.Download, tr(R.string.browser_downloads), onDownloads)
-                BarIconButton(MikaIcons.More, tr(R.string.more), onMenu, badge = tabsCount > 0)
+            TopBar(tr(R.string.drawer_browser), DjiniIcons.Back, onBack, tr(R.string.back), right = {
+                BarIconButton(DjiniIcons.Download, tr(R.string.browser_downloads), onDownloads)
+                BarIconButton(DjiniIcons.More, tr(R.string.more), onMenu, badge = tabsCount > 0)
             })
         }
         Column(
             Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState())
-                .windowInsetsPadding(WindowInsets.navigationBars).padding(horizontal = MikaSpace.Page),
+                .windowInsetsPadding(WindowInsets.navigationBars).padding(horizontal = DjiniSpace.Page),
         ) {
             if (editing) {
                 SectionHeader(tr(R.string.browser_tap_x))
                 SiteGrid(sites, face, editing = true, onOpen = {}, onRemove = onRemoveSite, onEdit = {}, onAdd = null)
                 Legend(tr(R.string.browser_long_press), dot = false)
             } else {
-                Spacer(Modifier.height(MikaSpace.S20))
+                Spacer(Modifier.height(DjiniSpace.S20))
                 BigSearchField(query, { query = it }, onGo = {
                     if (query.isNotBlank()) {
                         val q = query
@@ -184,7 +184,7 @@ fun BrowserStart(
                     Caption(tr(R.string.browser_typing_note, engine.displayName))
                 }
             }
-            Spacer(Modifier.height(MikaSpace.S24))
+            Spacer(Modifier.height(DjiniSpace.S24))
         }
         if (pickingEngine) {
             EnginePicker(
@@ -210,13 +210,13 @@ private fun BigSearchField(value: String, onChange: (String) -> Unit, onGo: () -
     val c = DjiniTheme.colors
     var focused by remember { mutableStateOf(false) }
     Row(
-        Modifier.fillMaxWidth().height(52.dp).keepsKeyboard().cardSurface(c, MikaShapes.Pill)
-            .then(if (focused) Modifier.border(1.5.dp, c.accent, MikaShapes.Pill) else Modifier)
+        Modifier.fillMaxWidth().height(52.dp).keepsKeyboard().cardSurface(c, DjiniShapes.Pill)
+            .then(if (focused) Modifier.border(1.5.dp, c.accent, DjiniShapes.Pill) else Modifier)
             .padding(start = 18.dp, end = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(10.dp),
     ) {
-        Icon(MikaIcons.Search, null, Modifier.size(20.dp), tint = c.ink3)
+        Icon(DjiniIcons.Search, null, Modifier.size(20.dp), tint = c.ink3)
         Box(Modifier.weight(1f), contentAlignment = Alignment.CenterStart) {
             if (value.isEmpty()) Text(BROWSER_SEARCH_HINT, style = BigText, color = c.ink3, maxLines = 1)
             BasicTextField(
@@ -233,17 +233,17 @@ private fun BigSearchField(value: String, onChange: (String) -> Unit, onGo: () -
             Box(
                 Modifier.size(36.dp).clip(CircleShape).clickable(onClickLabel = tr(R.string.browser_clear_input), role = Role.Button) { onChange("") },
                 contentAlignment = Alignment.Center,
-            ) { Icon(MikaIcons.Close, tr(R.string.browser_clear_input), Modifier.size(16.dp), tint = c.ink3) }
+            ) { Icon(DjiniIcons.Close, tr(R.string.browser_clear_input), Modifier.size(16.dp), tint = c.ink3) }
         }
     }
 }
 
-private val BigText = MikaType.Body
+private val BigText = DjiniType.Body
 
 @Composable
 private fun Caption(text: String) {
     Text(
-        text, Modifier.fillMaxWidth().padding(top = 8.dp), style = MikaType.Hint, color = DjiniTheme.colors.ink3, textAlign = TextAlign.Center,
+        text, Modifier.fillMaxWidth().padding(top = 8.dp), style = DjiniType.Hint, color = DjiniTheme.colors.ink3, textAlign = TextAlign.Center,
     )
 }
 
@@ -253,10 +253,10 @@ private fun EngineNote(engine: SearchEngineSpec, onClick: () -> Unit) {
     val c = DjiniTheme.colors
     Text(
         tr(R.string.browser_engine_note, engine.displayName),
-        Modifier.fillMaxWidth().clip(MikaShapes.Pill)
+        Modifier.fillMaxWidth().clip(DjiniShapes.Pill)
             .clickable(role = Role.Button, onClickLabel = tr(R.string.browser_engine_choose), onClick = onClick)
             .padding(top = 8.dp, bottom = 2.dp).testTag("browser-engine"),
-        style = MikaType.Hint, color = c.ink3, textAlign = TextAlign.Center,
+        style = DjiniType.Hint, color = c.ink3, textAlign = TextAlign.Center,
     )
 }
 
@@ -272,7 +272,7 @@ private fun EnginePicker(
 ) {
     val c = DjiniTheme.colors
     val engines: List<SearchEngineSpec> = SearchEngine.entries + custom
-    MikaDialog(
+    DjiniDialog(
         onDismissRequest = onDismiss,
         title = { Text(tr(R.string.browser_engine_choose)) },
         text = {
@@ -288,7 +288,7 @@ private fun EnginePicker(
                                         .clickable(role = Role.Button, onClickLabel = remove) { onRemove(e) }
                                         .testTag("browser-engine-remove"),
                                     contentAlignment = Alignment.Center,
-                                ) { Icon(MikaIcons.Close, remove, Modifier.size(16.dp), tint = c.ink3) }
+                                ) { Icon(DjiniIcons.Close, remove, Modifier.size(16.dp), tint = c.ink3) }
                             }
                         },
                     )
@@ -309,7 +309,7 @@ private fun CustomEngineDialog(onSave: (CustomSearchEngine) -> Unit, onDismiss: 
     var name by rememberSaveable { mutableStateOf("") }
     var url by rememberSaveable { mutableStateOf("") }
     var invalid by rememberSaveable { mutableStateOf(false) }
-    MikaDialog(
+    DjiniDialog(
         onDismissRequest = onDismiss,
         title = { Text(tr(R.string.browser_engine_custom_add)) },
         text = {
@@ -323,8 +323,8 @@ private fun CustomEngineDialog(onSave: (CustomSearchEngine) -> Unit, onDismiss: 
                     singleLine = true, placeholder = { Text(tr(R.string.browser_engine_custom_url)) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Uri, autoCorrectEnabled = false),
                 )
-                Text(tr(R.string.browser_engine_custom_hint), style = MikaType.Hint, color = c.ink3)
-                if (invalid) Text(tr(R.string.browser_engine_custom_invalid), style = MikaType.Hint, color = c.warn)
+                Text(tr(R.string.browser_engine_custom_hint), style = DjiniType.Hint, color = c.ink3)
+                if (invalid) Text(tr(R.string.browser_engine_custom_invalid), style = DjiniType.Hint, color = c.warn)
             }
         },
         confirmButton = {
@@ -345,11 +345,11 @@ private fun CustomEngineDialog(onSave: (CustomSearchEngine) -> Unit, onDismiss: 
 private fun SectionHeader(title: String, action: String? = null, onAction: () -> Unit = {}) {
     val c = DjiniTheme.colors
     Row(Modifier.fillMaxWidth().padding(top = 18.dp, bottom = 8.dp), verticalAlignment = Alignment.CenterVertically) {
-        Text(title, Modifier.weight(1f), style = MikaType.Label, color = c.ink3)
+        Text(title, Modifier.weight(1f), style = DjiniType.Label, color = c.ink3)
         if (action != null) {
             Text(
-                action, Modifier.clip(MikaShapes.Pill).clickable(role = Role.Button, onClick = onAction).padding(horizontal = 6.dp, vertical = 2.dp),
-                style = MikaType.Label, color = c.accent,
+                action, Modifier.clip(DjiniShapes.Pill).clickable(role = Role.Button, onClick = onAction).padding(horizontal = 6.dp, vertical = 2.dp),
+                style = DjiniType.Label, color = c.accent,
             )
         }
     }
@@ -360,7 +360,7 @@ private fun Legend(text: String, dot: Boolean) {
     val c = DjiniTheme.colors
     Row(Modifier.fillMaxWidth().padding(top = 14.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
         if (dot) Box(Modifier.size(9.dp).background(c.ok, CircleShape))
-        Text(text, style = MikaType.Hint, color = c.ink3)
+        Text(text, style = DjiniType.Hint, color = c.ink3)
     }
 }
 
@@ -411,7 +411,7 @@ private fun SiteCell(
     } else 0f
     Column(
         Modifier.graphicsLayer { rotationZ = if (even) angle else -angle }
-            .clip(MikaShapes.Chip)
+            .clip(DjiniShapes.Chip)
             .combinedClickable(
                 onClickLabel = if (editing) null else tr(R.string.browser_open_site, face.name),
                 onLongClickLabel = if (editing) null else tr(R.string.browser_edit_favorites),
@@ -436,10 +436,10 @@ private fun SiteCell(
                         .background(c.ink2).clickable(onClickLabel = tr(R.string.browser_remove_site, face.name), role = Role.Button, onClick = onRemove)
                         .testTag("browser-site-remove"),
                     contentAlignment = Alignment.Center,
-                ) { Icon(MikaIcons.Close, tr(R.string.browser_remove_site, face.name), Modifier.size(11.dp), tint = c.bg) }
+                ) { Icon(DjiniIcons.Close, tr(R.string.browser_remove_site, face.name), Modifier.size(11.dp), tint = c.bg) }
             }
         }
-        Text(face.name, style = MikaType.Hint, color = c.ink2, maxLines = 1, overflow = TextOverflow.Ellipsis, textAlign = TextAlign.Center)
+        Text(face.name, style = DjiniType.Hint, color = c.ink2, maxLines = 1, overflow = TextOverflow.Ellipsis, textAlign = TextAlign.Center)
     }
 }
 
@@ -447,15 +447,15 @@ private fun SiteCell(
 private fun AddCell(onAdd: () -> Unit) {
     val c = DjiniTheme.colors
     Column(
-        Modifier.clip(MikaShapes.Chip).clickable(onClickLabel = tr(R.string.browser_add_favorite), role = Role.Button, onClick = onAdd)
+        Modifier.clip(DjiniShapes.Chip).clickable(onClickLabel = tr(R.string.browser_add_favorite), role = Role.Button, onClick = onAdd)
             .padding(horizontal = 2.dp, vertical = 4.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(7.dp),
     ) {
         Box(Modifier.size(54.dp).cardSurface(c, TileShape), contentAlignment = Alignment.Center) {
-            Icon(MikaIcons.Plus, null, Modifier.size(24.dp), tint = c.ink3)
+            Icon(DjiniIcons.Plus, null, Modifier.size(24.dp), tint = c.ink3)
         }
-        Text(tr(R.string.add), style = MikaType.Hint, color = c.ink2, maxLines = 1)
+        Text(tr(R.string.add), style = DjiniType.Hint, color = c.ink2, maxLines = 1)
     }
 }
 
@@ -464,14 +464,14 @@ private fun RecentCard(recent: List<RecentItem>, face: (String) -> SiteFace, now
     val c = DjiniTheme.colors
     GroupCard {
         if (recent.isEmpty()) {
-            Text(tr(R.string.browser_no_recent), Modifier.fillMaxWidth().padding(16.dp), style = MikaType.Body, color = c.ink3)
+            Text(tr(R.string.browser_no_recent), Modifier.fillMaxWidth().padding(16.dp), style = DjiniType.Body, color = c.ink3)
         }
         recent.forEachIndexed { i, r ->
             if (i > 0) Hairline(start = 56.dp)
             SmallRow(
                 r.title, r.subtitle, onClick = { onOpen(r.url) },
                 lead = { if (r.search || r.host == null) SearchMini() else SiteTile(face(r.host), 28.dp, MiniShape, InitialSmall) },
-                trailing = { Text(StartPageModel.relativeTime(r.openedAtMs, now), style = MikaType.Hint, color = c.ink3, maxLines = 1) },
+                trailing = { Text(StartPageModel.relativeTime(r.openedAtMs, now), style = DjiniType.Hint, color = c.ink3, maxLines = 1) },
             )
         }
     }
@@ -483,7 +483,7 @@ private fun BookmarkCard(bookmarks: List<PageBookmark>, face: (String) -> SiteFa
     val c = DjiniTheme.colors
     GroupCard {
         if (bookmarks.isEmpty()) {
-            Text(tr(R.string.browser_bookmark_empty), Modifier.fillMaxWidth().padding(16.dp), style = MikaType.Body, color = c.ink3)
+            Text(tr(R.string.browser_bookmark_empty), Modifier.fillMaxWidth().padding(16.dp), style = DjiniType.Body, color = c.ink3)
         }
         bookmarks.take(MAX_BOOKMARKS).forEachIndexed { i, b ->
             if (i > 0) Hairline(start = 56.dp)
@@ -491,7 +491,7 @@ private fun BookmarkCard(bookmarks: List<PageBookmark>, face: (String) -> SiteFa
             val site = host?.let { face(it).name } ?: b.url
             SmallRow(
                 b.title.ifBlank { site }, host ?: b.url, onClick = { onOpen(b) },
-                lead = { if (host != null) SiteTile(face(host), 28.dp, MiniShape, InitialSmall) else SearchMini(MikaIcons.Bookmark) },
+                lead = { if (host != null) SiteTile(face(host), 28.dp, MiniShape, InitialSmall) else SearchMini(DjiniIcons.Bookmark) },
             )
         }
     }
@@ -509,7 +509,7 @@ private fun SuggestionCard(list: List<Suggestion>, face: (String) -> SiteFace, o
                     when {
                         s.search -> SearchMini()
                         s.host != null -> SiteTile(face(s.host), 28.dp, MiniShape, InitialSmall)
-                        else -> SearchMini(MikaIcons.Globe)
+                        else -> SearchMini(DjiniIcons.Globe)
                     }
                 },
             )
@@ -534,22 +534,22 @@ internal fun SmallRow(
     ) {
         lead()
         Column(Modifier.weight(1f).padding(vertical = 9.dp)) {
-            Text(title, style = MikaType.Body, color = c.ink, maxLines = 1, overflow = TextOverflow.Ellipsis)
-            if (subtitle.isNotEmpty()) Text(subtitle, Modifier.padding(top = 2.dp), style = MikaType.Caption, color = c.ink3, maxLines = 1)
+            Text(title, style = DjiniType.Body, color = c.ink, maxLines = 1, overflow = TextOverflow.Ellipsis)
+            if (subtitle.isNotEmpty()) Text(subtitle, Modifier.padding(top = 2.dp), style = DjiniType.Caption, color = c.ink3, maxLines = 1)
         }
         trailing()
     }
 }
 
 @Composable
-private fun SearchMini(icon: ImageVector = MikaIcons.Search) {
+private fun SearchMini(icon: ImageVector = DjiniIcons.Search) {
     val c = DjiniTheme.colors
     Box(Modifier.size(28.dp).background(c.neutralSoft, MiniShape), contentAlignment = Alignment.Center) {
         Icon(icon, null, Modifier.size(16.dp), tint = c.ink2)
     }
 }
 
-private val TileShape = MikaShapes.Card
-private val InitialLarge = MikaType.Title.copy(fontWeight = FontWeight.Bold)
+private val TileShape = DjiniShapes.Card
+private val InitialLarge = DjiniType.Title.copy(fontWeight = FontWeight.Bold)
 private const val WIGGLE_DEG = 1.5f
 private const val WIGGLE_MS = 250

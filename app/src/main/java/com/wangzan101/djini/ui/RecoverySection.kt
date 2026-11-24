@@ -33,9 +33,9 @@ import java.time.format.DateTimeFormatter
 import com.wangzan101.djini.ui.components.GroupCard
 import com.wangzan101.djini.ui.components.ListRow
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaIcons
-import com.wangzan101.djini.ui.components.MikaSwitch
-import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.DjiniIcons
+import com.wangzan101.djini.ui.components.DjiniSwitch
+import com.wangzan101.djini.ui.theme.DjiniType
 
 /**
  * 设置 › 恢复与修复 里手机操作的几个授权开关的文字(纯函数,便于测试)。和引导页一样说大白话,
@@ -181,7 +181,7 @@ fun RecoverySection(
             val on = consent.wants(cap)
             val icon = iconOf(cap)
             ListRow(icon, copy.title, if (busy == cap) RecoveryCopy.WORKING else copy.subtitle, first = i == 0) {
-                MikaSwitch(on, { want -> onToggle(cap, want) }, Modifier.testTag("recovery-${cap.name}"), enabled = busy == null)
+                DjiniSwitch(on, { want -> onToggle(cap, want) }, Modifier.testTag("recovery-${cap.name}"), enabled = busy == null)
             }
             Note(copy.explain, DjiniTheme.colors.ink3)
             notes[cap]?.let { Note(it, DjiniTheme.colors.bad) }
@@ -195,13 +195,13 @@ fun RecoverySection(
 }
 
 private fun iconOf(c: RecoveryCapability): ImageVector = when (c) {
-    RecoveryCapability.Accessibility -> MikaIcons.Hand
-    RecoveryCapability.BatteryWhitelist -> MikaIcons.Sun
-    RecoveryCapability.RestoreAfterReboot -> MikaIcons.Wrench
-    RecoveryCapability.AutoWirelessDebugging -> MikaIcons.Refresh
+    RecoveryCapability.Accessibility -> DjiniIcons.Hand
+    RecoveryCapability.BatteryWhitelist -> DjiniIcons.Sun
+    RecoveryCapability.RestoreAfterReboot -> DjiniIcons.Wrench
+    RecoveryCapability.AutoWirelessDebugging -> DjiniIcons.Refresh
 }
 
 @Composable
 private fun Note(text: String, color: Color) {
-    Text(text, Modifier.fillMaxWidth().padding(start = 60.dp, end = 16.dp, bottom = 10.dp), style = MikaType.Hint, color = color)
+    Text(text, Modifier.fillMaxWidth().padding(start = 60.dp, end = 16.dp, bottom = 10.dp), style = DjiniType.Hint, color = color)
 }

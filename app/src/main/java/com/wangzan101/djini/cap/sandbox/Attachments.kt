@@ -36,7 +36,7 @@ object Attachments {
     const val WORKSPACE_MAX = 4L shl 30
     private const val CHECK_EVERY = 16L shl 20
     private const val MAX_NAME = 120
-    private const val TAG = "MikaAttachments"
+    private const val TAG = "DjiniAttachments"
 
     /** 去掉路径分隔符、控制字符和格式字符,保留中文与空格,不超过 120 字;什么都不剩时叫 attachment。 */
     fun safeName(display: String): String {

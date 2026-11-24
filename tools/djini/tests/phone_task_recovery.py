@@ -16,7 +16,7 @@ import threading
 import time
 import uuid
 
-from test_mika_cli import SCRIPT
+from test_djini_cli import SCRIPT
 
 
 def until(read, seconds=60):

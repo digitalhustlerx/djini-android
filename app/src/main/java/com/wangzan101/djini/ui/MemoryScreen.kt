@@ -12,8 +12,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import com.wangzan101.djini.ui.components.MikaDialog
-import com.wangzan101.djini.ui.components.MikaNoticeDialog
+import com.wangzan101.djini.ui.components.DjiniDialog
+import com.wangzan101.djini.ui.components.DjiniNoticeDialog
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -44,8 +44,8 @@ import com.wangzan101.djini.ui.components.EmptyNote
 import com.wangzan101.djini.ui.components.GroupCard
 import com.wangzan101.djini.ui.components.GroupLabel
 import com.wangzan101.djini.ui.components.ListRow
-import com.wangzan101.djini.ui.components.MikaButton
-import com.wangzan101.djini.ui.components.MikaSwitch
+import com.wangzan101.djini.ui.components.DjiniButton
+import com.wangzan101.djini.ui.components.DjiniSwitch
 import com.wangzan101.djini.ui.components.RowActions
 import com.wangzan101.djini.ui.components.RowChevron
 import com.wangzan101.djini.ui.components.RowValue
@@ -54,9 +54,9 @@ import com.wangzan101.djini.ui.components.SegmentedControl
 import com.wangzan101.djini.ui.components.SheetAction
 import com.wangzan101.djini.ui.components.SubPage
 import com.wangzan101.djini.ui.components.TileTone
-import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniIcons
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.DjiniType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -137,11 +137,11 @@ fun MemoryScreen(
     SubPage(
         stringResource(R.string.settings_memory_data), onBack,
         right = if (searchable) ({
-            BarIconButton(MikaIcons.Search, stringResource(R.string.search), { searching = !searching; if (!searching) vm.search("") })
+            BarIconButton(DjiniIcons.Search, stringResource(R.string.search), { searching = !searching; if (!searching) vm.search("") })
         }) else null,
     ) {
         ui.brokenNotice?.let {
-            GroupCard { Text(stringResource(R.string.memory_unreadable), Modifier.padding(16.dp), style = MikaType.Caption, color = DjiniTheme.colors.warn) }
+            GroupCard { Text(stringResource(R.string.memory_unreadable), Modifier.padding(16.dp), style = DjiniType.Caption, color = DjiniTheme.colors.warn) }
         }
 
         val pendingLabel = if (ui.pendingCount > 0) stringResource(R.string.memory_pending_n, ui.pendingCount) else stringResource(R.string.memory_pending)
@@ -168,8 +168,8 @@ fun MemoryScreen(
                             Column {
                                 MemoryRow(r, first = i == 0, onClick = null)
                                 RowActions {
-                                    MikaButton(stringResource(R.string.ok_yes), { vm.approve(r.id) }, size = ButtonSize.Small)
-                                    MikaButton(stringResource(R.string.no_thanks), { vm.reject(r.id) }, kind = ButtonKind.Tonal, size = ButtonSize.Small)
+                                    DjiniButton(stringResource(R.string.ok_yes), { vm.approve(r.id) }, size = ButtonSize.Small)
+                                    DjiniButton(stringResource(R.string.no_thanks), { vm.reject(r.id) }, kind = ButtonKind.Tonal, size = ButtonSize.Small)
                                 }
                             }
                         }
@@ -194,13 +194,13 @@ fun MemoryScreen(
                 var first = true
                 fun take(): Boolean = first.also { first = false }
                 webSitesCount?.let {
-                    ListRow(MikaIcons.Globe, stringResource(R.string.settings_web_logins), first = take(), onClick = onOpenWebSites) {
+                    ListRow(DjiniIcons.Globe, stringResource(R.string.settings_web_logins), first = take(), onClick = onOpenWebSites) {
                         RowValue(trPlural(R.plurals.settings_count_sites, it))
                         RowChevron()
                     }
                 }
                 routes?.let {
-                    ListRow(MikaIcons.Route, stringResource(R.string.settings_routes), first = take(), onClick = onOpenRoutes) {
+                    ListRow(DjiniIcons.Route, stringResource(R.string.settings_routes), first = take(), onClick = onOpenRoutes) {
                         RowValue(trPlural(R.plurals.settings_count_routes, it))
                         RowChevron()
                     }
@@ -208,13 +208,13 @@ fun MemoryScreen(
             }
         }
         GroupCard {
-            ListRow(MikaIcons.Close, stringResource(R.string.routes_clear_all), stringResource(R.string.memory_clear_sub), first = true, titleColor = DjiniTheme.colors.bad, tone = TileTone.Bad, onClick = vm::requestClear)
+            ListRow(DjiniIcons.Close, stringResource(R.string.routes_clear_all), stringResource(R.string.memory_clear_sub), first = true, titleColor = DjiniTheme.colors.bad, tone = TileTone.Bad, onClick = vm::requestClear)
         }
     }
 
     MemoryMessage(vm, ui.message)
     if (ui.clearStage > 0) {
-        MikaDialog(
+        DjiniDialog(
             onDismissRequest = vm::cancelClear,
             title = { Text(if (ui.clearStage == 1) stringResource(R.string.memory_clear_q) else stringResource(R.string.memory_clear_sure)) },
             text = { Text(if (ui.clearStage == 1) stringResource(R.string.memory_clear_body) else stringResource(R.string.memory_clear_final)) },
@@ -273,7 +273,7 @@ internal fun MemoryEntries(vm: MemoryViewModel, ui: MemoryUi, allowAdd: Boolean 
     if (allowAdd) {
         GroupLabel("")
         GroupCard {
-            ListRow(MikaIcons.Plus, stringResource(R.string.memory_add), first = true, titleColor = DjiniTheme.colors.accent, tone = TileTone.Accent, onClick = { adding = true })
+            ListRow(DjiniIcons.Plus, stringResource(R.string.memory_add), first = true, titleColor = DjiniTheme.colors.accent, tone = TileTone.Accent, onClick = { adding = true })
         }
     }
 
@@ -299,13 +299,13 @@ internal fun MemoryEntries(vm: MemoryViewModel, ui: MemoryUi, allowAdd: Boolean 
 @Composable
 internal fun MemoryMessage(vm: MemoryViewModel, message: String?) {
     message?.let { m ->
-        MikaNoticeDialog(m, onDismiss = vm::dismissMessage)
+        DjiniNoticeDialog(m, onDismiss = vm::dismissMessage)
     }
 }
 
 @Composable
 private fun SwitchRow(title: String, subtitle: String, on: Boolean, first: Boolean = false, onChange: (Boolean) -> Unit) {
-    ListRow(null, title, subtitle, first = first) { MikaSwitch(on, onChange) }
+    ListRow(null, title, subtitle, first = first) { DjiniSwitch(on, onChange) }
 }
 
 @Composable
@@ -321,7 +321,7 @@ private fun MemoryRow(r: Row, first: Boolean, onClick: (() -> Unit)?) {
 
 @Composable
 internal fun Link(text: String, onClick: () -> Unit) {
-    Text(text, Modifier.clickable(onClick = onClick).padding(horizontal = 6.dp, vertical = 2.dp), style = MikaType.Hint, fontWeight = FontWeight.Medium, color = DjiniTheme.colors.accent)
+    Text(text, Modifier.clickable(onClick = onClick).padding(horizontal = 6.dp, vertical = 2.dp), style = DjiniType.Hint, fontWeight = FontWeight.Medium, color = DjiniTheme.colors.accent)
 }
 
 @Composable
@@ -332,7 +332,7 @@ private fun EditDialog(
     var kind by remember { mutableIntStateOf(0) }
     var text by remember { mutableStateOf(content) }
     var words by remember { mutableStateOf(keywords.joinToString(" ")) }
-    MikaDialog(
+    DjiniDialog(
         onDismissRequest = onDismiss,
         title = { Text(title) },
         text = {

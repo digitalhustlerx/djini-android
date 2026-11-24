@@ -25,7 +25,7 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.wangzan101.djini.R
 import com.wangzan101.djini.cap.phone.PhoneServices
 import com.wangzan101.djini.ui.components.*
-import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniIcons
 
 @Composable
 fun SmsLoginSettingsScreen(onBack: () -> Unit) {
@@ -60,9 +60,9 @@ fun SmsLoginSettingsScreen(onBack: () -> Unit) {
     fun toggle(on: Boolean) { if (on) disclosure = true else save(false) }
     PageScaffold(stringResource(R.string.sms_login_title), onBack) {
         GroupCard {
-            ListRow(MikaIcons.Shield, stringResource(R.string.sms_login_enable),
+            ListRow(DjiniIcons.Shield, stringResource(R.string.sms_login_enable),
                 stringResource(R.string.sms_login_default_off), first = true, onClick = { toggle(!consent.enabled) }) {
-                MikaSwitch(consent.enabled, ::toggle, Modifier.testTag("sms-login-enabled"))
+                DjiniSwitch(consent.enabled, ::toggle, Modifier.testTag("sms-login-enabled"))
             }
         }
         FooterNote(stringResource(R.string.sms_login_limits))
@@ -70,13 +70,13 @@ fun SmsLoginSettingsScreen(onBack: () -> Unit) {
         TextButton({ selected = null; editing = true }) { Text(stringResource(R.string.add)) }
         consent.profiles.forEach { p ->
             GroupCard {
-                ListRow(MikaIcons.Shield, p.app, first = true, onClick = { selected = p; editing = true }) { RowChevron() }
+                ListRow(DjiniIcons.Shield, p.app, first = true, onClick = { selected = p; editing = true }) { RowChevron() }
                 TextButton({ error = runCatching { runtime.settings.removeProfile(p.app) }.isFailure }) { Text(stringResource(R.string.confirm_delete)) }
             }
         }
         FooterNote(stringResource(R.string.sms_profile_help))
         GroupCard {
-            ListRow(MikaIcons.Shield, stringResource(R.string.sms_login_permission),
+            ListRow(DjiniIcons.Shield, stringResource(R.string.sms_login_permission),
                 stringResource(if (permitted) R.string.state_on else R.string.state_off), first = true,
                 onClick = { context.startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:${context.packageName}"))) }) { RowChevron() }
         }

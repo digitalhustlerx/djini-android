@@ -334,7 +334,7 @@ class CapsuleController(
     )
 
     private data class Snapshot(
-        val runs: List<CapsuleRun>, val mode: CapsuleMode, val mikaInForeground: Boolean, val locked: Boolean,
+        val runs: List<CapsuleRun>, val mode: CapsuleMode, val djiniInForeground: Boolean, val locked: Boolean,
         val service: ScreenAccessibility?,
         /** 任务结束后留在后台运行的那一页。 */
         val kept: KeptPage? = null,
@@ -395,7 +395,7 @@ class CapsuleController(
             windowOn = null
         }
         val inputs = CapsuleInputs(
-            s.runs, s.mode, s.mikaInForeground, screenInteractive = !s.locked,
+            s.runs, s.mode, s.djiniInForeground, screenInteractive = !s.locked,
             serviceAvailable = service != null && service !== failedOn, cardOpen = expanded, kept = s.kept, fullscreen = s.fullscreen,
             notices = s.notices,
         )
@@ -1166,11 +1166,11 @@ class CapsuleController(
             }
             CapsuleTalk.Begin.NoPermission -> {
                 loading?.cancel()
-                showNote(tr(R.string.capsule_voice_need_mic), CapsuleKind.Failed, opensMika = true, NOTE_LONG_MS)
+                showNote(tr(R.string.capsule_voice_need_mic), CapsuleKind.Failed, opensDjini = true, NOTE_LONG_MS)
             }
             is CapsuleTalk.Begin.Unavailable -> {
                 loading?.cancel()
-                showNote(tr(R.string.capsule_voice_not_ready), CapsuleKind.Failed, opensMika = true, NOTE_LONG_MS)
+                showNote(tr(R.string.capsule_voice_not_ready), CapsuleKind.Failed, opensDjini = true, NOTE_LONG_MS)
             }
         }
     }
@@ -1187,13 +1187,13 @@ class CapsuleController(
             is HoldToTalk.State.Problem -> {
                 idleJob?.cancel()
                 when (val why = state.why) {
-                    null -> showNote(VoiceCopy.NO_MATCH, CapsuleKind.Failed, opensMika = false, NOTE_SHORT_MS)
-                    SpeechFailure.NoPermission -> showNote(tr(R.string.capsule_voice_need_mic), CapsuleKind.Failed, opensMika = true, NOTE_LONG_MS)
+                    null -> showNote(VoiceCopy.NO_MATCH, CapsuleKind.Failed, opensDjini = false, NOTE_SHORT_MS)
+                    SpeechFailure.NoPermission -> showNote(tr(R.string.capsule_voice_need_mic), CapsuleKind.Failed, opensDjini = true, NOTE_LONG_MS)
                     // 缺权限的是识别服务:胶囊上说不清,带到 Djini 里(在那里按住说话会有说明和去它设置页的按钮)
                     is SpeechFailure.ServiceNoPermission ->
-                        showNote(tr(R.string.capsule_voice_service_need_mic), CapsuleKind.Failed, opensMika = true, NOTE_LONG_MS)
-                    is SpeechFailure.Unavailable -> showNote(tr(R.string.capsule_voice_not_ready), CapsuleKind.Failed, opensMika = true, NOTE_LONG_MS)
-                    else -> showNote(VoiceCopy.failure(why), CapsuleKind.Failed, opensMika = false, NOTE_LONG_MS)
+                        showNote(tr(R.string.capsule_voice_service_need_mic), CapsuleKind.Failed, opensDjini = true, NOTE_LONG_MS)
+                    is SpeechFailure.Unavailable -> showNote(tr(R.string.capsule_voice_not_ready), CapsuleKind.Failed, opensDjini = true, NOTE_LONG_MS)
+                    else -> showNote(VoiceCopy.failure(why), CapsuleKind.Failed, opensDjini = false, NOTE_LONG_MS)
                 }
             }
             else -> idleJob?.cancel()
@@ -1214,7 +1214,7 @@ class CapsuleController(
             return
         }
         submit(target, kind, text, CapsuleCards.conversationOf(target), inputUi.followUpMode)
-        showNote(CapsuleVoice.sent(kind, text), CapsuleKind.Done, opensMika = false, NOTE_SENT_MS)
+        showNote(CapsuleVoice.sent(kind, text), CapsuleKind.Done, opensDjini = false, NOTE_SENT_MS)
         refresh()
     }
 
@@ -1226,9 +1226,9 @@ class CapsuleController(
         if (card?.let(CapsuleCards::input) != null) openInput()
     }
 
-    private fun showNote(text: String, kind: CapsuleKind, opensMika: Boolean, ms: Long) {
+    private fun showNote(text: String, kind: CapsuleKind, opensDjini: Boolean, ms: Long) {
         resetTaps()
-        note = CapsuleNote(text, kind, opensMika, ++noteCount)
+        note = CapsuleNote(text, kind, opensDjini, ++noteCount)
         wake()
         noteJob?.cancel()
         noteJob = scope.launch {
@@ -1249,7 +1249,7 @@ class CapsuleController(
         clearNote()
         if (n != null) {
             resetTaps()
-            if (n.opensMika) open(null)
+            if (n.opensDjini) open(null)
             return
         }
         val touch = capsuleTouch
@@ -1404,7 +1404,7 @@ class CapsuleController(
             quitConfirm = false
         }
         override fun quit() {
-            com.wangzan101.djini.quit.MikaQuit.quit(context)
+            com.wangzan101.djini.quit.DjiniQuit.quit(context)
         }
         override fun closeKeptPage() {
             keeper.close(KeptPageClose.User)
@@ -1496,7 +1496,7 @@ class CapsuleController(
                     onHandBack = { v.runKey?.let { TaskService.handBack(context, runKey = it) } },
                     side = dock.side,
                     tapLabel = when {
-                        n?.opensMika == true -> tr(R.string.capsule_voice_open)
+                        n?.opensDjini == true -> tr(R.string.capsule_voice_open)
                         v.kind == CapsuleKind.Idle -> CapsuleCopy.TALK
                         v.kind == CapsuleKind.Notice -> tr(R.string.notice_hint_open)
                         else -> CapsuleCopy.EXPAND
@@ -1544,7 +1544,7 @@ class CapsuleController(
     private fun dp(v: Int) = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, v.toFloat(), context.resources.displayMetrics).toInt()
 
     private companion object {
-        const val TAG = "MikaCapsule"
+        const val TAG = "DjiniCapsule"
         /** 看得见的胶囊离屏幕左右边、离状态栏和底部。 */
         const val EDGE_MARGIN_DP = 12
         const val TOP_GAP_DP = 8
@@ -1577,5 +1577,5 @@ internal data class CapsuleWindowVisibility(val capsule: Boolean, val card: Bool
 internal fun capsuleWindowVisibility(expanded: Boolean, cardOut: Boolean, closing: Boolean): CapsuleWindowVisibility =
     CapsuleWindowVisibility(capsule = !expanded || !cardOut || closing, card = expanded)
 
-/** 胶囊上临时闪的一句:[kind] 定前面的标记(办好了是勾、没办成是叹号);[opensMika] 时点它打开 Djini;[id] 每句不同(胶囊按它重新定宽)。 */
-private data class CapsuleNote(val text: String, val kind: CapsuleKind, val opensMika: Boolean, val id: Int)
+/** 胶囊上临时闪的一句:[kind] 定前面的标记(办好了是勾、没办成是叹号);[opensDjini] 时点它打开 Djini;[id] 每句不同(胶囊按它重新定宽)。 */
+private data class CapsuleNote(val text: String, val kind: CapsuleKind, val opensDjini: Boolean, val id: Int)

@@ -43,11 +43,11 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInRoot
 import androidx.compose.ui.unit.dp
-import com.wangzan101.djini.ui.theme.MikaColors
-import com.wangzan101.djini.ui.theme.MikaShapes
-import com.wangzan101.djini.ui.theme.MikaSize
+import com.wangzan101.djini.ui.theme.DjiniColors
+import com.wangzan101.djini.ui.theme.DjiniShapes
+import com.wangzan101.djini.ui.theme.DjiniSize
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.DjiniType
 import com.wangzan101.djini.ui.theme.LocalSkinBackdrop
 import com.wangzan101.djini.ui.theme.SkinBackdrop
 import com.wangzan101.djini.ui.theme.rememberSkinBackdrop
@@ -100,7 +100,7 @@ fun Modifier.pageBackground(color: Color, fade: Brush? = null): Modifier = compo
 }
 
 /** 卡片的底:白底 + 黑 5% 描边 + 极淡阴影;深色下只有描边。 */
-fun Modifier.cardSurface(colors: MikaColors, shape: Shape = MikaShapes.Card): Modifier =
+fun Modifier.cardSurface(colors: DjiniColors, shape: Shape = DjiniShapes.Card): Modifier =
     (if (colors.cardShadow.alpha > 0f) {
         shadow(6.dp, shape, clip = false, ambientColor = colors.cardShadow.copy(alpha = 0.45f), spotColor = colors.cardShadow.copy(alpha = 0.16f))
     } else this)
@@ -108,12 +108,12 @@ fun Modifier.cardSurface(colors: MikaColors, shape: Shape = MikaShapes.Card): Mo
         .border(0.5.dp, colors.edge, shape)
 
 /** 悬浮元素的阴影(输入栏、浮在内容上的按钮)。 */
-fun Modifier.floatShadow(colors: MikaColors, shape: Shape): Modifier =
+fun Modifier.floatShadow(colors: DjiniColors, shape: Shape): Modifier =
     shadow(14.dp, shape, clip = false, ambientColor = colors.floatShadow.copy(alpha = 0.3f), spotColor = colors.floatShadow.copy(alpha = 0.35f))
 
 /** 一张卡片,内容裁在圆角里(行的按压效果不出角)。 */
 @Composable
-fun MikaCard(modifier: Modifier = Modifier, shape: Shape = MikaShapes.Card, content: @Composable ColumnScope.() -> Unit) {
+fun DjiniCard(modifier: Modifier = Modifier, shape: Shape = DjiniShapes.Card, content: @Composable ColumnScope.() -> Unit) {
     Column(modifier.fillMaxWidth().cardSurface(DjiniTheme.colors, shape).clip(shape), content = content)
 }
 
@@ -123,7 +123,7 @@ fun MikaCard(modifier: Modifier = Modifier, shape: Shape = MikaShapes.Card, cont
  */
 @Composable
 fun GroupCard(modifier: Modifier = Modifier, content: @Composable ColumnScope.() -> Unit) {
-    MikaCard(modifier.padding(bottom = 12.dp), content = content)
+    DjiniCard(modifier.padding(bottom = 12.dp), content = content)
 }
 
 /** 状态卡:左边圆形图标,右边标题和说明。用于页面顶上的总状态。 */
@@ -137,7 +137,7 @@ fun StateCard(
     trailing: @Composable RowScope.() -> Unit = {},
 ) {
     val c = DjiniTheme.colors
-    MikaCard(modifier.padding(bottom = 12.dp)) {
+    DjiniCard(modifier.padding(bottom = 12.dp)) {
         Row(
             Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 14.dp),
             verticalAlignment = Alignment.CenterVertically,
@@ -148,8 +148,8 @@ fun StateCard(
                 Icon(icon, null, Modifier.size(20.dp), tint = fg)
             }
             Column(Modifier.weight(1f)) {
-                Text(title, style = MikaType.BodyStrong, color = c.ink)
-                if (!subtitle.isNullOrEmpty()) Text(subtitle, style = MikaType.Caption, color = c.ink3)
+                Text(title, style = DjiniType.BodyStrong, color = c.ink)
+                if (!subtitle.isNullOrEmpty()) Text(subtitle, style = DjiniType.Caption, color = c.ink3)
             }
             trailing()
         }
@@ -194,7 +194,7 @@ private val GlassBlur = BlurEffect(30f, 30f, TileMode.Clamp)
 fun GlassBar(
     modifier: Modifier = Modifier,
     backdrop: GlassBackdrop? = null,
-    shape: Shape = MikaShapes.Composer,
+    shape: Shape = DjiniShapes.Composer,
     content: @Composable RowScope.() -> Unit,
 ) {
     val c = DjiniTheme.colors
@@ -216,7 +216,7 @@ fun GlassBar(
         Row(
             Modifier.fillMaxWidth().background(if (backdrop != null) c.glass else c.surface)
                 .border(0.5.dp, c.glassEdge, shape)
-                .heightIn(min = MikaSize.Composer).padding(6.dp),
+                .heightIn(min = DjiniSize.Composer).padding(6.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(4.dp),
             content = content,
@@ -232,7 +232,7 @@ fun GlassBar(
 fun GlassSurface(
     modifier: Modifier = Modifier,
     backdrop: GlassBackdrop? = null,
-    shape: Shape = MikaShapes.Pill,
+    shape: Shape = DjiniShapes.Pill,
     content: @Composable BoxScope.() -> Unit,
 ) {
     val c = DjiniTheme.colors

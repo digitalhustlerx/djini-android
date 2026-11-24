@@ -391,10 +391,10 @@ class AndroidScreen(
         val startedAt = System.nanoTime()
         val w = spill.armSpillWatch()
         // 接手的页面要求的权限(设闹钟)shell 可能没有:备一个以 Djini 身份启动的
-        val asMika = PendingIntent.getActivity(a11y, SYSTEM_ACTION_REQUEST, intent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
+        val asDjini = PendingIntent.getActivity(a11y, SYSTEM_ACTION_REQUEST, intent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
         // 悄悄设好的(闹钟、计时器)不开界面,不去静它:时钟到点要响
         if (!action.silent) beforeOpen(pkg, null)
-        val code = runCatching { shell.startSystemAction(id, intent, asMika) }.getOrDefault(ShellService.START_ERROR)
+        val code = runCatching { shell.startSystemAction(id, intent, asDjini) }.getOrDefault(ShellService.START_ERROR)
         if (code != ShellService.START_OK && !action.silent) notOpened(pkg, null)
         when (code) {
             ShellService.START_OK -> Unit
@@ -1044,7 +1044,7 @@ class AndroidScreen(
     }
 
     internal companion object {
-        const val TAG = "MikaScreen"
+        const val TAG = "DjiniScreen"
         /** 动作开始后多久之内主屏冒出来的任务算这个动作开出来的。 */
         const val SPILL_WINDOW_MS = 6_000L
         /**

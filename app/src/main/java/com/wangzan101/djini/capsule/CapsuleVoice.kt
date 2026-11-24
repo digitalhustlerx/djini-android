@@ -59,7 +59,7 @@ import com.wangzan101.djini.ui.ChatCopy
 import com.wangzan101.djini.ui.Spinner
 import com.wangzan101.djini.ui.VoiceCopy
 import com.wangzan101.djini.ui.VoiceWave
-import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniIcons
 import com.wangzan101.djini.ui.theme.DjiniTheme
 import com.wangzan101.djini.voice.HoldToTalk
 import com.wangzan101.djini.voice.SpeechEngineSpec
@@ -393,11 +393,11 @@ private fun Targets(talk: CapsuleTalk, show: Boolean, onPlaced: (Rect, Rect) -> 
         Modifier.alpha(if (show) 1f else 0f),
         horizontalArrangement = Arrangement.spacedBy(56.dp),
     ) {
-        Target(MikaIcons.Close, stringResource(R.string.capsule_voice_cancel), hot = show && talk.aim == CapsuleVoice.Drop.Cancel, bad = true) {
+        Target(DjiniIcons.Close, stringResource(R.string.capsule_voice_cancel), hot = show && talk.aim == CapsuleVoice.Drop.Cancel, bad = true) {
             at[0] = it
             if (!at[1].isEmpty) onPlaced(at[0], at[1])
         }
-        Target(MikaIcons.Edit, stringResource(R.string.capsule_voice_edit), hot = show && talk.aim == CapsuleVoice.Drop.Edit, bad = false) {
+        Target(DjiniIcons.Edit, stringResource(R.string.capsule_voice_edit), hot = show && talk.aim == CapsuleVoice.Drop.Edit, bad = false) {
             at[1] = it
             if (!at[0].isEmpty) onPlaced(at[0], at[1])
         }

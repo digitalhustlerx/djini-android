@@ -1200,7 +1200,7 @@ class TaskService : Service() {
         private const val RESULT_IDS = 1_000
         private val resultCount = AtomicInteger()
         private val TAKEOVER_QUEUED: String get() = tr(R.string.task_takeover_queued)
-        private const val TAG = "MikaTask"
+        private const val TAG = "DjiniTask"
         val TOO_OLD: String get() = tr(R.string.task_too_old)
         internal val PREPARING: String get() = tr(R.string.runtime_preparing)
         val SHELL_DIED: String get() = tr(R.string.task_shell_died)

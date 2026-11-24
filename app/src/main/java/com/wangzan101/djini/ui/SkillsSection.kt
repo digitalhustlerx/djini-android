@@ -11,7 +11,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import com.wangzan101.djini.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.DjiniDialog
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -33,13 +33,13 @@ import com.wangzan101.djini.ui.components.EmptyNote
 import com.wangzan101.djini.ui.components.GroupCard
 import com.wangzan101.djini.ui.components.GroupLabel
 import com.wangzan101.djini.ui.components.ListRow
-import com.wangzan101.djini.ui.components.MikaButton
-import com.wangzan101.djini.ui.components.MikaSwitch
+import com.wangzan101.djini.ui.components.DjiniButton
+import com.wangzan101.djini.ui.components.DjiniSwitch
 import com.wangzan101.djini.ui.components.RowActions
 import com.wangzan101.djini.ui.components.RowChevron
 import com.wangzan101.djini.ui.components.SheetAction
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.DjiniType
 
 /**
  * 技能相关的两块内容。[pending] 为假是「技能」段:已收下的个人技能(开关即启用/停用)和在用的 App 知识;
@@ -65,10 +65,10 @@ internal fun SkillsSection(vm: MemoryViewModel, ui: SkillsUi, pending: Boolean, 
                             detail = stringResource(R.string.skills_imported).takeIf { d.imported }, onClick = { toggle(d.id) })
                         SkillBody(d, expanded = viewing == d.id)
                         RowActions {
-                            MikaButton(stringResource(R.string.skills_accept_try), { vm.approveSkill(d.id) }, size = ButtonSize.Small)
-                            MikaButton(stringResource(R.string.edit_it), { editing = d }, kind = ButtonKind.Tonal, size = ButtonSize.Small)
-                            MikaButton(if (viewing == d.id) stringResource(R.string.skills_hide_full) else stringResource(R.string.skills_view_full), { toggle(d.id) }, kind = ButtonKind.Tonal, size = ButtonSize.Small)
-                            MikaButton(stringResource(R.string.no_thanks), { vm.rejectSkill(d.id) }, kind = ButtonKind.Tonal, size = ButtonSize.Small)
+                            DjiniButton(stringResource(R.string.skills_accept_try), { vm.approveSkill(d.id) }, size = ButtonSize.Small)
+                            DjiniButton(stringResource(R.string.edit_it), { editing = d }, kind = ButtonKind.Tonal, size = ButtonSize.Small)
+                            DjiniButton(if (viewing == d.id) stringResource(R.string.skills_hide_full) else stringResource(R.string.skills_view_full), { toggle(d.id) }, kind = ButtonKind.Tonal, size = ButtonSize.Small)
+                            DjiniButton(stringResource(R.string.no_thanks), { vm.rejectSkill(d.id) }, kind = ButtonKind.Tonal, size = ButtonSize.Small)
                         }
                     }
                 }
@@ -91,7 +91,7 @@ internal fun SkillsSection(vm: MemoryViewModel, ui: SkillsUi, pending: Boolean, 
                     stringResource(R.string.skills_imported).takeIf { s.imported }, state, s.recent.takeIf { it.isNotEmpty() }?.let { stringResource(R.string.skills_recent, it.joinToString(" · ")) }).joinToString(" · ")
                 Column(Modifier.testTag("skill-row")) {
                     ListRow(null, s.display, s.description.ifBlank { null }, first = i == 0, detail = detail, onClick = { acting = s }) {
-                        MikaSwitch(!s.suspended, { on -> if (on) vm.restoreSkill(s.name) else vm.suspendSkill(s.name) })
+                        DjiniSwitch(!s.suspended, { on -> if (on) vm.restoreSkill(s.name) else vm.suspendSkill(s.name) })
                     }
                     SkillBody(s, expanded = viewing == s.id)
                 }
@@ -135,15 +135,15 @@ internal fun SkillsSection(vm: MemoryViewModel, ui: SkillsUi, pending: Boolean, 
     if (importing) {
         var text by remember { mutableStateOf("") }
         var problem by remember { mutableStateOf<String?>(null) }
-        MikaDialog(
+        DjiniDialog(
             onDismissRequest = { importing = false },
             title = { Text(stringResource(R.string.skills_import)) },
             text = {
                 KeyboardDismissArea {
                     Column {
-                        Text(stringResource(R.string.skills_import_hint), style = MikaType.Hint, color = DjiniTheme.colors.ink3)
+                        Text(stringResource(R.string.skills_import_hint), style = DjiniType.Hint, color = DjiniTheme.colors.ink3)
                         OutlinedTextField(text, { text = it; problem = null }, Modifier.fillMaxWidth().padding(top = 8.dp).heightIn(min = 240.dp).keepsKeyboard().testTag("skill-import"))
-                        problem?.let { Text(it, Modifier.padding(top = 6.dp), style = MikaType.Hint, color = DjiniTheme.colors.bad) }
+                        problem?.let { Text(it, Modifier.padding(top = 6.dp), style = DjiniType.Hint, color = DjiniTheme.colors.bad) }
                     }
                 }
             },
@@ -158,7 +158,7 @@ internal fun SkillsSection(vm: MemoryViewModel, ui: SkillsUi, pending: Boolean, 
 
     editing?.let { d ->
         var text by remember(d.id) { mutableStateOf(d.markdown) }
-        MikaDialog(
+        DjiniDialog(
             onDismissRequest = { editing = null },
             title = { Text(stringResource(R.string.skills_edit_title)) },
             text = { KeyboardDismissArea { OutlinedTextField(text, { text = it }, Modifier.fillMaxWidth().heightIn(min = 240.dp).keepsKeyboard().testTag("skill-markdown")) } },
@@ -180,12 +180,12 @@ private fun AppKnowledgeItem(vm: MemoryViewModel, row: AppKnowledgeRow, first: B
     Column {
         ListRow(null, row.name, stage, first = first, onClick = onToggle)
         ChangesAndText(row.changedLines, expanded) {
-            Text(row.markdown, Modifier.padding(top = 6.dp), style = MikaType.Hint, color = DjiniTheme.colors.ink2)
+            Text(row.markdown, Modifier.padding(top = 6.dp), style = DjiniType.Hint, color = DjiniTheme.colors.ink2)
         }
         RowActions {
-            MikaButton(if (expanded) stringResource(R.string.skills_hide_full) else stringResource(R.string.skills_view_full), onToggle, kind = ButtonKind.Tonal, size = ButtonSize.Small)
-            if (row.stage == AppKnowledgeStage.Draft) MikaButton(stringResource(R.string.skills_accept_try), { vm.approveAppDraft(row.id) }, size = ButtonSize.Small)
-            if (row.stage != AppKnowledgeStage.Verified && !row.replaced) MikaButton(stringResource(R.string.skills_archive), { vm.rejectAppDraft(row.id) }, kind = ButtonKind.Tonal, size = ButtonSize.Small)
+            DjiniButton(if (expanded) stringResource(R.string.skills_hide_full) else stringResource(R.string.skills_view_full), onToggle, kind = ButtonKind.Tonal, size = ButtonSize.Small)
+            if (row.stage == AppKnowledgeStage.Draft) DjiniButton(stringResource(R.string.skills_accept_try), { vm.approveAppDraft(row.id) }, size = ButtonSize.Small)
+            if (row.stage != AppKnowledgeStage.Verified && !row.replaced) DjiniButton(stringResource(R.string.skills_archive), { vm.rejectAppDraft(row.id) }, kind = ButtonKind.Tonal, size = ButtonSize.Small)
         }
     }
 }
@@ -210,8 +210,8 @@ private fun ChangesAndText(changed: List<String>, expanded: Boolean, content: @C
     if (changed.isEmpty() && !expanded) return
     Column(Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp, bottom = 12.dp)) {
         if (changed.isNotEmpty()) {
-            Text(stringResource(R.string.skills_changed_lines), style = MikaType.Hint, color = c.ink3)
-            changed.forEach { Text(it, style = MikaType.Hint, color = if (it.startsWith("+")) c.ok else c.bad) }
+            Text(stringResource(R.string.skills_changed_lines), style = DjiniType.Hint, color = c.ink3)
+            changed.forEach { Text(it, style = DjiniType.Hint, color = if (it.startsWith("+")) c.ok else c.bad) }
         }
         if (expanded) content()
     }

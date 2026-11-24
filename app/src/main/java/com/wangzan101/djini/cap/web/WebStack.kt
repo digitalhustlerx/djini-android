@@ -193,7 +193,7 @@ class WebStack private constructor(
     }
 
     companion object {
-        private const val TAG = "MikaWebStack"
+        private const val TAG = "DjiniWebStack"
 
         /** 并行子任务各用一套后台浏览器，第一次导航或读网址时才建，子任务结束即关。 */
         internal fun childPort(

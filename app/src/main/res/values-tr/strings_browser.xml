@@ -55,8 +55,8 @@
     <string name="browser_home">Başlangıç sayfası</string>
     <string name="share">Paylaş</string>
     <string name="more">Daha fazla</string>
-    <string name="browser_login_for_mika">Djini için oturum aç</string>
-    <string name="browser_login_for_mika_sub">" · Djini\'nın görevler için kullandığı %1$s sürümünü açar; oturum açtığınızda Djini da onu kullanabilir"</string>
+    <string name="browser_login_for_djini">Djini için oturum aç</string>
+    <string name="browser_login_for_djini_sub">" · Djini\'nın görevler için kullandığı %1$s sürümünü açar; oturum açtığınızda Djini da onu kullanabilir"</string>
     <string name="browser_mobile">Mobil</string>
     <string name="browser_copy_link">Bağlantıyı kopyala</string>
     <string name="browser_open_outside">Başka bir tarayıcıda aç</string>

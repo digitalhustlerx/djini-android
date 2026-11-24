@@ -80,15 +80,15 @@ import androidx.lifecycle.compose.LifecycleResumeEffect
 import com.wangzan101.djini.ui.components.ButtonKind
 import com.wangzan101.djini.core.chat.GeneratedPhoto
 import com.wangzan101.djini.ui.components.ButtonSize
-import com.wangzan101.djini.ui.components.MikaButton
+import com.wangzan101.djini.ui.components.DjiniButton
 import com.wangzan101.djini.ui.components.cardSurface
-import com.wangzan101.djini.ui.theme.MikaColors
-import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniColors
+import com.wangzan101.djini.ui.theme.DjiniIcons
 import kotlinx.coroutines.launch
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
-import com.wangzan101.djini.ui.theme.MikaRadius
-import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniType
+import com.wangzan101.djini.ui.theme.DjiniRadius
+import com.wangzan101.djini.ui.theme.DjiniShapes
 import kotlinx.coroutines.launch
 
 /** 对话页附件的说法。 */
@@ -230,10 +230,10 @@ internal fun AttachPanel(
     val c = DjiniTheme.colors
     Column(modifier.fillMaxSize().testTag("attach-panel").padding(start = 12.dp, end = 12.dp, top = 12.dp, bottom = 8.dp)) {
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-            Tile(MikaIcons.PhotoCamera, AttachCopy.CAMERA, onCamera)
-            Tile(MikaIcons.Photo, AttachCopy.ALBUM, onAlbum)
-            Tile(MikaIcons.Paperclip, AttachCopy.FILES, onFiles)
-            if (onDeviceFiles != null) Tile(MikaIcons.Folder, stringResource(R.string.device_browser_title), onDeviceFiles)
+            Tile(DjiniIcons.PhotoCamera, AttachCopy.CAMERA, onCamera)
+            Tile(DjiniIcons.Photo, AttachCopy.ALBUM, onAlbum)
+            Tile(DjiniIcons.Paperclip, AttachCopy.FILES, onFiles)
+            if (onDeviceFiles != null) Tile(DjiniIcons.Folder, stringResource(R.string.device_browser_title), onDeviceFiles)
         }
         if (access == PhotoAccess.None) {
             Column(
@@ -242,15 +242,15 @@ internal fun AttachPanel(
                 verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterVertically),
             ) {
                 Text(AttachCopy.NEED_ACCESS, style = PanelText, color = c.ink2, textAlign = TextAlign.Center)
-                MikaButton(AttachCopy.GRANT, onGrant, kind = ButtonKind.Primary, size = ButtonSize.Medium)
-                Text(AttachCopy.GRANT_HINT, style = MikaType.Hint, color = c.ink3, textAlign = TextAlign.Center)
+                DjiniButton(AttachCopy.GRANT, onGrant, kind = ButtonKind.Primary, size = ButtonSize.Medium)
+                Text(AttachCopy.GRANT_HINT, style = DjiniType.Hint, color = c.ink3, textAlign = TextAlign.Center)
             }
             return@Column
         }
         Row(Modifier.fillMaxWidth().padding(start = 2.dp, end = 2.dp, top = 14.dp, bottom = 8.dp), verticalAlignment = Alignment.CenterVertically) {
             Text(
                 if (access == PhotoAccess.Partial) AttachCopy.RECENT_PARTIAL else AttachCopy.RECENT,
-                Modifier.weight(1f), style = MikaType.Hint, color = c.ink3, maxLines = 1, overflow = TextOverflow.Ellipsis,
+                Modifier.weight(1f), style = DjiniType.Hint, color = c.ink3, maxLines = 1, overflow = TextOverflow.Ellipsis,
             )
             if (access == PhotoAccess.Partial) PanelLink(AttachCopy.CHANGE, onGrant)
             PanelLink(AttachCopy.ALL, onAlbum)
@@ -289,7 +289,7 @@ private fun RowScope.Tile(icon: ImageVector, label: String, onClick: () -> Unit)
 @Composable
 private fun PanelLink(text: String, onClick: () -> Unit) {
     Text(
-        text, Modifier.clip(MikaShapes.Tile).clickable(role = Role.Button, onClick = onClick).padding(horizontal = 6.dp, vertical = 4.dp),
+        text, Modifier.clip(DjiniShapes.Tile).clickable(role = Role.Button, onClick = onClick).padding(horizontal = 6.dp, vertical = 4.dp),
         style = LinkText, color = DjiniTheme.colors.accent,
     )
 }
@@ -382,7 +382,7 @@ internal fun PendingTray(
                         .semantics { contentDescription = AttachCopy.remove(a.name) },
                     contentAlignment = Alignment.Center,
                 ) {
-                    Icon(MikaIcons.Close, null, Modifier.size(12.dp), tint = Color.White)
+                    Icon(DjiniIcons.Close, null, Modifier.size(12.dp), tint = Color.White)
                 }
             }
         }
@@ -509,13 +509,13 @@ private fun SentFileCard(f: AttachmentMessage.Item, maxWidth: Dp, onClick: () ->
 /** 文件类型角标:按扩展名配色,上面写扩展名。 */
 @Composable
 private fun TypeBadge(name: String, modifier: Modifier, small: Boolean) {
-    val shape = RoundedCornerShape(if (small) MikaRadius.Micro else MikaRadius.Tile)
+    val shape = RoundedCornerShape(if (small) DjiniRadius.Micro else DjiniRadius.Tile)
     Box(modifier.background(badgeColor(FileBadge.kind(name), DjiniTheme.colors), shape), contentAlignment = Alignment.Center) {
         Text(FileBadge.text(name), style = if (small) BadgeSmall else BadgeLarge, color = Color.White, maxLines = 1)
     }
 }
 
-private fun badgeColor(kind: FileBadge.Kind, c: MikaColors): Color = when (kind) {
+private fun badgeColor(kind: FileBadge.Kind, c: DjiniColors): Color = when (kind) {
     FileBadge.Kind.Pdf -> c.bad
     FileBadge.Kind.Sheet -> c.ok
     FileBadge.Kind.Doc -> c.accent
@@ -530,18 +530,18 @@ private const val SINGLE_PX = 640
 
 private val SingleWidth = 200.dp
 private val NeutralBadge = Color(0xFF8E8E93)
-private val TileShape = MikaShapes.Card
-private val GridShape = MikaShapes.Chip
-private val CellShape = RoundedCornerShape(MikaRadius.BubbleTail)
-private val ChipShape = MikaShapes.Chip
-private val GridPhotoShape = MikaShapes.Button
-private val FileCardShape = MikaShapes.Button
-private val PanelText = MikaType.Caption
-private val TileText = MikaType.Hint
-private val LinkText = MikaType.Hint
-private val BadgeText = MikaType.Hint.copy(fontWeight = FontWeight.SemiBold)
-private val BadgeSmall = MikaType.Micro.copy(fontWeight = FontWeight.Bold)
-private val BadgeLarge = MikaType.Micro.copy(fontWeight = FontWeight.Bold)
-private val ChipName = MikaType.Hint.copy(fontWeight = FontWeight.Medium)
-private val ChipMeta = MikaType.Micro
-private val FileCardName = MikaType.Body.copy(fontWeight = FontWeight.Medium)
+private val TileShape = DjiniShapes.Card
+private val GridShape = DjiniShapes.Chip
+private val CellShape = RoundedCornerShape(DjiniRadius.BubbleTail)
+private val ChipShape = DjiniShapes.Chip
+private val GridPhotoShape = DjiniShapes.Button
+private val FileCardShape = DjiniShapes.Button
+private val PanelText = DjiniType.Caption
+private val TileText = DjiniType.Hint
+private val LinkText = DjiniType.Hint
+private val BadgeText = DjiniType.Hint.copy(fontWeight = FontWeight.SemiBold)
+private val BadgeSmall = DjiniType.Micro.copy(fontWeight = FontWeight.Bold)
+private val BadgeLarge = DjiniType.Micro.copy(fontWeight = FontWeight.Bold)
+private val ChipName = DjiniType.Hint.copy(fontWeight = FontWeight.Medium)
+private val ChipMeta = DjiniType.Micro
+private val FileCardName = DjiniType.Body.copy(fontWeight = FontWeight.Medium)

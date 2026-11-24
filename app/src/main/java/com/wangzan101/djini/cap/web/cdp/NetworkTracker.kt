@@ -126,7 +126,7 @@ class NetworkTracker private constructor(
     }
 
     companion object {
-        private const val TAG = "MikaNetTrack"
+        private const val TAG = "DjiniNetTrack"
         private const val NETWORK = "Network."
         private const val POLL_MS = 100L
         private const val CALL_TIMEOUT_MS = 3_000L

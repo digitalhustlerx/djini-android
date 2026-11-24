@@ -85,8 +85,8 @@ class ToolRiskTest {
     @Test fun readCallsRefuseWhatTheOldListsRefused() = runTest {
         val refused = oldWriting + oldSandbox + WEB_SCRIPT_TOOL +
             setOf("phone_find", "phone_collect", "phone_dialog", "phone_run", "do_each", "phone_system_command", "phone_calendar_bulk_insert", "schedule_task", "spawn_agent", "settings_set", "root_run_command", "web_search",
-                "mika_open_screen", "mika_open_file", "mika_notify", "mika_copy",
-                "mika_open_in_browser", "mika_search_in_browser", "mika_login_site", "mika_confirm_login", "mika_favorites",
+                "djini_open_screen", "djini_open_file", "djini_notify", "djini_copy",
+                "djini_open_in_browser", "djini_search_in_browser", "djini_login_site", "djini_confirm_login", "djini_favorites",
                 "phone_call_state", "phone_call_dial", "phone_call_answer", "phone_call_hangup", "phone_call_takeover",
                 "list_device_files", "copy_device_file", "search_device_files", "list_device_directory_hints", "update_device_directory_description",
                 "audio_generate", "audio_save", "audio_transcribe", "speak",
@@ -116,7 +116,7 @@ class ToolRiskTest {
     @Test fun externalToolsDeclareHowTheirTargetIsJudged() {
         for (t in allTools()) assertEquals(t.name, t.risk == Risk.External, t.gateTarget != null || t.approvalRisk != null)
         assertEquals(both("tap", "type_text", "press_key", "swipe", "scroll") + setOf("web_interact", "web_upload", "schedule_task",
-            "mika_open_in_browser", "mika_search_in_browser", "mika_login_site"),
+            "djini_open_in_browser", "djini_search_in_browser", "djini_login_site"),
             allTools().filter { it.risk == Risk.External }.map { it.name }.toSet())
     }
 

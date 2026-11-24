@@ -39,7 +39,7 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.rememberCoroutineScope
 import kotlinx.coroutines.launch
-import com.wangzan101.djini.ui.components.MikaSwitch
+import com.wangzan101.djini.ui.components.DjiniSwitch
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -51,7 +51,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import com.wangzan101.djini.core.shell.ShellTransport
 import com.wangzan101.djini.ui.components.SelectChip
-import com.wangzan101.djini.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.DjiniDialog
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
@@ -86,7 +86,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.material3.Icon
-import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniShapes
 import com.wangzan101.djini.ui.components.FooterNote
 import com.wangzan101.djini.ui.components.DetailNote
 import com.wangzan101.djini.ui.components.GroupCard
@@ -98,9 +98,9 @@ import com.wangzan101.djini.ui.components.RowChevron
 import com.wangzan101.djini.ui.components.RowValue
 import com.wangzan101.djini.ui.components.TileTone
 import com.wangzan101.djini.ui.components.ValueTone
-import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniIcons
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.DjiniType
 import com.wangzan101.djini.core.cap.phone.OperatingPace
 import com.wangzan101.djini.core.usage.TokenBudgetLimits
 import java.time.LocalTime
@@ -132,7 +132,7 @@ fun PhoneOpsScreen(
         GroupCard {
             val (a11yText, a11yTone) = StatusCopy.accessibilityValue(status.accessibility)
             ListRow(
-                MikaIcons.Hand, stringResource(R.string.settings_a11y), stringResource(R.string.settings_a11y_sub), first = true,
+                DjiniIcons.Hand, stringResource(R.string.settings_a11y), stringResource(R.string.settings_a11y_sub), first = true,
                 onClick = check.problems.firstOrNull { it is Problem.Accessibility }?.let { { onProblem(it) } },
             ) { RowValue(a11yText, a11yTone) }
             // 安卓 12 以下手机功能不可用,不列这一行(系统版本那一行已说明)
@@ -141,7 +141,7 @@ fun PhoneOpsScreen(
                 val (hText, hTone) = PhoneSetupCopy.statusValue(helper)
                 val reconnect = PhoneSetupCopy.canReconnect(helper)
                 ListRow(
-                    MikaIcons.Link, PhoneSetupCopy.ROW_TITLE,
+                    DjiniIcons.Link, PhoneSetupCopy.ROW_TITLE,
                     if (reconnect && helper is BuiltinShellStatus.Failed) PhoneSetupCopy.failure(helper.reason).title
                     else PhoneSetupCopy.statusLine(helper, status.usbDebugging, status.rootStart, status.shizukuStart),
                     onClick = { onProblem(Problem.PhoneHelper(helper)) },
@@ -171,7 +171,7 @@ fun PhoneOpsScreen(
                     else stringResource(R.string.phone_shizuku_perm_missing),
                 )
                 ListRow(
-                    MikaIcons.Shield,
+                    DjiniIcons.Shield,
                     stringResource(R.string.phone_shizuku_group),
                     shizukuDetail,
                     onClick = if (shizuku.installed || shizuku.running) onGrantShizuku else onOpenShizukuGuide,
@@ -181,7 +181,7 @@ fun PhoneOpsScreen(
             val tooOld = status.sdkInt < Prerequisites.MIN_SDK
             val focusWarning = Problem.FocusMayLeak in check.problems
             ListRow(
-                MikaIcons.Phone, stringResource(R.string.settings_system_version),
+                DjiniIcons.Phone, stringResource(R.string.settings_system_version),
                 if (focusWarning) stringResource(R.string.settings_android_focus, androidRelease) else stringResource(R.string.settings_android, androidRelease),
                 onClick = when {
                     tooOld -> ({ onProblem(Problem.SystemTooOld) })
@@ -238,7 +238,7 @@ fun PhoneOpsScreen(
                     }
                 )
                 ListRow(
-                    MikaIcons.Shield,
+                    DjiniIcons.Shield,
                     actionTitle,
                     actionSub,
                     first = true,
@@ -247,7 +247,7 @@ fun PhoneOpsScreen(
                 ) { RowChevron() }
                 if (!shizuku.installed || !shizuku.running) {
                     ListRow(
-                        MikaIcons.Book,
+                        DjiniIcons.Book,
                         stringResource(R.string.phone_shizuku_guide),
                         stringResource(R.string.phone_shizuku_guide_sub),
                         onClick = onOpenShizukuGuide,
@@ -259,12 +259,12 @@ fun PhoneOpsScreen(
 
             GroupLabel(stringResource(R.string.phone_channel))
             GroupCard {
-                ListRow(MikaIcons.Link, PhoneSetupCopy.REPAIR, PhoneSetupCopy.REPAIR_SUBTITLE, first = true, onClick = onRepair) {
+                ListRow(DjiniIcons.Link, PhoneSetupCopy.REPAIR, PhoneSetupCopy.REPAIR_SUBTITLE, first = true, onClick = onRepair) {
                     RowChevron()
                 }
                 val paired = status.wirelessPaired ?: (status.builtinShell != BuiltinShellStatus.NotPaired)
                 ListRow(
-                    MikaIcons.Close, PhoneSetupCopy.UNPAIR, PhoneSetupCopy.UNPAIR_SUBTITLE,
+                    DjiniIcons.Close, PhoneSetupCopy.UNPAIR, PhoneSetupCopy.UNPAIR_SUBTITLE,
                     titleColor = if (paired) DjiniTheme.colors.bad else DjiniTheme.colors.ink3,
                     tone = if (paired) TileTone.Bad else TileTone.Neutral,
                     onClick = if (paired) ({ confirmUnpair = true }) else null,
@@ -278,7 +278,7 @@ fun PhoneOpsScreen(
         }
     }
     if (confirmUnpair) {
-        MikaDialog(
+        DjiniDialog(
             onDismissRequest = { confirmUnpair = false },
             title = { Text(PhoneSetupCopy.UNPAIR_TITLE) },
             text = { Text(PhoneSetupCopy.UNPAIR_BODY) },
@@ -308,7 +308,7 @@ fun NotificationsScreen(status: SystemStatus, onFix: (Fix) -> Unit, onBack: () -
     PageScaffold(StatusCopy.NOTIFICATIONS, onBack) {
         GroupCard {
             ListRow(
-                MikaIcons.Bell, stringResource(R.string.settings_notif_master),
+                DjiniIcons.Bell, stringResource(R.string.settings_notif_master),
                 if (o.appAllowed) StatusCopy.NOTIF_APP_SUBTITLE_ON else StatusCopy.NOTIF_APP_SUBTITLE_OFF,
                 first = true, tone = if (o.appAllowed) TileTone.Neutral else TileTone.Bad,
                 onClick = if (o.appAllowed) null else ({ onFix(Fix.AllowNotifications) }),
@@ -322,7 +322,7 @@ fun NotificationsScreen(status: SystemStatus, onFix: (Fix) -> Unit, onBack: () -
             ChannelRowItem(StatusCopy.RESULT_CHANNEL, StatusCopy.NOTIF_RESULT_WHEN, o.result, Fix.OpenResultChannel, onFix)
             ChannelRowItem(StatusCopy.PROGRESS_CHANNEL, StatusCopy.NOTIF_PROGRESS_WHEN, o.progress, Fix.OpenProgressChannel, onFix)
             if (status.sdkInt >= 36) {
-                ListRow(MikaIcons.Bell, stringResource(R.string.settings_live_task_updates),
+                ListRow(DjiniIcons.Bell, stringResource(R.string.settings_live_task_updates),
                     stringResource(R.string.settings_live_task_updates_detail), onClick = { onFix(Fix.OpenLiveTaskSettings) }) {
                     RowChevron()
                 }
@@ -331,11 +331,11 @@ fun NotificationsScreen(status: SystemStatus, onFix: (Fix) -> Unit, onBack: () -
         FooterNote(StatusCopy.NOTIF_FOOTER)
         GroupCard {
             ListRow(
-                MikaIcons.Mute, stringResource(R.string.settings_scheduled_quiet),
+                DjiniIcons.Mute, stringResource(R.string.settings_scheduled_quiet),
                 stringResource(R.string.settings_scheduled_quiet_detail), first = true,
                 onClick = { updateQuietHours(quietHours.copy(enabled = !quietHours.enabled)) },
             ) {
-                MikaSwitch(quietHours.enabled, { updateQuietHours(quietHours.copy(enabled = it)) },
+                DjiniSwitch(quietHours.enabled, { updateQuietHours(quietHours.copy(enabled = it)) },
                     Modifier.testTag("scheduled-quiet-switch"))
             }
             if (quietHours.enabled) {
@@ -360,7 +360,7 @@ private fun QuietHoursTimeRow(label: Int, time: LocalTime, onChange: (LocalTime)
     val use24HourClock = DateFormat.is24HourFormat(context)
     val locale = context.resources.configuration.locales[0]
     val pattern = DateFormat.getBestDateTimePattern(locale, if (use24HourClock) "Hm" else "hm")
-    ListRow(MikaIcons.Clock, title, onClick = {
+    ListRow(DjiniIcons.Clock, title, onClick = {
         TimePickerDialog(context, { _, hour, minute -> onChange(LocalTime.of(hour, minute)) },
             time.hour, time.minute, use24HourClock).apply {
             setTitle(title)
@@ -376,7 +376,7 @@ private fun QuietHoursTimeRow(label: Int, time: LocalTime, onChange: (LocalTime)
 private fun ChannelRowItem(title: String, whenText: String, row: ChannelRow, fix: Fix, onFix: (Fix) -> Unit, first: Boolean = false) {
     val (text, tone) = StatusCopy.channelLevelValue(row)
     ListRow(
-        MikaIcons.Bell, title, whenText, first = first,
+        DjiniIcons.Bell, title, whenText, first = first,
         tone = if (row.warn) TileTone.Warn else TileTone.Neutral,
         onClick = { onFix(fix) },
     ) {
@@ -423,38 +423,38 @@ fun DuringWorkScreen(
         GroupLabel(AutonomyCopy.GROUP)
         GroupCard {
             ListRow(null, AutonomyCopy.TITLE, AutonomyCopy.SUBTITLE, first = true, onClick = { onAutonomous(!autonomous) }) {
-                MikaSwitch(autonomous, onAutonomous, Modifier.testTag("work-autonomous"))
+                DjiniSwitch(autonomous, onAutonomous, Modifier.testTag("work-autonomous"))
             }
         }
         GroupCard {
-            ListRow(MikaIcons.Sun, stringResource(R.string.settings_keep_on), stringResource(R.string.settings_keep_on_sub), first = true, onClick = { onKeepScreenOn(!keepScreenOn) }) {
-                MikaSwitch(keepScreenOn, onKeepScreenOn, Modifier.testTag("work-keep-screen-on"))
+            ListRow(DjiniIcons.Sun, stringResource(R.string.settings_keep_on), stringResource(R.string.settings_keep_on_sub), first = true, onClick = { onKeepScreenOn(!keepScreenOn) }) {
+                DjiniSwitch(keepScreenOn, onKeepScreenOn, Modifier.testTag("work-keep-screen-on"))
             }
             val pocketAvailable = remember { com.wangzan101.djini.pocket.PocketGuardManager.sensorsAvailable(context) }
-            ListRow(MikaIcons.Shield, stringResource(R.string.pocket_guard_title), stringResource(if (pocketAvailable) R.string.pocket_guard_summary else R.string.pocket_guard_unavailable), onClick = { if (pocketAvailable || pocketGuard) onPocketGuard(!pocketGuard) }) {
-                MikaSwitch(pocketGuard, onPocketGuard, Modifier.testTag("work-pocket-guard"), enabled = pocketAvailable || pocketGuard)
+            ListRow(DjiniIcons.Shield, stringResource(R.string.pocket_guard_title), stringResource(if (pocketAvailable) R.string.pocket_guard_summary else R.string.pocket_guard_unavailable), onClick = { if (pocketAvailable || pocketGuard) onPocketGuard(!pocketGuard) }) {
+                DjiniSwitch(pocketGuard, onPocketGuard, Modifier.testTag("work-pocket-guard"), enabled = pocketAvailable || pocketGuard)
             }
-            ListRow(MikaIcons.Lock, stringResource(R.string.pocket_completion_lock_title), stringResource(if (pocketAvailable) R.string.pocket_completion_lock_summary else R.string.pocket_guard_unavailable), onClick = { if (pocketAvailable || pocketCompletionLock) onPocketCompletionLock(!pocketCompletionLock) }) {
-                MikaSwitch(pocketCompletionLock, onPocketCompletionLock, Modifier.testTag("work-pocket-completion-lock"), enabled = pocketAvailable || pocketCompletionLock)
+            ListRow(DjiniIcons.Lock, stringResource(R.string.pocket_completion_lock_title), stringResource(if (pocketAvailable) R.string.pocket_completion_lock_summary else R.string.pocket_guard_unavailable), onClick = { if (pocketAvailable || pocketCompletionLock) onPocketCompletionLock(!pocketCompletionLock) }) {
+                DjiniSwitch(pocketCompletionLock, onPocketCompletionLock, Modifier.testTag("work-pocket-completion-lock"), enabled = pocketAvailable || pocketCompletionLock)
             }
-            ListRow(MikaIcons.Mute, stringResource(R.string.settings_mute), stringResource(R.string.settings_mute_sub), onClick = { onMuteTarget(!muteTarget) }) {
-                MikaSwitch(muteTarget, onMuteTarget, Modifier.testTag("work-mute-target"))
+            ListRow(DjiniIcons.Mute, stringResource(R.string.settings_mute), stringResource(R.string.settings_mute_sub), onClick = { onMuteTarget(!muteTarget) }) {
+                DjiniSwitch(muteTarget, onMuteTarget, Modifier.testTag("work-mute-target"))
             }
             ListRow(
-                MikaIcons.Clock, stringResource(R.string.settings_step_limit),
+                DjiniIcons.Clock, stringResource(R.string.settings_step_limit),
                 stepLimit?.let { trPlural(R.plurals.chat_steps_n, it) }
                     ?: stringResource(R.string.settings_step_limit_off),
                 // 当前是自己填的数时,输入框里带着它
                 onClick = { customLimit = stepLimit?.takeIf { it !in STEP_LIMIT_PRESETS }?.toString().orEmpty(); editingLimit = true },
             )
             ListRow(
-                MikaIcons.Clock, stringResource(R.string.settings_trigger_run_limit),
+                DjiniIcons.Clock, stringResource(R.string.settings_trigger_run_limit),
                 triggerRunMinutes?.let { trPlural(R.plurals.settings_trigger_run_minutes_n, it) }
                     ?: stringResource(R.string.settings_step_limit_off),
                 onClick = { editingTriggerLimit = true },
             )
             ListRow(
-                MikaIcons.Clock, stringResource(R.string.settings_task_token_budget),
+                DjiniIcons.Clock, stringResource(R.string.settings_task_token_budget),
                 tokenBudget?.let(::tokenBudgetNumber) ?: stringResource(R.string.settings_token_budget_unlimited),
                 onClick = {
                     customTokenBudget = tokenBudget?.takeIf { it !in TokenBudgetLimits.PRESETS }?.toString().orEmpty()
@@ -465,7 +465,7 @@ fun DuringWorkScreen(
                 null, stringResource(R.string.settings_show_task_cost), stringResource(R.string.settings_show_task_cost_sub),
                 onClick = { onShowTaskCost(!showTaskCost) },
             ) {
-                MikaSwitch(showTaskCost, onShowTaskCost, Modifier.testTag("work-show-task-cost"))
+                DjiniSwitch(showTaskCost, onShowTaskCost, Modifier.testTag("work-show-task-cost"))
             }
             parallel?.let { ParallelRow(it, onParallelMax) }
         }
@@ -493,45 +493,45 @@ fun DuringWorkScreen(
         // 允许 Djini 改自己的设置:默认关,打开后任务里才有 settings_list、settings_set
         GroupCard {
             ListRow(
-                MikaIcons.Spark, stringResource(R.string.settings_self_config),
+                DjiniIcons.Spark, stringResource(R.string.settings_self_config),
                 stringResource(R.string.settings_self_config_sub),
                 first = true,
                 onClick = { onSelfConfig(!selfConfig) },
             ) {
-                MikaSwitch(selfConfig, onSelfConfig, Modifier.testTag("work-self-config"))
+                DjiniSwitch(selfConfig, onSelfConfig, Modifier.testTag("work-self-config"))
             }
         }
-        // 允许 Djini 操作自己的界面:默认关;打开后任务里才有 mika_open_screen/open_file/notify/copy
+        // 允许 Djini 操作自己的界面:默认关;打开后任务里才有 djini_open_screen/open_file/notify/copy
         GroupCard {
             ListRow(
-                MikaIcons.Screens, stringResource(R.string.settings_self_operate),
+                DjiniIcons.Screens, stringResource(R.string.settings_self_operate),
                 stringResource(R.string.settings_self_operate_sub),
                 first = true,
                 onClick = { onSelfOperate(!selfOperate) },
             ) {
-                MikaSwitch(selfOperate, onSelfOperate, Modifier.testTag("work-self-operate"))
+                DjiniSwitch(selfOperate, onSelfOperate, Modifier.testTag("work-self-operate"))
             }
         }
         // 允许你在对话里的小窗直接操作虚拟屏(点/滑/返回);默认关,开着时展开小窗就能直接点
         GroupCard {
             ListRow(
-                MikaIcons.Back, stringResource(R.string.settings_pip_operate),
+                DjiniIcons.Back, stringResource(R.string.settings_pip_operate),
                 stringResource(R.string.settings_pip_operate_sub),
                 first = true,
                 onClick = { onPipOperate(!pipOperate) },
             ) {
-                MikaSwitch(pipOperate, onPipOperate, Modifier.testTag("work-pip-operate"))
+                DjiniSwitch(pipOperate, onPipOperate, Modifier.testTag("work-pip-operate"))
             }
         }
         // 允许外部脚本经广播建定时任务;默认关,开着时仍受每分钟限流并标记来源
         GroupCard {
             ListRow(
-                MikaIcons.Code, stringResource(R.string.settings_external_schedule),
+                DjiniIcons.Code, stringResource(R.string.settings_external_schedule),
                 stringResource(R.string.settings_external_schedule_sub),
                 first = true,
                 onClick = { onExternalSchedule(!externalSchedule) },
             ) {
-                MikaSwitch(externalSchedule, onExternalSchedule, Modifier.testTag("work-external-schedule"))
+                DjiniSwitch(externalSchedule, onExternalSchedule, Modifier.testTag("work-external-schedule"))
             }
         }
         GroupLabel(stringResource(R.string.settings_pace))
@@ -555,7 +555,7 @@ private val STEP_LIMIT_PRESETS = listOf(30, 60, 120, 240)
 /** 定时任务最长运行时间:不限制或几档分钟数,选了就生效。 */
 @Composable
 private fun TriggerRunLimitDialog(current: Int?, onPick: (Int?) -> Unit, onDismiss: () -> Unit) {
-    MikaDialog(
+    DjiniDialog(
         onDismissRequest = onDismiss,
         title = { Text(stringResource(R.string.settings_trigger_run_limit)) },
         text = {
@@ -581,7 +581,7 @@ private fun StepLimitDialog(
     onDismiss: () -> Unit,
 ) {
     val customValue = custom.toIntOrNull()?.takeIf { it in 1..FeatureFlags.MAX_TASK_STEP_LIMIT }
-    MikaDialog(
+    DjiniDialog(
         onDismissRequest = onDismiss,
         title = { Text(stringResource(R.string.settings_step_limit)) },
         text = {
@@ -634,7 +634,7 @@ private fun paceDetail(p: OperatingPace): String = stringResource(
 private fun ParallelRow(p: ParallelSetting, onMax: (Int) -> Unit) {
     val supported = p.limit.reason == null
     ListRow(
-        MikaIcons.Phone, stringResource(R.string.settings_parallel),
+        DjiniIcons.Phone, stringResource(R.string.settings_parallel),
         subtitle = p.limit.reason ?: stringResource(R.string.settings_parallel_sub),
         titleColor = if (supported) DjiniTheme.colors.ink else DjiniTheme.colors.ink3,
     ) {
@@ -644,12 +644,12 @@ private fun ParallelRow(p: ParallelSetting, onMax: (Int) -> Unit) {
         }
         Text(
             "−", Modifier.clickable(enabled = p.max > 1) { onMax(p.max - 1) }.padding(horizontal = 10.dp, vertical = 4.dp),
-            style = MikaType.Title, color = if (p.max > 1) DjiniTheme.colors.accent else DjiniTheme.colors.ink3,
+            style = DjiniType.Title, color = if (p.max > 1) DjiniTheme.colors.accent else DjiniTheme.colors.ink3,
         )
         RowValue(trPlural(R.plurals.settings_count_tasks, p.max))
         Text(
             "+", Modifier.clickable(enabled = p.max < 3) { onMax(p.max + 1) }.padding(horizontal = 10.dp, vertical = 4.dp),
-            style = MikaType.Title, color = if (p.max < 3) DjiniTheme.colors.accent else DjiniTheme.colors.ink3,
+            style = DjiniType.Title, color = if (p.max < 3) DjiniTheme.colors.accent else DjiniTheme.colors.ink3,
         )
     }
 }
@@ -721,7 +721,7 @@ fun CapsuleScreen(
         GroupCard {
             Column(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 12.dp)) {
                 ListRow(
-                    MikaIcons.Photo, CapsuleSettingsCopy.IDLE_OPACITY, CapsuleSettingsCopy.IDLE_OPACITY_DETAIL,
+                    DjiniIcons.Photo, CapsuleSettingsCopy.IDLE_OPACITY, CapsuleSettingsCopy.IDLE_OPACITY_DETAIL,
                     first = true, titleColor = if (mode == CapsuleMode.Off) DjiniTheme.colors.ink3 else androidx.compose.ui.graphics.Color.Unspecified,
                 ) { RowValue("${idleOpacity.percent}%") }
                 Slider(
@@ -741,7 +741,7 @@ fun CapsuleScreen(
         GroupCard {
             Column(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 12.dp)) {
                 ListRow(
-                    MikaIcons.Photo, CapsuleSettingsCopy.CARD_SIZE, CapsuleSettingsCopy.CARD_SIZE_DETAIL,
+                    DjiniIcons.Photo, CapsuleSettingsCopy.CARD_SIZE, CapsuleSettingsCopy.CARD_SIZE_DETAIL,
                     first = true, titleColor = if (mode == CapsuleMode.Off) DjiniTheme.colors.ink3 else androidx.compose.ui.graphics.Color.Unspecified,
                 ) { RowValue(CapsuleSettingsCopy.scaleLabel(cardScale)) }
                 Slider(
@@ -758,17 +758,17 @@ fun CapsuleScreen(
             }
         }
         GroupCard {
-            ListRow(MikaIcons.EyeOff, stringResource(R.string.capsule_hide_at_edge), first = true,
+            ListRow(DjiniIcons.EyeOff, stringResource(R.string.capsule_hide_at_edge), first = true,
                 onClick = { flags.setCapsuleHideAtEdge(!hideAtEdge) }) {
-                MikaSwitch(hideAtEdge, flags::setCapsuleHideAtEdge, Modifier.testTag("capsule-hide-at-edge"))
+                DjiniSwitch(hideAtEdge, flags::setCapsuleHideAtEdge, Modifier.testTag("capsule-hide-at-edge"))
             }
-            ListRow(MikaIcons.Screens, stringResource(R.string.capsule_hide_fullscreen),
+            ListRow(DjiniIcons.Screens, stringResource(R.string.capsule_hide_fullscreen),
                 onClick = { flags.setCapsuleHideFullscreen(!hideFullscreen) }) {
-                MikaSwitch(hideFullscreen, flags::setCapsuleHideFullscreen, Modifier.testTag("capsule-hide-fullscreen"))
+                DjiniSwitch(hideFullscreen, flags::setCapsuleHideFullscreen, Modifier.testTag("capsule-hide-fullscreen"))
             }
-            ListRow(MikaIcons.Apps, stringResource(R.string.capsule_tile_enabled),
+            ListRow(DjiniIcons.Apps, stringResource(R.string.capsule_tile_enabled),
                 onClick = { setQuickSettings(!quickSettings) }) {
-                MikaSwitch(quickSettings, ::setQuickSettings, Modifier.testTag("capsule-quick-settings"))
+                DjiniSwitch(quickSettings, ::setQuickSettings, Modifier.testTag("capsule-quick-settings"))
             }
         }
         FooterNote(CapsuleSettingsCopy.FOOTNOTE)
@@ -850,25 +850,25 @@ fun LanguageScreen(language: AppLanguage, onLanguage: (AppLanguage) -> Unit, onB
                 .fillMaxWidth()
                 .padding(bottom = 8.dp)
                 .height(36.dp)
-                .clip(MikaShapes.Pill)
+                .clip(DjiniShapes.Pill)
                 .background(c.fill)
-                .then(if (langSearchFocused) Modifier.border(1.dp, c.accent, MikaShapes.Pill) else Modifier)
+                .then(if (langSearchFocused) Modifier.border(1.dp, c.accent, DjiniShapes.Pill) else Modifier)
                 .padding(horizontal = 10.dp)
                 .bringIntoViewRequester(bringIntoViewRequester),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(6.dp),
         ) {
-            Icon(MikaIcons.Search, null, Modifier.size(16.dp), tint = c.ink3)
+            Icon(DjiniIcons.Search, null, Modifier.size(16.dp), tint = c.ink3)
             Box(Modifier.weight(1f), contentAlignment = Alignment.CenterStart) {
                 if (langQuery.isEmpty()) {
-                    Text(stringResource(R.string.language_search_hint), style = MikaType.Caption, color = c.ink3, maxLines = 1)
+                    Text(stringResource(R.string.language_search_hint), style = DjiniType.Caption, color = c.ink3, maxLines = 1)
                 }
                 BasicTextField(
                     value = langQuery,
                     onValueChange = { langQuery = it },
                     modifier = Modifier.fillMaxWidth().onFocusChanged { langSearchFocused = it.isFocused },
                     singleLine = true,
-                    textStyle = MikaType.Caption.copy(color = c.ink),
+                    textStyle = DjiniType.Caption.copy(color = c.ink),
                     cursorBrush = SolidColor(c.accent),
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
                     keyboardActions = KeyboardActions(onSearch = { focusManager.clearFocus() }),
@@ -882,7 +882,7 @@ fun LanguageScreen(language: AppLanguage, onLanguage: (AppLanguage) -> Unit, onB
                     },
                     contentAlignment = Alignment.Center,
                 ) {
-                    Icon(MikaIcons.Close, null, Modifier.size(12.dp), tint = c.ink3)
+                    Icon(DjiniIcons.Close, null, Modifier.size(12.dp), tint = c.ink3)
                 }
             }
         }
@@ -894,7 +894,7 @@ fun LanguageScreen(language: AppLanguage, onLanguage: (AppLanguage) -> Unit, onB
                 ) {
                     Text(
                         stringResource(R.string.file_library_empty),
-                        style = MikaType.Caption,
+                        style = DjiniType.Caption,
                         color = c.ink3,
                     )
                 }
@@ -956,18 +956,18 @@ fun RoutesScreen(count: Int?, onClear: () -> Unit, onBack: () -> Unit) {
     PageScaffold(stringResource(R.string.settings_routes), onBack) {
         GroupCard {
             ListRow(
-                MikaIcons.Route, stringResource(R.string.routes_saved),
+                DjiniIcons.Route, stringResource(R.string.routes_saved),
                 if (count == null) stringResource(R.string.loading) else trPlural(R.plurals.routes_count, count), first = true,
             ) {
                 if (count != null && count > 0) Text(
                     stringResource(R.string.routes_clear_all), Modifier.clickable { confirmClear = true }.padding(4.dp),
-                    style = MikaType.Value, color = DjiniTheme.colors.bad,
+                    style = DjiniType.Value, color = DjiniTheme.colors.bad,
                 )
             }
         }
     }
     if (confirmClear) {
-        MikaDialog(
+        DjiniDialog(
             onDismissRequest = { confirmClear = false },
             title = { Text(stringResource(R.string.routes_clear_title)) },
             text = { Text(stringResource(R.string.routes_clear_body)) },
@@ -984,7 +984,7 @@ fun RecoveryScreen(onBack: () -> Unit, onOpenSelfCheck: () -> Unit = {}) {
         RecoverySwitches()
         GroupCard {
             ListRow(
-                MikaIcons.Bug, stringResource(R.string.selfcheck_title), stringResource(R.string.selfcheck_row_sub), first = true,
+                DjiniIcons.Bug, stringResource(R.string.selfcheck_title), stringResource(R.string.selfcheck_row_sub), first = true,
                 onClick = onOpenSelfCheck,
             ) { RowChevron() }
         }
@@ -1033,7 +1033,7 @@ private fun SkinControls(skin: SkinSpec, onChange: (SkinSpec) -> Unit, onClear: 
         null, stringResource(R.string.skin_accent_follow), stringResource(R.string.skin_accent_follow_sub),
         onClick = { onChange(skin.copy(accentFromImage = !skin.accentFromImage)) },
     ) {
-        MikaSwitch(skin.accentFromImage, { onChange(skin.copy(accentFromImage = it)) }, Modifier.testTag("skin-accent-follow"))
+        DjiniSwitch(skin.accentFromImage, { onChange(skin.copy(accentFromImage = it)) }, Modifier.testTag("skin-accent-follow"))
     }
     ListRow(null, stringResource(R.string.skin_clear), onClick = onClear)
 }

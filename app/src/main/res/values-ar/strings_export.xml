@@ -28,7 +28,7 @@
     <string name="export_warnings">تعذّر تضمين %1$d عناصر.</string>
     <string name="export_filename_fallback">محادثة Djini</string>
     <string name="export_label_user">المستخدم</string>
-    <string name="export_label_mika">Djini</string>
+    <string name="export_label_djini">Djini</string>
     <string name="export_label_steer">رسالة أثناء المهمة</string>
     <string name="export_label_answer">الإجابة</string>
     <string name="export_label_tool_steps">خطوات الأدوات</string>

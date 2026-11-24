@@ -120,22 +120,22 @@ Only do this for phone app control on Android 12+. Skip it on Android 11 or for 
 
 Djini uses its accessibility service to read the screen and tap. Turn it on by writing the system setting over adb. The reason: for apps installed from outside an app store, Android often blocks turning accessibility on by hand ("Restricted setting"); writing the setting over adb does not hit that block.
 
-Djini's accessibility service component (from `MikaAccessibilityService` in `app/src/main/AndroidManifest.xml`):
+Djini's accessibility service component (from `DjiniAccessibilityService` in `app/src/main/AndroidManifest.xml`):
 
 ```
-com.wangzan101.djini/.a11y.MikaAccessibilityService
+com.wangzan101.djini/.a11y.DjiniAccessibilityService
 ```
 
-This is the same component as the long form `com.wangzan101.djini/com.wangzan101.djini.a11y.MikaAccessibilityService`; accept either form when checking whether Djini is already in the list.
+This is the same component as the long form `com.wangzan101.djini/com.wangzan101.djini.a11y.DjiniAccessibilityService`; accept either form when checking whether Djini is already in the list.
 
 **Do not remove other accessibility services the user already has on.** Read the current list, append Djini only if it is missing (entries are separated by colons), and write it back:
 
 ```
-ME=com.wangzan101.djini/.a11y.MikaAccessibilityService
+ME=com.wangzan101.djini/.a11y.DjiniAccessibilityService
 CUR=$(adb shell settings get secure enabled_accessibility_services | tr -d '\r')
 echo "current: $CUR"
 case ":$CUR:" in
-  *":$ME:"*|*":com.wangzan101.djini/com.wangzan101.djini.a11y.MikaAccessibilityService:"*)
+  *":$ME:"*|*":com.wangzan101.djini/com.wangzan101.djini.a11y.DjiniAccessibilityService:"*)
     NEW="$CUR" ;;
   *)
     if [ -z "$CUR" ] || [ "$CUR" = "null" ]; then NEW="$ME"; else NEW="$CUR:$ME"; fi ;;

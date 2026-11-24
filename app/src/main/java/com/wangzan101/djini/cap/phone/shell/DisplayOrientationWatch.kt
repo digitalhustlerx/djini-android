@@ -27,7 +27,7 @@ internal class DisplayOrientationWatch(
     private val scan = CoalescedScan(
         schedule = { handler.postDelayed(it, 50) },
         cancel = { handler.removeCallbacks(it) },
-        scan = { runCatching(sync).onFailure { Log.w("MikaShell", "display orientation scan failed", it) } },
+        scan = { runCatching(sync).onFailure { Log.w("DjiniShell", "display orientation scan failed", it) } },
     )
     private val requestedOrientationTransactions = setOfNotNull(
         transactionCode("onActivityRequestedOrientationChanged"),
@@ -41,7 +41,7 @@ internal class DisplayOrientationWatch(
                 runCatching {
                     data.enforceInterface(TASK_LISTENER)
                     onRequestedOrientation(data.readInt(), data.readInt())
-                }.onFailure { Log.w("MikaShell", "display orientation callback rejected", it) }
+                }.onFailure { Log.w("DjiniShell", "display orientation callback rejected", it) }
                 scan.request()
                 return true
             }
@@ -49,7 +49,7 @@ internal class DisplayOrientationWatch(
                 runCatching {
                     data.enforceInterface(TASK_LISTENER)
                     onTaskRemoved(data.readInt())
-                }.onFailure { Log.w("MikaShell", "task removal callback rejected", it) }
+                }.onFailure { Log.w("DjiniShell", "task removal callback rejected", it) }
                 scan.request()
                 return true
             }

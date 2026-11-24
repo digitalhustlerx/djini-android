@@ -24,7 +24,7 @@ import com.wangzan101.djini.wechat.WechatService
  * 无障碍服务本身不关(那是用户自己的系统设置,下次打开 Djini 还要用);系统把它重新绑起来时,进程按退出标记安静地待着,
  * 不画胶囊、不补起电脑连接、也不替用户恢复,直到用户自己打开 Djini([resume])。
  */
-object MikaQuit {
+object DjiniQuit {
     private val handler = Handler(Looper.getMainLooper())
     private var exit: Runnable? = null
 

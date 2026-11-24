@@ -135,7 +135,7 @@ internal class ScreenSession(
         private set
 
     /** Djini 自己动过这块屏(停留里轻轻滚了几下):模型手里那一屏的位置已不准,标成过时。 */
-    fun movedByMika() { stale = true }
+    fun movedByDjini() { stale = true }
 
     /**
      * 读一屏并登记编号。[internal]:不是给模型看的(按描述找目标时),模型手里那屏过没过时照旧;

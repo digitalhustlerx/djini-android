@@ -81,16 +81,16 @@ import com.wangzan101.djini.core.usage.UsageTotals
 import com.wangzan101.djini.settings.ProviderStore
 import com.wangzan101.djini.ui.components.FooterNote
 import com.wangzan101.djini.ui.components.IconTile
-import com.wangzan101.djini.ui.components.MikaCard
+import com.wangzan101.djini.ui.components.DjiniCard
 import com.wangzan101.djini.ui.components.PageScaffold
 import com.wangzan101.djini.ui.components.SegmentedControl
 import com.wangzan101.djini.ui.components.cardSurface
-import com.wangzan101.djini.ui.theme.MikaColors
-import com.wangzan101.djini.ui.theme.MikaIcons
-import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniColors
+import com.wangzan101.djini.ui.theme.DjiniIcons
+import com.wangzan101.djini.ui.theme.DjiniShapes
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
-import com.wangzan101.djini.ui.theme.MikaRadius
+import com.wangzan101.djini.ui.theme.DjiniType
+import com.wangzan101.djini.ui.theme.DjiniRadius
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.math.BigDecimal
@@ -140,7 +140,7 @@ object UsageCopy {
     val CHANGE_DATES: String get() = tr(R.string.usage_change_dates)
     const val UNIT = "Token"
 
-    /** 图表里有自己颜色的服务商最多几家(主题里 [MikaColors.series] 的个数),其余在趋势图里归为「其他」。 */
+    /** 图表里有自己颜色的服务商最多几家(主题里 [DjiniColors.series] 的个数),其余在趋势图里归为「其他」。 */
     const val COLORED = 3
 
     /**
@@ -337,12 +337,12 @@ fun UsageContent(
         )
         if (report == null) return@PageScaffold
         Row(Modifier.fillMaxWidth().padding(top = 8.dp, bottom = 12.dp), horizontalArrangement = Arrangement.Center) {
-            Text(UsageCopy.rangeText(report.range, today), style = MikaType.Hint, color = c.ink3)
+            Text(UsageCopy.rangeText(report.range, today), style = DjiniType.Hint, color = c.ink3)
             if (preset == UsagePreset.Custom) {
-                Text(" · ", style = MikaType.Hint, color = c.ink3)
+                Text(" · ", style = DjiniType.Hint, color = c.ink3)
                 Text(
                     UsageCopy.CHANGE_DATES, Modifier.clickable(role = Role.Button, onClick = onPickCustom).testTag("usage-change-dates"),
-                    style = MikaType.Hint, color = c.accent, fontWeight = FontWeight.Medium,
+                    style = DjiniType.Hint, color = c.accent, fontWeight = FontWeight.Medium,
                 )
             }
         }
@@ -400,20 +400,20 @@ fun UsageContent(
     }
 }
 
-private fun seriesColor(c: MikaColors, p: ProviderUsage): Color = UsageCopy.colorSlot(p)?.let { c.series.getOrNull(it) } ?: c.seriesOther
+private fun seriesColor(c: DjiniColors, p: ProviderUsage): Color = UsageCopy.colorSlot(p)?.let { c.series.getOrNull(it) } ?: c.seriesOther
 
 /** 总用量卡:大字是输入加输出,下面一排输入、输出、缓存命中、调用次数。 */
 @Composable
 private fun TotalsCard(t: UsageTotals) {
     val c = DjiniTheme.colors
-    MikaCard {
+    DjiniCard {
         Column(Modifier.padding(start = 18.dp, end = 18.dp, top = 18.dp, bottom = 16.dp)) {
-            Text(UsageCopy.TOTAL, style = MikaType.Caption, color = c.ink3)
+            Text(UsageCopy.TOTAL, style = DjiniType.Caption, color = c.ink3)
             Row(Modifier.padding(top = 2.dp), verticalAlignment = Alignment.Bottom) {
                 Text(UsageCopy.tokens(t.tokens), Modifier.testTag("usage-total"), style = TotalStyle, color = c.ink)
                 Text(
                     UsageCopy.UNIT, Modifier.padding(start = 4.dp, bottom = 6.dp),
-                    style = MikaType.Value, fontWeight = FontWeight.Medium, color = c.ink2,
+                    style = DjiniType.Value, fontWeight = FontWeight.Medium, color = c.ink2,
                 )
             }
             Row(Modifier.fillMaxWidth().padding(top = 14.dp), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
@@ -426,14 +426,14 @@ private fun TotalsCard(t: UsageTotals) {
     }
 }
 
-private val TotalStyle = MikaType.Display
+private val TotalStyle = DjiniType.Display
 
 @Composable
 private fun Stat(label: String, value: String, modifier: Modifier) {
     Column(modifier) {
-        Text(label, style = MikaType.Hint, color = DjiniTheme.colors.ink3, maxLines = 1)
+        Text(label, style = DjiniType.Hint, color = DjiniTheme.colors.ink3, maxLines = 1)
         Text(
-            value, Modifier.padding(top = 2.dp), style = MikaType.Value, fontWeight = FontWeight.SemiBold,
+            value, Modifier.padding(top = 2.dp), style = DjiniType.Value, fontWeight = FontWeight.SemiBold,
             color = DjiniTheme.colors.ink, maxLines = 1, overflow = TextOverflow.Ellipsis,
         )
     }
@@ -443,31 +443,31 @@ private fun Stat(label: String, value: String, modifier: Modifier) {
 @Composable
 private fun ChartCard(title: String, hint: String, content: @Composable () -> Unit) {
     val c = DjiniTheme.colors
-    MikaCard(Modifier.padding(top = 12.dp)) {
+    DjiniCard(Modifier.padding(top = 12.dp)) {
         Column(Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 14.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(title, Modifier.weight(1f), style = CardTitle, color = c.ink)
-                Text(hint, style = MikaType.Hint, color = c.ink3, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                Text(hint, style = DjiniType.Hint, color = c.ink3, maxLines = 1, overflow = TextOverflow.Ellipsis)
             }
             content()
         }
     }
 }
 
-private val CardTitle = MikaType.Value.copy(fontWeight = FontWeight.SemiBold)
+private val CardTitle = DjiniType.Value.copy(fontWeight = FontWeight.SemiBold)
 
 /** 没有用量时:一张居中的说明卡。 */
 @Composable
 private fun EmptyCard() {
     val c = DjiniTheme.colors
-    MikaCard(Modifier.testTag("usage-empty")) {
+    DjiniCard(Modifier.testTag("usage-empty")) {
         Column(
             Modifier.fillMaxWidth().padding(horizontal = 18.dp, vertical = 40.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            IconTile(MikaIcons.Chart)
-            Text(UsageCopy.EMPTY_TITLE, Modifier.padding(top = 12.dp), style = MikaType.BodyStrong, color = c.ink)
-            Text(UsageCopy.EMPTY_BODY, Modifier.padding(top = 6.dp), style = MikaType.Caption, color = c.ink3, textAlign = TextAlign.Center)
+            IconTile(DjiniIcons.Chart)
+            Text(UsageCopy.EMPTY_TITLE, Modifier.padding(top = 12.dp), style = DjiniType.BodyStrong, color = c.ink)
+            Text(UsageCopy.EMPTY_BODY, Modifier.padding(top = 6.dp), style = DjiniType.Caption, color = c.ink3, textAlign = TextAlign.Center)
         }
     }
 }
@@ -513,11 +513,11 @@ private fun RankRow(
     }
 }
 
-private val RowShape = MikaShapes.Tile
-private val RankText = MikaType.Caption
-private val RankMono = MikaType.Hint.copy(fontWeight = FontWeight.Medium, fontFamily = FontFamily.Monospace)
-private val RankValue = MikaType.Caption
-private val RankShare = MikaType.Micro
+private val RowShape = DjiniShapes.Tile
+private val RankText = DjiniType.Caption
+private val RankMono = DjiniType.Hint.copy(fontWeight = FontWeight.Medium, fontFamily = FontFamily.Monospace)
+private val RankValue = DjiniType.Caption
+private val RankShare = DjiniType.Micro
 
 /** 切换服务商的胶囊:选中时强调色实底;[deleted] 的名字变淡、后面写「（已删除）」。 */
 @Composable
@@ -530,8 +530,8 @@ private fun UsageChip(text: String, selected: Boolean, onClick: () -> Unit, dele
     }
     Box(
         Modifier.height(34.dp)
-            .then(if (selected) Modifier.background(c.accent, MikaShapes.Pill) else Modifier.cardSurface(c, MikaShapes.Pill))
-            .clip(MikaShapes.Pill)
+            .then(if (selected) Modifier.background(c.accent, DjiniShapes.Pill) else Modifier.cardSurface(c, DjiniShapes.Pill))
+            .clip(DjiniShapes.Pill)
             .selectable(selected, role = Role.Tab, onClick = onClick)
             .padding(horizontal = 14.dp)
             .testTag(tag),
@@ -541,7 +541,7 @@ private fun UsageChip(text: String, selected: Boolean, onClick: () -> Unit, dele
     }
 }
 
-private val ChipText = MikaType.Body.copy(fontWeight = FontWeight.Medium)
+private val ChipText = DjiniType.Body.copy(fontWeight = FontWeight.Medium)
 
 /** 趋势图里的一段:有自己颜色的服务商各一段([slot] 是颜色序号),其余合成「其他」([slot] 为 null)。 */
 private data class StackPart(val slot: Int?, val tokens: Long)
@@ -630,7 +630,7 @@ private fun TrendChart(report: UsageReport, selected: String?, today: LocalDate)
         tapped?.let { i -> TrendTip(series[i], report, i, gutter, today) }
     }
     Box(Modifier.fillMaxWidth().padding(top = 6.dp, end = gutter)) {
-        val style = MikaType.Hint
+        val style = DjiniType.Hint
         Text(UsageCopy.axis(series.first(), report.step, today), Modifier.align(Alignment.CenterStart), style = style, color = c.ink3)
         if (series.size > 2) {
             Text(UsageCopy.axis(series[series.size / 2], report.step, today), Modifier.align(Alignment.Center), style = style, color = c.ink3)
@@ -645,18 +645,18 @@ private fun TrendChart(report: UsageReport, selected: String?, today: LocalDate)
 private fun LegendItem(color: Color, name: String) {
     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(5.dp)) {
         Box(Modifier.size(9.dp).background(color, LegendShape))
-        Text(name, style = MikaType.Hint, color = DjiniTheme.colors.ink2, maxLines = 1)
+        Text(name, style = DjiniType.Hint, color = DjiniTheme.colors.ink2, maxLines = 1)
     }
 }
 
-private val LegendShape = MikaShapes.Micro
+private val LegendShape = DjiniShapes.Micro
 
 @Composable
 private fun GridLabel(text: String, modifier: Modifier) {
     Text(text, modifier.width(34.dp), style = GridText, color = DjiniTheme.colors.ink3, textAlign = TextAlign.End, maxLines = 1)
 }
 
-private val GridText = MikaType.Micro
+private val GridText = DjiniType.Micro
 
 /** 点中一根柱子时的说明:哪段时间、合计,下面各家服务商各一行(按用量从多到少);横向对着那根柱子,不出图的左右边。 */
 @Composable
@@ -686,8 +686,8 @@ private fun TrendTip(b: UsageBucket, report: UsageReport, index: Int, gutter: Dp
     }
 }
 
-private val TipShape = MikaShapes.Tile
-private val TipText = MikaType.Micro
+private val TipShape = DjiniShapes.Tile
+private val TipText = DjiniType.Micro
 
 /** 自定义范围的日期选择:只能选账本还留着的日子(最近 [UsageLedger.KEEP_DAYS] 天)到今天,两头都选了才可查看。 */
 @OptIn(ExperimentalMaterial3Api::class)

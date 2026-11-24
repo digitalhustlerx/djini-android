@@ -243,7 +243,7 @@ class HelperHub internal constructor(
     }
 
     private companion object {
-        const val TAG = "MikaHelperHub"
+        const val TAG = "DjiniHelperHub"
         const val PREFS = "builtin_helper"
     }
 

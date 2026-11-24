@@ -27,9 +27,9 @@ import com.wangzan101.djini.about.ApkRejected
 import com.wangzan101.djini.about.DownloadPhase
 import com.wangzan101.djini.about.ReleaseInfo
 import com.wangzan101.djini.ui.components.ButtonKind
-import com.wangzan101.djini.ui.components.MikaButton
+import com.wangzan101.djini.ui.components.DjiniButton
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.DjiniType
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -132,13 +132,13 @@ internal fun UpdateDownloadActions(
         state.phase == DownloadPhase.Paused || state.phase == DownloadPhase.Failed -> stringResource(R.string.about_update_retry)
         else -> stringResource(R.string.about_update_download_in_app)
     }
-    MikaButton(text, if (state.phase == DownloadPhase.Ready) onInstall else onDownload,
+    DjiniButton(text, if (state.phase == DownloadPhase.Ready) onInstall else onDownload,
         Modifier.fillMaxWidth().padding(top = 14.dp), enabled = !busy && !downloading)
     if (active || state.phase == DownloadPhase.Ready) {
-        MikaButton(stringResource(R.string.about_update_cancel), onCancel,
+        DjiniButton(stringResource(R.string.about_update_cancel), onCancel,
             Modifier.fillMaxWidth().padding(top = 10.dp), kind = ButtonKind.Tonal, enabled = !busy)
     }
     val note = error ?: if (state.phase == DownloadPhase.Failed) R.string.about_update_error else R.string.about_update_install_hint
     Text(stringResource(note),
-        Modifier.padding(top = 8.dp), style = MikaType.Caption, color = DjiniTheme.colors.ink3)
+        Modifier.padding(top = 8.dp), style = DjiniType.Caption, color = DjiniTheme.colors.ink3)
 }

@@ -58,7 +58,7 @@ Each turn’s **View process** can show saved run events and detailed Trace entr
 On a phone with task recovery, the desk matches a missing submission receipt by ID when the connection returns. Choose **Find task** if the task is outside the recent list. If the phone has no record yet, choose **Retry with the same ID**. The tab keeps the pending request across a reload until you recover it, retry successfully or dismiss it.
 
 - With several ADB devices, choose one in the page or start with `djini ui --device SERIAL`; Wi-Fi / private VPN connections use the usual `--url` and `--token-file`.
-- With only the Skill installed, run `python3 <skills-directory>/djini/scripts/mika_cli.py ui`.
+- With only the Skill installed, run `python3 <skills-directory>/djini/scripts/djini_cli.py ui`.
 - Attach files to a new task or a follow-up with **Attach files**, or paste a clipboard image into the composer. Select up to 9 files totalling 200 MiB. You can remove them before sending or send files without a message. The phone imports them into that conversation’s workspace and numbers duplicate names.
 - When a task exports a result file on the phone, its turn shows a download button with the file name and size. Select it to save a copy. A missing or changed result reports an error. Attachments and downloads require a compatible phone and desk.
 - If no browser opens, add `--no-open` and open the printed link in a browser on this computer.

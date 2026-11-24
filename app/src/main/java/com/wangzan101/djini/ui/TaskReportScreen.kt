@@ -20,11 +20,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wangzan101.djini.R
 import com.wangzan101.djini.ui.components.*
-import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniIcons
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
-import com.wangzan101.djini.ui.theme.MikaRadius
-import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniType
+import com.wangzan101.djini.ui.theme.DjiniRadius
+import com.wangzan101.djini.ui.theme.DjiniShapes
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -32,22 +32,22 @@ import kotlinx.coroutines.withContext
 internal fun TaskReportEntries(onReport: () -> Unit, onReplay: () -> Unit) {
     val c = DjiniTheme.colors
     Column(Modifier.fillMaxWidth().padding(top = 16.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-        Row(Modifier.fillMaxWidth().clip(MikaShapes.Card).background(c.surface)
+        Row(Modifier.fillMaxWidth().clip(DjiniShapes.Card).background(c.surface)
             .clickable(onClick = onReport).padding(14.dp), verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            Icon(MikaIcons.Doc, null, Modifier.size(26.dp), tint = c.accent)
+            Icon(DjiniIcons.Doc, null, Modifier.size(26.dp), tint = c.accent)
             Column(Modifier.weight(1f)) {
-                Text(stringResource(R.string.report_title), style = MikaType.BodyStrong, color = c.ink)
-                Text(stringResource(R.string.report_entry_hint), style = MikaType.Hint, color = c.ink2)
+                Text(stringResource(R.string.report_title), style = DjiniType.BodyStrong, color = c.ink)
+                Text(stringResource(R.string.report_entry_hint), style = DjiniType.Hint, color = c.ink2)
             }
-            Icon(MikaIcons.Chevron, null, Modifier.size(16.dp), tint = c.ink3)
+            Icon(DjiniIcons.Chevron, null, Modifier.size(16.dp), tint = c.ink3)
         }
-        Row(Modifier.fillMaxWidth().clip(MikaShapes.Card).clickable(onClick = onReplay)
+        Row(Modifier.fillMaxWidth().clip(DjiniShapes.Card).clickable(onClick = onReplay)
             .heightIn(min = 48.dp).padding(horizontal = 14.dp, vertical = 10.dp), verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-            Icon(MikaIcons.Route, null, Modifier.size(18.dp), tint = c.accent)
-            Text(stringResource(R.string.playback_title), Modifier.weight(1f), style = MikaType.Caption, color = c.accent)
-            Icon(MikaIcons.Chevron, null, Modifier.size(16.dp), tint = c.ink3)
+            Icon(DjiniIcons.Route, null, Modifier.size(18.dp), tint = c.accent)
+            Text(stringResource(R.string.playback_title), Modifier.weight(1f), style = DjiniType.Caption, color = c.accent)
+            Icon(DjiniIcons.Chevron, null, Modifier.size(16.dp), tint = c.ink3)
         }
     }
 }
@@ -67,7 +67,7 @@ fun TaskReportScreen(vm: TaskReportViewModel, onBack: () -> Unit, onReplay: (Int
     val c = DjiniTheme.colors
     PageBackground {
         Column(Modifier.fillMaxSize()) {
-            TopBar(stringResource(R.string.report_title), MikaIcons.Back, onBack, stringResource(R.string.back),
+            TopBar(stringResource(R.string.report_title), DjiniIcons.Back, onBack, stringResource(R.string.back),
                 right = { ReportExportMenu(vm.runId, report) })
             val r = report
             if (r == null) {
@@ -76,37 +76,37 @@ fun TaskReportScreen(vm: TaskReportViewModel, onBack: () -> Unit, onReplay: (Int
                 contentPadding = PaddingValues(16.dp, 8.dp, 16.dp, WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding() + 20.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)) {
                 item("document") {
-                    Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(MikaRadius.Bubble)).background(c.surface).padding(20.dp),
+                    Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(DjiniRadius.Bubble)).background(c.surface).padding(20.dp),
                         verticalArrangement = Arrangement.spacedBy(20.dp)) {
-                        Text(r.header.goal, style = MikaType.Title.copy(fontWeight = FontWeight.Bold), color = c.ink)
-                        Row(Modifier.fillMaxWidth().clip(MikaShapes.Tile).background(c.accentSoft).height(IntrinsicSize.Min), verticalAlignment = Alignment.CenterVertically) {
+                        Text(r.header.goal, style = DjiniType.Title.copy(fontWeight = FontWeight.Bold), color = c.ink)
+                        Row(Modifier.fillMaxWidth().clip(DjiniShapes.Tile).background(c.accentSoft).height(IntrinsicSize.Min), verticalAlignment = Alignment.CenterVertically) {
                             Box(Modifier.width(3.dp).fillMaxHeight().background(c.accent))
-                            Text(r.header.outcome, Modifier.weight(1f).padding(12.dp), style = MikaType.Label, color = c.accent)
-                            r.header.duration?.let { Text(it, Modifier.padding(end = 12.dp), style = MikaType.Hint, color = c.ink2) }
+                            Text(r.header.outcome, Modifier.weight(1f).padding(12.dp), style = DjiniType.Label, color = c.accent)
+                            r.header.duration?.let { Text(it, Modifier.padding(end = 12.dp), style = DjiniType.Hint, color = c.ink2) }
                         }
-                        if (r.header.criteria.isNotEmpty()) Text(r.header.criteria.joinToString(" · "), style = MikaType.Caption, color = c.ink2)
-                        if (r.answer.isBlank()) Text(stringResource(R.string.report_no_answer), style = MikaType.Body, color = c.ink2)
-                        else MarkdownText(TaskReportExport.displayMarkdown(r.answer, r.header.goal), MikaType.Body.copy(color = c.ink, lineHeight = 25.sp), Modifier.fillMaxWidth(), reportStyle = true)
+                        if (r.header.criteria.isNotEmpty()) Text(r.header.criteria.joinToString(" · "), style = DjiniType.Caption, color = c.ink2)
+                        if (r.answer.isBlank()) Text(stringResource(R.string.report_no_answer), style = DjiniType.Body, color = c.ink2)
+                        else MarkdownText(TaskReportExport.displayMarkdown(r.answer, r.header.goal), DjiniType.Body.copy(color = c.ink, lineHeight = 25.sp), Modifier.fillMaxWidth(), reportStyle = true)
                     }
                 }
                 if (r.pages.isNotEmpty()) {
-                    item("screens-heading") { Text(stringResource(R.string.report_screens), style = MikaType.BodyStrong, color = c.ink) }
+                    item("screens-heading") { Text(stringResource(R.string.report_screens), style = DjiniType.BodyStrong, color = c.ink) }
                     itemsIndexed(r.pages, key = { _, p -> "page-${p.screenshotId}" }) { _, page ->
-                        Row(Modifier.fillMaxWidth().clip(MikaShapes.Card).background(c.surface)
+                        Row(Modifier.fillMaxWidth().clip(DjiniShapes.Card).background(c.surface)
                             .clickable { onReplay(page.screenshotId) }.padding(12.dp), verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                             StaticPlaybackImage(vm, page.screenshotId, Modifier.size(46.dp, 72.dp))
                             Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                                Text(page.title, style = MikaType.BodyStrong, color = c.ink, maxLines = 2, overflow = TextOverflow.Ellipsis)
-                                Text(stringResource(R.string.report_view_step, page.stepIndex + 1), style = MikaType.Hint, color = c.ink2)
+                                Text(page.title, style = DjiniType.BodyStrong, color = c.ink, maxLines = 2, overflow = TextOverflow.Ellipsis)
+                                Text(stringResource(R.string.report_view_step, page.stepIndex + 1), style = DjiniType.Hint, color = c.ink2)
                             }
-                            Icon(MikaIcons.Chevron, null, Modifier.size(14.dp), tint = c.ink3)
+                            Icon(DjiniIcons.Chevron, null, Modifier.size(14.dp), tint = c.ink3)
                         }
                     }
                 }
-                item("replay") { MikaButton(stringResource(R.string.playback_title), { onReplay(null) }, Modifier.fillMaxWidth(), kind = ButtonKind.Primary) }
-                item("timeline") { MikaButton(stringResource(R.string.chat_view_process), onTimeline, Modifier.fillMaxWidth(), kind = ButtonKind.Tonal, size = ButtonSize.Small) }
-                item("privacy") { Text(stringResource(R.string.report_local_note), style = MikaType.Hint, color = c.ink2) }
+                item("replay") { DjiniButton(stringResource(R.string.playback_title), { onReplay(null) }, Modifier.fillMaxWidth(), kind = ButtonKind.Primary) }
+                item("timeline") { DjiniButton(stringResource(R.string.chat_view_process), onTimeline, Modifier.fillMaxWidth(), kind = ButtonKind.Tonal, size = ButtonSize.Small) }
+                item("privacy") { Text(stringResource(R.string.report_local_note), style = DjiniType.Hint, color = c.ink2) }
             }
         }
     }

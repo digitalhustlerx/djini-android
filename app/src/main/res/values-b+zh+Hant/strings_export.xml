@@ -28,7 +28,7 @@
     <string name="export_warnings">有 %1$d 項沒能帶上。</string>
     <string name="export_filename_fallback">Djini 對話</string>
     <string name="export_label_user">使用者</string>
-    <string name="export_label_mika">Djini</string>
+    <string name="export_label_djini">Djini</string>
     <string name="export_label_steer">任務中途的話</string>
     <string name="export_label_answer">回答</string>
     <string name="export_label_tool_steps">工具步驟</string>

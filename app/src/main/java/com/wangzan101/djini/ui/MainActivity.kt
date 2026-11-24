@@ -56,7 +56,7 @@ import com.wangzan101.djini.R
 import com.wangzan101.djini.DjiniApp
 import com.wangzan101.djini.about.Diagnostics
 import com.wangzan101.djini.about.DiagnosticsCollector
-import com.wangzan101.djini.about.MikaLinks
+import com.wangzan101.djini.about.DjiniLinks
 import com.wangzan101.djini.about.QrImage
 import com.wangzan101.djini.about.ReleaseInfo
 import com.wangzan101.djini.chat.ConversationStore
@@ -129,7 +129,7 @@ class MainActivity : ComponentActivity() {
             DjiniTheme(dark = dark, reduceMotion = animationsOff(this)) {
                 // 在输入框外面点一下或拖动就收起键盘,全 App 统一
                 KeyboardDismissArea(Modifier.fillMaxSize()) {
-                    MikaRoot(
+                    DjiniRoot(
                         store, monitor, ::perform, requestedConversation, { requestedConversation = null },
                         requestedCalls, requestedCallHistoryId, { requestedCalls = false; requestedCallHistoryId = null },
                         requestedSharedDraft,
@@ -228,7 +228,7 @@ class MainActivity : ComponentActivity() {
     override fun onStart() {
         super.onStart()
         // 用户先前点了「完全退出」:打开 Djini 就回来,胶囊和退出时略过的启动工作在这里补上
-        com.wangzan101.djini.quit.MikaQuit.resume(this)
+        com.wangzan101.djini.quit.DjiniQuit.resume(this)
         monitor.start()
         // 每次打开都悄悄查一次新版本(两分钟内连着打开的只查一次),失败不吭声
         val app = application as DjiniApp
@@ -291,7 +291,7 @@ class MainActivity : ComponentActivity() {
             } else openNotificationSettings()
             Fix.OpenPairingChannel -> openChannelSettings(PairingNotifier.ensureChannel(this).id)
             Fix.AddModel -> Unit // 设置页自己处理
-            // 换页由 MikaRoot 处理
+            // 换页由 DjiniRoot 处理
             Fix.OpenPhoneSetup, Fix.OpenPhoneOps, Fix.RepairPhoneHelper -> Unit
             Fix.RetryPhoneHelper -> phone.pairing.scope.launch {
                 phone.sharedShell.reconnect()
@@ -350,7 +350,7 @@ class MainActivity : ComponentActivity() {
         const val EXTRA_TEACH_GOAL = "teach_goal"
         private const val STATE_SHARE_IN_CURRENT = "share_in_current"
         private const val STATE_SHARE_HANDLED = "share_handled"
-        private const val TAG = "MikaMain"
+        private const val TAG = "DjiniMain"
 
         /** 主界面(聊天)此刻是否在前台可见。任务完成时据此决定要不要弹完成通知(#731)。 */
         @Volatile var foreground: Boolean = false
@@ -376,7 +376,7 @@ private data class SharedDraftRequest(val draft: SharedDraft, val serial: Long, 
  * 各页面只通过回调进出,不知道彼此。
  */
 @Composable
-private fun MikaRoot(
+private fun DjiniRoot(
     store: ProviderStore,
     monitor: SystemStatusMonitor,
     activityFix: (Fix) -> Unit,
@@ -659,8 +659,8 @@ private fun MikaRoot(
             versionName = BuildConfig.VERSION_NAME, build = BuildConfig.GIT_HASH, beta = BuildConfig.BETA,
             update = updateState,
             issueUrl = remember {
-                MikaLinks.issueUrl(
-                    MikaLinks.Device(
+                DjiniLinks.issueUrl(
+                    DjiniLinks.Device(
                         Build.MANUFACTURER, Build.MODEL, Build.VERSION.RELEASE, Build.VERSION.SDK_INT,
                         BuildConfig.VERSION_NAME, BuildConfig.GIT_HASH,
                     ),

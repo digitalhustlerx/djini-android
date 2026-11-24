@@ -26,7 +26,7 @@ class AppCopyDeviceTest {
     fun tearDown() = agent.release()
 
     @Test
-    fun launchesTheCopyInItsUserOnMikasDisplay() = runBlocking<Unit> {
+    fun launchesTheCopyInItsUserOnDjinisDisplay() = runBlocking<Unit> {
         val shell = DeviceSupport.shell()
         val users = shell.appCopyUsers()?.getIntArray(ShellService.KEY_COPY_USERS)
         assumeTrue("no usable other user on this device: ${shell.appCopyUsers()?.getString(ShellService.KEY_COPY_SUMMARY)}", users != null && users.isNotEmpty())

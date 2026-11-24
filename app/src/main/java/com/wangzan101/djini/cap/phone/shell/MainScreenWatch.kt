@@ -122,7 +122,7 @@ internal class MainScreenWatch(
     }
 
     companion object {
-        private const val TAG = "MikaShell"
+        private const val TAG = "DjiniShell"
         private const val DESCRIPTOR = "android.app.ITaskStackListener"
         const val POLL_MS = 100L
         private const val COALESCE_MS = 30L

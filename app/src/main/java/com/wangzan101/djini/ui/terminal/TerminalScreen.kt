@@ -43,13 +43,13 @@ import com.wangzan101.djini.core.workspace.SandboxError
 import com.wangzan101.djini.i18n.tr
 import com.wangzan101.djini.terminal.TerminalSession
 import com.wangzan101.djini.ui.components.BarIconButton
-import com.wangzan101.djini.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.DjiniDialog
 import com.wangzan101.djini.ui.components.PageBackground
 import com.wangzan101.djini.ui.components.TopBar
-import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniIcons
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
-import com.wangzan101.djini.ui.theme.MikaRadius
+import com.wangzan101.djini.ui.theme.DjiniType
+import com.wangzan101.djini.ui.theme.DjiniRadius
 import kotlinx.coroutines.flow.MutableStateFlow
 
 /** 终端页的入口:打开(或附着)这个工作区或对话的会话,把状态交给 [TerminalScreen]。 */
@@ -163,25 +163,25 @@ private fun TerminalScreen(
         Column(Modifier.fillMaxSize().imePadding()) {
             TopBar(
                 title = tr(R.string.terminal_title),
-                left = MikaIcons.Back,
+                left = DjiniIcons.Back,
                 onLeft = { if (finished) onBack() else confirmClose = true },
                 leftLabel = stringResource(R.string.back),
                 subtitle = conversationTitle,
                 right = {
                     Text(
                         if (network) tr(R.string.terminal_network_on) else tr(R.string.terminal_network_off),
-                        style = MikaType.Hint,
+                        style = DjiniType.Hint,
                         color = if (network) c.ok else c.warn,
                         modifier = Modifier.padding(end = 2.dp),
                     )
                     BarIconButton(
-                        MikaIcons.Copy,
+                        DjiniIcons.Copy,
                         tr(R.string.terminal_copy_all),
                         onClick = { handle?.copyAll() },
                         enabled = handle != null,
                     )
                     BarIconButton(
-                        MikaIcons.Close,
+                        DjiniIcons.Close,
                         tr(R.string.terminal_close),
                         onClick = { if (finished) onBack() else confirmClose = true },
                     )
@@ -192,7 +192,7 @@ private fun TerminalScreen(
                 Text(
                     tr(R.string.terminal_task_running),
                     Modifier.fillMaxWidth().background(c.warn.copy(alpha = 0.12f)).padding(horizontal = 16.dp, vertical = 8.dp),
-                    style = MikaType.Hint,
+                    style = DjiniType.Hint,
                     color = c.warn,
                 )
             }
@@ -235,7 +235,7 @@ private fun TerminalScreen(
     }
 
     if (confirmClose) {
-        MikaDialog(
+        DjiniDialog(
             onDismissRequest = { confirmClose = false },
             title = { Text(tr(R.string.terminal_close_title)) },
             text = { Text(tr(R.string.terminal_close_body)) },
@@ -252,14 +252,14 @@ private fun TerminalScreen(
 @Composable
 private fun Message(text: String) {
     Box(Modifier.fillMaxSize().padding(24.dp), contentAlignment = Alignment.TopStart) {
-        Text(text, style = MikaType.Body, color = ConsoleDim)
+        Text(text, style = DjiniType.Body, color = ConsoleDim)
     }
 }
 
 @Composable
 private fun ErrorBox(error: SandboxError, onRetry: () -> Unit) {
     Column(Modifier.fillMaxSize().padding(24.dp)) {
-        Text(errorText(error), style = MikaType.Body, color = ConsoleFg)
+        Text(errorText(error), style = DjiniType.Body, color = ConsoleFg)
         Spacer(Modifier.height(16.dp))
         TextButton(onClick = onRetry) { Text(tr(R.string.terminal_retry), color = DjiniTheme.colors.accent) }
     }
@@ -272,7 +272,7 @@ private fun ResultBanner(phase: TerminalSession.Phase, exitCode: Int?, onRetry: 
         modifier.fillMaxWidth().background(c.surface.copy(alpha = 0.96f)).padding(horizontal = 16.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Text(resultText(phase, exitCode), Modifier.weight(1f), style = MikaType.Body, color = c.ink)
+        Text(resultText(phase, exitCode), Modifier.weight(1f), style = DjiniType.Body, color = c.ink)
         TextButton(onClick = onRetry) { Text(tr(R.string.terminal_retry), color = c.accent) }
     }
 }
@@ -314,10 +314,10 @@ private fun Key(text: String, onClick: () -> Unit, bad: Boolean = false) {
     Text(
         text,
         Modifier
-            .background(c.fill, RoundedCornerShape(MikaRadius.BubbleTail))
+            .background(c.fill, RoundedCornerShape(DjiniRadius.BubbleTail))
             .clickable(onClick = onClick)
             .padding(horizontal = 8.dp, vertical = 6.dp),
-        style = MikaType.Caption,
+        style = DjiniType.Caption,
         color = if (bad) c.bad else c.ink,
     )
 }

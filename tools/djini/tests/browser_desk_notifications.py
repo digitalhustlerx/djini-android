@@ -153,7 +153,7 @@ class DeskNotificationsTest(unittest.TestCase):
             page.reload()
             expect(page.locator("#notification-hint")).to_have_text("此浏览器无法发送任务台提醒。")
             expect(toggle).to_be_disabled()
-            self.assertFalse(page.evaluate("!!localStorage.getItem('mikaDeskNotifications')"))
+            self.assertFalse(page.evaluate("!!localStorage.getItem('djiniDeskNotifications')"))
 
     def test_disconnect_and_click_after_a_task_leaves_the_recent_list(self):
         task = snapshot("earlier", "target", "Original turn", "running")

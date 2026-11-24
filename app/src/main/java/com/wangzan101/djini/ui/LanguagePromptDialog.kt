@@ -44,12 +44,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import com.wangzan101.djini.R
 import com.wangzan101.djini.i18n.AppLanguage
-import com.wangzan101.djini.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.DjiniDialog
 import com.wangzan101.djini.ui.components.RadioRow
-import com.wangzan101.djini.ui.theme.MikaIcons
-import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniIcons
+import com.wangzan101.djini.ui.theme.DjiniShapes
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.DjiniType
 
 /**
  * Filter matching a query against localized name, language tag, and common synonyms.
@@ -101,7 +101,7 @@ internal fun LanguagePromptDialog(
     val colors = DjiniTheme.colors
     val filtered = remember(query) { filterLanguages(query) }
 
-    MikaDialog(
+    DjiniDialog(
         onDismissRequest = onDismiss,
         modifier = Modifier.imePadding(),
         properties = DialogProperties(decorFitsSystemWindows = false),
@@ -118,24 +118,24 @@ internal fun LanguagePromptDialog(
                     Modifier
                         .fillMaxWidth()
                         .height(36.dp)
-                        .clip(MikaShapes.Pill)
+                        .clip(DjiniShapes.Pill)
                         .background(colors.fill)
-                        .then(if (searchFocused) Modifier.border(1.dp, colors.accent, MikaShapes.Pill) else Modifier)
+                        .then(if (searchFocused) Modifier.border(1.dp, colors.accent, DjiniShapes.Pill) else Modifier)
                         .padding(horizontal = 10.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(6.dp),
                 ) {
-                    Icon(MikaIcons.Search, null, Modifier.size(16.dp), tint = colors.ink3)
+                    Icon(DjiniIcons.Search, null, Modifier.size(16.dp), tint = colors.ink3)
                     Box(Modifier.weight(1f), contentAlignment = Alignment.CenterStart) {
                         if (query.isEmpty()) {
-                            Text(stringResource(R.string.language_search_hint), style = MikaType.Caption, color = colors.ink3, maxLines = 1)
+                            Text(stringResource(R.string.language_search_hint), style = DjiniType.Caption, color = colors.ink3, maxLines = 1)
                         }
                         BasicTextField(
                             value = query,
                             onValueChange = { query = it },
                             modifier = Modifier.fillMaxWidth().onFocusChanged { searchFocused = it.isFocused },
                             singleLine = true,
-                            textStyle = MikaType.Caption.copy(color = colors.ink),
+                            textStyle = DjiniType.Caption.copy(color = colors.ink),
                             cursorBrush = SolidColor(colors.accent),
                             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
                             keyboardActions = KeyboardActions(onSearch = { focusManager.clearFocus() }),
@@ -146,7 +146,7 @@ internal fun LanguagePromptDialog(
                             Modifier.size(22.dp).clip(CircleShape).clickable { query = "" },
                             contentAlignment = Alignment.Center,
                         ) {
-                            Icon(MikaIcons.Close, null, Modifier.size(12.dp), tint = colors.ink3)
+                            Icon(DjiniIcons.Close, null, Modifier.size(12.dp), tint = colors.ink3)
                         }
                     }
                 }
@@ -167,7 +167,7 @@ internal fun LanguagePromptDialog(
                         ) {
                             Text(
                                 stringResource(R.string.file_library_empty),
-                                style = MikaType.Caption,
+                                style = DjiniType.Caption,
                                 color = colors.ink3,
                             )
                         }

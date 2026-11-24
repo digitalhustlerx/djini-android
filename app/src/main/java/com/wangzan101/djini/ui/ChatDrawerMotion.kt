@@ -42,7 +42,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.wangzan101.djini.R
-import com.wangzan101.djini.ui.theme.MikaMotion
+import com.wangzan101.djini.ui.theme.DjiniMotion
 import kotlin.math.roundToInt
 import kotlin.math.abs
 import kotlin.math.max
@@ -64,7 +64,7 @@ internal class ChatDrawerState(initial: DrawerValue, density: Density) {
             distance * if (isCurrentAnchorOpen()) 1f - CHAT_DRAWER_OPEN_FRACTION else CHAT_DRAWER_OPEN_FRACTION
         },
         velocityThreshold = { with(this.density) { 400.dp.toPx() } },
-        snapAnimationSpec = tween<Float>(256, easing = MikaMotion.Decelerate),
+        snapAnimationSpec = tween<Float>(256, easing = DjiniMotion.Decelerate),
         decayAnimationSpec = exponentialDecay(),
     )
     private fun isCurrentAnchorOpen(): Boolean = drag.currentValue == DrawerValue.Open

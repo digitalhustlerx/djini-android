@@ -124,7 +124,7 @@ internal fun ExportConversationDialog(
                 turn.steers.forEachIndexed { i, steer ->
                     add(ExportCandidate(ExportIds.steer(index, i), context.getString(R.string.export_label_steer), preview(steer)))
                 }
-                add(ExportCandidate(ExportIds.answer(index), context.getString(R.string.export_label_mika), preview(turn.outcome)))
+                add(ExportCandidate(ExportIds.answer(index), context.getString(R.string.export_label_djini), preview(turn.outcome)))
             }
         }
         exportPreview = ExportPreview(ConversationExportSource(context, conversationId, records), list, files, screens)

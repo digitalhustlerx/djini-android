@@ -330,7 +330,7 @@ class WebHost(private val context: Context, widthPx: Int, heightPx: Int, density
     private fun checkMain() = check(Looper.myLooper() == Looper.getMainLooper()) { "WebHost must be used on the main thread" }
 
     companion object {
-        private const val TAG = "MikaWebHost"
+        private const val TAG = "DjiniWebHost"
         private const val FRAME_INTERVAL_MS = 100L
         private const val PHONE_NAME = "djini-web"
 

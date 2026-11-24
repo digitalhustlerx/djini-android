@@ -73,16 +73,16 @@ class RelayGatewayIntegrationTest {
             val init = post("""{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-11-25","capabilities":{},"clientInfo":{"name":"remote-check","version":"1"}}}""")
             assertEquals(200, init.first); assertTrue(init.second.contains("2025-11-25"))
             val tools = post("""{"jsonrpc":"2.0","id":2,"method":"tools/list"}""")
-            assertEquals(200, tools.first); assertTrue(tools.second.contains("mika_run_task"))
-            val run = post("""{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"mika_run_task","arguments":{"goal":"test remote dispatch"}}}""")
+            assertEquals(200, tools.first); assertTrue(tools.second.contains("djini_run_task"))
+            val run = post("""{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"djini_run_task","arguments":{"goal":"test remote dispatch"}}}""")
             assertEquals(200, run.first); assertTrue(run.second, run.second.contains("\"task_id\":\"t1\""))
             tasks.set("t1", TaskState.Succeeded("remote result"))
-            val result = post("""{"jsonrpc":"2.0","id":4,"method":"tools/call","params":{"name":"mika_wait_task","arguments":{"task_id":"t1","timeout_s":1}}}""")
+            val result = post("""{"jsonrpc":"2.0","id":4,"method":"tools/call","params":{"name":"djini_wait_task","arguments":{"task_id":"t1","timeout_s":1}}}""")
             assertTrue(result.second, result.second.contains("remote result"))
             assertTrue(endpoints.activity.value.recentClients > 0)
             // Run the shipped Python CLI through the real Go gateway and Kotlin phone API.
             val tokenFile = tmp.newFile("phone-token").apply { writeText(phoneToken.get()) }
-            val script = File("../tools/djini/scripts/mika_cli.py").canonicalPath
+            val script = File("../tools/djini/scripts/djini_cli.py").canonicalPath
             fun cli(vararg args: String): JsonObject {
                 lateinit var err: File
                 val cli = ProcessBuilder(listOf(System.getProperty("djini.python", "python3"), script,

@@ -15,8 +15,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
-import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniType
+import com.wangzan101.djini.ui.theme.DjiniShapes
 
 /** 操作面板里的一项;[icon] 放在文字左边;[destructive] 为真时文字用出错红。 */
 class SheetAction(
@@ -38,13 +38,13 @@ fun ActionSheet(title: String?, actions: List<SheetAction>, onDismiss: () -> Uni
         onDismissRequest = onDismiss,
         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
         containerColor = c.surface,
-        shape = MikaShapes.SheetTop,
+        shape = DjiniShapes.SheetTop,
     ) {
         Column(Modifier.fillMaxWidth().navigationBarsPadding().padding(bottom = 8.dp)) {
             if (!title.isNullOrEmpty()) {
                 Text(
                     title, Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-                    style = MikaType.Caption, color = c.ink3, maxLines = 2, overflow = TextOverflow.Ellipsis,
+                    style = DjiniType.Caption, color = c.ink3, maxLines = 2, overflow = TextOverflow.Ellipsis,
                 )
             }
             actions.forEachIndexed { i, a ->

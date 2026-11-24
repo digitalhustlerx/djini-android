@@ -77,15 +77,15 @@ import com.wangzan101.djini.ui.components.ButtonSize
 import com.wangzan101.djini.ui.components.DirectionalIcon
 import com.wangzan101.djini.ui.components.EmptyNote
 import com.wangzan101.djini.ui.components.FieldClearButton
-import com.wangzan101.djini.ui.components.MikaButton
+import com.wangzan101.djini.ui.components.DjiniButton
 import com.wangzan101.djini.ui.components.PageBackground
 import com.wangzan101.djini.ui.components.RowChevron
 import com.wangzan101.djini.ui.components.keepsKeyboard
-import com.wangzan101.djini.ui.theme.MikaIcons
-import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniIcons
+import com.wangzan101.djini.ui.theme.DjiniShapes
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
-import com.wangzan101.djini.ui.theme.MikaRadius
+import com.wangzan101.djini.ui.theme.DjiniType
+import com.wangzan101.djini.ui.theme.DjiniRadius
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
@@ -334,12 +334,12 @@ internal fun DeviceFileBrowserScreen(
                 if (truncated) {
                     Row(
                         Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp)
-                            .clip(MikaShapes.Tile).background(c.warnSoft)
+                            .clip(DjiniShapes.Tile).background(c.warnSoft)
                             .padding(horizontal = 12.dp, vertical = 8.dp),
                     ) {
                         Text(
                             stringResource(R.string.device_browser_truncated),
-                            style = MikaType.Hint, color = c.warn,
+                            style = DjiniType.Hint, color = c.warn,
                         )
                     }
                 }
@@ -354,9 +354,9 @@ internal fun DeviceFileBrowserScreen(
                             ) {
                                 Text(
                                     stringResource(R.string.device_browser_retry),
-                                    style = MikaType.Body, color = c.bad, textAlign = TextAlign.Center,
+                                    style = DjiniType.Body, color = c.bad, textAlign = TextAlign.Center,
                                 )
-                                MikaButton(
+                                DjiniButton(
                                     text = stringResource(R.string.file_library_retry),
                                     onClick = { loading = true; request++ },
                                     kind = ButtonKind.Secondary,
@@ -418,7 +418,7 @@ internal fun DeviceFileBrowserScreen(
                                             Modifier.fillMaxWidth().padding(vertical = 12.dp),
                                             contentAlignment = Alignment.Center,
                                         ) {
-                                            MikaButton(
+                                            DjiniButton(
                                                 text = stringResource(R.string.device_browser_more),
                                                 onClick = { loading = true; append = true; request++ },
                                                 kind = ButtonKind.Tonal,
@@ -465,7 +465,7 @@ private fun DeviceBrowserTopBar(
             .heightIn(min = 60.dp).padding(start = 4.dp, end = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        BarIconButton(MikaIcons.Back, stringResource(R.string.back), onBack)
+        BarIconButton(DjiniIcons.Back, stringResource(R.string.back), onBack)
         Text(
             stringResource(R.string.device_browser_title),
             Modifier.weight(1f).padding(start = 4.dp, end = 8.dp),
@@ -473,7 +473,7 @@ private fun DeviceBrowserTopBar(
         )
         Row(
             Modifier.widthIn(max = 180.dp)
-                .clip(MikaShapes.Chip)
+                .clip(DjiniShapes.Chip)
                 .background(if (showHistory) c.accentSoft else c.fill)
                 .clickable(role = Role.Button, onClick = onToggleHistory)
                 .testTag("device-browser-history-toggle")
@@ -482,14 +482,14 @@ private fun DeviceBrowserTopBar(
             horizontalArrangement = Arrangement.spacedBy(6.dp),
         ) {
             Icon(
-                if (showHistory) MikaIcons.Folder else MikaIcons.Clock,
+                if (showHistory) DjiniIcons.Folder else DjiniIcons.Clock,
                 null,
                 Modifier.size(17.dp),
                 tint = if (showHistory) c.accent else c.ink2,
             )
             Text(
                 stringResource(if (showHistory) R.string.device_browser_show_files else R.string.device_browser_history),
-                style = MikaType.Label,
+                style = DjiniType.Label,
                 color = if (showHistory) c.accent else c.ink2,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
@@ -544,7 +544,7 @@ private fun BreadcrumbChip(
     onClick: () -> Unit,
 ) {
     val c = DjiniTheme.colors
-    val shape = MikaShapes.Tile
+    val shape = DjiniShapes.Tile
     Row(
         Modifier.clip(shape)
             .then(if (current) Modifier.background(c.accentSoft) else Modifier)
@@ -554,11 +554,11 @@ private fun BreadcrumbChip(
         horizontalArrangement = Arrangement.spacedBy(5.dp),
     ) {
         if (current) {
-            Icon(MikaIcons.Folder, null, Modifier.size(14.dp), tint = c.accent)
+            Icon(DjiniIcons.Folder, null, Modifier.size(14.dp), tint = c.accent)
         }
         Text(
             text = label,
-            style = if (current) MikaType.Label else MikaType.Caption,
+            style = if (current) DjiniType.Label else DjiniType.Caption,
             color = if (current) c.accent else c.ink2,
             maxLines = 1,
             softWrap = false,
@@ -569,7 +569,7 @@ private fun BreadcrumbChip(
 @Composable
 private fun BreadcrumbSeparator() {
     DirectionalIcon(
-        MikaIcons.Chevron,
+        DjiniIcons.Chevron,
         null,
         Modifier.size(12.dp).padding(horizontal = 1.dp),
         tint = DjiniTheme.colors.ink3,
@@ -593,16 +593,16 @@ private fun DeviceSearchBar(
     ) {
         Row(
             Modifier.weight(1f).height(40.dp).keepsKeyboard()
-                .background(c.fill, MikaShapes.Button).padding(start = 12.dp, end = 6.dp),
+                .background(c.fill, DjiniShapes.Button).padding(start = 12.dp, end = 6.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            Icon(MikaIcons.Search, null, Modifier.size(18.dp), tint = c.ink3)
+            Icon(DjiniIcons.Search, null, Modifier.size(18.dp), tint = c.ink3)
             Box(Modifier.weight(1f), contentAlignment = Alignment.CenterStart) {
                 if (query.isEmpty()) {
                     Text(
                         stringResource(R.string.device_browser_search),
-                        style = MikaType.Body, color = c.ink3, maxLines = 1, overflow = TextOverflow.Ellipsis,
+                        style = DjiniType.Body, color = c.ink3, maxLines = 1, overflow = TextOverflow.Ellipsis,
                     )
                 }
                 BasicTextField(
@@ -610,7 +610,7 @@ private fun DeviceSearchBar(
                     onValueChange = onQueryChange,
                     modifier = Modifier.fillMaxWidth().testTag("device-browser-search"),
                     singleLine = true,
-                    textStyle = MikaType.Body.copy(color = c.ink, textDirection = TextDirection.Content),
+                    textStyle = DjiniType.Body.copy(color = c.ink, textDirection = TextDirection.Content),
                     cursorBrush = SolidColor(c.accent),
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
                     keyboardActions = KeyboardActions(onSearch = { onSearch() }),
@@ -625,7 +625,7 @@ private fun DeviceSearchBar(
             }
         }
         if (query.isNotBlank() && query.trim() != activeQuery) {
-            MikaButton(
+            DjiniButton(
                 text = stringResource(R.string.device_browser_search),
                 onClick = onSearch,
                 kind = ButtonKind.Primary,
@@ -634,7 +634,7 @@ private fun DeviceSearchBar(
                 modifier = Modifier.testTag("device-browser-search-submit"),
             )
         } else if (activeQuery != null) {
-            MikaButton(
+            DjiniButton(
                 text = stringResource(R.string.device_browser_show_files),
                 onClick = onClear,
                 kind = ButtonKind.Tonal,
@@ -657,7 +657,7 @@ private fun DeviceEntryRow(
     onClick: () -> Unit,
 ) {
     val c = DjiniTheme.colors
-    val shape = MikaShapes.Chip
+    val shape = DjiniShapes.Chip
     Column(Modifier.fillMaxWidth()) {
         if (divider && !selected) {
             Box(Modifier.fillMaxWidth().padding(start = 70.dp, end = 4.dp).height(0.5.dp).background(c.hair))
@@ -681,20 +681,20 @@ private fun DeviceEntryRow(
             Column(Modifier.weight(1f).padding(start = 12.dp, end = 4.dp)) {
                 Text(
                     entry.name,
-                    style = MikaType.BodyStrong, color = c.ink, maxLines = 2, overflow = TextOverflow.Ellipsis,
+                    style = DjiniType.BodyStrong, color = c.ink, maxLines = 2, overflow = TextOverflow.Ellipsis,
                 )
                 if (!subtitle.isNullOrEmpty()) {
                     Text(
                         subtitle,
                         Modifier.padding(top = 3.dp),
-                        style = MikaType.Hint, color = c.ink3, maxLines = 2, overflow = TextOverflow.Ellipsis,
+                        style = DjiniType.Hint, color = c.ink3, maxLines = 2, overflow = TextOverflow.Ellipsis,
                     )
                 }
                 if (!locationHint.isNullOrEmpty()) {
                     Text(
                         locationHint,
                         Modifier.padding(top = 2.dp),
-                        style = MikaType.Hint, color = c.ink3, maxLines = 1, overflow = TextOverflow.Ellipsis,
+                        style = DjiniType.Hint, color = c.ink3, maxLines = 1, overflow = TextOverflow.Ellipsis,
                     )
                 }
             }
@@ -727,10 +727,10 @@ private fun DeviceEntryRow(
 private fun FolderTile() {
     val c = DjiniTheme.colors
     Box(
-        Modifier.size(width = 48.dp, height = 54.dp).clip(MikaShapes.Chip).background(c.fill),
+        Modifier.size(width = 48.dp, height = 54.dp).clip(DjiniShapes.Chip).background(c.fill),
         contentAlignment = Alignment.Center,
     ) {
-        Icon(MikaIcons.Folder, null, Modifier.size(24.dp), tint = c.ink)
+        Icon(DjiniIcons.Folder, null, Modifier.size(24.dp), tint = c.ink)
     }
 }
 
@@ -745,7 +745,7 @@ private fun DeviceImportHistoryBody(
         Text(
             stringResource(R.string.device_browser_history_hint),
             Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
-            style = MikaType.Caption, color = c.ink3,
+            style = DjiniType.Caption, color = c.ink3,
         )
         Box(Modifier.fillMaxWidth().height(0.5.dp).background(c.hair))
         if (records.isEmpty()) {
@@ -771,12 +771,12 @@ private fun DeviceImportHistoryBody(
                         ) {
                             FileTypeTile(name)
                             Column(Modifier.weight(1f).padding(start = 12.dp)) {
-                                Text(name, style = MikaType.BodyStrong, color = c.ink, maxLines = 2, overflow = TextOverflow.Ellipsis)
-                                Text(meta, Modifier.padding(top = 3.dp), style = MikaType.Hint, color = c.ink3, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                                Text(name, style = DjiniType.BodyStrong, color = c.ink, maxLines = 2, overflow = TextOverflow.Ellipsis)
+                                Text(meta, Modifier.padding(top = 3.dp), style = DjiniType.Hint, color = c.ink3, maxLines = 1, overflow = TextOverflow.Ellipsis)
                                 Text(
                                     record.workspacePath,
                                     Modifier.padding(top = 2.dp),
-                                    style = MikaType.Hint, color = c.ink3, maxLines = 1, overflow = TextOverflow.Ellipsis,
+                                    style = DjiniType.Hint, color = c.ink3, maxLines = 1, overflow = TextOverflow.Ellipsis,
                                 )
                             }
                         }
@@ -804,16 +804,16 @@ private fun DeviceBrowserBottomBar(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Box(
-                Modifier.height(48.dp).clip(MikaShapes.Button).background(c.fill)
+                Modifier.height(48.dp).clip(DjiniShapes.Button).background(c.fill)
                     .clickable(role = Role.Button, onClick = onCancel)
                     .testTag("device-browser-cancel")
                     .padding(horizontal = 20.dp),
                 contentAlignment = Alignment.Center,
             ) {
-                Text(stringResource(R.string.device_browser_cancel), style = MikaType.BodyStrong, color = c.ink)
+                Text(stringResource(R.string.device_browser_cancel), style = DjiniType.BodyStrong, color = c.ink)
             }
             Row(
-                Modifier.weight(1f).height(48.dp).clip(MikaShapes.Button)
+                Modifier.weight(1f).height(48.dp).clip(DjiniShapes.Button)
                     .background(if (canAdd) c.accent else c.accent.copy(alpha = 0.35f))
                     .clickable(enabled = canAdd, role = Role.Button, onClick = onAdd)
                     .testTag("device-browser-add")
@@ -822,13 +822,13 @@ private fun DeviceBrowserBottomBar(
                 horizontalArrangement = Arrangement.Center,
             ) {
                 Icon(
-                    MikaIcons.ListPlus, null, Modifier.size(18.dp),
+                    DjiniIcons.ListPlus, null, Modifier.size(18.dp),
                     tint = if (canAdd) c.onAccent else c.onAccent.copy(alpha = 0.6f),
                 )
                 Text(
                     stringResource(R.string.device_browser_add, selectedCount),
                     Modifier.padding(start = 7.dp),
-                    style = MikaType.BodyStrong,
+                    style = DjiniType.BodyStrong,
                     color = if (canAdd) c.onAccent else c.onAccent.copy(alpha = 0.6f),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,

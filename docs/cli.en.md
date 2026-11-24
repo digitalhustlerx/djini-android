@@ -28,7 +28,7 @@ flowchart LR
 
 See the [CLI / Skill installation guide](computer-install.en.md) for installation, updates, rollback and removal. Normally choose either the CLI or MCP. The phone must support task API v1, first shipped in official APK v0.1.23.
 
-With only the Skill installed, `djini` below means `python3 <skills-directory>/djini/scripts/mika_cli.py` (`py -3` on Windows).
+With only the Skill installed, `djini` below means `python3 <skills-directory>/djini/scripts/djini_cli.py` (`py -3` on Windows).
 
 ## Connect
 
@@ -155,7 +155,7 @@ Only `offset` and `limit` query parameters are accepted. Pages default to 20 ite
 
 ```bash
 ./gradlew :core:test :core:cliTest :app:testDebugUnitTest :app:assembleDebug
-# Python tests alone; use -PmikaPython=/path/to/python3 to select an interpreter
+# Python tests alone; use -PdjiniPython=/path/to/python3 to select an interpreter
 python3 -m unittest discover -s tools/djini/tests -v
 ```
 

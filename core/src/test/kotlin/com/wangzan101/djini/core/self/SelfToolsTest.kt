@@ -88,17 +88,17 @@ class SelfToolsTest {
         toolDispatcher(FakeScreen(), self = self, selfOperate = operate).definitions().map { it.name }
 
     @Test fun statusNeedsAPortButOperationsNeedTheSwitch() {
-        assertFalse(names(null, null).any { it.startsWith("mika_") })
+        assertFalse(names(null, null).any { it.startsWith("djini_") })
         val readOnly = names(FakeSelf(), null)
-        assertTrue("mika_status" in readOnly)
-        assertFalse(readOnly.any { it == "mika_open_screen" || it == "mika_open_file" || it == "mika_notify" || it == "mika_copy" })
+        assertTrue("djini_status" in readOnly)
+        assertFalse(readOnly.any { it == "djini_open_screen" || it == "djini_open_file" || it == "djini_notify" || it == "djini_copy" })
         val all = names(FakeSelf(), FakeSelf())
-        assertTrue(listOf("mika_status", "mika_open_screen", "mika_open_file", "mika_notify", "mika_copy").all { it in all })
+        assertTrue(listOf("djini_status", "djini_open_screen", "djini_open_file", "djini_notify", "djini_copy").all { it in all })
     }
 
     @Test fun statusIsReadAndCarriesNoSecrets() = runTest {
         val d = toolDispatcher(FakeScreen(), self = FakeSelf())
-        val out = d.executeRead(call("mika_status")).content.toString()
+        val out = d.executeRead(call("djini_status")).content.toString()
         assertTrue(out, out.contains("\"version\":\"1.2.3\""))
         assertTrue(out, out.contains("\"main\":\"Main\""))
         assertFalse(out, out.contains("token", ignoreCase = true) || out.contains("apiKey", ignoreCase = true))
@@ -107,7 +107,7 @@ class SelfToolsTest {
     @Test fun openScreenOpensTheEnumScreen() = runTest {
         val port = FakeSelf()
         val d = toolDispatcher(FakeScreen(), self = port, selfOperate = port)
-        val out = d.execute(call("mika_open_screen", """{"screen":"settings"}""")).content
+        val out = d.execute(call("djini_open_screen", """{"screen":"settings"}""")).content
         assertTrue(out.toString(), out["ok"]!!.jsonPrimitive.content == "true")
         assertEquals(SelfScreen.Settings, port.opened)
     }
@@ -115,9 +115,9 @@ class SelfToolsTest {
     @Test fun openFileStaysInsideWorkspace() = runTest {
         val port = FakeSelf()
         val d = toolDispatcher(FakeScreen(), self = port, selfOperate = port)
-        val bad = d.execute(call("mika_open_file", """{"path":"/etc/passwd"}""")).content
+        val bad = d.execute(call("djini_open_file", """{"path":"/etc/passwd"}""")).content
         assertEquals("invalid_path", bad["error"]!!.jsonPrimitive.content)
-        val good = d.execute(call("mika_open_file", """{"path":"/workspace/out/report.pdf"}""")).content
+        val good = d.execute(call("djini_open_file", """{"path":"/workspace/out/report.pdf"}""")).content
         assertEquals("true", good["ok"]!!.jsonPrimitive.content)
         assertEquals("/workspace/out/report.pdf", port.openedFile)
     }
@@ -126,10 +126,10 @@ class SelfToolsTest {
         val port = FakeSelf()
         val d = toolDispatcher(FakeScreen(), self = port, selfOperate = port)
         repeat(3) {
-            val out = d.execute(call("mika_notify", """{"title":"T","body":"B"}""")).content
+            val out = d.execute(call("djini_notify", """{"title":"T","body":"B"}""")).content
             assertEquals("true", out["ok"]!!.jsonPrimitive.content)
         }
-        val fourth = d.execute(call("mika_notify", """{"title":"T","body":"B"}""")).content
+        val fourth = d.execute(call("djini_notify", """{"title":"T","body":"B"}""")).content
         assertEquals("rate_limited", fourth["error"]!!.jsonPrimitive.content)
         assertEquals(3, port.notified)
     }
@@ -137,7 +137,7 @@ class SelfToolsTest {
     @Test fun copyWritesOnly() = runTest {
         val port = FakeSelf()
         val d = toolDispatcher(FakeScreen(), self = port, selfOperate = port)
-        val out = d.execute(call("mika_copy", """{"text":"hello"}""")).content
+        val out = d.execute(call("djini_copy", """{"text":"hello"}""")).content
         assertEquals("true", out["ok"]!!.jsonPrimitive.content)
         assertEquals("hello", port.copied)
     }
@@ -159,7 +159,7 @@ class SelfToolsTest {
     @Test fun openInBrowserAsksThenOpens() = runTest {
         val port = FakeSelf()
         val d = browserDispatcher(port, "Open")
-        val out = d.execute(call("mika_open_in_browser", """{"url":"https://example.com/a"}""")).content
+        val out = d.execute(call("djini_open_in_browser", """{"url":"https://example.com/a"}""")).content
         assertEquals("true", out["ok"]!!.jsonPrimitive.content)
         assertEquals("https://example.com/a", port.openedBrowser)
     }
@@ -167,7 +167,7 @@ class SelfToolsTest {
     @Test fun openInBrowserDoesNothingWhenTheUserDeclines() = runTest {
         val port = FakeSelf()
         val d = browserDispatcher(port, "Don't open")
-        val out = d.execute(call("mika_open_in_browser", """{"url":"https://example.com/a"}""")).content
+        val out = d.execute(call("djini_open_in_browser", """{"url":"https://example.com/a"}""")).content
         assertEquals("declined", out["error"]!!.jsonPrimitive.content)
         assertNull(port.openedBrowser)
     }
@@ -176,7 +176,7 @@ class SelfToolsTest {
         val port = FakeSelf()
         val d = browserDispatcher(port, "Open")
         for (url in listOf("javascript:alert(1)", "file:///etc/passwd", "https://user:pass@example.com/")) {
-            val out = d.execute(call("mika_open_in_browser", """{"url":"$url"}""")).content
+            val out = d.execute(call("djini_open_in_browser", """{"url":"$url"}""")).content
             assertEquals(url, "invalid_url", out["error"]!!.jsonPrimitive.content)
         }
         assertNull(port.openedBrowser)
@@ -185,7 +185,7 @@ class SelfToolsTest {
     @Test fun openInBrowserRefusesABorrowedPage() = runTest {
         val port = FakeSelf().also { it.browser = it.browser.copy(loaned = true) }
         val d = browserDispatcher(port, "Open")
-        val out = d.execute(call("mika_open_in_browser", """{"url":"https://example.com/a"}""")).content
+        val out = d.execute(call("djini_open_in_browser", """{"url":"https://example.com/a"}""")).content
         assertEquals("page_in_use", out["error"]!!.jsonPrimitive.content)
     }
 
@@ -193,17 +193,17 @@ class SelfToolsTest {
         val port = FakeSelf()
         val d = browserDispatcher(port, "Open")
         repeat(5) {
-            val out = d.execute(call("mika_open_in_browser", """{"url":"https://example.com/$it"}""")).content
+            val out = d.execute(call("djini_open_in_browser", """{"url":"https://example.com/$it"}""")).content
             assertEquals("true", out["ok"]!!.jsonPrimitive.content)
         }
-        val sixth = d.execute(call("mika_open_in_browser", """{"url":"https://example.com/6"}""")).content
+        val sixth = d.execute(call("djini_open_in_browser", """{"url":"https://example.com/6"}""")).content
         assertEquals("rate_limited", sixth["error"]!!.jsonPrimitive.content)
     }
 
     @Test fun searchAsksThenSearches() = runTest {
         val port = FakeSelf()
         val d = browserDispatcher(port, "Open")
-        val out = d.execute(call("mika_search_in_browser", """{"query":"咖啡豆"}""")).content
+        val out = d.execute(call("djini_search_in_browser", """{"query":"咖啡豆"}""")).content
         assertEquals("true", out["ok"]!!.jsonPrimitive.content)
         assertEquals(listOf("咖啡豆"), port.searches)
     }
@@ -211,27 +211,27 @@ class SelfToolsTest {
     @Test fun sitesAndUserPageAreReadOnly() = runTest {
         val port = FakeSelf()
         val d = browserDispatcher(port, "Open")
-        val sites = d.executeRead(call("mika_sites")).content.toString()
+        val sites = d.executeRead(call("djini_sites")).content.toString()
         assertTrue(sites, sites.contains("example.com") && sites.contains("\"loggedIn\":true"))
-        val page = d.executeRead(call("mika_user_page")).content.toString()
+        val page = d.executeRead(call("djini_user_page")).content.toString()
         assertTrue(page, page.contains("old.example.com"))
     }
 
     @Test fun favoritesCanBeListedAndAdded() = runTest {
         val port = FakeSelf()
         val d = browserDispatcher(port, "Open")
-        val added = d.execute(call("mika_favorites", """{"op":"add","host":"example.com"}""")).content
+        val added = d.execute(call("djini_favorites", """{"op":"add","host":"example.com"}""")).content
         assertEquals("true", added["ok"]!!.jsonPrimitive.content)
         assertEquals("add", port.favoriteOp)
         assertEquals("example.com", port.favoriteHost)
-        val listed = d.execute(call("mika_favorites", """{"op":"list"}""")).content.toString()
+        val listed = d.execute(call("djini_favorites", """{"op":"list"}""")).content.toString()
         assertTrue(listed, listed.contains("example.com"))
     }
 
     @Test fun loginAsksThenOpensTheLoginPage() = runTest {
         val port = FakeSelf()
         val d = browserDispatcher(port, "Open")
-        val out = d.execute(call("mika_login_site", """{"host":"example.com"}""")).content
+        val out = d.execute(call("djini_login_site", """{"host":"example.com"}""")).content
         assertEquals("true", out["ok"]!!.jsonPrimitive.content)
         assertEquals("example.com", port.login)
     }
@@ -239,7 +239,7 @@ class SelfToolsTest {
     @Test fun confirmLoginDoesNotAsk() = runTest {
         val port = FakeSelf()
         val d = browserDispatcher(port, null)
-        val out = d.execute(call("mika_confirm_login")).content
+        val out = d.execute(call("djini_confirm_login")).content
         assertEquals("true", out["ok"]!!.jsonPrimitive.content)
         assertTrue(port.confirmed)
     }

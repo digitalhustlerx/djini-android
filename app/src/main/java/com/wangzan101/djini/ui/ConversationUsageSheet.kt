@@ -39,9 +39,9 @@ import com.wangzan101.djini.R
 import com.wangzan101.djini.chat.ConversationStore
 import com.wangzan101.djini.core.usage.ConversationUsage
 import com.wangzan101.djini.ui.components.GroupLabel
-import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniIcons
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.DjiniType
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
@@ -62,9 +62,9 @@ internal fun ConversationUsageSheet(id: String?, onDismiss: () -> Unit) {
         Column(Modifier.fillMaxWidth().verticalScroll(rememberScrollState()).navigationBarsPadding()
             .padding(start = 20.dp, end = 20.dp, bottom = 20.dp).testTag("conversation-usage-sheet")) {
             Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                Text(stringResource(R.string.chat_usage_title), Modifier.weight(1f), style = MikaType.Title, color = c.ink)
+                Text(stringResource(R.string.chat_usage_title), Modifier.weight(1f), style = DjiniType.Title, color = c.ink)
                 IconButton(onClick = onDismiss, modifier = Modifier.testTag("close-conversation-usage")) {
-                    Icon(MikaIcons.Close, stringResource(R.string.report_close), tint = c.ink2)
+                    Icon(DjiniIcons.Close, stringResource(R.string.report_close), tint = c.ink2)
                 }
             }
             val usage = result?.getOrNull()
@@ -82,21 +82,21 @@ private fun UsageDetails(usage: ConversationUsage) {
     val c = DjiniTheme.colors
     val total = "${UsageCopy.compactTokens(usage.input + usage.output)} ${UsageCopy.UNIT}"
     Text(stringResource(if (usage.partial) R.string.chat_conversation_tokens_partial else R.string.chat_conversation_tokens, total),
-        Modifier.padding(top = 16.dp), style = MikaType.BodyStrong, color = c.ink)
+        Modifier.padding(top = 16.dp), style = DjiniType.BodyStrong, color = c.ink)
     CountRow(stringResource(R.string.metrics_input_tokens), UsageCopy.compactTokens(usage.input))
     CountRow(stringResource(R.string.metrics_output_tokens), UsageCopy.compactTokens(usage.output))
     CountRow(stringResource(R.string.chat_cache_rate), usage.cacheRate?.let(UsageCopy::percent) ?: stringResource(R.string.trace_unknown))
     if (usage.cacheRate != null) Text(stringResource(R.string.chat_cache_coverage, UsageCopy.compactTokens(usage.cached),
-        UsageCopy.compactTokens(usage.cacheReportedInput)), style = MikaType.Hint, color = c.ink2)
+        UsageCopy.compactTokens(usage.cacheReportedInput)), style = DjiniType.Hint, color = c.ink2)
 
     GroupLabel(stringResource(R.string.chat_request_context), Modifier.padding(top = 12.dp))
     val snapshot = usage.latest
     if (snapshot == null) {
-        Text(stringResource(R.string.chat_no_context), style = MikaType.Caption, color = c.ink2)
+        Text(stringResource(R.string.chat_no_context), style = DjiniType.Caption, color = c.ink2)
         return
     }
     Text(stringResource(R.string.chat_request_size, snapshot.model, snapshot.step, UsageCopy.compactTokens(snapshot.total),
-        UsageCopy.compactTokens(snapshot.window.toLong())), style = MikaType.Caption, color = c.ink2)
+        UsageCopy.compactTokens(snapshot.window.toLong())), style = DjiniType.Caption, color = c.ink2)
     val parts = listOf(R.string.chat_context_instructions to snapshot.instructions, R.string.chat_context_dialogue to snapshot.dialogue,
         R.string.chat_context_references to snapshot.references, R.string.chat_context_tools to snapshot.toolsAndMedia,
         R.string.chat_context_runtime to snapshot.runtime)
@@ -117,7 +117,7 @@ private fun CountRow(label: String, value: String, color: Color? = null) {
     Row(Modifier.fillMaxWidth().padding(vertical = 4.dp), verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         if (color != null) Spacer(Modifier.size(8.dp).background(color, CircleShape))
-        Text(label, Modifier.weight(1f), style = MikaType.Caption, color = DjiniTheme.colors.ink2)
-        Text(value, style = MikaType.Label, color = DjiniTheme.colors.ink)
+        Text(label, Modifier.weight(1f), style = DjiniType.Caption, color = DjiniTheme.colors.ink2)
+        Text(value, style = DjiniType.Label, color = DjiniTheme.colors.ink)
     }
 }

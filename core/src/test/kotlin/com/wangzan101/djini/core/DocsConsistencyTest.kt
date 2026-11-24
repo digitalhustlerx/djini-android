@@ -68,12 +68,12 @@ class DocsConsistencyTest {
     private val toolPrefixes: Set<String> by lazy { toolNames.map { it.substringBefore('_') }.toSet() }
 
     /**
-     * 电脑/远程 API 的名字,不是发给模型的工具名。`mika_` 现在是自身工具的前缀,文档里这些
+     * 电脑/远程 API 的名字,不是发给模型的工具名。`djini_` 现在是自身工具的前缀,文档里这些
      * 远程调用名不能再靠「前缀不认识」自动放过,逐个列出来。
      */
     private val remoteApiNames = setOf(
-        "mika_run_task", "mika_task_status", "mika_wait_task", "mika_answer", "mika_steer_task",
-        "mika_cancel_task", "mika_list_tasks", "mika_device_state", "mika_wake_device", "mika_unlock_device",
+        "djini_run_task", "djini_task_status", "djini_wait_task", "djini_answer", "djini_steer_task",
+        "djini_cancel_task", "djini_list_tasks", "djini_device_state", "djini_wake_device", "djini_unlock_device",
         // 电脑侧控制 API 的名字(不是发给模型的工具);`task_` 因 task_memory_* 成了工具前缀后也要逐个列出。
         "task_steer", "task_id", "task_recovery", "task_files", "task_interrupted", "task_result_v2",
     )

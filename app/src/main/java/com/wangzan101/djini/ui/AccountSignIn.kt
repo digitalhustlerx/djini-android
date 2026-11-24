@@ -37,14 +37,14 @@ import com.wangzan101.djini.ui.components.ButtonSize
 import com.wangzan101.djini.ui.components.GroupCard
 import com.wangzan101.djini.ui.components.GroupLabel
 import com.wangzan101.djini.ui.components.ListRow
-import com.wangzan101.djini.ui.components.MikaButton
+import com.wangzan101.djini.ui.components.DjiniButton
 import com.wangzan101.djini.ui.components.RowChevron
 import com.wangzan101.djini.ui.components.RowValue
 import com.wangzan101.djini.ui.components.ValueTone
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
-import com.wangzan101.djini.ui.theme.MikaRadius
-import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniType
+import com.wangzan101.djini.ui.theme.DjiniRadius
+import com.wangzan101.djini.ui.theme.DjiniShapes
 
 /** 「添加模型」里「用账号登录」那一组的三家。ChatGPT 的登录另有一套,xAI、OpenRouter 对应 [AccountProvider]。 */
 enum class SignInKind(val account: AccountProvider?, val label: String, val tag: String) {
@@ -128,7 +128,7 @@ internal fun SignInSheet(ui: ModelSetupUi, kind: SignInKind, actions: SignInShee
         onDismissRequest = actions.dismiss,
         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
         containerColor = c.surface,
-        shape = MikaShapes.SheetTop,
+        shape = DjiniShapes.SheetTop,
     ) {
         SignInSheetBody(ui, kind, actions)
     }
@@ -151,30 +151,30 @@ internal fun SignInSheetBody(ui: ModelSetupUi, kind: SignInKind, actions: SignIn
 @Composable
 private fun IntroBody(kind: SignInKind, running: Boolean, failure: String?, busy: Boolean, actions: SignInSheetActions) {
     val c = DjiniTheme.colors
-    Text(ModelsCopy.signInTitle(kind), Modifier.fillMaxWidth(), style = MikaType.Title, color = c.ink, textAlign = TextAlign.Center)
-    Text(ModelsCopy.signInBody(kind), Modifier.padding(top = 10.dp), style = MikaType.Caption, color = c.ink2)
+    Text(ModelsCopy.signInTitle(kind), Modifier.fillMaxWidth(), style = DjiniType.Title, color = c.ink, textAlign = TextAlign.Center)
+    Text(ModelsCopy.signInBody(kind), Modifier.padding(top = 10.dp), style = DjiniType.Caption, color = c.ink2)
     ModelsCopy.signInRisk(kind)?.let { Note(it, c.warnSoft, c.warn, Modifier.testTag("signin-risk")) }
     ModelsCopy.signInInfo(kind)?.let { Note(it, c.fill, c.ink2) }
-    MikaButton(
+    DjiniButton(
         ModelsCopy.signInStart(kind), { actions.start(kind) },
         Modifier.fillMaxWidth().padding(top = 16.dp).testTag("signin-start"), enabled = !running && !busy,
     )
-    if (busy) Text(ModelsCopy.SIGN_IN_BUSY, Modifier.padding(top = 10.dp).testTag("signin-busy"), style = MikaType.Caption, color = c.ink2)
+    if (busy) Text(ModelsCopy.SIGN_IN_BUSY, Modifier.padding(top = 10.dp).testTag("signin-busy"), style = DjiniType.Caption, color = c.ink2)
     if (running) {
         Row(Modifier.fillMaxWidth().padding(top = 12.dp), verticalAlignment = Alignment.CenterVertically) {
-            Text(ModelsCopy.signInWaiting(kind), Modifier.weight(1f), style = MikaType.Caption, color = c.ink2)
+            Text(ModelsCopy.signInWaiting(kind), Modifier.weight(1f), style = DjiniType.Caption, color = c.ink2)
             Text(
                 ModelSetupCopy.CANCEL,
                 Modifier.clickable { actions.cancel(kind) }.padding(start = 12.dp, top = 4.dp, bottom = 4.dp).testTag("signin-cancel"),
-                style = MikaType.Caption, color = c.accent,
+                style = DjiniType.Caption, color = c.accent,
             )
         }
     }
     failure?.let {
-        Text(it, Modifier.padding(top = 10.dp).testTag("signin-failed"), style = MikaType.Caption, color = c.bad)
+        Text(it, Modifier.padding(top = 10.dp).testTag("signin-failed"), style = DjiniType.Caption, color = c.bad)
     }
     if (kind.keyPreset != null && !running) {
-        MikaButton(
+        DjiniButton(
             ModelsCopy.SIGN_IN_USE_KEY, { actions.useApiKey(kind) },
             Modifier.fillMaxWidth().padding(top = 4.dp).testTag("signin-use-key"), kind = ButtonKind.Text, size = ButtonSize.Medium,
         )
@@ -186,29 +186,29 @@ private fun IntroBody(kind: SignInKind, running: Boolean, failure: String?, busy
 private fun DeviceCodeBody(s: AccountSignInUi, code: String, cancel: () -> Unit) {
     val c = DjiniTheme.colors
     val context = LocalContext.current
-    Text(ModelsCopy.XAI_CODE_TITLE, Modifier.fillMaxWidth(), style = MikaType.Title, color = c.ink, textAlign = TextAlign.Center)
+    Text(ModelsCopy.XAI_CODE_TITLE, Modifier.fillMaxWidth(), style = DjiniType.Title, color = c.ink, textAlign = TextAlign.Center)
     Text(
         ModelsCopy.XAI_CODE_BODY, Modifier.fillMaxWidth().padding(top = 10.dp),
-        style = MikaType.Caption, color = c.ink2, textAlign = TextAlign.Center,
+        style = DjiniType.Caption, color = c.ink2, textAlign = TextAlign.Center,
     )
     Text(
         code, Modifier.fillMaxWidth().padding(top = 16.dp).testTag("signin-code"),
-        fontFamily = FontFamily.Monospace, style = MikaType.Display, letterSpacing = 4.sp,
+        fontFamily = FontFamily.Monospace, style = DjiniType.Display, letterSpacing = 4.sp,
         fontWeight = FontWeight.SemiBold, color = c.ink, textAlign = TextAlign.Center,
     )
     if (s.expiresAtMs > 0) {
         val minutes = ((s.expiresAtMs - System.currentTimeMillis()) / 60_000).coerceAtLeast(1)
-        Text(ModelsCopy.codeValid(minutes.toInt()), Modifier.fillMaxWidth().padding(top = 4.dp), style = MikaType.Hint, color = c.ink3, textAlign = TextAlign.Center)
+        Text(ModelsCopy.codeValid(minutes.toInt()), Modifier.fillMaxWidth().padding(top = 4.dp), style = DjiniType.Hint, color = c.ink3, textAlign = TextAlign.Center)
     }
-    MikaButton(
+    DjiniButton(
         ModelsCopy.XAI_CODE_COPY_REOPEN, { copyAndReopen(context, code, s.openUrl) },
         Modifier.fillMaxWidth().padding(top = 16.dp).testTag("signin-copy-reopen"), kind = ButtonKind.Tonal,
     )
     Text(
         ModelsCopy.XAI_CODE_WAITING, Modifier.fillMaxWidth().padding(top = 14.dp),
-        style = MikaType.Caption, color = c.ink2, textAlign = TextAlign.Center,
+        style = DjiniType.Caption, color = c.ink2, textAlign = TextAlign.Center,
     )
-    MikaButton(
+    DjiniButton(
         ModelSetupCopy.CANCEL, cancel, Modifier.fillMaxWidth().padding(top = 4.dp).testTag("signin-cancel"),
         kind = ButtonKind.Text, size = ButtonSize.Medium,
     )
@@ -217,8 +217,8 @@ private fun DeviceCodeBody(s: AccountSignInUi, code: String, cancel: () -> Unit)
 @Composable
 private fun Note(text: String, bg: Color, fg: Color, modifier: Modifier = Modifier) {
     Text(
-        text, modifier.fillMaxWidth().padding(top = 12.dp).background(bg, MikaShapes.Chip).padding(horizontal = 12.dp, vertical = 10.dp),
-        style = MikaType.Hint, color = fg,
+        text, modifier.fillMaxWidth().padding(top = 12.dp).background(bg, DjiniShapes.Chip).padding(horizontal = 12.dp, vertical = 10.dp),
+        style = DjiniType.Hint, color = fg,
     )
 }
 

@@ -32,11 +32,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wangzan101.djini.about.Diagnostics
 import com.wangzan101.djini.ui.components.ButtonKind
-import com.wangzan101.djini.ui.components.MikaButton
+import com.wangzan101.djini.ui.components.DjiniButton
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
-import com.wangzan101.djini.ui.theme.MikaRadius
-import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniType
+import com.wangzan101.djini.ui.theme.DjiniRadius
+import com.wangzan101.djini.ui.theme.DjiniShapes
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -55,27 +55,27 @@ fun DiagnosticsSheet(load: () -> String, onDismiss: () -> Unit) {
             runCatching(load).getOrElse { Diagnostics.sanitize("${Diagnostics.HEADER}\n(failed to collect: ${it.javaClass.simpleName})\n") }
         }
     }
-    ModalBottomSheet(onDismissRequest = onDismiss, containerColor = c.surface, shape = MikaShapes.SheetTop) {
+    ModalBottomSheet(onDismissRequest = onDismiss, containerColor = c.surface, shape = DjiniShapes.SheetTop) {
         Column(Modifier.fillMaxWidth().navigationBarsPadding().padding(start = 16.dp, end = 16.dp, bottom = 16.dp).testTag("diagnostics-sheet")) {
-            Text(AboutCopy.DIAGNOSTICS_TITLE, style = MikaType.Title, color = c.ink)
-            Text(AboutCopy.DIAGNOSTICS_NOTE, Modifier.padding(top = 2.dp), style = MikaType.Caption, color = c.ink3)
+            Text(AboutCopy.DIAGNOSTICS_TITLE, style = DjiniType.Title, color = c.ink)
+            Text(AboutCopy.DIAGNOSTICS_NOTE, Modifier.padding(top = 2.dp), style = DjiniType.Caption, color = c.ink3)
             Box(
                 Modifier.padding(top = 12.dp).fillMaxWidth().heightIn(min = 120.dp, max = 360.dp)
-                    .background(c.fill, MikaShapes.Chip).verticalScroll(rememberScrollState())
+                    .background(c.fill, DjiniShapes.Chip).verticalScroll(rememberScrollState())
                     .horizontalScroll(rememberScrollState()).padding(12.dp),
             ) {
                 Text(
                     text ?: AboutCopy.DIAGNOSTICS_LOADING, Modifier.testTag("diagnostics-text"),
-                    fontFamily = FontFamily.Monospace, style = MikaType.Hint, color = if (text == null) c.ink3 else c.ink2,
+                    fontFamily = FontFamily.Monospace, style = DjiniType.Hint, color = if (text == null) c.ink3 else c.ink2,
                 )
             }
             Row(Modifier.fillMaxWidth().padding(top = 14.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 val ready = text != null
-                MikaButton(
+                DjiniButton(
                     AboutCopy.DIAGNOSTICS_COPY, { text?.let { copyDiagnostics(context, it) } },
                     Modifier.weight(1f).testTag("diagnostics-copy"), enabled = ready,
                 )
-                MikaButton(
+                DjiniButton(
                     AboutCopy.DIAGNOSTICS_SHARE, { text?.let { shareDiagnostics(context, it) } },
                     Modifier.weight(1f).testTag("diagnostics-share"), kind = ButtonKind.Tonal, enabled = ready,
                 )

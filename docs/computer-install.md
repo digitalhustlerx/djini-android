@@ -24,7 +24,7 @@ pipx install 'git+https://github.com/digitalhustlerx/djini-android.git@<tag>#sub
 djini --version
 ```
 
-pipx 里的包名是 `djini-phone-cli`，命令是 `djini`。CLI 有自己的版本号，和 APK 版本不同。已有仓库检出时，也可以在仓库根目录 `pipx install ./tools/djini`，或者不安装、直接运行 `python3 tools/djini/scripts/mika_cli.py`（Windows 用 `py -3`）。
+pipx 里的包名是 `djini-phone-cli`，命令是 `djini`。CLI 有自己的版本号，和 APK 版本不同。已有仓库检出时，也可以在仓库根目录 `pipx install ./tools/djini`，或者不安装、直接运行 `python3 tools/djini/scripts/djini_cli.py`（Windows 用 `py -3`）。
 
 ## CLI：升级、回退和卸载
 
@@ -42,14 +42,14 @@ pipx uninstall djini-phone-cli
 
 ## Skill：安装
 
-Skill 就是仓库里的 `tools/djini` 文件夹：`SKILL.md` 告诉 Agent 怎么用，`scripts/mika_cli.py` 是自带的 CLI，只依赖 Python 3.10+（ADB 连接另需 platform-tools）。
+Skill 就是仓库里的 `tools/djini` 文件夹：`SKILL.md` 告诉 Agent 怎么用，`scripts/djini_cli.py` 是自带的 CLI，只依赖 Python 3.10+（ADB 连接另需 platform-tools）。
 
 1. 在 [最新 release](https://github.com/digitalhustlerx/djini-android/releases/latest) 下载 **Source code (zip)** 并解压。
 2. 把其中**整个** `tools/djini` 文件夹复制到你的 Agent 的技能目录（位置见该 Agent 自己的说明）。结果应该是 `<技能目录>/djini/SKILL.md`，不要多嵌套一层 `djini`。
 3. 检查自带脚本能运行：
 
    ```bash
-   python3 <技能目录>/djini/scripts/mika_cli.py --version   # Windows 用 py -3 代替 python3
+   python3 <技能目录>/djini/scripts/djini_cli.py --version   # Windows 用 py -3 代替 python3
    ```
 
 4. 重开 Agent 会话，确认它能看到名为 `djini` 的 Skill。
@@ -65,7 +65,7 @@ Skill 就是仓库里的 `tools/djini` 文件夹：`SKILL.md` 告诉 Agent 怎�
 
 ## 装好之后：连接检查
 
-只装了 Skill 时，下面的 `djini` 换成 `python3 <技能目录>/djini/scripts/mika_cli.py`（Windows 用 `py -3`）。
+只装了 Skill 时，下面的 `djini` 换成 `python3 <技能目录>/djini/scripts/djini_cli.py`（Windows 用 `py -3`）。
 
 经 USB 或已连接的无线 ADB：
 

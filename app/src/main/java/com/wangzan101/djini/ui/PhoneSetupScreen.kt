@@ -30,7 +30,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import com.wangzan101.djini.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.DjiniDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
@@ -77,18 +77,18 @@ import com.wangzan101.djini.ui.components.ListRow
 import com.wangzan101.djini.ui.components.RowValue
 import com.wangzan101.djini.ui.components.ValueTone
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniIcons
 import com.wangzan101.djini.ui.components.TileTone
 import com.wangzan101.djini.ui.components.RowChevron
-import com.wangzan101.djini.ui.components.MikaButton
+import com.wangzan101.djini.ui.components.DjiniButton
 import com.wangzan101.djini.ui.components.ButtonKind
 import com.wangzan101.djini.ui.components.ButtonSize
 import com.wangzan101.djini.ui.components.cardSurface
 import com.wangzan101.djini.ui.components.FooterNote
 import com.wangzan101.djini.ui.components.ProgressDots
-import com.wangzan101.djini.ui.theme.MikaType
-import com.wangzan101.djini.ui.theme.MikaShapes
-import com.wangzan101.djini.ui.theme.MikaRadius
+import com.wangzan101.djini.ui.theme.DjiniType
+import com.wangzan101.djini.ui.theme.DjiniShapes
+import com.wangzan101.djini.ui.theme.DjiniRadius
 import androidx.compose.runtime.setValue
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -277,16 +277,16 @@ fun PhoneSetupContent(
     val c = DjiniTheme.colors
     PageBackground {
         Column(Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.navigationBars)) {
-            TopBar(PhoneSetupCopy.BAR_TITLE, MikaIcons.Back, onClose, stringResource(R.string.back))
+            TopBar(PhoneSetupCopy.BAR_TITLE, DjiniIcons.Back, onClose, stringResource(R.string.back))
             Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(start = 16.dp, end = 16.dp, bottom = 16.dp)) {
                 if (view.phase == SetupPhase.Unavailable) {
                     // 这个环境没有能起助手的路:只说明,不列走不通的步骤
                     GroupCard {
                         Column(Modifier.padding(16.dp).testTag("setup-unavailable")) {
-                            Text(PhoneSetupCopy.UNAVAILABLE, style = MikaType.Body, fontWeight = FontWeight.SemiBold, color = c.ink)
+                            Text(PhoneSetupCopy.UNAVAILABLE, style = DjiniType.Body, fontWeight = FontWeight.SemiBold, color = c.ink)
                             Text(
                                 PhoneSetupCopy.UNAVAILABLE_REASON, Modifier.padding(top = 8.dp),
-                                style = MikaType.Body, color = c.ink2,
+                                style = DjiniType.Body, color = c.ink2,
                             )
                         }
                     }
@@ -294,12 +294,12 @@ fun PhoneSetupContent(
                     if (view.phase == SetupPhase.Success) {
                         Text(
                             PhoneSetupCopy.SUCCESS_LINE, Modifier.padding(top = 4.dp, bottom = 16.dp).testTag("setup-success"),
-                            style = MikaType.Body, fontWeight = FontWeight.SemiBold, color = c.ok,
+                            style = DjiniType.Body, fontWeight = FontWeight.SemiBold, color = c.ok,
                         )
                     } else {
                         Text(
                             PhoneSetupCopy.INTRO, Modifier.padding(top = 4.dp, bottom = 16.dp),
-                            style = MikaType.Body, color = c.ink2,
+                            style = DjiniType.Body, color = c.ink2,
                         )
                     }
                     GroupCard {
@@ -329,24 +329,24 @@ fun PhoneSetupContent(
                 if (view.phase == SetupPhase.Success) {
                     Text(
                         PhoneSetupCopy.successNote(view.restart), Modifier.fillMaxWidth().padding(bottom = 10.dp),
-                        style = MikaType.Caption, color = c.ink3, textAlign = TextAlign.Center,
+                        style = DjiniType.Caption, color = c.ink3, textAlign = TextAlign.Center,
                     )
                 }
                 if (onboarding) ProgressDots(Onboarding.DOTS, Onboarding.dot(OnboardingStep.Phone), Modifier.padding(bottom = 8.dp))
                 when (view.phase) {
-                    SetupPhase.Success -> MikaButton(
+                    SetupPhase.Success -> DjiniButton(
                         if (onboarding) PhoneSetupCopy.START_USING else PhoneSetupCopy.SUCCESS_DONE, onClose,
                         Modifier.fillMaxWidth().testTag("setup-done"),
                     )
-                    SetupPhase.Unavailable -> MikaButton(stringResource(R.string.ok_got_it), onClose, Modifier.fillMaxWidth().testTag("setup-got-it"))
+                    SetupPhase.Unavailable -> DjiniButton(stringResource(R.string.ok_got_it), onClose, Modifier.fillMaxWidth().testTag("setup-got-it"))
                     // 正在连接、连不上时也能先离开,之后在设置里接着弄
-                    SetupPhase.Guide, SetupPhase.Working, SetupPhase.Failed -> MikaButton(
+                    SetupPhase.Guide, SetupPhase.Working, SetupPhase.Failed -> DjiniButton(
                         PhoneSetupCopy.LATER, onClose, Modifier.fillMaxWidth().testTag("setup-later"),
                         kind = ButtonKind.Text, size = ButtonSize.Medium,
                     )
                 }
                 onDiagnostics?.let {
-                    MikaButton(
+                    DjiniButton(
                         PhoneSetupCopy.DIAGNOSTICS, it, Modifier.fillMaxWidth().testTag("setup-diagnostics"),
                         kind = ButtonKind.Text, size = ButtonSize.Small,
                     )
@@ -364,12 +364,12 @@ fun PhoneSetupContent(
 private fun UsbStartCard(restart: HelperRestart, command: String, onCopy: () -> Unit) {
     val c = DjiniTheme.colors
     val (title, body) = PhoneSetupCopy.usbCard(restart)
-    Column(Modifier.padding(top = 10.dp).fillMaxWidth().background(c.accentSoft, MikaShapes.Chip).padding(12.dp).testTag("setup-usb")) {
-        Text(title, style = MikaType.Body.copy(fontWeight = FontWeight.SemiBold), color = c.ink)
-        Text(body, Modifier.padding(top = 2.dp), style = MikaType.Caption, color = c.ink2)
+    Column(Modifier.padding(top = 10.dp).fillMaxWidth().background(c.accentSoft, DjiniShapes.Chip).padding(12.dp).testTag("setup-usb")) {
+        Text(title, style = DjiniType.Body.copy(fontWeight = FontWeight.SemiBold), color = c.ink)
+        Text(body, Modifier.padding(top = 2.dp), style = DjiniType.Caption, color = c.ink2)
         Text(
-            command, Modifier.padding(top = 8.dp).fillMaxWidth().background(c.fill, MikaShapes.Tile).padding(10.dp).testTag("setup-usb-command"),
-            fontFamily = FontFamily.Monospace, style = MikaType.Hint, color = c.ink,
+            command, Modifier.padding(top = 8.dp).fillMaxWidth().background(c.fill, DjiniShapes.Tile).padding(10.dp).testTag("setup-usb-command"),
+            fontFamily = FontFamily.Monospace, style = DjiniType.Hint, color = c.ink,
         )
         PillButton(PhoneSetupCopy.USB_COPY, primary = false, tag = "setup-usb-copy", onClick = onCopy)
     }
@@ -386,14 +386,14 @@ private fun StepRow(step: SetupStep, mark: StepMark, current: Boolean, first: Bo
             Column(Modifier.weight(1f)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
-                        copy.title, Modifier.weight(1f), style = MikaType.Body,
+                        copy.title, Modifier.weight(1f), style = DjiniType.Body,
                         fontWeight = if (mark == StepMark.Current || mark == StepMark.Failed) FontWeight.SemiBold else FontWeight.Medium,
                         color = if (mark == StepMark.Todo || mark == StepMark.Skipped) c.ink3 else c.ink,
                     )
                     if (mark == StepMark.Done) RowValue(copy.done, ValueTone.Ok)
                     if (mark == StepMark.Skipped) RowValue(PhoneSetupCopy.ACCESSIBILITY_SKIPPED)
                 }
-                if (!current) Text(copy.brief, Modifier.padding(top = 2.dp), style = MikaType.Caption, color = if (mark == StepMark.Todo) c.ink3 else c.ink2)
+                if (!current) Text(copy.brief, Modifier.padding(top = 2.dp), style = DjiniType.Caption, color = if (mark == StepMark.Todo) c.ink3 else c.ink2)
                 body()
             }
         }
@@ -411,9 +411,9 @@ private fun StepBadge(n: Int, mark: StepMark) {
     }
     Box(Modifier.size(28.dp).background(bg, CircleShape), contentAlignment = Alignment.Center) {
         when (mark) {
-            StepMark.Done -> Icon(MikaIcons.Check, null, Modifier.size(15.dp), tint = c.onAccent)
-            StepMark.Failed -> Icon(MikaIcons.Exclaim, null, Modifier.size(15.dp), tint = c.onAccent)
-            else -> Text("$n", style = MikaType.Caption.copy(fontWeight = FontWeight.Bold), color = if (mark == StepMark.Todo || mark == StepMark.Skipped) c.ink3 else c.onAccent)
+            StepMark.Done -> Icon(DjiniIcons.Check, null, Modifier.size(15.dp), tint = c.onAccent)
+            StepMark.Failed -> Icon(DjiniIcons.Exclaim, null, Modifier.size(15.dp), tint = c.onAccent)
+            else -> Text("$n", style = DjiniType.Caption.copy(fontWeight = FontWeight.Bold), color = if (mark == StepMark.Todo || mark == StepMark.Skipped) c.ink3 else c.onAccent)
         }
     }
 }
@@ -437,14 +437,14 @@ private fun CurrentStepBody(
     onConnectPort: ((Int) -> Unit)?,
 ) {
     val copy = PhoneSetupCopy.step(step)
-    Text(copy.body, Modifier.padding(top = 2.dp), style = MikaType.Caption, color = DjiniTheme.colors.ink2)
+    Text(copy.body, Modifier.padding(top = 2.dp), style = DjiniType.Caption, color = DjiniTheme.colors.ink2)
     view.failure?.let { f ->
         val fc = PhoneSetupCopy.failure(f.reason)
         Column(
-            Modifier.padding(top = 10.dp).fillMaxWidth().background(DjiniTheme.colors.badSoft, MikaShapes.Chip).padding(12.dp),
+            Modifier.padding(top = 10.dp).fillMaxWidth().background(DjiniTheme.colors.badSoft, DjiniShapes.Chip).padding(12.dp),
         ) {
-            Text(fc.title, style = MikaType.Body.copy(fontWeight = FontWeight.SemiBold), color = DjiniTheme.colors.bad)
-            Text(fc.body, Modifier.padding(top = 2.dp), style = MikaType.Caption, color = DjiniTheme.colors.ink2)
+            Text(fc.title, style = DjiniType.Body.copy(fontWeight = FontWeight.SemiBold), color = DjiniTheme.colors.bad)
+            Text(fc.body, Modifier.padding(top = 2.dp), style = DjiniType.Caption, color = DjiniTheme.colors.ink2)
         }
         // 要再运行 USB 命令时,下面的卡片里就有命令和复制按钮,不再重复一个
         if (f.fix != BuiltinShellFix.RunUsbCommand || !view.usbFallback) {
@@ -458,9 +458,9 @@ private fun CurrentStepBody(
     view.suspect?.let { s ->
         Text(
             PhoneSetupCopy.suspect(s),
-            Modifier.padding(top = 10.dp).fillMaxWidth().background(DjiniTheme.colors.warnSoft, MikaShapes.Chip).padding(12.dp)
+            Modifier.padding(top = 10.dp).fillMaxWidth().background(DjiniTheme.colors.warnSoft, DjiniShapes.Chip).padding(12.dp)
                 .testTag("setup-suspect"),
-            style = MikaType.Caption, color = DjiniTheme.colors.ink,
+            style = DjiniType.Caption, color = DjiniTheme.colors.ink,
         )
         PillButton(PhoneSetupCopy.goBackTo(s.step), primary = view.failure == null, tag = "setup-suspect-back") { onRevisit(s.step) }
     }
@@ -469,20 +469,20 @@ private fun CurrentStepBody(
     if (step == SetupStep.PairingCode) {
         when (view.notifyIssue) {
             PairingNotifyIssue.NotificationsOff -> {
-                Text(PhoneSetupCopy.NEED_NOTIFICATIONS, Modifier.padding(top = 8.dp), style = MikaType.Caption, color = DjiniTheme.colors.warn)
+                Text(PhoneSetupCopy.NEED_NOTIFICATIONS, Modifier.padding(top = 8.dp), style = DjiniType.Caption, color = DjiniTheme.colors.warn)
                 PillButton(PhoneSetupCopy.ALLOW_NOTIFICATIONS, primary = fixNotificationsFirst, tag = "setup-notify-fix") { onAllowNotifications() }
             }
             PairingNotifyIssue.ChannelOff -> {
-                Text(PhoneSetupCopy.PAIRING_CHANNEL_OFF, Modifier.padding(top = 8.dp), style = MikaType.Caption, color = DjiniTheme.colors.warn)
+                Text(PhoneSetupCopy.PAIRING_CHANNEL_OFF, Modifier.padding(top = 8.dp), style = DjiniType.Caption, color = DjiniTheme.colors.warn)
                 PillButton(PhoneSetupCopy.OPEN_PAIRING_CHANNEL, primary = fixNotificationsFirst, tag = "setup-notify-fix") { onOpenPairingChannel() }
             }
             // 不弹出也能下拉去填:只提醒,不抢主按钮;无障碍开着时用不上通知,不提
             PairingNotifyIssue.NotHeadsUp -> if (!view.autoRead) {
                 Text(
                     PhoneSetupCopy.PAIRING_LOWERED,
-                    Modifier.padding(top = 10.dp).fillMaxWidth().background(DjiniTheme.colors.warnSoft, MikaShapes.Chip).padding(12.dp)
+                    Modifier.padding(top = 10.dp).fillMaxWidth().background(DjiniTheme.colors.warnSoft, DjiniShapes.Chip).padding(12.dp)
                         .testTag("setup-pairing-lowered"),
-                    style = MikaType.Caption, color = DjiniTheme.colors.ink,
+                    style = DjiniType.Caption, color = DjiniTheme.colors.ink,
                 )
                 PillButton(PhoneSetupCopy.OPEN_HEADS_UP, primary = false, tag = "setup-pairing-lowered-open") { onOpenPairingChannel() }
             }
@@ -490,15 +490,15 @@ private fun CurrentStepBody(
         }
         if (headsUpLowered && !view.needsNotifications) {
             Column(
-                Modifier.padding(top = 10.dp).fillMaxWidth().background(DjiniTheme.colors.warnSoft, MikaShapes.Chip).padding(12.dp)
+                Modifier.padding(top = 10.dp).fillMaxWidth().background(DjiniTheme.colors.warnSoft, DjiniShapes.Chip).padding(12.dp)
                     .testTag("setup-heads-up"),
             ) {
-                Text(PhoneSetupCopy.HEADS_UP_LOWERED, style = MikaType.Body.copy(fontWeight = FontWeight.SemiBold), color = DjiniTheme.colors.warn)
+                Text(PhoneSetupCopy.HEADS_UP_LOWERED, style = DjiniType.Body.copy(fontWeight = FontWeight.SemiBold), color = DjiniTheme.colors.warn)
             }
             PillButton(PhoneSetupCopy.OPEN_HEADS_UP, primary = false, tag = "setup-heads-up-open") { onOpenHeadsUp() }
         }
         if (view.autoRead) AutoReadHint() else NotifyGuide()
-        if (view.portFound && !view.autoRead) Text(PhoneSetupCopy.PORT_FOUND, Modifier.padding(top = 8.dp), style = MikaType.Caption, color = DjiniTheme.colors.ok)
+        if (view.portFound && !view.autoRead) Text(PhoneSetupCopy.PORT_FOUND, Modifier.padding(top = 8.dp), style = DjiniType.Caption, color = DjiniTheme.colors.ok)
     }
     // 无障碍一步推荐跳过:配对后 Djini 自己打开,也不会被「受限制的设置」拦住
     val a11y = step == SetupStep.Accessibility
@@ -517,7 +517,7 @@ private fun CurrentStepBody(
 private fun LinkText(text: String, tag: String?, onClick: () -> Unit) {
     Text(
         text, Modifier.padding(top = 6.dp).clickable(onClick = onClick).padding(vertical = 4.dp).then(if (tag != null) Modifier.testTag(tag) else Modifier),
-        style = MikaType.Caption, color = DjiniTheme.colors.accent,
+        style = DjiniType.Caption, color = DjiniTheme.colors.accent,
     )
 }
 
@@ -526,15 +526,15 @@ private fun LinkText(text: String, tag: String?, onClick: () -> Unit) {
 private fun AutoReadHint() {
     val c = DjiniTheme.colors
     Row(
-        Modifier.padding(top = 10.dp).fillMaxWidth().background(c.okSoft, MikaShapes.Chip)
+        Modifier.padding(top = 10.dp).fillMaxWidth().background(c.okSoft, DjiniShapes.Chip)
             .padding(12.dp).testTag("setup-pairing-hint"),
         verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp),
     ) {
-        Icon(MikaIcons.Check, null, Modifier.size(20.dp), tint = c.ok)
+        Icon(DjiniIcons.Check, null, Modifier.size(20.dp), tint = c.ok)
         Column {
-            Text(PhoneSetupCopy.AUTO_READ_HINT, style = MikaType.Body.copy(fontWeight = FontWeight.SemiBold), color = c.ink)
+            Text(PhoneSetupCopy.AUTO_READ_HINT, style = DjiniType.Body.copy(fontWeight = FontWeight.SemiBold), color = c.ink)
             // 有的系统一进设置就停掉 Djini 的无障碍、冻结后台:读不到时填码通知已经在通知栏里了
-            Text(PhoneSetupCopy.AUTO_READ_FALLBACK, Modifier.padding(top = 4.dp), style = MikaType.Caption, color = c.ink2)
+            Text(PhoneSetupCopy.AUTO_READ_FALLBACK, Modifier.padding(top = 4.dp), style = DjiniType.Caption, color = c.ink2)
         }
     }
 }
@@ -543,19 +543,19 @@ private fun AutoReadHint() {
 @Composable
 private fun NotifyGuide() {
     val c = DjiniTheme.colors
-    val icons = listOf(MikaIcons.Phone, MikaIcons.Bell, MikaIcons.Key)
+    val icons = listOf(DjiniIcons.Phone, DjiniIcons.Bell, DjiniIcons.Key)
     Column(
-        Modifier.padding(top = 10.dp).fillMaxWidth().background(c.accentSoft, MikaShapes.Chip)
+        Modifier.padding(top = 10.dp).fillMaxWidth().background(c.accentSoft, DjiniShapes.Chip)
             .padding(12.dp).testTag("setup-pairing-guide"),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         PhoneSetupCopy.NOTIFY_GUIDE.forEachIndexed { i, line ->
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 Box(Modifier.size(22.dp).background(c.accent, CircleShape), contentAlignment = Alignment.Center) {
-                    Text("${i + 1}", style = MikaType.Hint.copy(fontWeight = FontWeight.Bold), color = c.onAccent)
+                    Text("${i + 1}", style = DjiniType.Hint.copy(fontWeight = FontWeight.Bold), color = c.onAccent)
                 }
                 Icon(icons[i], null, Modifier.size(18.dp), tint = c.accent)
-                Text(line, Modifier.weight(1f), style = MikaType.Body.copy(fontWeight = FontWeight.Medium), color = c.ink)
+                Text(line, Modifier.weight(1f), style = DjiniType.Body.copy(fontWeight = FontWeight.Medium), color = c.ink)
             }
         }
     }
@@ -570,10 +570,10 @@ private fun ManualCode(askPort: Boolean, onSubmit: (String, Int?) -> Unit) {
     var error by remember { mutableStateOf<String?>(null) }
     Text(
         PhoneSetupCopy.MANUAL_TOGGLE, Modifier.padding(top = 8.dp).clickable { open = !open }.padding(vertical = 4.dp).testTag("setup-manual"),
-        style = MikaType.Caption, color = DjiniTheme.colors.accent,
+        style = DjiniType.Caption, color = DjiniTheme.colors.accent,
     )
     if (!open) return
-    Text(PhoneSetupCopy.MANUAL_HINT, style = MikaType.Hint, color = DjiniTheme.colors.ink3)
+    Text(PhoneSetupCopy.MANUAL_HINT, style = DjiniType.Hint, color = DjiniTheme.colors.ink3)
     OutlinedTextField(
         code, { code = it; error = null }, Modifier.fillMaxWidth().padding(top = 6.dp).keepsKeyboard().testTag("setup-code"),
         label = { Text(PhoneSetupCopy.CODE_LABEL) }, singleLine = true,
@@ -586,7 +586,7 @@ private fun ManualCode(askPort: Boolean, onSubmit: (String, Int?) -> Unit) {
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
         )
     }
-    error?.let { Text(it, Modifier.padding(top = 4.dp), style = MikaType.Hint, color = DjiniTheme.colors.bad) }
+    error?.let { Text(it, Modifier.padding(top = 4.dp), style = DjiniType.Hint, color = DjiniTheme.colors.bad) }
     PillButton(PhoneSetupCopy.SUBMIT, primary = true, tag = "setup-submit") {
         val c = PairingCode.normalize(code)
         val p = if (askPort && port.isNotBlank()) PairingCode.port(port) else null
@@ -633,14 +633,14 @@ private fun WorkingLine(scanning: Boolean) {
         CircularProgressIndicator(Modifier.size(16.dp), color = DjiniTheme.colors.accent, strokeWidth = 2.dp)
         Text(
             if (scanning) PhoneSetupCopy.SCANNING_PORTS else PhoneSetupCopy.WORKING, Modifier.testTag("setup-working"),
-            style = MikaType.Caption, color = DjiniTheme.colors.ink2,
+            style = DjiniType.Caption, color = DjiniTheme.colors.ink2,
         )
     }
 }
 
 @Composable
 private fun PillButton(text: String, primary: Boolean, tag: String? = null, onClick: () -> Unit) {
-    MikaButton(
+    DjiniButton(
         text, onClick, Modifier.padding(top = 10.dp).then(if (tag != null) Modifier.testTag(tag) else Modifier),
         kind = if (primary) ButtonKind.Primary else ButtonKind.Tonal, size = ButtonSize.Small,
     )
@@ -654,20 +654,20 @@ fun PhoneHelperSection(status: BuiltinShellStatus, onRepair: () -> Unit, onUnpai
     var confirming by remember { mutableStateOf(false) }
     GroupCard {
         val (value, tone) = PhoneSetupCopy.statusValue(status)
-        ListRow(MikaIcons.Phone, PhoneSetupCopy.ROW_TITLE, PhoneSetupCopy.statusLine(status, usbDebugging), first = true) {
+        ListRow(DjiniIcons.Phone, PhoneSetupCopy.ROW_TITLE, PhoneSetupCopy.statusLine(status, usbDebugging), first = true) {
             RowValue(value, tone)
         }
-        ListRow(MikaIcons.Link, PhoneSetupCopy.REPAIR, PhoneSetupCopy.REPAIR_SUBTITLE, onClick = onRepair) {
+        ListRow(DjiniIcons.Link, PhoneSetupCopy.REPAIR, PhoneSetupCopy.REPAIR_SUBTITLE, onClick = onRepair) {
             RowChevron()
         }
         val paired = status != BuiltinShellStatus.NotPaired
         ListRow(
-            MikaIcons.Close, PhoneSetupCopy.UNPAIR, PhoneSetupCopy.UNPAIR_SUBTITLE,
+            DjiniIcons.Close, PhoneSetupCopy.UNPAIR, PhoneSetupCopy.UNPAIR_SUBTITLE,
             titleColor = if (paired) DjiniTheme.colors.bad else DjiniTheme.colors.ink3, tone = if (paired) TileTone.Bad else TileTone.Neutral, onClick = if (paired) ({ confirming = true }) else null,
         )
     }
     if (confirming) {
-        MikaDialog(
+        DjiniDialog(
             onDismissRequest = { confirming = false },
             title = { Text(PhoneSetupCopy.UNPAIR_TITLE) },
             text = { Text(PhoneSetupCopy.UNPAIR_BODY) },
@@ -682,16 +682,16 @@ fun PhoneHelperSection(status: BuiltinShellStatus, onRepair: () -> Unit, onUnpai
 /** 任务要用手机而手机操作没准备好时,任务卡片下面的一行。 */
 @Composable
 fun PhoneSetupLine(onOpen: () -> Unit) {
-    val shape = MikaShapes.Card
+    val shape = DjiniShapes.Card
     Row(
         Modifier.fillMaxWidth().padding(bottom = 12.dp).cardSurface(DjiniTheme.colors, shape)
             .padding(horizontal = 16.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp),
     ) {
-        Text(PhoneSetupCopy.DEGRADED_LINE, Modifier.weight(1f), style = MikaType.Caption, color = DjiniTheme.colors.ink2)
+        Text(PhoneSetupCopy.DEGRADED_LINE, Modifier.weight(1f), style = DjiniType.Caption, color = DjiniTheme.colors.ink2)
         Text(
             PhoneSetupCopy.DEGRADED_ACTION, Modifier.clickable(onClick = onOpen).padding(4.dp).testTag("phone-setup-open"),
-            style = MikaType.Body.copy(fontWeight = FontWeight.SemiBold), color = DjiniTheme.colors.accent,
+            style = DjiniType.Body.copy(fontWeight = FontWeight.SemiBold), color = DjiniTheme.colors.accent,
         )
     }
 }

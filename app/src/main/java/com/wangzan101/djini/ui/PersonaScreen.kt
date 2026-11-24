@@ -29,12 +29,12 @@ import com.wangzan101.djini.ui.components.ButtonSize
 import com.wangzan101.djini.ui.components.FooterNote
 import com.wangzan101.djini.ui.components.GroupCard
 import com.wangzan101.djini.ui.components.ListRow
-import com.wangzan101.djini.ui.components.MikaButton
+import com.wangzan101.djini.ui.components.DjiniButton
 import com.wangzan101.djini.ui.components.PageScaffold
 import com.wangzan101.djini.ui.components.RowChevron
-import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniIcons
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.DjiniType
 
 /** 设置 › 人格:列表、新建、编辑、复制、删除。不导出/导入(v2),不绑定模型(v3)。 */
 @Composable
@@ -64,7 +64,7 @@ fun PersonaScreen(store: PersonaStore, onBack: () -> Unit) {
         if (personas.isEmpty()) {
             GroupCard {
                 ListRow(
-                    MikaIcons.Spark, stringResource(R.string.persona_empty),
+                    DjiniIcons.Spark, stringResource(R.string.persona_empty),
                     stringResource(R.string.persona_empty_sub), first = true,
                 )
             }
@@ -72,7 +72,7 @@ fun PersonaScreen(store: PersonaStore, onBack: () -> Unit) {
             GroupCard {
                 personas.forEachIndexed { i, p ->
                     ListRow(
-                        MikaIcons.Spark, p.name,
+                        DjiniIcons.Spark, p.name,
                         subtitle = p.description.takeIf { it.isNotBlank() },
                         first = i == 0,
                         onClick = { editing = p },
@@ -81,7 +81,7 @@ fun PersonaScreen(store: PersonaStore, onBack: () -> Unit) {
             }
         }
         Row(Modifier.padding(top = 12.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            MikaButton(stringResource(R.string.persona_new), { creating = true }, size = ButtonSize.Small, modifier = Modifier.testTag("persona-new"))
+            DjiniButton(stringResource(R.string.persona_new), { creating = true }, size = ButtonSize.Small, modifier = Modifier.testTag("persona-new"))
         }
         FooterNote(stringResource(R.string.persona_switch_note))
     }
@@ -133,14 +133,14 @@ private fun PersonaEditor(
                     minLines = 8,
                     modifier = Modifier.fillMaxWidth().padding(top = 8.dp).testTag("persona-prompt"),
                 )
-                Text(counter, Modifier.padding(top = 4.dp), style = MikaType.Hint, color = c.ink3)
-                if (prompt.isBlank()) Text(stringResource(R.string.persona_empty_prompt), Modifier.padding(top = 4.dp), style = MikaType.Hint, color = c.ink3)
-                error?.let { Text(it, Modifier.padding(top = 6.dp), style = MikaType.Caption, color = c.bad) }
+                Text(counter, Modifier.padding(top = 4.dp), style = DjiniType.Hint, color = c.ink3)
+                if (prompt.isBlank()) Text(stringResource(R.string.persona_empty_prompt), Modifier.padding(top = 4.dp), style = DjiniType.Hint, color = c.ink3)
+                error?.let { Text(it, Modifier.padding(top = 6.dp), style = DjiniType.Caption, color = c.bad) }
             }
         }
 
         Row(Modifier.padding(top = 12.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            MikaButton(
+            DjiniButton(
                 stringResource(R.string.save),
                 {
                     error = when {
@@ -156,14 +156,14 @@ private fun PersonaEditor(
                 size = ButtonSize.Medium, modifier = Modifier.weight(1f).testTag("persona-save"),
             )
             if (onDuplicate != null) {
-                MikaButton(
+                DjiniButton(
                     stringResource(R.string.persona_copy), { onDuplicate(); onDone() },
                     kind = ButtonKind.Secondary, size = ButtonSize.Medium, modifier = Modifier.weight(1f),
                 )
             }
         }
 
-        MikaButton(
+        DjiniButton(
             stringResource(if (preview) R.string.persona_preview_hide else R.string.persona_preview),
             { preview = !preview }, kind = ButtonKind.Text, size = ButtonSize.Small,
             modifier = Modifier.padding(top = 8.dp),
@@ -171,16 +171,16 @@ private fun PersonaEditor(
         if (preview) {
             GroupCard(Modifier.padding(top = 4.dp)) {
                 Column(Modifier.padding(16.dp)) {
-                    Text(stringResource(R.string.persona_preview_note), style = MikaType.Hint, color = c.ink3)
+                    Text(stringResource(R.string.persona_preview_note), style = DjiniType.Hint, color = c.ink3)
                     PersonaPrompt.layer(name, prompt)?.let {
-                        Text(it, Modifier.padding(top = 8.dp), style = MikaType.Caption, color = c.ink2)
+                        Text(it, Modifier.padding(top = 8.dp), style = DjiniType.Caption, color = c.ink2)
                     }
                 }
             }
         }
 
         if (onDelete != null) {
-            MikaButton(
+            DjiniButton(
                 stringResource(R.string.confirm_delete), { confirmDelete = true },
                 kind = ButtonKind.Text, size = ButtonSize.Small, modifier = Modifier.padding(top = 12.dp),
             )

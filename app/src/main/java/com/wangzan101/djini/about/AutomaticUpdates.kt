@@ -62,7 +62,7 @@ internal class AutomaticUpdates(context: Context, private val updater: ApkUpdate
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
-                Log.w("MikaAutoUpdate", "Could not download update ${release.version}", e)
+                Log.w("DjiniAutoUpdate", "Could not download update ${release.version}", e)
             }
         }
     }

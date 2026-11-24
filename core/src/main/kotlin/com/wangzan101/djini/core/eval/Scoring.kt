@@ -30,7 +30,7 @@ data class TaskScore(
 )
 
 object Scoring {
-    private val MODEL_ERROR = Regex("API Key|额度|限流|模型")
+    private val MODEL_ERROR = Regex("API Key|quota|rate limit|model|额度|限流|模型", RegexOption.IGNORE_CASE)
 
     /** 评测运行器自己出错时,失败原因以此开头。 */
     const val HARNESS_PREFIX = "评测器:"

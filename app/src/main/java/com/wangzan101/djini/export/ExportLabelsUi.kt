@@ -7,7 +7,7 @@ import com.wangzan101.djini.core.export.ExportLabels
 object ExportLabelsUi {
     fun of(context: Context) = ExportLabels(
         user = context.getString(R.string.export_label_user),
-        djini = context.getString(R.string.export_label_mika),
+        djini = context.getString(R.string.export_label_djini),
         steer = context.getString(R.string.export_label_steer),
         answer = context.getString(R.string.export_label_answer),
         toolSteps = context.getString(R.string.export_label_tool_steps),

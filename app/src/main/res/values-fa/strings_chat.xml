@@ -211,7 +211,7 @@
     <string name="chat_branch_attachments_readd">پیوست‌های موردنظر را دوباره اضافه کنید</string>
     <string name="chat_select_hint">برای انتخاب، متن را لمس کنید و نگه دارید</string>
     <string name="chat_quote_remove">حذف نقل‌قول</string>
-    <string name="chat_quoting_mika">نقل‌قول از میکا: %1$s</string>
+    <string name="chat_quoting_djini">نقل‌قول از میکا: %1$s</string>
     <string name="chat_quoting_you">نقل‌قول از شما: %1$s</string>
     <string name="chat_edit_message">ویرایش پیام</string>
     <string name="chat_withdraw_message">پس گرفتن پیام</string>

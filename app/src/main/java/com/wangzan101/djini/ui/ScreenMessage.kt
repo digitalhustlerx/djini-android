@@ -42,11 +42,11 @@ import com.wangzan101.djini.core.agent.QuoteMessage
 import com.wangzan101.djini.core.agent.AttachedPage
 import com.wangzan101.djini.core.userscreen.UserScreen
 import com.wangzan101.djini.core.userscreen.UserScreenMessage
-import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniIcons
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
-import com.wangzan101.djini.ui.theme.MikaRadius
-import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniType
+import com.wangzan101.djini.ui.theme.DjiniRadius
+import com.wangzan101.djini.ui.theme.DjiniShapes
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.time.Instant
@@ -151,8 +151,8 @@ fun UserMessage(conversationId: String?, raw: String, thumbWidth: Dp, modifier: 
     }
 }
 
-private val ThumbShape = MikaShapes.Tile
-private val TagText = MikaType.Micro
+private val ThumbShape = DjiniShapes.Tile
+private val TagText = DjiniType.Micro
 
 /** 一屏:缩略图和下面那一行;还没读到时先占着位置。 */
 @Composable
@@ -164,8 +164,8 @@ private fun ScreenItem(shown: ShownScreen?, width: Dp) {
             Modifier.testTag("screen-blocked").background(c.ink.copy(alpha = 0.05f), ThumbShape).padding(horizontal = 10.dp, vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp),
         ) {
-            Icon(MikaIcons.Lock, null, Modifier.size(15.dp), tint = c.ink2)
-            Text(ScreenCopy.BLOCKED, style = MikaType.Hint, color = c.ink2)
+            Icon(DjiniIcons.Lock, null, Modifier.size(15.dp), tint = c.ink2)
+            Text(ScreenCopy.BLOCKED, style = DjiniType.Hint, color = c.ink2)
         }
         return
     }
@@ -174,7 +174,7 @@ private fun ScreenItem(shown: ShownScreen?, width: Dp) {
         verticalArrangement = Arrangement.spacedBy(4.dp)) {
         ScreenThumb(shown?.thumb, width, Modifier.testTag("screen-thumb"))
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-            Icon(MikaIcons.Phone, null, Modifier.size(13.dp), tint = c.ink3)
+            Icon(DjiniIcons.Phone, null, Modifier.size(13.dp), tint = c.ink3)
             Text(tag, Modifier.testTag("screen-tag"), style = TagText, color = c.ink3)
         }
     }

@@ -120,22 +120,22 @@ adb shell pm grant com.wangzan101.djini android.permission.POST_NOTIFICATIONS
 
 Djini 靠无障碍服务读界面、做点按。通过 adb 直接写系统设置来打开它，原因是：不从应用商店安装的 App，用户在系统设置里手动打开无障碍时，常被系统以「受限制的设置」拦下；通过 adb 写入不会遇到这个问题。
 
-Djini 的无障碍服务组件名（来自 `app/src/main/AndroidManifest.xml` 里的 `MikaAccessibilityService`）：
+Djini 的无障碍服务组件名（来自 `app/src/main/AndroidManifest.xml` 里的 `DjiniAccessibilityService`）：
 
 ```
-com.wangzan101.djini/.a11y.MikaAccessibilityService
+com.wangzan101.djini/.a11y.DjiniAccessibilityService
 ```
 
-它和完整写法 `com.wangzan101.djini/com.wangzan101.djini.a11y.MikaAccessibilityService` 是同一个；判断列表里有没有 Djini 时，两种写法都要认。
+它和完整写法 `com.wangzan101.djini/com.wangzan101.djini.a11y.DjiniAccessibilityService` 是同一个；判断列表里有没有 Djini 时，两种写法都要认。
 
 **不要覆盖用户已经开着的其他无障碍服务。** 先读出现有列表，没有 Djini 才在末尾加上（用冒号分隔），再写回去：
 
 ```
-ME=com.wangzan101.djini/.a11y.MikaAccessibilityService
+ME=com.wangzan101.djini/.a11y.DjiniAccessibilityService
 CUR=$(adb shell settings get secure enabled_accessibility_services | tr -d '\r')
 echo "现有：$CUR"
 case ":$CUR:" in
-  *":$ME:"*|*":com.wangzan101.djini/com.wangzan101.djini.a11y.MikaAccessibilityService:"*)
+  *":$ME:"*|*":com.wangzan101.djini/com.wangzan101.djini.a11y.DjiniAccessibilityService:"*)
     NEW="$CUR" ;;
   *)
     if [ -z "$CUR" ] || [ "$CUR" = "null" ]; then NEW="$ME"; else NEW="$CUR:$ME"; fi ;;

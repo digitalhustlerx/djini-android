@@ -124,7 +124,7 @@ data class DiagnosticsSnapshot(
 
 /** 把 [DiagnosticsSnapshot] 写成一段纯文本:分段顺序固定,英文键,发到微信或 GitHub 都好读。最后整段再过一遍脱敏。 */
 object Diagnostics {
-    const val HEADER = "Djini 诊断信息 / Djini diagnostics"
+    const val HEADER = "Djini diagnostics"
 
     fun render(s: DiagnosticsSnapshot): String = sanitize(buildString {
         appendLine(HEADER)

@@ -1402,7 +1402,7 @@ class WebScreen(
     private fun px(css: Int, scale: Double) = (css * scale).roundToInt()
 
     private companion object {
-        const val TAG = "MikaWebScreen"
+        const val TAG = "DjiniWebScreen"
         /** 每次 DevTools 输入调用的上限;后台页面卡住时不为它拖住动作。 */
         const val INPUT_TIMEOUT_MS = 3_000L
         const val MAX_LISTED_OPTIONS = 30

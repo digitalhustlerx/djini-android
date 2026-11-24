@@ -403,7 +403,7 @@ class BuiltinShellEngineTest {
     }
 
     @Test
-    fun switchOffInMikaNeverWrites() = runTest {
+    fun switchOffInDjiniNeverWrites() = runTest {
         platform.pairedFlag = true
         platform.wireless = false
         wants = false

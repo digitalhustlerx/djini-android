@@ -27,8 +27,8 @@ import com.wangzan101.djini.ui.components.GroupCard
 import com.wangzan101.djini.ui.components.GroupLabel
 import com.wangzan101.djini.ui.components.InputRow
 import com.wangzan101.djini.ui.components.ListRow
-import com.wangzan101.djini.ui.components.MikaButton
-import com.wangzan101.djini.ui.components.MikaSwitch
+import com.wangzan101.djini.ui.components.DjiniButton
+import com.wangzan101.djini.ui.components.DjiniSwitch
 import com.wangzan101.djini.ui.components.RadioRow
 import com.wangzan101.djini.ui.theme.DjiniTheme
 import com.wangzan101.djini.core.model.ImageAspect
@@ -55,7 +55,7 @@ fun ImageModelScreen(store: ProviderStore, onBack: () -> Unit) {
         GroupCard {
             ListRow(
                 null, tr(R.string.image_enable), tr(R.string.image_enable_note), first = true,
-                trailing = { MikaSwitch(state.enabled, settings::setEnabled) },
+                trailing = { DjiniSwitch(state.enabled, settings::setEnabled) },
             )
         }
 
@@ -100,7 +100,7 @@ fun ImageModelScreen(store: ProviderStore, onBack: () -> Unit) {
             GroupCard {
                 ListRow(
                     null, tr(R.string.image_supports_edit), first = true,
-                    trailing = { MikaSwitch(state.supportsEdit, settings::setSupportsEdit) },
+                    trailing = { DjiniSwitch(state.supportsEdit, settings::setSupportsEdit) },
                 )
             }
         }
@@ -114,24 +114,24 @@ fun ImageModelScreen(store: ProviderStore, onBack: () -> Unit) {
             )
             ListRow(
                 null, tr(R.string.image_save_enabled), tr(R.string.image_save_enabled_note),
-                trailing = { MikaSwitch(state.saveEnabled, settings::setSaveEnabled) },
+                trailing = { DjiniSwitch(state.saveEnabled, settings::setSaveEnabled) },
             )
             ListRow(
                 null, tr(R.string.image_ask_before_save),
-                trailing = { MikaSwitch(state.askBeforeSave, settings::setAskBeforeSave, enabled = state.saveEnabled) },
+                trailing = { DjiniSwitch(state.askBeforeSave, settings::setAskBeforeSave, enabled = state.saveEnabled) },
             )
             ListRow(
                 null, tr(R.string.image_ask_before_generate),
-                trailing = { MikaSwitch(state.askBeforeGenerate, settings::setAskBeforeGenerate) },
+                trailing = { DjiniSwitch(state.askBeforeGenerate, settings::setAskBeforeGenerate) },
             )
         }
 
-        MikaButton(
+        DjiniButton(
             tr(R.string.image_test),
             onClick = {
-                val choice = state.choice ?: return@MikaButton
-                val caps = settings.capabilities() ?: return@MikaButton
-                val port = store.imageModel(choice, caps) ?: return@MikaButton
+                val choice = state.choice ?: return@DjiniButton
+                val caps = settings.capabilities() ?: return@DjiniButton
+                val port = store.imageModel(choice, caps) ?: return@DjiniButton
                 scope.launch {
                     test = tr(R.string.image_testing)
                     test = try {

@@ -4,7 +4,7 @@ import unittest
 from urllib.parse import parse_qs, urlsplit
 
 from browser_desk_updates import browser_desk, mutations, snapshot, sync_playwright
-from test_mika_cli import DISCOVERY
+from test_djini_cli import DISCOVERY
 from playwright.sync_api import expect
 
 

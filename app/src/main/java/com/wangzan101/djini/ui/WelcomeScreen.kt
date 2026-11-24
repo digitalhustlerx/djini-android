@@ -34,13 +34,13 @@ import com.wangzan101.djini.R
 import com.wangzan101.djini.ui.components.GroupCard
 import com.wangzan101.djini.ui.components.Hairline
 import com.wangzan101.djini.ui.components.IconTile
-import com.wangzan101.djini.ui.components.MikaButton
+import com.wangzan101.djini.ui.components.DjiniButton
 import com.wangzan101.djini.ui.components.PageBackground
 import com.wangzan101.djini.ui.components.ProgressDots
-import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniIcons
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
-import com.wangzan101.djini.ui.theme.MikaRadius
+import com.wangzan101.djini.ui.theme.DjiniType
+import com.wangzan101.djini.ui.theme.DjiniRadius
 
 /** 上手第一步:说清 Djini 是什么、能做哪几类事,开始前要做的两件事和大概时间。 */
 @Composable
@@ -55,10 +55,10 @@ fun WelcomeScreen(onStart: () -> Unit) {
                         Modifier.size(76.dp).shadow(14.dp, LogoShape, clip = false).clip(LogoShape),
                         contentScale = ContentScale.Crop,
                     )
-                    Text(WelcomeCopy.TITLE, Modifier.padding(top = 20.dp), style = MikaType.LargeTitle, color = c.ink, textAlign = TextAlign.Center)
+                    Text(WelcomeCopy.TITLE, Modifier.padding(top = 20.dp), style = DjiniType.LargeTitle, color = c.ink, textAlign = TextAlign.Center)
                     Text(
                         WelcomeCopy.LEAD, Modifier.padding(top = 8.dp),
-                        style = MikaType.Value, color = c.ink2, textAlign = TextAlign.Center,
+                        style = DjiniType.Value, color = c.ink2, textAlign = TextAlign.Center,
                     )
                 }
                 GroupCard(Modifier.padding(top = 28.dp)) {
@@ -69,9 +69,9 @@ fun WelcomeScreen(onStart: () -> Unit) {
                 ProgressDots(Onboarding.DOTS, Onboarding.dot(OnboardingStep.Welcome), Modifier.padding(top = 4.dp))
                 Text(
                     WelcomeCopy.NOTE, Modifier.fillMaxWidth().padding(top = 10.dp, bottom = 12.dp, start = 16.dp, end = 16.dp),
-                    style = MikaType.Hint, color = c.ink3, textAlign = TextAlign.Center,
+                    style = DjiniType.Hint, color = c.ink3, textAlign = TextAlign.Center,
                 )
-                MikaButton(WelcomeCopy.START, onStart, Modifier.fillMaxWidth().testTag("welcome-start"))
+                DjiniButton(WelcomeCopy.START, onStart, Modifier.fillMaxWidth().testTag("welcome-start"))
             }
         }
     }
@@ -85,14 +85,14 @@ private fun Feature(icon: ImageVector, title: String, body: String, first: Boole
         Row(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 13.dp), horizontalArrangement = Arrangement.spacedBy(14.dp)) {
             IconTile(icon)
             Column(Modifier.weight(1f)) {
-                Text(title, style = MikaType.Value.copy(fontWeight = FontWeight.SemiBold), color = c.ink)
-                Text(body, Modifier.padding(top = 2.dp), style = MikaType.Caption, color = c.ink2)
+                Text(title, style = DjiniType.Value.copy(fontWeight = FontWeight.SemiBold), color = c.ink)
+                Text(body, Modifier.padding(top = 2.dp), style = DjiniType.Caption, color = c.ink2)
             }
         }
     }
 }
 
-private val LogoShape = RoundedCornerShape(MikaRadius.Bubble)
+private val LogoShape = RoundedCornerShape(DjiniRadius.Bubble)
 
 /** 欢迎页的文字。 */
 object WelcomeCopy {
@@ -104,9 +104,9 @@ object WelcomeCopy {
     data class Item(val icon: ImageVector, val title: String, val body: String)
 
     val FEATURES get() = listOf(
-        Item(MikaIcons.Apps, tr(R.string.welcome_apps), tr(R.string.welcome_apps_body)),
-        Item(MikaIcons.Globe, tr(R.string.welcome_web), tr(R.string.welcome_web_body)),
-        Item(MikaIcons.Doc, tr(R.string.welcome_files), tr(R.string.welcome_files_body)),
-        Item(MikaIcons.Clock, tr(R.string.welcome_schedule), tr(R.string.welcome_schedule_body)),
+        Item(DjiniIcons.Apps, tr(R.string.welcome_apps), tr(R.string.welcome_apps_body)),
+        Item(DjiniIcons.Globe, tr(R.string.welcome_web), tr(R.string.welcome_web_body)),
+        Item(DjiniIcons.Doc, tr(R.string.welcome_files), tr(R.string.welcome_files_body)),
+        Item(DjiniIcons.Clock, tr(R.string.welcome_schedule), tr(R.string.welcome_schedule_body)),
     )
 }

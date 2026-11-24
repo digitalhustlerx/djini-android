@@ -59,7 +59,7 @@ class RestoreWishSync(
     }
 
     private companion object {
-        const val TAG = "MikaRestoreWish"
+        const val TAG = "DjiniRestoreWish"
         const val OFF_SETTLE_MS = 3_000L
     }
 }

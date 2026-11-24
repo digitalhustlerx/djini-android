@@ -10,9 +10,9 @@ import time
 import unittest
 from unittest.mock import patch
 
-from mika_feishu.api import ApiError, MikaApi
-from mika_feishu.bridge import Bridge, normalize
-from mika_feishu.store import Store
+from djini_feishu.api import ApiError, DjiniApi
+from djini_feishu.bridge import Bridge, normalize
+from djini_feishu.store import Store
 
 
 def event(mid="om_1", text="查询天气", user="ou_owner", chat_type="p2p"):
@@ -41,7 +41,7 @@ class FakeApi:
         self.writes.append((action, text))
         return {"accepted": True}
 
-    safe_id = staticmethod(MikaApi.safe_id)
+    safe_id = staticmethod(DjiniApi.safe_id)
 
 
 class BridgeTests(unittest.TestCase):
@@ -164,19 +164,19 @@ class BridgeTests(unittest.TestCase):
         self.deliver()
         now = int(time.time())
         self.api.status.update(status="waiting_for_answer", question="Departure city?")
-        with patch("mika_feishu.bridge.time.time", return_value=now):
+        with patch("djini_feishu.bridge.time.time", return_value=now):
             self.bridge.poll_once()
-        with patch("mika_feishu.bridge.time.time", return_value=now + 1):
+        with patch("djini_feishu.bridge.time.time", return_value=now + 1):
             self.assertTrue(self.bridge.receive(event("plain", "Shanghai")))
             self.assertTrue(self.bridge.receive(event("command", "/answer Shanghai")))
 
         self.api.status.update(question="Destination city?")
-        with patch("mika_feishu.bridge.time.time", return_value=now + 2):
+        with patch("djini_feishu.bridge.time.time", return_value=now + 2):
             self.bridge.poll_once()
             self.assertTrue(self.bridge.work_once())
             self.assertTrue(self.bridge.work_once())
         self.assertEqual(self.api.writes, [("start", "查询天气", None)])
-        with patch("mika_feishu.bridge.time.time", return_value=now + 3):
+        with patch("djini_feishu.bridge.time.time", return_value=now + 3):
             self.deliver("/answer Beijing", "fresh")
         self.assertEqual(self.api.writes[-1], ("answer", "Beijing"))
 
@@ -308,15 +308,15 @@ class BridgeTests(unittest.TestCase):
         self.assertEqual(normalized["reply_to"], "om_current_question")
 
     def test_private_config_permissions_and_secret_roundtrip(self):
-        from mika_feishu.config import load_config, save_config
+        from djini_feishu.config import load_config, save_config
         path = Path(self.tmp.name) / "private" / "config.json"
         config = {"feishu_app_id": "cli_fake", "feishu_app_secret": "not-real",
-                  "mika_url": "http://127.0.0.1:8765", "mika_token": "not-real"}
+                  "djini_url": "http://127.0.0.1:8765", "djini_token": "not-real"}
         save_config(config, path)
         if os.name != "nt":
             self.assertEqual(path.stat().st_mode & 0o777, 0o600)
             self.assertEqual(path.parent.stat().st_mode & 0o777, 0o700)
-        self.assertEqual(load_config(path)["mika_token"], "not-real")
+        self.assertEqual(load_config(path)["djini_token"], "not-real")
 
 
 class ContractTests(unittest.TestCase):
@@ -355,7 +355,7 @@ class ContractTests(unittest.TestCase):
         self.server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
         self.thread = threading.Thread(target=self.server.serve_forever, daemon=True)
         self.thread.start()
-        self.api = MikaApi(f"http://127.0.0.1:{self.server.server_port}", "test-token")
+        self.api = DjiniApi(f"http://127.0.0.1:{self.server.server_port}", "test-token")
 
     def tearDown(self):
         self.server.shutdown()
@@ -407,7 +407,7 @@ class ContractTests(unittest.TestCase):
             return connect(sock, ("127.0.0.1", port))
 
         with patch.object(socket, "getaddrinfo", changing_dns), patch.object(socket.socket, "connect", observe_connection):
-            MikaApi(f"http://{host}:{port}", "test-token").check()
+            DjiniApi(f"http://{host}:{port}", "test-token").check()
         self.assertEqual(attempted, ["127.0.0.1"])
         self.assertEqual(self.calls[0][3], "Bearer test-token")
         self.assertEqual(self.hosts, [f"{host}:{port}"])
@@ -432,7 +432,7 @@ class ContractTests(unittest.TestCase):
             return resolve(next(answers, "203.0.113.9") if name == host else name, port, *args, **kwargs)
 
         with patch.object(socket, "getaddrinfo", side_effect=changing_dns):
-            api = MikaApi(f"https://{host}:{port}", "test-token")  # setup resolves a private address
+            api = DjiniApi(f"https://{host}:{port}", "test-token")  # setup resolves a private address
         public = [(socket.AF_INET, socket.SOCK_STREAM, socket.IPPROTO_TCP, "", ("203.0.113.9", port))]
         with patch.object(socket, "getaddrinfo", return_value=public), \
                 patch.object(socket.socket, "connect") as connect:
@@ -454,7 +454,7 @@ class ContractTests(unittest.TestCase):
 
         with patch.object(socket, "getaddrinfo", side_effect=lambda name, port, **kw: resolve("127.0.0.1", port, **kw)):
             with patch.object(ssl.SSLContext, "wrap_socket", wrap):
-                MikaApi(f"https://{host}:{port}", "test-token").check()
+                DjiniApi(f"https://{host}:{port}", "test-token").check()
         self.assertEqual(handshakes, [(True, ssl.CERT_REQUIRED, host)])
         self.assertEqual(self.hosts, [f"{host}:{port}"])
 

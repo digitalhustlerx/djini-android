@@ -403,9 +403,9 @@ class McpServerStore(
         McpHealth(false, e.message ?: e.javaClass.simpleName, emptyList(), System.currentTimeMillis())
 
     private fun oauthPage(ok: Boolean): String = if (ok) {
-        "<html><body><h3>Djini: 登录成功</h3><p>Sign-in complete. You can return to Djini.</p></body></html>"
+        "<html><body><h3>Djini: Sign-in complete</h3><p>Sign-in complete. You can return to Djini.</p></body></html>"
     } else {
-        "<html><body><h3>Djini: 登录失败</h3><p>Sign-in failed. Return to Djini and try again.</p></body></html>"
+        "<html><body><h3>Djini: Sign-in failed</h3><p>Sign-in failed. Return to Djini and try again.</p></body></html>"
     }
 
     private fun loadServers(): List<McpServerConfig> = runCatching {

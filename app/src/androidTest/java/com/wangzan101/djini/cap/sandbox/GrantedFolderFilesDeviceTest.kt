@@ -34,7 +34,7 @@ class GrantedFolderFilesDeviceTest {
     private val instrumentation = InstrumentationRegistry.getInstrumentation()
     private val context = instrumentation.targetContext
     private val folders = GrantedFolderFiles(context.contentResolver)
-    private val testName = "MikaFolderTest645"
+    private val testName = "DjiniFolderTest645"
 
     @Test fun authorizeSaveUpdateConflictAndRevoke() = runBlocking {
         // Never reuse a user folder or silently grant one. Runner selects the dedicated folder in the picker.

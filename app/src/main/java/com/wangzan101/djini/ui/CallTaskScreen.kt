@@ -26,7 +26,7 @@ import com.wangzan101.djini.calls.CallRuntimeState
 import com.wangzan101.djini.calls.CallSim
 import com.wangzan101.djini.calls.CallTaskBrief
 import com.wangzan101.djini.ui.components.*
-import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniIcons
 import com.wangzan101.djini.ui.theme.DjiniTheme
 
 /** A private draft in the workspace, never a saved call profile or background request. */
@@ -136,7 +136,7 @@ internal fun CallTaskScreen(
     }
     Spacer(Modifier.height(8.dp))
     GroupCard {
-        ListRow(MikaIcons.Mic, stringResource(R.string.calls_voice_service), voiceProfile.name, first = true,
+        ListRow(DjiniIcons.Mic, stringResource(R.string.calls_voice_service), voiceProfile.name, first = true,
             onClick = onVoiceProfiles.takeIf { editable }) { RowChevron() }
         HorizontalDivider()
         val simSummary = when {
@@ -148,12 +148,12 @@ internal fun CallTaskScreen(
             config.defaultOutgoingSimId != null && draft.simOverride == null -> stringResource(R.string.calls_sim_unavailable)
             else -> missingSim
         }
-        ListRow(MikaIcons.Phone, stringResource(R.string.calls_sim), simSummary,
+        ListRow(DjiniIcons.Phone, stringResource(R.string.calls_sim), simSummary,
             onClick = if (editable) ({ showSims = true }) else null) { RowChevron() }
     }
 
     GroupCard {
-        CallFoldRow(MikaIcons.Doc, stringResource(R.string.calls_task_questions), questionsOpen, "call-task-questions-fold",
+        CallFoldRow(DjiniIcons.Doc, stringResource(R.string.calls_task_questions), questionsOpen, "call-task-questions-fold",
             subtitle = stringResource(if (draft.questions.isBlank()) R.string.calls_task_optional else R.string.calls_task_filled)) {
             questionsOpen = !questionsOpen
         }
@@ -169,7 +169,7 @@ internal fun CallTaskScreen(
             }) else null,
         )
         HorizontalDivider()
-        CallFoldRow(MikaIcons.Doc, stringResource(R.string.calls_task_context), contextOpen, "call-task-context-fold",
+        CallFoldRow(DjiniIcons.Doc, stringResource(R.string.calls_task_context), contextOpen, "call-task-context-fold",
             subtitle = stringResource(if (draft.context.isBlank()) R.string.calls_task_optional else R.string.calls_task_filled)) {
             contextOpen = !contextOpen
         }
@@ -178,7 +178,7 @@ internal fun CallTaskScreen(
             editable, contextLength, CallTaskBrief.MAX_CONTEXT_CHARS, "call-task-context",
         )
         HorizontalDivider()
-        CallFoldRow(MikaIcons.Key, stringResource(R.string.calls_task_constraints), constraintsOpen, "call-task-constraints-fold",
+        CallFoldRow(DjiniIcons.Key, stringResource(R.string.calls_task_constraints), constraintsOpen, "call-task-constraints-fold",
             subtitle = stringResource(if (draft.constraints.isBlank()) R.string.calls_task_optional else R.string.calls_task_filled)) {
             constraintsOpen = !constraintsOpen
         }

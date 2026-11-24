@@ -16,7 +16,7 @@ If the phone does not advertise those capabilities, the console says the phone a
 
 - The browser signs in with the phone access token at `POST /web/login` (form field `token`). The phone must be online and accept the token before the gateway creates a session.
 - The gateway keeps the token in process memory only. It is never written to disk, never sent to the browser, and disappears when the gateway restarts.
-- The browser receives an HttpOnly `mika_console` cookie (`Path=/web`, `SameSite=Strict`, `Secure` on HTTPS, 8 hours). The gateway keeps at most 16 sessions, with an 8-hour idle and 24-hour absolute limit.
+- The browser receives an HttpOnly `djini_console` cookie (`Path=/web`, `SameSite=Strict`, `Secure` on HTTPS, 8 hours). The gateway keeps at most 16 sessions, with an 8-hour idle and 24-hour absolute limit.
 - Browser `Origin` and cookies are stripped before forwarding; the phone still authenticates every request with the stored Bearer token. The phone's own Origin rejection and per-caller failure cooldown stay in force.
 - Login is rate-limited per caller (10 per minute) and rejects a foreign `Origin`.
 

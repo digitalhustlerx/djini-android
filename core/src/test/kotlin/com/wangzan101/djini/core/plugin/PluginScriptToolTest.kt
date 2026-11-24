@@ -35,7 +35,7 @@ class PluginScriptToolTest {
         }
     }
 
-    private fun spec(name: String = "plugin_mika_translate_translate", risk: Risk = Risk.Read) = PluginToolSpec(
+    private fun spec(name: String = "plugin_djini_translate_translate", risk: Risk = Risk.Read) = PluginToolSpec(
         name = name,
         description = "translate text",
         scriptPath = "scripts/translate.sh",
@@ -56,7 +56,7 @@ class PluginScriptToolTest {
     @Test fun executesScriptAndParsesJsonResult() = runTest {
         val runner = FakeRunner(ScriptResult(0, """{"ok":true,"translation":"你好"}""", "", false))
         val d = toolDispatcher(FakeScreen(), pluginTools = listOf(spec()), pluginScriptRunner = runner)
-        val r = d.execute(call("plugin_mika_translate_translate", """{"text":"hi"}"""), ActionPass()).content
+        val r = d.execute(call("plugin_djini_translate_translate", """{"text":"hi"}"""), ActionPass()).content
         assertEquals("你好", (r["translation"] as JsonPrimitive).content)
         assertEquals("true", (r["ok"] as JsonPrimitive).content)
     }
@@ -64,7 +64,7 @@ class PluginScriptToolTest {
     @Test fun argsWrittenToFileAndPassed() = runTest {
         val runner = FakeRunner(ScriptResult(0, """{"ok":true}""", "", false))
         val d = toolDispatcher(FakeScreen(), pluginTools = listOf(spec()), pluginScriptRunner = runner)
-        d.execute(call("plugin_mika_translate_translate", """{"text":"hi"}"""), ActionPass())
+        d.execute(call("plugin_djini_translate_translate", """{"text":"hi"}"""), ActionPass())
         val parsed = Json.parseToJsonElement(runner.argsContent!!) as JsonObject
         assertEquals("hi", parsed["text"]!!.jsonPrimitive.content)
         assertEquals("translate.sh", runner.script!!.name)
@@ -73,14 +73,14 @@ class PluginScriptToolTest {
     @Test fun argsFileWrittenToProvidedDir() = runTest {
         val runner = FakeRunner(ScriptResult(0, """{"ok":true}""", "", false))
         val d = toolDispatcher(FakeScreen(), pluginTools = listOf(spec()), pluginScriptRunner = runner, pluginArgsDir = tmp.root)
-        d.execute(call("plugin_mika_translate_translate", """{"text":"hi"}"""), ActionPass())
+        d.execute(call("plugin_djini_translate_translate", """{"text":"hi"}"""), ActionPass())
         assertTrue(runner.argsPath!!.startsWith(tmp.root.absolutePath + File.separator))
     }
 
     @Test fun nonJsonStdoutIsCleanFailure() = runTest {
         val runner = FakeRunner(ScriptResult(0, "garbage", "", false))
         val d = toolDispatcher(FakeScreen(), pluginTools = listOf(spec()), pluginScriptRunner = runner)
-        val r = d.execute(call("plugin_mika_translate_translate", """{"text":"hi"}"""), ActionPass()).content
+        val r = d.execute(call("plugin_djini_translate_translate", """{"text":"hi"}"""), ActionPass()).content
         assertEquals("false", (r["ok"] as JsonPrimitive).content)
         assertEquals("bad_output", (r["error"] as JsonPrimitive).content)
     }
@@ -88,7 +88,7 @@ class PluginScriptToolTest {
     @Test fun timeoutReported() = runTest {
         val runner = FakeRunner(ScriptResult(124, "", "", timedOut = true))
         val d = toolDispatcher(FakeScreen(), pluginTools = listOf(spec()), pluginScriptRunner = runner)
-        val r = d.execute(call("plugin_mika_translate_translate", """{"text":"hi"}"""), ActionPass()).content
+        val r = d.execute(call("plugin_djini_translate_translate", """{"text":"hi"}"""), ActionPass()).content
         assertEquals("false", (r["ok"] as JsonPrimitive).content)
         assertEquals("timed_out", (r["error"] as JsonPrimitive).content)
     }
@@ -96,6 +96,6 @@ class PluginScriptToolTest {
     @Test fun toolNamePrefixedAndOffered() = runTest {
         val runner = FakeRunner(ScriptResult(0, """{"ok":true}""", "", false))
         val d = toolDispatcher(FakeScreen(), pluginTools = listOf(spec()), pluginScriptRunner = runner)
-        assertTrue(d.definitions().any { it.name == "plugin_mika_translate_translate" })
+        assertTrue(d.definitions().any { it.name == "plugin_djini_translate_translate" })
     }
 }

@@ -668,7 +668,7 @@ class VolcRealtimeSession internal constructor(
         return false
     }
 
-    private fun nextId() = "mika_${++sequence}"
+    private fun nextId() = "djini_${++sequence}"
 
     private fun armCloseWatchdog() {
         if (closeWatchdog != null) return

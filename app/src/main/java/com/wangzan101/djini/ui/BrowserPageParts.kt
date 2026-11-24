@@ -83,22 +83,22 @@ import com.wangzan101.djini.ui.components.BarIconButton
 import com.wangzan101.djini.ui.components.ButtonSize
 import com.wangzan101.djini.ui.components.Hairline
 import com.wangzan101.djini.ui.components.ListRow
-import com.wangzan101.djini.ui.components.MikaButton
-import com.wangzan101.djini.ui.components.MikaDialog
-import com.wangzan101.djini.ui.theme.MikaIcons
-import com.wangzan101.djini.ui.theme.MikaShapes
-import com.wangzan101.djini.ui.theme.MikaSize
+import com.wangzan101.djini.ui.components.DjiniButton
+import com.wangzan101.djini.ui.components.DjiniDialog
+import com.wangzan101.djini.ui.theme.DjiniIcons
+import com.wangzan101.djini.ui.theme.DjiniShapes
+import com.wangzan101.djini.ui.theme.DjiniSize
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
-import com.wangzan101.djini.ui.theme.MikaRadius
+import com.wangzan101.djini.ui.theme.DjiniType
+import com.wangzan101.djini.ui.theme.DjiniRadius
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 val BROWSER_DESKTOP_TAG: String get() = tr(R.string.browser_desktop)
 val BROWSER_LOGIN_DONE: String get() = tr(R.string.browser_login_done)
 
-internal val MiniShape = MikaShapes.Tile
-internal val InitialSmall = MikaType.Caption.copy(fontWeight = FontWeight.Bold)
+internal val MiniShape = DjiniShapes.Tile
+internal val InitialSmall = DjiniType.Caption.copy(fontWeight = FontWeight.Bold)
 
 /**
  * 网站的方块:有存下的网站图标就画在白底上;没有时是按主机名定的底色加名字的第一个字。
@@ -154,7 +154,7 @@ fun BrowserPageBar(
     var editing by remember { mutableStateOf(false) }
     Column(Modifier.fillMaxWidth().background(c.bg).windowInsetsPadding(WindowInsets.statusBars)) {
         Row(
-            Modifier.fillMaxWidth().height(MikaSize.TopBar).padding(horizontal = 8.dp),
+            Modifier.fillMaxWidth().height(DjiniSize.TopBar).padding(horizontal = 8.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(4.dp),
         ) {
@@ -165,15 +165,15 @@ fun BrowserPageBar(
                     onSubmit(input)
                 }
                 Text(
-                    tr(R.string.cancel), Modifier.clip(MikaShapes.Pill).clickable(role = Role.Button) { editing = false; focus.clearFocus() }
+                    tr(R.string.cancel), Modifier.clip(DjiniShapes.Pill).clickable(role = Role.Button) { editing = false; focus.clearFocus() }
                         .padding(horizontal = 10.dp, vertical = 8.dp),
-                    style = MikaType.Body, color = c.accent,
+                    style = DjiniType.Body, color = c.accent,
                 )
             } else {
-                BarIconButton(MikaIcons.Close, tr(R.string.browser_close_page), onClose)
+                BarIconButton(DjiniIcons.Close, tr(R.string.browser_close_page), onClose)
                 AddressPill(page, face, engines, Modifier.weight(1f)) { editing = true }
-                if (page.loading) BarIconButton(MikaIcons.Stop, tr(R.string.chat_stop), onStop)
-                else BarIconButton(MikaIcons.Refresh, tr(R.string.refresh), onReload)
+                if (page.loading) BarIconButton(DjiniIcons.Stop, tr(R.string.chat_stop), onStop)
+                else BarIconButton(DjiniIcons.Refresh, tr(R.string.refresh), onReload)
             }
         }
         val progress = page.takeIf { it.loading }?.progress
@@ -191,27 +191,27 @@ private fun AddressPill(page: BrowserPage, face: SiteFace?, engines: List<Search
     val query = AddressInput.searchQuery(page.url, engines)
     val shown = query ?: face?.name ?: page.url
     Row(
-        modifier.height(40.dp).clip(MikaShapes.Pill).background(c.fill)
+        modifier.height(40.dp).clip(DjiniShapes.Pill).background(c.fill)
             .clickable(onClickLabel = tr(R.string.browser_edit_url), role = Role.Button, onClick = onClick)
             .padding(horizontal = 14.dp).testTag("browser-address-pill"),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterHorizontally),
     ) {
         when {
-            query != null -> Icon(MikaIcons.Search, null, Modifier.size(14.dp), tint = c.ink3)
-            page.url.startsWith("https://") -> Icon(MikaIcons.Lock, tr(R.string.browser_secure), Modifier.size(14.dp), tint = c.ink3)
+            query != null -> Icon(DjiniIcons.Search, null, Modifier.size(14.dp), tint = c.ink3)
+            page.url.startsWith("https://") -> Icon(DjiniIcons.Lock, tr(R.string.browser_secure), Modifier.size(14.dp), tint = c.ink3)
         }
-        Text(shown, Modifier.weight(1f, fill = false), style = MikaType.Body, color = c.ink, maxLines = 1, overflow = TextOverflow.Ellipsis)
+        Text(shown, Modifier.weight(1f, fill = false), style = DjiniType.Body, color = c.ink, maxLines = 1, overflow = TextOverflow.Ellipsis)
         if (page.desktop) {
             Text(
-                BROWSER_DESKTOP_TAG, Modifier.background(c.warnSoft, RoundedCornerShape(MikaRadius.BubbleTail)).padding(horizontal = 6.dp, vertical = 1.dp),
+                BROWSER_DESKTOP_TAG, Modifier.background(c.warnSoft, RoundedCornerShape(DjiniRadius.BubbleTail)).padding(horizontal = 6.dp, vertical = 1.dp),
                 style = TagText, color = c.warn, maxLines = 1,
             )
         }
     }
 }
 
-private val TagText = MikaType.Micro.copy(fontWeight = FontWeight.SemiBold)
+private val TagText = DjiniType.Micro.copy(fontWeight = FontWeight.SemiBold)
 
 /** 展开的地址栏:完整网址全选着,键盘上是「前往」。 */
 @Composable
@@ -221,16 +221,16 @@ private fun AddressEditor(url: String, modifier: Modifier, onGo: (String) -> Uni
     var text by remember { mutableStateOf(TextFieldValue(url, TextRange(0, url.length))) }
     LaunchedEffect(Unit) { focus.requestFocus() }
     Row(
-        modifier.height(40.dp).background(c.surface, MikaShapes.Pill).border(1.5.dp, c.accent, MikaShapes.Pill).padding(horizontal = 14.dp),
+        modifier.height(40.dp).background(c.surface, DjiniShapes.Pill).border(1.5.dp, c.accent, DjiniShapes.Pill).padding(horizontal = 14.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(6.dp),
     ) {
-        Icon(MikaIcons.Lock, null, Modifier.size(14.dp), tint = c.ink3)
+        Icon(DjiniIcons.Lock, null, Modifier.size(14.dp), tint = c.ink3)
         BasicTextField(
             text, { text = it },
             Modifier.weight(1f).focusRequester(focus).testTag("browser-address"),
             singleLine = true,
-            textStyle = MikaType.Body.copy(color = c.ink, textDirection = androidx.compose.ui.text.style.TextDirection.Content),
+            textStyle = DjiniType.Body.copy(color = c.ink, textDirection = androidx.compose.ui.text.style.TextDirection.Content),
             cursorBrush = SolidColor(c.accent),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Uri, imeAction = ImeAction.Go, autoCorrectEnabled = false),
             keyboardActions = KeyboardActions(onGo = { onGo(text.text) }),
@@ -256,11 +256,11 @@ fun BrowserToolbar(
             horizontalArrangement = Arrangement.SpaceAround,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            BarIconButton(MikaIcons.Back, tr(R.string.back), onBackPage, enabled = page.canBack)
-            BarIconButton(MikaIcons.Forward, tr(R.string.browser_forward), onForward, enabled = page.canForward)
-            BarIconButton(MikaIcons.Home, tr(R.string.browser_home), onHome)
-            BarIconButton(MikaIcons.Share, tr(R.string.share), onShare)
-            BarIconButton(MikaIcons.More, tr(R.string.more), onMore)
+            BarIconButton(DjiniIcons.Back, tr(R.string.back), onBackPage, enabled = page.canBack)
+            BarIconButton(DjiniIcons.Forward, tr(R.string.browser_forward), onForward, enabled = page.canForward)
+            BarIconButton(DjiniIcons.Home, tr(R.string.browser_home), onHome)
+            BarIconButton(DjiniIcons.Share, tr(R.string.share), onShare)
+            BarIconButton(DjiniIcons.More, tr(R.string.more), onMore)
         }
     }
 }
@@ -270,18 +270,18 @@ fun BrowserToolbar(
 fun LoginBanner(desktop: Boolean, onDone: () -> Unit) {
     val c = DjiniTheme.colors
     val text = buildAnnotatedString {
-        withStyle(SpanStyle(fontWeight = FontWeight.SemiBold)) { append(tr(R.string.browser_login_for_mika)) }
-        append(tr(R.string.browser_login_for_mika_sub, if (desktop) tr(R.string.browser_desktop) else tr(R.string.browser_mobile)))
+        withStyle(SpanStyle(fontWeight = FontWeight.SemiBold)) { append(tr(R.string.browser_login_for_djini)) }
+        append(tr(R.string.browser_login_for_djini_sub, if (desktop) tr(R.string.browser_desktop) else tr(R.string.browser_mobile)))
     }
     Row(
         Modifier.fillMaxWidth().padding(start = 12.dp, end = 12.dp, top = 4.dp, bottom = 8.dp)
-            .background(c.accentSoft, MikaShapes.Button).padding(horizontal = 12.dp, vertical = 10.dp)
+            .background(c.accentSoft, DjiniShapes.Button).padding(horizontal = 12.dp, vertical = 10.dp)
             .testTag("browser-login-banner"),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(10.dp),
     ) {
-        Text(text, Modifier.weight(1f), style = MikaType.Caption, color = c.ink)
-        MikaButton(BROWSER_LOGIN_DONE, onDone, size = ButtonSize.Small)
+        Text(text, Modifier.weight(1f), style = DjiniType.Caption, color = c.ink)
+        DjiniButton(BROWSER_LOGIN_DONE, onDone, size = ButtonSize.Small)
     }
 }
 
@@ -312,7 +312,7 @@ fun BrowserMoreSheet(
     onClearData: () -> Unit = {},
 ) {
     val c = DjiniTheme.colors
-    ModalBottomSheet(onDismissRequest = onDismiss, sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true), containerColor = c.surface, shape = MikaShapes.SheetTop) {
+    ModalBottomSheet(onDismissRequest = onDismiss, sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true), containerColor = c.surface, shape = DjiniShapes.SheetTop) {
         Column(Modifier.fillMaxWidth().navigationBarsPadding().padding(bottom = 8.dp).testTag("browser-more")) {
             if (face != null && host != null) {
                 Row(
@@ -322,38 +322,38 @@ fun BrowserMoreSheet(
                 ) {
                     SiteTile(face, 28.dp, MiniShape, InitialSmall)
                     Column(Modifier.weight(1f)) {
-                        Text(face.name, style = MikaType.BodyStrong, color = c.ink, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                        Text(host, style = MikaType.Caption, color = c.ink3, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                        Text(face.name, style = DjiniType.BodyStrong, color = c.ink, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                        Text(host, style = DjiniType.Caption, color = c.ink3, maxLines = 1, overflow = TextOverflow.Ellipsis)
                     }
                 }
             }
             fun act(f: () -> Unit): () -> Unit = { onDismiss(); f() }
             Column(Modifier.heightIn(max = 480.dp).verticalScroll(rememberScrollState())) {
-                ListRow(MikaIcons.Refresh, tr(R.string.refresh), first = true, onClick = act(onReload))
-                ListRow(MikaIcons.Search, tr(R.string.browser_find), onClick = act(onFind))
-                ListRow(MikaIcons.Copy, tr(R.string.browser_copy_link), onClick = act(onCopy))
-                ListRow(MikaIcons.External, tr(R.string.browser_open_outside), onClick = act(onOpenOutside))
+                ListRow(DjiniIcons.Refresh, tr(R.string.refresh), first = true, onClick = act(onReload))
+                ListRow(DjiniIcons.Search, tr(R.string.browser_find), onClick = act(onFind))
+                ListRow(DjiniIcons.Copy, tr(R.string.browser_copy_link), onClick = act(onCopy))
+                ListRow(DjiniIcons.External, tr(R.string.browser_open_outside), onClick = act(onOpenOutside))
                 ListRow(
-                    MikaIcons.Bookmark,
+                    DjiniIcons.Bookmark,
                     if (bookmarked) tr(R.string.browser_bookmark_remove) else tr(R.string.browser_bookmark_add),
                     onClick = act(onToggleBookmark),
                 )
-                ListRow(MikaIcons.Download, tr(R.string.browser_downloads), onClick = act(onDownloads))
+                ListRow(DjiniIcons.Download, tr(R.string.browser_downloads), onClick = act(onDownloads))
                 ListRow(
-                    MikaIcons.Apps, tr(R.string.browser_tabs), detail = tabsCount.takeIf { it > 0 }?.toString(),
+                    DjiniIcons.Apps, tr(R.string.browser_tabs), detail = tabsCount.takeIf { it > 0 }?.toString(),
                     onClick = act(onTabs),
                 )
-                ListRow(MikaIcons.Clock, tr(R.string.browser_history), onClick = act(onHistory))
+                ListRow(DjiniIcons.Clock, tr(R.string.browser_history), onClick = act(onHistory))
                 if (host != null) {
-                    ListRow(MikaIcons.Star, if (favorite) tr(R.string.browser_unfavorite) else tr(R.string.browser_favorite), onClick = act(onToggleFavorite))
+                    ListRow(DjiniIcons.Star, if (favorite) tr(R.string.browser_unfavorite) else tr(R.string.browser_favorite), onClick = act(onToggleFavorite))
                     ListRow(
-                        if (desktop) MikaIcons.Phone else MikaIcons.Desktop,
+                        if (desktop) DjiniIcons.Phone else DjiniIcons.Desktop,
                         if (desktop) tr(R.string.browser_to_mobile) else tr(R.string.browser_to_desktop),
                         subtitle = if (desktop) tr(R.string.browser_keep_mobile) else tr(R.string.browser_keep_desktop),
                         onClick = act(onToggleDesktop),
                     )
                 }
-                ListRow(MikaIcons.Trash, tr(R.string.browser_clear_data), onClick = act(onClearData))
+                ListRow(DjiniIcons.Trash, tr(R.string.browser_clear_data), onClick = act(onClearData))
             }
             Spacer(Modifier.height(4.dp))
         }
@@ -380,26 +380,26 @@ fun BookmarksSheet(
         onDismissRequest = onDismiss,
         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
         containerColor = c.surface,
-        shape = MikaShapes.SheetTop,
+        shape = DjiniShapes.SheetTop,
     ) {
         Column(Modifier.fillMaxWidth().navigationBarsPadding().padding(bottom = 8.dp).testTag("browser-bookmarks")) {
             Row(
                 Modifier.fillMaxWidth().padding(start = 20.dp, end = 12.dp, top = 4.dp, bottom = 8.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text(tr(R.string.browser_bookmarks), Modifier.weight(1f), style = MikaType.Title, color = c.ink)
+                Text(tr(R.string.browser_bookmarks), Modifier.weight(1f), style = DjiniType.Title, color = c.ink)
                 if (bookmarks.isNotEmpty()) {
                     Text(
                         if (editing) tr(R.string.done) else tr(R.string.browser_edit),
-                        Modifier.clip(MikaShapes.Pill).clickable(role = Role.Button) { editing = !editing }.padding(horizontal = 10.dp, vertical = 8.dp),
-                        style = MikaType.BodyStrong, color = c.accent,
+                        Modifier.clip(DjiniShapes.Pill).clickable(role = Role.Button) { editing = !editing }.padding(horizontal = 10.dp, vertical = 8.dp),
+                        style = DjiniType.BodyStrong, color = c.accent,
                     )
                 }
             }
             if (bookmarks.isEmpty()) {
                 Text(
                     tr(R.string.browser_bookmark_empty), Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 16.dp),
-                    style = MikaType.Body, color = c.ink3,
+                    style = DjiniType.Body, color = c.ink3,
                 )
             }
             Column(Modifier.heightIn(max = 480.dp).verticalScroll(rememberScrollState())) {
@@ -413,7 +413,7 @@ fun BookmarksSheet(
                         lead = {
                             if (host != null) SiteTile(face(host), 28.dp, MiniShape, InitialSmall)
                             else Box(Modifier.size(28.dp).background(c.neutralSoft, MiniShape), contentAlignment = Alignment.Center) {
-                                Icon(MikaIcons.Bookmark, null, Modifier.size(15.dp), tint = c.ink3)
+                                Icon(DjiniIcons.Bookmark, null, Modifier.size(15.dp), tint = c.ink3)
                             }
                         },
                         trailing = {
@@ -422,7 +422,7 @@ fun BookmarksSheet(
                                 Box(
                                     Modifier.size(36.dp).clip(CircleShape).clickable(role = Role.Button, onClickLabel = remove) { onRemove(b) },
                                     contentAlignment = Alignment.Center,
-                                ) { Icon(MikaIcons.Close, remove, Modifier.size(16.dp), tint = c.ink3) }
+                                ) { Icon(DjiniIcons.Close, remove, Modifier.size(16.dp), tint = c.ink3) }
                             }
                         },
                     )
@@ -443,7 +443,7 @@ fun BookmarksSheet(
 @Composable
 private fun RenameBookmarkDialog(bookmark: PageBookmark, onSave: (String) -> Unit, onDismiss: () -> Unit) {
     var title by rememberSaveable(bookmark.url) { mutableStateOf(bookmark.title) }
-    MikaDialog(
+    DjiniDialog(
         onDismissRequest = onDismiss,
         title = { Text(tr(R.string.browser_bookmark_rename)) },
         text = {

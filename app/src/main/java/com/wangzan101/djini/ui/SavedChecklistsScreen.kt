@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.wangzan101.djini.R
 import com.wangzan101.djini.chat.*
 import com.wangzan101.djini.ui.components.*
-import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniIcons
 import com.wangzan101.djini.ui.theme.DjiniTheme
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -59,18 +59,18 @@ internal fun SavedChecklistsScreen(
     ) {
         if (readError) {
             FooterNote(stringResource(R.string.checklist_read_failed), color = DjiniTheme.colors.bad)
-            MikaButton(stringResource(R.string.retry), { scope.launch { withContext(Dispatchers.IO) { store.load() } } })
+            DjiniButton(stringResource(R.string.retry), { scope.launch { withContext(Dispatchers.IO) { store.load() } } })
         } else if (!loaded) {
             CircularProgressIndicator(Modifier.padding(16.dp))
         } else if (selected == null) {
             GroupCard {
-                ListRow(MikaIcons.Plus, stringResource(R.string.checklist_new), first = true, onClick = {
+                ListRow(DjiniIcons.Plus, stringResource(R.string.checklist_new), first = true, onClick = {
                     val source = incoming.takeIf { choosingUpdate }
                     editing = ChecklistEdit(UUID.randomUUID().toString(), 0,
                         source?.text?.lineSequence()?.firstOrNull().orEmpty().take(60), source?.text.orEmpty(), source)
                 })
                 items.forEach { item ->
-                    ListRow(MikaIcons.ListChecks, item.current.title, item.current.body.lineSequence().firstOrNull()?.take(60), onClick = {
+                    ListRow(DjiniIcons.ListChecks, item.current.title, item.current.body.lineSequence().firstOrNull()?.take(60), onClick = {
                         if (choosingUpdate) editing = ChecklistEdit(item.id, item.current.version, item.current.title, incoming!!.text, incoming)
                         else selectedId = item.id
                     })
@@ -88,19 +88,19 @@ internal fun SavedChecklistsScreen(
         } else {
             val current = selected.current
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                MikaButton(stringResource(R.string.checklist_reuse), { action = current to false }, modifier = Modifier.weight(1f).testTag("checklist-reuse"))
-                MikaButton(stringResource(R.string.checklist_update), { action = current to true }, modifier = Modifier.weight(1f).testTag("checklist-update"), kind = ButtonKind.Secondary)
+                DjiniButton(stringResource(R.string.checklist_reuse), { action = current to false }, modifier = Modifier.weight(1f).testTag("checklist-reuse"))
+                DjiniButton(stringResource(R.string.checklist_update), { action = current to true }, modifier = Modifier.weight(1f).testTag("checklist-update"), kind = ButtonKind.Secondary)
             }
             SelectionContainer {
                 Text(current.body, Modifier.fillMaxWidth().padding(vertical = 16.dp).testTag("checklist-body"), color = DjiniTheme.colors.ink)
             }
             GroupCard {
-                ListRow(MikaIcons.Edit, stringResource(R.string.checklist_edit), first = true, onClick = {
+                ListRow(DjiniIcons.Edit, stringResource(R.string.checklist_edit), first = true, onClick = {
                     editing = ChecklistEdit(selected.id, current.version, current.title, current.body, null)
                 })
-                ListRow(MikaIcons.Copy, stringResource(R.string.chat_copy), onClick = { copyMessage(context, current.body) })
-                ListRow(MikaIcons.ListChecks, stringResource(R.string.checklist_history), onClick = { history = true })
-                ListRow(MikaIcons.Trash, stringResource(R.string.recommendations_delete), onClick = { deleting = selected; error = null })
+                ListRow(DjiniIcons.Copy, stringResource(R.string.chat_copy), onClick = { copyMessage(context, current.body) })
+                ListRow(DjiniIcons.ListChecks, stringResource(R.string.checklist_history), onClick = { history = true })
+                ListRow(DjiniIcons.Trash, stringResource(R.string.recommendations_delete), onClick = { deleting = selected; error = null })
             }
         }
     }
@@ -115,7 +115,7 @@ internal fun SavedChecklistsScreen(
     revision?.let { (current, before) -> ChecklistRevisionDialog(current, before) { revision = null } }
     deleting?.let { item ->
         var busy by remember { mutableStateOf(false) }
-        MikaDialog(
+        DjiniDialog(
             onDismissRequest = { if (!busy) deleting = null },
             title = { Text(stringResource(R.string.checklist_delete_question)) },
             text = error?.let { failure -> { Text(checklistError(failure), color = DjiniTheme.colors.bad) } },
@@ -139,7 +139,7 @@ private fun ChecklistEditor(store: SavedChecklistStore, initial: ChecklistEdit, 
     var error by remember { mutableStateOf<ChecklistError?>(null) }
     var busy by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
-    MikaDialog(
+    DjiniDialog(
         onDismissRequest = { if (!busy) onDismiss() },
         title = { Text(stringResource(if (initial.version == 0) R.string.checklist_new else R.string.checklist_edit)) },
         text = {
@@ -167,7 +167,7 @@ private fun ChecklistEditor(store: SavedChecklistStore, initial: ChecklistEdit, 
 private fun ChecklistActionDialog(current: ChecklistRevision, update: Boolean, onDismiss: () -> Unit, onUse: ((String) -> Unit)?) {
     var text by rememberSaveable(current.version, update) { mutableStateOf("") }
     val context = LocalContext.current
-    MikaDialog(
+    DjiniDialog(
         onDismissRequest = onDismiss,
         title = { Text(stringResource(if (update) R.string.checklist_update else R.string.checklist_reuse)) },
         text = { OutlinedTextField(text, { text = it }, label = { Text(stringResource(if (update) R.string.checklist_supplement else R.string.checklist_next)) },
@@ -188,7 +188,7 @@ private fun ChecklistActionDialog(current: ChecklistRevision, update: Boolean, o
 private fun ChecklistRevisionDialog(current: ChecklistRevision, before: ChecklistRevision?, onDismiss: () -> Unit) {
     var showSource by remember { mutableStateOf(false) }
     val changes = remember(current, before) { before?.let { checklistChanges(it.body, current.body) } }
-    MikaDialog(
+    DjiniDialog(
         onDismissRequest = onDismiss,
         title = { Text(stringResource(R.string.checklist_version, current.version)) },
         text = {

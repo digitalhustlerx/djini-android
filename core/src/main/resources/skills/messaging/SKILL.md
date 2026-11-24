@@ -1,7 +1,7 @@
 ---
 name: messaging
-display: 消息与邮件
-description: 读聊天记录和邮件、拟回复,发给对的人并确认已发出
+display: Messaging & Email
+description: Read chats and emails, draft replies, and send messages
 aliases: ["发消息", "回消息", "发邮件", "看未读"]
 apps: ["wechat", "feishu"]
 sites: ["instagram.com"]

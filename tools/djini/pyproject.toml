@@ -11,12 +11,12 @@ license = {file = "LICENSE"}
 dependencies = []
 
 [project.scripts]
-djini = "mika_cli:main"
+djini = "djini_cli:main"
 
 [tool.setuptools]
-py-modules = ["mika_cli", "mika_notifications"]
-packages = ["mika_desk"]
+py-modules = ["djini_cli", "djini_notifications"]
+packages = ["djini_desk"]
 package-dir = {"" = "scripts"}
 
 [tool.setuptools.package-data]
-mika_desk = ["*.html", "*.css", "*.js", "djini-logo.png"]
+djini_desk = ["*.html", "*.css", "*.js", "djini-logo.png"]

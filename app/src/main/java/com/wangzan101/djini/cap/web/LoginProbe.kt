@@ -104,7 +104,7 @@ if(/avatar|头像/i.test(k)&&(r=vis(e))&&top(e,r)&&!e.closest('article,li,[class
 return JSON.stringify(out);}catch(x){return null;}})()"""
 
     private const val SCAN_BUDGET = 4000
-    private const val TAG = "MikaLoginProbe"
+    private const val TAG = "DjiniLoginProbe"
     /** 解析、判断与写登记表都放在它上面,不占主线程。 */
     private val worker = Executors.newSingleThreadExecutor { r -> Thread(r, "djini-login-probe").apply { isDaemon = true } }
 

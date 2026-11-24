@@ -1,4 +1,4 @@
-<!-- translated-from: README.md @ 7b09b8113580 -->
+<!-- translated-from: README.md @ 20c5c76dfefd -->
 <div align="center">
 
 <img src="../media/logo.png" alt="Djini" width="88" />

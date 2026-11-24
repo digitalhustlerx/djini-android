@@ -56,8 +56,8 @@
     <string name="browser_home">Start page</string>
     <string name="share">Share</string>
     <string name="more">More</string>
-    <string name="browser_login_for_mika">Sign in for Djini</string>
-    <string name="browser_login_for_mika_sub">" · opens the %1$s version Djini uses for tasks; once you sign in Djini can use it too"</string>
+    <string name="browser_login_for_djini">Sign in for Djini</string>
+    <string name="browser_login_for_djini_sub">" · opens the %1$s version Djini uses for tasks; once you sign in Djini can use it too"</string>
     <string name="browser_mobile">Mobile</string>
     <string name="browser_copy_link">Copy link</string>
     <string name="browser_open_outside">Open in another browser</string>

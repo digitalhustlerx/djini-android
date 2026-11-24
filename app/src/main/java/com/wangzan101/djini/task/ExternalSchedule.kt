@@ -35,16 +35,16 @@ object ExternalSchedule {
     fun accept(context: Context, prompt: String?, at: String?): Outcome {
         val app = context.applicationContext
         if (!FeatureFlags.get(app).externalSchedule()) {
-            Log.w("MikaExternal", "external schedule rejected: disabled")
+            Log.w("DjiniExternal", "external schedule rejected: disabled")
             return Outcome.Disabled
         }
         val goal = prompt?.trim().orEmpty()
         if (goal.isEmpty()) {
-            Log.w("MikaExternal", "external schedule rejected: missing prompt")
+            Log.w("DjiniExternal", "external schedule rejected: missing prompt")
             return Outcome.MissingPrompt
         }
         if (goal.length > MAX_PROMPT) {
-            Log.w("MikaExternal", "external schedule rejected: prompt too long")
+            Log.w("DjiniExternal", "external schedule rejected: prompt too long")
             return Outcome.PromptTooLong
         }
         val atMs = when {
@@ -52,11 +52,11 @@ object ExternalSchedule {
             else -> {
                 val parsed = runCatching { Instant.parse(at.trim()).toEpochMilli() }.getOrNull()
                 if (parsed == null) {
-                    Log.w("MikaExternal", "external schedule rejected: invalid time")
+                    Log.w("DjiniExternal", "external schedule rejected: invalid time")
                     return Outcome.InvalidTime
                 }
                 if (parsed <= System.currentTimeMillis()) {
-                    Log.w("MikaExternal", "external schedule rejected: time not future")
+                    Log.w("DjiniExternal", "external schedule rejected: time not future")
                     return Outcome.TimeNotFuture
                 }
                 parsed
@@ -64,13 +64,13 @@ object ExternalSchedule {
         }
         val prefs = app.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
         if (!allowNow(prefs)) {
-            Log.w("MikaExternal", "external schedule rejected: rate limited")
+            Log.w("DjiniExternal", "external schedule rejected: rate limited")
             return Outcome.RateLimited
         }
         val threadId = ConversationStore.shared(app).newConversation()
         val plan = TriggerDefinition(UUID.randomUUID().toString(), threadId, goal, atMs, source = TriggerSource.External)
         TriggerRuntime.schedule(app, plan)
-        Log.i("MikaExternal", "external schedule accepted: id=${plan.id} at=$atMs")
+        Log.i("DjiniExternal", "external schedule accepted: id=${plan.id} at=$atMs")
         return Outcome.Scheduled
     }
 
@@ -95,7 +95,7 @@ class ExternalScheduleReceiver : BroadcastReceiver() {
             try {
                 ExternalSchedule.accept(context, intent.getStringExtra("prompt"), intent.getStringExtra("at"))
             } catch (e: Exception) {
-                Log.e("MikaExternal", "external schedule failed", e)
+                Log.e("DjiniExternal", "external schedule failed", e)
             } finally {
                 pending.finish()
             }

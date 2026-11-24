@@ -72,9 +72,9 @@
     try { Bridge.ready(); } catch (e) {}
   }, 50);
 
-  window.mikaWrite = s => { try { term.write(fromB64(s)); } catch (e) {} };
-  window.mikaFocus = () => { try { term.focus(); } catch (e) {} };
-  window.mikaCopyAll = () => {
+  window.djiniWrite = s => { try { term.write(fromB64(s)); } catch (e) {} };
+  window.djiniFocus = () => { try { term.focus(); } catch (e) {} };
+  window.djiniCopyAll = () => {
     try {
       term.selectAll();
       const text = term.getSelection();

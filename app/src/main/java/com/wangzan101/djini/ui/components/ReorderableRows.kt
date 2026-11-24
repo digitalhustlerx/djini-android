@@ -27,8 +27,8 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.wangzan101.djini.R
-import com.wangzan101.djini.ui.theme.MikaIcons
-import com.wangzan101.djini.ui.theme.MikaSize
+import com.wangzan101.djini.ui.theme.DjiniIcons
+import com.wangzan101.djini.ui.theme.DjiniSize
 import com.wangzan101.djini.ui.theme.DjiniTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
@@ -162,7 +162,7 @@ fun ReorderableRow(
     ) {
         content(destination == 0) {
             Box(
-                Modifier.size(MikaSize.IconButton)
+                Modifier.size(DjiniSize.IconButton)
                     .onGloballyPositioned { if (moving || state.draggedId == null) handleTop = it.boundsInWindow().top }
                     .testTag(dragTag)
                     .pointerInput(id, ids, state.saving) {
@@ -190,7 +190,7 @@ fun ReorderableRow(
                     },
                 contentAlignment = Alignment.Center,
             ) {
-                Icon(MikaIcons.Menu, stringResource(R.string.recommendations_drag), Modifier.size(MikaSize.Icon), tint = colors.ink3)
+                Icon(DjiniIcons.Menu, stringResource(R.string.recommendations_drag), Modifier.size(DjiniSize.Icon), tint = colors.ink3)
             }
         }
     }

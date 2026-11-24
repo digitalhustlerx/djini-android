@@ -24,17 +24,17 @@ import com.wangzan101.djini.R
 import com.wangzan101.djini.backup.BackupEngine
 import com.wangzan101.djini.backup.BackupException
 import com.wangzan101.djini.backup.BackupManifest
-import com.wangzan101.djini.quit.MikaQuit
+import com.wangzan101.djini.quit.DjiniQuit
 import com.wangzan101.djini.ui.components.GroupCard
 import com.wangzan101.djini.ui.components.GroupLabel
 import com.wangzan101.djini.ui.components.ListRow
-import com.wangzan101.djini.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.DjiniDialog
 import com.wangzan101.djini.ui.components.PageScaffold
 import com.wangzan101.djini.ui.components.StateCard
 import com.wangzan101.djini.ui.components.TileTone
-import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniIcons
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.DjiniType
 import java.io.ByteArrayInputStream
 import java.io.IOException
 import java.time.LocalDate
@@ -143,21 +143,21 @@ fun BackupScreen(onBack: () -> Unit) {
 
     PageScaffold(stringResource(R.string.backup_title), onBack) {
         StateCard(
-            MikaIcons.Shield,
+            DjiniIcons.Shield,
             stringResource(R.string.backup_warning_title),
             stringResource(R.string.backup_warning_body),
             TileTone.Warn,
         )
 
         GroupLabel(stringResource(R.string.backup_included_label))
-        Text(stringResource(R.string.backup_included_body), style = MikaType.Caption, color = DjiniTheme.colors.ink2)
+        Text(stringResource(R.string.backup_included_body), style = DjiniType.Caption, color = DjiniTheme.colors.ink2)
         Spacer(Modifier.height(4.dp))
-        Text(stringResource(R.string.backup_excluded_body), style = MikaType.Caption, color = DjiniTheme.colors.ink2)
+        Text(stringResource(R.string.backup_excluded_body), style = DjiniType.Caption, color = DjiniTheme.colors.ink2)
         Spacer(Modifier.height(12.dp))
 
         GroupCard {
             ListRow(
-                MikaIcons.Download, stringResource(R.string.backup_export), stringResource(R.string.backup_export_sub),
+                DjiniIcons.Download, stringResource(R.string.backup_export), stringResource(R.string.backup_export_sub),
                 first = true, onClick = {
                     if (!busy) {
                         val name = "djini-backup-${BuildConfig.VERSION_NAME}-${LocalDate.now()}.zip"
@@ -166,25 +166,25 @@ fun BackupScreen(onBack: () -> Unit) {
                 },
             ) { }
             ListRow(
-                MikaIcons.Archive, stringResource(R.string.backup_import), stringResource(R.string.backup_import_sub),
+                DjiniIcons.Archive, stringResource(R.string.backup_import), stringResource(R.string.backup_import_sub),
                 onClick = { if (!busy) importLauncher.launch(arrayOf("application/zip")) },
             ) { }
         }
 
         status?.let {
             Spacer(Modifier.height(12.dp))
-            Text(it, style = MikaType.Caption, color = DjiniTheme.colors.ink2)
+            Text(it, style = DjiniType.Caption, color = DjiniTheme.colors.ink2)
         }
         Text(
             stringResource(R.string.backup_restart_note),
             Modifier.padding(top = 12.dp),
-            style = MikaType.Hint, color = DjiniTheme.colors.ink3,
+            style = DjiniType.Hint, color = DjiniTheme.colors.ink3,
         )
     }
 
     // Import over existing data: replace everything, or cancel.
     if (pendingManifest != null) {
-        MikaDialog(
+        DjiniDialog(
             onDismissRequest = { pendingManifest = null; pendingImportUri = null },
             title = { Text(stringResource(R.string.backup_import_confirm_title)) },
             text = { Text(stringResource(R.string.backup_import_confirm_body)) },
@@ -206,7 +206,7 @@ fun BackupScreen(onBack: () -> Unit) {
 
     // Import done: show what came back, then close the app so the fresh data loads.
     importedManifest?.let { manifest ->
-        MikaDialog(
+        DjiniDialog(
             onDismissRequest = { importedManifest = null },
             title = { Text(stringResource(R.string.backup_imported_title)) },
             text = {
@@ -219,7 +219,7 @@ fun BackupScreen(onBack: () -> Unit) {
             confirmButton = {
                 TextButton({
                     importedManifest = null
-                    MikaQuit.quit(context)
+                    DjiniQuit.quit(context)
                 }) { Text(stringResource(R.string.backup_close_app)) }
             },
             dismissButton = {

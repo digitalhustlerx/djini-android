@@ -59,7 +59,7 @@ internal fun CallInstructionsScreen(runtime: CallRuntime, onBack: () -> Unit) {
     PageScaffold(stringResource(R.string.call_instructions_title), onBack,
         Modifier.testTag("call-instructions").imePadding()) {
         FooterNote(stringResource(R.string.call_instructions_intro))
-        MikaButton(stringResource(R.string.call_instructions_add), {
+        DjiniButton(stringResource(R.string.call_instructions_add), {
             draft = CallInstruction("", "", "", "")
         }, Modifier.fillMaxWidth().testTag("call-instruction-add"))
         if (rules.isEmpty()) {
@@ -71,7 +71,7 @@ internal fun CallInstructionsScreen(runtime: CallRuntime, onBack: () -> Unit) {
             }
         }
         rules.forEach { rule ->
-            MikaCard(Modifier.fillMaxWidth()) {
+            DjiniCard(Modifier.fillMaxWidth()) {
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                     Text(rule.title, Modifier.weight(1f), style = MaterialTheme.typography.titleMedium)
                     Switch(rule.enabled, { value -> mutate { store.setEnabled(rule.id, value) } })

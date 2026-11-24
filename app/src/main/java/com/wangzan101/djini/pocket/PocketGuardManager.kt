@@ -228,7 +228,7 @@ class PocketGuardManager(private val context: Context) : SensorEventListener, Gu
         const val PREFS = "pocket_guard"
         const val ENABLED = "enabled"
         const val LOCK_ON_COMPLETION = "lock_on_completion"
-        private const val TAG = "MikaPocketGuard"
+        private const val TAG = "DjiniPocketGuard"
 
         fun sensorsAvailable(context: Context): Boolean {
             val sensors = context.getSystemService(SensorManager::class.java) ?: return false

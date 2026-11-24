@@ -5,7 +5,7 @@
 // tab after a full close starts quietly, even if the desk server is still up.
 function deskNotifications(ticket, openTurn, reschedule) {
   const toggle = $("notifications");
-  const preference = "mikaDeskNotifications", checkpoint = "mikaDeskNotificationStates";
+  const preference = "djiniDeskNotifications", checkpoint = "djiniDeskNotificationStates";
   const notify = new Set(["waiting_for_answer", "waiting_on_phone", "done", "failed"]);
   const live = new Map();
   const supported = window.isSecureContext && "Notification" in window && navigator.locks && crypto.subtle;

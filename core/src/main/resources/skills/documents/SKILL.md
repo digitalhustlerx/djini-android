@@ -1,7 +1,7 @@
 ---
 name: documents
-display: 处理 PDF 文档
-description: 读 PDF 的文字、按页取、看文档信息,拆分合并后把文件交给用户
+display: PDF Documents
+description: Read, extract pages, inspect, split, and merge PDF files
 aliases: ["读 PDF", "PDF 转文字", "合并 PDF"]
 terms: ["PDF", "文档", "提取文字", "按页", "合并", "拆分", "扫描件"]
 ---

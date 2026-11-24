@@ -7,7 +7,7 @@ import org.junit.Test
 
 class AccessibilityListTest {
     private val djini = PermissionCommands.accessibilityService("com.wangzan101.djini")
-    private val mikaLong = "com.wangzan101.djini/com.wangzan101.djini.a11y.DjiniAccessibilityService"
+    private val djiniLong = "com.wangzan101.djini/com.wangzan101.djini.a11y.DjiniAccessibilityService"
     private val other = "com.example.reader/.ReaderService"
     private val other2 = "org.sample.keys/org.sample.keys.KeyService"
 
@@ -31,14 +31,14 @@ class AccessibilityListTest {
     fun alreadyPresentIsNotDuplicated() {
         assertEquals("$other:$djini", AccessibilityList.with("$other:$djini", djini))
         // 系统里存的是完整类名写法,也算已经有了
-        assertEquals("$mikaLong:$other", AccessibilityList.with("$mikaLong:$other", djini))
-        assertTrue(AccessibilityList.contains(mikaLong, djini))
+        assertEquals("$djiniLong:$other", AccessibilityList.with("$djiniLong:$other", djini))
+        assertTrue(AccessibilityList.contains(djiniLong, djini))
     }
 
     @Test
     fun removeKeepsOthersAndHandlesBothSpellings() {
         assertEquals("$other:$other2", AccessibilityList.without("$other:$djini:$other2", djini))
-        assertEquals(other, AccessibilityList.without("$mikaLong:$other", djini))
+        assertEquals(other, AccessibilityList.without("$djiniLong:$other", djini))
         assertEquals(other, AccessibilityList.without(other, djini))
         assertEquals("", AccessibilityList.without(djini, djini))
     }

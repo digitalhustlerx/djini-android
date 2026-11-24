@@ -135,8 +135,8 @@ internal class CallNotifications(private val context: Context) {
         const val ACTION = "com.wangzan101.djini.calls.TAKEOVER"
         const val ACTION_CANCEL_LOCKED_DIAL = "com.wangzan101.djini.calls.CANCEL_LOCKED_DIAL"
         const val LOCKED_DIAL_SCHEME = "djini-locked-dial"
-        const val CHANNEL = "mika_ai_calls"
-        const val COMPLETED_CHANNEL = "mika_ai_call_completed"
+        const val CHANNEL = "djini_ai_calls"
+        const val COMPLETED_CHANNEL = "djini_ai_call_completed"
         private const val ID = 90_117
         private fun completedId(callId: String) = 91_000 + (callId.hashCode() and 0x7fffffff) % 8_000
     }

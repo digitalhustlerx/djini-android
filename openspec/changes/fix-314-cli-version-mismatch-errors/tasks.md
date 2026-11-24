@@ -1,6 +1,6 @@
 ## 1. CLI 报错实现
 
-- [x] 1.1 `mika_cli.py` 新增 `incompatible(info, capability, remedy)`：从 `info` 取 `server_version`（非空字符串时），构造含能力名 + 版本（已知时）+ 补救的文案，`CliError("incompatible_api", …, capability=…, server_version=…)`
+- [x] 1.1 `djini_cli.py` 新增 `incompatible(info, capability, remedy)`：从 `info` 取 `server_version`（非空字符串时），构造含能力名 + 版本（已知时）+ 补救的文案，`CliError("incompatible_api", …, capability=…, server_version=…)`
 - [x] 1.2 四处门禁换用该函数：`run_with_files` 显式 `--request-id`（补救=去掉参数照常提交）、`execute` 的 steer 分支、export 分支、`require_files`
 - [x] 1.3 `discover()` 404 / api_version 不符路径保持原样，确认无回归
 

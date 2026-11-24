@@ -20,7 +20,7 @@ class RemoteCliContractTest {
         val directory = Files.createTempDirectory("djini-cli-contract").toFile()
         val token = File(directory, "token").apply { writeText("contract-test-token") }
         val errors = File(directory, "stderr")
-        val script = File("../tools/djini/scripts/mika_cli.py").canonicalPath
+        val script = File("../tools/djini/scripts/djini_cli.py").canonicalPath
         server.start()
         try {
             fun cli(vararg args: String, exit: Int = 0): JsonObject {

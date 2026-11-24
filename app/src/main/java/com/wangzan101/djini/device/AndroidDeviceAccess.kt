@@ -214,7 +214,7 @@ internal class AndroidDeviceAccessPort(context: Context, private val helper: () 
     }
 
     private companion object {
-        const val TAG = "MikaDeviceAccess"
+        const val TAG = "DjiniDeviceAccess"
         const val SYSTEM_UI = "com.android.systemui"
         const val MAX_WINDOW_DIAGNOSTICS = 6
         const val MAX_FIELD_DIAGNOSTICS = 8

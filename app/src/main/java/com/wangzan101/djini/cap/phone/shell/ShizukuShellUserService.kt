@@ -125,8 +125,8 @@ class ShizukuShellUserService : IDjiniShell.Stub {
     override fun injectStroke(displayId: Int, xs: IntArray, ys: IntArray, times: LongArray): Boolean =
         delegate.injectStroke(displayId, xs, ys, times)
 
-    override fun startSystemAction(displayId: Int, intent: Intent, asMika: PendingIntent?): Int =
-        delegate.startSystemAction(displayId, intent, asMika)
+    override fun startSystemAction(displayId: Int, intent: Intent, asDjini: PendingIntent?): Int =
+        delegate.startSystemAction(displayId, intent, asDjini)
 
     override fun runCommand(command: String): Bundle = delegate.runCommand(command)
 

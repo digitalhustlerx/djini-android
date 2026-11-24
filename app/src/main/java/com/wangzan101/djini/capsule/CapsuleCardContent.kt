@@ -109,17 +109,17 @@ import com.wangzan101.djini.ui.UserMessage
 import androidx.compose.ui.graphics.ImageBitmap
 import com.wangzan101.djini.ui.components.ButtonKind
 import com.wangzan101.djini.ui.components.ButtonSize
-import com.wangzan101.djini.ui.components.MikaButton
-import com.wangzan101.djini.ui.components.MikaLogo
+import com.wangzan101.djini.ui.components.DjiniButton
+import com.wangzan101.djini.ui.components.DjiniLogo
 import com.wangzan101.djini.ui.components.ScrollToBottomButton
 import com.wangzan101.djini.ui.components.StepItem
 import com.wangzan101.djini.ui.components.StepState
 import com.wangzan101.djini.ui.components.glassSource
 import com.wangzan101.djini.ui.components.rememberGlassBackdrop
 import com.wangzan101.djini.ui.components.scrollListToBottom
-import com.wangzan101.djini.ui.theme.MikaIcons
-import com.wangzan101.djini.ui.theme.MikaMotion
-import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniIcons
+import com.wangzan101.djini.ui.theme.DjiniMotion
+import com.wangzan101.djini.ui.theme.DjiniShapes
 import com.wangzan101.djini.ui.theme.DjiniTheme
 import com.wangzan101.djini.voice.HoldToTalk
 import kotlinx.coroutines.Job
@@ -147,7 +147,7 @@ object CardCopy {
     val APPROVE_ONCE_ONLY: String get() = tr(R.string.card_approve_once)
     val DECLINE: String get() = tr(R.string.action_decline)
     val SEE_PROCESS: String get() = tr(R.string.card_see_process)
-    val BACK_TO_DJINI: String get() = tr(R.string.card_back_to_mika)
+    val BACK_TO_DJINI: String get() = tr(R.string.card_back_to_djini)
     val SEND: String get() = tr(R.string.chat_send)
     val NEW_CHAT: String get() = tr(R.string.chat_new)
     val CONTINUE_LAST: String get() = tr(R.string.card_continue_last)
@@ -301,7 +301,7 @@ fun OverlayMotion(
                     if (shown.value == 0f) repeat(SETTLE_FRAMES) { withFrameNanos { } }
                     openedCalled = true
                     opened()
-                    shown.animateTo(1f, tween(CARD_IN_MS, easing = MikaMotion.Decelerate))
+                    shown.animateTo(1f, tween(CARD_IN_MS, easing = DjiniMotion.Decelerate))
                     finished = true
                 }
                 // 帧停了(浮层收不到下一帧)时上面走不完:值归位、回调补上,卡片不留在半开的缩放上,窗口状态也不卡在 opening(#323)
@@ -386,12 +386,12 @@ private fun InputRow(field: CardInput, ui: CardInputUi, actions: CardActions, st
 private fun CameraKey(onClick: () -> Unit) {
     val c = DjiniTheme.colors
     Box(
-        Modifier.testTag("capsule-camera").size(38.dp).clip(MikaShapes.Pill).background(c.ink.copy(alpha = 0.05f))
+        Modifier.testTag("capsule-camera").size(38.dp).clip(DjiniShapes.Pill).background(c.ink.copy(alpha = 0.05f))
             .clickable(role = Role.Button, onClickLabel = ScreenCopy.CAMERA, onClick = onClick)
             .semantics { contentDescription = ScreenCopy.CAMERA },
         contentAlignment = Alignment.Center,
     ) {
-        Icon(MikaIcons.Camera, null, Modifier.size(18.dp), tint = c.ink2)
+        Icon(DjiniIcons.Camera, null, Modifier.size(18.dp), tint = c.ink2)
     }
 }
 
@@ -405,19 +405,19 @@ private fun ScreenChip(p: PendingScreen, onRemove: () -> Unit) {
             .background(c.ink.copy(alpha = 0.05f)).padding(6.dp),
         verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        if (s.blocked) Box(Modifier.size(34.dp), contentAlignment = Alignment.Center) { Icon(MikaIcons.Lock, null, Modifier.size(16.dp), tint = c.ink2) }
+        if (s.blocked) Box(Modifier.size(34.dp), contentAlignment = Alignment.Center) { Icon(DjiniIcons.Lock, null, Modifier.size(16.dp), tint = c.ink2) }
         else ScreenThumb(p.thumb, 34.dp)
         Column(Modifier.weight(1f)) {
             Text(if (s.blocked) ScreenCopy.BLOCKED else ScreenCopy.TAG, style = Strong.copy(fontSize = 12.5.sp), color = c.ink, maxLines = 1, overflow = TextOverflow.Ellipsis)
             Text(ScreenCopy.detail(s), style = Sub, color = c.ink2, maxLines = 1, overflow = TextOverflow.Ellipsis)
         }
         Box(
-            Modifier.testTag("capsule-attachment-remove").size(26.dp).clip(MikaShapes.Pill)
+            Modifier.testTag("capsule-attachment-remove").size(26.dp).clip(DjiniShapes.Pill)
                 .clickable(role = Role.Button, onClickLabel = ScreenCopy.REMOVE, onClick = onRemove)
                 .semantics { contentDescription = ScreenCopy.REMOVE },
             contentAlignment = Alignment.Center,
         ) {
-            Icon(MikaIcons.Close, null, Modifier.size(15.dp), tint = c.ink3)
+            Icon(DjiniIcons.Close, null, Modifier.size(15.dp), tint = c.ink3)
         }
     }
 }
@@ -427,13 +427,13 @@ private fun ScreenChip(p: PendingScreen, onRemove: () -> Unit) {
 private fun SendKey(enabled: Boolean, onSend: () -> Unit, start: Dp = 0.dp) {
     val c = DjiniTheme.colors
     Box(
-        Modifier.testTag("capsule-send").padding(start = start).size(KeySize).clip(MikaShapes.Pill)
+        Modifier.testTag("capsule-send").padding(start = start).size(KeySize).clip(DjiniShapes.Pill)
             .background(if (enabled) c.accent else c.ink3.copy(alpha = 0.3f))
             .clickable(enabled = enabled, role = Role.Button, onClickLabel = CardCopy.SEND, onClick = onSend)
             .semantics { contentDescription = CardCopy.SEND },
         contentAlignment = Alignment.Center,
     ) {
-        Icon(MikaIcons.Up, null, Modifier.size(17.dp), tint = Color.White)
+        Icon(DjiniIcons.Up, null, Modifier.size(17.dp), tint = Color.White)
     }
 }
 
@@ -504,7 +504,7 @@ private fun CapsuleModePill(value: FollowUpMode, selected: FollowUpMode, onMode:
     val c = DjiniTheme.colors
     val on = value == selected
     Box(
-        Modifier.testTag(tag).heightIn(min = 26.dp).clip(MikaShapes.Pill)
+        Modifier.testTag(tag).heightIn(min = 26.dp).clip(DjiniShapes.Pill)
             .background(if (on) c.accent else c.fill)
             .clickable(role = Role.Tab, onClickLabel = label) { onMode(value) }
             .padding(horizontal = 10.dp),
@@ -520,13 +520,13 @@ private fun QueuedLine(count: Int, onClick: (() -> Unit)?) {
     if (count <= 0) return
     val c = DjiniTheme.colors
     Row(
-        Modifier.fillMaxWidth().padding(top = 6.dp).clip(MikaShapes.Pill).background(c.fill)
+        Modifier.fillMaxWidth().padding(top = 6.dp).clip(DjiniShapes.Pill).background(c.fill)
             .then(if (onClick != null) Modifier.clickable(role = Role.Button, onClick = onClick) else Modifier)
             .padding(horizontal = 10.dp, vertical = 5.dp).testTag("capsule-queued"),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(6.dp),
     ) {
-        Icon(MikaIcons.Clock, null, Modifier.size(14.dp), tint = c.ink3)
+        Icon(DjiniIcons.Clock, null, Modifier.size(14.dp), tint = c.ink3)
         Text(
             tr(R.string.follow_up_count, count) + " · " + tr(R.string.follow_up_queue_hint),
             Modifier.weight(1f), style = Sub, color = c.ink2, maxLines = 1, overflow = TextOverflow.Ellipsis,
@@ -539,12 +539,12 @@ private fun QueuedLine(count: Int, onClick: (() -> Unit)?) {
 internal fun StopKey(onStop: () -> Unit) {
     val c = DjiniTheme.colors
     Box(
-        Modifier.testTag("capsule-stop").size(KeySize).clip(MikaShapes.Pill).background(c.ink)
+        Modifier.testTag("capsule-stop").size(KeySize).clip(DjiniShapes.Pill).background(c.ink)
             .clickable(role = Role.Button, onClickLabel = CardCopy.STOP, onClick = onStop)
             .semantics { contentDescription = CardCopy.STOP },
         contentAlignment = Alignment.Center,
     ) {
-        Icon(MikaIcons.Stop, null, Modifier.size(20.dp), tint = c.bg)
+        Icon(DjiniIcons.Stop, null, Modifier.size(20.dp), tint = c.bg)
     }
 }
 
@@ -577,13 +577,13 @@ private fun CardFrame(height: Dp, fixed: Boolean = true, content: @Composable Co
 private fun Header(title: String, sub: String, actions: CardActions, handle: Modifier) {
     val c = DjiniTheme.colors
     Row(handle.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-        MikaLogo(28.dp, corner = 14.dp)
+        DjiniLogo(28.dp, corner = 14.dp)
         Column(Modifier.weight(1f).semantics(mergeDescendants = true) {}) {
             Text(title, style = Title, color = c.ink, maxLines = 1, overflow = TextOverflow.Ellipsis)
             Text(sub, style = Sub, color = c.ink3, maxLines = 1, overflow = TextOverflow.Ellipsis)
         }
-        IconButton(MikaIcons.Power, tr(R.string.quit_title), actions::askQuit)
-        IconButton(MikaIcons.Close, CardCopy.COLLAPSE, actions::collapse)
+        IconButton(DjiniIcons.Power, tr(R.string.quit_title), actions::askQuit)
+        IconButton(DjiniIcons.Close, CardCopy.COLLAPSE, actions::collapse)
     }
 }
 
@@ -593,7 +593,7 @@ private fun IdleHeader(card: CardView.Chat, actions: CardActions, handle: Modifi
     val c = DjiniTheme.colors
     val continuing = !card.fresh && card.conversationId != null
     Row(handle.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-        MikaLogo(28.dp, corner = 14.dp)
+        DjiniLogo(28.dp, corner = 14.dp)
         Row(Modifier.weight(1f), verticalAlignment = Alignment.CenterVertically) {
             Text(
                 if (continuing) tr(R.string.card_continuing, card.title.orEmpty().let(ScreenCopy::plain).let { if (it.length > TITLE_MAX) it.take(TITLE_MAX) + "…" else it }) else CardCopy.NEW_CHAT,
@@ -604,15 +604,15 @@ private fun IdleHeader(card: CardView.Chat, actions: CardActions, handle: Modifi
                 TextLink(if (continuing) CardCopy.NEW_CHAT else CardCopy.CONTINUE_LAST) { actions.freshChat(continuing) }
             }
         }
-        IconButton(MikaIcons.Power, tr(R.string.quit_title), actions::askQuit)
-        IconButton(MikaIcons.Close, CardCopy.COLLAPSE, actions::collapse)
+        IconButton(DjiniIcons.Power, tr(R.string.quit_title), actions::askQuit)
+        IconButton(DjiniIcons.Close, CardCopy.COLLAPSE, actions::collapse)
     }
 }
 
 @Composable
 private fun IconButton(icon: ImageVector, label: String, onClick: () -> Unit) {
     Box(
-        Modifier.size(32.dp).clip(MikaShapes.Pill).clickable(role = Role.Button, onClickLabel = label, onClick = onClick)
+        Modifier.size(32.dp).clip(DjiniShapes.Pill).clickable(role = Role.Button, onClickLabel = label, onClick = onClick)
             .semantics { contentDescription = label },
         contentAlignment = Alignment.Center,
     ) {
@@ -631,20 +631,20 @@ internal fun QuitCard(actions: CardActions, height: Dp = Dp.Unspecified) {
     val quitLabel = tr(R.string.quit_title)
     CardFrame(height, fixed = false) {
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-            MikaLogo(28.dp, corner = 14.dp)
+            DjiniLogo(28.dp, corner = 14.dp)
             Text(tr(R.string.quit_title), Modifier.weight(1f), style = Title, color = c.ink, maxLines = 1, overflow = TextOverflow.Ellipsis)
-            IconButton(MikaIcons.Close, CardCopy.COLLAPSE, actions::collapse)
+            IconButton(DjiniIcons.Close, CardCopy.COLLAPSE, actions::collapse)
         }
         Text(tr(R.string.quit_confirm_body), Modifier.padding(top = 10.dp), style = Body, color = c.ink2)
         Row(Modifier.padding(top = 12.dp).fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             Box(
-                Modifier.weight(1f).height(40.dp).testTag("capsule-quit-cancel").clip(MikaShapes.Pill).background(c.fill)
+                Modifier.weight(1f).height(40.dp).testTag("capsule-quit-cancel").clip(DjiniShapes.Pill).background(c.fill)
                     .clickable(role = Role.Button, onClickLabel = tr(R.string.cancel)) { actions.cancelQuit() },
                 contentAlignment = Alignment.Center,
             ) { Text(tr(R.string.cancel), style = Strong, color = c.ink) }
             // 和「关闭网页」一样:淡红底、红字,和别的操作分开
             Box(
-                Modifier.weight(1f).height(40.dp).testTag("capsule-quit").clip(MikaShapes.Pill).background(c.badSoft)
+                Modifier.weight(1f).height(40.dp).testTag("capsule-quit").clip(DjiniShapes.Pill).background(c.badSoft)
                     .clickable(role = Role.Button, onClickLabel = quitLabel) { actions.quit() },
                 contentAlignment = Alignment.Center,
             ) { Text(tr(R.string.quit_confirm_action), style = Strong, color = c.bad) }
@@ -746,7 +746,7 @@ private fun KeptCard(card: CardView.Kept, preview: Bitmap?, actions: CardActions
             Box(Modifier.weight(1f).testTag("kept-open")) { Action(tr(R.string.kept_open_chat), ButtonKind.Tonal) { actions.openDjini(p.conversationId) } }
             // 关闭是红字的淡红按钮,和别的按钮分开
             Box(
-                Modifier.weight(1f).height(40.dp).testTag("kept-close").clip(MikaShapes.Pill).background(c.badSoft)
+                Modifier.weight(1f).height(40.dp).testTag("kept-close").clip(DjiniShapes.Pill).background(c.badSoft)
                     .clickable(role = Role.Button, onClick = actions::closeKeptPage),
                 contentAlignment = Alignment.Center,
             ) { Text(tr(R.string.kept_close), style = Strong, color = c.bad) }
@@ -827,7 +827,7 @@ private fun TeachShelf(onTeach: () -> Unit) {
     Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
         if (open) TextLink(name, onClick = onTeach)
         Box(
-            Modifier.testTag("capsule-teach-shelf").widthIn(min = 48.dp).height(28.dp).clip(MikaShapes.Pill)
+            Modifier.testTag("capsule-teach-shelf").widthIn(min = 48.dp).height(28.dp).clip(DjiniShapes.Pill)
                 .clickable(role = Role.Button, onClickLabel = action) { open = !open }
                 .semantics {
                     contentDescription = name
@@ -837,7 +837,7 @@ private fun TeachShelf(onTeach: () -> Unit) {
             contentAlignment = Alignment.Center,
         ) {
             Icon(
-                MikaIcons.Chevron, null,
+                DjiniIcons.Chevron, null,
                 Modifier.size(16.dp).graphicsLayer { rotationZ = if (open) 90f else -90f },
                 tint = DjiniTheme.colors.ink3,
             )
@@ -1041,13 +1041,13 @@ private val FadeEdge = 28.dp
 
 @Composable
 private fun Action(text: String, kind: ButtonKind, onClick: () -> Unit) {
-    MikaButton(text, onClick, Modifier.fillMaxWidth(), kind = kind, size = ButtonSize.Medium)
+    DjiniButton(text, onClick, Modifier.fillMaxWidth(), kind = kind, size = ButtonSize.Medium)
 }
 
 @Composable
 private fun TextLink(text: String, color: Color = DjiniTheme.colors.accent, onClick: () -> Unit) {
     Text(
-        text, Modifier.clip(MikaShapes.Pill).clickable(role = Role.Button, onClick = onClick).padding(horizontal = 6.dp, vertical = 8.dp),
+        text, Modifier.clip(DjiniShapes.Pill).clickable(role = Role.Button, onClick = onClick).padding(horizontal = 6.dp, vertical = 8.dp),
         style = Sub.copy(fontSize = 13.sp), color = color,
     )
 }

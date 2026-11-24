@@ -1,6 +1,6 @@
 package com.wangzan101.djini.ui
 
-import com.wangzan101.djini.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.DjiniDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -25,10 +25,10 @@ import com.wangzan101.djini.ui.components.FooterNote
 import com.wangzan101.djini.ui.components.GroupCard
 import com.wangzan101.djini.ui.components.InputRow
 import com.wangzan101.djini.ui.components.ListRow
-import com.wangzan101.djini.ui.components.MikaButton
-import com.wangzan101.djini.ui.components.MikaSwitch
+import com.wangzan101.djini.ui.components.DjiniButton
+import com.wangzan101.djini.ui.components.DjiniSwitch
 import com.wangzan101.djini.ui.components.RowActions
-import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniIcons
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -77,13 +77,13 @@ internal fun RelayControls(config: RelayConfig, state: RelayState, busy: Boolean
     var confirm by remember { mutableStateOf(false) }
     if (!config.paired) {
         GroupCard {
-            ListRow(MikaIcons.Link, stringResource(R.string.relay_pair_title), stringResource(R.string.relay_pair_sub), first = true)
+            ListRow(DjiniIcons.Link, stringResource(R.string.relay_pair_title), stringResource(R.string.relay_pair_sub), first = true)
             InputRow(stringResource(R.string.relay_gateway), gateway, { if (!busy) gateway = it.take(2048) },
                 "https://djini.example.com", keyboard = KeyboardType.Uri, modifier = Modifier.testTag("relay-gateway"))
             InputRow(stringResource(R.string.relay_code), code, { if (!busy) code = it.take(64) },
                 stringResource(R.string.relay_code_hint), secret = true, keyboard = KeyboardType.Password, modifier = Modifier.testTag("relay-code"))
             RowActions {
-                MikaButton(stringResource(if (busy) R.string.relay_busy else R.string.relay_pair), {
+                DjiniButton(stringResource(if (busy) R.string.relay_busy else R.string.relay_pair), {
                     onPair(gateway.trim(), code.trim()); code = ""
                 }, size = ButtonSize.Small, enabled = !busy && code.trim().length in 8..64 && runCatching { RelayGateway.parse(gateway) }.isSuccess,
                     modifier = Modifier.testTag("relay-pair"))
@@ -99,22 +99,22 @@ internal fun RelayControls(config: RelayConfig, state: RelayState, busy: Boolean
             else -> R.string.relay_connecting
         }
         GroupCard {
-            ListRow(MikaIcons.Link, stringResource(R.string.relay_enable), stringResource(status), first = true) {
-                MikaSwitch(config.enabled, onEnabled, Modifier.testTag("relay-enabled"), enabled = !busy)
+            ListRow(DjiniIcons.Link, stringResource(R.string.relay_enable), stringResource(status), first = true) {
+                DjiniSwitch(config.enabled, onEnabled, Modifier.testTag("relay-enabled"), enabled = !busy)
             }
             ListRow(null, stringResource(R.string.relay_device_access), stringResource(R.string.relay_device_access_sub)) {
-                MikaSwitch(config.deviceAccess, onDeviceAccess, Modifier.testTag("relay-device-access"), enabled = !busy)
+                DjiniSwitch(config.deviceAccess, onDeviceAccess, Modifier.testTag("relay-device-access"), enabled = !busy)
             }
             ListRow(null, stringResource(R.string.relay_gateway), config.gateway)
             RowActions {
-                MikaButton(stringResource(if (mcp) R.string.relay_copy_address else R.string.relay_copy_gateway), onCopyAddress, size = ButtonSize.Small, enabled = !busy)
-                MikaButton(stringResource(if (mcp) R.string.mcp_copy_config else R.string.mcp_copy_command), onCopyConfig, kind = ButtonKind.Tonal, size = ButtonSize.Small, enabled = !busy)
+                DjiniButton(stringResource(if (mcp) R.string.relay_copy_address else R.string.relay_copy_gateway), onCopyAddress, size = ButtonSize.Small, enabled = !busy)
+                DjiniButton(stringResource(if (mcp) R.string.mcp_copy_config else R.string.mcp_copy_command), onCopyConfig, kind = ButtonKind.Tonal, size = ButtonSize.Small, enabled = !busy)
             }
             if (!mcp) RowActions {
-                MikaButton(stringResource(R.string.mcp_copy_token), onCopyToken, kind = ButtonKind.Tonal, size = ButtonSize.Small, enabled = !busy)
+                DjiniButton(stringResource(R.string.mcp_copy_token), onCopyToken, kind = ButtonKind.Tonal, size = ButtonSize.Small, enabled = !busy)
             }
             RowActions {
-                MikaButton(stringResource(R.string.relay_unpair), { confirm = true }, kind = ButtonKind.Text, size = ButtonSize.Small, enabled = !busy)
+                DjiniButton(stringResource(R.string.relay_unpair), { confirm = true }, kind = ButtonKind.Text, size = ButtonSize.Small, enabled = !busy)
             }
         }
         if (!mcp) CommandText("djini connect --url ${config.gateway!!.removeSuffix("/")} --token-file /path/to/token")
@@ -122,7 +122,7 @@ internal fun RelayControls(config: RelayConfig, state: RelayState, busy: Boolean
     }
     FooterNote(stringResource(R.string.relay_intro))
     if (failed) FooterNote(stringResource(R.string.relay_failed))
-    if (confirm) MikaDialog(onDismissRequest = { confirm = false },
+    if (confirm) DjiniDialog(onDismissRequest = { confirm = false },
         title = { Text(stringResource(R.string.relay_unpair)) }, text = { Text(stringResource(R.string.relay_unpair_body)) },
         confirmButton = { TextButton({ confirm = false; onUnpair() }) { Text(stringResource(R.string.relay_unpair)) } },
         dismissButton = { TextButton({ confirm = false }) { Text(stringResource(R.string.cancel)) } })

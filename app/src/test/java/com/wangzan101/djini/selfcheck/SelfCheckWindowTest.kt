@@ -13,7 +13,7 @@ import org.junit.Test
 /** 自检读屏按窗口归属认控件,不把合并节点和最上层窗口的包名混为一谈。 */
 class SelfCheckWindowTest {
     @Test
-    fun systemWindowAboveCompleteMikaContentIsReady() {
+    fun systemWindowAboveCompleteDjiniContentIsReady() {
         val djini = window(1, DJINI, layer = 1, controls = EXPECTED.map { "djini-$it" to it })
         val system = window(2, SYSTEM_UI, layer = 2, controls = listOf("system-shade" to "notification_shade"))
 
@@ -26,7 +26,7 @@ class SelfCheckWindowTest {
     }
 
     @Test
-    fun fullSystemApplicationAboveCompleteMikaContentStillFails() {
+    fun fullSystemApplicationAboveCompleteDjiniContentStillFails() {
         val djini = window(1, DJINI, layer = 1, controls = EXPECTED.map { "djini-$it" to it })
         val settings = window(2, SETTINGS, layer = 2, controls = listOf("settings-content" to "settings_content"))
 
@@ -49,7 +49,7 @@ class SelfCheckWindowTest {
     }
 
     @Test
-    fun systemWindowDoesNotHideMissingMikaControls() {
+    fun systemWindowDoesNotHideMissingDjiniControls() {
         val present = EXPECTED - BUTTON
         val djini = window(1, DJINI, layer = 1, controls = present.map { "djini-$it" to it })
         val system = window(2, SYSTEM_UI, layer = 2, controls = listOf("system-button" to BUTTON))
@@ -63,7 +63,7 @@ class SelfCheckWindowTest {
     }
 
     @Test
-    fun controlsInAnotherAppsWindowCannotCompleteMikaPage() {
+    fun controlsInAnotherAppsWindowCannotCompleteDjiniPage() {
         val djini = window(1, DJINI, layer = 1, controls = listOf("djini-$TITLE" to TITLE))
         val other = window(2, OTHER_APP, layer = 2, controls = EXPECTED.map { "other-$it" to it })
 
@@ -76,7 +76,7 @@ class SelfCheckWindowTest {
     }
 
     @Test
-    fun completeMikaContentBelowAnotherAppStillFails() {
+    fun completeDjiniContentBelowAnotherAppStillFails() {
         val djini = window(1, DJINI, layer = 1, controls = EXPECTED.map { "djini-$it" to it })
         val other = window(2, OTHER_APP, layer = 2, controls = listOf("other-content" to "other_content"))
 
@@ -88,7 +88,7 @@ class SelfCheckWindowTest {
     }
 
     @Test
-    fun expectedControlsOnlyInAnotherWindowDoNotCountAsMikaContent() {
+    fun expectedControlsOnlyInAnotherWindowDoNotCountAsDjiniContent() {
         val other = window(1, OTHER_APP, layer = 1, controls = EXPECTED.map { "other-$it" to it })
 
         val result = inspect(snapshot(OTHER_APP, other))

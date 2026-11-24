@@ -25,9 +25,9 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.wangzan101.djini.R
-import com.wangzan101.djini.ui.theme.MikaIcons
-import com.wangzan101.djini.ui.theme.MikaMotion
-import com.wangzan101.djini.ui.theme.MikaSize
+import com.wangzan101.djini.ui.theme.DjiniIcons
+import com.wangzan101.djini.ui.theme.DjiniMotion
+import com.wangzan101.djini.ui.theme.DjiniSize
 import com.wangzan101.djini.ui.theme.DjiniTheme
 
 /**
@@ -40,7 +40,7 @@ fun ScrollToBottomButton(
     modifier: Modifier = Modifier,
     backdrop: GlassBackdrop? = null,
     reduceMotion: Boolean = DjiniTheme.reduceMotion,
-    buttonSize: Dp = MikaSize.IconButton,
+    buttonSize: Dp = DjiniSize.IconButton,
     iconSize: Dp = 20.dp,
     tag: String = "scroll-to-bottom",
 ) {
@@ -48,7 +48,7 @@ fun ScrollToBottomButton(
     AnimatedVisibility(
         visible = visible,
         modifier = modifier,
-        enter = if (reduceMotion) fadeIn(tween(150)) else fadeIn(tween(180)) + scaleIn(tween(180, easing = MikaMotion.Decelerate), initialScale = 0.85f),
+        enter = if (reduceMotion) fadeIn(tween(150)) else fadeIn(tween(180)) + scaleIn(tween(180, easing = DjiniMotion.Decelerate), initialScale = 0.85f),
         exit = if (reduceMotion) fadeOut(tween(120)) else fadeOut(tween(150)) + scaleOut(tween(150), targetScale = 0.85f),
     ) {
         val label = stringResource(R.string.chat_scroll_to_bottom)
@@ -62,7 +62,7 @@ fun ScrollToBottomButton(
                     .clickable(onClickLabel = label, role = Role.Button, onClick = onClick),
                 contentAlignment = Alignment.Center,
             ) {
-                Icon(MikaIcons.Down, label, Modifier.size(iconSize), tint = c.ink)
+                Icon(DjiniIcons.Down, label, Modifier.size(iconSize), tint = c.ink)
             }
         }
     }

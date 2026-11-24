@@ -20,7 +20,7 @@ import com.wangzan101.djini.skills.MarketEntry
 import com.wangzan101.djini.skills.SkillMarket
 import com.wangzan101.djini.ui.components.*
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.DjiniType
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -74,18 +74,18 @@ internal fun SkillMarketScreen(onBack: () -> Unit, onImport: (String) -> String?
                     }) { text ->
                         val body = remember(text) { FrontMatter.parse(text).second }
                         Column(Modifier.padding(16.dp)) {
-                            Text(entry.description, style = MikaType.Caption, color = DjiniTheme.colors.ink2)
+                            Text(entry.description, style = DjiniType.Caption, color = DjiniTheme.colors.ink2)
                             // Render section headings without making third-party links or images interactive.
                             for (line in body.lineSequence().filter { it.isNotBlank() }) {
                                 val heading = line.startsWith("## ")
                                 Text(if (heading) line.drop(3) else line,
                                     Modifier.padding(top = if (heading) 12.dp else 4.dp),
-                                    style = if (heading) MikaType.BodyStrong else MikaType.Body, color = DjiniTheme.colors.ink)
+                                    style = if (heading) DjiniType.BodyStrong else DjiniType.Body, color = DjiniTheme.colors.ink)
                             }
                         }
                         problem?.let { EmptyNote(it) }
                         RowActions {
-                            MikaButton(stringResource(R.string.market_add), {
+                            DjiniButton(stringResource(R.string.market_add), {
                                 problem = onImport(text)
                                 if (problem == null) onBack()
                             })
@@ -98,7 +98,7 @@ internal fun SkillMarketScreen(onBack: () -> Unit, onImport: (String) -> String?
     }
     if (editing) {
         var value by rememberSaveable { mutableStateOf(repo) }
-        MikaDialog(onDismissRequest = { editing = false }, title = { Text(stringResource(R.string.market_source)) },
+        DjiniDialog(onDismissRequest = { editing = false }, title = { Text(stringResource(R.string.market_source)) },
             text = { OutlinedTextField(value, { value = it }, Modifier.fillMaxWidth(), singleLine = true,
                 label = { Text("GitHub") }, placeholder = { Text("owner/repository") }) },
             confirmButton = { TextButton({
@@ -131,7 +131,7 @@ private fun <T> MarketContent(load: MarketLoad<T>, retry: () -> Unit, content: @
     when {
         load.error != null -> {
             EmptyNote(stringResource(load.error))
-            RowActions { MikaButton(stringResource(R.string.retry), retry) }
+            RowActions { DjiniButton(stringResource(R.string.retry), retry) }
         }
         load.value != null -> content(load.value)
         else -> EmptyNote(stringResource(R.string.loading))

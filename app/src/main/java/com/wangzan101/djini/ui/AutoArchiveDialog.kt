@@ -11,13 +11,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.wangzan101.djini.R
 import com.wangzan101.djini.chat.AutoArchive
-import com.wangzan101.djini.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.DjiniDialog
 import com.wangzan101.djini.ui.components.RadioRow
 
 /** 自动归档的天数:关闭,或几天没新消息就收进归档。选中即生效,归档后在归档视图里可以恢复。 */
 @Composable
 internal fun AutoArchiveDialog(current: Int, onPick: (Int) -> Unit, onDismiss: () -> Unit) {
-    MikaDialog(
+    DjiniDialog(
         onDismissRequest = onDismiss,
         title = { Text(stringResource(R.string.settings_auto_archive)) },
         text = {

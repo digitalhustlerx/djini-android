@@ -226,7 +226,7 @@ class WebTabPoolTest {
         withContext(Dispatchers.Main) { pool.closeAll("A") }
         assertTrue(s.tabs().isEmpty())
         s.navigate(fixture("host.html"), newTab = false)
-        assertTrue(js(current("A")!!, "document.cookie").contains("mika_test=1"))
+        assertTrue(js(current("A")!!, "document.cookie").contains("djini_test=1"))
     }
 
     @Test
@@ -276,7 +276,7 @@ class WebTabPoolTest {
             assertTrue("cleared=$cleared", cleared >= 1)
             assertTrue(registry.list().isEmpty())
             val left = js(p.current("A")!!, "document.cookie")
-            assertFalse(left, left.contains("mika_test"))
+            assertFalse(left, left.contains("djini_test"))
         } finally {
             instr.runOnMainSync { p.close() }
         }

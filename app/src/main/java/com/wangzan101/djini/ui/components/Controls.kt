@@ -47,13 +47,13 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.wangzan101.djini.ui.theme.MikaMotion
-import com.wangzan101.djini.ui.theme.MikaIcons
-import com.wangzan101.djini.ui.theme.MikaShapes
-import com.wangzan101.djini.ui.theme.MikaSize
+import com.wangzan101.djini.ui.theme.DjiniMotion
+import com.wangzan101.djini.ui.theme.DjiniIcons
+import com.wangzan101.djini.ui.theme.DjiniShapes
+import com.wangzan101.djini.ui.theme.DjiniSize
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
-import com.wangzan101.djini.ui.theme.MikaRadius
+import com.wangzan101.djini.ui.theme.DjiniType
+import com.wangzan101.djini.ui.theme.DjiniRadius
 import androidx.compose.runtime.getValue
 
 // ---------- 开关 ----------
@@ -63,7 +63,7 @@ import androidx.compose.runtime.getValue
  * [onCheckedChange] 为空时只显示(整行可点时用)。
  */
 @Composable
-fun MikaSwitch(
+fun DjiniSwitch(
     checked: Boolean,
     onCheckedChange: ((Boolean) -> Unit)?,
     modifier: Modifier = Modifier,
@@ -71,8 +71,8 @@ fun MikaSwitch(
 ) {
     val c = DjiniTheme.colors
     val reduce = DjiniTheme.reduceMotion
-    val position by animateFloatAsState(if (checked) 1f else 0f, MikaMotion.switch(reduce), label = "switch")
-    val track by animateColorAsState(if (checked) c.accent else c.greySoft, MikaMotion.switch(reduce), label = "switch-track")
+    val position by animateFloatAsState(if (checked) 1f else 0f, DjiniMotion.switch(reduce), label = "switch")
+    val track by animateColorAsState(if (checked) c.accent else c.greySoft, DjiniMotion.switch(reduce), label = "switch-track")
     val thumb = c.thumb
     val ring = c.floatShadow.copy(alpha = 0.12f)
     Box(
@@ -111,12 +111,12 @@ fun StatusPill(text: String, tone: PillTone = PillTone.Neutral, modifier: Modifi
         PillTone.Neutral -> c.greySoft to c.ink2
     }
     Text(
-        text, modifier.background(bg, MikaShapes.Pill).padding(horizontal = 9.dp, vertical = 3.dp),
+        text, modifier.background(bg, DjiniShapes.Pill).padding(horizontal = 9.dp, vertical = 3.dp),
         style = PillText, color = fg, maxLines = 1,
     )
 }
 
-private val PillText = MikaType.Hint.copy(fontWeight = FontWeight.SemiBold)
+private val PillText = DjiniType.Hint.copy(fontWeight = FontWeight.SemiBold)
 
 // ---------- 按钮 ----------
 
@@ -125,14 +125,14 @@ enum class ButtonKind { Primary, Secondary, Tonal, Text }
 
 /** 大:页面底部 52;中:卡片里并排 42;小:行内 32 的胶囊。 */
 enum class ButtonSize(val height: Dp, val shape: RoundedCornerShape, val text: TextStyle, val padding: Dp) {
-    Large(MikaSize.Button, MikaShapes.Button, MikaType.BodyStrong, 20.dp),
-    Medium(42.dp, MikaShapes.Chip, MikaType.Body.copy(fontWeight = FontWeight.SemiBold), 14.dp),
-    Small(32.dp, MikaShapes.Card, MikaType.Caption.copy(fontWeight = FontWeight.SemiBold), 14.dp),
+    Large(DjiniSize.Button, DjiniShapes.Button, DjiniType.BodyStrong, 20.dp),
+    Medium(42.dp, DjiniShapes.Chip, DjiniType.Body.copy(fontWeight = FontWeight.SemiBold), 14.dp),
+    Small(32.dp, DjiniShapes.Card, DjiniType.Caption.copy(fontWeight = FontWeight.SemiBold), 14.dp),
 }
 
 /** 按钮。宽度由 [modifier] 定(铺满、按权重分或包住文字)。 */
 @Composable
-fun MikaButton(
+fun DjiniButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -195,15 +195,15 @@ fun SegmentedControl(
     }
 }
 
-private val SegmentOuter = MikaShapes.Tile
-private val SegmentInner = MikaShapes.Tile
-private val SegmentText = MikaType.Caption.copy(fontWeight = FontWeight.Medium)
+private val SegmentOuter = DjiniShapes.Tile
+private val SegmentInner = DjiniShapes.Tile
+private val SegmentText = DjiniType.Caption.copy(fontWeight = FontWeight.Medium)
 
 /** Mirrors horizontal navigation symbols in RTL while leaving non-directional artwork unchanged. */
 @Composable
 fun DirectionalIcon(icon: ImageVector, contentDescription: String?, modifier: Modifier = Modifier, tint: Color) {
     val rtl = LocalLayoutDirection.current == LayoutDirection.Rtl
-    val mirror = rtl && (icon == MikaIcons.Back || icon == MikaIcons.Forward || icon == MikaIcons.Chevron)
+    val mirror = rtl && (icon == DjiniIcons.Back || icon == DjiniIcons.Forward || icon == DjiniIcons.Chevron)
     Icon(icon, contentDescription, modifier.graphicsLayer { if (mirror) scaleX = -1f }, tint = tint)
 }
 
@@ -224,13 +224,13 @@ fun BarIconButton(
 ) {
     val c = DjiniTheme.colors
     Box(
-        Modifier.size(MikaSize.IconButton)
+        Modifier.size(DjiniSize.IconButton)
             .then(if (glass) Modifier.floatShadow(c, CircleShape).background(c.surface, CircleShape) else Modifier)
             .clip(CircleShape)
             .clickable(enabled = enabled, onClickLabel = label, role = Role.Button, onClick = onClick),
         contentAlignment = Alignment.Center,
     ) {
-        DirectionalIcon(icon, label, Modifier.size(MikaSize.Icon).alpha(if (enabled) 1f else 0.35f), tint = c.ink)
+        DirectionalIcon(icon, label, Modifier.size(DjiniSize.Icon).alpha(if (enabled) 1f else 0.35f), tint = c.ink)
         if (badge) {
             Box(
                 Modifier.align(Alignment.TopEnd).padding(top = 8.dp, end = 7.dp).size(8.dp)
@@ -260,22 +260,22 @@ fun TopBar(
     val c = DjiniTheme.colors
     Box(Modifier.fillMaxWidth().pageBackground(background).windowInsetsPadding(WindowInsets.statusBars)) {
         Row(
-            Modifier.fillMaxWidth().height(MikaSize.TopBar).padding(horizontal = 8.dp),
+            Modifier.fillMaxWidth().height(DjiniSize.TopBar).padding(horizontal = 8.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(4.dp),
         ) {
-            if (left != null) BarIconButton(left, leftLabel, onLeft, badge = leftBadge) else Spacer(Modifier.size(MikaSize.IconButton))
+            if (left != null) BarIconButton(left, leftLabel, onLeft, badge = leftBadge) else Spacer(Modifier.size(DjiniSize.IconButton))
             Column(Modifier.weight(1f).padding(horizontal = 4.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(title, style = MikaType.Title, color = c.ink, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                Text(title, style = DjiniType.Title, color = c.ink, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 if (!subtitle.isNullOrEmpty()) {
                     Text(
-                        subtitle, style = MikaType.Hint, fontWeight = FontWeight.Medium,
+                        subtitle, style = DjiniType.Hint, fontWeight = FontWeight.Medium,
                         color = if (subtitleColor == Color.Unspecified) c.ink3 else subtitleColor, maxLines = 1,
                     )
                 }
             }
             if (right != null) Row(verticalAlignment = Alignment.CenterVertically, content = right)
-            else Spacer(Modifier.size(MikaSize.IconButton))
+            else Spacer(Modifier.size(DjiniSize.IconButton))
         }
     }
 }
@@ -293,7 +293,7 @@ fun SelectChip(
     enabled: Boolean = true,
 ) {
     val c = DjiniTheme.colors
-    val shape = if (small) SmallChipShape else MikaShapes.Pill
+    val shape = if (small) SmallChipShape else DjiniShapes.Pill
     Box(
         modifier
             .then(
@@ -321,9 +321,9 @@ fun SelectChip(
     }
 }
 
-private val SmallChipShape = MikaShapes.Tile
-private val ChipText = MikaType.Body.copy(fontWeight = FontWeight.Medium)
-private val SmallChipText = MikaType.Hint.copy(fontWeight = FontWeight.Medium)
+private val SmallChipShape = DjiniShapes.Tile
+private val ChipText = DjiniType.Body.copy(fontWeight = FontWeight.Medium)
+private val SmallChipText = DjiniType.Hint.copy(fontWeight = FontWeight.Medium)
 
 // ---------- 小标签 ----------
 
@@ -337,8 +337,8 @@ fun CapabilityTag(text: String, tone: TagTone = TagTone.Neutral) {
     Text(text, Modifier.background(bg, TagShape).padding(horizontal = 7.dp, vertical = 2.dp), style = TagText, color = fg, maxLines = 1)
 }
 
-private val TagShape = MikaShapes.Tile
-private val TagText = MikaType.Micro.copy(fontWeight = FontWeight.SemiBold)
+private val TagShape = DjiniShapes.Tile
+private val TagText = DjiniType.Micro.copy(fontWeight = FontWeight.SemiBold)
 
 // ---------- 分页点 ----------
 

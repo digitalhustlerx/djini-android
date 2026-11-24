@@ -41,8 +41,8 @@ import com.wangzan101.djini.ui.components.ListRow
 import com.wangzan101.djini.ui.components.GroupCard
 import com.wangzan101.djini.ui.components.RowChevron
 import com.wangzan101.djini.ui.components.TileTone
-import com.wangzan101.djini.ui.theme.MikaIcons
-import com.wangzan101.djini.ui.theme.MikaSpace
+import com.wangzan101.djini.ui.theme.DjiniIcons
+import com.wangzan101.djini.ui.theme.DjiniSpace
 import com.wangzan101.djini.ui.theme.DjiniTheme
 import kotlinx.coroutines.launch
 
@@ -196,7 +196,7 @@ internal fun CallPermissionRows(device: CallDeviceControls, helperConnected: Boo
     val checks = device.readiness
     val phoneAction = device.phoneAction.takeIf { enabled && !checks.phoneAllowed }
     ListRow(
-        MikaIcons.Phone, stringResource(R.string.calls_device_phone_permissions),
+        DjiniIcons.Phone, stringResource(R.string.calls_device_phone_permissions),
         stringResource(if (checks.phoneAllowed) R.string.calls_device_permission_granted else R.string.calls_device_phone_permissions_note),
         tone = if (checks.phoneAllowed) TileTone.Ok else TileTone.Warn,
         detail = phoneAction?.let { stringResource(device.phoneActionLabel) }, detailColor = DjiniTheme.colors.accent,
@@ -205,7 +205,7 @@ internal fun CallPermissionRows(device: CallDeviceControls, helperConnected: Boo
 
     val notificationAction = device.notificationAction.takeIf { enabled && !checks.standbyNotificationsAllowed }
     ListRow(
-        MikaIcons.Bell, stringResource(R.string.calls_device_notifications),
+        DjiniIcons.Bell, stringResource(R.string.calls_device_notifications),
         stringResource(when (checks.notificationBlock) {
             CallNotificationBlock.Permission -> R.string.calls_device_notifications_permission_missing
             CallNotificationBlock.App -> R.string.calls_device_notifications_app_off
@@ -221,7 +221,7 @@ internal fun CallPermissionRows(device: CallDeviceControls, helperConnected: Boo
 
     val helperAction = onHelperSetup.takeIf { enabled }
     ListRow(
-        MikaIcons.Link, stringResource(R.string.calls_helper_name),
+        DjiniIcons.Link, stringResource(R.string.calls_helper_name),
         stringResource(if (helperConnected) R.string.calls_device_helper_connected else R.string.calls_helper_disconnected),
         tone = if (helperConnected) TileTone.Ok else TileTone.Warn,
         detail = helperAction?.let { stringResource(if (helperConnected) R.string.calls_helper_manage else R.string.calls_helper_set_up) },
@@ -246,7 +246,7 @@ internal fun CallBackgroundStandbyRow(
     val canAct = stopped && config.autoAnswer
     val action = if (canAct && canStart) onStart else onBlocked.takeIf { canAct }
     ListRow(
-        MikaIcons.Shield, stringResource(R.string.calls_background_service),
+        DjiniIcons.Shield, stringResource(R.string.calls_background_service),
         stringResource(backgroundStandbyStatus(config, state)),
         tone = if (state.backgroundStandbyRunning) TileTone.Ok else TileTone.Neutral,
         detail = action?.let { stringResource(if (canStart) R.string.calls_background_start else R.string.calls_device_and_permissions) },
@@ -258,7 +258,7 @@ internal fun CallBackgroundStandbyRow(
 internal fun CallBatterySettingsRow(device: CallDeviceControls, enabled: Boolean) {
     val battery = device.readiness.batteryPolicy
     ListRow(
-        MikaIcons.Gear, stringResource(R.string.calls_background_battery),
+        DjiniIcons.Gear, stringResource(R.string.calls_background_battery),
         stringResource(when (battery) {
             CallBatteryPolicy.Restricted -> R.string.calls_background_battery_restricted
             CallBatteryPolicy.Managed -> R.string.calls_background_battery_managed
@@ -280,8 +280,8 @@ internal fun CallLockedDialPendingRow(state: CallRuntimeState, enabled: Boolean,
         )
         else -> null
     }
-    GroupCard(Modifier.padding(horizontal = MikaSpace.Page).testTag("call-locked-dial-pending")) {
-        ListRow(MikaIcons.Phone, stringResource(R.string.calls_device_locked_dial_pending), status, first = true) {
+    GroupCard(Modifier.padding(horizontal = DjiniSpace.Page).testTag("call-locked-dial-pending")) {
+        ListRow(DjiniIcons.Phone, stringResource(R.string.calls_device_locked_dial_pending), status, first = true) {
             TextButton(onClick = onCancel, enabled = enabled, modifier = Modifier.testTag("call-locked-dial-cancel")) {
                 Text(stringResource(R.string.calls_device_locked_dial_cancel))
             }

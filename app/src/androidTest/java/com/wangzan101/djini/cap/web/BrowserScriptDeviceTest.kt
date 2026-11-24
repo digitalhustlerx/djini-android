@@ -153,7 +153,7 @@ class BrowserScriptDeviceTest {
         assertEquals("5", v.s("total")); assertEquals("5", v.s("count")); assertEquals("苹果 3 元", v.s("first"))
         assertEquals("clicks=0", v.s("status")); assertEquals("null", v["none"].toString()); assertEquals("true", v.s("visible"))
         // 页面看不到 djini、绑定和脚本的东西
-        assertEquals("\"undefined undefined undefined\"", page("typeof window.djini + ' ' + typeof window.__mika + ' ' + typeof window.__mikaRun"))
+        assertEquals("\"undefined undefined undefined\"", page("typeof window.djini + ' ' + typeof window.__djini + ' ' + typeof window.__djiniRun"))
     }
 
     @Test
@@ -189,7 +189,7 @@ class BrowserScriptDeviceTest {
             tryIt('fnCtor', () => (function () {}).constructor('return this')());
             tryIt('asyncCtor', () => (async function () {}).constructor('return this'));
             tryIt('genCtor', () => (function* () {}).constructor('return this'));
-            tryIt('mikaCtor', () => djini.tap.constructor('return this')());
+            tryIt('djiniCtor', () => djini.tap.constructor('return this')());
             tryIt('indirectEval', () => (0, eval)('this'));
             tryIt('stackApi', () => { Error.prepareStackTrace = (e, s) => s; return new Error().stack; });
             tryIt('locationAssign', () => { location.href = '/assets/web-fixtures/host.html'; });
@@ -219,7 +219,7 @@ class BrowserScriptDeviceTest {
     }
 
     @Test
-    fun tapsTwiceAndTypesThroughMikaActions() = runBlocking<Unit> {
+    fun tapsTwiceAndTypesThroughDjiniActions() = runBlocking<Unit> {
         val r = script("""
             const find = (s, name) => s.elements.find(e => e.name === name);
             let s = await djini.snapshot();

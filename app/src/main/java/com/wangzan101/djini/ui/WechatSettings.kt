@@ -29,19 +29,19 @@ import com.wangzan101.djini.ui.components.FooterNote
 import com.wangzan101.djini.ui.components.GroupCard
 import com.wangzan101.djini.ui.components.GroupLabel
 import com.wangzan101.djini.ui.components.ListRow
-import com.wangzan101.djini.ui.components.MikaButton
-import com.wangzan101.djini.ui.components.MikaCard
-import com.wangzan101.djini.ui.components.MikaDialog
-import com.wangzan101.djini.ui.components.MikaSwitch
+import com.wangzan101.djini.ui.components.DjiniButton
+import com.wangzan101.djini.ui.components.DjiniCard
+import com.wangzan101.djini.ui.components.DjiniDialog
+import com.wangzan101.djini.ui.components.DjiniSwitch
 import com.wangzan101.djini.ui.components.PageScaffold
 import com.wangzan101.djini.ui.components.PillTone
 import com.wangzan101.djini.ui.components.RowValue
 import com.wangzan101.djini.ui.components.StateCard
 import com.wangzan101.djini.ui.components.StatusPill
 import com.wangzan101.djini.ui.components.TileTone
-import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniIcons
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.DjiniType
 import com.wangzan101.djini.wechat.WechatConnectionState
 import com.wangzan101.djini.wechat.WechatRuntime
 import kotlinx.coroutines.CancellationException
@@ -166,18 +166,18 @@ fun WechatSettingsScreen(runtime: WechatRuntime, onBack: () -> Unit) {
             )
             else -> wechatStateCopy(state, bound)
         }
-        StateCard(MikaIcons.Chats, status.first, status.second, status.third, Modifier.testTag("wechat-status"))
+        StateCard(DjiniIcons.Chats, status.first, status.second, status.third, Modifier.testTag("wechat-status"))
 
         GroupLabel(stringResource(R.string.wechat_how))
         GroupCard {
             Text(
                 stringResource(R.string.wechat_how_body), Modifier.padding(16.dp),
-                style = MikaType.Body, color = DjiniTheme.colors.ink2,
+                style = DjiniType.Body, color = DjiniTheme.colors.ink2,
             )
         }
 
         if (!bound && loginContent == null) {
-            MikaButton(
+            DjiniButton(
                 stringResource(if (loginError == null) R.string.wechat_bind else R.string.wechat_bind_retry),
                 ::startLogin, Modifier.fillMaxWidth(), enabled = !loginBusy,
             )
@@ -185,18 +185,18 @@ fun WechatSettingsScreen(runtime: WechatRuntime, onBack: () -> Unit) {
         loginError?.let { FooterNote(it, color = DjiniTheme.colors.bad) }
 
         loginContent?.let { content ->
-            MikaCard(Modifier.padding(bottom = 12.dp).testTag("wechat-login")) {
+            DjiniCard(Modifier.padding(bottom = 12.dp).testTag("wechat-login")) {
                 Column(Modifier.fillMaxWidth().padding(20.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(stringResource(R.string.wechat_qr_title), style = MikaType.BodyStrong, color = DjiniTheme.colors.ink)
+                    Text(stringResource(R.string.wechat_qr_title), style = DjiniType.BodyStrong, color = DjiniTheme.colors.ink)
                     QrCodeImage(
                         content, stringResource(R.string.wechat_qr_title),
                         Modifier.padding(vertical = 16.dp).size(240.dp).testTag("wechat-qr"),
                     )
                     Text(
-                        stringResource(R.string.wechat_qr_help), style = MikaType.Caption,
+                        stringResource(R.string.wechat_qr_help), style = DjiniType.Caption,
                         color = DjiniTheme.colors.ink2, textAlign = TextAlign.Center,
                     )
-                    MikaButton(
+                    DjiniButton(
                         stringResource(R.string.cancel), ::cancelLogin, Modifier.fillMaxWidth().padding(top = 8.dp),
                         kind = ButtonKind.Text,
                     )
@@ -209,7 +209,7 @@ fun WechatSettingsScreen(runtime: WechatRuntime, onBack: () -> Unit) {
             GroupCard {
                 val receiving = state !is WechatConnectionState.Off && state !is WechatConnectionState.NeedsBinding
                 ListRow(
-                    MikaIcons.Message, stringResource(R.string.wechat_receive),
+                    DjiniIcons.Message, stringResource(R.string.wechat_receive),
                     stringResource(R.string.wechat_receive_sub), first = true,
                     onClick = if (actionBusy) null else ({
                         val target = !receiving
@@ -228,21 +228,21 @@ fun WechatSettingsScreen(runtime: WechatRuntime, onBack: () -> Unit) {
                         }
                     }),
                 ) {
-                    MikaSwitch(receiving, null, Modifier.testTag("wechat-enabled"), enabled = !actionBusy)
+                    DjiniSwitch(receiving, null, Modifier.testTag("wechat-enabled"), enabled = !actionBusy)
                 }
                 ListRow(
-                    MikaIcons.Key, stringResource(R.string.wechat_allow_unlock),
+                    DjiniIcons.Key, stringResource(R.string.wechat_allow_unlock),
                     stringResource(R.string.wechat_allow_unlock_sub),
                 ) {
-                    MikaSwitch(
+                    DjiniSwitch(
                         allowUnlock, ::changeUnlockAllowed, Modifier.testTag("wechat-allow-unlock"),
                         enabled = !actionBusy && !loginBusy,
                     )
                 }
-                ListRow(MikaIcons.Chats, stringResource(R.string.wechat_bound_account)) {
+                ListRow(DjiniIcons.Chats, stringResource(R.string.wechat_bound_account)) {
                     RowValue(stringResource(R.string.wechat_current_account))
                 }
-                ListRow(MikaIcons.Shield, stringResource(R.string.wechat_message_scope)) {
+                ListRow(DjiniIcons.Shield, stringResource(R.string.wechat_message_scope)) {
                     RowValue(stringResource(R.string.wechat_owner_private))
                 }
             }
@@ -252,7 +252,7 @@ fun WechatSettingsScreen(runtime: WechatRuntime, onBack: () -> Unit) {
                 stringResource(R.string.mcp_advanced),
                 stringResource(R.string.device_access_title),
             ))
-            MikaButton(
+            DjiniButton(
                 stringResource(R.string.wechat_rebind), ::startLogin, Modifier.fillMaxWidth(),
                 kind = ButtonKind.Secondary, enabled = !loginBusy && !actionBusy,
             )
@@ -281,7 +281,7 @@ fun WechatSettingsScreen(runtime: WechatRuntime, onBack: () -> Unit) {
     }
 
     if (confirmUnbind) {
-        MikaDialog(
+        DjiniDialog(
             onDismissRequest = { confirmUnbind = false },
             title = { Text(stringResource(R.string.wechat_unbind_title)) },
             text = { Text(stringResource(R.string.wechat_unbind_body)) },

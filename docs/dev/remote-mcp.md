@@ -9,7 +9,7 @@
 ```sh
 cd tools/relay
 cp .env.example .env
-# 编辑 .env，设置 MIKA_DOMAIN，仅填写自己的域名，不带协议或路径
+# 编辑 .env，设置 DJINI_DOMAIN，仅填写自己的域名，不带协议或路径
 docker compose build
 docker build --target caddy-check .
 docker compose run --rm relay -init-owner-key -owner-key-file /data/owner-key
@@ -56,7 +56,7 @@ djini --url https://djini.example.com --token-file /path/to/token task list --li
 
 ### 经网关唤醒和解锁：默认关
 
-远程唤醒和解锁让持有令牌的人在手机上输入锁屏 PIN/密码。局域网里能连上手机的只有同一网络的设备；经网关则是整个互联网，且网关本身能看到令牌。所以经网关来的请求默认**看不到**屏幕能力（`mika_device_state`、`mika_wake_device`、`mika_unlock_device` 与 `/api/v1/device`，`/api/v1` 的 capabilities 也不列 `device_state`），工具和端点根本不出现，而不是出现了再拒绝。要经网关唤醒、解锁，三项都得在手机上打开：「允许远程访问」、远程页的「允许经网关唤醒和解锁」（默认关，存在加密的网关配置里，配对或重新配对都回到关）、以及原有的「允许远程亮屏与解锁」。局域网和 USB 的行为不变。
+远程唤醒和解锁让持有令牌的人在手机上输入锁屏 PIN/密码。局域网里能连上手机的只有同一网络的设备；经网关则是整个互联网，且网关本身能看到令牌。所以经网关来的请求默认**看不到**屏幕能力（`djini_device_state`、`djini_wake_device`、`djini_unlock_device` 与 `/api/v1/device`，`/api/v1` 的 capabilities 也不列 `device_state`），工具和端点根本不出现，而不是出现了再拒绝。要经网关唤醒、解锁，三项都得在手机上打开：「允许远程访问」、远程页的「允许经网关唤醒和解锁」（默认关，存在加密的网关配置里，配对或重新配对都回到关）、以及原有的「允许远程亮屏与解锁」。局域网和 USB 的行为不变。
 
 在手机更换访问令牌后，局域网和远程的旧令牌立即失效，无须同步网关；客户端须更新配置。解除配对仅撤销设备通道，不更换访问令牌；重新配对后持有该令牌的客户端仍能访问。若需使这些客户端失效，应在手机更换令牌。
 

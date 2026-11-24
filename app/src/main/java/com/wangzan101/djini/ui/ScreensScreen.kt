@@ -54,11 +54,11 @@ import com.wangzan101.djini.ui.components.GroupCard
 import com.wangzan101.djini.ui.components.ListRow
 import com.wangzan101.djini.ui.components.PageScaffold
 import com.wangzan101.djini.ui.components.RowValue
-import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniIcons
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
-import com.wangzan101.djini.ui.theme.MikaRadius
-import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniType
+import com.wangzan101.djini.ui.theme.DjiniRadius
+import com.wangzan101.djini.ui.theme.DjiniShapes
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -153,7 +153,7 @@ private fun ScreenCard(row: ScreenRow, frames: StateFlow<Bitmap?>?, onOpenConver
     var open by rememberSaveable(row.key) { mutableStateOf(false) }
     GroupCard(Modifier.padding(top = 8.dp)) {
         ListRow(
-            MikaIcons.Screens, row.goal.oneLine(), ScreensCopy.place(row),
+            DjiniIcons.Screens, row.goal.oneLine(), ScreensCopy.place(row),
             first = true, onClick = { onOpenConversation(row.conversationId) },
         ) { RowValue(ScreensCopy.state(row.state)) }
         if (row.displayId >= 0 || row.web) {
@@ -161,7 +161,7 @@ private fun ScreenCard(row: ScreenRow, frames: StateFlow<Bitmap?>?, onOpenConver
                 if (open) ScreensCopy.HIDE_PREVIEW else ScreensCopy.PREVIEW,
                 Modifier.padding(start = 16.dp, top = 8.dp, bottom = 8.dp)
                     .clickable { open = !open }.testTag("screens-preview-${row.key}"),
-                style = MikaType.Caption, color = c.accent,
+                style = DjiniType.Caption, color = c.accent,
             )
             if (open && frames != null) LiveFrame(frames)
         }
@@ -181,7 +181,7 @@ private fun LiveFrame(source: StateFlow<Bitmap?>) {
     Image(
         bmp.asImageBitmap(), stringResource(R.string.screens_zoom),
         Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp, bottom = 12.dp)
-            .height(260.dp).clip(MikaShapes.Tile)
+            .height(260.dp).clip(DjiniShapes.Tile)
             .clickable { zoom = true }.testTag("screens-zoom"),
         contentScale = ContentScale.Fit,
     )

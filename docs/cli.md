@@ -28,7 +28,7 @@ flowchart LR
 
 安装、升级、回退和卸载见 [CLI / Skill 安装指南](computer-install.md)。CLI 与 MCP 通常二选一。手机需要 task API v1,官方 APK 从 v0.1.23 起提供。
 
-只装 Skill 时,下面的 `djini` 代表 `python3 <技能目录>/djini/scripts/mika_cli.py`（Windows 用 `py -3`）。
+只装 Skill 时,下面的 `djini` 代表 `python3 <技能目录>/djini/scripts/djini_cli.py`（Windows 用 `py -3`）。
 
 ## 连接手机
 
@@ -114,7 +114,7 @@ djini ui                      # 打开本机浏览器里的任务台
 djini ui --device SERIAL --no-open
 ```
 
-`djini ui` 在 `127.0.0.1` 的随机端口起一个只给本机用的页面，用同一套任务命令派任务、看进度、回答追问、追加要求和取消，界面按浏览器语言显示简体中文或英文。链接末尾 `#` 后面是本次启动的会话密钥，浏览器不会把它发给别处；服务端还核对 Host 和 Origin，只接受固定几种操作。它是给人用的交互界面，不支持 `--json`。详见[从电脑使用 Djini](computer.md#电脑任务台mika-ui)。
+`djini ui` 在 `127.0.0.1` 的随机端口起一个只给本机用的页面，用同一套任务命令派任务、看进度、回答追问、追加要求和取消，界面按浏览器语言显示简体中文或英文。链接末尾 `#` 后面是本次启动的会话密钥，浏览器不会把它发给别处；服务端还核对 Host 和 Origin，只接受固定几种操作。它是给人用的交互界面，不支持 `--json`。详见[从电脑使用 Djini](computer.md#电脑任务台djini-ui)。
 
 ## HTTP 契约
 
@@ -155,7 +155,7 @@ djini ui --device SERIAL --no-open
 
 ```bash
 ./gradlew :core:test :core:cliTest :app:testDebugUnitTest :app:assembleDebug
-# Python 可单独运行;指定解释器可用 -PmikaPython=/path/to/python3
+# Python 可单独运行;指定解释器可用 -PdjiniPython=/path/to/python3
 python3 -m unittest discover -s tools/djini/tests -v
 ```
 

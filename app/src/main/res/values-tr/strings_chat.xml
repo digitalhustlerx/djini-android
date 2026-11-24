@@ -240,7 +240,7 @@
     <string name="chat_retry_failed">%1$s: kopyalanamadı</string>
     <string name="chat_select_hint">Metni seçmek için basılı tutun</string>
     <string name="chat_quote_remove">Alıntıyı kaldır</string>
-    <string name="chat_quoting_mika">Djini alıntılanıyor: %1$s</string>
+    <string name="chat_quoting_djini">Djini alıntılanıyor: %1$s</string>
     <string name="chat_quoting_you">Siz alıntılanıyorsunuz: %1$s</string>
     <string name="chat_edit_message">Mesajı düzenle</string>
     <string name="chat_withdraw_message">Mesajı geri al</string>

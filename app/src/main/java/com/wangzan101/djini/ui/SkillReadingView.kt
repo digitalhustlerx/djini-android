@@ -16,11 +16,11 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniIcons
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
-import com.wangzan101.djini.ui.theme.MikaRadius
-import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniType
+import com.wangzan101.djini.ui.theme.DjiniRadius
+import com.wangzan101.djini.ui.theme.DjiniShapes
 
 internal data class ReadingSection(val title: MdBlock.Heading?, val blocks: List<MdBlock>)
 
@@ -40,7 +40,7 @@ internal fun readingSections(blocks: List<MdBlock>): List<ReadingSection> = buil
 @Composable
 internal fun SkillReadingView(markdown: String) {
     val c = DjiniTheme.colors
-    val body = MikaType.Body.copy(color = c.ink2)
+    val body = DjiniType.Body.copy(color = c.ink2)
     MarkdownDocument(markdown) { blocks ->
         Column(Modifier.fillMaxWidth().padding(top = 6.dp, bottom = 4.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             Spacer(Modifier.fillMaxWidth().height(1.dp).background(c.hair))
@@ -48,19 +48,19 @@ internal fun SkillReadingView(markdown: String) {
                 val label = title?.text?.text.orEmpty()
                 val caution = label.startsWith("容易出错的地方")
                 val icon = when {
-                    label.startsWith("入口") -> MikaIcons.Pin
-                    label.startsWith("步骤") -> MikaIcons.Route
-                    caution -> MikaIcons.Info
-                    label.startsWith("怎样算办成") -> MikaIcons.Check
-                    label.startsWith("什么时候停下交给用户") -> MikaIcons.Hand
+                    label.startsWith("入口") -> DjiniIcons.Pin
+                    label.startsWith("步骤") -> DjiniIcons.Route
+                    caution -> DjiniIcons.Info
+                    label.startsWith("怎样算办成") -> DjiniIcons.Check
+                    label.startsWith("什么时候停下交给用户") -> DjiniIcons.Hand
                     else -> null
                 }
-                val panel = if (caution) Modifier.background(c.warnSoft, MikaShapes.Tile).padding(12.dp) else Modifier
+                val panel = if (caution) Modifier.background(c.warnSoft, DjiniShapes.Tile).padding(12.dp) else Modifier
                 Column(Modifier.fillMaxWidth().then(panel), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                     if (title != null) Row(verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(7.dp)) {
                         if (icon != null) Icon(icon, null, Modifier.size(16.dp), tint = if (caution) c.warn else c.accent)
-                        Text(title.text, Modifier.semantics { heading() }, style = MikaType.BodyStrong, color = c.ink)
+                        Text(title.text, Modifier.semantics { heading() }, style = DjiniType.BodyStrong, color = c.ink)
                     }
                     for (block in contents) {
                         if (block is MdBlock.ListBlock && block.start != null && label.startsWith("步骤")) {
@@ -83,7 +83,7 @@ private fun StepList(list: MdBlock.ListBlock, start: Int, style: TextStyle) {
             Row(horizontalArrangement = Arrangement.spacedBy(9.dp)) {
                 Box(Modifier.defaultMinSize(minWidth = 22.dp, minHeight = 22.dp)
                     .background(c.accentSoft, CircleShape).padding(horizontal = 4.dp), contentAlignment = Alignment.Center) {
-                    Text((start + index).toString(), style = MikaType.Label.copy(fontWeight = FontWeight.SemiBold), color = c.accent)
+                    Text((start + index).toString(), style = DjiniType.Label.copy(fontWeight = FontWeight.SemiBold), color = c.accent)
                 }
                 MarkdownBlocks(item, style, Modifier.weight(1f), depth = 1)
             }

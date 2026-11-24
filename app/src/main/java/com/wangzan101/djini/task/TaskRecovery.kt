@@ -228,7 +228,7 @@ class TaskRecovery(context: Context, private val sharedShell: SharedShell) {
     }
 
     companion object {
-        private const val TAG = "MikaTask"
+        private const val TAG = "DjiniTask"
         private const val PREFS = "task_recovery"
         private const val SHELL_WAIT_MS = 60_000L
         private const val CLIP_HELD = "clip_held"

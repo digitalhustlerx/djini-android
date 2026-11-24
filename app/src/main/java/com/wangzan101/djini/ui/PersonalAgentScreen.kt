@@ -63,16 +63,16 @@ import com.wangzan101.djini.personal.PersonalPhonePreview
 import com.wangzan101.djini.personal.PersonalRuntime
 import com.wangzan101.djini.ui.components.ActivitySizedDialog
 import com.wangzan101.djini.ui.components.BarIconButton
-import com.wangzan101.djini.ui.components.MikaButton
-import com.wangzan101.djini.ui.components.MikaLogo
+import com.wangzan101.djini.ui.components.DjiniButton
+import com.wangzan101.djini.ui.components.DjiniLogo
 import com.wangzan101.djini.ui.components.cardSurface
 import com.wangzan101.djini.ui.components.floatShadow
-import com.wangzan101.djini.ui.theme.MikaIcons
-import com.wangzan101.djini.ui.theme.MikaShapes
-import com.wangzan101.djini.ui.theme.MikaSpace
+import com.wangzan101.djini.ui.theme.DjiniIcons
+import com.wangzan101.djini.ui.theme.DjiniShapes
+import com.wangzan101.djini.ui.theme.DjiniSpace
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
-import com.wangzan101.djini.ui.theme.MikaRadius
+import com.wangzan101.djini.ui.theme.DjiniType
+import com.wangzan101.djini.ui.theme.DjiniRadius
 import com.wangzan101.djini.voice.HoldToTalk
 import com.wangzan101.djini.voice.VoiceSource
 import kotlinx.coroutines.launch
@@ -186,13 +186,13 @@ fun PersonalAgentScreen(
         )
         Box(Modifier.weight(1f).fillMaxWidth().voiceDim(voiceHolding, reduceMotion)) {
             LazyColumn(state = list, modifier = Modifier.fillMaxSize().testTag("personal-timeline"),
-                contentPadding = PaddingValues(horizontal = MikaSpace.Page, vertical = 12.dp),
+                contentPadding = PaddingValues(horizontal = DjiniSpace.Page, vertical = 12.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 if (messages.isEmpty()) item("welcome") {
                     Column(Modifier.fillMaxWidth().padding(top = 60.dp, bottom = 40.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text(stringResource(R.string.personal_welcome_title), style = MikaType.LargeTitle, color = c.ink, textAlign = TextAlign.Center)
+                        Text(stringResource(R.string.personal_welcome_title), style = DjiniType.LargeTitle, color = c.ink, textAlign = TextAlign.Center)
                         Text(stringResource(R.string.personal_welcome_body),
-                            Modifier.padding(top = 12.dp), color = c.ink2, style = MikaType.Body, textAlign = TextAlign.Center)
+                            Modifier.padding(top = 12.dp), color = c.ink2, style = DjiniType.Body, textAlign = TextAlign.Center)
                         TextButton(onClick = onModels, Modifier.padding(top = 16.dp)) { Text(stringResource(R.string.personal_view_model)) }
                     }
                 }
@@ -206,22 +206,22 @@ fun PersonalAgentScreen(
                     Column(Modifier.fillMaxWidth(), horizontalAlignment = if (user) Alignment.End else Alignment.Start) {
                         if (date != priorDate) {
                             Text(dayFormat.format(date), Modifier.align(Alignment.CenterHorizontally).padding(vertical = 8.dp),
-                                color = c.ink3, style = MikaType.Micro)
+                                color = c.ink3, style = DjiniType.Micro)
                             Spacer(Modifier.height(12.dp))
                         }
                         if (task != null) Text(task.title + " · " + personalStatus(task),
-                            Modifier.padding(start = 4.dp, bottom = 6.dp), style = MikaType.Micro, color = c.ink2)
+                            Modifier.padding(start = 4.dp, bottom = 6.dp), style = DjiniType.Micro, color = c.ink2)
                         val bubble = Modifier.fillMaxWidth(if (user) 0.8f else 1f)
                             .wrapContentWidth(if (user) Alignment.End else Alignment.Start)
-                            .background(if (user) c.accent else c.answer, if (user) MikaShapes.UserBubble else MikaShapes.AnswerBubble)
+                            .background(if (user) c.accent else c.answer, if (user) DjiniShapes.UserBubble else DjiniShapes.AnswerBubble)
                             .padding(horizontal = 14.dp, vertical = 10.dp)
                         if (user) {
-                            Text(message.text, bubble, style = MikaType.Body, color = c.onAccent)
+                            Text(message.text, bubble, style = DjiniType.Body, color = c.onAccent)
                         } else {
                             PersonalReply(message.displayText(context), message.error, bubble)
                         }
-                        if (!message.handled) Text(stringResource(R.string.personal_received), Modifier.padding(top = 4.dp, end = 5.dp), style = MikaType.Micro, color = c.ink3)
-                        if (task != null) TextButton(onClick = { selectedTask = task.id }) { Text(stringResource(R.string.personal_view_task), style = MikaType.Hint) }
+                        if (!message.handled) Text(stringResource(R.string.personal_received), Modifier.padding(top = 4.dp, end = 5.dp), style = DjiniType.Micro, color = c.ink3)
+                        if (task != null) TextButton(onClick = { selectedTask = task.id }) { Text(stringResource(R.string.personal_view_task), style = DjiniType.Hint) }
                     }
                 }
                 item("bottom") { Spacer(Modifier.height(4.dp)) }
@@ -286,18 +286,18 @@ internal fun PersonalReply(text: String, error: Boolean, bubble: Modifier = Modi
     val context = LocalContext.current
     Column {
         SelectionContainer {
-            MarkdownText(text, MikaType.Body.copy(color = if (error) c.bad else c.ink), bubble)
+            MarkdownText(text, DjiniType.Body.copy(color = if (error) c.bad else c.ink), bubble)
         }
         IconButton(onClick = { copyMessage(context, MarkdownModel.toPlainText(text).ifBlank { text }) }) {
-            Icon(MikaIcons.Copy, stringResource(R.string.chat_copy), Modifier.size(18.dp), tint = c.ink2)
+            Icon(DjiniIcons.Copy, stringResource(R.string.chat_copy), Modifier.size(18.dp), tint = c.ink2)
         }
     }
 }
 
 internal enum class PersonalProfileTab(val label: Int, val icon: ImageVector) {
-    Tasks(R.string.personal_tab_tasks, MikaIcons.Lines),
-    Memory(R.string.personal_tab_memory, MikaIcons.Book),
-    Skills(R.string.personal_tab_skills, MikaIcons.Spark),
+    Tasks(R.string.personal_tab_tasks, DjiniIcons.Lines),
+    Memory(R.string.personal_tab_memory, DjiniIcons.Book),
+    Skills(R.string.personal_tab_skills, DjiniIcons.Spark),
 }
 
 @Composable
@@ -332,7 +332,7 @@ internal fun PersonalProfileDialog(
                     }
                 }
             }.then(safeArea)
-                .padding(MikaSpace.S12),
+                .padding(DjiniSpace.S12),
             contentAlignment = Alignment.Center,
         ) {
             val compact = maxHeight < 360.dp
@@ -342,40 +342,40 @@ internal fun PersonalProfileDialog(
                     .onGloballyPositioned { panelBounds = it.boundsInRoot() }
                     .cardSurface(c, shape).clip(shape).testTag("personal-profile-dialog")
                     .verticalScroll(rememberScrollState())
-                    .padding(horizontal = MikaSpace.S12, vertical = if (compact) MikaSpace.S12 else MikaSpace.S16),
-                verticalArrangement = Arrangement.spacedBy(if (compact) MikaSpace.S8 else MikaSpace.S12),
+                    .padding(horizontal = DjiniSpace.S12, vertical = if (compact) DjiniSpace.S12 else DjiniSpace.S16),
+                verticalArrangement = Arrangement.spacedBy(if (compact) DjiniSpace.S8 else DjiniSpace.S12),
             ) {
                 Box(Modifier.fillMaxWidth()) {
                     if (compact) {
                         Row(
                             Modifier.align(Alignment.Center).padding(horizontal = 40.dp),
-                            horizontalArrangement = Arrangement.spacedBy(MikaSpace.S8),
+                            horizontalArrangement = Arrangement.spacedBy(DjiniSpace.S8),
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
-                            MikaLogo(36.dp, corner = 18.dp)
-                            Text("Djini", style = MikaType.Title, color = c.ink, maxLines = 1)
+                            DjiniLogo(36.dp, corner = 18.dp)
+                            Text("Djini", style = DjiniType.Title, color = c.ink, maxLines = 1)
                         }
                     } else {
-                        Column(Modifier.align(Alignment.TopCenter).padding(top = MikaSpace.S4),
+                        Column(Modifier.align(Alignment.TopCenter).padding(top = DjiniSpace.S4),
                             horizontalAlignment = Alignment.CenterHorizontally) {
-                            MikaLogo(52.dp, corner = 26.dp)
-                            Text("Djini", Modifier.padding(top = MikaSpace.S8), style = MikaType.Title, color = c.ink)
+                            DjiniLogo(52.dp, corner = 26.dp)
+                            Text("Djini", Modifier.padding(top = DjiniSpace.S8), style = DjiniType.Title, color = c.ink)
                         }
                     }
                     Box(Modifier.align(Alignment.TopEnd)) {
-                        BarIconButton(MikaIcons.Close, stringResource(R.string.personal_close), onDismiss)
+                        BarIconButton(DjiniIcons.Close, stringResource(R.string.personal_close), onDismiss)
                     }
                 }
                 PersonalProfileTabs(tab, showIcons = showTabIcons, onSelect = { tab = it })
                 Box(Modifier.fillMaxWidth().heightIn(min = 136.dp, max = maxContentHeight)) {
                     if (tab == PersonalProfileTab.Tasks) {
                         if (tasks.isEmpty()) {
-                            Text(stringResource(R.string.personal_no_tasks), Modifier.align(Alignment.Center), style = MikaType.Body, color = c.ink2)
+                            Text(stringResource(R.string.personal_no_tasks), Modifier.align(Alignment.Center), style = DjiniType.Body, color = c.ink2)
                         } else {
                             LazyColumn(
                                 Modifier.fillMaxWidth(),
-                                contentPadding = PaddingValues(horizontal = 6.dp, vertical = MikaSpace.S8),
-                                verticalArrangement = Arrangement.spacedBy(MikaSpace.S12),
+                                contentPadding = PaddingValues(horizontal = 6.dp, vertical = DjiniSpace.S8),
+                                verticalArrangement = Arrangement.spacedBy(DjiniSpace.S12),
                             ) {
                                 items(tasks.asReversed(), key = { it.id }) { task -> PersonalTaskCard(task) { onTask(task) } }
                             }
@@ -389,7 +389,7 @@ internal fun PersonalProfileDialog(
                             val ui by vm.ui.collectAsState()
                             key(tab) {
                                 Column(Modifier.fillMaxWidth().verticalScroll(rememberScrollState())
-                                    .padding(horizontal = 6.dp, vertical = MikaSpace.S8)) {
+                                    .padding(horizontal = 6.dp, vertical = DjiniSpace.S8)) {
                                     if (tab == PersonalProfileTab.Memory) {
                                         MemoryEntries(vm, ui, allowAdd = false)
                                     } else {
@@ -416,10 +416,10 @@ internal fun PersonalProfileTabs(selected: PersonalProfileTab, showIcons: Boolea
     BoxWithConstraints(Modifier.fillMaxWidth()) {
         // Long translations at large font scales don't fit three equal slots; stack them instead of clipping or shrinking text.
         val widest = with(density) {
-            labels.maxOf { measurer.measure(it, MikaType.Label, maxLines = 1).size.width }.toDp()
+            labels.maxOf { measurer.measure(it, DjiniType.Label, maxLines = 1).size.width }.toDp()
         }
         val slot = (maxWidth - 6.dp - 4.dp) / 3
-        val stacked = widest + MikaSpace.S4 * 2 + (if (showIcons) 20.dp else 0.dp) > slot
+        val stacked = widest + DjiniSpace.S4 * 2 + (if (showIcons) 20.dp else 0.dp) > slot
         val item: @Composable (PersonalProfileTab, String, Modifier) -> Unit = { tab, label, modifier ->
             val active = tab == selected
             val ink = if (active) c.ink else c.ink2
@@ -427,17 +427,17 @@ internal fun PersonalProfileTabs(selected: PersonalProfileTab, showIcons: Boolea
                 modifier.heightIn(min = 42.dp)
                     .then(if (active) Modifier.cardSurface(c, CircleShape) else Modifier)
                     .clip(CircleShape).selectable(selected = active, role = Role.Tab) { onSelect(tab) }
-                    .padding(horizontal = MikaSpace.S4),
+                    .padding(horizontal = DjiniSpace.S4),
                 horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterHorizontally),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 if (showIcons) Icon(tab.icon, null, Modifier.size(16.dp), tint = ink)
-                Text(label, style = MikaType.Label, color = ink, maxLines = 1)
+                Text(label, style = DjiniType.Label, color = ink, maxLines = 1)
             }
         }
         if (stacked) {
             Column(
-                Modifier.fillMaxWidth().selectableGroup().clip(MikaShapes.Sheet).background(c.fill).padding(3.dp),
+                Modifier.fillMaxWidth().selectableGroup().clip(DjiniShapes.Sheet).background(c.fill).padding(3.dp),
                 verticalArrangement = Arrangement.spacedBy(2.dp),
             ) {
                 PersonalProfileTab.entries.forEachIndexed { i, tab -> item(tab, labels[i], Modifier.fillMaxWidth()) }
@@ -469,14 +469,14 @@ internal fun PersonalHeader(
     val previewTask = active.firstOrNull { it.conversationId == preview?.conversationId }
     val frame = preview?.frame?.takeUnless { previewTask == null || it.isRecycled }
     val previewWidth = frame?.let { minOf(76.dp, 104.dp * (it.width.toFloat() / it.height)) } ?: 0.dp
-    Box(Modifier.fillMaxWidth().padding(horizontal = MikaSpace.Page, vertical = 6.dp)) {
+    Box(Modifier.fillMaxWidth().padding(horizontal = DjiniSpace.Page, vertical = 6.dp)) {
         Box(Modifier.align(Alignment.TopStart).padding(top = 4.dp)) {
-            BarIconButton(MikaIcons.Menu, stringResource(R.string.personal_open_sidebar), onOpenDrawer)
+            BarIconButton(DjiniIcons.Menu, stringResource(R.string.personal_open_sidebar), onOpenDrawer)
         }
         Column(Modifier.align(Alignment.TopCenter).widthIn(max = 250.dp),
             horizontalAlignment = Alignment.CenterHorizontally) {
             Row(
-                horizontalArrangement = Arrangement.spacedBy(MikaSpace.S12),
+                horizontalArrangement = Arrangement.spacedBy(DjiniSpace.S12),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 if (frame != null) Spacer(Modifier.width(previewWidth))
@@ -487,17 +487,17 @@ internal fun PersonalHeader(
                             .clickable(onClickLabel = stringResource(R.string.personal_view_activity), role = Role.Button, onClick = onActivity),
                         contentAlignment = Alignment.Center,
                     ) {
-                        MikaLogo(52.dp, corner = 26.dp)
+                        DjiniLogo(52.dp, corner = 26.dp)
                     }
-                    Text("Djini", Modifier.padding(top = 7.dp), style = MikaType.Title, color = c.ink)
+                    Text("Djini", Modifier.padding(top = 7.dp), style = DjiniType.Title, color = c.ink)
                 }
                 if (frame != null) {
                     Image(
                         remember(frame) { frame.asImageBitmap() },
                         contentDescription = stringResource(R.string.personal_expand_phone),
                         modifier = Modifier.size(previewWidth, previewWidth * (frame.height.toFloat() / frame.width))
-                            .border(1.dp, c.ink.copy(alpha = 0.18f), MikaShapes.Tile)
-                            .clip(MikaShapes.Tile).testTag("personal-phone-preview")
+                            .border(1.dp, c.ink.copy(alpha = 0.18f), DjiniShapes.Tile)
+                            .clip(DjiniShapes.Tile).testTag("personal-phone-preview")
                             .clickable(role = Role.Button) { onOpenPreview(preview) },
                         contentScale = ContentScale.Fit,
                     )
@@ -508,7 +508,7 @@ internal fun PersonalHeader(
                 val tone = personalTaskTone(task)
                 val showAll = active.size > 1 && frame == null
                 Row(
-                    Modifier.padding(top = MikaSpace.S4).heightIn(min = 32.dp).clip(MikaShapes.Pill)
+                    Modifier.padding(top = DjiniSpace.S4).heightIn(min = 32.dp).clip(DjiniShapes.Pill)
                         .background(tone.fill).testTag("personal-task-progress")
                         .clickable(role = Role.Button) { if (showAll) onActivity() else onTask(task) }
                         .padding(horizontal = 10.dp),
@@ -518,10 +518,10 @@ internal fun PersonalHeader(
                     Icon(tone.icon, null, Modifier.size(14.dp), tint = tone.ink)
                     Text(
                         if (showAll) pluralStringResource(R.plurals.task_active, active.size, active.size) else task.displayDetail(context).ifBlank { task.title },
-                        Modifier.weight(1f, fill = false), style = MikaType.Hint, color = tone.ink,
+                        Modifier.weight(1f, fill = false), style = DjiniType.Hint, color = tone.ink,
                         maxLines = 1, overflow = TextOverflow.Ellipsis,
                     )
-                    Icon(MikaIcons.Chevron, null, Modifier.size(12.dp), tint = tone.ink)
+                    Icon(DjiniIcons.Chevron, null, Modifier.size(12.dp), tint = tone.ink)
                 }
             }
         }
@@ -536,18 +536,18 @@ private val PersonalTask.iconOnlyStatus: Boolean get() = status == "completed" |
 private fun personalTaskTone(task: PersonalTask): PersonalTaskTone {
     val c = DjiniTheme.colors
     return when (task.status) {
-        "completed" -> PersonalTaskTone(MikaIcons.Check, c.ok, c.okSoft)
-        "needs_you", "paused", "partial" -> PersonalTaskTone(MikaIcons.Info, c.warn, c.warnSoft)
-        "failed" -> PersonalTaskTone(MikaIcons.Info, c.bad, c.badSoft)
-        "cancelled" -> PersonalTaskTone(MikaIcons.Stop, c.ink2, c.fill)
-        "queued" -> PersonalTaskTone(MikaIcons.Clock, c.ink2, c.fill)
-        else -> PersonalTaskTone(MikaIcons.Spark, c.accent, c.accentSoft)
+        "completed" -> PersonalTaskTone(DjiniIcons.Check, c.ok, c.okSoft)
+        "needs_you", "paused", "partial" -> PersonalTaskTone(DjiniIcons.Info, c.warn, c.warnSoft)
+        "failed" -> PersonalTaskTone(DjiniIcons.Info, c.bad, c.badSoft)
+        "cancelled" -> PersonalTaskTone(DjiniIcons.Stop, c.ink2, c.fill)
+        "queued" -> PersonalTaskTone(DjiniIcons.Clock, c.ink2, c.fill)
+        else -> PersonalTaskTone(DjiniIcons.Spark, c.accent, c.accentSoft)
     }
 }
 
 @Composable
 private fun PersonalTaskIcon(tone: PersonalTaskTone, label: String?) {
-    Box(Modifier.size(40.dp).background(tone.fill, MikaShapes.Chip), contentAlignment = Alignment.Center) {
+    Box(Modifier.size(40.dp).background(tone.fill, DjiniShapes.Chip), contentAlignment = Alignment.Center) {
         Icon(tone.icon, label, Modifier.size(19.dp), tint = tone.ink)
     }
 }
@@ -560,7 +560,7 @@ private fun PersonalTaskCard(task: PersonalTask, onClick: () -> Unit) {
     val summary = task.displayResult(context)?.takeIf { it.isNotBlank() } ?: task.displayDetail(context).ifBlank { task.goal }
     val description = remember(summary) { MarkdownModel.toPlainText(summary).lineSequence().firstOrNull().orEmpty() }
     Row(
-        Modifier.fillMaxWidth().testTag("personal-task-" + task.id).cardSurface(c).clip(MikaShapes.Card)
+        Modifier.fillMaxWidth().testTag("personal-task-" + task.id).cardSurface(c).clip(DjiniShapes.Card)
             .clickable(onClickLabel = stringResource(R.string.personal_task_details), role = Role.Button, onClick = onClick)
             .padding(14.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
@@ -568,13 +568,13 @@ private fun PersonalTaskCard(task: PersonalTask, onClick: () -> Unit) {
     ) {
         PersonalTaskIcon(tone, personalStatus(task).takeIf { task.iconOnlyStatus })
         Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(3.dp)) {
-            Text(task.title, style = MikaType.BodyStrong, color = c.ink, maxLines = 2, overflow = TextOverflow.Ellipsis)
+            Text(task.title, style = DjiniType.BodyStrong, color = c.ink, maxLines = 2, overflow = TextOverflow.Ellipsis)
             if (description.isNotBlank() && description != task.title) {
-                Text(description, style = MikaType.Caption, color = c.ink2, maxLines = 2, overflow = TextOverflow.Ellipsis)
+                Text(description, style = DjiniType.Caption, color = c.ink2, maxLines = 2, overflow = TextOverflow.Ellipsis)
             }
-            if (!task.iconOnlyStatus) Text(personalStatus(task), style = MikaType.Label, color = tone.ink)
+            if (!task.iconOnlyStatus) Text(personalStatus(task), style = DjiniType.Label, color = tone.ink)
         }
-        Icon(MikaIcons.Chevron, null, Modifier.size(16.dp), tint = c.ink3)
+        Icon(DjiniIcons.Chevron, null, Modifier.size(16.dp), tint = c.ink3)
     }
 }
 
@@ -596,18 +596,18 @@ private fun PersonalTaskSheet(
         containerColor = c.surface,
     ) {
         Column(
-            Modifier.fillMaxWidth().heightIn(max = 580.dp).padding(horizontal = MikaSpace.S20)
+            Modifier.fillMaxWidth().heightIn(max = 580.dp).padding(horizontal = DjiniSpace.S20)
                 .testTag("personal-task-detail"),
         ) {
             Column(
-                Modifier.weight(1f, fill = false).verticalScroll(rememberScrollState()).padding(bottom = MikaSpace.S16),
-                verticalArrangement = Arrangement.spacedBy(MikaSpace.S16),
+                Modifier.weight(1f, fill = false).verticalScroll(rememberScrollState()).padding(bottom = DjiniSpace.S16),
+                verticalArrangement = Arrangement.spacedBy(DjiniSpace.S16),
             ) {
                 Row(horizontalArrangement = Arrangement.spacedBy(12.dp), verticalAlignment = Alignment.CenterVertically) {
                     PersonalTaskIcon(tone, personalStatus(task).takeIf { task.iconOnlyStatus })
-                    if (!task.iconOnlyStatus) Text(personalStatus(task), style = MikaType.Label, color = tone.ink)
+                    if (!task.iconOnlyStatus) Text(personalStatus(task), style = DjiniType.Label, color = tone.ink)
                 }
-                Text(task.title, style = MikaType.LargeTitle, color = c.ink)
+                Text(task.title, style = DjiniType.LargeTitle, color = c.ink)
                 if (task.goal.isNotBlank() && task.goal != task.title) PersonalTaskSection(stringResource(R.string.personal_goal), task.goal)
                 if (task.detail.isNotBlank() && task.detail != task.goal && task.detail != task.result) {
                     PersonalTaskSection(stringResource(R.string.personal_progress), task.displayDetail(context))
@@ -615,15 +615,15 @@ private fun PersonalTaskSheet(
                 task.displayResult(context)?.takeIf { it.isNotBlank() }?.let { PersonalTaskSection(stringResource(R.string.personal_result), it) }
             }
             HorizontalDivider(color = c.hair)
-            MikaButton(
+            DjiniButton(
                 if (task.status == "needs_you") stringResource(R.string.personal_handle_task) else stringResource(R.string.personal_view_execution),
-                onOpen, Modifier.fillMaxWidth().padding(top = MikaSpace.S12, bottom = MikaSpace.S12),
+                onOpen, Modifier.fillMaxWidth().padding(top = DjiniSpace.S12, bottom = DjiniSpace.S12),
             )
             onReplay?.let {
                 TextButton(onClick = it, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.personal_view_replay)) }
             }
             if (!task.terminal) {
-                TextButton(onClick = onStop, Modifier.fillMaxWidth().padding(bottom = MikaSpace.S8)) {
+                TextButton(onClick = onStop, Modifier.fillMaxWidth().padding(bottom = DjiniSpace.S8)) {
                     Text(stringResource(R.string.personal_stop_task), color = c.bad)
                 }
             }
@@ -634,9 +634,9 @@ private fun PersonalTaskSheet(
 @Composable
 private fun PersonalTaskSection(label: String, body: String) {
     val c = DjiniTheme.colors
-    Column(Modifier.fillMaxWidth().background(c.fill, MikaShapes.Card).padding(MikaSpace.S16),
-        verticalArrangement = Arrangement.spacedBy(MikaSpace.S8)) {
-        Text(label, style = MikaType.Label, color = c.ink2)
-        MarkdownText(body, style = MikaType.Body.copy(color = c.ink))
+    Column(Modifier.fillMaxWidth().background(c.fill, DjiniShapes.Card).padding(DjiniSpace.S16),
+        verticalArrangement = Arrangement.spacedBy(DjiniSpace.S8)) {
+        Text(label, style = DjiniType.Label, color = c.ink2)
+        MarkdownText(body, style = DjiniType.Body.copy(color = c.ink))
     }
 }

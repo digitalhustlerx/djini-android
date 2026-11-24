@@ -1,7 +1,7 @@
 ---
 name: content-transcribe
-display: 把内容整理成文字
-description: 把视频、播客、文章整理成文字:摘要、分章节、摘引文或改写成文章
+display: Transcribe & Summarize
+description: Turn videos, podcasts, or articles into structured text
 aliases: ["总结视频", "整理播客", "文章摘要", "提取字幕"]
 apps: ["bilibili", "xiaohongshu"]
 sites: ["youtube.com", "xiaoyuzhoufm.com"]

@@ -42,7 +42,7 @@ class TaskLiveUpdateDeviceTest {
         }) { "Missing task notification with label " + text }.also {
             assertTrue(it.notification.hasPromotableCharacteristics())
             assertTrue(it.notification.extras.getBoolean("android.requestPromotedOngoing"))
-            Log.i("MikaLiveUpdateTest", "label=${it.notification.shortCriticalText} eligible=${it.notification.hasPromotableCharacteristics()} allowed=${nm.canPostPromotedNotifications()} promoted=${it.notification.flags and Notification.FLAG_PROMOTED_ONGOING != 0}")
+            Log.i("DjiniLiveUpdateTest", "label=${it.notification.shortCriticalText} eligible=${it.notification.hasPromotableCharacteristics()} allowed=${nm.canPostPromotedNotifications()} promoted=${it.notification.flags and Notification.FLAG_PROMOTED_ONGOING != 0}")
             if (observeMs > 0) SystemClock.sleep(observeMs)
         }
         val env = testTasks

@@ -17,7 +17,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import android.content.ClipboardManager
 import com.wangzan101.djini.about.CheckStatus
-import com.wangzan101.djini.about.MikaLinks
+import com.wangzan101.djini.about.DjiniLinks
 import com.wangzan101.djini.about.ReleaseInfo
 import com.wangzan101.djini.about.UpdateState
 import com.wangzan101.djini.core.shell.BuiltinShellStatus
@@ -94,7 +94,7 @@ class AboutScreenTest {
             scrollTo(t)
             compose.onNodeWithText(t).performClick()
         }
-        assertEquals(listOf(MikaLinks.X, MikaLinks.REPO, MikaLinks.README), calls.urls)
+        assertEquals(listOf(DjiniLinks.X, DjiniLinks.REPO, DjiniLinks.README), calls.urls)
     }
 
     @Test
@@ -252,7 +252,7 @@ class AboutScreenTest {
         compose.onNodeWithText("0.2.0 · 2026-11-05").assertExists()
         compose.onNodeWithText(AboutCopy.CHANGELOG_ALL).performClick()
         compose.waitForIdle()
-        assertEquals(listOf(MikaLinks.RELEASES), calls.urls)
+        assertEquals(listOf(DjiniLinks.RELEASES), calls.urls)
     }
 
     /** 侧栏最底下一行:设置靠左;有新版时右边才出现「更新」带红点(红点在最右边),点它进「关于 Djini」。 */

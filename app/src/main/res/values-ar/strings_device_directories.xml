@@ -27,5 +27,5 @@
     <string name="device_dirs_entry_sub">ساعد Djini في العثور على الملفات التي تم تنزيلها</string>
     <string name="device_dirs_source_preset">إعداد مسبق</string>
     <string name="device_dirs_source_user">عدّلته أنت</string>
-    <string name="device_dirs_source_mika">عدّلته Djini</string>
+    <string name="device_dirs_source_djini">عدّلته Djini</string>
 </resources>

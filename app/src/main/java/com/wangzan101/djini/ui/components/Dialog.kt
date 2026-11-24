@@ -25,16 +25,16 @@ import androidx.compose.ui.window.DialogProperties
 import com.wangzan101.djini.R
 import com.wangzan101.djini.ui.MarkdownText
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
-import com.wangzan101.djini.ui.theme.MikaRadius
-import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniType
+import com.wangzan101.djini.ui.theme.DjiniRadius
+import com.wangzan101.djini.ui.theme.DjiniShapes
 
 /**
  * App 内统一弹窗：保留调用方的内容、动作和测试标识，只统一容器、正文层级与操作区。
  * 操作仍由调用方提供；这里只给它们一致的浅色底、圆角和排布，不把确认逻辑收进组件。
  */
 @Composable
-fun MikaDialog(
+fun DjiniDialog(
     onDismissRequest: () -> Unit,
     modifier: Modifier = Modifier,
     title: (@Composable () -> Unit)? = null,
@@ -51,7 +51,7 @@ fun MikaDialog(
             {
                 CompositionLocalProvider(
                     LocalContentColor provides c.ink,
-                    LocalTextStyle provides MikaType.Title,
+                    LocalTextStyle provides DjiniType.Title,
                 ) { content() }
             }
         },
@@ -59,7 +59,7 @@ fun MikaDialog(
             {
                 CompositionLocalProvider(
                     LocalContentColor provides c.ink2,
-                    LocalTextStyle provides MikaType.Body,
+                    LocalTextStyle provides DjiniType.Body,
                 ) { content() }
             }
         },
@@ -71,7 +71,7 @@ fun MikaDialog(
                 DialogAction(Modifier.weight(1f), c.accentSoft) { confirmButton() }
             }
         },
-        shape = MikaShapes.Sheet,
+        shape = DjiniShapes.Sheet,
         containerColor = c.surface,
         titleContentColor = c.ink,
         textContentColor = c.ink2,
@@ -82,7 +82,7 @@ fun MikaDialog(
 
 @Composable
 private fun DialogAction(modifier: Modifier, background: Color, content: @Composable () -> Unit) {
-    val shape = MikaShapes.Button
+    val shape = DjiniShapes.Button
     Box(
         modifier.heightIn(min = 44.dp).background(background, shape).clip(shape),
         contentAlignment = Alignment.Center,
@@ -91,16 +91,16 @@ private fun DialogAction(modifier: Modifier, background: Color, content: @Compos
 
 /** 通知型弹窗的正文和回答使用同一套 Markdown 排版，不把原始标记直接交给用户。 */
 @Composable
-fun MikaNoticeDialog(
+fun DjiniNoticeDialog(
     message: String,
     onDismiss: () -> Unit,
     title: String? = null,
     confirmText: String = stringResource(R.string.ok_got_it),
 ) {
-    MikaDialog(
+    DjiniDialog(
         onDismissRequest = onDismiss,
         title = title?.let { { Text(it) } },
-        text = { MarkdownText(message, MikaType.Body.copy(color = DjiniTheme.colors.ink2)) },
+        text = { MarkdownText(message, DjiniType.Body.copy(color = DjiniTheme.colors.ink2)) },
         confirmButton = { TextButton(onDismiss) { Text(confirmText) } },
     )
 }

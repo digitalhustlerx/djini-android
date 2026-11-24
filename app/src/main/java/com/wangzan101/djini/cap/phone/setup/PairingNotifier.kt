@@ -132,7 +132,7 @@ object PairingNotifier {
     private const val DONE_TIMEOUT_MS = 8_000L
     /** 填码通知最多留这么久(和找配对窗口的时长一样),App 被杀了也不会一直挂着。 */
     private const val INPUT_TIMEOUT_MS = 10 * 60_000L
-    private const val TAG = "MikaPairing"
+    private const val TAG = "DjiniPairing"
     /**
      * 静静备好的填码通知单放一组、只让组摘要出声:组里没有摘要,它就不响不弹(minSdk 30 上的静音办法,
      * 和 AndroidX 的 setSilent 在旧系统上的做法一样)。不另建低优先级频道:有的系统把低优先级通知折进「不重要的通知」,不好找。

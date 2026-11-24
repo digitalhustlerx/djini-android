@@ -43,16 +43,16 @@ import com.wangzan101.djini.ui.components.ButtonKind
 import com.wangzan101.djini.ui.components.FooterNote
 import com.wangzan101.djini.ui.components.GroupCard
 import com.wangzan101.djini.ui.components.ListRow
-import com.wangzan101.djini.ui.components.MikaButton
-import com.wangzan101.djini.ui.components.MikaDialog
-import com.wangzan101.djini.ui.components.MikaSwitch
+import com.wangzan101.djini.ui.components.DjiniButton
+import com.wangzan101.djini.ui.components.DjiniDialog
+import com.wangzan101.djini.ui.components.DjiniSwitch
 import com.wangzan101.djini.ui.components.ReorderableRow
 import com.wangzan101.djini.ui.components.rememberReorderableRowsState
 import com.wangzan101.djini.ui.components.PageScaffold
-import com.wangzan101.djini.ui.theme.MikaIcons
-import com.wangzan101.djini.ui.theme.MikaSize
+import com.wangzan101.djini.ui.theme.DjiniIcons
+import com.wangzan101.djini.ui.theme.DjiniSize
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.DjiniType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -101,14 +101,14 @@ fun UpdateMirrorsScreen(store: UpdateMirrorStore, onBack: () -> Unit) {
     ) {
         GroupCard {
             ListRow(
-                MikaIcons.Refresh,
+                DjiniIcons.Refresh,
                 stringResource(R.string.about_mirror_download),
                 stringResource(R.string.about_mirror_download_detail),
                 first = true,
             ) {
                 // 列表读不出来时不能改开关,不显示一个点了没反应的控件。
                 if (!unreadable) {
-                    MikaSwitch(enabled, { on ->
+                    DjiniSwitch(enabled, { on ->
                         scope.launch {
                             actionError = withContext(Dispatchers.IO) { store.setEnabled(on) }
                         }
@@ -119,7 +119,7 @@ fun UpdateMirrorsScreen(store: UpdateMirrorStore, onBack: () -> Unit) {
 
         if (unreadable) {
             FooterNote(stringResource(R.string.about_mirrors_unreadable), color = c.bad)
-            MikaButton(
+            DjiniButton(
                 stringResource(R.string.about_mirrors_reset), { resetting = true },
                 Modifier.fillMaxWidth().padding(horizontal = 16.dp), kind = ButtonKind.Tonal,
             )
@@ -127,7 +127,7 @@ fun UpdateMirrorsScreen(store: UpdateMirrorStore, onBack: () -> Unit) {
             GroupCard {
                 if (mirrors.isEmpty()) {
                     ListRow(
-                        MikaIcons.Link,
+                        DjiniIcons.Link,
                         stringResource(R.string.about_mirrors_empty),
                         stringResource(R.string.about_mirrors_empty_sub),
                         first = true,
@@ -137,7 +137,7 @@ fun UpdateMirrorsScreen(store: UpdateMirrorStore, onBack: () -> Unit) {
                         key(mirror.id) {
                             ReorderableRow(reorder, mirror.id, index, "mirror-drag-${mirror.id}") { first, dragHandle ->
                                 ListRow(
-                                    MikaIcons.Link, mirror.name, mirror.prefix, first = first,
+                                    DjiniIcons.Link, mirror.name, mirror.prefix, first = first,
                                     onClick = { if (!reorder.busy) editing = mirror },
                                 ) {
                                     DeleteMirrorButton { if (!reorder.busy) deleting = mirror }
@@ -148,14 +148,14 @@ fun UpdateMirrorsScreen(store: UpdateMirrorStore, onBack: () -> Unit) {
                     }
                 }
                 ListRow(
-                    MikaIcons.Plus, stringResource(R.string.about_mirrors_add),
+                    DjiniIcons.Plus, stringResource(R.string.about_mirrors_add),
                     first = false, onClick = { if (!reorder.busy) adding = true },
                 )
             }
 
             GroupCard {
                 ListRow(
-                    MikaIcons.Shield,
+                    DjiniIcons.Shield,
                     stringResource(R.string.about_mirrors_official),
                     stringResource(R.string.about_mirrors_official_sub),
                     first = true,
@@ -165,7 +165,7 @@ fun UpdateMirrorsScreen(store: UpdateMirrorStore, onBack: () -> Unit) {
             actionError?.let { FooterNote(mirrorError(it), color = c.bad) }
             FooterNote(stringResource(R.string.about_mirrors_intro))
             if (mirrors.size > 1) FooterNote(stringResource(R.string.recommendations_drag_hint))
-            MikaButton(
+            DjiniButton(
                 stringResource(R.string.about_mirrors_reset), { resetting = true },
                 Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp), kind = ButtonKind.Tonal,
             )
@@ -176,7 +176,7 @@ fun UpdateMirrorsScreen(store: UpdateMirrorStore, onBack: () -> Unit) {
         MirrorDialog(store, editing, onDismiss = { adding = false; editing = null })
     }
     deleting?.let { mirror ->
-        MikaDialog(
+        DjiniDialog(
             onDismissRequest = { deleting = null },
             title = { Text(stringResource(R.string.about_mirrors_delete_title)) },
             text = { Text(stringResource(R.string.about_mirrors_delete_body)) },
@@ -192,7 +192,7 @@ fun UpdateMirrorsScreen(store: UpdateMirrorStore, onBack: () -> Unit) {
         )
     }
     if (resetting) {
-        MikaDialog(
+        DjiniDialog(
             onDismissRequest = { resetting = false },
             title = { Text(stringResource(R.string.about_mirrors_reset_title)) },
             text = { Text(stringResource(R.string.about_mirrors_reset_body)) },
@@ -246,7 +246,7 @@ private fun MirrorDialog(store: UpdateMirrorStore, initial: UpdateMirror?, onDis
         }
     }
 
-    MikaDialog(
+    DjiniDialog(
         onDismissRequest = { if (!saving) onDismiss() },
         title = { Text(stringResource(if (initial == null) R.string.about_mirrors_add else R.string.about_mirrors_edit)) },
         text = {
@@ -270,11 +270,11 @@ private fun MirrorDialog(store: UpdateMirrorStore, initial: UpdateMirror?, onDis
                 if (prefix.isNotBlank() && !prefixOk) {
                     Text(
                         stringResource(R.string.about_mirrors_invalid_prefix),
-                        Modifier.padding(top = 4.dp), style = MikaType.Hint, color = c.bad,
+                        Modifier.padding(top = 4.dp), style = DjiniType.Hint, color = c.bad,
                     )
                 }
                 error?.let {
-                    Text(mirrorError(it), Modifier.padding(top = 8.dp), style = MikaType.Hint, color = c.bad)
+                    Text(mirrorError(it), Modifier.padding(top = 8.dp), style = DjiniType.Hint, color = c.bad)
                 }
                 Row(Modifier.fillMaxWidth().padding(top = 4.dp), verticalAlignment = Alignment.CenterVertically) {
                     TextButton({ test() }, enabled = prefixOk && !testing && !saving, modifier = Modifier.testTag("mirror-test")) {
@@ -283,7 +283,7 @@ private fun MirrorDialog(store: UpdateMirrorStore, initial: UpdateMirror?, onDis
                     testResult?.let { ok ->
                         Text(
                             stringResource(if (ok) R.string.about_mirrors_test_ok else R.string.about_mirrors_test_fail),
-                            Modifier.padding(start = 4.dp), style = MikaType.Hint,
+                            Modifier.padding(start = 4.dp), style = DjiniType.Hint,
                             color = if (ok) c.ok else c.ink3,
                         )
                     }
@@ -305,10 +305,10 @@ private fun MirrorDialog(store: UpdateMirrorStore, initial: UpdateMirror?, onDis
 private fun DeleteMirrorButton(onClick: () -> Unit) {
     val label = stringResource(R.string.about_mirrors_delete)
     Box(
-        Modifier.size(MikaSize.IconButton).clip(CircleShape).clickable(role = Role.Button, onClick = onClick),
+        Modifier.size(DjiniSize.IconButton).clip(CircleShape).clickable(role = Role.Button, onClick = onClick),
         contentAlignment = Alignment.Center,
     ) {
-        Icon(MikaIcons.Trash, label, Modifier.size(MikaSize.Icon), tint = DjiniTheme.colors.ink3)
+        Icon(DjiniIcons.Trash, label, Modifier.size(DjiniSize.Icon), tint = DjiniTheme.colors.ink3)
     }
 }
 

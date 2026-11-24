@@ -24,12 +24,12 @@ import com.wangzan101.djini.ui.components.ButtonSize
 import com.wangzan101.djini.ui.components.FooterNote
 import com.wangzan101.djini.ui.components.GroupCard
 import com.wangzan101.djini.ui.components.ListRow
-import com.wangzan101.djini.ui.components.MikaButton
+import com.wangzan101.djini.ui.components.DjiniButton
 import com.wangzan101.djini.ui.components.RadioRow
-import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniIcons
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
-import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniType
+import com.wangzan101.djini.ui.theme.DjiniShapes
 
 /**
  * 输入栏上方的人格 chip:显示当前人格,点开选择面板。任务在跑时禁用,提示在面板里说。
@@ -44,7 +44,7 @@ internal fun PersonaChip(current: String?, personas: List<Persona>, enabled: Boo
         else -> stringResource(R.string.persona_chip, stringResource(R.string.persona_missing))
     }
     Row(Modifier.fillMaxWidth().padding(start = 4.dp, bottom = 6.dp)) {
-        MikaButton(
+        DjiniButton(
             label, onClick, kind = ButtonKind.Tonal, size = ButtonSize.Small, enabled = enabled,
             modifier = Modifier.testTag("persona-chip"),
         )
@@ -66,13 +66,13 @@ internal fun PersonaPicker(
         onDismissRequest = onDismiss,
         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
         containerColor = c.surface,
-        shape = MikaShapes.SheetTop,
+        shape = DjiniShapes.SheetTop,
     ) {
         Column(
             Modifier.fillMaxWidth().verticalScroll(rememberScrollState()).navigationBarsPadding()
                 .padding(start = 16.dp, end = 16.dp, bottom = 16.dp).testTag("persona-picker"),
         ) {
-            Text(stringResource(R.string.persona_title), style = MikaType.Title, color = c.ink)
+            Text(stringResource(R.string.persona_title), style = DjiniType.Title, color = c.ink)
             GroupCard(Modifier.padding(top = 10.dp)) {
                 RadioRow(
                     stringResource(R.string.persona_default), selected = current == null,
@@ -88,7 +88,7 @@ internal fun PersonaPicker(
                 }
             }
             GroupCard(Modifier.padding(top = 10.dp)) {
-                ListRow(MikaIcons.Edit, stringResource(R.string.persona_manage), first = true, onClick = onManage)
+                ListRow(DjiniIcons.Edit, stringResource(R.string.persona_manage), first = true, onClick = onManage)
             }
             FooterNote(stringResource(R.string.persona_switch_note))
         }

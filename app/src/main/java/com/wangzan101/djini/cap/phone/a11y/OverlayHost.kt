@@ -240,7 +240,7 @@ class OverlayHost internal constructor(private val service: ScreenAccessibility)
     }
 
     private companion object {
-        const val TAG = "MikaOverlay"
+        const val TAG = "DjiniOverlay"
         const val FALLBACK_INSET_DP = 24
     }
 }

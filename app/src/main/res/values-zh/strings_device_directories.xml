@@ -27,5 +27,5 @@
     <string name="device_dirs_entry_sub">帮助 Djini 查找下载的文件</string>
     <string name="device_dirs_source_preset">系统预设</string>
     <string name="device_dirs_source_user">用户填写</string>
-    <string name="device_dirs_source_mika">Djini 更新</string>
+    <string name="device_dirs_source_djini">Djini 更新</string>
 </resources>

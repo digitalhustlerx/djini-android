@@ -104,14 +104,14 @@ import com.wangzan101.djini.ui.MarkdownDocument
 import com.wangzan101.djini.ui.components.BarIconButton
 import com.wangzan101.djini.ui.components.ButtonKind
 import com.wangzan101.djini.ui.components.ButtonSize
-import com.wangzan101.djini.ui.components.MikaButton
+import com.wangzan101.djini.ui.components.DjiniButton
 import com.wangzan101.djini.ui.components.PageBackground
 import com.wangzan101.djini.ui.components.TopBar
-import com.wangzan101.djini.ui.theme.MikaColors
-import com.wangzan101.djini.ui.theme.MikaIcons
-import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniColors
+import com.wangzan101.djini.ui.theme.DjiniIcons
+import com.wangzan101.djini.ui.theme.DjiniShapes
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.DjiniType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.awaitCancellation
@@ -137,7 +137,7 @@ private const val LINES_PER_CHUNK = 200
 /** 跳到命中处时上面留一点空,好看见上下文。 */
 private val FindTopMargin = 8.dp
 
-private val MonoText = MikaType.Hint.copy(fontFamily = FontFamily.Monospace)
+private val MonoText = DjiniType.Hint.copy(fontFamily = FontFamily.Monospace)
 
 /** 读进来的内容;PDF 不在这里,它按页现读现画。 */
 private sealed interface Loaded {
@@ -175,15 +175,15 @@ fun FileViewerScreen(uri: Uri, name: String, kind: ViewerKind?, onBack: () -> Un
 
     PageBackground {
         Column(Modifier.fillMaxSize().imePadding()) {
-            TopBar(name, MikaIcons.Back, onBack, stringResource(R.string.back), right = {
+            TopBar(name, DjiniIcons.Back, onBack, stringResource(R.string.back), right = {
                 if (text != null) {
-                    BarIconButton(MikaIcons.Search, stringResource(R.string.viewer_find), {
+                    BarIconButton(DjiniIcons.Search, stringResource(R.string.viewer_find), {
                         if (find.active) closeFind() else find.open()
                     })
-                    BarIconButton(MikaIcons.Copy, stringResource(R.string.viewer_copy), { copyText(context, name, text, truncated) })
+                    BarIconButton(DjiniIcons.Copy, stringResource(R.string.viewer_copy), { copyText(context, name, text, truncated) })
                 }
-                BarIconButton(MikaIcons.Share, stringResource(R.string.share), { FileViewer.share(context, uri, name) })
-                BarIconButton(MikaIcons.External, stringResource(R.string.viewer_open_elsewhere), openElsewhere)
+                BarIconButton(DjiniIcons.Share, stringResource(R.string.share), { FileViewer.share(context, uri, name) })
+                BarIconButton(DjiniIcons.External, stringResource(R.string.viewer_open_elsewhere), openElsewhere)
             })
             if (find.active && text != null) {
                 ViewerFindBar(find, onQuery = find::updateQuery, onClose = closeFind)
@@ -238,7 +238,7 @@ private fun load(context: Context, uri: Uri, kind: ViewerKind): Loaded = when (k
 }
 
 private fun open(context: Context, uri: Uri) =
-    context.contentResolver.openInputStream(uri) ?: error("打不开 $uri")
+    context.contentResolver.openInputStream(uri) ?: error("Cannot open $uri")
 
 /** 把文本放进剪贴板;太长放不下时说一声,别假装复制成功;文件只读到一部分时也照实说。 */
 private fun copyText(context: Context, name: String, text: String, truncated: Boolean) {
@@ -273,19 +273,19 @@ private fun ViewerFindBar(find: FindState, onQuery: (String) -> Unit, onClose: (
         horizontalArrangement = Arrangement.spacedBy(4.dp),
     ) {
         Row(
-            Modifier.weight(1f).height(40.dp).background(c.fill, MikaShapes.Pill).padding(horizontal = 12.dp),
+            Modifier.weight(1f).height(40.dp).background(c.fill, DjiniShapes.Pill).padding(horizontal = 12.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Icon(MikaIcons.Search, null, Modifier.size(16.dp), tint = c.ink3)
+            Icon(DjiniIcons.Search, null, Modifier.size(16.dp), tint = c.ink3)
             Box(Modifier.weight(1f), contentAlignment = Alignment.CenterStart) {
                 if (text.isEmpty()) {
-                    Text(stringResource(R.string.viewer_find_hint), style = MikaType.Body, color = c.ink3, maxLines = 1)
+                    Text(stringResource(R.string.viewer_find_hint), style = DjiniType.Body, color = c.ink3, maxLines = 1)
                 }
                 BasicTextField(
                     text, { text = it },
                     Modifier.fillMaxWidth().padding(horizontal = 8.dp).focusRequester(focus).testTag("viewer-find-input"),
                     singleLine = true,
-                    textStyle = MikaType.Body.copy(color = c.ink),
+                    textStyle = DjiniType.Body.copy(color = c.ink),
                     cursorBrush = SolidColor(c.accent),
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
                     keyboardActions = KeyboardActions(onSearch = { focusManager.clearFocus() }),
@@ -300,13 +300,13 @@ private fun ViewerFindBar(find: FindState, onQuery: (String) -> Unit, onClose: (
         }
         if (count.isNotEmpty()) {
             Text(
-                count, style = MikaType.Hint, color = c.ink3, maxLines = 1,
+                count, style = DjiniType.Hint, color = c.ink3, maxLines = 1,
                 modifier = Modifier.padding(horizontal = 2.dp).testTag("viewer-find-count"),
             )
         }
-        FindAction(MikaIcons.Back, stringResource(R.string.viewer_find_prev), "viewer-find-prev", find::prev)
-        FindAction(MikaIcons.Forward, stringResource(R.string.viewer_find_next), "viewer-find-next", find::next)
-        FindAction(MikaIcons.Close, stringResource(R.string.viewer_find_close), "viewer-find-close", onClose)
+        FindAction(DjiniIcons.Back, stringResource(R.string.viewer_find_prev), "viewer-find-prev", find::prev)
+        FindAction(DjiniIcons.Forward, stringResource(R.string.viewer_find_next), "viewer-find-next", find::next)
+        FindAction(DjiniIcons.Close, stringResource(R.string.viewer_find_close), "viewer-find-close", onClose)
     }
 }
 
@@ -319,7 +319,7 @@ private fun FindAction(icon: ImageVector, label: String, tag: String, onClick: (
 }
 
 /** 命中处的底色:当前那一处用实色,其余淡一点。 */
-private fun findColors(c: MikaColors): Pair<Color, Color> =
+private fun findColors(c: DjiniColors): Pair<Color, Color> =
     c.warnSolid.copy(alpha = if (c.isDark) 0.45f else 0.32f) to c.warnSolid
 
 // ---------- 各类内容 ----------
@@ -353,7 +353,7 @@ private fun MarkdownView(l: Loaded.Text, find: FindState) {
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 if (l.truncated) item { TruncatedNote(Modifier.padding(bottom = 4.dp)) }
-                itemsIndexed(blocks) { _, block -> MarkdownBlock(block, MikaType.Body) }
+                itemsIndexed(blocks) { _, block -> MarkdownBlock(block, DjiniType.Body) }
             }
         }
     }
@@ -484,7 +484,7 @@ private fun PdfView(uri: Uri, openElsewhere: () -> Unit) {
     val context = LocalContext.current
     val doc by produceState<Result<PdfDoc>?>(null, uri) {
         val opened = withContext(Dispatchers.IO) {
-            runCatching { PdfDoc(context.contentResolver.openFileDescriptor(uri, "r") ?: error("打不开 $uri")) }
+            runCatching { PdfDoc(context.contentResolver.openFileDescriptor(uri, "r") ?: error("Cannot open $uri")) }
         }
         value = opened
         try { awaitCancellation() } finally { opened.getOrNull()?.close() }
@@ -516,8 +516,8 @@ private fun PdfPages(doc: PdfDoc) {
             Text(
                 "${current + 1} / ${doc.sizes.size}",
                 Modifier.align(Alignment.BottomCenter).windowInsetsPadding(WindowInsets.navigationBars).padding(bottom = 12.dp)
-                    .background(c.ink.copy(alpha = 0.72f), MikaShapes.Pill).padding(horizontal = 12.dp, vertical = 4.dp),
-                style = MikaType.Label, color = c.bg,
+                    .background(c.ink.copy(alpha = 0.72f), DjiniShapes.Pill).padding(horizontal = 12.dp, vertical = 4.dp),
+                style = DjiniType.Label, color = c.bg,
             )
         }
     }
@@ -613,12 +613,12 @@ private fun Failure(message: String, openElsewhere: () -> Unit, modifier: Modifi
         verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text(message, style = MikaType.Body, color = DjiniTheme.colors.ink2, textAlign = TextAlign.Center)
-        MikaButton(stringResource(R.string.viewer_open_elsewhere), openElsewhere, kind = ButtonKind.Secondary, size = ButtonSize.Medium)
+        Text(message, style = DjiniType.Body, color = DjiniTheme.colors.ink2, textAlign = TextAlign.Center)
+        DjiniButton(stringResource(R.string.viewer_open_elsewhere), openElsewhere, kind = ButtonKind.Secondary, size = ButtonSize.Medium)
     }
 }
 
 @Composable
 private fun TruncatedNote(modifier: Modifier = Modifier) {
-    Text(stringResource(R.string.viewer_truncated), modifier, style = MikaType.Caption, color = DjiniTheme.colors.ink3)
+    Text(stringResource(R.string.viewer_truncated), modifier, style = DjiniType.Caption, color = DjiniTheme.colors.ink3)
 }

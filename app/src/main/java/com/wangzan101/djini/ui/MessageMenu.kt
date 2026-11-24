@@ -53,11 +53,11 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import com.wangzan101.djini.ui.components.GlassBlurSupported
 import com.wangzan101.djini.ui.components.cardSurface
-import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniIcons
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
-import com.wangzan101.djini.ui.theme.MikaRadius
-import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniType
+import com.wangzan101.djini.ui.theme.DjiniRadius
+import com.wangzan101.djini.ui.theme.DjiniShapes
 
 /**
  * 对话页里长按的一条消息:[key] 认是哪一条(「选择文字」记的就是它),[from] 是谁说的,[text] 是复制、引用用的纯文字
@@ -141,15 +141,15 @@ internal fun MessageMenu(
     LongPressMenu(
         target.bounds, progress, pane = stringResource(R.string.chat_message_actions), tag = "message-menu",
         entries = buildList {
-            add(MenuEntry(stringResource(R.string.chat_copy), MikaIcons.Copy, "message-menu-copy", onClick = onCopy))
-            add(MenuEntry(stringResource(R.string.chat_quote), MikaIcons.Quote, "message-menu-quote", onClick = onQuote))
-            add(MenuEntry(stringResource(R.string.chat_select_text), MikaIcons.SelectText, "message-menu-select", onClick = onSelect))
-            onSaveChecklist?.let { add(MenuEntry(stringResource(R.string.checklist_save_reply), MikaIcons.ListChecks, "message-menu-checklist", onClick = it)) }
-            onSaveTask?.let { add(MenuEntry(stringResource(R.string.saved_task_save), MikaIcons.Star, "message-menu-save-task", onClick = it)) }
-            onBranch?.let { add(MenuEntry(stringResource(R.string.chat_branch), MikaIcons.Route, "message-menu-branch", onClick = it)) }
-            onBranchRetry?.let { add(MenuEntry(stringResource(R.string.chat_branch_retry), MikaIcons.Route, "message-menu-branch-retry", onClick = it)) }
-            onEdit?.let { add(MenuEntry(stringResource(R.string.chat_edit_message), MikaIcons.Edit, "message-menu-edit", onClick = it)) }
-            onWithdraw?.let { add(MenuEntry(stringResource(R.string.chat_withdraw_message), MikaIcons.Close, "message-menu-withdraw", onClick = it)) }
+            add(MenuEntry(stringResource(R.string.chat_copy), DjiniIcons.Copy, "message-menu-copy", onClick = onCopy))
+            add(MenuEntry(stringResource(R.string.chat_quote), DjiniIcons.Quote, "message-menu-quote", onClick = onQuote))
+            add(MenuEntry(stringResource(R.string.chat_select_text), DjiniIcons.SelectText, "message-menu-select", onClick = onSelect))
+            onSaveChecklist?.let { add(MenuEntry(stringResource(R.string.checklist_save_reply), DjiniIcons.ListChecks, "message-menu-checklist", onClick = it)) }
+            onSaveTask?.let { add(MenuEntry(stringResource(R.string.saved_task_save), DjiniIcons.Star, "message-menu-save-task", onClick = it)) }
+            onBranch?.let { add(MenuEntry(stringResource(R.string.chat_branch), DjiniIcons.Route, "message-menu-branch", onClick = it)) }
+            onBranchRetry?.let { add(MenuEntry(stringResource(R.string.chat_branch_retry), DjiniIcons.Route, "message-menu-branch-retry", onClick = it)) }
+            onEdit?.let { add(MenuEntry(stringResource(R.string.chat_edit_message), DjiniIcons.Edit, "message-menu-edit", onClick = it)) }
+            onWithdraw?.let { add(MenuEntry(stringResource(R.string.chat_withdraw_message), DjiniIcons.Close, "message-menu-withdraw", onClick = it)) }
         },
         onDismiss = onDismiss,
         alignEnd = target.from == QuoteMessage.From.You,
@@ -177,7 +177,7 @@ internal fun copyMessage(context: Context, text: String) {
 /** 引用怎么念给读屏:「引用 Djini:……」「引用你的话:……」。 */
 @Composable
 private fun quoteDescription(q: QuoteMessage.Quote): String =
-    stringResource(if (q.from == QuoteMessage.From.Djini) R.string.chat_quoting_mika else R.string.chat_quoting_you, q.text)
+    stringResource(if (q.from == QuoteMessage.From.Djini) R.string.chat_quoting_djini else R.string.chat_quoting_you, q.text)
 
 /** 输入框上方待发的引用:左边一道竖线,引的内容最多两行,右边 × 去掉。 */
 @Composable
@@ -192,7 +192,7 @@ internal fun QuoteChip(quote: QuoteMessage.Quote, onRemove: () -> Unit, modifier
         Box(Modifier.width(3.dp).height(30.dp).background(c.accent, CircleShape))
         Text(
             quote.text, Modifier.weight(1f).padding(start = 10.dp).semantics { contentDescription = said },
-            style = MikaType.Caption, color = c.ink2, maxLines = 2, overflow = TextOverflow.Ellipsis,
+            style = DjiniType.Caption, color = c.ink2, maxLines = 2, overflow = TextOverflow.Ellipsis,
         )
         Box(
             Modifier.size(40.dp).clip(CircleShape)
@@ -201,7 +201,7 @@ internal fun QuoteChip(quote: QuoteMessage.Quote, onRemove: () -> Unit, modifier
                 .testTag("quote-remove"),
             contentAlignment = Alignment.Center,
         ) {
-            Icon(MikaIcons.Close, null, Modifier.size(14.dp), tint = c.ink3)
+            Icon(DjiniIcons.Close, null, Modifier.size(14.dp), tint = c.ink3)
         }
     }
 }
@@ -219,8 +219,8 @@ internal fun SentQuote(quote: QuoteMessage.Quote, maxWidth: Dp) {
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Box(Modifier.width(2.dp).height(16.dp).background(c.ink3, CircleShape))
-        Text(quote.text, Modifier.padding(start = 8.dp), style = MikaType.Caption, color = c.ink2, maxLines = 2, overflow = TextOverflow.Ellipsis)
+        Text(quote.text, Modifier.padding(start = 8.dp), style = DjiniType.Caption, color = c.ink2, maxLines = 2, overflow = TextOverflow.Ellipsis)
     }
 }
 
-private val QuoteShape = MikaShapes.Chip
+private val QuoteShape = DjiniShapes.Chip

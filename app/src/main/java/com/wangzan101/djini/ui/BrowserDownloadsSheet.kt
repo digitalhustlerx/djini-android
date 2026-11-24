@@ -49,12 +49,12 @@ import com.wangzan101.djini.browser.BrowserDownload
 import com.wangzan101.djini.browser.BrowserDownloads
 import com.wangzan101.djini.i18n.tr
 import com.wangzan101.djini.ui.components.Hairline
-import com.wangzan101.djini.ui.components.MikaDialog
-import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.components.DjiniDialog
+import com.wangzan101.djini.ui.theme.DjiniIcons
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
-import com.wangzan101.djini.ui.theme.MikaRadius
-import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniType
+import com.wangzan101.djini.ui.theme.DjiniRadius
+import com.wangzan101.djini.ui.theme.DjiniShapes
 import kotlinx.coroutines.delay
 
 /**
@@ -83,17 +83,17 @@ fun DownloadsSheet(downloads: BrowserDownloads, onDismiss: () -> Unit) {
         onDismissRequest = onDismiss,
         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
         containerColor = c.surface,
-        shape = MikaShapes.SheetTop,
+        shape = DjiniShapes.SheetTop,
     ) {
         Column(Modifier.fillMaxWidth().navigationBarsPadding().padding(bottom = 8.dp).testTag("browser-downloads")) {
             Text(
                 tr(R.string.browser_downloads), Modifier.padding(start = 20.dp, end = 20.dp, top = 4.dp, bottom = 10.dp),
-                style = MikaType.Title, color = c.ink,
+                style = DjiniType.Title, color = c.ink,
             )
             if (loaded && items.isEmpty()) {
                 Text(
                     tr(R.string.browser_download_empty), Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 16.dp),
-                    style = MikaType.Body, color = c.ink3,
+                    style = DjiniType.Body, color = c.ink3,
                 )
             }
             Column(Modifier.heightIn(max = 480.dp).verticalScroll(rememberScrollState())) {
@@ -116,7 +116,7 @@ fun DownloadsSheet(downloads: BrowserDownloads, onDismiss: () -> Unit) {
     }
 
     deleting?.let { item ->
-        MikaDialog(
+        DjiniDialog(
             onDismissRequest = { deleting = null },
             title = { Text(tr(R.string.browser_download_delete_q)) },
             text = { Text(item.title) },
@@ -149,24 +149,24 @@ private fun DownloadRow(
     ) {
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             Column(Modifier.weight(1f)) {
-                Text(item.title, style = MikaType.Body, color = c.ink, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                Text(item.title, style = DjiniType.Body, color = c.ink, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 Text(
-                    statusText(context, item), Modifier.padding(top = 2.dp), style = MikaType.Caption,
+                    statusText(context, item), Modifier.padding(top = 2.dp), style = DjiniType.Caption,
                     color = if (item.failed) c.bad else c.ink3, maxLines = 1, overflow = TextOverflow.Ellipsis,
                 )
             }
             when {
-                item.running -> SheetAction(MikaIcons.Close, tr(R.string.browser_download_cancel), onCancel)
+                item.running -> SheetAction(DjiniIcons.Close, tr(R.string.browser_download_cancel), onCancel)
                 item.done -> {
-                    SheetAction(MikaIcons.Share, tr(R.string.share), onShare)
-                    SheetAction(MikaIcons.Trash, tr(R.string.browser_download_delete), onDelete)
+                    SheetAction(DjiniIcons.Share, tr(R.string.share), onShare)
+                    SheetAction(DjiniIcons.Trash, tr(R.string.browser_download_delete), onDelete)
                 }
-                else -> SheetAction(MikaIcons.Trash, tr(R.string.browser_download_delete), onDelete)
+                else -> SheetAction(DjiniIcons.Trash, tr(R.string.browser_download_delete), onDelete)
             }
         }
         val percent = item.percent
         if (percent != null) {
-            Box(Modifier.fillMaxWidth().padding(top = 8.dp).height(3.dp).clip(MikaShapes.Micro).background(c.fill)) {
+            Box(Modifier.fillMaxWidth().padding(top = 8.dp).height(3.dp).clip(DjiniShapes.Micro).background(c.fill)) {
                 Box(Modifier.fillMaxHeight().fillMaxWidth(percent / 100f).background(c.accent))
             }
         }

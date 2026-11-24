@@ -30,7 +30,7 @@
     <string name="export_filename_fallback">Djini konuşması</string>
 
     <string name="export_label_user">Kullanıcı</string>
-    <string name="export_label_mika">Djini</string>
+    <string name="export_label_djini">Djini</string>
     <string name="export_label_steer">Görev sırasındaki mesaj</string>
     <string name="export_label_answer">Yanıt</string>
     <string name="export_label_tool_steps">Araç adımları</string>

@@ -33,10 +33,10 @@ import com.wangzan101.djini.ui.components.FooterNote
 import com.wangzan101.djini.ui.components.GroupCard
 import com.wangzan101.djini.ui.components.GroupLabel
 import com.wangzan101.djini.ui.components.ListRow
-import com.wangzan101.djini.ui.components.MikaSwitch
+import com.wangzan101.djini.ui.components.DjiniSwitch
 import com.wangzan101.djini.ui.components.PageScaffold
 import com.wangzan101.djini.ui.components.RowChevron
-import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniIcons
 import com.wangzan101.djini.ui.theme.DjiniTheme
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -85,7 +85,7 @@ fun PluginsScreen(registry: PluginRegistry, onBack: () -> Unit) {
         PageScaffold(stringResource(R.string.plugins_title), onBack) {
             GroupCard {
                 ListRow(
-                    MikaIcons.Plus,
+                    DjiniIcons.Plus,
                     if (installing) stringResource(R.string.plugins_installing) else stringResource(R.string.plugins_install),
                     first = true,
                     onClick = if (installing) null else ({ launcher.launch(arrayOf("application/zip")) }),
@@ -98,14 +98,14 @@ fun PluginsScreen(registry: PluginRegistry, onBack: () -> Unit) {
                 GroupCard {
                     plugins.forEachIndexed { i, record ->
                         ListRow(
-                            MikaIcons.Spark,
+                            DjiniIcons.Spark,
                             record.name,
                             subtitle = "${stringResource(R.string.plugins_version, record.version)} · " +
                                 trPlural(R.plurals.plugins_skill_count, record.skillNames.size),
                             first = i == 0,
                             onClick = { selectedId = record.id },
                         ) {
-                            MikaSwitch(record.enabled, null)
+                            DjiniSwitch(record.enabled, null)
                             RowChevron()
                         }
                     }
@@ -157,7 +157,7 @@ private fun PluginDetail(record: PluginRecord, registry: PluginRegistry, onBack:
                 first = true,
             )
             ListRow(null, stringResource(R.string.plugins_enabled)) {
-                MikaSwitch(record.enabled, { on ->
+                DjiniSwitch(record.enabled, { on ->
                     scope.launch(Dispatchers.IO) { registry.setEnabled(record.id, on) }
                 }, Modifier.testTag("plugin-enabled"))
             }
@@ -174,15 +174,15 @@ private fun PluginDetail(record: PluginRecord, registry: PluginRegistry, onBack:
                 ListRow(null, stringResource(R.string.plugins_no_skills), first = true)
             } else {
                 record.skillNames.forEachIndexed { i, name ->
-                    ListRow(MikaIcons.Doc, name, first = i == 0)
+                    ListRow(DjiniIcons.Doc, name, first = i == 0)
                 }
             }
         }
         if (hasRules) {
             GroupLabel(stringResource(R.string.plugins_rules))
             GroupCard {
-                ListRow(MikaIcons.Doc, stringResource(R.string.plugins_rules_view), first = true, onClick = { viewingRules = true })
-                ListRow(MikaIcons.Wrench, stringResource(R.string.plugins_rules_restore), onClick = {
+                ListRow(DjiniIcons.Doc, stringResource(R.string.plugins_rules_view), first = true, onClick = { viewingRules = true })
+                ListRow(DjiniIcons.Wrench, stringResource(R.string.plugins_rules_restore), onClick = {
                     scope.launch(Dispatchers.IO) {
                         registry.pluginDir(record.id)?.let { File(it, "persona.conf").writeText(DEFAULT_PERSONA_CONF) }
                     }
@@ -191,7 +191,7 @@ private fun PluginDetail(record: PluginRecord, registry: PluginRegistry, onBack:
         }
         GroupCard {
             ListRow(
-                MikaIcons.Trash,
+                DjiniIcons.Trash,
                 stringResource(R.string.plugins_uninstall),
                 titleColor = DjiniTheme.colors.bad,
                 first = true,

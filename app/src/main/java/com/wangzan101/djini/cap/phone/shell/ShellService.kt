@@ -68,7 +68,7 @@ class ShellService(
     private var orientationWatch: DisplayOrientationWatch? = null
     private val requestedOrientations = ConcurrentHashMap<Int, Int>()
     /** 被静音的包 → 静音前的 PLAY_AUDIO 模式("default" 表示原先未设置),落在 [stateDir] 里,进程被杀后下次启动接着恢复。 */
-    private val muted = AudioMuteLedger(File(stateDir, "mika_audio_mute_$allowedUid"))
+    private val muted = AudioMuteLedger(File(stateDir, "djini_audio_mute_$allowedUid"))
     private val callAudio = ShellCallAudio(context)
     // Bundle 将嵌套的 PFD 复制到 reply，但不会关掉服务端原件。写完 reply 后关闭，
     // 否则客户端关掉管道时，音频线程永远收不到 EOF。
@@ -572,9 +572,9 @@ class ShellService(
     /**
      * 系统动作(见 [SystemIntents]):只放行那几种 intent。没有页面接返回 [START_UNRESOLVED];和 [startView] 一样,
      * 接手的 App 在主屏有任务就不启动。先以 shell 身份启动;不成(接手的页面要求 shell 没有的权限,如设闹钟)时发出 Djini 做好的
-     * [asMika]:以 Djini 的身份启动(权限按 Djini 查),屏和后台启动按发出的这一方(shell)查,仍落在这块屏上。
+     * [asDjini]:以 Djini 的身份启动(权限按 Djini 查),屏和后台启动按发出的这一方(shell)查,仍落在这块屏上。
      */
-    override fun startSystemAction(displayId: Int, intent: Intent, asMika: android.app.PendingIntent?): Int = synchronized(launchLock) {
+    override fun startSystemAction(displayId: Int, intent: Intent, asDjini: android.app.PendingIntent?): Int = synchronized(launchLock) {
         if (!ownDisplay(displayId)) return START_ERROR
         // Djini 自己的兼容性自检页:以 shell 身份直接开到这块屏
         if (intent.component?.className == SystemIntents.OWN_PAGE_CLASS) return startOwnPage(displayId, intent)
@@ -604,13 +604,13 @@ class ShellService(
             false
         }
         if (asShell) return START_OK
-        if (asMika == null) return START_ERROR
+        if (asDjini == null) return START_ERROR
         // 安卓 14 起 PendingIntent 的发出方要明说允许它从后台启动页面
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             options.setPendingIntentBackgroundActivityStartMode(ActivityOptions.MODE_BACKGROUND_ACTIVITY_START_ALLOWED)
         }
         return try {
-            asMika.send(context, 0, null, null, null, null, options.toBundle())
+            asDjini.send(context, 0, null, null, null, null, options.toBundle())
             START_OK
         } catch (t: Throwable) {
             Log.w(TAG, "sending ${intent.action} as Djini failed", t)
@@ -1781,7 +1781,7 @@ class ShellService(
     }
 
     companion object {
-        private const val TAG = "MikaShell"
+        private const val TAG = "DjiniShell"
         private const val MAX_TASKS = 100
         private const val TAP_MS = 50L
         // injectStroke 一笔的上限:点数、从按下到抬起的毫秒数

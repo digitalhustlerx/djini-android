@@ -10,7 +10,7 @@ import com.wangzan101.djini.settings.ThemeAccent
  * 实色只用在强调(主按钮、选中、开关、用户消息)和状态(成功、需要你、出错);图标块一律中性。
  */
 @Immutable
-class MikaColors(
+class DjiniColors(
     /** 页面背景。 */
     val bg: Color,
     /** 卡片、分组。 */
@@ -65,7 +65,7 @@ class MikaColors(
     val isDark: Boolean,
 ) {
     /** 换一种强调色,其余不变;淡底的透明度和原来一样(浅色 10%、深色 16%)。 */
-    fun withAccent(accent: Color, onAccent: Color) = MikaColors(
+    fun withAccent(accent: Color, onAccent: Color) = DjiniColors(
         bg = bg, surface = surface, fill = fill, ink = ink, ink2 = ink2, ink3 = ink3, inkSoft = inkSoft, hair = hair, edge = edge,
         accent = accent, accentSoft = accent.copy(alpha = if (isDark) 0x29 / 255f else 0x1A / 255f), onAccent = onAccent,
         ok = ok, okSoft = okSoft, warn = warn, warnSolid = warnSolid, warnSoft = warnSoft, bad = bad, badSoft = badSoft,
@@ -75,7 +75,7 @@ class MikaColors(
     )
 }
 
-val LightColors = MikaColors(
+val LightColors = DjiniColors(
     bg = Color(0xFFF7F7F8),
     surface = Color(0xFFFFFFFF),
     fill = Color(0x0A000000),
@@ -109,7 +109,7 @@ val LightColors = MikaColors(
     isDark = false,
 )
 
-val DarkColors = MikaColors(
+val DarkColors = DjiniColors(
     bg = Color(0xFF0E0E10),
     surface = Color(0xFF1A1A1D),
     fill = Color(0x0FFFFFFF),
@@ -144,7 +144,7 @@ val DarkColors = MikaColors(
 )
 
 /** 按深浅色和强调色取整套颜色。蓝色就是 [LightColors] / [DarkColors] 本身;别的颜色只换强调色那三项。 */
-fun palette(dark: Boolean, accent: ThemeAccent): MikaColors {
+fun palette(dark: Boolean, accent: ThemeAccent): DjiniColors {
     val base = if (dark) DarkColors else LightColors
     if (accent == ThemeAccent.Blue) return base
     val (color, on) = accentTone(accent, dark)
@@ -166,4 +166,4 @@ fun accentTone(accent: ThemeAccent, dark: Boolean): Pair<Color, Color> = when (a
 }
 
 /** 没有包在 [DjiniTheme] 里时(比如界面测试)按浅色。 */
-val LocalMikaColors = staticCompositionLocalOf { LightColors }
+val LocalDjiniColors = staticCompositionLocalOf { LightColors }

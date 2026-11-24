@@ -10,7 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import com.wangzan101.djini.chat.ConversationStore
-import com.wangzan101.djini.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.DjiniDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -45,16 +45,16 @@ import com.wangzan101.djini.ui.components.FooterNote
 import com.wangzan101.djini.ui.components.GroupCard
 import com.wangzan101.djini.ui.components.GroupLabel
 import com.wangzan101.djini.ui.components.ListRow
-import com.wangzan101.djini.ui.components.MikaButton
-import com.wangzan101.djini.ui.components.MikaSwitch
+import com.wangzan101.djini.ui.components.DjiniButton
+import com.wangzan101.djini.ui.components.DjiniSwitch
 import com.wangzan101.djini.ui.components.SegmentedControl
 import com.wangzan101.djini.ui.components.SheetAction
 import com.wangzan101.djini.ui.components.StateCard
 import com.wangzan101.djini.ui.components.SubPage
 import com.wangzan101.djini.ui.components.TileTone
-import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniIcons
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.DjiniType
 import java.time.Instant
 import com.wangzan101.djini.i18n.uiLocale
 import java.time.ZoneId
@@ -94,22 +94,22 @@ fun PlansScreen(context: Context, onBack: () -> Unit, onOpenConversation: (Strin
     SubPage(
         tr(R.string.drawer_plans), onBack,
         right = {
-            BarIconButton(MikaIcons.Plus, tr(R.string.plans_add), {
+            BarIconButton(DjiniIcons.Plus, tr(R.string.plans_add), {
                 creating = ConversationStore.shared(context).newConversation()
             })
         },
     ) {
         if (!exact) {
             StateCard(
-                MikaIcons.Alarm, ExactAlarmGuide.TITLE, tr(R.string.plans_alarm_body),
+                DjiniIcons.Alarm, ExactAlarmGuide.TITLE, tr(R.string.plans_alarm_body),
                 tone = TileTone.Warn,
-            ) { MikaButton(tr(R.string.turn_on_go), { act { context.startActivity(TriggerRuntime.exactAlarmSettings(context)) } }, kind = ButtonKind.Primary, size = ButtonSize.Small) }
+            ) { DjiniButton(tr(R.string.turn_on_go), { act { context.startActivity(TriggerRuntime.exactAlarmSettings(context)) } }, kind = ButtonKind.Primary, size = ButtonSize.Small) }
         }
         SegmentedControl(
             listOf(tr(R.string.plans_running_n, running.size), tr(R.string.plans_stopped_n, stopped.size)), segment, { segment = it },
             tags = listOf("plans-segment-running", "plans-segment-stopped"),
         )
-        error?.let { Text(it, Modifier.padding(top = 8.dp), style = MikaType.Caption, color = DjiniTheme.colors.bad) }
+        error?.let { Text(it, Modifier.padding(top = 8.dp), style = DjiniType.Caption, color = DjiniTheme.colors.bad) }
         if (shown.isEmpty()) {
             GroupLabel("")
             EmptyNote(
@@ -188,7 +188,7 @@ fun PlansScreen(context: Context, onBack: () -> Unit, onOpenConversation: (Strin
         )
     }
     deleting?.let { plan ->
-        MikaDialog(onDismissRequest = { deleting = null }, title = { Text(tr(R.string.plans_delete_title)) },
+        DjiniDialog(onDismissRequest = { deleting = null }, title = { Text(tr(R.string.plans_delete_title)) },
             text = { Text(plan.goal) },
             confirmButton = { TextButton(onClick = { act { TriggerRuntime.remove(context, plan.id) }; deleting = null }) {
                 Text(tr(R.string.confirm_delete), color = DjiniTheme.colors.bad)
@@ -199,7 +199,7 @@ fun PlansScreen(context: Context, onBack: () -> Unit, onOpenConversation: (Strin
 @Composable
 private fun PlanRunHistoryDialog(snapshot: TriggerSnapshot, planId: String, onDismiss: () -> Unit) {
     val windows = remember(snapshot, planId) { snapshot.recentWindows(planId, 10) }
-    MikaDialog(
+    DjiniDialog(
         onDismissRequest = onDismiss,
         title = { Text(tr(R.string.plans_run_history)) },
         text = {
@@ -255,7 +255,7 @@ private fun PlanRow(plan: TriggerDefinition, last: TriggerWindow?, first: Boolea
         detail = last?.let { lastResult(plan, it) } ?: tr(R.string.plans_never_run),
         detailColor = if (delivered) c.ok else c.ink3,
         onClick = onClick,
-    ) { MikaSwitch(plan.enabled, onToggle, enabled = canToggle) }
+    ) { DjiniSwitch(plan.enabled, onToggle, enabled = canToggle) }
 }
 
 private val PLAN_TIME: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")

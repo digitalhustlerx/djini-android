@@ -42,7 +42,7 @@ import org.commonmark.node.ThematicBreak
 import org.commonmark.parser.Parser
 import com.wangzan101.djini.ui.theme.LightColors
 import java.net.URLDecoder
-import com.wangzan101.djini.ui.theme.MikaColors
+import com.wangzan101.djini.ui.theme.DjiniColors
 
 /** 回答里的 Markdown 解析成的显示模型:块级结构 + 带样式的行内文字。纯数据,不依赖界面。 */
 sealed interface MdBlock {
@@ -68,7 +68,7 @@ object MarkdownModel {
     /** 行内代码和链接的样式;颜色跟着深浅色,由显示的地方按当前配色给。 */
     class Styles(val code: SpanStyle, val link: TextLinkStyles, val strong: FontWeight = FontWeight.SemiBold) {
         companion object {
-            fun of(c: MikaColors, strong: FontWeight = FontWeight.SemiBold) = Styles(
+            fun of(c: DjiniColors, strong: FontWeight = FontWeight.SemiBold) = Styles(
                 code = SpanStyle(fontFamily = FontFamily.Monospace, background = c.fill),
                 link = TextLinkStyles(SpanStyle(color = c.accent)),
                 strong = strong,

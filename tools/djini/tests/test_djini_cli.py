@@ -16,14 +16,14 @@ import unittest
 from unittest.mock import patch
 
 SKILL = Path(__file__).resolve().parents[1]
-SCRIPT = SKILL / "scripts/mika_cli.py"
+SCRIPT = SKILL / "scripts/djini_cli.py"
 TOKEN = "unit-test-connection-token"
 SNAPSHOT = {"task_id": "t1", "status": "running", "conversation": "mcp-test", "goal": "example"}
 DISCOVERY = {"api_version": 1, "server_version": "test", "capabilities": ["tasks", "task_steer"]}
 
 
 def load_cli():
-    spec = importlib.util.spec_from_file_location("mika_cli_test", SCRIPT)
+    spec = importlib.util.spec_from_file_location("djini_cli_test", SCRIPT)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
@@ -413,7 +413,7 @@ else:
             self.assertIn(["-s", "phone-a", "shell", "sh", root + "/connect-computer.sh"], calls())
             self.assertIn(["-s", "phone-a", "shell", "cat", root + "/mcp-usb.json"], calls())
 
-    def test_adb_targets_the_selected_mika_package(self):
+    def test_adb_targets_the_selected_djini_package(self):
         package = "com.wangzan101.djini.dev"
         root = f"/sdcard/Android/data/{package}/files"
         with api() as server:
@@ -432,10 +432,10 @@ else:
             ], package_calls)
             self.assertEqual(2, calls().count(["-s", "phone-a", "forward", "tcp:0", "tcp:8766"]))
 
-    def test_adb_rejects_invalid_mika_packages_before_starting_adb(self):
+    def test_adb_rejects_invalid_djini_packages_before_starting_adb(self):
         with api() as server:
             adb, env, _, calls = self.fake_adb(server)
-            for package in ("", "android", "com.1mika", "../djini", "com.djini;id"):
+            for package in ("", "android", "com.1djini", "../djini", "com.djini;id"):
                 with self.subTest(package=package):
                     result, body = self.invoke("connect", "--package", package, "--adb", str(adb), env=env)
                     self.assertEqual(2, result.returncode, body)
@@ -443,7 +443,7 @@ else:
                     self.assertIn("Android application ID", body["error"]["message"])
             self.assertEqual([], calls())
 
-    def test_mika_package_cannot_be_used_with_direct_http(self):
+    def test_djini_package_cannot_be_used_with_direct_http(self):
         with api() as server:
             result, body = self.invoke("doctor", "--package", "com.wangzan101.djini.dev", server=server)
             self.assertEqual(2, result.returncode, body)
@@ -455,7 +455,7 @@ else:
         cli = load_cli()
         args = cli.parser().parse_args(["notification-doctor", "--package", "android"])
         self.assertEqual("android", args.package)
-        self.assertFalse(hasattr(args, "mika_package"))
+        self.assertFalse(hasattr(args, "djini_package"))
 
     def test_unique_wireless_device_can_have_spaces_in_its_service_name(self):
         serial = "test-phone (2)._adb-tls-connect._tcp"
@@ -613,7 +613,7 @@ else:
         copied = self.directory / "installed-skill"
         shutil.copytree(SKILL, copied, ignore=shutil.ignore_patterns("__pycache__", "*.egg-info", "build"))
         with api() as server:
-            result, body = self.invoke("task", "run", "--goal", "standalone", server=server, script=copied / "scripts/mika_cli.py")
+            result, body = self.invoke("task", "run", "--goal", "standalone", server=server, script=copied / "scripts/djini_cli.py")
             self.assertEqual(0, result.returncode)
             self.assertEqual("t1", body["task_id"])
 
@@ -624,7 +624,7 @@ else:
         self.assertEqual("arguments", body["error"]["code"])
 
     def test_interrupted_mutation_is_unknown(self):
-        spec = importlib.util.spec_from_file_location("mika_cli_test", SCRIPT)
+        spec = importlib.util.spec_from_file_location("djini_cli_test", SCRIPT)
         module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(module)
         client = module.Client("http://127.0.0.1/api/v1", TOKEN)

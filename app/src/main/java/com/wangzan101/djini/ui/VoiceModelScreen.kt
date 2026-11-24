@@ -29,11 +29,11 @@ import com.wangzan101.djini.ui.components.GroupCard
 import com.wangzan101.djini.ui.components.GroupLabel
 import com.wangzan101.djini.ui.components.InputRow
 import com.wangzan101.djini.ui.components.ListRow
-import com.wangzan101.djini.ui.components.MikaButton
-import com.wangzan101.djini.ui.components.MikaSwitch
+import com.wangzan101.djini.ui.components.DjiniButton
+import com.wangzan101.djini.ui.components.DjiniSwitch
 import com.wangzan101.djini.ui.components.RadioRow
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.DjiniType
 import com.wangzan101.djini.voice.VoicePlayback
 import com.wangzan101.djini.voice.VoicePlayer
 import kotlinx.coroutines.launch
@@ -62,7 +62,7 @@ fun VoiceModelScreen(store: ProviderStore, onBack: () -> Unit) {
         GroupCard {
             ListRow(
                 null, tr(R.string.voice_enable), tr(R.string.voice_enable_note), first = true,
-                trailing = { MikaSwitch(state.enabled, settings::setEnabled) },
+                trailing = { DjiniSwitch(state.enabled, settings::setEnabled) },
             )
         }
 
@@ -131,19 +131,19 @@ fun VoiceModelScreen(store: ProviderStore, onBack: () -> Unit) {
         GroupCard {
             ListRow(
                 null, tr(R.string.voice_auto_read), first = true,
-                trailing = { MikaSwitch(state.autoRead, settings::setAutoRead) },
+                trailing = { DjiniSwitch(state.autoRead, settings::setAutoRead) },
             )
             ListRow(
                 null, tr(R.string.voice_speak_tool),
-                trailing = { MikaSwitch(state.speakTool, settings::setSpeakTool) },
+                trailing = { DjiniSwitch(state.speakTool, settings::setSpeakTool) },
             )
             ListRow(
                 null, tr(R.string.voice_save_enabled), tr(R.string.voice_save_note),
-                trailing = { MikaSwitch(state.saveEnabled, settings::setSaveEnabled) },
+                trailing = { DjiniSwitch(state.saveEnabled, settings::setSaveEnabled) },
             )
             ListRow(
                 null, tr(R.string.voice_ask_before_save),
-                trailing = { MikaSwitch(state.askBeforeSave, settings::setAskBeforeSave, enabled = state.saveEnabled) },
+                trailing = { DjiniSwitch(state.askBeforeSave, settings::setAskBeforeSave, enabled = state.saveEnabled) },
             )
             InputRow(
                 tr(R.string.voice_max_chars), state.maxCharsPerSpeak.toString(),
@@ -152,18 +152,18 @@ fun VoiceModelScreen(store: ProviderStore, onBack: () -> Unit) {
             )
         }
 
-        MikaButton(
+        DjiniButton(
             tr(R.string.voice_test),
             onClick = {
-                val choice = state.choice ?: return@MikaButton
-                val caps = settings.capabilities() ?: return@MikaButton
-                val tts = store.ttsModel(choice, caps) ?: return@MikaButton
+                val choice = state.choice ?: return@DjiniButton
+                val caps = settings.capabilities() ?: return@DjiniButton
+                val tts = store.ttsModel(choice, caps) ?: return@DjiniButton
                 scope.launch {
                     test = tr(R.string.voice_testing)
                     test = try {
                         val response = tts.synthesize(
                             TtsRequest(
-                                "你好，我是 Djini。这是一段声音测试。",
+                                "Hi, I'm Djini. This is a voice test.",
                                 voice.ifBlank { null },
                                 speed.toFloatOrNull()?.coerceIn(0.25f, 4.0f),
                                 "wav",

@@ -22,7 +22,7 @@ import java.io.ByteArrayOutputStream
  * Djini 自己的浮层要不要先藏起来由调用方定(见 [OverlayWindow.hiddenWhile]);读树时浮层、输入法本来就不算。
  */
 internal object MainScreenCapture {
-    private const val TAG = "MikaScreenCapture"
+    private const val TAG = "DjiniScreenCapture"
     private const val JPEG_QUALITY = 88
     /** 认字最多等这么久:超时就只用树里的字。 */
     private const val OCR_WAIT_MS = 4_000L

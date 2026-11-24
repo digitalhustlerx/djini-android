@@ -4,7 +4,7 @@ import unittest
 from pathlib import Path
 
 from browser_desk_updates import browser_desk, expect, read_tasks, snapshot, sync_playwright
-from test_mika_cli import DISCOVERY
+from test_djini_cli import DISCOVERY
 
 
 @unittest.skipIf(sync_playwright is None, "Playwright is not installed")

@@ -14,20 +14,20 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.wangzan101.djini.ui.theme.MikaColors
+import com.wangzan101.djini.ui.theme.DjiniColors
 import com.wangzan101.djini.ui.theme.DjiniTheme
 
 /** 竖线步骤上一个点的状态:完成是灰点,当前是带光圈的蓝点,暂停是橙点,出错是红点。 */
 enum class StepState { Done, Current, Paused, Failed }
 
-private fun StepState.color(c: MikaColors) = when (this) {
+private fun StepState.color(c: DjiniColors) = when (this) {
     StepState.Done -> c.ink3
     StepState.Current -> c.accent
     StepState.Paused -> c.warnSolid
     StepState.Failed -> c.bad
 }
 
-private fun StepState.halo(c: MikaColors) = when (this) {
+private fun StepState.halo(c: DjiniColors) = when (this) {
     StepState.Done -> null
     StepState.Current -> c.accentSoft
     StepState.Paused -> c.warnSoft

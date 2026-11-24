@@ -204,7 +204,7 @@ const browserLanguage = navigator.languages?.[0] || navigator.language || "en";
 let lang;
 const t = (key, vars = {}) => STRINGS[key][lang].replace(/\{(\w+)\}/g, (_, name) => vars[name]);
 function applyLanguage() {
-  const pref = localStorage.getItem("mikaDeskLanguage");
+  const pref = localStorage.getItem("djiniDeskLanguage");
   $("language").value = pref === "zh" || pref === "en" ? pref : "auto";
   lang = (pref === "zh" || pref === "en" ? pref : browserLanguage).toLowerCase().startsWith("zh") ? 0 : 1;
   document.documentElement.lang = lang ? "en" : "zh-CN";
@@ -1603,8 +1603,8 @@ $("connection-details")
   });
 $("language").addEventListener("change", () => {
   const value = $("language").value;
-  if (value === "auto") localStorage.removeItem("mikaDeskLanguage");
-  else localStorage.setItem("mikaDeskLanguage", value);
+  if (value === "auto") localStorage.removeItem("djiniDeskLanguage");
+  else localStorage.setItem("djiniDeskLanguage", value);
   applyLanguage();
   alerts.sync();
   navSignature = transcriptSignature = processSignature = optionsSignature = "";

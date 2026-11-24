@@ -52,11 +52,11 @@ import androidx.lifecycle.compose.LifecycleResumeEffect
 import com.wangzan101.djini.R
 import com.wangzan101.djini.about.ReleaseInfo
 import com.wangzan101.djini.ui.components.GlassBackdrop
-import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniIcons
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
-import com.wangzan101.djini.ui.theme.MikaRadius
-import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniType
+import com.wangzan101.djini.ui.theme.DjiniRadius
+import com.wangzan101.djini.ui.theme.DjiniShapes
 import kotlinx.coroutines.delay
 
 @Composable
@@ -115,13 +115,13 @@ internal fun BoxScope.UpdateReadyCapsule(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Box(Modifier.size(31.dp).background(success.copy(alpha = 0.16f), CircleShape), contentAlignment = Alignment.Center) {
-                    Icon(MikaIcons.Check, null, Modifier.size(14.dp), tint = success)
+                    Icon(DjiniIcons.Check, null, Modifier.size(14.dp), tint = success)
                 }
                 Column(Modifier.weight(1f)) {
                     Text(stringResource(R.string.about_auto_update_ready, release.version), color = UpdateGlassInk,
-                        style = MikaType.Hint.copy(fontWeight = FontWeight.SemiBold), maxLines = 1, overflow = TextOverflow.Ellipsis)
+                        style = DjiniType.Hint.copy(fontWeight = FontWeight.SemiBold), maxLines = 1, overflow = TextOverflow.Ellipsis)
                     Text(stringResource(R.string.about_update_install), color = UpdateGlassSecondaryInk,
-                        style = MikaType.Micro, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                        style = DjiniType.Micro, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 }
             }
             UpdateGlassClose(
@@ -145,10 +145,10 @@ internal fun BoxScope.UpdateReadyCapsule(
                 Modifier.size(dialog.width.dp, dialog.height.dp).semantics { paneTitle = title },
             ) {
                 Column(Modifier.fillMaxSize().padding(start = 14.dp, end = 14.dp, top = 15.dp, bottom = 12.dp)) {
-                    Text(title, Modifier.padding(end = 21.dp), color = UpdateGlassInk, style = MikaType.Title, maxLines = 2, overflow = TextOverflow.Ellipsis)
+                    Text(title, Modifier.padding(end = 21.dp), color = UpdateGlassInk, style = DjiniType.Title, maxLines = 2, overflow = TextOverflow.Ellipsis)
                     Text(stringResource(R.string.about_auto_update_confirm_detail, release.version),
                         Modifier.weight(1f).padding(top = 7.dp), color = UpdateGlassSecondaryInk,
-                        style = MikaType.Micro, overflow = TextOverflow.Ellipsis)
+                        style = DjiniType.Micro, overflow = TextOverflow.Ellipsis)
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(7.dp)) {
                         UpdateGlassAction(stringResource(R.string.about_auto_update_now), primary = true,
                             onClick = { close(); onInstall() }, modifier = Modifier.weight(1f))
@@ -168,7 +168,7 @@ private fun UpdateGlassClose(label: String, onClick: () -> Unit, modifier: Modif
         .clickable(role = Role.Button, onClick = onClick).padding(top = 8.dp, end = 3.dp),
         contentAlignment = Alignment.TopCenter,
     ) {
-        Icon(MikaIcons.Close, label, Modifier.size(13.dp), tint = UpdateGlassSecondaryInk)
+        Icon(DjiniIcons.Close, label, Modifier.size(13.dp), tint = UpdateGlassSecondaryInk)
     }
 }
 
@@ -181,12 +181,12 @@ private fun UpdateGlassAction(label: String, primary: Boolean, onClick: () -> Un
         dark -> Color.White.copy(alpha = 0.13f)
         else -> Color.White.copy(alpha = 0.48f)
     }
-    Box(modifier.height(36.dp).clip(MikaShapes.Chip)
+    Box(modifier.height(36.dp).clip(DjiniShapes.Chip)
         .background(fill)
         .clickable(role = Role.Button, onClick = onClick).padding(horizontal = 5.dp),
         contentAlignment = Alignment.Center,
     ) {
         Text(label, color = if (primary) (if (dark) Color(0xFF172E21) else Color.White) else UpdateGlassInk,
-            style = MikaType.Micro.copy(fontWeight = FontWeight.SemiBold), maxLines = 2, overflow = TextOverflow.Ellipsis)
+            style = DjiniType.Micro.copy(fontWeight = FontWeight.SemiBold), maxLines = 2, overflow = TextOverflow.Ellipsis)
     }
 }

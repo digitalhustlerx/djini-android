@@ -16,7 +16,7 @@ import time
 import uuid
 
 from playwright.sync_api import expect, sync_playwright
-from test_mika_desk import SCRIPT, desk
+from test_djini_desk import SCRIPT, desk
 
 
 @contextmanager

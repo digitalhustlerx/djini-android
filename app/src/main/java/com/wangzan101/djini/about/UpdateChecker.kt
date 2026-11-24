@@ -62,8 +62,8 @@ class UpdateChecker(
     private val file: File,
     private val currentVersion: String,
     private val client: OkHttpClient = defaultClient(),
-    private val releaseApi: String = MikaLinks.LATEST_RELEASE_API,
-    private val releasesUrl: String = MikaLinks.RELEASES,
+    private val releaseApi: String = DjiniLinks.LATEST_RELEASE_API,
+    private val releasesUrl: String = DjiniLinks.RELEASES,
     /** 当前的镜像设置;每次检查取一次,用户在检查途中改了顺序也不影响这一次。 */
     private val mirrorSettings: () -> MirrorSettings = { MirrorSettings.OFF },
     private val now: () -> Long = System::currentTimeMillis,

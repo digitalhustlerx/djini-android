@@ -19,9 +19,9 @@ import com.wangzan101.djini.personal.PersonalReplayFrame
 import com.wangzan101.djini.personal.PersonalRuntime
 import com.wangzan101.djini.ui.components.ActivitySizedDialog
 import com.wangzan101.djini.ui.components.BarIconButton
-import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniIcons
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.DjiniType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -90,15 +90,15 @@ internal fun PersonalPreviewPlayer(
         Column(Modifier.fillMaxSize().background(c.bg).then(safeArea).padding(12.dp)
             .testTag("personal-replay-dialog")) {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-                Text(stringResource(R.string.personal_replay_title), style = MikaType.Title, color = c.ink)
-                BarIconButton(MikaIcons.Close, stringResource(R.string.personal_replay_close), onDismiss)
+                Text(stringResource(R.string.personal_replay_title), style = DjiniType.Title, color = c.ink)
+                BarIconButton(DjiniIcons.Close, stringResource(R.string.personal_replay_close), onDismiss)
             }
             Box(Modifier.weight(1f).fillMaxWidth().clipToBounds().testTag("personal-preview-image"), contentAlignment = Alignment.Center) {
                 if (image != null) {
                     ZoomableFrame(image, stringResource(if (showLive) R.string.personal_replay_live_screen else R.string.personal_replay_recorded_screen), Modifier.fillMaxSize())
                 } else {
                     Text(stringResource(if (frames == null || isLive || file != null) R.string.personal_replay_loading else R.string.personal_replay_empty),
-                        style = MikaType.Body, color = c.ink2)
+                        style = DjiniType.Body, color = c.ink2)
                 }
             }
             Slider(
@@ -113,14 +113,14 @@ internal fun PersonalPreviewPlayer(
             )
             Row(Modifier.fillMaxWidth().heightIn(min = 48.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
                 if (isLive && seekPosition == null) {
-                    Text(stringResource(R.string.personal_replay_live), Modifier.padding(horizontal = 12.dp), style = MikaType.Hint, color = c.accent)
+                    Text(stringResource(R.string.personal_replay_live), Modifier.padding(horizontal = 12.dp), style = DjiniType.Hint, color = c.accent)
                 } else {
                     TextButton(enabled = duration > 0, onClick = {
                         if (position >= duration) seekPosition = 0
                         playing = !playing
                     }) { Text(stringResource(if (playing) R.string.personal_replay_pause else R.string.personal_replay_play)) }
                 }
-                Text("${replayTime(position)} / ${replayTime(duration)}", style = MikaType.Hint, color = c.ink2)
+                Text("${replayTime(position)} / ${replayTime(duration)}", style = DjiniType.Hint, color = c.ink2)
                 if (isLive && seekPosition != null) {
                     TextButton(onClick = { playing = false; seekPosition = null }) { Text(stringResource(R.string.personal_replay_return_live)) }
                 }

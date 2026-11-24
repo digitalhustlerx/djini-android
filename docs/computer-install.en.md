@@ -24,7 +24,7 @@ pipx install 'git+https://github.com/digitalhustlerx/djini-android.git@<tag>#sub
 djini --version
 ```
 
-The pipx package is `djini-phone-cli` and the command is `djini`. The CLI has its own version number, separate from the APK's. With a repository checkout you can also run `pipx install ./tools/djini` from the repository root, or skip installing and run `python3 tools/djini/scripts/mika_cli.py` directly (`py -3` on Windows).
+The pipx package is `djini-phone-cli` and the command is `djini`. The CLI has its own version number, separate from the APK's. With a repository checkout you can also run `pipx install ./tools/djini` from the repository root, or skip installing and run `python3 tools/djini/scripts/djini_cli.py` directly (`py -3` on Windows).
 
 ## CLI: update, roll back and remove
 
@@ -42,14 +42,14 @@ pipx uninstall djini-phone-cli
 
 ## Skill: install
 
-The Skill is the repository's `tools/djini` folder: `SKILL.md` tells the agent how to use it, and `scripts/mika_cli.py` is the bundled CLI, which needs only Python 3.10+ (plus platform-tools for ADB connections).
+The Skill is the repository's `tools/djini` folder: `SKILL.md` tells the agent how to use it, and `scripts/djini_cli.py` is the bundled CLI, which needs only Python 3.10+ (plus platform-tools for ADB connections).
 
 1. From the [latest release](https://github.com/digitalhustlerx/djini-android/releases/latest), download **Source code (zip)** and extract it.
 2. Copy the **whole** `tools/djini` folder into your agent's skills directory (see that agent's own documentation for where it is). The result should be `<skills-directory>/djini/SKILL.md`, without an extra nested `djini` folder.
 3. Check that the bundled script runs:
 
    ```bash
-   python3 <skills-directory>/djini/scripts/mika_cli.py --version   # use py -3 instead of python3 on Windows
+   python3 <skills-directory>/djini/scripts/djini_cli.py --version   # use py -3 instead of python3 on Windows
    ```
 
 4. Start a new agent session and confirm it can see a Skill named `djini`.
@@ -65,7 +65,7 @@ Start a new agent session after any change.
 
 ## After installing: check the connection
 
-With only the Skill installed, replace `djini` below with `python3 <skills-directory>/djini/scripts/mika_cli.py` (`py -3` on Windows).
+With only the Skill installed, replace `djini` below with `python3 <skills-directory>/djini/scripts/djini_cli.py` (`py -3` on Windows).
 
 Over USB or connected wireless ADB:
 

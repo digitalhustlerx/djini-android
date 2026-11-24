@@ -12,7 +12,7 @@ import threading
 from urllib.parse import unquote
 import webbrowser
 
-from mika_cli import (Adb, CliError, MAX_ATTACH_BYTES, MAX_ATTACH_FILES, connection, device_state_error,
+from djini_cli import (Adb, CliError, MAX_ATTACH_BYTES, MAX_ATTACH_FILES, connection, device_state_error,
                       discard_upload, execute, file_chunks, recent_tasks, redact, require_files, result_file, upload_file)
 
 
@@ -21,7 +21,7 @@ ASSETS = {
     "/desk.css": ("desk.css", "text/css"),
     "/desk.js": ("desk.js", "text/javascript"),
     "/notifications.js": ("notifications.js", "text/javascript"),
-    # 3× header rendition of Android's drawable-nodpi/mika_launcher_art.png.
+    # 3× header rendition of Android's drawable-nodpi/djini_launcher_art.png.
     "/djini-logo.png": ("djini-logo.png", "image/png"),
 }
 WATCH_SECONDS = 4

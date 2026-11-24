@@ -37,7 +37,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import com.wangzan101.djini.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.DjiniDialog
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -83,17 +83,17 @@ import com.wangzan101.djini.ui.components.InputRow
 import com.wangzan101.djini.ui.components.ListRow
 import com.wangzan101.djini.ui.components.RowChevron
 import com.wangzan101.djini.ui.components.RowValue
-import com.wangzan101.djini.ui.components.MikaButton
+import com.wangzan101.djini.ui.components.DjiniButton
 import com.wangzan101.djini.ui.components.PageBackground
 import com.wangzan101.djini.ui.components.ProgressDots
 import com.wangzan101.djini.ui.components.SelectChip
 import com.wangzan101.djini.ui.components.TagTone
 import com.wangzan101.djini.ui.components.TileTone
 import com.wangzan101.djini.ui.components.TopBar
-import com.wangzan101.djini.ui.theme.MikaIcons
-import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniIcons
+import com.wangzan101.djini.ui.theme.DjiniShapes
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.DjiniType
 import com.wangzan101.djini.settings.MAX_MAIN_FALLBACKS
 
 /**
@@ -344,12 +344,12 @@ fun ModelSetupContent(ui: ModelSetupUi, onboarding: Boolean, actions: ModelSetup
     }
     PageBackground {
         Column(Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.navigationBars).windowInsetsPadding(WindowInsets.ime)) {
-            TopBar(if (onboarding) ModelSetupCopy.TITLE else ModelsCopy.TITLE, MikaIcons.Back, onBack, stringResource(R.string.back))
+            TopBar(if (onboarding) ModelSetupCopy.TITLE else ModelsCopy.TITLE, DjiniIcons.Back, onBack, stringResource(R.string.back))
             Column(Modifier.weight(1f).verticalScroll(scrollState).padding(horizontal = 16.dp)) {
                 if (onboarding) {
                     Text(
                         ModelSetupCopy.LEAD, Modifier.padding(top = 4.dp, bottom = 12.dp),
-                        style = MikaType.Body, color = c.ink2,
+                        style = DjiniType.Body, color = c.ink2,
                     )
                 }
                 // 上手时先连服务商再选模型;设置里先看用途
@@ -368,13 +368,13 @@ fun ModelSetupContent(ui: ModelSetupUi, onboarding: Boolean, actions: ModelSetup
                         else -> "${ui.providers.size} provider${if (ui.providers.size > 1) "s" else ""}"
                     }
                     GroupCard {
-                        ListRow(MikaIcons.Key, ModelsCopy.PROVIDERS, providerSubtitle, first = true, onClick = actions.openProviders) {
+                        ListRow(DjiniIcons.Key, ModelsCopy.PROVIDERS, providerSubtitle, first = true, onClick = actions.openProviders) {
                             RowChevron()
                         }
                     }
                     actions.openUsage?.let { openUsage ->
                         GroupCard {
-                            ListRow(MikaIcons.Chart, UsageCopy.TITLE, first = true, onClick = openUsage) { RowChevron() }
+                            ListRow(DjiniIcons.Chart, UsageCopy.TITLE, first = true, onClick = openUsage) { RowChevron() }
                         }
                     }
                     RolesSection(ui, onPick, actions.setReasoningEffort, actions.setModelContext)
@@ -382,7 +382,7 @@ fun ModelSetupContent(ui: ModelSetupUi, onboarding: Boolean, actions: ModelSetup
                     ImageModelSection(ui, actions.openImage)
                     actions.openDecision?.let { openDecision ->
                         GroupCard {
-                            ListRow(MikaIcons.Route, stringResource(R.string.jev_title), stringResource(R.string.jev_row_sub),
+                            ListRow(DjiniIcons.Route, stringResource(R.string.jev_title), stringResource(R.string.jev_row_sub),
                                 first = true, onClick = openDecision) { RowChevron() }
                         }
                     }
@@ -396,7 +396,7 @@ fun ModelSetupContent(ui: ModelSetupUi, onboarding: Boolean, actions: ModelSetup
             if (onboarding && WindowInsets.ime.getBottom(LocalDensity.current) == 0) {
                 Column(Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 12.dp)) {
                     ProgressDots(Onboarding.DOTS, Onboarding.dot(OnboardingStep.Model), Modifier.padding(bottom = 14.dp))
-                    MikaButton(ModelSetupCopy.NEXT, actions.next, Modifier.fillMaxWidth().testTag("setup-next"), enabled = ui.canNext)
+                    DjiniButton(ModelSetupCopy.NEXT, actions.next, Modifier.fillMaxWidth().testTag("setup-next"), enabled = ui.canNext)
                 }
             }
         }
@@ -419,7 +419,7 @@ private fun ProvidersSection(ui: ModelSetupUi, actions: ModelSetupActions) {
             }
             if (!ui.showForm) {
                 ListRow(
-                    MikaIcons.Plus, ModelsCopy.ADD_PROVIDER, titleColor = c.accent, tone = TileTone.Accent,
+                    DjiniIcons.Plus, ModelsCopy.ADD_PROVIDER, titleColor = c.accent, tone = TileTone.Accent,
                     onClick = actions.openForm,
                 )
             }
@@ -431,7 +431,7 @@ private fun ProvidersSection(ui: ModelSetupUi, actions: ModelSetupActions) {
         Text(
             ModelSetupCopy.PICK_MAIN,
             Modifier.padding(start = 16.dp, bottom = 12.dp).clickable { actions.pickRole(ModelRole.Main) }.testTag("setup-pick-main").padding(vertical = 4.dp),
-            style = MikaType.Label, color = c.accent,
+            style = DjiniType.Label, color = c.accent,
         )
     }
     if (ui.showForm) AddProviderForm(ui, actions)
@@ -451,20 +451,20 @@ private fun AddProviderForm(ui: ModelSetupUi, actions: ModelSetupActions) {
         Text(
             "Connect a Provider",
             Modifier.weight(1f).padding(top = 16.dp, bottom = 8.dp),
-            style = MikaType.Body, fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold,
+            style = DjiniType.Body, fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold,
             fontSize = 15.sp, color = c.ink,
         )
         if (ui.providers.isNotEmpty()) {
             Text(
                 ModelSetupCopy.CANCEL, Modifier.clickable(onClick = actions.closeForm).padding(horizontal = 4.dp, vertical = 6.dp),
-                style = MikaType.Caption, color = c.accent,
+                style = DjiniType.Caption, color = c.accent,
             )
         }
     }
     // Sign-in options (ChatGPT, xAI, OpenRouter)
     AccountSignInGroup(ui, actions.openSignIn, actions.openProvider)
     // Provider preset chips
-    Text("Choose a provider", Modifier.padding(top = 4.dp, bottom = 6.dp), style = MikaType.Caption, color = c.ink3)
+    Text("Choose a provider", Modifier.padding(top = 4.dp, bottom = 6.dp), style = DjiniType.Caption, color = c.ink3)
     FlowRow(
         Modifier.fillMaxWidth().padding(bottom = 12.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -479,7 +479,7 @@ private fun AddProviderForm(ui: ModelSetupUi, actions: ModelSetupActions) {
                 Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 12.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text(ModelSetupCopy.KIND, Modifier.padding(end = 12.dp), style = MikaType.Body, color = c.ink)
+                Text(ModelSetupCopy.KIND, Modifier.padding(end = 12.dp), style = DjiniType.Body, color = c.ink)
                 // 四种接口一行放不下时折到下一行
                 FlowRow(Modifier.weight(1f), horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                     ProviderConfig.Kind.withApiKey.forEach { k -> SelectChip(ModelsCopy.kindLabel(k), f.kind == k, { actions.setKind(k) }, small = true) }
@@ -516,7 +516,7 @@ private fun AddProviderForm(ui: ModelSetupUi, actions: ModelSetupActions) {
             ) {
                 Text(
                     ModelSetupCopy.API_KEY,
-                    style = MikaType.Body, color = c.ink,
+                    style = DjiniType.Body, color = c.ink,
                     modifier = Modifier.weight(1f),
                 )
                 Text(
@@ -529,14 +529,14 @@ private fun AddProviderForm(ui: ModelSetupUi, actions: ModelSetupActions) {
             Box(
                 Modifier
                     .fillMaxWidth()
-                    .background(c.fill, MikaShapes.Button)
+                    .background(c.fill, DjiniShapes.Button)
                     .padding(horizontal = 14.dp, vertical = 12.dp)
             ) {
                 if (f.apiKey.isEmpty()) {
                     Text(
                         if (f.keyRequired) "Paste your API key here\n(Separate multiple keys with commas or new lines for auto-rotation)"
                         else ModelSetupCopy.KEY_OPTIONAL,
-                        style = MikaType.Body, color = c.ink3, lineHeight = 20.sp,
+                        style = DjiniType.Body, color = c.ink3, lineHeight = 20.sp,
                     )
                 }
                 androidx.compose.foundation.text.BasicTextField(
@@ -548,7 +548,7 @@ private fun AddProviderForm(ui: ModelSetupUi, actions: ModelSetupActions) {
                     modifier = Modifier.fillMaxWidth().testTag("setup-api-key"),
                     minLines = 2,
                     maxLines = 5,
-                    textStyle = MikaType.Body.copy(
+                    textStyle = DjiniType.Body.copy(
                         color = c.ink,
                         fontFamily = if (!showKey) null else androidx.compose.ui.text.font.FontFamily.Monospace,
                     ),
@@ -562,22 +562,22 @@ private fun AddProviderForm(ui: ModelSetupUi, actions: ModelSetupActions) {
                 poolActive -> Text(
                     "${parsedKeys.size} keys detected — pool will auto-rotate on rate-limit or timeout",
                     Modifier.padding(top = 6.dp).testTag("setup-key-notice"),
-                    style = MikaType.Caption, color = c.ok,
+                    style = DjiniType.Caption, color = c.ok,
                 )
                 f.keyNotice == com.wangzan101.djini.core.model.ApiKeyText.Notice.IllegalCharacters -> Text(
                     ModelSetupCopy.KEY_ILLEGAL,
                     Modifier.padding(top = 6.dp).testTag("setup-key-notice-illegal"),
-                    style = MikaType.Caption, color = c.bad,
+                    style = DjiniType.Caption, color = c.bad,
                 )
                 f.keyNotice == com.wangzan101.djini.core.model.ApiKeyText.Notice.InvisibleRemoved -> Text(
                     ModelSetupCopy.KEY_INVISIBLE_REMOVED,
                     Modifier.padding(top = 6.dp).testTag("setup-key-notice"),
-                    style = MikaType.Caption, color = c.ink2,
+                    style = DjiniType.Caption, color = c.ink2,
                 )
                 f.apiKey.isNotBlank() -> Text(
                     "1 key ready",
                     Modifier.padding(top = 6.dp),
-                    style = MikaType.Caption, color = c.ok,
+                    style = DjiniType.Caption, color = c.ok,
                 )
             }
             Spacer(Modifier.height(10.dp))
@@ -594,7 +594,7 @@ private fun AddProviderForm(ui: ModelSetupUi, actions: ModelSetupActions) {
         Text(
             if (f.manual) ModelSetupCopy.MANUAL_OFF else ModelSetupCopy.MANUAL_ON,
             Modifier.padding(start = 16.dp, top = 8.dp).clickable { actions.setManual(!f.manual) }.padding(vertical = 4.dp).testTag("setup-manual-model"),
-            style = MikaType.Caption, color = c.accent,
+            style = DjiniType.Caption, color = c.accent,
         )
     }
     if (f.manual && !f.noList) FooterNote(ModelSetupCopy.MANUAL_NOTE, Modifier.testTag("setup-manual-note"))
@@ -603,7 +603,7 @@ private fun AddProviderForm(ui: ModelSetupUi, actions: ModelSetupActions) {
     if (f.noList) FooterNote(if (f.isCustom) ModelSetupCopy.NO_LIST_CUSTOM else ModelSetupCopy.NO_LIST_PRESET, Modifier.testTag("setup-no-list"))
     if (f.isSelfHosted) FooterNote(ModelSetupCopy.SELF_HOSTED_NOTE, Modifier.testTag("setup-self-hosted"))
     f.unencryptedWarning?.let { FooterNote(it, Modifier.testTag("setup-url-unencrypted"), color = c.warn) }
-    MikaButton(
+    DjiniButton(
         if (f.test == ListState.Running) ModelSetupCopy.TESTING else ModelSetupCopy.TEST_AND_SAVE,
         actions.testAndSave, Modifier.fillMaxWidth().padding(top = 2.dp).testTag("setup-test"),
         kind = ButtonKind.Secondary, size = ButtonSize.Medium, enabled = f.canTest,
@@ -611,16 +611,16 @@ private fun AddProviderForm(ui: ModelSetupUi, actions: ModelSetupActions) {
     (f.test as? ListState.Failed)?.let { failed ->
         Text(
             ModelSetupCopy.failed(failed.message), Modifier.padding(start = 16.dp, end = 16.dp, top = 10.dp).testTag("setup-test-failed"),
-            style = MikaType.Caption, color = c.bad,
+            style = DjiniType.Caption, color = c.bad,
         )
     }
     // 试不成又想先存下的:做成按钮,不要藏成一行小字——它是个真实的动作,不是说明
-    MikaButton(
+    DjiniButton(
         ModelSetupCopy.SAVE_UNTESTED, { confirmUntested = true },
         Modifier.fillMaxWidth().padding(top = 6.dp).testTag("setup-save-untested"),
         kind = ButtonKind.Tonal, size = ButtonSize.Small, enabled = f.canSaveUntested,
     )
-    if (confirmUntested) MikaDialog(
+    if (confirmUntested) DjiniDialog(
         onDismissRequest = { confirmUntested = false },
         title = { Text(ModelSetupCopy.SAVE_UNTESTED_TITLE) },
         text = { Text(ModelSetupCopy.SAVE_UNTESTED_BODY) },
@@ -661,14 +661,14 @@ private fun PresetSuggestion(f: AddForm, label: String, onUse: () -> Unit) {
     Text(
         ModelSetupCopy.usePreset(label),
         Modifier.padding(start = 16.dp, bottom = 12.dp).clickable(onClick = onUse).testTag("setup-use-preset").padding(vertical = 4.dp),
-        style = MikaType.Label, color = c.accent,
+        style = DjiniType.Label, color = c.accent,
     )
 }
 
 /** 第一次用 ChatGPT 登录成功后说明一次:Djini 里的用量走你的 ChatGPT 套餐。 */
 @Composable
 private fun ChatGptWelcome(onDismiss: () -> Unit) {
-    MikaDialog(
+    DjiniDialog(
         onDismissRequest = onDismiss,
         title = { Text(ModelsCopy.CHATGPT_WELCOME_TITLE) },
         text = { Text(ModelsCopy.CHATGPT_WELCOME_BODY) },
@@ -839,7 +839,7 @@ private fun ModelContextControl(ui: ModelSetupUi, role: ModelRole,
     val badTrigger = trigger.isNotBlank() && (settings.triggerTokens == null || (!badWindow && settings.triggerTokens != limits.trigger))
     val badReadTimeout = readTimeout.isNotBlank() && settings.readTimeoutSeconds == null
     val keyboard = KeyboardOptions(keyboardType = KeyboardType.Number)
-    MikaDialog(
+    DjiniDialog(
         onDismissRequest = { open = false },
         modifier = Modifier.imePadding(),
         title = { Text(stringResource(R.string.model_context_title)) },
@@ -892,7 +892,7 @@ internal fun Tags(o: ModelOption, forVision: Boolean = false, accent: Boolean = 
     }
 }
 
-internal val ModelIdStyle = MikaType.Value.copy(fontWeight = FontWeight.Medium, fontFamily = FontFamily.Monospace)
+internal val ModelIdStyle = DjiniType.Value.copy(fontWeight = FontWeight.Medium, fontFamily = FontFamily.Monospace)
 
 /** 配置模型页(上手时)和添加服务商表单的文字(纯函数,便于测试)。用途的说法在 [ModelsCopy]。 */
 object ModelSetupCopy {

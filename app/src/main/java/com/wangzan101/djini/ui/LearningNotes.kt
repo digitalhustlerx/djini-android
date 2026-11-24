@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.DjiniType
 
 /** 结果卡片下的小字:记住了什么、学会或停用了哪项技能,各带按钮。 */
 internal fun LazyListScope.learningNotes(index: Int, ex: Exchange, vm: ChatViewModel) {
@@ -46,7 +46,7 @@ internal fun LazyListScope.learningNotes(index: Int, ex: Exchange, vm: ChatViewM
 @Composable
 private fun NoteLine(text: String, buttons: @Composable () -> Unit) {
     Row(Modifier.fillMaxWidth().padding(vertical = 2.dp), verticalAlignment = Alignment.CenterVertically) {
-        Text(text, Modifier.weight(1f), style = MikaType.Hint, color = DjiniTheme.colors.ink3)
+        Text(text, Modifier.weight(1f), style = DjiniType.Hint, color = DjiniTheme.colors.ink3)
         buttons()
     }
 }

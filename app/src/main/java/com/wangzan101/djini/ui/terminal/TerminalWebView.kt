@@ -36,11 +36,11 @@ internal class TerminalWebViewHandle internal constructor(
 ) {
     fun focus() {
         view.requestFocus()
-        view.evaluateJavascript("mikaFocus()", null)
+        view.evaluateJavascript("djiniFocus()", null)
     }
 
     fun copyAll() {
-        view.evaluateJavascript("mikaCopyAll()", null)
+        view.evaluateJavascript("djiniCopyAll()", null)
     }
 
     internal fun close() {
@@ -83,7 +83,7 @@ internal fun createTerminalWebView(context: Context, session: TerminalSession): 
         setOnTouchListener { v, event ->
             if (event.actionMasked == MotionEvent.ACTION_DOWN) {
                 v.requestFocus()
-                post { evaluateJavascript("mikaFocus()", null) }
+                post { evaluateJavascript("djiniFocus()", null) }
             }
             false
         }
@@ -162,6 +162,6 @@ internal class TerminalBridge(    private val context: Context,
     private fun feed(bytes: ByteArray) {
         if (closed || bytes.isEmpty()) return
         val base64 = Base64.encodeToString(bytes, Base64.NO_WRAP)
-        view.evaluateJavascript("mikaWrite('$base64')", null)
+        view.evaluateJavascript("djiniWrite('$base64')", null)
     }
 }

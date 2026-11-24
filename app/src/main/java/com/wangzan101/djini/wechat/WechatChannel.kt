@@ -189,7 +189,7 @@ class WechatChannel(
 
     companion object {
         const val ID = "wechat"
-        private const val TAG = "MikaWechat"
+        private const val TAG = "DjiniWechat"
         private val LEGACY_IMAGE_PATH = Regex("""/workspace/inbox/wechat-\d+(?: \(\d+\))?\.(?:png|jpe?g|gif|webp)""")
     }
 }

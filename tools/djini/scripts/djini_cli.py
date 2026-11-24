@@ -273,7 +273,7 @@ def connection(args, secrets):
     if args.token_file:
         raise CliError("arguments", "--token-file requires --url; ADB reads the current token from the phone.")
     adb = Adb(args.adb, args.device or os.environ.get("ANDROID_SERIAL"))
-    package = getattr(args, "mika_package", DEFAULT_PACKAGE)
+    package = getattr(args, "djini_package", DEFAULT_PACKAGE)
     phone_files = f"/sdcard/Android/data/{package}/files"
     progress(args, "starting ADB server...")
     adb.start_server()
@@ -524,10 +524,10 @@ def execute(args, secrets):
         if args.url or args.token_file:
             raise CliError("arguments", "notification-doctor requires ADB; it does not use HTTP credentials.")
         try:
-            from mika_notifications import inspect_notifications, validate
+            from djini_notifications import inspect_notifications, validate
         except ModuleNotFoundError:
             sys.path.append(str(Path(__file__).resolve().parent))
-            from mika_notifications import inspect_notifications, validate
+            from djini_notifications import inspect_notifications, validate
         try:
             validate(args.package, args.dependency, args.listener, args.user)
         except ValueError as error:
@@ -680,7 +680,7 @@ def parser():
     common.add_argument("--json", action="store_true", default=argparse.SUPPRESS, help="Compact JSON output, including errors")
     common.add_argument("--request-timeout", type=request_timeout, default=argparse.SUPPRESS, help="HTTP timeout in seconds (default: 15; bounded waits get at least timeout + 5)")
     connection_options = Parser(add_help=False, parents=[common])
-    connection_options.add_argument("--package", dest="mika_package", type=application_id, default=argparse.SUPPRESS,
+    connection_options.add_argument("--package", dest="djini_package", type=application_id, default=argparse.SUPPRESS,
                                     help=f"Djini application ID for ADB (default: {DEFAULT_PACKAGE})")
     p = Parser(prog="djini", description="Delegate tasks to Djini on Android using task API v1.",
                parents=[connection_options])
@@ -751,7 +751,7 @@ def main(argv=None):
         for key, default in {"device": None, "url": None, "token_file": None, "adb": "adb", "request_timeout": 15}.items():
             if not hasattr(args, key):
                 setattr(args, key, default)
-        if hasattr(args, "mika_package"):
+        if hasattr(args, "djini_package"):
             if args.command in {"devices", "notification-doctor"}:
                 raise CliError("arguments", "Put the Djini --package option on connect, doctor, task or ui.")
             if args.url:
@@ -764,11 +764,11 @@ def main(argv=None):
             if args.url:
                 base_url(args.url)
             try:
-                from mika_desk import serve
+                from djini_desk import serve
             except ModuleNotFoundError:
-                # A copied Skill folder run as `python3 -I .../mika_cli.py` leaves this folder off sys.path.
+                # A copied Skill folder run as `python3 -I .../djini_cli.py` leaves this folder off sys.path.
                 sys.path.append(str(Path(__file__).resolve().parent))
-                from mika_desk import serve
+                from djini_desk import serve
             return serve(args)
         args.progress = args.command in {"devices", "connect", "doctor"}
         result = execute(args, secrets)

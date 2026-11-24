@@ -13,7 +13,7 @@ import com.wangzan101.djini.R
 
 /** Djini 的标志:圆角方块里的图标画。圆角默认按边长的 0.28(36dp 约 10,76dp 约 22)。 */
 @Composable
-fun MikaLogo(size: Dp, modifier: Modifier = Modifier, corner: Dp = size * 0.28f) {
+fun DjiniLogo(size: Dp, modifier: Modifier = Modifier, corner: Dp = size * 0.28f) {
     Image(
         painterResource(R.drawable.djini_launcher_art), contentDescription = null,
         modifier.size(size).clip(RoundedCornerShape(corner)),

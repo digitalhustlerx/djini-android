@@ -5,7 +5,7 @@ import com.wangzan101.djini.i18n.tr
 import java.net.URLEncoder
 
 /** Djini 对外的地址都在这里:仓库、问题、检查更新用的两个来源。换地址只改这一处。 */
-object MikaLinks {
+object DjiniLinks {
     const val REPO = "https://github.com/wangzan101/Djini"
     const val REPO_LABEL = "github.com/wangzan101/Djini"
     const val README = "$REPO#readme"

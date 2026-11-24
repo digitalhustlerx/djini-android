@@ -574,7 +574,7 @@ class WebDevtools(private val relay: ((String) -> ParcelFileDescriptor?)?) {
         runCatching { CdpDiscovery.version(t, socketName, timeoutMs = PROBE_TIMEOUT_MS) }.isSuccess
 
     companion object {
-        private const val TAG = "MikaDevtools"
+        private const val TAG = "DjiniDevtools"
         private const val ATTACH_TIMEOUT_MS = 3_000L
         /** 第一次导航前等会话的上限:连不上也不能把打开网页拖太久。 */
         private const val BEFORE_LOAD_WAIT_MS = 2_500L

@@ -1212,7 +1212,7 @@ class CallRuntime(private val app: DjiniApp) {
                         else "通话已收尾，Android 未确认挂断，已交还系统")
                 }
                 val reason = w.stopReason.value ?: "AI 已退出，电话由系统处理"
-                if (BuildConfig.DEBUG) w.mediaCounters.playbackDiagnostic()?.let { Log.d("MikaCallMedia", "playback $it") }
+                if (BuildConfig.DEBUG) w.mediaCounters.playbackDiagnostic()?.let { Log.d("DjiniCallMedia", "playback $it") }
                 w.track?.let {
                     if (w.telecomActionIssued) {
                         val answeredByAi = w.aiActive && w.direction == CallDirection.INCOMING
@@ -1607,7 +1607,7 @@ class CallRuntime(private val app: DjiniApp) {
         if (!BuildConfig.DEBUG || w.mediaDiagnosticCount >= MAX_MEDIA_DIAGNOSTICS) return
         w.mediaDiagnosticCount++
         val type = error.javaClass.simpleName.take(64).ifBlank { "Exception" }
-        Log.d("MikaCallMedia", "stage=${w.mediaStage.name} exception=$type")
+        Log.d("DjiniCallMedia", "stage=${w.mediaStage.name} exception=$type")
     }
 
     private val CallAudioMode.wire: Int get() = if (this == CallAudioMode.DIRECT) 1 else 2

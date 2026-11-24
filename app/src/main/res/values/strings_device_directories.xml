@@ -27,5 +27,5 @@
     <string name="device_dirs_entry_sub">Help Djini find downloaded files</string>
     <string name="device_dirs_source_preset">Preset</string>
     <string name="device_dirs_source_user">Edited by you</string>
-    <string name="device_dirs_source_mika">Edited by Djini</string>
+    <string name="device_dirs_source_djini">Edited by Djini</string>
 </resources>

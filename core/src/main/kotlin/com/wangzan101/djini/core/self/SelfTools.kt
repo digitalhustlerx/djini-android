@@ -41,14 +41,14 @@ private fun operate(ctx: ToolContext): SelfPort =
     ctx.config.selfOperate ?: error("self tools are only offered when the user allows it")
 
 /** 只读:自身状态。 */
-internal object MikaStatus : SelfTool {
+internal object DjiniStatus : SelfTool {
     override val verb = Verb.SelfStatus
     override val label = "查看自身状态"
     override val risk = Risk.Read
     /** 只读、不碰屏幕;走只读调用那条路,不经过写操作入口。 */
     override val offScreen = false
     override val concurrency = Concurrency.ParallelSafe
-    override val def = ToolDef("mika_status", Prompts.tool("mika_status"))
+    override val def = ToolDef("djini_status", Prompts.tool("djini_status"))
 
     override suspend fun execute(a: Args, ctx: ToolContext): ToolExecution {
         val status = port(ctx).status()
@@ -57,13 +57,13 @@ internal object MikaStatus : SelfTool {
 }
 
 /** 打开 Djini 自己的一页;只改用户眼前的页面,不改任何设置。 */
-internal object MikaOpenScreen : SelfTool {
+internal object DjiniOpenScreen : SelfTool {
     override val verb = Verb.SelfOpenScreen
     override val label = "打开 Djini 的页面"
     override val risk = Risk.Write
     override val def = ToolDef(
-        "mika_open_screen",
-        Prompts.tool("mika_open_screen"),
+        "djini_open_screen",
+        Prompts.tool("djini_open_screen"),
         mapOf(
             "screen" to str("Which Djini screen to open.", SelfScreen.entries.map { it.wire }),
             "note" to str("Optional short reason shown to the user, in the user's language."),
@@ -82,13 +82,13 @@ internal object MikaOpenScreen : SelfTool {
 }
 
 /** 用 App 内查看器打开工作区里的文件。 */
-internal object MikaOpenFile : SelfTool {
+internal object DjiniOpenFile : SelfTool {
     override val verb = Verb.SelfOpenFile
     override val label = "打开文件"
     override val risk = Risk.Write
     override val def = ToolDef(
-        "mika_open_file",
-        Prompts.tool("mika_open_file"),
+        "djini_open_file",
+        Prompts.tool("djini_open_file"),
         mapOf(
             "path" to str("Sandbox path of a file under /workspace, e.g. /workspace/out/report.pdf."),
             "name" to str("Optional display name; defaults to the file name."),
@@ -109,13 +109,13 @@ internal object MikaOpenFile : SelfTool {
 }
 
 /** 给用户发一条通知;每任务最多 3 条。 */
-internal object MikaNotify : SelfTool {
+internal object DjiniNotify : SelfTool {
     override val verb = Verb.SelfNotify
     override val label = "发通知"
     override val risk = Risk.Write
     override val def = ToolDef(
-        "mika_notify",
-        Prompts.tool("mika_notify"),
+        "djini_notify",
+        Prompts.tool("djini_notify"),
         mapOf(
             "title" to str("Short notification title, in the user's language."),
             "body" to str("What happened, in one or two sentences, in the user's language."),
@@ -142,13 +142,13 @@ internal object MikaNotify : SelfTool {
 }
 
 /** 写剪贴板;不读。 */
-internal object MikaCopy : SelfTool {
+internal object DjiniCopy : SelfTool {
     override val verb = Verb.SelfCopy
     override val label = "复制文字"
     override val risk = Risk.Write
     override val def = ToolDef(
-        "mika_copy",
-        Prompts.tool("mika_copy"),
+        "djini_copy",
+        Prompts.tool("djini_copy"),
         mapOf("text" to str("The text to put on the clipboard.")),
         listOf("text"),
     )
@@ -163,15 +163,15 @@ internal object MikaCopy : SelfTool {
 }
 
 /** 在用户看得见的浏览器里打开一页;用户当次点头才开。 */
-internal object MikaOpenInBrowser : SelfTool {
+internal object DjiniOpenInBrowser : SelfTool {
     override val verb = Verb.SelfOpenBrowser
     override val label = "在浏览器里打开"
     override val risk = Risk.External
     override val approvalRisk = ApprovalRisk(ActionRisk.External)
     override val logged = true
     override val def = ToolDef(
-        "mika_open_in_browser",
-        Prompts.tool("mika_open_in_browser"),
+        "djini_open_in_browser",
+        Prompts.tool("djini_open_in_browser"),
         mapOf(
             "url" to str("http/https URL to open in the user's browser."),
             "show" to bool("Switch to the page now (default true). Background tabs need multi-tab support."),
@@ -203,15 +203,15 @@ internal object MikaOpenInBrowser : SelfTool {
 }
 
 /** 用浏览器的默认搜索引擎搜索并打开结果页。 */
-internal object MikaSearchInBrowser : SelfTool {
+internal object DjiniSearchInBrowser : SelfTool {
     override val verb = Verb.SelfSearch
     override val label = "在浏览器里搜索"
     override val risk = Risk.External
     override val approvalRisk = ApprovalRisk(ActionRisk.External)
     override val logged = true
     override val def = ToolDef(
-        "mika_search_in_browser",
-        Prompts.tool("mika_search_in_browser"),
+        "djini_search_in_browser",
+        Prompts.tool("djini_search_in_browser"),
         mapOf(
             "query" to str("What to search for, 1-200 characters."),
             "show" to bool("Switch to the results now (default true)."),
@@ -242,14 +242,14 @@ internal object MikaSearchInBrowser : SelfTool {
 }
 
 /** 站点登记表:哪些已登录、哪些最近被验证码/风控拦过。只读。 */
-internal object MikaSites : SelfTool {
+internal object DjiniSites : SelfTool {
     override val verb = Verb.SelfSites
     override val label = "查看网站登录"
     override val risk = Risk.Read
     /** 走只读调用那条路,不碰屏幕。 */
     override val offScreen = false
     override val concurrency = Concurrency.ParallelSafe
-    override val def = ToolDef("mika_sites", Prompts.tool("mika_sites"))
+    override val def = ToolDef("djini_sites", Prompts.tool("djini_sites"))
 
     override fun available(ctx: ToolContext) = ctx.config.selfOperate != null
 
@@ -270,13 +270,13 @@ internal object MikaSites : SelfTool {
 }
 
 /** 用户浏览器此刻的页面;只读。 */
-internal object MikaUserPage : SelfTool {
+internal object DjiniUserPage : SelfTool {
     override val verb = Verb.SelfUserPage
     override val label = "查看正在看的网页"
     override val risk = Risk.Read
     override val offScreen = false
     override val concurrency = Concurrency.ParallelSafe
-    override val def = ToolDef("mika_user_page", Prompts.tool("mika_user_page"))
+    override val def = ToolDef("djini_user_page", Prompts.tool("djini_user_page"))
 
     override fun available(ctx: ToolContext) = ctx.config.selfOperate != null
 
@@ -294,15 +294,15 @@ internal object MikaUserPage : SelfTool {
 }
 
 /** 打开「给 Djini 登录」页,让用户自己登录。 */
-internal object MikaLoginSite : SelfTool {
+internal object DjiniLoginSite : SelfTool {
     override val verb = Verb.SelfLogin
     override val label = "请你登录网站"
     override val risk = Risk.External
     override val approvalRisk = ApprovalRisk(ActionRisk.External)
     override val logged = true
     override val def = ToolDef(
-        "mika_login_site",
-        Prompts.tool("mika_login_site"),
+        "djini_login_site",
+        Prompts.tool("djini_login_site"),
         mapOf("host" to str("Site host to sign in to, e.g. example.com.")),
         listOf("host"),
     )
@@ -328,12 +328,12 @@ internal object MikaLoginSite : SelfTool {
 }
 
 /** 用户说登录好了:核对一次并记下登录状态。 */
-internal object MikaConfirmLogin : SelfTool {
+internal object DjiniConfirmLogin : SelfTool {
     override val verb = Verb.SelfConfirmLogin
     override val label = "核对登录"
     override val risk = Risk.Write
     override val logged = true
-    override val def = ToolDef("mika_confirm_login", Prompts.tool("mika_confirm_login"))
+    override val def = ToolDef("djini_confirm_login", Prompts.tool("djini_confirm_login"))
 
     override fun available(ctx: ToolContext) = ctx.config.selfOperate != null
 
@@ -342,14 +342,14 @@ internal object MikaConfirmLogin : SelfTool {
 }
 
 /** 常用网站:list / add / remove;改动可逆,不要当次同意。 */
-internal object MikaFavorites : SelfTool {
+internal object DjiniFavorites : SelfTool {
     override val verb = Verb.SelfFavorites
     override val label = "常用网站"
     override val risk = Risk.Write
     override val logged = true
     override val def = ToolDef(
-        "mika_favorites",
-        Prompts.tool("mika_favorites"),
+        "djini_favorites",
+        Prompts.tool("djini_favorites"),
         mapOf(
             "op" to str("list (default), add, or remove.", listOf("list", "add", "remove")),
             "host" to str("Site host for add/remove, e.g. example.com."),
@@ -386,7 +386,7 @@ private const val MAX_BROWSER = 5
 
 internal object SelfGroup {
     val tools: List<AgentTool> = listOf(
-        MikaStatus, MikaOpenScreen, MikaOpenFile, MikaNotify, MikaCopy,
-        MikaOpenInBrowser, MikaSearchInBrowser, MikaSites, MikaUserPage, MikaLoginSite, MikaConfirmLogin, MikaFavorites,
+        DjiniStatus, DjiniOpenScreen, DjiniOpenFile, DjiniNotify, DjiniCopy,
+        DjiniOpenInBrowser, DjiniSearchInBrowser, DjiniSites, DjiniUserPage, DjiniLoginSite, DjiniConfirmLogin, DjiniFavorites,
     )
 }

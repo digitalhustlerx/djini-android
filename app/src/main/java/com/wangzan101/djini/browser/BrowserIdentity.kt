@@ -15,8 +15,8 @@ import java.io.File
  */
 object BrowserIdentity {
     /** 返回 true 用手机版。 */
-    fun mobile(loginForMika: Boolean, agentMobile: Boolean, userDesktop: Boolean): Boolean =
-        if (loginForMika) agentMobile else !userDesktop
+    fun mobile(loginForDjini: Boolean, agentMobile: Boolean, userDesktop: Boolean): Boolean =
+        if (loginForDjini) agentMobile else !userDesktop
 
     /** 从常用网站打开:还没登录的走「给 Djini 登录」。 */
     fun loginFlow(site: FavoriteSite): Boolean = !site.loggedIn

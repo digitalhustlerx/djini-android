@@ -37,7 +37,7 @@ import com.wangzan101.djini.browser.SiteLooks
 import com.wangzan101.djini.browser.StartPageModel
 import com.wangzan101.djini.settings.Prerequisites
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.DjiniType
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
@@ -260,7 +260,7 @@ class BrowserScreenTest {
 
     @Test
     fun siteTileFallsBackToInitial() {
-        compose.setContent { DjiniTheme { SiteTile(face("news.example.org"), 54.dp, RoundedCornerShape(16.dp), MikaType.Title) } }
+        compose.setContent { DjiniTheme { SiteTile(face("news.example.org"), 54.dp, RoundedCornerShape(16.dp), DjiniType.Title) } }
         compose.onNodeWithText("新").assertIsDisplayed()
     }
 }

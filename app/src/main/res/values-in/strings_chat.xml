@@ -240,7 +240,7 @@
     <string name="chat_retry_failed">%1$s: tidak dapat disalin</string>
     <string name="chat_select_hint">Tekan lama teks untuk memilihnya</string>
     <string name="chat_quote_remove">Hapus kutipan</string>
-    <string name="chat_quoting_mika">Mengutip Djini: %1$s</string>
+    <string name="chat_quoting_djini">Mengutip Djini: %1$s</string>
     <string name="chat_quoting_you">Mengutip Anda: %1$s</string>
     <string name="chat_edit_message">Ubah pesan</string>
     <string name="chat_withdraw_message">Tarik pesan</string>

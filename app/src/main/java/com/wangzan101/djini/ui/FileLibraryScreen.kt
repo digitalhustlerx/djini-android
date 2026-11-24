@@ -49,11 +49,11 @@ import com.wangzan101.djini.chat.LibraryFile
 import com.wangzan101.djini.task.DeviceImportStore
 import kotlinx.coroutines.flow.catch
 import com.wangzan101.djini.ui.components.*
-import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniIcons
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
-import com.wangzan101.djini.ui.theme.MikaRadius
-import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniType
+import com.wangzan101.djini.ui.theme.DjiniRadius
+import com.wangzan101.djini.ui.theme.DjiniShapes
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -384,11 +384,11 @@ internal fun FileLibraryScreen(
                 Row(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 2.dp)) {
                     Text(
                         "$conversationLabel · $sourceLabel · $typeLabel", Modifier.weight(1f).testTag("file-library-scope"),
-                        style = MikaType.Hint, color = DjiniTheme.colors.ink3, maxLines = 1, overflow = TextOverflow.Ellipsis,
+                        style = DjiniType.Hint, color = DjiniTheme.colors.ink3, maxLines = 1, overflow = TextOverflow.Ellipsis,
                     )
                     Text(
                         stringResource(R.string.file_library_file_count, rows.size), Modifier.padding(start = 12.dp),
-                        style = MikaType.Hint, color = DjiniTheme.colors.ink3, maxLines = 1,
+                        style = DjiniType.Hint, color = DjiniTheme.colors.ink3, maxLines = 1,
                     )
                 }
             } else {
@@ -470,7 +470,7 @@ internal fun FileLibraryScreen(
             }
             if (loaded?.partial == true && loaded?.failed == false) {
                 Row(Modifier.fillMaxWidth().padding(horizontal = 16.dp), horizontalArrangement = Arrangement.SpaceBetween) {
-                    Text(stringResource(R.string.file_library_partial), Modifier.weight(1f).padding(vertical = 12.dp), style = MikaType.Hint, color = DjiniTheme.colors.warn)
+                    Text(stringResource(R.string.file_library_partial), Modifier.weight(1f).padding(vertical = 12.dp), style = DjiniType.Hint, color = DjiniTheme.colors.warn)
                     TextButton(onClick = { revision++ }) { Text(stringResource(R.string.file_library_retry)) }
                 }
             }
@@ -531,7 +531,7 @@ internal fun FileLibraryScreen(
                         Text(
                             stringResource(R.string.file_library_file_count, rows.size),
                             Modifier.fillMaxWidth().padding(top = 8.dp, bottom = 12.dp),
-                            style = MikaType.Hint, color = DjiniTheme.colors.ink3, textAlign = TextAlign.Center,
+                            style = DjiniType.Hint, color = DjiniTheme.colors.ink3, textAlign = TextAlign.Center,
                         )
                     }
                 }
@@ -553,15 +553,15 @@ internal fun FileLibraryScreen(
         // 来源会话打不开(任务进行中且没开并行、又不是当前会话)时不给这一项
         val canOpenInChat = item.source?.let { it.conversationId == vm.ui.value.conversationId || vm.canSwitch() } == true
         val openInChatAction = SheetAction(
-            stringResource(R.string.file_library_open_in_chat), icon = MikaIcons.Message,
+            stringResource(R.string.file_library_open_in_chat), icon = DjiniIcons.Message,
         ) { openInChat(item) }
         val actions = if (actionsAvailable == false) buildList {
-            add(SheetAction(stringResource(R.string.file_library_retry), icon = MikaIcons.Refresh) { revision++ })
+            add(SheetAction(stringResource(R.string.file_library_retry), icon = DjiniIcons.Refresh) { revision++ })
             if (canOpenInChat) add(openInChatAction)
         } else buildList {
-            add(SheetAction(stringResource(R.string.file_library_preview), icon = MikaIcons.Eye) { preview(item) })
-            add(SheetAction(stringResource(R.string.file_library_add), icon = MikaIcons.ListPlus) { addOne(item) })
-            add(SheetAction(stringResource(R.string.file_library_share), icon = MikaIcons.Share) { shareOne(item) })
+            add(SheetAction(stringResource(R.string.file_library_preview), icon = DjiniIcons.Eye) { preview(item) })
+            add(SheetAction(stringResource(R.string.file_library_add), icon = DjiniIcons.ListPlus) { addOne(item) })
+            add(SheetAction(stringResource(R.string.file_library_share), icon = DjiniIcons.Share) { shareOne(item) })
             if (canOpenInChat) add(openInChatAction)
         }
         ActionSheet(title = item.name, actions = actions, onDismiss = { actionsFor = null })
@@ -670,7 +670,7 @@ internal fun FileLibraryScreen(
     if (savedElsewhere) AlertDialog(onDismissRequest = { savedElsewhere = false }, text = { Text(stringResource(R.string.file_library_draft_saved)) }, confirmButton = { TextButton(onClick = { savedElsewhere = false }) { Text(stringResource(R.string.done)) } })
 }
 
-internal val LibraryTitleStyle = MikaType.LargeTitle.copy(fontWeight = FontWeight.SemiBold, letterSpacing = (-0.4).sp)
+internal val LibraryTitleStyle = DjiniType.LargeTitle.copy(fontWeight = FontWeight.SemiBold, letterSpacing = (-0.4).sp)
 
 /** 文件库顶栏:返回、左对齐大标题、右边「多选」胶囊。 */
 @Composable
@@ -681,13 +681,13 @@ private fun LibraryTopBar(canSelect: Boolean, working: Boolean, onBack: () -> Un
             .heightIn(min = 64.dp).padding(start = 4.dp, end = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        BarIconButton(MikaIcons.Back, stringResource(R.string.back), onBack)
+        BarIconButton(DjiniIcons.Back, stringResource(R.string.back), onBack)
         Text(
             stringResource(R.string.file_library_title), Modifier.weight(1f).padding(start = 4.dp),
             style = LibraryTitleStyle, color = c.ink, maxLines = 1,
         )
         Row(
-            Modifier.clip(MikaShapes.Chip).background(c.fill)
+            Modifier.clip(DjiniShapes.Chip).background(c.fill)
                 .clickable(enabled = canSelect && !working, role = Role.Button, onClick = onSelect)
                 .testTag("file-library-select")
                 .alpha(if (canSelect && !working) 1f else 0.4f)
@@ -695,8 +695,8 @@ private fun LibraryTopBar(canSelect: Boolean, working: Boolean, onBack: () -> Un
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(6.dp),
         ) {
-            Icon(MikaIcons.ListChecks, null, Modifier.size(17.dp), tint = c.ink2)
-            Text(stringResource(R.string.file_library_select), style = MikaType.Label, color = c.ink2)
+            Icon(DjiniIcons.ListChecks, null, Modifier.size(17.dp), tint = c.ink2)
+            Text(stringResource(R.string.file_library_select), style = DjiniType.Label, color = c.ink2)
         }
     }
 }
@@ -716,7 +716,7 @@ private fun LibrarySelectionTopBar(
         Text(
             if (count == 0) stringResource(R.string.file_library_select_title) else stringResource(R.string.file_library_selected_count, count),
             Modifier.align(Alignment.Center).padding(horizontal = 92.dp).testTag("file-library-selected-count"),
-            style = MikaType.Title, color = c.ink, textAlign = TextAlign.Center, maxLines = 1, overflow = TextOverflow.Ellipsis,
+            style = DjiniType.Title, color = c.ink, textAlign = TextAlign.Center, maxLines = 1, overflow = TextOverflow.Ellipsis,
         )
         Row(
             Modifier.fillMaxSize().padding(horizontal = 4.dp),
@@ -728,7 +728,7 @@ private fun LibrarySelectionTopBar(
                 contentPadding = PaddingValues(horizontal = 12.dp),
                 modifier = Modifier.testTag("file-library-select-cancel"),
             ) {
-                Text(stringResource(R.string.cancel), style = MikaType.Body, color = if (working) c.ink3 else c.accent)
+                Text(stringResource(R.string.cancel), style = DjiniType.Body, color = if (working) c.ink3 else c.accent)
             }
             TextButton(
                 onClick = onSelectAll, enabled = !working && canSelectAll,
@@ -737,7 +737,7 @@ private fun LibrarySelectionTopBar(
             ) {
                 Text(
                     stringResource(if (allSelected) R.string.file_library_select_none else R.string.file_library_select_all),
-                    style = MikaType.Body, color = if (working || !canSelectAll) c.ink3 else c.accent, maxLines = 1,
+                    style = DjiniType.Body, color = if (working || !canSelectAll) c.ink3 else c.accent, maxLines = 1,
                 )
             }
         }
@@ -756,7 +756,7 @@ private fun LibraryFilterPill(
     content: @Composable ColumnScope.() -> Unit,
 ) {
     val c = DjiniTheme.colors
-    val shape = RoundedCornerShape(MikaRadius.Bubble)
+    val shape = RoundedCornerShape(DjiniRadius.Bubble)
     Box(modifier) {
         Row(
             Modifier.heightIn(min = 40.dp).clip(shape)
@@ -769,15 +769,15 @@ private fun LibraryFilterPill(
         ) {
             Text(
                 label, Modifier.weight(1f, fill = false),
-                style = MikaType.Caption, color = if (active) c.accent else c.ink, maxLines = 1, overflow = TextOverflow.Ellipsis,
+                style = DjiniType.Caption, color = if (active) c.accent else c.ink, maxLines = 1, overflow = TextOverflow.Ellipsis,
             )
-            Icon(MikaIcons.Chevron, null, Modifier.size(13.dp).rotate(90f), tint = if (active) c.accent else c.ink3)
+            Icon(DjiniIcons.Chevron, null, Modifier.size(13.dp).rotate(90f), tint = if (active) c.accent else c.ink3)
         }
         DropdownMenu(
             expanded = expanded,
             onDismissRequest = onDismiss,
             offset = DpOffset(0.dp, 6.dp),
-            shape = MikaShapes.Card,
+            shape = DjiniShapes.Card,
             containerColor = c.surface,
             tonalElevation = 0.dp,
             shadowElevation = 10.dp,
@@ -793,7 +793,7 @@ private fun LibraryFilterPill(
 private fun FilterMenuItem(label: String, selected: Boolean, onClick: () -> Unit) {
     val c = DjiniTheme.colors
     Row(
-        Modifier.fillMaxWidth().clip(MikaShapes.Chip)
+        Modifier.fillMaxWidth().clip(DjiniShapes.Chip)
             .background(if (selected) c.accentSoft else Color.Transparent)
             .selectable(selected = selected, role = Role.RadioButton, onClick = onClick)
             .padding(horizontal = 12.dp, vertical = 10.dp),
@@ -801,10 +801,10 @@ private fun FilterMenuItem(label: String, selected: Boolean, onClick: () -> Unit
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         Text(
-            label, Modifier.weight(1f), style = MikaType.Body,
+            label, Modifier.weight(1f), style = DjiniType.Body,
             color = if (selected) c.accent else c.ink, maxLines = 1, overflow = TextOverflow.Ellipsis,
         )
-        if (selected) Icon(MikaIcons.Check, null, Modifier.size(16.dp), tint = c.accent)
+        if (selected) Icon(DjiniIcons.Check, null, Modifier.size(16.dp), tint = c.accent)
         else Spacer(Modifier.size(16.dp))
     }
 }
@@ -813,7 +813,7 @@ private fun FilterMenuItem(label: String, selected: Boolean, onClick: () -> Unit
 private fun LibraryDayHeader(label: String) {
     Text(
         label, Modifier.fillMaxWidth().padding(start = 10.dp, end = 10.dp, top = 13.dp, bottom = 5.dp),
-        style = MikaType.Label, color = DjiniTheme.colors.ink3,
+        style = DjiniType.Label, color = DjiniTheme.colors.ink3,
     )
 }
 
@@ -851,7 +851,7 @@ private fun LibraryFileRow(
     onMore: () -> Unit,
 ) {
     val c = DjiniTheme.colors
-    val shape = MikaShapes.Chip
+    val shape = DjiniShapes.Chip
     Column(Modifier.fillMaxWidth()) {
         if (divider && !selected) {
             Box(Modifier.fillMaxWidth().padding(start = 70.dp, end = 4.dp).height(0.5.dp).background(c.hair))
@@ -887,7 +887,7 @@ private fun LibraryFileRow(
                 FileTypeTile(item.name)
             }
             Column(Modifier.weight(1f).padding(start = 12.dp, end = 4.dp)) {
-                Text(item.name, style = MikaType.BodyStrong, color = c.ink, maxLines = 2, overflow = TextOverflow.Ellipsis)
+                Text(item.name, style = DjiniType.BodyStrong, color = c.ink, maxLines = 2, overflow = TextOverflow.Ellipsis)
                 Text(
                     listOfNotNull(
                         fileBadge(item.name).second,
@@ -896,7 +896,7 @@ private fun LibraryFileRow(
                         if (available == false) stringResource(R.string.file_library_missing) else null,
                     ).joinToString(" · "),
                     Modifier.padding(top = 3.dp),
-                    style = MikaType.Hint, color = if (available == false) c.bad else c.ink3,
+                    style = DjiniType.Hint, color = if (available == false) c.bad else c.ink3,
                     maxLines = 1, overflow = TextOverflow.Ellipsis,
                 )
                 if (conversationLabel.isNotBlank()) {
@@ -907,7 +907,7 @@ private fun LibraryFileRow(
                     ) {
                         Text(
                             conversationLabel, Modifier.weight(1f, fill = false),
-                            style = MikaType.Hint, color = c.ink3, maxLines = 1, overflow = TextOverflow.Ellipsis,
+                            style = DjiniType.Hint, color = c.ink3, maxLines = 1, overflow = TextOverflow.Ellipsis,
                         )
                         if (fromArchived) ArchivedTag()
                     }
@@ -915,17 +915,17 @@ private fun LibraryFileRow(
             }
             if (selecting) {
                 Box(
-                    Modifier.width(56.dp).height(48.dp).clip(MikaShapes.Tile).clickable(enabled = !working, onClick = onOpen),
+                    Modifier.width(56.dp).height(48.dp).clip(DjiniShapes.Tile).clickable(enabled = !working, onClick = onOpen),
                     contentAlignment = Alignment.Center,
                 ) {
-                    Text(stringResource(R.string.file_library_preview), style = MikaType.Label, color = c.accent)
+                    Text(stringResource(R.string.file_library_preview), style = DjiniType.Label, color = c.accent)
                 }
             } else {
                 Box(
-                    Modifier.width(56.dp).height(48.dp).clip(MikaShapes.Tile).clickable(enabled = !working, onClick = onMore),
+                    Modifier.width(56.dp).height(48.dp).clip(DjiniShapes.Tile).clickable(enabled = !working, onClick = onMore),
                     contentAlignment = Alignment.Center,
                 ) {
-                    Icon(MikaIcons.More, stringResource(R.string.more), Modifier.size(20.dp), tint = c.ink3)
+                    Icon(DjiniIcons.More, stringResource(R.string.more), Modifier.size(20.dp), tint = c.ink3)
                 }
             }
             Spacer(Modifier.width(4.dp))
@@ -938,13 +938,13 @@ private fun LibraryFileRow(
 private fun ArchivedTag() {
     val c = DjiniTheme.colors
     Row(
-        Modifier.clip(RoundedCornerShape(MikaRadius.BubbleTail)).background(c.accentSoft).padding(horizontal = 5.dp, vertical = 1.dp)
+        Modifier.clip(RoundedCornerShape(DjiniRadius.BubbleTail)).background(c.accentSoft).padding(horizontal = 5.dp, vertical = 1.dp)
             .testTag("file-library-archived"),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(3.dp),
     ) {
-        Icon(MikaIcons.Archive, null, Modifier.size(10.dp), tint = c.ink3)
-        Text(stringResource(R.string.drawer_archived), style = MikaType.Hint, color = c.ink3, maxLines = 1)
+        Icon(DjiniIcons.Archive, null, Modifier.size(10.dp), tint = c.ink3)
+        Text(stringResource(R.string.drawer_archived), style = DjiniType.Hint, color = c.ink3, maxLines = 1)
     }
 }
 
@@ -954,14 +954,14 @@ internal fun FileTypeTile(name: String) {
     val c = DjiniTheme.colors
     val (icon, label) = fileBadge(name)
     Column(
-        Modifier.size(width = 48.dp, height = 54.dp).clip(MikaShapes.Chip).background(c.fill),
+        Modifier.size(width = 48.dp, height = 54.dp).clip(DjiniShapes.Chip).background(c.fill),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
         Icon(icon, null, Modifier.size(22.dp), tint = c.ink2)
         Text(
             label, Modifier.padding(top = 2.dp),
-            style = MikaType.Micro.copy(fontWeight = FontWeight.Medium, letterSpacing = 0.6.sp),
+            style = DjiniType.Micro.copy(fontWeight = FontWeight.Medium, letterSpacing = 0.6.sp),
             color = c.ink2, maxLines = 1,
         )
     }
@@ -970,10 +970,10 @@ internal fun FileTypeTile(name: String) {
 /** 文件块的图形和扩展名;图片、代码、文档各一种图形。 */
 internal fun fileBadge(name: String): Pair<ImageVector, String> {
     val ext = name.substringAfterLast('.', "").uppercase(Locale.ROOT)
-    val icon = if (LibraryFileType.of(name) == LibraryFileType.Image) MikaIcons.Photo else when (ext) {
+    val icon = if (LibraryFileType.of(name) == LibraryFileType.Image) DjiniIcons.Photo else when (ext) {
         "HTML", "HTM", "CSS", "JS", "JSX", "TS", "TSX", "JSON", "KT", "KTS", "JAVA", "PY", "SH",
-        "XML", "YAML", "YML", "TOML", "GO", "RS", "RB", "C", "CPP", "H" -> MikaIcons.Code
-        else -> MikaIcons.Doc
+        "XML", "YAML", "YML", "TOML", "GO", "RS", "RB", "C", "CPP", "H" -> DjiniIcons.Code
+        else -> DjiniIcons.Doc
     }
     return icon to ext.take(4).ifBlank { "FILE" }
 }
@@ -1000,21 +1000,21 @@ private fun LibraryBatchBar(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Row(
-                Modifier.height(48.dp).clip(MikaShapes.Button).background(c.fill)
+                Modifier.height(48.dp).clip(DjiniShapes.Button).background(c.fill)
                     .clickable(enabled = enabled, role = Role.Button, onClick = onShare)
                     .testTag("file-library-share-selected")
                     .padding(horizontal = 16.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(7.dp),
             ) {
-                Icon(MikaIcons.Share, null, Modifier.size(18.dp), tint = if (enabled) c.ink else c.ink3)
+                Icon(DjiniIcons.Share, null, Modifier.size(18.dp), tint = if (enabled) c.ink else c.ink3)
                 Text(
-                    stringResource(R.string.file_library_share), style = MikaType.BodyStrong,
+                    stringResource(R.string.file_library_share), style = DjiniType.BodyStrong,
                     color = if (enabled) c.ink else c.ink3,
                 )
             }
             Row(
-                Modifier.weight(1f).height(48.dp).clip(MikaShapes.Button)
+                Modifier.weight(1f).height(48.dp).clip(DjiniShapes.Button)
                     .background(if (enabled) c.accent else c.accent.copy(alpha = 0.35f))
                     .clickable(enabled = enabled, role = Role.Button, onClick = onAdd)
                     .testTag("file-library-add-selected")
@@ -1027,17 +1027,17 @@ private fun LibraryBatchBar(
                     Text(
                         stringResource(if (sharing) R.string.file_library_sharing else R.string.file_library_adding, done, total),
                         Modifier.padding(start = 8.dp),
-                        style = MikaType.Label, color = c.onAccent, maxLines = 1, overflow = TextOverflow.Ellipsis,
+                        style = DjiniType.Label, color = c.onAccent, maxLines = 1, overflow = TextOverflow.Ellipsis,
                     )
                 } else {
                     Icon(
-                        MikaIcons.ListPlus, null, Modifier.size(18.dp),
+                        DjiniIcons.ListPlus, null, Modifier.size(18.dp),
                         tint = if (enabled) c.onAccent else c.onAccent.copy(alpha = 0.6f),
                     )
                     Text(
                         if (count > 0) stringResource(R.string.file_library_add_selected, count) else stringResource(R.string.file_library_add),
                         Modifier.padding(start = 7.dp),
-                        style = MikaType.BodyStrong,
+                        style = DjiniType.BodyStrong,
                         color = if (enabled) c.onAccent else c.onAccent.copy(alpha = 0.6f),
                         maxLines = 1, overflow = TextOverflow.Ellipsis,
                     )

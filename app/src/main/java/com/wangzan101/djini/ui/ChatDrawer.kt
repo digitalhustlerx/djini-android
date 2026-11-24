@@ -24,7 +24,7 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.foundation.ExperimentalFoundationApi
 import com.wangzan101.djini.cap.sandbox.WorkspaceKey
-import com.wangzan101.djini.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.DjiniDialog
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.mutableStateOf
@@ -120,8 +120,8 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import kotlin.math.roundToInt
-import com.wangzan101.djini.ui.theme.MikaMotion
-import com.wangzan101.djini.ui.components.MikaLogo
+import com.wangzan101.djini.ui.theme.DjiniMotion
+import com.wangzan101.djini.ui.components.DjiniLogo
 import com.wangzan101.djini.ui.components.keepsKeyboard
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -133,12 +133,12 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import com.wangzan101.djini.ui.components.cardSurface
 import com.wangzan101.djini.ui.components.lazyListScrollbar
-import com.wangzan101.djini.ui.theme.MikaIcons
-import com.wangzan101.djini.ui.theme.MikaSize
+import com.wangzan101.djini.ui.theme.DjiniIcons
+import com.wangzan101.djini.ui.theme.DjiniSize
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
-import com.wangzan101.djini.ui.theme.MikaRadius
-import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniType
+import com.wangzan101.djini.ui.theme.DjiniRadius
+import com.wangzan101.djini.ui.theme.DjiniShapes
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.CancellationException
 import java.time.DayOfWeek
@@ -462,12 +462,12 @@ fun ChatDrawer(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            MikaLogo(36.dp, corner = 10.dp)
+            DjiniLogo(36.dp, corner = 10.dp)
             Column(Modifier.weight(1f)) {
-                Text("Djini", style = MikaType.Title, color = c.ink)
+                Text("Djini", style = DjiniType.Title, color = c.ink)
                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(5.dp)) {
                     Box(Modifier.size(6.dp).background(if (ok) c.ok else c.warnSolid, CircleShape))
-                    Text(state, style = MikaType.Hint, fontWeight = FontWeight.Medium, color = c.ink3)
+                    Text(state, style = DjiniType.Hint, fontWeight = FontWeight.Medium, color = c.ink3)
                 }
             }
             // 多选从长按菜单进;进去以后这里换成「取消」,返回键同样能退出
@@ -513,7 +513,7 @@ fun ChatDrawer(
                     item("search-busy") {
                         Text(
                             stringResource(R.string.drawer_busy), Modifier.padding(start = 24.dp, end = 24.dp, bottom = 6.dp),
-                            style = MikaType.Hint, color = c.ink3,
+                            style = DjiniType.Hint, color = c.ink3,
                         )
                     }
                 }
@@ -570,7 +570,7 @@ fun ChatDrawer(
                                     Text(
                                         stringResource(R.string.drawer_project_empty),
                                         Modifier.padding(start = 36.dp, end = 20.dp, top = 2.dp, bottom = 6.dp),
-                                        style = MikaType.Hint, color = c.ink3,
+                                        style = DjiniType.Hint, color = c.ink3,
                                     )
                                 }
                             } else {
@@ -590,7 +590,7 @@ fun ChatDrawer(
                         item("busy") {
                             Text(
                                 stringResource(R.string.drawer_busy), Modifier.padding(start = 24.dp, end = 24.dp, bottom = 6.dp),
-                                style = MikaType.Hint, color = c.ink3,
+                                style = DjiniType.Hint, color = c.ink3,
                             )
                         }
                     }
@@ -634,8 +634,8 @@ fun ChatDrawer(
                     .padding(horizontal = 12.dp, vertical = 6.dp).testTag("drawer-footer"),
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
-                NavEntry(MikaIcons.Gear, stringResource(R.string.settings_title), Modifier, onClick = onSettings)
-                if (aboutDot) NavEntry(MikaIcons.Refresh, stringResource(R.string.drawer_update), Modifier, dot = true, onClick = onAbout)
+                NavEntry(DjiniIcons.Gear, stringResource(R.string.settings_title), Modifier, onClick = onSettings)
+                if (aboutDot) NavEntry(DjiniIcons.Refresh, stringResource(R.string.drawer_update), Modifier, dot = true, onClick = onAbout)
             }
         }
     }
@@ -645,7 +645,7 @@ fun ChatDrawer(
 @Composable
 private fun HeaderAction(text: String, tag: String, color: Color, onClick: () -> Unit) {
     TextButton(onClick = onClick, modifier = Modifier.testTag(tag), contentPadding = PaddingValues(horizontal = 10.dp)) {
-        Text(text, style = MikaType.Label, color = color)
+        Text(text, style = DjiniType.Label, color = color)
     }
 }
 
@@ -660,10 +660,10 @@ private fun ArchiveHeader(count: Int, onBack: () -> Unit) {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(4.dp),
     ) {
-        Icon(MikaIcons.Back, null, Modifier.size(16.dp), tint = c.ink2)
+        Icon(DjiniIcons.Back, null, Modifier.size(16.dp), tint = c.ink2)
         Text(stringResource(R.string.drawer_archived), Modifier.weight(1f), style = SectionText, color = c.ink3)
         if (count > 0) {
-            Text(stringResource(R.string.drawer_archived_count, count), style = MikaType.Hint, color = c.ink3, maxLines = 1, softWrap = false)
+            Text(stringResource(R.string.drawer_archived_count, count), style = DjiniType.Hint, color = c.ink3, maxLines = 1, softWrap = false)
         }
     }
 }
@@ -674,7 +674,7 @@ private fun ArchiveEmpty() {
     Text(
         stringResource(R.string.drawer_archive_empty),
         Modifier.fillMaxWidth().padding(start = 24.dp, end = 24.dp, top = 22.dp, bottom = 16.dp),
-        style = MikaType.Body, color = DjiniTheme.colors.ink3, textAlign = TextAlign.Center,
+        style = DjiniType.Body, color = DjiniTheme.colors.ink3, textAlign = TextAlign.Center,
     )
 }
 
@@ -690,10 +690,10 @@ private fun ArchiveEntry(count: Int, onClick: () -> Unit) {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(10.dp),
     ) {
-        Icon(MikaIcons.Archive, null, Modifier.size(16.dp), tint = c.ink3)
-        Text(stringResource(R.string.drawer_archived), Modifier.weight(1f), style = MikaType.Body, color = c.ink2, maxLines = 1)
-        Text("$count", Modifier.testTag("drawer-archive-count"), style = MikaType.Hint, color = c.ink3, maxLines = 1, softWrap = false)
-        DirectionalIcon(MikaIcons.Chevron, null, Modifier.size(10.dp), tint = c.ink3)
+        Icon(DjiniIcons.Archive, null, Modifier.size(16.dp), tint = c.ink3)
+        Text(stringResource(R.string.drawer_archived), Modifier.weight(1f), style = DjiniType.Body, color = c.ink2, maxLines = 1)
+        Text("$count", Modifier.testTag("drawer-archive-count"), style = DjiniType.Hint, color = c.ink3, maxLines = 1, softWrap = false)
+        DirectionalIcon(DjiniIcons.Chevron, null, Modifier.size(10.dp), tint = c.ink3)
     }
 }
 
@@ -712,22 +712,22 @@ private fun SelectBar(
     ) {
         Text(
             tr(R.string.drawer_selected_count, selectedCount), Modifier.weight(1f),
-            style = MikaType.Label, color = c.ink2, maxLines = 1, softWrap = false,
+            style = DjiniType.Label, color = c.ink2, maxLines = 1, softWrap = false,
         )
         TextButton(onClick = onSelectAll, modifier = Modifier.testTag("drawer-select-all")) {
-            Text(stringResource(if (allSelected) R.string.drawer_select_none else R.string.drawer_select_all), style = MikaType.Label, color = c.accent)
+            Text(stringResource(if (allSelected) R.string.drawer_select_none else R.string.drawer_select_all), style = DjiniType.Label, color = c.accent)
         }
         if (archived) {
             TextButton(onClick = onUnarchive, enabled = selectedCount > 0, modifier = Modifier.testTag("drawer-unarchive-selected")) {
-                Text(stringResource(R.string.drawer_unarchive), style = MikaType.Label, color = if (selectedCount > 0) c.accent else c.ink3)
+                Text(stringResource(R.string.drawer_unarchive), style = DjiniType.Label, color = if (selectedCount > 0) c.accent else c.ink3)
             }
         } else {
             TextButton(onClick = onArchive, enabled = selectedCount > 0, modifier = Modifier.testTag("drawer-archive-selected")) {
-                Text(stringResource(R.string.drawer_archive), style = MikaType.Label, color = if (selectedCount > 0) c.accent else c.ink3)
+                Text(stringResource(R.string.drawer_archive), style = DjiniType.Label, color = if (selectedCount > 0) c.accent else c.ink3)
             }
         }
         TextButton(onClick = onDelete, enabled = selectedCount > 0, modifier = Modifier.testTag("drawer-delete-selected")) {
-            Text(stringResource(R.string.confirm_delete), style = MikaType.Label, color = if (selectedCount > 0) c.bad else c.ink3)
+            Text(stringResource(R.string.confirm_delete), style = DjiniType.Label, color = if (selectedCount > 0) c.bad else c.ink3)
         }
     }
 }
@@ -748,8 +748,8 @@ private fun ArchiveStatusBar(batch: ArchiveBatch) {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        Icon(MikaIcons.Archive, null, Modifier.size(14.dp), tint = if (batch.archived > 0) c.ok else c.ink3)
-        Text(text, style = MikaType.Hint, color = c.ink2, maxLines = 2)
+        Icon(DjiniIcons.Archive, null, Modifier.size(14.dp), tint = if (batch.archived > 0) c.ok else c.ink3)
+        Text(text, style = DjiniType.Hint, color = c.ink2, maxLines = 2)
     }
 }
 
@@ -763,13 +763,13 @@ private fun ArchiveUndoBar(undo: ArchiveUndo, onUndo: () -> Unit) {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        Icon(MikaIcons.Archive, null, Modifier.size(14.dp), tint = c.ink3)
+        Icon(DjiniIcons.Archive, null, Modifier.size(14.dp), tint = c.ink3)
         Text(
             tr(R.string.drawer_archive_done, undo.title), Modifier.weight(1f),
-            style = MikaType.Hint, color = c.ink2, maxLines = 1, overflow = TextOverflow.Ellipsis,
+            style = DjiniType.Hint, color = c.ink2, maxLines = 1, overflow = TextOverflow.Ellipsis,
         )
         TextButton(onClick = onUndo, modifier = Modifier.testTag("drawer-archive-undo-action")) {
-            Text(stringResource(R.string.undo), style = MikaType.Label, color = c.accent)
+            Text(stringResource(R.string.undo), style = DjiniType.Label, color = c.accent)
         }
     }
 }
@@ -792,11 +792,11 @@ private fun DeleteStatusBar(batch: DeleteBatch) {
     ) {
         if (batch.finished) {
             Icon(
-                if (batch.failed == 0) MikaIcons.Check else MikaIcons.Exclaim, null, Modifier.size(14.dp),
+                if (batch.failed == 0) DjiniIcons.Check else DjiniIcons.Exclaim, null, Modifier.size(14.dp),
                 tint = if (batch.failed == 0) c.ok else c.bad,
             )
         }
-        Text(text, style = MikaType.Hint, color = c.ink2, maxLines = 2)
+        Text(text, style = DjiniType.Hint, color = c.ink2, maxLines = 2)
     }
 }
 
@@ -814,9 +814,9 @@ private fun NavEntry(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(14.dp),
     ) {
-        Icon(icon, null, Modifier.size(MikaSize.Icon), tint = c.ink2)
+        Icon(icon, null, Modifier.size(DjiniSize.Icon), tint = c.ink2)
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-            Text(text, style = MikaType.Body, color = c.ink, maxLines = 1, softWrap = false)
+            Text(text, style = DjiniType.Body, color = c.ink, maxLines = 1, softWrap = false)
             if (dot) UpdateDot()
         }
     }
@@ -832,7 +832,7 @@ private fun NewConversationButton(enabled: Boolean, onClick: () -> Unit) {
             .alpha(if (enabled) 1f else 0.4f),
         contentAlignment = Alignment.Center,
     ) {
-        Icon(MikaIcons.New, stringResource(R.string.chat_new), Modifier.size(18.dp), tint = c.ink)
+        Icon(DjiniIcons.New, stringResource(R.string.chat_new), Modifier.size(18.dp), tint = c.ink)
     }
 }
 
@@ -848,9 +848,9 @@ private fun RunningLabel(onScreens: () -> Unit) {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(4.dp),
         ) {
-            Icon(MikaIcons.Screens, null, Modifier.size(14.dp), tint = c.ink3)
-            Text(stringResource(R.string.drawer_screens), style = MikaType.Hint, color = c.ink2)
-            DirectionalIcon(MikaIcons.Chevron, null, Modifier.size(10.dp), tint = c.ink3)
+            Icon(DjiniIcons.Screens, null, Modifier.size(14.dp), tint = c.ink3)
+            Text(stringResource(R.string.drawer_screens), style = DjiniType.Hint, color = c.ink2)
+            DirectionalIcon(DjiniIcons.Chevron, null, Modifier.size(10.dp), tint = c.ink3)
         }
     }
 }
@@ -937,7 +937,7 @@ private fun SelectMark(selected: Boolean) {
             .testTag("conversation-check"),
         contentAlignment = Alignment.Center,
     ) {
-        if (selected) Icon(MikaIcons.Check, null, Modifier.size(13.dp), tint = c.onAccent)
+        if (selected) Icon(DjiniIcons.Check, null, Modifier.size(13.dp), tint = c.onAccent)
     }
 }
 
@@ -955,14 +955,14 @@ internal fun ConversationRowContent(
     Column {
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(7.dp)) {
             if (item.running) Box(Modifier.size(7.dp).background(c.accent, CircleShape))
-            if (item.pinned) Icon(MikaIcons.Pin, stringResource(R.string.drawer_pinned_mark), Modifier.size(14.dp).testTag("conversation-pin"), tint = c.ink3)
-            if (showProjectMark && item.projectId != null && !showProjectName) Icon(MikaIcons.Folder, stringResource(R.string.chat_project_shared), Modifier.size(14.dp).testTag("conversation-project"), tint = c.ink3)
-            if (item.branch) Icon(MikaIcons.Route, stringResource(R.string.chat_branch_origin), Modifier.size(14.dp).testTag("conversation-branch"), tint = c.ink3)
-            if (item.archived && showArchivedMark) Icon(MikaIcons.Archive, stringResource(R.string.drawer_archived), Modifier.size(14.dp).testTag("conversation-archived"), tint = c.ink3)
+            if (item.pinned) Icon(DjiniIcons.Pin, stringResource(R.string.drawer_pinned_mark), Modifier.size(14.dp).testTag("conversation-pin"), tint = c.ink3)
+            if (showProjectMark && item.projectId != null && !showProjectName) Icon(DjiniIcons.Folder, stringResource(R.string.chat_project_shared), Modifier.size(14.dp).testTag("conversation-project"), tint = c.ink3)
+            if (item.branch) Icon(DjiniIcons.Route, stringResource(R.string.chat_branch_origin), Modifier.size(14.dp).testTag("conversation-branch"), tint = c.ink3)
+            if (item.archived && showArchivedMark) Icon(DjiniIcons.Archive, stringResource(R.string.drawer_archived), Modifier.size(14.dp).testTag("conversation-archived"), tint = c.ink3)
             Text(title, Modifier.weight(1f, fill = item.site == null), style = ConversationTitle, color = c.ink, maxLines = 1, overflow = TextOverflow.Ellipsis)
             if (item.site != null) {
                 Text(
-                    PageAskCopy.WEB, Modifier.background(c.accentSoft, RoundedCornerShape(MikaRadius.BubbleTail)).padding(horizontal = 6.dp).testTag("conversation-web"),
+                    PageAskCopy.WEB, Modifier.background(c.accentSoft, RoundedCornerShape(DjiniRadius.BubbleTail)).padding(horizontal = 6.dp).testTag("conversation-web"),
                     style = ConversationTag, color = c.accent, maxLines = 1,
                 )
                 Box(Modifier.weight(1f))
@@ -979,7 +979,7 @@ internal fun ConversationRowContent(
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
             ) {
                 if (showProjectName) {
-                    Icon(MikaIcons.Folder, stringResource(R.string.chat_project_shared), Modifier.size(12.dp).testTag("conversation-project"), tint = c.ink2)
+                    Icon(DjiniIcons.Folder, stringResource(R.string.chat_project_shared), Modifier.size(12.dp).testTag("conversation-project"), tint = c.ink2)
                     Text(
                         item.projectName!!,
                         Modifier.weight(1f, fill = false),
@@ -1003,7 +1003,7 @@ internal fun RenameConversationDialog(title: String, onSave: (String) -> Unit, o
     val focus = remember { FocusRequester() }
     LaunchedEffect(Unit) { runCatching { focus.requestFocus() } }
     val ok = value.text.isNotBlank()
-    MikaDialog(
+    DjiniDialog(
         onDismissRequest = onDismiss,
         title = { Text(stringResource(R.string.drawer_rename_title)) },
         text = {
@@ -1036,7 +1036,7 @@ internal fun DeleteConversationDialog(title: String, impact: DeleteImpact, onCon
         if (impact.runningTask) stringResource(R.string.drawer_delete_running) else null,
         if (impact.schedules > 0) trPlural(R.plurals.drawer_delete_schedules, impact.schedules) else null,
     ).joinToString("\n")
-    MikaDialog(
+    DjiniDialog(
         onDismissRequest = onDismiss,
         title = { Text(stringResource(R.string.drawer_delete_title)) },
         text = { Text(body, Modifier.testTag("delete-conversation-body")) },
@@ -1063,7 +1063,7 @@ internal fun DeleteManyConversationsDialog(
         if (runningTasks > 0) trPlural(R.plurals.drawer_delete_many_running, runningTasks, runningTasks) else null,
         if (schedules > 0) trPlural(R.plurals.drawer_delete_many_schedules, schedules, schedules) else null,
     ).joinToString("\n")
-    MikaDialog(
+    DjiniDialog(
         onDismissRequest = onDismiss,
         title = { Text(stringResource(R.string.drawer_delete_many_title)) },
         text = { Text(body, Modifier.testTag("delete-many-conversation-body")) },
@@ -1093,8 +1093,8 @@ private fun ProjectsHeader(enabled: Boolean, onNewProject: () -> Unit) {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(4.dp),
         ) {
-            Icon(MikaIcons.Plus, null, Modifier.size(13.dp), tint = c.ink3)
-            Text(stringResource(R.string.drawer_new_project), style = MikaType.Hint, color = c.ink2)
+            Icon(DjiniIcons.Plus, null, Modifier.size(13.dp), tint = c.ink3)
+            Text(stringResource(R.string.drawer_new_project), style = DjiniType.Hint, color = c.ink2)
         }
     }
 }
@@ -1129,13 +1129,13 @@ private fun ProjectGroupHeader(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         Icon(
-            MikaIcons.Chevron, null,
+            DjiniIcons.Chevron, null,
             Modifier.size(12.dp).rotate(if (collapsed) 0f else 90f),
             tint = c.ink3,
         )
-        Icon(MikaIcons.Folder, null, Modifier.size(15.dp), tint = c.ink2)
+        Icon(DjiniIcons.Folder, null, Modifier.size(15.dp), tint = c.ink2)
         Text(project.name, Modifier.weight(1f), style = ConversationTitle, color = c.ink2, maxLines = 1, overflow = TextOverflow.Ellipsis)
-        if (count > 0) Text("$count", style = MikaType.Hint, color = c.ink3, maxLines = 1, softWrap = false)
+        if (count > 0) Text("$count", style = DjiniType.Hint, color = c.ink3, maxLines = 1, softWrap = false)
         Box(
             Modifier.size(26.dp).clip(CircleShape)
                 .clickable(enabled = canCreate, role = Role.Button, onClickLabel = stringResource(R.string.drawer_project_new_chat), onClick = onNewChat)
@@ -1143,7 +1143,7 @@ private fun ProjectGroupHeader(
                 .testTag("project-new-chat"),
             contentAlignment = Alignment.Center,
         ) {
-            Icon(MikaIcons.Plus, stringResource(R.string.drawer_project_new_chat), Modifier.size(14.dp), tint = c.ink2)
+            Icon(DjiniIcons.Plus, stringResource(R.string.drawer_project_new_chat), Modifier.size(14.dp), tint = c.ink2)
         }
     }
 }
@@ -1161,7 +1161,7 @@ private fun ProjectNameDialog(
     val focus = remember { FocusRequester() }
     LaunchedEffect(Unit) { runCatching { focus.requestFocus() } }
     val ok = value.text.isNotBlank()
-    MikaDialog(
+    DjiniDialog(
         onDismissRequest = onDismiss,
         title = { Text(title) },
         text = {
@@ -1198,7 +1198,7 @@ private fun DeleteProjectDialog(
         if (impact.runningTasks > 0) trPlural(R.plurals.drawer_delete_many_running, impact.runningTasks, impact.runningTasks) else null,
         if (impact.schedules > 0) trPlural(R.plurals.drawer_delete_many_schedules, impact.schedules, impact.schedules) else null,
     ).joinToString("\n")
-    MikaDialog(
+    DjiniDialog(
         onDismissRequest = onDismiss,
         title = { Text(stringResource(R.string.drawer_project_delete_title)) },
         text = { Text(body, Modifier.testTag("delete-project-body")) },
@@ -1225,11 +1225,11 @@ private class DrawerCardShape(private val progress: Float) : Shape {
         ))
     }
 }
-internal val NavShape = MikaShapes.Chip
-private val SectionText = MikaType.Hint.copy(fontWeight = FontWeight.Medium)
-private val ConversationTitle = MikaType.Body.copy(fontWeight = FontWeight.Medium)
-private val ConversationTime = MikaType.Hint
-private val ConversationTag = MikaType.Micro.copy(fontWeight = FontWeight.Medium)
+internal val NavShape = DjiniShapes.Chip
+private val SectionText = DjiniType.Hint.copy(fontWeight = FontWeight.Medium)
+private val ConversationTitle = DjiniType.Body.copy(fontWeight = FontWeight.Medium)
+private val ConversationTime = DjiniType.Hint
+private val ConversationTag = DjiniType.Micro.copy(fontWeight = FontWeight.Medium)
 
 /**
  * 对话页和它的侧栏:左上角菜单从左边滑出侧栏,外面一层遮罩;点遮罩、往左滑、按返回都关上。
@@ -1377,7 +1377,7 @@ fun ChatWithDrawer(
         } catch (cancelled: CancellationException) {
             scope.launch {
                 if (reduceMotion) backProgress.snapTo(0f)
-                else backProgress.animateTo(0f, tween(180, easing = MikaMotion.Decelerate))
+                else backProgress.animateTo(0f, tween(180, easing = DjiniMotion.Decelerate))
             }
             throw cancelled
         }
@@ -1395,14 +1395,14 @@ fun ChatWithDrawer(
     val lift = remember { Animatable(0f) }
     LaunchedEffect(acting, actingProject) {
         if (acting != null || actingProject != null) {
-            if (reduceMotion) lift.snapTo(1f) else lift.animateTo(1f, tween(MENU_IN_MS, easing = MikaMotion.Decelerate))
+            if (reduceMotion) lift.snapTo(1f) else lift.animateTo(1f, tween(MENU_IN_MS, easing = DjiniMotion.Decelerate))
         }
     }
     /** 收起菜单:倒着放一遍出现的动画,放完再清掉;[then] 当场做(改名、删除的弹窗不用等菜单收完)。 */
     fun closeMenu(then: () -> Unit = {}) {
         then()
         scope.launch {
-            if (reduceMotion) lift.snapTo(0f) else lift.animateTo(0f, tween(MENU_OUT_MS, easing = MikaMotion.Decelerate))
+            if (reduceMotion) lift.snapTo(0f) else lift.animateTo(0f, tween(MENU_OUT_MS, easing = DjiniMotion.Decelerate))
             acting = null
             actingProject = null
         }

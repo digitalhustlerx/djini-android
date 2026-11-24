@@ -28,14 +28,14 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.wangzan101.djini.R
 import com.wangzan101.djini.cap.web.KeptPage
-import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniIcons
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
-import com.wangzan101.djini.ui.theme.MikaRadius
-import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniType
+import com.wangzan101.djini.ui.theme.DjiniRadius
+import com.wangzan101.djini.ui.theme.DjiniShapes
 import kotlinx.coroutines.delay
 
-private val RowShape = MikaShapes.Button
+private val RowShape = DjiniShapes.Button
 
 /** 一轮下面留页的那一行该怎么显示:还开着(绿色那一行,能关)、已经关了(一句灰字)、或这一轮没留页。 */
 sealed interface KeptRow {
@@ -63,7 +63,7 @@ internal fun LazyListScope.keptPageRow(index: Int, ex: Exchange, live: KeptPage?
             is KeptRow.Live -> KeptLine(row.page, onClose)
             is KeptRow.Closed -> Text(
                 KeptPageCopy.closedNote(row.reason), Modifier.fillMaxWidth().padding(start = 4.dp, end = 4.dp, bottom = 10.dp).testTag("kept-closed"),
-                style = MikaType.Hint, color = DjiniTheme.colors.ink3,
+                style = DjiniType.Hint, color = DjiniTheme.colors.ink3,
             )
         }
     }
@@ -85,19 +85,19 @@ fun KeptLine(page: KeptPage, onClose: () -> Unit) {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(10.dp),
     ) {
-        Icon(MikaIcons.Globe, null, Modifier.size(18.dp), tint = c.ok)
+        Icon(DjiniIcons.Globe, null, Modifier.size(18.dp), tint = c.ok)
         Column(Modifier.weight(1f)) {
-            Text(stringResource(R.string.kept_row_title), style = MikaType.Label.copy(fontWeight = FontWeight.SemiBold), color = c.ok)
+            Text(stringResource(R.string.kept_row_title), style = DjiniType.Label.copy(fontWeight = FontWeight.SemiBold), color = c.ok)
             Text(
                 stringResource(R.string.kept_row_detail, page.host, KeptPageCopy.closesIn(page.closesAt - now)),
-                style = MikaType.Hint, color = c.ok, maxLines = 1, overflow = TextOverflow.Ellipsis,
+                style = DjiniType.Hint, color = c.ok, maxLines = 1, overflow = TextOverflow.Ellipsis,
             )
         }
         Box(
-            Modifier.testTag("kept-close").clip(MikaShapes.Tile).background(c.surface)
+            Modifier.testTag("kept-close").clip(DjiniShapes.Tile).background(c.surface)
                 .clickable(role = Role.Button, onClick = onClose).padding(horizontal = 10.dp, vertical = 5.dp),
         ) {
-            Text(stringResource(R.string.kept_row_close), style = MikaType.Label.copy(fontWeight = FontWeight.SemiBold), color = c.bad)
+            Text(stringResource(R.string.kept_row_close), style = DjiniType.Label.copy(fontWeight = FontWeight.SemiBold), color = c.bad)
         }
     }
 }

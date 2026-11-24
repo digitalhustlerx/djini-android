@@ -20,7 +20,7 @@ import com.wangzan101.djini.R
 import com.wangzan101.djini.settings.EnvVarStore
 import com.wangzan101.djini.ui.components.GroupCard
 import com.wangzan101.djini.ui.components.ListRow
-import com.wangzan101.djini.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.DjiniDialog
 import com.wangzan101.djini.ui.components.PageScaffold
 import com.wangzan101.djini.ui.components.RowChevron
 import com.wangzan101.djini.ui.theme.DjiniTheme
@@ -57,7 +57,7 @@ fun EnvVarSettingsScreen(store: EnvVarStore, onBack: () -> Unit) {
     if (adding) {
         var name by remember { mutableStateOf("") }
         var value by remember { mutableStateOf("") }
-        MikaDialog(
+        DjiniDialog(
             onDismissRequest = { adding = false },
             title = { Text(stringResource(R.string.env_vars_add)) },
             text = {

@@ -27,7 +27,7 @@ class WechatService : Service() {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
                 startForeground(NOTIFICATION_ID, notification(), ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE)
             } else startForeground(NOTIFICATION_ID, notification())
-        }.onFailure { Log.w("MikaWechat", "WeChat service could not enter the foreground", it) }.isSuccess
+        }.onFailure { Log.w("DjiniWechat", "WeChat service could not enter the foreground", it) }.isSuccess
         if (!foreground || FeatureFlags.get(this).quitRequested() || !runtime.sync()) {
             runtime.stop()
             stopForeground(STOP_FOREGROUND_REMOVE)

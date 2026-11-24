@@ -51,12 +51,12 @@ import com.wangzan101.djini.browser.StartPageModel
 import com.wangzan101.djini.i18n.tr
 import com.wangzan101.djini.ui.components.Hairline
 import com.wangzan101.djini.ui.components.ListRow
-import com.wangzan101.djini.ui.components.MikaDialog
-import com.wangzan101.djini.ui.components.MikaSwitch
-import com.wangzan101.djini.ui.theme.MikaIcons
-import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.components.DjiniDialog
+import com.wangzan101.djini.ui.components.DjiniSwitch
+import com.wangzan101.djini.ui.theme.DjiniIcons
+import com.wangzan101.djini.ui.theme.DjiniShapes
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.DjiniType
 import kotlinx.coroutines.delay
 
 /** 起点页右上角的菜单:标签页、历史记录、清除浏览数据。 */
@@ -68,16 +68,16 @@ fun BrowserMenuSheet(tabsCount: Int, onDismiss: () -> Unit, onTabs: () -> Unit, 
         onDismissRequest = onDismiss,
         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
         containerColor = c.surface,
-        shape = MikaShapes.SheetTop,
+        shape = DjiniShapes.SheetTop,
     ) {
         Column(Modifier.fillMaxWidth().navigationBarsPadding().padding(bottom = 8.dp).testTag("browser-menu")) {
             fun act(f: () -> Unit): () -> Unit = { onDismiss(); f() }
             ListRow(
-                MikaIcons.Apps, tr(R.string.browser_tabs), detail = tabsCount.takeIf { it > 0 }?.toString(),
+                DjiniIcons.Apps, tr(R.string.browser_tabs), detail = tabsCount.takeIf { it > 0 }?.toString(),
                 first = true, onClick = act(onTabs),
             )
-            ListRow(MikaIcons.Clock, tr(R.string.browser_history), onClick = act(onHistory))
-            ListRow(MikaIcons.Trash, tr(R.string.browser_clear_data), onClick = act(onClearData))
+            ListRow(DjiniIcons.Clock, tr(R.string.browser_history), onClick = act(onHistory))
+            ListRow(DjiniIcons.Trash, tr(R.string.browser_clear_data), onClick = act(onClearData))
         }
     }
 }
@@ -97,31 +97,31 @@ fun TabsSheet(
         onDismissRequest = onDismiss,
         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
         containerColor = c.surface,
-        shape = MikaShapes.SheetTop,
+        shape = DjiniShapes.SheetTop,
     ) {
         Column(Modifier.fillMaxWidth().navigationBarsPadding().padding(bottom = 8.dp).testTag("browser-tabs")) {
             Row(
                 Modifier.fillMaxWidth().padding(start = 20.dp, end = 12.dp, top = 4.dp, bottom = 8.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text(tr(R.string.browser_tabs), Modifier.weight(1f), style = MikaType.Title, color = c.ink)
+                Text(tr(R.string.browser_tabs), Modifier.weight(1f), style = DjiniType.Title, color = c.ink)
                 Text(
                     tr(R.string.browser_new_tab),
-                    Modifier.clip(MikaShapes.Pill).clickable(role = Role.Button, onClick = onNew).padding(horizontal = 10.dp, vertical = 8.dp),
-                    style = MikaType.BodyStrong, color = c.accent,
+                    Modifier.clip(DjiniShapes.Pill).clickable(role = Role.Button, onClick = onNew).padding(horizontal = 10.dp, vertical = 8.dp),
+                    style = DjiniType.BodyStrong, color = c.accent,
                 )
             }
             if (tabs.isEmpty()) {
                 Text(
                     tr(R.string.browser_no_tabs), Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 16.dp),
-                    style = MikaType.Body, color = c.ink3,
+                    style = DjiniType.Body, color = c.ink3,
                 )
             }
             Column(Modifier.heightIn(max = 480.dp).verticalScroll(rememberScrollState())) {
                 tabs.forEachIndexed { i, t ->
                     if (i > 0) Hairline(start = 56.dp)
                     ListRow(
-                        MikaIcons.Globe,
+                        DjiniIcons.Globe,
                         t.title.ifBlank { tr(R.string.browser_new_tab) },
                         subtitle = t.host ?: t.url,
                         first = true,
@@ -132,7 +132,7 @@ fun TabsSheet(
                             Box(
                                 Modifier.size(36.dp).clip(CircleShape).clickable(role = Role.Button, onClickLabel = close) { onClose(t.id) },
                                 contentAlignment = Alignment.Center,
-                            ) { Icon(MikaIcons.Close, close, Modifier.size(16.dp), tint = c.ink3) }
+                            ) { Icon(DjiniIcons.Close, close, Modifier.size(16.dp), tint = c.ink3) }
                         },
                     )
                 }
@@ -159,33 +159,33 @@ fun HistorySheet(
         onDismissRequest = onDismiss,
         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
         containerColor = c.surface,
-        shape = MikaShapes.SheetTop,
+        shape = DjiniShapes.SheetTop,
     ) {
         Column(Modifier.fillMaxWidth().navigationBarsPadding().padding(bottom = 8.dp).testTag("browser-history")) {
             Row(
                 Modifier.fillMaxWidth().padding(start = 20.dp, end = 12.dp, top = 4.dp, bottom = 8.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text(tr(R.string.browser_history), Modifier.weight(1f), style = MikaType.Title, color = c.ink)
+                Text(tr(R.string.browser_history), Modifier.weight(1f), style = DjiniType.Title, color = c.ink)
                 if (pages.isNotEmpty()) {
                     Text(
                         if (editing) tr(R.string.done) else tr(R.string.browser_edit),
-                        Modifier.clip(MikaShapes.Pill).clickable(role = Role.Button) { editing = !editing }.padding(horizontal = 10.dp, vertical = 8.dp),
-                        style = MikaType.BodyStrong, color = c.accent,
+                        Modifier.clip(DjiniShapes.Pill).clickable(role = Role.Button) { editing = !editing }.padding(horizontal = 10.dp, vertical = 8.dp),
+                        style = DjiniType.BodyStrong, color = c.accent,
                     )
                 }
             }
             if (pages.isEmpty()) {
                 Text(
                     tr(R.string.browser_no_recent), Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 16.dp),
-                    style = MikaType.Body, color = c.ink3,
+                    style = DjiniType.Body, color = c.ink3,
                 )
             }
             Column(Modifier.heightIn(max = 480.dp).verticalScroll(rememberScrollState())) {
                 pages.forEachIndexed { i, r ->
                     if (i > 0) Hairline(start = 56.dp)
                     ListRow(
-                        if (r.search) MikaIcons.Search else MikaIcons.Globe,
+                        if (r.search) DjiniIcons.Search else DjiniIcons.Globe,
                         r.title, subtitle = r.subtitle, detail = StartPageModel.relativeTime(r.openedAtMs, now),
                         first = true,
                         onClick = { if (!editing) onOpen(r) },
@@ -195,7 +195,7 @@ fun HistorySheet(
                                 Box(
                                     Modifier.size(36.dp).clip(CircleShape).clickable(role = Role.Button, onClickLabel = remove) { onRemove(r) },
                                     contentAlignment = Alignment.Center,
-                                ) { Icon(MikaIcons.Close, remove, Modifier.size(16.dp), tint = c.ink3) }
+                                ) { Icon(DjiniIcons.Close, remove, Modifier.size(16.dp), tint = c.ink3) }
                             }
                         },
                     )
@@ -209,7 +209,7 @@ fun HistorySheet(
         }
     }
     if (clearing) {
-        MikaDialog(
+        DjiniDialog(
             onDismissRequest = { clearing = false },
             title = { Text(tr(R.string.browser_clear_history_q)) },
             confirmButton = {
@@ -232,19 +232,19 @@ fun ClearDataSheet(onDismiss: () -> Unit, onClear: (history: Boolean, siteData: 
         onDismissRequest = onDismiss,
         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
         containerColor = c.surface,
-        shape = MikaShapes.SheetTop,
+        shape = DjiniShapes.SheetTop,
     ) {
         Column(Modifier.fillMaxWidth().navigationBarsPadding().padding(bottom = 8.dp).testTag("browser-clear-data")) {
             Text(
                 tr(R.string.browser_clear_data), Modifier.padding(start = 20.dp, end = 20.dp, top = 4.dp, bottom = 8.dp),
-                style = MikaType.Title, color = c.ink,
+                style = DjiniType.Title, color = c.ink,
             )
-            ListRow(MikaIcons.Clock, tr(R.string.browser_history), first = true, trailing = { MikaSwitch(history, { history = it }) })
+            ListRow(DjiniIcons.Clock, tr(R.string.browser_history), first = true, trailing = { DjiniSwitch(history, { history = it }) })
             ListRow(
-                MikaIcons.Globe, tr(R.string.browser_clear_site_data), subtitle = tr(R.string.browser_clear_site_data_sub),
-                trailing = { MikaSwitch(siteData, { siteData = it }) },
+                DjiniIcons.Globe, tr(R.string.browser_clear_site_data), subtitle = tr(R.string.browser_clear_site_data_sub),
+                trailing = { DjiniSwitch(siteData, { siteData = it }) },
             )
-            ListRow(MikaIcons.Refresh, tr(R.string.browser_clear_cache), trailing = { MikaSwitch(cache, { cache = it }) })
+            ListRow(DjiniIcons.Refresh, tr(R.string.browser_clear_cache), trailing = { DjiniSwitch(cache, { cache = it }) })
             Row(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 TextButton(onClick = onDismiss, modifier = Modifier.weight(1f)) { Text(tr(R.string.cancel)) }
                 TextButton(
@@ -274,15 +274,15 @@ fun BrowserFindBar(find: FindState, onQuery: (String) -> Unit, onPrev: () -> Uni
         horizontalArrangement = Arrangement.spacedBy(4.dp),
     ) {
         Row(
-            Modifier.weight(1f).height(40.dp).background(c.fill, MikaShapes.Pill).padding(horizontal = 12.dp),
+            Modifier.weight(1f).height(40.dp).background(c.fill, DjiniShapes.Pill).padding(horizontal = 12.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Icon(MikaIcons.Search, null, Modifier.size(16.dp), tint = c.ink3)
+            Icon(DjiniIcons.Search, null, Modifier.size(16.dp), tint = c.ink3)
             BasicTextField(
                 text, { text = it },
                 Modifier.weight(1f).padding(horizontal = 8.dp).focusRequester(focus).testTag("browser-find-input"),
                 singleLine = true,
-                textStyle = MikaType.Body.copy(color = c.ink, textDirection = androidx.compose.ui.text.style.TextDirection.Content),
+                textStyle = DjiniType.Body.copy(color = c.ink, textDirection = androidx.compose.ui.text.style.TextDirection.Content),
                 cursorBrush = SolidColor(c.accent),
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
             )
@@ -293,11 +293,11 @@ fun BrowserFindBar(find: FindState, onQuery: (String) -> Unit, onPrev: () -> Uni
             else -> "${find.index}/${find.matches}"
         }
         if (count.isNotEmpty()) {
-            Text(count, style = MikaType.Hint, color = c.ink3, maxLines = 1, modifier = Modifier.padding(horizontal = 2.dp))
+            Text(count, style = DjiniType.Hint, color = c.ink3, maxLines = 1, modifier = Modifier.padding(horizontal = 2.dp))
         }
-        FindAction(MikaIcons.Back, tr(R.string.browser_find_prev), onPrev)
-        FindAction(MikaIcons.Forward, tr(R.string.browser_find_next), onNext)
-        FindAction(MikaIcons.Close, tr(R.string.browser_find_close), onClose)
+        FindAction(DjiniIcons.Back, tr(R.string.browser_find_prev), onPrev)
+        FindAction(DjiniIcons.Forward, tr(R.string.browser_find_next), onNext)
+        FindAction(DjiniIcons.Close, tr(R.string.browser_find_close), onClose)
     }
 }
 

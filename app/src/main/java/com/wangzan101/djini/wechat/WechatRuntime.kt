@@ -211,7 +211,7 @@ class WechatRuntime(
 
     private fun backoff(failures: Int) = min(30_000L, 1_000L * (1L shl (failures - 1).coerceAtMost(5)))
 
-    companion object { private const val TAG = "MikaWechat" }
+    companion object { private const val TAG = "DjiniWechat" }
 }
 
 private class WechatNetwork(context: Context, private val changed: () -> Unit) {

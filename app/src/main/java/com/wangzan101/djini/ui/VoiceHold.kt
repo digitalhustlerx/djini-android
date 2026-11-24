@@ -95,13 +95,13 @@ import com.wangzan101.djini.ui.components.ButtonSize
 import com.wangzan101.djini.ui.components.GlassBackdrop
 import com.wangzan101.djini.ui.components.GlassBar
 import com.wangzan101.djini.ui.components.GlassBlurSupported
-import com.wangzan101.djini.ui.components.MikaButton
+import com.wangzan101.djini.ui.components.DjiniButton
 import com.wangzan101.djini.ui.components.floatShadow
-import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniIcons
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
-import com.wangzan101.djini.ui.theme.MikaRadius
-import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniType
+import com.wangzan101.djini.ui.theme.DjiniRadius
+import com.wangzan101.djini.ui.theme.DjiniShapes
 import com.wangzan101.djini.voice.HoldToTalk
 import com.wangzan101.djini.voice.SpeechEngineSpec
 import com.wangzan101.djini.voice.SpeechFailure
@@ -516,7 +516,7 @@ internal fun VoiceWave(level: Float, flat: Boolean, reduceMotion: Boolean, color
             val peak = 8f + kotlin.math.abs(kotlin.math.sin(k * 1.7f)) * 14f
             val swing = if (reduceMotion) 1f else 0.55f + 0.45f * kotlin.math.sin(phase + k * 0.9f)
             val h = if (flat) 4f else 5f + (peak - 5f) * (0.25f + 0.75f * loud) * swing
-            Box(Modifier.width(3.dp).height(h.dp).background(color, MikaShapes.Micro))
+            Box(Modifier.width(3.dp).height(h.dp).background(color, DjiniShapes.Micro))
         }
     }
 }
@@ -564,7 +564,7 @@ internal fun VoiceFloat(vh: VoiceHold, state: HoldToTalk.State, title: String, b
 @Composable
 private fun CancelHint(armed: Boolean, modifier: Modifier = Modifier) {
     val c = DjiniTheme.colors
-    val shape = MikaShapes.Card
+    val shape = DjiniShapes.Card
     Row(
         modifier.floatShadow(c, shape).background(if (armed) c.bad else c.surface, shape)
             .padding(horizontal = 14.dp, vertical = 7.dp).testTag("voice-cancel-hint"),
@@ -572,7 +572,7 @@ private fun CancelHint(armed: Boolean, modifier: Modifier = Modifier) {
         horizontalArrangement = Arrangement.spacedBy(6.dp),
     ) {
         val fg = if (armed) c.onAccent else c.ink2
-        Icon(MikaIcons.Up, null, Modifier.size(15.dp), tint = fg)
+        Icon(DjiniIcons.Up, null, Modifier.size(15.dp), tint = fg)
         Text(stringResource(if (armed) R.string.voice_release_cancel else R.string.voice_slide_send_cancel), style = HintText, color = fg)
     }
 }
@@ -587,7 +587,7 @@ private fun ListenCard(
     s: HoldToTalk.State.Listening, title: String, engine: String, backdrop: GlassBackdrop?, onPlaced: (Rect) -> Unit,
 ) {
     val c = DjiniTheme.colors
-    val shape = RoundedCornerShape(MikaRadius.Bubble)
+    val shape = RoundedCornerShape(DjiniRadius.Bubble)
     GlassBar(
         Modifier.fillMaxWidth().testTag("voice-listen").onGloballyPositioned { onPlaced(it.boundsInRoot()) }
             .then(if (s.cancelArmed || s.sendArmed) Modifier.border(1.5.dp, aimTone(s, c.accent), shape) else Modifier),
@@ -599,7 +599,7 @@ private fun ListenCard(
                 Text(title, Modifier.weight(1f, fill = false), style = HeadText, color = c.ink2, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 if (engine.isNotEmpty()) {
                     Text(
-                        engine, Modifier.background(c.fill, MikaShapes.Tile).padding(horizontal = 8.dp, vertical = 2.dp),
+                        engine, Modifier.background(c.fill, DjiniShapes.Tile).padding(horizontal = 8.dp, vertical = 2.dp),
                         style = ChipText, color = c.ink2, maxLines = 1,
                     )
                 }
@@ -664,7 +664,7 @@ private fun VoiceToast(text: String) {
     val c = DjiniTheme.colors
     Text(
         text,
-        Modifier.background(c.ink.copy(alpha = 0.88f), MikaShapes.Card).padding(horizontal = 16.dp, vertical = 9.dp).testTag("voice-toast"),
+        Modifier.background(c.ink.copy(alpha = 0.88f), DjiniShapes.Card).padding(horizontal = 16.dp, vertical = 9.dp).testTag("voice-toast"),
         style = ToastText, color = c.bg, maxLines = 2,
     )
 }
@@ -675,7 +675,7 @@ internal fun VoiceConverting(modifier: Modifier = Modifier) {
     val c = DjiniTheme.colors
     Row(modifier.testTag("voice-converting"), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         Spinner(Modifier.size(13.dp), spinning = !DjiniTheme.reduceMotion, track = c.accentSoft, head = c.accent)
-        Text(stringResource(R.string.voice_converting), style = MikaType.Body, color = c.ink2, maxLines = 1)
+        Text(stringResource(R.string.voice_converting), style = DjiniType.Body, color = c.ink2, maxLines = 1)
     }
 }
 
@@ -684,7 +684,7 @@ internal fun VoiceConverting(modifier: Modifier = Modifier) {
 internal fun VoicePlaceholder(mode: ComposerMode, modifier: Modifier = Modifier) {
     val c = DjiniTheme.colors
     Row(modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-        Text(ChatCopy.voicePlaceholder(mode), style = MikaType.Body, color = c.ink3, maxLines = 1, overflow = TextOverflow.Ellipsis)
+        Text(ChatCopy.voicePlaceholder(mode), style = DjiniType.Body, color = c.ink3, maxLines = 1, overflow = TextOverflow.Ellipsis)
     }
 }
 
@@ -755,25 +755,25 @@ internal fun VoiceSheetHost(vh: VoiceHold, onPickSpeech: () -> Unit) {
         onDismissRequest = { vh.sheet = null },
         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
         containerColor = c.surface,
-        shape = MikaShapes.SheetTop,
+        shape = DjiniShapes.SheetTop,
     ) {
         Column(Modifier.fillMaxWidth().navigationBarsPadding().padding(start = 20.dp, end = 20.dp, bottom = 18.dp).testTag("voice-sheet")) {
-            Text(title, style = MikaType.Title, color = c.ink)
+            Text(title, style = DjiniType.Title, color = c.ink)
             Text(body, Modifier.padding(top = 8.dp), style = SheetBody, color = c.ink2)
             Row(Modifier.fillMaxWidth().padding(top = 18.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                MikaButton(stringResource(R.string.ok_got_it), { vh.sheet = null }, Modifier.weight(1f), kind = ButtonKind.Tonal, size = ButtonSize.Medium)
-                MikaButton(action, { vh.sheet = null; go() }, Modifier.weight(1f), size = ButtonSize.Medium)
+                DjiniButton(stringResource(R.string.ok_got_it), { vh.sheet = null }, Modifier.weight(1f), kind = ButtonKind.Tonal, size = ButtonSize.Medium)
+                DjiniButton(action, { vh.sheet = null; go() }, Modifier.weight(1f), size = ButtonSize.Medium)
             }
         }
     }
 }
 
-private val BarLabel = MikaType.Value.copy(fontWeight = FontWeight.Medium)
-private val HintText = MikaType.Label
-private val HeadText = MikaType.Hint
-private val ChipText = MikaType.Micro
-private val TimeText = MikaType.Hint.copy(fontFeatureSettings = "tnum")
-private val ListenText = MikaType.Title
-private val FootText = MikaType.Hint
-private val ToastText = MikaType.Caption
-private val SheetBody = MikaType.Body
+private val BarLabel = DjiniType.Value.copy(fontWeight = FontWeight.Medium)
+private val HintText = DjiniType.Label
+private val HeadText = DjiniType.Hint
+private val ChipText = DjiniType.Micro
+private val TimeText = DjiniType.Hint.copy(fontFeatureSettings = "tnum")
+private val ListenText = DjiniType.Title
+private val FootText = DjiniType.Hint
+private val ToastText = DjiniType.Caption
+private val SheetBody = DjiniType.Body

@@ -34,11 +34,11 @@ import com.wangzan101.djini.settings.GroundingStatus
 import com.wangzan101.djini.settings.WebSearchConfig
 import com.wangzan101.djini.settings.WebSearchEntry
 import com.wangzan101.djini.ui.components.GroupLabel
-import com.wangzan101.djini.ui.components.MikaDialog
-import com.wangzan101.djini.ui.components.MikaSwitch
+import com.wangzan101.djini.ui.components.DjiniDialog
+import com.wangzan101.djini.ui.components.DjiniSwitch
 import com.wangzan101.djini.ui.components.SelectChip
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.DjiniType
 
 /** 网页搜索设置里要的文字;不碰界面,单测直接测。 */
 internal object WebSearchCopy {
@@ -131,14 +131,14 @@ fun WebSearchDialog(initial: WebSearchConfig, onDismiss: () -> Unit, onSave: (We
     val endpointFocus = remember { FocusRequester() }
     val keyFocus = remember { FocusRequester() }
     val uri = LocalUriHandler.current
-    MikaDialog(
+    DjiniDialog(
         onDismissRequest = onDismiss,
         title = { Text(stringResource(R.string.web_search_title)) },
         text = {
             Column(Modifier.verticalScroll(rememberScrollState())) {
                 Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
                     Text(stringResource(R.string.web_search_enabled), Modifier.weight(1f))
-                    MikaSwitch(
+                    DjiniSwitch(
                         enabled,
                         { next ->
                             if (!enabled && next && grounding.available &&
@@ -164,7 +164,7 @@ fun WebSearchDialog(initial: WebSearchConfig, onDismiss: () -> Unit, onSave: (We
                                 Text(
                                     stringResource(R.string.web_search_note_google),
                                     modifier = Modifier.padding(top = 2.dp),
-                                    style = MikaType.Hint,
+                                    style = DjiniType.Hint,
                                     color = DjiniTheme.colors.ink3,
                                 )
                             }
@@ -172,12 +172,12 @@ fun WebSearchDialog(initial: WebSearchConfig, onDismiss: () -> Unit, onSave: (We
                             Text(
                                 WebSearchCopy.groundingUnavailableMessage(grounding),
                                 modifier = Modifier.padding(top = 2.dp).testTag("web-search-grounding-unavailable"),
-                                style = MikaType.Hint,
+                                style = DjiniType.Hint,
                                 color = DjiniTheme.colors.ink3,
                             )
                         }
                     }
-                    MikaSwitch(
+                    DjiniSwitch(
                         checked = enabled && provider == WebSearchProvider.Google,
                         onCheckedChange = { next ->
                             if (next && grounding.available) {
@@ -211,13 +211,13 @@ fun WebSearchDialog(initial: WebSearchConfig, onDismiss: () -> Unit, onSave: (We
                 }
                 Text(
                     WebSearchCopy.note(provider), Modifier.padding(top = 8.dp).testTag("web-search-note"),
-                    style = MikaType.Hint, color = DjiniTheme.colors.ink3,
+                    style = DjiniType.Hint, color = DjiniTheme.colors.ink3,
                 )
                 if (shows(WebSearchProvider.Problem.UnsupportedProvider)) {
                     Text(
                         WebSearchCopy.problem(provider, WebSearchProvider.Problem.UnsupportedProvider, grounding),
                         modifier = Modifier.padding(top = 4.dp).testTag("web-search-error"),
-                        style = MikaType.Hint,
+                        style = DjiniType.Hint,
                         color = DjiniTheme.colors.bad,
                     )
                 }
@@ -249,7 +249,7 @@ fun WebSearchDialog(initial: WebSearchConfig, onDismiss: () -> Unit, onSave: (We
                 // 原来那段说明里要紧的两点:密钥加密存在本机、结果按不可信内容处理
                 Text(
                     stringResource(R.string.web_search_privacy), Modifier.padding(top = 8.dp).testTag("web-search-privacy"),
-                    style = MikaType.Hint, color = DjiniTheme.colors.ink3,
+                    style = DjiniType.Hint, color = DjiniTheme.colors.ink3,
                 )
             }
         },

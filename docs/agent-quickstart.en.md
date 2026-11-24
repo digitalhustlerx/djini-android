@@ -31,7 +31,7 @@ POSIX:
 curl -L -o djini.zip https://github.com/digitalhustlerx/djini-android/archive/refs/tags/<tag>.zip
 unzip -q djini.zip -d djini-src
 mkdir -p <skills-directory> && cp -R djini-src/Djini-<ver>/tools/djini <skills-directory>/djini
-python3 <skills-directory>/djini/scripts/mika_cli.py --version
+python3 <skills-directory>/djini/scripts/djini_cli.py --version
 ```
 
 Windows PowerShell:
@@ -41,10 +41,10 @@ Invoke-WebRequest https://github.com/digitalhustlerx/djini-android/archive/refs/
 Expand-Archive djini.zip -DestinationPath djini-src
 New-Item -ItemType Directory -Force "<skills-directory>" | Out-Null
 Copy-Item -Recurse djini-src\Djini-<ver>\tools\djini "<skills-directory>\djini"
-py -3 "<skills-directory>\djini\scripts\mika_cli.py" --version
+py -3 "<skills-directory>\djini\scripts\djini_cli.py" --version
 ```
 
-Interpreter: `py -3` on Windows, `python3` elsewhere. With only the Skill, `djini` below means `python3 <skills-directory>/djini/scripts/mika_cli.py` (`py -3 ...` on Windows).
+Interpreter: `py -3` on Windows, `python3` elsewhere. With only the Skill, `djini` below means `python3 <skills-directory>/djini/scripts/djini_cli.py` (`py -3 ...` on Windows).
 
 ## 4. Connect
 

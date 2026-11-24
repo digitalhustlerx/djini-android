@@ -276,7 +276,7 @@
     <string name="chat_retry_failed">%1$s: не удалось скопировать</string>
     <string name="chat_select_hint">Нажмите на текст и удерживайте, чтобы выделить его</string>
     <string name="chat_quote_remove">Убрать цитату</string>
-    <string name="chat_quoting_mika">Цитата Djini: %1$s</string>
+    <string name="chat_quoting_djini">Цитата Djini: %1$s</string>
     <string name="chat_quoting_you">Ваша цитата: %1$s</string>
     <string name="chat_edit_message">Изменить сообщение</string>
     <string name="chat_withdraw_message">Отозвать сообщение</string>

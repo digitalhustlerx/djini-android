@@ -15,7 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.wangzan101.djini.R
 import com.wangzan101.djini.ui.components.*
-import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniIcons
 import com.wangzan101.djini.ui.theme.DjiniTheme
 import com.wangzan101.djini.workflow.*
 import kotlinx.coroutines.Dispatchers
@@ -70,18 +70,18 @@ internal fun WorkflowsScreen(runtime: WorkflowRuntime, onBack: () -> Unit, onOpe
         if (error != null) FooterNote(workflowError(error!!), color = DjiniTheme.colors.bad)
         if (!loaded) {
             if (error == null) CircularProgressIndicator(Modifier.padding(16.dp))
-            else MikaButton(stringResource(R.string.retry), { perform { runtime.store.load() } })
+            else DjiniButton(stringResource(R.string.retry), { perform { runtime.store.load() } })
         } else if (run != null) {
             Text(stringResource(phaseLabel(run.phase)), style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.testTag("workflow-phase"))
             Text(stringResource(R.string.workflow_progress, run.completed, run.template.steps.size), Modifier.padding(vertical = 8.dp))
             if (saveError) {
                 FooterNote(stringResource(R.string.workflow_result_save_failed), color = DjiniTheme.colors.bad)
-                MikaButton(stringResource(R.string.retry), { perform { runtime.retrySave() } }, enabled = !busy)
+                DjiniButton(stringResource(R.string.retry), { perform { runtime.retrySave() } }, enabled = !busy)
             }
             when (run.phase) {
-                WorkflowPhase.Active -> MikaButton(stringResource(R.string.workflow_pause), { perform { runtime.store.pause(run.id) } }, enabled = !busy)
-                WorkflowPhase.Paused -> MikaButton(stringResource(R.string.workflow_continue), { perform { runtime.resume(run.id) } }, enabled = !busy, modifier = Modifier.testTag("workflow-continue"))
+                WorkflowPhase.Active -> DjiniButton(stringResource(R.string.workflow_pause), { perform { runtime.store.pause(run.id) } }, enabled = !busy)
+                WorkflowPhase.Paused -> DjiniButton(stringResource(R.string.workflow_continue), { perform { runtime.resume(run.id) } }, enabled = !busy, modifier = Modifier.testTag("workflow-continue"))
                 WorkflowPhase.Review -> {
                     FooterNote(stringResource(R.string.workflow_review_note))
                     run.current?.let { current ->
@@ -91,15 +91,15 @@ internal fun WorkflowsScreen(runtime: WorkflowRuntime, onBack: () -> Unit, onOpe
                             "result_too_long" -> stringResource(R.string.workflow_result_too_long)
                             else -> current.problem
                         }, color = DjiniTheme.colors.bad)
-                        if (onOpenConversation != null) MikaButton(stringResource(R.string.workflow_view_chat), { onOpenConversation(current.conversationId) }, kind = ButtonKind.Secondary)
+                        if (onOpenConversation != null) DjiniButton(stringResource(R.string.workflow_view_chat), { onOpenConversation(current.conversationId) }, kind = ButtonKind.Secondary)
                     }
-                    MikaButton(stringResource(R.string.workflow_mark_done), { resolving = run }, modifier = Modifier.testTag("workflow-resolve"), enabled = !busy)
+                    DjiniButton(stringResource(R.string.workflow_mark_done), { resolving = run }, modifier = Modifier.testTag("workflow-resolve"), enabled = !busy)
                     TextButton({ retrying = run }, enabled = !busy, modifier = Modifier.testTag("workflow-retry")) { Text(stringResource(R.string.workflow_retry_step)) }
                 }
                 WorkflowPhase.Completed -> {
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        MikaButton(stringResource(R.string.chat_copy), { copyMessage(context, run.result) }, modifier = Modifier.weight(1f))
-                        if (onUseResult != null) MikaButton(stringResource(R.string.workflow_use_result), { onUseResult(run.result) }, kind = ButtonKind.Secondary, modifier = Modifier.weight(1f).testTag("workflow-use-result"))
+                        DjiniButton(stringResource(R.string.chat_copy), { copyMessage(context, run.result) }, modifier = Modifier.weight(1f))
+                        if (onUseResult != null) DjiniButton(stringResource(R.string.workflow_use_result), { onUseResult(run.result) }, kind = ButtonKind.Secondary, modifier = Modifier.weight(1f).testTag("workflow-use-result"))
                     }
                     SelectionContainer { Text(run.result, Modifier.padding(vertical = 16.dp).testTag("workflow-final-result")) }
                     data.templates.find { it.id == run.template.id }?.let { current ->
@@ -113,7 +113,7 @@ internal fun WorkflowsScreen(runtime: WorkflowRuntime, onBack: () -> Unit, onOpe
                 run.template.steps.forEachIndexed { index, step ->
                     val attempts = run.attempts[index]
                     val latest = attempts.lastOrNull()
-                    ListRow(MikaIcons.Route, "${index + 1}. ${step.title}", stringResource(when (latest?.phase) {
+                    ListRow(DjiniIcons.Route, "${index + 1}. ${step.title}", stringResource(when (latest?.phase) {
                         AttemptPhase.Done -> R.string.workflow_done
                         AttemptPhase.Dispatching, AttemptPhase.Running -> R.string.workflow_running
                         AttemptPhase.Review -> R.string.workflow_review
@@ -128,9 +128,9 @@ internal fun WorkflowsScreen(runtime: WorkflowRuntime, onBack: () -> Unit, onOpe
                 TextButton({ deleting = run.id to true }, enabled = !busy) { Text(stringResource(R.string.workflow_delete_record)) }
             }
         } else if (template != null) {
-            MikaButton(stringResource(R.string.workflow_start), { starting = template }, enabled = !busy, modifier = Modifier.testTag("workflow-start"))
+            DjiniButton(stringResource(R.string.workflow_start), { starting = template }, enabled = !busy, modifier = Modifier.testTag("workflow-start"))
             GroupCard {
-                template.steps.forEachIndexed { index, step -> ListRow(MikaIcons.Route, "${index + 1}. ${step.title}", step.instruction, first = index == 0) }
+                template.steps.forEachIndexed { index, step -> ListRow(DjiniIcons.Route, "${index + 1}. ${step.title}", step.instruction, first = index == 0) }
             }
             Row {
                 TextButton({ editor = Json.encodeToString(template) }, modifier = Modifier.testTag("workflow-edit")) { Text(stringResource(R.string.workflow_edit)) }
@@ -138,16 +138,16 @@ internal fun WorkflowsScreen(runtime: WorkflowRuntime, onBack: () -> Unit, onOpe
                 TextButton({ deleting = template.id to false }) { Text(stringResource(R.string.recommendations_delete)) }
             }
         } else {
-            MikaButton(stringResource(R.string.workflow_new), { editor = Json.encodeToString(WorkflowTemplate(UUID.randomUUID().toString(), 0, "", listOf(
+            DjiniButton(stringResource(R.string.workflow_new), { editor = Json.encodeToString(WorkflowTemplate(UUID.randomUUID().toString(), 0, "", listOf(
                 WorkflowStep(title = "", instruction = ""), WorkflowStep(title = "", instruction = "")))) }, modifier = Modifier.testTag("workflow-new"))
             if (data.templates.isNotEmpty()) GroupCard {
-                data.templates.forEachIndexed { index, item -> ListRow(MikaIcons.Route, item.title, stringResource(R.string.workflow_step_count, item.steps.size),
+                data.templates.forEachIndexed { index, item -> ListRow(DjiniIcons.Route, item.title, stringResource(R.string.workflow_step_count, item.steps.size),
                     first = index == 0, onClick = { selectedTemplate = item.id }) }
             }
             if (data.runs.isNotEmpty()) {
                 GroupLabel(stringResource(R.string.workflow_history))
                 GroupCard {
-                    data.runs.forEachIndexed { index, item -> ListRow(MikaIcons.Route, item.template.title,
+                    data.runs.forEachIndexed { index, item -> ListRow(DjiniIcons.Route, item.template.title,
                         stringResource(phaseLabel(item.phase)) + " · " + DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(Date(item.createdAt)),
                         first = index == 0, onClick = { selectedRun = item.id }) }
                 }
@@ -168,13 +168,13 @@ internal fun WorkflowsScreen(runtime: WorkflowRuntime, onBack: () -> Unit, onOpe
             })
     }
     retrying?.let { item ->
-        MikaDialog(onDismissRequest = { retrying = null }, title = { Text(stringResource(R.string.workflow_retry_step)) },
+        DjiniDialog(onDismissRequest = { retrying = null }, title = { Text(stringResource(R.string.workflow_retry_step)) },
             text = { Text(stringResource(R.string.workflow_retry_note)) },
             confirmButton = { TextButton({ perform { runtime.resolve(item.id, item.current!!.id, null) }; retrying = null }, modifier = Modifier.testTag("workflow-retry-confirm")) { Text(stringResource(R.string.workflow_retry_step)) } },
             dismissButton = { TextButton({ retrying = null }) { Text(stringResource(R.string.cancel)) } })
     }
     viewing?.let { item ->
-        MikaDialog(onDismissRequest = { viewing = null }, title = { Text(stringResource(R.string.workflow_result_label)) },
+        DjiniDialog(onDismissRequest = { viewing = null }, title = { Text(stringResource(R.string.workflow_result_label)) },
             text = { Column(Modifier.verticalScroll(rememberScrollState())) {
                 if (item.manual) FooterNote(stringResource(R.string.workflow_manual_result))
                 if (item.result.isNotBlank()) SelectionContainer { Text(item.result) }
@@ -182,7 +182,7 @@ internal fun WorkflowsScreen(runtime: WorkflowRuntime, onBack: () -> Unit, onOpe
             } }, confirmButton = { TextButton({ viewing = null }) { Text(stringResource(R.string.ok_got_it)) } })
     }
     deleting?.let { (id, record) ->
-        MikaDialog(onDismissRequest = { deleting = null }, title = { Text(stringResource(if (record) R.string.workflow_delete_record else R.string.workflow_delete_template)) },
+        DjiniDialog(onDismissRequest = { deleting = null }, title = { Text(stringResource(if (record) R.string.workflow_delete_record else R.string.workflow_delete_template)) },
             confirmButton = { TextButton({
                 val revision = template?.revision
                 perform { if (record) runtime.store.deleteRun(id) else runtime.store.deleteTemplate(id, revision ?: 0) }
@@ -223,7 +223,7 @@ internal fun WorkflowsScreen(runtime: WorkflowRuntime, onBack: () -> Unit, onOpe
         TextButton({ change(steps + WorkflowStep(title = "", instruction = "")) }, enabled = !busy && steps.size < WorkflowStore.MAX_STEPS,
             modifier = Modifier.testTag("workflow-add-step")) { Text(stringResource(R.string.workflow_add_step)) }
         error?.let { FooterNote(workflowError(it), color = DjiniTheme.colors.bad) }
-        MikaButton(stringResource(R.string.save), {
+        DjiniButton(stringResource(R.string.save), {
             busy = true
             scope.launch {
                 try { withContext(Dispatchers.IO) { store.saveTemplate(initial.id, initial.revision, title, steps) }; onSaved(initial.id) }
@@ -240,7 +240,7 @@ internal fun WorkflowsScreen(runtime: WorkflowRuntime, onBack: () -> Unit, onOpe
     var error by remember { mutableStateOf<WorkflowProblem?>(null) }
     var busy by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
-    MikaDialog(onDismissRequest = { if (!busy) onDismiss() }, title = { Text(title) }, text = {
+    DjiniDialog(onDismissRequest = { if (!busy) onDismiss() }, title = { Text(title) }, text = {
         Column(Modifier.verticalScroll(rememberScrollState())) {
             OutlinedTextField(value, { value = it; error = null }, label = { Text(label) }, minLines = 3, maxLines = 8,
                 enabled = !busy, modifier = Modifier.fillMaxWidth().testTag("workflow-dialog-input"))

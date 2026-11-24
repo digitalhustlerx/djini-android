@@ -94,13 +94,13 @@ import com.wangzan101.djini.task.TaskService
 import com.wangzan101.djini.task.TaskService.Companion.isActive
 import com.wangzan101.djini.ui.components.ButtonKind
 import com.wangzan101.djini.ui.components.ButtonSize
-import com.wangzan101.djini.ui.components.MikaButton
+import com.wangzan101.djini.ui.components.DjiniButton
 import com.wangzan101.djini.ui.components.floatShadow
-import com.wangzan101.djini.ui.theme.MikaIcons
-import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniIcons
+import com.wangzan101.djini.ui.theme.DjiniShapes
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
-import com.wangzan101.djini.ui.theme.MikaRadius
+import com.wangzan101.djini.ui.theme.DjiniType
+import com.wangzan101.djini.ui.theme.DjiniRadius
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -387,7 +387,7 @@ class PageChat(private val context: Context, private val browser: UserBrowser, p
     fun touched() = browser.userTouched()
 
     private companion object {
-        const val TAG = "MikaPageChat"
+        const val TAG = "DjiniPageChat"
         /** 运行记录里网页那一屏的对象写成「网站 <域名>」。 */
         const val SITE_PREFIX = "网站 "
     }
@@ -492,14 +492,14 @@ fun PageAskBar(chat: PageChat, modifier: Modifier = Modifier) {
             Row(Modifier.fillMaxWidth().padding(bottom = 6.dp), verticalAlignment = Alignment.CenterVertically) {
                 Text(
                     if (chat.fresh) CardCopyText.NEW_CHAT else PageAskCopy.continuing(ChatCopy.plainTitle(AttachedPage.words(chat.title.orEmpty())).take(TITLE_MAX)),
-                    Modifier.weight(1f, fill = false), style = MikaType.Hint, color = c.ink3, maxLines = 1, overflow = TextOverflow.Ellipsis,
+                    Modifier.weight(1f, fill = false), style = DjiniType.Hint, color = c.ink3, maxLines = 1, overflow = TextOverflow.Ellipsis,
                 )
-                Text(" · ", style = MikaType.Hint, color = c.ink3)
+                Text(" · ", style = DjiniType.Hint, color = c.ink3)
                 Text(
                     if (chat.fresh) CardCopyText.CONTINUE_LAST else CardCopyText.NEW_CHAT,
-                    Modifier.clip(MikaShapes.Pill).clickable(role = Role.Button) { chat.fresh = !chat.fresh }.padding(horizontal = 4.dp, vertical = 2.dp)
+                    Modifier.clip(DjiniShapes.Pill).clickable(role = Role.Button) { chat.fresh = !chat.fresh }.padding(horizontal = 4.dp, vertical = 2.dp)
                         .testTag("page-ask-fresh"),
-                    style = MikaType.Hint, color = c.accent,
+                    style = DjiniType.Hint, color = c.accent,
                 )
             }
         }
@@ -521,19 +521,19 @@ private object CardCopyText {
 private fun SelectionChip(text: String, onRemove: () -> Unit) {
     val c = DjiniTheme.colors
     Row(
-        Modifier.padding(bottom = 6.dp).fillMaxWidth().clip(MikaShapes.Chip).background(c.ink.copy(alpha = 0.05f))
+        Modifier.padding(bottom = 6.dp).fillMaxWidth().clip(DjiniShapes.Chip).background(c.ink.copy(alpha = 0.05f))
             .padding(start = 10.dp, top = 6.dp, bottom = 6.dp, end = 4.dp).testTag("page-ask-selection"),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Column(Modifier.weight(1f)) {
-            Text(PageAskCopy.SELECTION, style = MikaType.Hint, color = c.ink3)
-            Text(text, style = MikaType.Caption, color = c.ink2, maxLines = 2, overflow = TextOverflow.Ellipsis)
+            Text(PageAskCopy.SELECTION, style = DjiniType.Hint, color = c.ink3)
+            Text(text, style = DjiniType.Caption, color = c.ink2, maxLines = 2, overflow = TextOverflow.Ellipsis)
         }
         Box(
-            Modifier.size(28.dp).clip(MikaShapes.Pill).clickable(role = Role.Button, onClick = onRemove)
+            Modifier.size(28.dp).clip(DjiniShapes.Pill).clickable(role = Role.Button, onClick = onRemove)
                 .semantics { contentDescription = PageAskCopy.DROP_SELECTION },
             contentAlignment = Alignment.Center,
-        ) { Icon(MikaIcons.Close, null, Modifier.size(15.dp), tint = c.ink3) }
+        ) { Icon(DjiniIcons.Close, null, Modifier.size(15.dp), tint = c.ink3) }
     }
 }
 
@@ -541,7 +541,7 @@ private fun SelectionChip(text: String, onRemove: () -> Unit) {
 @Composable
 private fun AskField(chat: PageChat, hint: String, stop: (() -> Unit)?) {
     val c = DjiniTheme.colors
-    val shape = MikaShapes.Card
+    val shape = DjiniShapes.Card
     val focus = remember { FocusRequester() }
     LaunchedEffect(chat.focusAsk) { if (chat.focusAsk > 0) runCatching { focus.requestFocus() } }
     val canSend = chat.draft.isNotBlank() || chat.selection != null
@@ -549,13 +549,13 @@ private fun AskField(chat: PageChat, hint: String, stop: (() -> Unit)?) {
         Modifier.fillMaxWidth().heightIn(min = 44.dp).clip(shape).background(c.fill).padding(start = 12.dp, end = 5.dp),
         verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        Icon(MikaIcons.Spark, null, Modifier.size(17.dp), tint = GlowColor)
+        Icon(DjiniIcons.Spark, null, Modifier.size(17.dp), tint = GlowColor)
         Box(Modifier.weight(1f).padding(vertical = 11.dp)) {
-            if (chat.draft.isEmpty()) Text(hint, style = MikaType.Body, color = c.ink3, maxLines = 1, overflow = TextOverflow.Ellipsis)
+            if (chat.draft.isEmpty()) Text(hint, style = DjiniType.Body, color = c.ink3, maxLines = 1, overflow = TextOverflow.Ellipsis)
             BasicTextField(
                 chat.draft, { chat.draft = it },
                 Modifier.fillMaxWidth().focusRequester(focus).testTag("page-ask-field").semantics { contentDescription = hint },
-                textStyle = MikaType.Body.copy(color = c.ink, textDirection = androidx.compose.ui.text.style.TextDirection.Content), maxLines = 4, cursorBrush = SolidColor(c.accent),
+                textStyle = DjiniType.Body.copy(color = c.ink, textDirection = androidx.compose.ui.text.style.TextDirection.Content), maxLines = 4, cursorBrush = SolidColor(c.accent),
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
                 keyboardActions = KeyboardActions(onSend = { if (canSend) chat.send() }),
             )
@@ -563,17 +563,17 @@ private fun AskField(chat: PageChat, hint: String, stop: (() -> Unit)?) {
         stop?.let { StopKey(it) }
         if (stop == null || canSend) {
             Box(
-                Modifier.testTag("page-ask-send").size(32.dp).clip(MikaShapes.Pill).background(if (canSend) c.ink else c.ink3.copy(alpha = 0.3f))
+                Modifier.testTag("page-ask-send").size(32.dp).clip(DjiniShapes.Pill).background(if (canSend) c.ink else c.ink3.copy(alpha = 0.3f))
                     .clickable(enabled = canSend, role = Role.Button, onClick = chat::send)
                     .semantics { contentDescription = tr(R.string.chat_send) },
                 contentAlignment = Alignment.Center,
-            ) { Icon(MikaIcons.Up, null, Modifier.size(16.dp), tint = c.bg) }
+            ) { Icon(DjiniIcons.Up, null, Modifier.size(16.dp), tint = c.bg) }
         }
     }
 }
 
-private val PanelShape = MikaShapes.SheetTop
-private val CardShape = MikaShapes.Card
+private val PanelShape = DjiniShapes.SheetTop
+private val CardShape = DjiniShapes.Card
 
 /**
  * 半屏对话面板:盖在网页下半截,上面露出来的网页就是 Djini 正在操作的那一页。顶上是网站名、「从这一页开始 · 页面标题」、
@@ -594,30 +594,30 @@ fun PagePanel(chat: PageChat, site: String, pageTitle: String, modifier: Modifie
         Box(
             Modifier.fillMaxWidth().clickable(role = Role.Button, onClickLabel = tr(R.string.collapse)) { chat.open = false }.padding(vertical = 8.dp),
             contentAlignment = Alignment.Center,
-        ) { Box(Modifier.width(36.dp).height(4.dp).clip(MikaShapes.Pill).background(c.hair)) }
+        ) { Box(Modifier.width(36.dp).height(4.dp).clip(DjiniShapes.Pill).background(c.hair)) }
         Row(Modifier.fillMaxWidth().padding(bottom = 8.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             Column(Modifier.weight(1f)) {
-                Text(site, style = MikaType.Label.copy(fontWeight = FontWeight.SemiBold), color = c.ink, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                Text(site, style = DjiniType.Label.copy(fontWeight = FontWeight.SemiBold), color = c.ink, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 Text(
                     listOf(PageAskCopy.FROM_PAGE, pageTitle).filter(String::isNotBlank).joinToString(" · "),
-                    style = MikaType.Hint, color = c.ink3, maxLines = 1, overflow = TextOverflow.Ellipsis,
+                    style = DjiniType.Hint, color = c.ink3, maxLines = 1, overflow = TextOverflow.Ellipsis,
                 )
             }
             chat.conversationId?.let { id ->
                 Row(
-                    Modifier.clip(MikaShapes.Pill).clickable(role = Role.Button) { chat.actions.openDjini(id) }.padding(horizontal = 6.dp, vertical = 6.dp)
+                    Modifier.clip(DjiniShapes.Pill).clickable(role = Role.Button) { chat.actions.openDjini(id) }.padding(horizontal = 6.dp, vertical = 6.dp)
                         .testTag("page-panel-open-chat"),
                     verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(3.dp),
                 ) {
-                    Text(PageAskCopy.OPEN_CHAT, style = MikaType.Hint, color = c.accent)
-                    Icon(MikaIcons.External, null, Modifier.size(13.dp), tint = c.accent)
+                    Text(PageAskCopy.OPEN_CHAT, style = DjiniType.Hint, color = c.accent)
+                    Icon(DjiniIcons.External, null, Modifier.size(13.dp), tint = c.accent)
                 }
             }
             Box(
-                Modifier.size(30.dp).clip(MikaShapes.Pill).clickable(role = Role.Button, onClick = chat.actions::collapse)
+                Modifier.size(30.dp).clip(DjiniShapes.Pill).clickable(role = Role.Button, onClick = chat.actions::collapse)
                     .semantics { contentDescription = tr(R.string.collapse) }.testTag("page-panel-collapse"),
                 contentAlignment = Alignment.Center,
-            ) { Icon(MikaIcons.Close, null, Modifier.size(17.dp), tint = c.ink3) }
+            ) { Icon(DjiniIcons.Close, null, Modifier.size(17.dp), tint = c.ink3) }
         }
         Box(Modifier.fillMaxWidth().height(0.5.dp).background(c.hair))
         // 步骤紧接在对话来回的最后一条(「网站 · 在干活」那一行)下面,和对话页一样跟着往下长,不压到面板底部
@@ -629,8 +629,8 @@ fun PagePanel(chat: PageChat, site: String, pageTitle: String, modifier: Modifie
         }
         if (card != null && card.run.stage == Takeover.Stage.HandedOver) {
             Column(Modifier.padding(top = 8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Text(PageAskCopy.HANDLING, style = MikaType.Caption, color = c.ink2)
-                MikaButton(tr(R.string.action_hand_back), chat::handBack, Modifier.fillMaxWidth().testTag("page-panel-hand-back"), kind = ButtonKind.Primary, size = ButtonSize.Medium)
+                Text(PageAskCopy.HANDLING, style = DjiniType.Caption, color = c.ink2)
+                DjiniButton(tr(R.string.action_hand_back), chat::handBack, Modifier.fillMaxWidth().testTag("page-panel-hand-back"), kind = ButtonKind.Primary, size = ButtonSize.Medium)
             }
         } else if (card != null && content != null && live) {
             Box(Modifier.padding(top = 4.dp)) { Pinned(content, card.run.key, chat.actions) }
@@ -666,16 +666,16 @@ fun PageCard(chat: PageChat, modifier: Modifier = Modifier) {
             .padding(start = 12.dp, end = 8.dp, top = 10.dp, bottom = 10.dp).testTag("page-card"),
         verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp),
     ) {
-        Box(Modifier.size(8.dp).clip(MikaShapes.Pill).background(if (warn) c.warnSolid else GlowColor))
+        Box(Modifier.size(8.dp).clip(DjiniShapes.Pill).background(if (warn) c.warnSolid else GlowColor))
         Column(Modifier.weight(1f)) {
             Text(
                 if (paused) PageAskCopy.PAUSED_CARD else card.line.ifBlank { CapsuleCards.status(card.kind) },
-                style = MikaType.Label, color = c.ink, maxLines = 1, overflow = TextOverflow.Ellipsis,
+                style = DjiniType.Label, color = c.ink, maxLines = 1, overflow = TextOverflow.Ellipsis,
             )
-            if (paused) Text(PageAskCopy.PAUSED_HINT, style = MikaType.Hint, color = c.ink3, maxLines = 2, overflow = TextOverflow.Ellipsis)
+            if (paused) Text(PageAskCopy.PAUSED_HINT, style = DjiniType.Hint, color = c.ink3, maxLines = 2, overflow = TextOverflow.Ellipsis)
         }
-        if (paused) MikaButton(tr(R.string.chat_continue), { chat.actions.resume(card.run.key) }, Modifier.testTag("page-card-resume"), kind = ButtonKind.Primary, size = ButtonSize.Small)
-        Icon(MikaIcons.Up, PageAskCopy.EXPAND, Modifier.size(18.dp), tint = c.ink3)
+        if (paused) DjiniButton(tr(R.string.chat_continue), { chat.actions.resume(card.run.key) }, Modifier.testTag("page-card-resume"), kind = ButtonKind.Primary, size = ButtonSize.Small)
+        Icon(DjiniIcons.Up, PageAskCopy.EXPAND, Modifier.size(18.dp), tint = c.ink3)
     }
 }
 
@@ -683,17 +683,17 @@ fun PageCard(chat: PageChat, modifier: Modifier = Modifier) {
 @Composable
 fun PausedBanner(onResume: () -> Unit, modifier: Modifier = Modifier) {
     Row(
-        modifier.fillMaxWidth().clip(MikaShapes.Chip).background(Color(0xFF1D1F24))
+        modifier.fillMaxWidth().clip(DjiniShapes.Chip).background(Color(0xFF1D1F24))
             .padding(start = 12.dp, end = 6.dp, top = 6.dp, bottom = 6.dp).testTag("page-paused-banner"),
         verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        Icon(MikaIcons.Hand, null, Modifier.size(16.dp), tint = Color.White)
-        Text(PageAskCopy.PAUSED, Modifier.weight(1f), style = MikaType.Caption, color = Color.White, maxLines = 1, overflow = TextOverflow.Ellipsis)
+        Icon(DjiniIcons.Hand, null, Modifier.size(16.dp), tint = Color.White)
+        Text(PageAskCopy.PAUSED, Modifier.weight(1f), style = DjiniType.Caption, color = Color.White, maxLines = 1, overflow = TextOverflow.Ellipsis)
         Text(
             tr(R.string.chat_continue),
-            Modifier.clip(MikaShapes.Tile).background(Color.White).clickable(role = Role.Button, onClick = onResume)
+            Modifier.clip(DjiniShapes.Tile).background(Color.White).clickable(role = Role.Button, onClick = onResume)
                 .padding(horizontal = 12.dp, vertical = 5.dp).testTag("page-paused-resume"),
-            style = MikaType.Label.copy(fontWeight = FontWeight.SemiBold), color = Color(0xFF111111),
+            style = DjiniType.Label.copy(fontWeight = FontWeight.SemiBold), color = Color(0xFF111111),
         )
     }
 }
@@ -704,14 +704,14 @@ internal fun SentPage(page: AttachedPage.Page, maxWidth: androidx.compose.ui.uni
     val c = DjiniTheme.colors
     val host = com.wangzan101.djini.core.cap.web.WebUrlPolicy.host(page.url) ?: page.url
     Column(
-        Modifier.padding(bottom = 4.dp).widthIn(max = maxWidth).background(c.ink.copy(alpha = 0.05f), MikaShapes.Chip)
+        Modifier.padding(bottom = 4.dp).widthIn(max = maxWidth).background(c.ink.copy(alpha = 0.05f), DjiniShapes.Chip)
             .padding(horizontal = 10.dp, vertical = 6.dp).testTag("sent-page"),
         verticalArrangement = Arrangement.spacedBy(2.dp),
     ) {
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(5.dp)) {
-            Icon(MikaIcons.Globe, null, Modifier.size(13.dp), tint = c.ink3)
-            Text("${PageAskCopy.WEB} · $host", style = MikaType.Hint, color = c.ink2, maxLines = 1, overflow = TextOverflow.Ellipsis)
+            Icon(DjiniIcons.Globe, null, Modifier.size(13.dp), tint = c.ink3)
+            Text("${PageAskCopy.WEB} · $host", style = DjiniType.Hint, color = c.ink2, maxLines = 1, overflow = TextOverflow.Ellipsis)
         }
-        page.selection?.let { Text(it, style = MikaType.Caption, color = c.ink2, maxLines = 3, overflow = TextOverflow.Ellipsis) }
+        page.selection?.let { Text(it, style = DjiniType.Caption, color = c.ink2, maxLines = 3, overflow = TextOverflow.Ellipsis) }
     }
 }

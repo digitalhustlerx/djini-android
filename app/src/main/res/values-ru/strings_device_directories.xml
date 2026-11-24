@@ -27,5 +27,5 @@
     <string name="device_dirs_entry_sub">Помогают Djini находить скачанные файлы</string>
     <string name="device_dirs_source_preset">Предустановлено</string>
     <string name="device_dirs_source_user">Изменено вами</string>
-    <string name="device_dirs_source_mika">Изменено Djini</string>
+    <string name="device_dirs_source_djini">Изменено Djini</string>
 </resources>

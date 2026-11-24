@@ -44,13 +44,13 @@ import com.wangzan101.djini.ui.components.ButtonSize
 import com.wangzan101.djini.ui.components.FooterNote
 import com.wangzan101.djini.ui.components.GroupCard
 import com.wangzan101.djini.ui.components.ListRow
-import com.wangzan101.djini.ui.components.MikaButton
-import com.wangzan101.djini.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.DjiniButton
+import com.wangzan101.djini.ui.components.DjiniDialog
 import com.wangzan101.djini.ui.components.ReorderableRow
 import com.wangzan101.djini.ui.components.rememberReorderableRowsState
 import com.wangzan101.djini.ui.components.PageScaffold
-import com.wangzan101.djini.ui.theme.MikaIcons
-import com.wangzan101.djini.ui.theme.MikaSize
+import com.wangzan101.djini.ui.theme.DjiniIcons
+import com.wangzan101.djini.ui.theme.DjiniSize
 import com.wangzan101.djini.ui.theme.DjiniTheme
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -85,15 +85,15 @@ fun RecommendedTasksScreen(store: RecommendedTaskStore, onBack: () -> Unit, onPi
     PageScaffold(stringResource(R.string.recommendations_title), onBack, scrollState = scroll,
         viewportModifier = Modifier.onGloballyPositioned { reorder.viewport = it.boundsInWindow() }) {
         onOpenChecklists?.let { open ->
-            ListRow(MikaIcons.ListChecks, stringResource(R.string.checklists_title), first = true, onClick = open)
+            ListRow(DjiniIcons.ListChecks, stringResource(R.string.checklists_title), first = true, onClick = open)
         }
         onOpenWorkflows?.let { open ->
-            ListRow(MikaIcons.Route, stringResource(R.string.workflows_title), first = false, onClick = open)
+            ListRow(DjiniIcons.Route, stringResource(R.string.workflows_title), first = false, onClick = open)
         }
         if (unreadable) {
             FooterNote(stringResource(R.string.recommendations_unreadable), color = c.bad)
             if (resetError) FooterNote(stringResource(R.string.recommendations_save_failed), color = c.bad)
-            MikaButton(
+            DjiniButton(
                 stringResource(R.string.recommendations_reset),
                 { resetting = true },
                 modifier = Modifier.padding(top = 4.dp),
@@ -104,7 +104,7 @@ fun RecommendedTasksScreen(store: RecommendedTaskStore, onBack: () -> Unit, onPi
             GroupCard {
                 if (tasks.isEmpty()) {
                     ListRow(
-                        MikaIcons.Message,
+                        DjiniIcons.Message,
                         stringResource(R.string.recommendations_empty),
                         stringResource(R.string.recommendations_empty_sub),
                         first = true,
@@ -115,7 +115,7 @@ fun RecommendedTasksScreen(store: RecommendedTaskStore, onBack: () -> Unit, onPi
                             ReorderableRow(reorder, task.id, index, "recommendations-drag-${task.id}") { first, dragHandle ->
                                 val preview = promptPreview(task.prompt)
                                 ListRow(
-                                    MikaIcons.Message, task.title, preview.takeIf { it != task.title },
+                                    DjiniIcons.Message, task.title, preview.takeIf { it != task.title },
                                     first = first, onClick = { if (!reorder.busy) {
                                         if (onPick != null) onPick(task) else editing = task
                                     } },
@@ -123,7 +123,7 @@ fun RecommendedTasksScreen(store: RecommendedTaskStore, onBack: () -> Unit, onPi
                                     if (onPick != null) androidx.compose.material3.IconButton(
                                         onClick = { editing = task }, enabled = !reorder.busy,
                                     ) {
-                                        Icon(MikaIcons.Edit, stringResource(R.string.recommendations_edit), Modifier.size(MikaSize.Icon), tint = c.ink3)
+                                        Icon(DjiniIcons.Edit, stringResource(R.string.recommendations_edit), Modifier.size(DjiniSize.Icon), tint = c.ink3)
                                     }
                                     DeleteTaskButton { if (!reorder.busy) { deleteError = null; deleting = task } }
                                     if (onPick == null) dragHandle()
@@ -133,7 +133,7 @@ fun RecommendedTasksScreen(store: RecommendedTaskStore, onBack: () -> Unit, onPi
                     }
                 }
                 if (tasks.size < RecommendedTaskStore.MAX_TASKS) {
-                    ListRow(MikaIcons.Plus, stringResource(R.string.recommendations_add), first = false, onClick = { if (!reorder.busy) adding = true })
+                    ListRow(DjiniIcons.Plus, stringResource(R.string.recommendations_add), first = false, onClick = { if (!reorder.busy) adding = true })
                 }
             }
             if (tasks.size >= RecommendedTaskStore.MAX_TASKS) {
@@ -153,7 +153,7 @@ fun RecommendedTasksScreen(store: RecommendedTaskStore, onBack: () -> Unit, onPi
         )
     }
     deleting?.let { task ->
-        MikaDialog(
+        DjiniDialog(
             onDismissRequest = { deleting = null },
             title = { Text(stringResource(R.string.recommendations_delete_title)) },
             text = {
@@ -174,7 +174,7 @@ fun RecommendedTasksScreen(store: RecommendedTaskStore, onBack: () -> Unit, onPi
         )
     }
     if (resetting) {
-        MikaDialog(
+        DjiniDialog(
             onDismissRequest = { resetting = false },
             title = { Text(stringResource(R.string.recommendations_reset)) },
             text = { Text(stringResource(R.string.recommendations_reset_body)) },
@@ -221,7 +221,7 @@ internal fun RecommendedTaskDialog(store: RecommendedTaskStore, initial: Recomme
         }
     }
 
-    MikaDialog(
+    DjiniDialog(
         onDismissRequest = { if (!saving) onDismiss() },
         title = { Text(stringResource(if (initial == null) R.string.recommendations_add else R.string.recommendations_edit)) },
         text = {
@@ -257,7 +257,7 @@ internal fun RecommendedTaskDialog(store: RecommendedTaskStore, initial: Recomme
         dismissButton = { TextButton({ if (!saving) onDismiss() }) { Text(stringResource(R.string.cancel)) } },
         properties = DialogProperties(dismissOnClickOutside = false),
     )
-    if (addingField) MikaDialog(
+    if (addingField) DjiniDialog(
         onDismissRequest = { addingField = false },
         title = { Text(stringResource(R.string.task_field_add)) },
         text = {
@@ -295,10 +295,10 @@ internal fun RecommendedTaskDialog(store: RecommendedTaskStore, initial: Recomme
 private fun DeleteTaskButton(onClick: () -> Unit) {
     val label = stringResource(R.string.recommendations_delete)
     Box(
-        Modifier.size(MikaSize.IconButton).clip(CircleShape).clickable(role = Role.Button, onClick = onClick),
+        Modifier.size(DjiniSize.IconButton).clip(CircleShape).clickable(role = Role.Button, onClick = onClick),
         contentAlignment = Alignment.Center,
     ) {
-        Icon(MikaIcons.Trash, label, Modifier.size(MikaSize.Icon), tint = DjiniTheme.colors.ink3)
+        Icon(DjiniIcons.Trash, label, Modifier.size(DjiniSize.Icon), tint = DjiniTheme.colors.ink3)
     }
 }
 

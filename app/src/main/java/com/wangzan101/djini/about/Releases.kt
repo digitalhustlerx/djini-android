@@ -59,7 +59,7 @@ object Releases {
             name = o.str("name")?.takeIf { it.isNotBlank() } ?: version,
             notes = body.trim(),
             date = o.str("published_at")?.take(10)?.takeIf { it.length == 10 },
-            pageUrl = o.str("html_url") ?: "${MikaLinks.RELEASES}/tag/$tag",
+            pageUrl = o.str("html_url") ?: "${DjiniLinks.RELEASES}/tag/$tag",
             apkUrl = apk?.url,
             apkSize = apk?.size,
             apkDigest = apk?.digest,
@@ -133,7 +133,7 @@ object Releases {
     fun fromJson(o: JsonObject): ReleaseInfo? = runCatching {
         ReleaseInfo(
             version = o.str("version")!!, name = o.str("name") ?: o.str("version")!!, notes = o.str("notes").orEmpty(),
-            date = o.str("date"), pageUrl = o.str("pageUrl") ?: MikaLinks.RELEASES, apkUrl = o.str("apkUrl"),
+            date = o.str("date"), pageUrl = o.str("pageUrl") ?: DjiniLinks.RELEASES, apkUrl = o.str("apkUrl"),
             apkSize = o.strOrNumber("apkSize")?.toLongOrNull(), apkDigest = o.str("apkDigest"),
             apkListKnown = (o["apkListKnown"] as? JsonPrimitive)?.booleanOrNull == true,
         )

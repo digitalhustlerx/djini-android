@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import com.wangzan101.djini.R
 import com.wangzan101.djini.settings.TaskTemplate
-import com.wangzan101.djini.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.DjiniDialog
 import com.wangzan101.djini.ui.theme.DjiniTheme
 
 /** Filling a task is local draft editing. The stored template and execution service stay untouched. */
@@ -27,7 +27,7 @@ internal fun TaskFillDialog(title: String, prompt: String, onDismiss: () -> Unit
     val visibleFields = fields.take(TaskTemplate.MAX_FIELDS)
     var values by rememberSaveable(prompt) { mutableStateOf(List(visibleFields.size) { "" }) }
     val complete = fields.size <= TaskTemplate.MAX_FIELDS && values.all { it.isNotBlank() }
-    MikaDialog(
+    DjiniDialog(
         onDismissRequest = onDismiss,
         title = { Text(title) },
         text = {

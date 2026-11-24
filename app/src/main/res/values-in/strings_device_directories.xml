@@ -27,5 +27,5 @@
     <string name="device_dirs_entry_sub">Bantu Djini menemukan file yang diunduh</string>
     <string name="device_dirs_source_preset">Bawaan</string>
     <string name="device_dirs_source_user">Diedit oleh Anda</string>
-    <string name="device_dirs_source_mika">Diedit oleh Djini</string>
+    <string name="device_dirs_source_djini">Diedit oleh Djini</string>
 </resources>

@@ -105,18 +105,18 @@ data class ModelEndpoint(val protocol: ModelProtocol, val baseUrl: String, val r
 
 /** 列模型为什么失败;[text] 是给人看的原因。 */
 enum class ListFailure(val text: String) {
-    BadUrl("接口地址不对,要以 http:// 或 https:// 开头"),
-    Auth("API Key 无效或没有权限"),
+    BadUrl("Invalid endpoint URL; must start with http:// or https://"),
+    Auth("Invalid API key or insufficient permissions"),
     /** 粘贴进来的 Key 含有放不进 HTTP 头的字符。请求没有发出。 */
-    IllegalKey("API Key 含有无法使用的字符，请只粘贴密钥本身"),
-    Quota("账户额度已用完"),
-    RateLimited("请求太频繁,请稍后再试"),
-    Network("连不上这个地址,请检查网络和接口地址"),
-    ProxyUnreachable("连不上网络代理,或代理没有转发这个请求;请检查设置 › 网络代理"),
-    ProxyAuth("网络代理拒绝了账号或密码,请检查设置 › 网络代理"),
-    NotSupported("这个服务不提供模型列表"),
-    Server("服务暂时出错,请稍后再试"),
-    BadResponse("返回的内容看不懂,请检查接口地址和接口类型"),
+    IllegalKey("API key contains invalid characters; paste only the key itself"),
+    Quota("Account quota exceeded"),
+    RateLimited("Too many requests; please try again later"),
+    Network("Cannot reach this endpoint; check your network and Base URL"),
+    ProxyUnreachable("Cannot connect to network proxy or proxy did not forward the request; check Settings › Network proxy"),
+    ProxyAuth("Network proxy rejected username or password; check Settings › Network proxy"),
+    NotSupported("This provider does not offer a model listing endpoint"),
+    Server("Service temporarily unavailable; please try again later"),
+    BadResponse("Unreadable response; check Base URL and endpoint kind"),
     ;
 
     companion object {

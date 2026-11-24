@@ -17,7 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import com.wangzan101.djini.R
-import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniIcons
 import com.wangzan101.djini.ui.theme.DjiniTheme
 
 /** A genuinely half-width window: the invisible half cannot block the app underneath. */
@@ -33,7 +33,7 @@ fun CapsuleEdgeContent(side: DockSide, alpha: Float, onReveal: () -> Unit) {
             drawCircle(colors.glass, radius = size.height / 2, center = center)
             drawCircle(colors.ink2, radius = size.height / 2 - 1.dp.toPx(), center = center, style = Stroke(1.dp.toPx()))
         }
-        Icon(MikaIcons.Chevron, stringResource(R.string.capsule_edge_reveal),
+        Icon(DjiniIcons.Chevron, stringResource(R.string.capsule_edge_reveal),
             Modifier.size(12.dp).graphicsLayer { rotationZ = if (side == DockSide.Right) 180f else 0f }, tint = colors.ink)
     }
 }

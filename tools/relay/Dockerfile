@@ -12,7 +12,7 @@ RUN /out/djini-relay -init-owner-key -owner-key-file /out/data/build-check-key \
     && rm /out/data/build-check-key
 
 FROM caddy:2.11.7-alpine AS caddy-check
-ENV MIKA_DOMAIN=djini.example.com
+ENV DJINI_DOMAIN=djini.example.com
 COPY Caddyfile /etc/caddy/Caddyfile
 RUN caddy validate --config /etc/caddy/Caddyfile --adapter caddyfile
 

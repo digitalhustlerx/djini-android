@@ -79,7 +79,7 @@ class ChatGptSignInService : Service() {
     }
 
     companion object {
-        private const val TAG = "MikaChatGpt"
+        private const val TAG = "DjiniChatGpt"
         private const val ACTION_CANCEL = "com.wangzan101.djini.chatgpt.CANCEL_SIGN_IN"
         /** 和任务、电脑连接的通知错开。 */
         private const val NOTIFICATION_ID = 30_002

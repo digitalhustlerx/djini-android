@@ -221,7 +221,7 @@ class RemoteTaskHub(
     }
 
     private companion object {
-        const val TAG = "MikaMcp"
+        const val TAG = "DjiniMcp"
         const val LOST_MS = 2 * 60_000L
     }
 }

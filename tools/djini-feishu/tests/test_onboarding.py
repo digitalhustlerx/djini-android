@@ -8,10 +8,10 @@ import tempfile
 import unittest
 from unittest.mock import Mock, patch
 
-from mika_feishu.config import load_config, save_config
-from mika_feishu.locking import instance_lock
-from mika_feishu.onboarding import ADDONS, qr_page, register, setup
-from mika_feishu.runtime import check_feishu
+from djini_feishu.config import load_config, save_config
+from djini_feishu.locking import instance_lock
+from djini_feishu.onboarding import ADDONS, qr_page, register, setup
+from djini_feishu.runtime import check_feishu
 
 
 class OnboardingTests(unittest.TestCase):
@@ -57,7 +57,7 @@ class OnboardingTests(unittest.TestCase):
             path = Path(directory) / "config.json"
             with patch("builtins.input", return_value="http://127.0.0.1:8765"), \
                     patch("getpass.getpass", return_value="fake-token"), \
-                    patch("mika_feishu.onboarding.register", side_effect=RuntimeError("denied")):
+                    patch("djini_feishu.onboarding.register", side_effect=RuntimeError("denied")):
                 with self.assertRaises(RuntimeError):
                     setup(path, "create", False)
             self.assertFalse(path.exists())
@@ -72,7 +72,7 @@ class OnboardingTests(unittest.TestCase):
                     contextlib.redirect_stdout(io.StringIO()) as output:
                 setup(path, "manual")
             config = load_config(path)
-            self.assertEqual(config["mika_token"], "fake-phone-secret")
+            self.assertEqual(config["djini_token"], "fake-phone-secret")
             self.assertEqual(config["feishu_app_secret"], "fake-app-secret")
             self.assertNotIn("fake-phone-secret", output.getvalue())
             self.assertNotIn("fake-app-secret", output.getvalue())
@@ -80,7 +80,7 @@ class OnboardingTests(unittest.TestCase):
     def test_switching_apps_does_not_reuse_fixed_owner(self):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "config.json"
-            save_config({"mika_url": "http://127.0.0.1:8765", "mika_token": "fake-token",
+            save_config({"djini_url": "http://127.0.0.1:8765", "djini_token": "fake-token",
                          "feishu_app_id": "cli_old", "feishu_app_secret": "fake-secret",
                          "allowed_open_ids": ["ou_old"]}, path)
             with patch("builtins.input", side_effect=["", "cli_new"]), \

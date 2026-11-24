@@ -666,7 +666,7 @@ class ProactiveRuntime(
         /** 任务能不能有读通知的工具:主动能力、「当日消息归纳」都开着,激进程度不是最保守的一档。 */
         internal fun tasksMayReadNotices(proactive: Boolean, digest: Boolean, level: LearnLevel): Boolean =
             proactive && digest && level.intoTasks.isNotEmpty()
-        private const val TAG = "MikaProactive"
+        private const val TAG = "DjiniProactive"
         private const val CATCH_UP_SLACK_MS = 5_000L
 
         fun create(

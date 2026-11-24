@@ -354,7 +354,7 @@ class MemoryToolsTest {
     }
 
     // Djini 自己归纳的那条改写之后还是它归纳的;用户这一轮把内容亲口说了的,才改记成用户说的
-    @Test fun rewordingMikasOwnConclusionKeepsItMarkedAsSuch() {
+    @Test fun rewordingDjinisOwnConclusionKeepsItMarkedAsSuch() {
         val store = memStore(inferenceAllowed = { true })
         val item = store.add(MemoryKind.fact, "用户常在张江路100号附近点外卖", listOf("外卖"),
             MemorySource(MemoryContext.INFERRED, "你自己总结几条写进记忆", atMs = 1)).getOrThrow().item

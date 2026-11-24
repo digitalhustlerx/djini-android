@@ -37,7 +37,7 @@ class MainScreenSpillTest {
         assertTrue(decide(arrival(at = since + window + 1)).isEmpty())
     }
 
-    @Test fun launcherMikaAndNonStandardPagesAreNotSpills() {
+    @Test fun launcherDjiniAndNonStandardPagesAreNotSpills() {
         assertTrue(decide(arrival(pkg = "com.home")).isEmpty())
         assertTrue(decide(arrival(pkg = "com.wangzan101.djini")).isEmpty())
         assertTrue(decide(arrival(standard = false)).isEmpty())

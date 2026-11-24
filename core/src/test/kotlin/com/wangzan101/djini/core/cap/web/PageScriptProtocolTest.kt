@@ -31,14 +31,14 @@ class PageScriptProtocolTest {
     @Test fun settleEmbedsResultAsLiteral() {
         val r = buildJsonObject { put("ok", true); put("value", "a\"b</script>\n") }
         val e = PageScriptProtocol.settle(7, r)
-        assertTrue(e.startsWith("globalThis.__mikaSettle && globalThis.__mikaSettle(7, {"))
+        assertTrue(e.startsWith("globalThis.__djiniSettle && globalThis.__djiniSettle(7, {"))
         // JSON 的转义保证字符串不会把表达式截断
         assertTrue("\\\"b" in e && "\\n" in e)
     }
 
     @Test fun runPassesCodeAsDataNotSource() {
         // 模型代码作为字符串交给事先存下的 AsyncFunction 编译,不拼进表达式
-        assertEquals("globalThis.__mikaRun(\"return '1\\\"'\")", PageScriptProtocol.run("return '1\"'"))
+        assertEquals("globalThis.__djiniRun(\"return '1\\\"'\")", PageScriptProtocol.run("return '1\"'"))
     }
 
     @Test fun errorLineFromStack() {
@@ -84,10 +84,10 @@ class PageScriptProtocolTest {
 
     @Test fun preludeSendsCallsThroughTheOutbox() {
         val p = PageScriptProtocol.PRELUDE
-        // 不靠 DevTools 绑定(那要打开 Runtime):调用放进发件箱,由 __mikaTake 交出,名字在模型代码里同样被遮住
-        assertTrue("fixed(G, '__mikaTake'" in p)
-        assertTrue(p.indexOf("fixed(G, '__mikaTake'") < p.indexOf("const shadow"))
-        assertTrue(PageScriptProtocol.TAKE.startsWith("globalThis.__mikaTake("))
+        // 不靠 DevTools 绑定(那要打开 Runtime):调用放进发件箱,由 __djiniTake 交出,名字在模型代码里同样被遮住
+        assertTrue("fixed(G, '__djiniTake'" in p)
+        assertTrue(p.indexOf("fixed(G, '__djiniTake'") < p.indexOf("const shadow"))
+        assertTrue(PageScriptProtocol.TAKE.startsWith("globalThis.__djiniTake("))
         for (op in listOf("snapshot", "read", "query", "queryAll", "text", "tap", "type", "scroll", "navigate", "waitText")) assertTrue(op, "call('$op'" in p)
     }
 
@@ -108,7 +108,7 @@ class PageScriptProtocolTest {
         assertTrue("const textOf = (el) => (secret(el) ? ''" in r)
         assertTrue("k.startsWith('on')" in r)
         // 读取器只交纯数据
-        assertTrue(PageScriptProtocol.read(buildJsonObject { put("mode", "count") }).startsWith("globalThis.__mikaRead({"))
+        assertTrue(PageScriptProtocol.read(buildJsonObject { put("mode", "count") }).startsWith("globalThis.__djiniRead({"))
     }
 
     @Test fun backstopSeesScriptInitiatedRequests() {

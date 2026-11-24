@@ -108,7 +108,7 @@ class AccessibilityRepairTest {
     }
 
     @Test
-    fun noRepairWhenDeclinedInMika() = runTest {
+    fun noRepairWhenDeclinedInDjini() = runTest {
         val rig = Rig(consent = RecoveryConsent(declined = setOf(RecoveryCapability.Accessibility))).also { it.start(this) }
         advanceTimeBy(60_000)
         assertEquals(emptyList<Long>(), rig.restarts)
@@ -187,7 +187,7 @@ class AccessibilityRepairTest {
     }
 
     @Test
-    fun stopsRetryingWhenDeclinedInMikaBetweenAttempts() = runTest {
+    fun stopsRetryingWhenDeclinedInDjiniBetweenAttempts() = runTest {
         val rig = Rig(comesBack = false).also { it.start(this) }
         advanceTimeBy(AccessibilityRepair.GRACE_MS + 1)
         assertEquals(1, rig.restarts.size)

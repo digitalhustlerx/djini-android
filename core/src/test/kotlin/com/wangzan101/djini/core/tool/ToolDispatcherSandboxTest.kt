@@ -289,7 +289,7 @@ class ToolDispatcherSandboxTest {
         assertEquals("9", r.s("nextOffset"))
     }
 
-    @Test fun outputNotSavedThroughSymlinkedMikaDir() = runTest {
+    @Test fun outputNotSavedThroughSymlinkedDjiniDir() = runTest {
         val outside = File(sb.root, "outside-djini").apply { mkdirs() }
         java.nio.file.Files.createSymbolicLink(File(ws, ".djini").toPath(), outside.toPath())
         sb.next = { CommandResult(0, false, false, 50, "x".repeat(20_000), 0, false) }

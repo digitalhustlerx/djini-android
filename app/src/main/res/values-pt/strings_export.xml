@@ -28,7 +28,7 @@
     <string name="export_warnings">%1$d itens não puderam ser incluídos.</string>
     <string name="export_filename_fallback">Conversa do Djini</string>
     <string name="export_label_user">Usuário</string>
-    <string name="export_label_mika">Djini</string>
+    <string name="export_label_djini">Djini</string>
     <string name="export_label_steer">Mensagem durante a tarefa</string>
     <string name="export_label_answer">Resposta</string>
     <string name="export_label_tool_steps">Etapas de ferramentas</string>

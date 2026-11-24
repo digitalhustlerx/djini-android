@@ -21,13 +21,13 @@ import com.wangzan101.djini.ui.components.FooterNote
 import com.wangzan101.djini.ui.components.GroupCard
 import com.wangzan101.djini.ui.components.GroupLabel
 import com.wangzan101.djini.ui.components.ListRow
-import com.wangzan101.djini.ui.components.MikaDialog
-import com.wangzan101.djini.ui.components.MikaSwitch
+import com.wangzan101.djini.ui.components.DjiniDialog
+import com.wangzan101.djini.ui.components.DjiniSwitch
 import com.wangzan101.djini.ui.components.PageScaffold
 import com.wangzan101.djini.ui.components.RowValue
 import com.wangzan101.djini.ui.components.TileTone
 import com.wangzan101.djini.ui.components.ValueTone
-import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniIcons
 import com.wangzan101.djini.ui.theme.DjiniTheme
 
 /** 设置 › 高级与其他 › Root。只有高级页检测到 su 才能进入;打开时再刷新一次能力。 */
@@ -54,7 +54,7 @@ fun RootSection(
     val commandsTo = { on: Boolean -> if (on) warn = true else onCommands(false) }
     GroupCard {
         ListRow(
-            MikaIcons.Key, PhoneSetupCopy.ROOT_STATUS_TITLE, PhoneSetupCopy.rootStatusLine(state.startGrant), first = true,
+            DjiniIcons.Key, PhoneSetupCopy.ROOT_STATUS_TITLE, PhoneSetupCopy.rootStatusLine(state.startGrant), first = true,
         ) { RowValue(PhoneSetupCopy.ROOT_AVAILABLE, if (state.startGrant == RootGrant.Granted) ValueTone.Ok else ValueTone.Plain) }
     }
     if (helperRow) {
@@ -62,7 +62,7 @@ fun RootSection(
         GroupCard {
             val request = state.startGrant != RootGrant.Granted && state.startGrant != RootGrant.Pending
             ListRow(
-                MikaIcons.Refresh, PhoneSetupCopy.ROOT_START, PhoneSetupCopy.rootStartLine(state.startGrant), first = true,
+                DjiniIcons.Refresh, PhoneSetupCopy.ROOT_START, PhoneSetupCopy.rootStartLine(state.startGrant), first = true,
                 tone = if (state.startGrant == RootGrant.Denied || state.startGrant == RootGrant.NoAnswer) TileTone.Warn else TileTone.Neutral,
                 onClick = if (request) onRequestStart else null,
             ) { RowValue(PhoneSetupCopy.ROOT_AUTO, if (state.startGrant == RootGrant.Granted) ValueTone.Ok else ValueTone.Plain) }
@@ -72,11 +72,11 @@ fun RootSection(
     GroupLabel(PhoneSetupCopy.ROOT_COMMANDS_GROUP)
     GroupCard {
         ListRow(
-            MikaIcons.Terminal, PhoneSetupCopy.ROOT_COMMANDS, PhoneSetupCopy.rootCommandsLine(state.commands, state.commandsGrant), first = true,
+            DjiniIcons.Terminal, PhoneSetupCopy.ROOT_COMMANDS, PhoneSetupCopy.rootCommandsLine(state.commands, state.commandsGrant), first = true,
             tone = if (state.commands) TileTone.Warn else TileTone.Neutral,
             onClick = if (state.commandsGrant == RootGrant.Pending) null else ({ commandsTo(!state.commands) }),
         ) {
-            MikaSwitch(
+            DjiniSwitch(
                 state.commands,
                 if (state.commandsGrant == RootGrant.Pending) ({ _ -> }) else commandsTo,
                 Modifier.testTag("root-commands"),
@@ -85,7 +85,7 @@ fun RootSection(
     }
     FooterNote(PhoneSetupCopy.ROOT_COMMANDS_NOTE)
     if (warn) {
-        MikaDialog(
+        DjiniDialog(
             onDismissRequest = { warn = false },
             title = { Text(PhoneSetupCopy.ROOT_COMMANDS_TITLE) },
             text = { Text(PhoneSetupCopy.ROOT_COMMANDS_WARNING) },

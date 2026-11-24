@@ -354,6 +354,6 @@ class AndroidSelfPort(
     }
 
     private companion object {
-        const val CHANNEL = "mika_self"
+        const val CHANNEL = "djini_self"
     }
 }

@@ -3,7 +3,7 @@ package com.wangzan101.djini.ui
 import com.wangzan101.djini.R
 import com.wangzan101.djini.i18n.tr
 import com.wangzan101.djini.about.CheckStatus
-import com.wangzan101.djini.about.MikaLinks
+import com.wangzan101.djini.about.DjiniLinks
 import com.wangzan101.djini.about.UpdateState
 
 /** 关于页的文字,以及「检查更新」一行、设置首页「关于 Djini」一行、侧栏入口上的提示怎么显示。 */
@@ -40,7 +40,7 @@ object AboutCopy {
     val QR_SAVE_FAILED: String get() = tr(R.string.about_qr_save_failed)
 
     val FOLLOW: String get() = tr(R.string.about_follow)
-    val FOLLOW_SUB: String get() = tr(R.string.about_follow_sub, MikaLinks.X_HANDLE)
+    val FOLLOW_SUB: String get() = tr(R.string.about_follow_sub, DjiniLinks.X_HANDLE)
 
     val DIAGNOSTICS: String get() = tr(R.string.diagnostics_copy)
     val DIAGNOSTICS_SUB: String get() = tr(R.string.diagnostics_copy_sub)
@@ -52,7 +52,7 @@ object AboutCopy {
     val DIAGNOSTICS_LOADING: String get() = tr(R.string.diagnostics_loading)
 
     val REPO: String get() = tr(R.string.about_repo)
-    val REPO_SUB: String get() = tr(R.string.about_repo_sub, MikaLinks.REPO_LABEL)
+    val REPO_SUB: String get() = tr(R.string.about_repo_sub, DjiniLinks.REPO_LABEL)
     val GUIDE: String get() = tr(R.string.about_guide)
     val GUIDE_SUB: String get() = tr(R.string.about_guide_sub)
 

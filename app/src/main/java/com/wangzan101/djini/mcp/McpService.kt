@@ -33,7 +33,7 @@ class McpService : Service() {
         TaskService.ensureChannels(this)
         val quitting = FeatureFlags.get(this).quitRequested()
         val applied = !quitting && runCatching { McpModes.apply(intent?.action, runtime.settings, runtime.usb, runtime.relaySettings) }
-            .onFailure { Log.w("MikaMcp", "could not update computer access settings", it) }.isSuccess
+            .onFailure { Log.w("DjiniMcp", "could not update computer access settings", it) }.isSuccess
         // startForegroundService 之后必须尽快进前台,哪怕马上就要退出;系统不让进前台时就此退出,不让进程崩
         val foreground = runCatching {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
@@ -41,9 +41,9 @@ class McpService : Service() {
             } else {
                 startForeground(NOTIFICATION_ID, notification())
             }
-        }.onFailure { Log.w("MikaMcp", "computer access service could not enter the foreground", it) }.isSuccess
+        }.onFailure { Log.w("DjiniMcp", "computer access service could not enter the foreground", it) }.isSuccess
         val ready = foreground && !FeatureFlags.get(this).quitRequested() && applied && runCatching { runtime.sync() }
-            .onFailure { Log.w("MikaMcp", "could not start computer access", it) }.getOrDefault(false)
+            .onFailure { Log.w("DjiniMcp", "could not start computer access", it) }.getOrDefault(false)
         if (!ready) {
             runtime.stopServer()
             runtime.usb.unpublish()

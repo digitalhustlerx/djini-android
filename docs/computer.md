@@ -58,7 +58,7 @@ AI Agent 请直接看 [Agent 快速路径](agent-quickstart.md)。
 支持任务恢复的手机会记住每次提交的编号。如果断线时没有收到回执，重新连接后任务台会按编号核对近期任务。原任务没出现在近期列表时，可以点「查找原任务」。找不到时可点「用同一编号重试」。刷新同一标签页后仍可核对，任务台会保留待核对的原始要求，直到找回、重试成功或手动放弃核对。
 
 - 多台 ADB 设备时，在页面里选一台，或启动时用 `djini ui --device SERIAL` 指定；Wi-Fi / 私有 VPN 连接沿用 `--url` 和 `--token-file`。
-- 只装了 Skill 时用 `python3 <技能目录>/djini/scripts/mika_cli.py ui`（Windows 用 `py -3`）。
+- 只装了 Skill 时用 `python3 <技能目录>/djini/scripts/djini_cli.py ui`（Windows 用 `py -3`）。
 - 浏览器没自动打开时加 `--no-open`，把终端打出的链接复制到本机浏览器。
 - 任务台只监听本机 `127.0.0.1` 的随机端口，每次启动生成新的链接；链接里的密钥就是使用权，不要发给别人。终端按 Ctrl+C 关掉任务台，已经交给手机的任务照常运行。
 

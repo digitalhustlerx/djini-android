@@ -35,7 +35,7 @@ class ShareExporterDeviceTest {
     /** 和 AndroidSandbox.share 一样:经关口打开工作区里的 [rel],再从这个句柄导出。 */
     private suspend fun export(rel: String, name: String) = AndroidFdSys.gate.openRead(ws, rel).use { exporter.export(it, name) }
 
-    @Test fun exportsToDownloadsMika() = runBlocking {
+    @Test fun exportsToDownloadsDjini() = runBlocking {
         val f = File(ws, "out.txt").apply { writeText("你好".repeat(1000)) }
         val name = "djini-test-${System.currentTimeMillis()}.txt"
         val card = export(f.name, name)

@@ -31,7 +31,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
-import com.wangzan101.djini.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.DjiniDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
@@ -69,8 +69,8 @@ import com.wangzan101.djini.settings.RoleChoice
 import com.wangzan101.djini.ui.components.BarIconButton
 import com.wangzan101.djini.ui.components.ButtonKind
 import com.wangzan101.djini.ui.components.ButtonSize
-import com.wangzan101.djini.ui.components.MikaButton
-import com.wangzan101.djini.ui.components.MikaSwitch
+import com.wangzan101.djini.ui.components.DjiniButton
+import com.wangzan101.djini.ui.components.DjiniSwitch
 import com.wangzan101.djini.ui.components.FieldClearButton
 import com.wangzan101.djini.ui.components.FooterNote
 import com.wangzan101.djini.ui.components.GroupCard
@@ -88,12 +88,12 @@ import com.wangzan101.djini.ui.components.StatusPill
 import com.wangzan101.djini.ui.components.TileTone
 import com.wangzan101.djini.ui.components.TopBar
 import com.wangzan101.djini.ui.components.ValueTone
-import com.wangzan101.djini.ui.theme.MikaIcons
-import com.wangzan101.djini.ui.theme.MikaRadius
-import com.wangzan101.djini.ui.theme.MikaShapes
-import com.wangzan101.djini.ui.theme.MikaSize
+import com.wangzan101.djini.ui.theme.DjiniIcons
+import com.wangzan101.djini.ui.theme.DjiniRadius
+import com.wangzan101.djini.ui.theme.DjiniShapes
+import com.wangzan101.djini.ui.theme.DjiniSize
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.DjiniType
 import com.wangzan101.djini.voice.SpeechChoice
 import com.wangzan101.djini.voice.SpeechOptions
 
@@ -117,7 +117,7 @@ internal fun Page(title: String, onBack: () -> Unit, content: @Composable () -> 
     }
     PageBackground {
         Column(Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.navigationBars).windowInsetsPadding(WindowInsets.ime)) {
-            TopBar(title, MikaIcons.Back, onBack, stringResource(R.string.back))
+            TopBar(title, DjiniIcons.Back, onBack, stringResource(R.string.back))
             Column(Modifier.weight(1f).verticalScroll(scrollState).padding(start = 16.dp, end = 16.dp, bottom = 24.dp)) {
                 content()
             }
@@ -139,15 +139,15 @@ internal fun RoleCard(icon: ImageVector, label: String, line: ModelsCopy.RoleLin
                 Icon(icon, null, Modifier.size(21.dp), tint = c.ink)
             }
             Column(Modifier.weight(1f)) {
-                Text(label, style = MikaType.Hint, color = c.ink3)
+                Text(label, style = DjiniType.Hint, color = c.ink3)
                 Text(
-                    line.title, Modifier.padding(top = 1.dp), style = MikaType.BodyStrong,
+                    line.title, Modifier.padding(top = 1.dp), style = DjiniType.BodyStrong,
                     fontFamily = if (line.isModel) FontFamily.Monospace else null, color = if (line.unset) c.ink3 else c.ink,
                     maxLines = 1, overflow = TextOverflow.Ellipsis,
                 )
                 if (line.subtitle.isNotEmpty()) {
                     Text(
-                        line.subtitle, Modifier.padding(top = 1.dp), style = MikaType.Caption,
+                        line.subtitle, Modifier.padding(top = 1.dp), style = DjiniType.Caption,
                         color = if (line.subtitleOk) c.ok else c.ink2, maxLines = 1, overflow = TextOverflow.Ellipsis,
                     )
                 }
@@ -157,7 +157,7 @@ internal fun RoleCard(icon: ImageVector, label: String, line: ModelsCopy.RoleLin
     }
 }
 
-private val RoleTileShape = MikaShapes.Chip
+private val RoleTileShape = DjiniShapes.Chip
 
 /** 服务商一行:左边是名字首字的图标块;[warning] 是要提醒的一句(用提醒色另起一行)。 */
 @Composable
@@ -169,15 +169,15 @@ internal fun ProviderRow(p: Provider, line: String, first: Boolean, warning: Str
             Modifier.fillMaxWidth().clickable(onClick = onClick).testTag("provider-${p.name}").padding(horizontal = 16.dp).padding(vertical = 11.dp),
             verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(14.dp),
         ) {
-            Box(Modifier.size(MikaSize.Tile).background(c.neutralSoft, MikaShapes.Tile), contentAlignment = Alignment.Center) {
-                Text(p.name.take(1).uppercase(), style = MikaType.Caption.copy(fontWeight = FontWeight.Bold), color = c.ink)
+            Box(Modifier.size(DjiniSize.Tile).background(c.neutralSoft, DjiniShapes.Tile), contentAlignment = Alignment.Center) {
+                Text(p.name.take(1).uppercase(), style = DjiniType.Caption.copy(fontWeight = FontWeight.Bold), color = c.ink)
             }
             Column(Modifier.weight(1f)) {
-                Text(ModelsCopy.providerName(p), style = MikaType.Body, color = c.ink, maxLines = 1)
+                Text(ModelsCopy.providerName(p), style = DjiniType.Body, color = c.ink, maxLines = 1)
                 val poolCount = com.wangzan101.djini.core.model.KeyPoolManager.shared.keyCount(p.id)
                 val poolTag = if (poolCount > 1) " · Key Pool ($poolCount keys)" else ""
-                Text(line + poolTag, Modifier.padding(top = 2.dp), style = MikaType.Caption, color = if (poolCount > 1) c.ok else c.ink3)
-                warning?.let { Text(it, Modifier.padding(top = 2.dp).testTag("provider-warning-${p.name}"), style = MikaType.Caption, color = c.warn) }
+                Text(line + poolTag, Modifier.padding(top = 2.dp), style = DjiniType.Caption, color = if (poolCount > 1) c.ok else c.ink3)
+                warning?.let { Text(it, Modifier.padding(top = 2.dp).testTag("provider-warning-${p.name}"), style = DjiniType.Caption, color = c.warn) }
             }
             RowChevron()
         }
@@ -222,7 +222,7 @@ fun RolePickerContent(ui: ModelSetupUi, role: ModelRole, actions: RolePickerActi
     Page(titleOverride ?: ModelsCopy.roleName(role), onBack) {
         val hint = hintOverride ?: ModelsCopy.roleHint(role)
         if (hint.isNotEmpty()) {
-            Text(hint, Modifier.padding(top = 4.dp, bottom = 12.dp), style = MikaType.Body, color = c.ink2)
+            Text(hint, Modifier.padding(top = 4.dp, bottom = 12.dp), style = DjiniType.Body, color = c.ink2)
         }
         val fixed = fixedChoices(role)
         if (fixed.isNotEmpty()) {
@@ -277,7 +277,7 @@ fun RolePickerContent(ui: ModelSetupUi, role: ModelRole, actions: RolePickerActi
         if (q.isNotEmpty() && !anyShown) FooterNote(ModelsCopy.NO_MATCH)
         if (ui.providers.isEmpty()) FooterNote(ModelsCopy.ROLE_EMPTY)
         GroupCard(Modifier.padding(top = 8.dp)) {
-            ListRow(MikaIcons.Plus, ModelsCopy.ADD_PROVIDER, first = true, titleColor = c.accent, tone = TileTone.Accent, onClick = actions.addProvider)
+            ListRow(DjiniIcons.Plus, ModelsCopy.ADD_PROVIDER, first = true, titleColor = c.accent, tone = TileTone.Accent, onClick = actions.addProvider)
         }
         FooterNote(ModelsCopy.PICKER_NOTE)
     }
@@ -293,7 +293,7 @@ internal fun ManualModel(p: Provider, state: ListState?, first: Boolean, onUse: 
     InputRow(ModelsCopy.MODEL_NAME, name, { name = it }, example, first = first, modifier = Modifier.testTag("manual-model")) {
         Text(
             if (running) ModelSetupCopy.TESTING else ModelsCopy.USE, Modifier.clickable(enabled = enabled) { onUse(name.trim()) }.testTag("manual-model-use"),
-            style = MikaType.Label, color = if (enabled) DjiniTheme.colors.accent else DjiniTheme.colors.ink3,
+            style = DjiniType.Label, color = if (enabled) DjiniTheme.colors.accent else DjiniTheme.colors.ink3,
         )
     }
 }
@@ -411,7 +411,7 @@ fun ProviderDetailContent(ui: ModelSetupUi, p: Provider, actions: ProviderDetail
                                 Text(
                                     "Remove",
                                     color = c.bad,
-                                    style = MikaType.Caption,
+                                    style = DjiniType.Caption,
                                     modifier = Modifier
                                         .clickable { actions.removeKey(k) }
                                         .padding(start = 12.dp, top = 2.dp, bottom = 2.dp)
@@ -423,7 +423,7 @@ fun ProviderDetailContent(ui: ModelSetupUi, p: Provider, actions: ProviderDetail
                 }
                 // Add key — always visible
                 ListRow(
-                    icon = MikaIcons.Plus,
+                    icon = DjiniIcons.Plus,
                     title = "Add API Key",
                     subtitle = if (keys.isEmpty()) "Paste your key to connect" else "Add another key to the rotation pool",
                     first = keys.isEmpty(),
@@ -439,7 +439,7 @@ fun ProviderDetailContent(ui: ModelSetupUi, p: Provider, actions: ProviderDetail
 
         GroupCard {
             ListRow(
-                MikaIcons.Clock, stringResource(R.string.models_daily_token_budget),
+                DjiniIcons.Clock, stringResource(R.string.models_daily_token_budget),
                 p.dailyTokenBudget?.let(::tokenBudgetNumber) ?: stringResource(R.string.settings_token_budget_unlimited),
                 first = true,
                 onClick = {
@@ -452,7 +452,7 @@ fun ProviderDetailContent(ui: ModelSetupUi, p: Provider, actions: ProviderDetail
 
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
             GroupLabel(ModelsCopy.MODELS, Modifier.weight(1f))
-            BarIconButton(MikaIcons.Refresh, ModelsCopy.REFRESH, actions.refresh, enabled = state != ListState.Running)
+            BarIconButton(DjiniIcons.Refresh, ModelsCopy.REFRESH, actions.refresh, enabled = state != ListState.Running)
         }
         if (list.isNotEmpty()) {
             GroupCard {
@@ -474,7 +474,7 @@ fun ProviderDetailContent(ui: ModelSetupUi, p: Provider, actions: ProviderDetail
         // 有模型在用时可以就地重测一次;没有的在用的,先刷新列表或去选一个
         if (unverified.isNotEmpty()) {
             val retest = ui.retest[p.id]
-            MikaButton(
+            DjiniButton(
                 if (retest == ListState.Running) ModelSetupCopy.TESTING else ModelsCopy.RETEST, actions.retest,
                 Modifier.fillMaxWidth().padding(bottom = 8.dp).testTag("provider-retest"),
                 kind = ButtonKind.Secondary, size = ButtonSize.Medium, enabled = retest != ListState.Running,
@@ -488,7 +488,7 @@ fun ProviderDetailContent(ui: ModelSetupUi, p: Provider, actions: ProviderDetail
         }
 
         GroupCard(Modifier.padding(top = 8.dp)) {
-            ListRow(MikaIcons.Trash, ModelsCopy.DELETE, titleColor = c.bad, tone = TileTone.Bad, first = true, onClick = { confirmDelete = true })
+            ListRow(DjiniIcons.Trash, ModelsCopy.DELETE, titleColor = c.bad, tone = TileTone.Bad, first = true, onClick = { confirmDelete = true })
         }
     }
 
@@ -510,19 +510,19 @@ fun ProviderDetailContent(ui: ModelSetupUi, p: Provider, actions: ProviderDetail
         var notice by remember { mutableStateOf(ApiKeyText.Notice.None) }
         val blocked = notice == ApiKeyText.Notice.IllegalCharacters
         val parsedKeys = remember(key) { com.wangzan101.djini.core.model.KeyPoolManager.shared.parseKeys(key) }
-        MikaDialog(
+        DjiniDialog(
             onDismissRequest = { changingKey = false },
             title = { Text(ModelsCopy.CHANGE_KEY) },
             text = {
                 KeyboardDismissArea {
                     Column(Modifier.fillMaxWidth()) {
                         Row(
-                            Modifier.fillMaxWidth().keepsKeyboard().background(c.fill, MikaShapes.Button)
+                            Modifier.fillMaxWidth().keepsKeyboard().background(c.fill, DjiniShapes.Button)
                                 .padding(start = 12.dp, end = 4.dp, top = 12.dp, bottom = 12.dp),
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             Box(Modifier.weight(1f)) {
-                                if (key.isEmpty()) Text("Paste one or more keys (comma or newline separated)", style = MikaType.Body, color = c.ink3)
+                                if (key.isEmpty()) Text("Paste one or more keys (comma or newline separated)", style = DjiniType.Body, color = c.ink3)
                                 BasicTextField(
                                     key,
                                     { raw ->
@@ -531,7 +531,7 @@ fun ProviderDetailContent(ui: ModelSetupUi, p: Provider, actions: ProviderDetail
                                         notice = accepted.notice
                                     },
                                     Modifier.fillMaxWidth().testTag("new-key"), singleLine = false, maxLines = 4,
-                                    textStyle = MikaType.Body.copy(color = c.ink), cursorBrush = SolidColor(c.accent),
+                                    textStyle = DjiniType.Body.copy(color = c.ink), cursorBrush = SolidColor(c.accent),
                                     visualTransformation = PasswordVisualTransformation(),
                                 )
                             }
@@ -550,7 +550,7 @@ fun ProviderDetailContent(ui: ModelSetupUi, p: Provider, actions: ProviderDetail
                         if (parsedKeys.size > 1) {
                             Text(
                                 "✓ Key Pool: ${parsedKeys.size} API keys detected (auto-rotating on 429/timeout)",
-                                style = MikaType.Caption,
+                                style = DjiniType.Caption,
                                 color = c.ok,
                                 modifier = Modifier.padding(top = 6.dp),
                             )
@@ -580,7 +580,7 @@ fun ProviderDetailContent(ui: ModelSetupUi, p: Provider, actions: ProviderDetail
         var notice by remember { mutableStateOf(ApiKeyText.Notice.None) }
         val blocked = notice == ApiKeyText.Notice.IllegalCharacters
         val parsedAdding = remember(newKeyText) { com.wangzan101.djini.core.model.KeyPoolManager.shared.parseKeys(newKeyText) }
-        MikaDialog(
+        DjiniDialog(
             onDismissRequest = { addingKey = false },
             title = {
                 Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
@@ -602,18 +602,18 @@ fun ProviderDetailContent(ui: ModelSetupUi, p: Provider, actions: ProviderDetail
                     Column(Modifier.fillMaxWidth()) {
                         Text(
                             "Paste one key, or multiple keys separated by commas or new lines to add them all at once.",
-                            style = MikaType.Caption, color = c.ink2,
+                            style = DjiniType.Caption, color = c.ink2,
                             modifier = Modifier.padding(bottom = 10.dp),
                         )
                         Box(
                             Modifier.fillMaxWidth().keepsKeyboard()
-                                .background(c.fill, MikaShapes.Button)
+                                .background(c.fill, DjiniShapes.Button)
                                 .padding(horizontal = 12.dp, vertical = 10.dp)
                         ) {
                             if (newKeyText.isEmpty()) {
                                 Text(
                                     "Paste API key(s) here",
-                                    style = MikaType.Body, color = c.ink3,
+                                    style = DjiniType.Body, color = c.ink3,
                                 )
                             }
                             BasicTextField(
@@ -626,7 +626,7 @@ fun ProviderDetailContent(ui: ModelSetupUi, p: Provider, actions: ProviderDetail
                                 Modifier.fillMaxWidth().testTag("add-key-input"),
                                 singleLine = false,
                                 maxLines = 5,
-                                textStyle = MikaType.Body.copy(
+                                textStyle = DjiniType.Body.copy(
                                     color = c.ink,
                                     fontFamily = if (showAddKey) FontFamily.Monospace else null,
                                 ),
@@ -638,12 +638,12 @@ fun ProviderDetailContent(ui: ModelSetupUi, p: Provider, actions: ProviderDetail
                         when {
                             parsedAdding.size > 1 -> Text(
                                 "${parsedAdding.size} keys detected — all will be added to the rotation pool",
-                                style = MikaType.Caption, color = c.ok,
+                                style = DjiniType.Caption, color = c.ok,
                                 modifier = Modifier.padding(top = 6.dp),
                             )
                             newKeyText.isNotBlank() && !blocked -> Text(
                                 "1 key ready to add",
-                                style = MikaType.Caption, color = c.ok,
+                                style = DjiniType.Caption, color = c.ok,
                                 modifier = Modifier.padding(top = 6.dp),
                             )
                             else -> ApiKeyNoticeNote(notice, tag = "add-key-notice")
@@ -666,7 +666,7 @@ fun ProviderDetailContent(ui: ModelSetupUi, p: Provider, actions: ProviderDetail
         )
     }
     if (confirmDelete) {
-        MikaDialog(
+        DjiniDialog(
             onDismissRequest = { confirmDelete = false },
             title = { Text(ModelsCopy.deleteTitle(ModelsCopy.providerName(p))) },
             text = { Text(ModelsCopy.deleteBody(ui.rolesOf(p))) },
@@ -770,8 +770,8 @@ fun AllModelsContent(ui: ModelSetupUi, p: Provider, actions: ProviderDetailActio
     val shown = all.filter { q.isEmpty() || it.id.contains(q, ignoreCase = true) }
     PageBackground {
         Column(Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.navigationBars).windowInsetsPadding(WindowInsets.ime)) {
-            TopBar(ModelsCopy.allModelsTitle(ModelsCopy.providerName(p)), MikaIcons.Back, onBack, stringResource(R.string.back), right = {
-                BarIconButton(MikaIcons.Refresh, ModelsCopy.REFRESH, actions.refresh, enabled = state != ListState.Running)
+            TopBar(ModelsCopy.allModelsTitle(ModelsCopy.providerName(p)), DjiniIcons.Back, onBack, stringResource(R.string.back), right = {
+                BarIconButton(DjiniIcons.Refresh, ModelsCopy.REFRESH, actions.refresh, enabled = state != ListState.Running)
             })
             Box(Modifier.padding(start = 16.dp, end = 16.dp, top = 4.dp, bottom = 10.dp)) {
                 SearchField(filter, { filter = it }, ModelsCopy.FILTER_HINT, Modifier.testTag("all-models-filter"))
@@ -801,7 +801,7 @@ fun AllModelsContent(ui: ModelSetupUi, p: Provider, actions: ProviderDetailActio
 
 /** 一张卡拆成懒加载的行时,每行的圆角:首行上圆、末行下圆。 */
 private fun rowShape(i: Int, n: Int): RoundedCornerShape {
-    val r = MikaRadius.Card
+    val r = DjiniRadius.Card
     return RoundedCornerShape(topStart = if (i == 0) r else 0.dp, topEnd = if (i == 0) r else 0.dp,
         bottomStart = if (i == n - 1) r else 0.dp, bottomEnd = if (i == n - 1) r else 0.dp)
 }
@@ -833,10 +833,10 @@ private fun ModelRow(o: ModelOption, roles: List<ModelRole>, first: Boolean, onC
 @Composable
 private fun UseAsSheet(ui: ModelSetupUi, p: Provider, model: String, onUse: (ModelRole) -> Unit, onVision: (Boolean) -> Unit, onDismiss: () -> Unit) {
     val c = DjiniTheme.colors
-    ModalBottomSheet(onDismissRequest = onDismiss, sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true), containerColor = c.surface, shape = MikaShapes.SheetTop) {
+    ModalBottomSheet(onDismissRequest = onDismiss, sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true), containerColor = c.surface, shape = DjiniShapes.SheetTop) {
         Column(Modifier.fillMaxWidth().navigationBarsPadding().padding(bottom = 8.dp).testTag("use-as")) {
             Text(model, Modifier.padding(horizontal = 16.dp), style = ModelIdStyle, color = c.ink, maxLines = 2, overflow = TextOverflow.Ellipsis)
-            Text(ModelsCopy.useAsSubtitle(ModelsCopy.providerName(p)), Modifier.padding(start = 16.dp, end = 16.dp, top = 2.dp, bottom = 6.dp), style = MikaType.Caption, color = c.ink3)
+            Text(ModelsCopy.useAsSubtitle(ModelsCopy.providerName(p)), Modifier.padding(start = 16.dp, end = 16.dp, top = 2.dp, bottom = 6.dp), style = DjiniType.Caption, color = c.ink3)
             ModelRole.entries.forEachIndexed { i, role ->
                 val on = ui.picked(role, p.id, model)
                 RadioRow(
@@ -849,7 +849,7 @@ private fun UseAsSheet(ui: ModelSetupUi, p: Provider, model: String, onUse: (Mod
                 val usedForVision = ModelRole.Vision in ui.rolesOf(p.id, model)
                 val sees = ModelOptions.seesImages(o.capabilities.vision, o.visionByUser, usedForVision)
                 ListRow(null, ModelsCopy.SEES_IMAGES, ModelsCopy.seesNote(o, usedForVision)) {
-                    MikaSwitch(sees, onVision, Modifier.testTag("model-sees-images"))
+                    DjiniSwitch(sees, onVision, Modifier.testTag("model-sees-images"))
                 }
             }
             ListRow(null, ModelSetupCopy.CANCEL, titleColor = c.ink2, onClick = onDismiss)
@@ -1068,7 +1068,7 @@ object ModelsCopy {
 
     /** 第四个用途「语音转文字」不在 [ModelRole] 里(它不是对话模型),卡片的名字、图标、右边两行在这里。 */
     val SPEECH_LABEL: String get() = "${tr(R.string.role_speech)} · ${tr(R.string.role_speech_what)}"
-    val SPEECH_ICON: ImageVector get() = MikaIcons.Mic
+    val SPEECH_ICON: ImageVector get() = DjiniIcons.Mic
 
     fun speechLine(ui: ModelSetupUi): RoleLine {
         val s = SpeechOptions.summary(ui.speech, ui.systemSpeech, ui.providers)
@@ -1077,7 +1077,7 @@ object ModelsCopy {
     }
 
     /** 主模型备援(项目 3)的卡片图标、名字和右边两行:和用途卡同一套说法。 */
-    val FALLBACK_ICON: ImageVector get() = MikaIcons.Refresh
+    val FALLBACK_ICON: ImageVector get() = DjiniIcons.Refresh
     val FALLBACK_CLEAR: String get() = tr(R.string.main_fallback_clear)
 
     fun fallbackLabel(role: ModelRole, slot: Int) = "${roleName(role)} ${tr(R.string.main_fallback_name, slot + 1)} · ${tr(R.string.main_fallback_what)}"
@@ -1094,20 +1094,20 @@ object ModelsCopy {
 
     /** 第五个用途「声音模型」:朗读/主动说话,和语音转写一样不在 [ModelRole] 里。 */
     val VOICE_LABEL: String get() = "${tr(R.string.role_voice)} · ${tr(R.string.role_voice_what)}"
-    val VOICE_ICON: ImageVector get() = MikaIcons.Sound
+    val VOICE_ICON: ImageVector get() = DjiniIcons.Sound
 
     fun voiceLine(): RoleLine = RoleLine(tr(R.string.role_voice), tr(R.string.role_voice_what), unset = true)
 
     /** 第六个用途「图片模型」:同样不在 [ModelRole] 里。入口卡片只说明用途,详细状态在设置页里。 */
     val IMAGE_LABEL: String get() = "${tr(R.string.role_image)} · ${tr(R.string.role_image_what)}"
-    val IMAGE_ICON: ImageVector get() = MikaIcons.Photo
+    val IMAGE_ICON: ImageVector get() = DjiniIcons.Photo
 
     fun imageLine(ui: ModelSetupUi): RoleLine = RoleLine(tr(R.string.role_image), tr(R.string.role_image_what), unset = true)
 
     fun roleIcon(role: ModelRole): ImageVector = when (role) {
-        ModelRole.Main -> MikaIcons.Spark
-        ModelRole.Vision -> MikaIcons.Eye
-        ModelRole.Light -> MikaIcons.Leaf
+        ModelRole.Main -> DjiniIcons.Spark
+        ModelRole.Vision -> DjiniIcons.Eye
+        ModelRole.Light -> DjiniIcons.Leaf
     }
 
     /** 用途卡上写什么:选了模型写模型名和服务商;「用主模型」写主模型是谁;「不用」写只靠文字读屏。 */

@@ -83,7 +83,7 @@ fun AppPaceScreen(global: OperatingPace, flags: FeatureFlags, onBack: () -> Unit
     )
     editing?.let { pkg ->
         val current = overrides.orEmpty()[pkg]
-        MikaDialog(
+        DjiniDialog(
             onDismissRequest = { editing = null },
             title = { Text(apps.firstOrNull { it.first == pkg }?.second ?: pkg) },
             text = {
@@ -118,7 +118,7 @@ private fun AppPacePickerDialog(
     val candidates = remember(installed, already, search) {
         installed.filter { (pkg, label) -> pkg !in already && (pkg.contains(search, true) || label.contains(search, true)) }
     }
-    MikaDialog(
+    DjiniDialog(
         onDismissRequest = onDismiss,
         title = { Text(stringResource(R.string.settings_pace_per_app_add)) },
         text = {

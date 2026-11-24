@@ -53,12 +53,12 @@ class SelfUi {
 
 /** 后台通知点开后带回来的 extra。 */
 internal object SelfIntents {
-    const val EXTRA_SCREEN = "mika_self_screen"
-    const val EXTRA_FILE = "mika_self_file"
-    const val EXTRA_FILE_CONVERSATION = "mika_self_file_conversation"
-    const val EXTRA_FILE_NAME = "mika_self_file_name"
-    const val EXTRA_URL = "mika_self_url"
-    const val EXTRA_LOGIN_HOST = "mika_self_login_host"
-    const val EXTRA_NEW_TAB = "mika_self_new_tab"
-    const val EXTRA_SHOW = "mika_self_show"
+    const val EXTRA_SCREEN = "djini_self_screen"
+    const val EXTRA_FILE = "djini_self_file"
+    const val EXTRA_FILE_CONVERSATION = "djini_self_file_conversation"
+    const val EXTRA_FILE_NAME = "djini_self_file_name"
+    const val EXTRA_URL = "djini_self_url"
+    const val EXTRA_LOGIN_HOST = "djini_self_login_host"
+    const val EXTRA_NEW_TAB = "djini_self_new_tab"
+    const val EXTRA_SHOW = "djini_self_show"
 }

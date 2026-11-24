@@ -8,7 +8,7 @@ Requirements: Docker Compose, a domain pointing to the server, and inbound TCP 8
 
 ```sh
 cp .env.example .env
-# Edit .env: set MIKA_DOMAIN to your domain, without a scheme or path.
+# Edit .env: set DJINI_DOMAIN to your domain, without a scheme or path.
 docker compose build
 docker build --target caddy-check .
 docker compose run --rm relay -init-owner-key -owner-key-file /data/owner-key
@@ -29,7 +29,7 @@ If Nginx already owns ports 80/443, use the standalone [compose.nginx.yaml](comp
 
 ```sh
 cp .env.example .env
-# Set MIKA_DOMAIN, then edit nginx.conf.example: domain and certificate paths.
+# Set DJINI_DOMAIN, then edit nginx.conf.example: domain and certificate paths.
 docker compose -p djini-relay -f compose.nginx.yaml build
 docker compose -p djini-relay -f compose.nginx.yaml run --rm relay -init-owner-key -owner-key-file /data/owner-key
 docker compose -p djini-relay -f compose.nginx.yaml up -d
@@ -56,7 +56,7 @@ djini --url https://djini.example.com --token-file /path/to/token task list --li
 
 Pass `--url` and `--token-file` on every remote invocation; `djini connect` verifies the connection and does not save a remote profile. Neither the command copied by Djini nor the gateway's Web UI embeds the phone token. MCP and CLI see the same tasks: creation, status, waiting, answering, steering and cancellation use the existing phone services. Forwarding adds no new phone permissions.
 
-Wake and unlock are **off over the gateway by default**. Over the LAN only devices on the same network can reach the phone; through the gateway the whole internet can, and the gateway itself sees the token. Requests arriving through the gateway therefore do not see the screen capabilities at all (`mika_device_state`, `mika_wake_device`, `mika_unlock_device`, `/api/v1/device`, and `device_state` in `/api/v1` capabilities). To use them remotely, turn on all three on the phone: **Allow remote access**, **Allow wake and unlock through the gateway** on the Remote page (off by default, reset to off on every pairing), and the existing **Allow remote wake and unlock**. LAN and USB behaviour is unchanged.
+Wake and unlock are **off over the gateway by default**. Over the LAN only devices on the same network can reach the phone; through the gateway the whole internet can, and the gateway itself sees the token. Requests arriving through the gateway therefore do not see the screen capabilities at all (`djini_device_state`, `djini_wake_device`, `djini_unlock_device`, `/api/v1/device`, and `device_state` in `/api/v1` capabilities). To use them remotely, turn on all three on the phone: **Allow remote access**, **Allow wake and unlock through the gateway** on the Remote page (off by default, reset to off on every pairing), and the existing **Allow remote wake and unlock**. LAN and USB behaviour is unchanged.
 
 The gateway does not provide OAuth registration, discovery, authorization or refresh tokens. Clients that require those flows without accepting a custom Bearer header are outside this version's supported client set. Browser-origin protocol requests are rejected by the phone, matching LAN access. The existing MCP endpoint returns JSON without SSE or session IDs.
 

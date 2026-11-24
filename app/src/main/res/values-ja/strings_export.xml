@@ -28,7 +28,7 @@
     <string name="export_warnings">%1$d 件を含められませんでした。</string>
     <string name="export_filename_fallback">Djini の会話</string>
     <string name="export_label_user">ユーザー</string>
-    <string name="export_label_mika">Djini</string>
+    <string name="export_label_djini">Djini</string>
     <string name="export_label_steer">タスク中のメッセージ</string>
     <string name="export_label_answer">回答</string>
     <string name="export_label_tool_steps">ツール手順</string>

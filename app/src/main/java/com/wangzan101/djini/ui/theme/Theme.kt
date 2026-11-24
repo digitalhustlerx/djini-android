@@ -33,7 +33,7 @@ import com.wangzan101.djini.settings.ThemeAccent
 import com.wangzan101.djini.settings.ThemeMode
 
 /** 动效:时长和曲线。系统关了动画时([DjiniTheme.reduceMotion])直接到位。 */
-object MikaMotion {
+object DjiniMotion {
     const val PAGE_MS = 220
     const val SWITCH_MS = 200
     /** 减速曲线:起步快、落地慢。 */
@@ -50,8 +50,8 @@ fun animationsOff(context: Context): Boolean =
 val LocalReduceMotion = staticCompositionLocalOf { false }
 
 object DjiniTheme {
-    val colors: MikaColors
-        @Composable @ReadOnlyComposable get() = LocalMikaColors.current
+    val colors: DjiniColors
+        @Composable @ReadOnlyComposable get() = LocalDjiniColors.current
 
     val reduceMotion: Boolean
         @Composable @ReadOnlyComposable get() = LocalReduceMotion.current
@@ -119,7 +119,7 @@ fun DjiniTheme(
     }
     CompositionLocalProvider(
         LocalLayoutDirection provides layoutDirection,
-        LocalMikaColors provides colors,
+        LocalDjiniColors provides colors,
         LocalReduceMotion provides reduceMotion,
     ) {
         MaterialTheme(colorScheme = materialColors) {
@@ -128,7 +128,7 @@ fun DjiniTheme(
     }
 }
 
-private fun scheme(c: MikaColors): ColorScheme {
+private fun scheme(c: DjiniColors): ColorScheme {
     val base = if (c.isDark) darkColorScheme() else lightColorScheme()
     return base.copy(
         primary = c.accent, onPrimary = c.onAccent, primaryContainer = c.accentSoft, onPrimaryContainer = c.accent,

@@ -222,7 +222,7 @@ class McpRuntime(
     fun regenerateToken(): String = settings.regenerate()
 
     companion object {
-        private const val TAG = "MikaMcp"
+        private const val TAG = "DjiniMcp"
 
         /** 主用户的外部存储在 shell 里也叫 /sdcard;给人看的命令用短写法(和「用电脑启动」的脚本一样)。 */
         private fun shortPath(path: String) = HelperHandoff.usbCommand(path).removePrefix("adb shell sh ")

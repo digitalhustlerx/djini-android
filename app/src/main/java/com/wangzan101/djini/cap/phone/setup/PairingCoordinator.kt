@@ -154,7 +154,7 @@ class PairingCoordinator(context: Context, private val control: BuiltinShellCont
     }
 
     private companion object {
-        const val TAG = "MikaPairing"
+        const val TAG = "DjiniPairing"
         /** 配对窗口开着的时间有限;从最后一次 [begin] 起超过这么久没配上就不再找,下次 [begin] 再开始。 */
         const val WINDOW_MS = 10 * 60_000L
     }

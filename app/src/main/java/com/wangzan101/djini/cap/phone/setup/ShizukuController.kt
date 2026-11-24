@@ -308,6 +308,6 @@ class ShizukuController internal constructor(
     companion object {
         const val SHIZUKU_PACKAGE = "moe.shizuku.privileged.api"
         const val REQUEST_CODE = 1001
-        private const val TAG = "MikaShizuku"
+        private const val TAG = "DjiniShizuku"
     }
 }

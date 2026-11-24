@@ -74,20 +74,20 @@ fun DeviceDirectoriesScreen(store: DeviceDirectoryStore, hub: HelperHub, onBack:
                 }
                 val source = when (directory.source) {
                     "preset" -> stringResource(R.string.device_dirs_source_preset)
-                    "djini" -> stringResource(R.string.device_dirs_source_mika)
+                    "djini" -> stringResource(R.string.device_dirs_source_djini)
                     else -> stringResource(R.string.device_dirs_source_user)
                 }
                 ListRow(null, directory.name, "${directory.path}\n${directory.description}\n$status · $source", first = index == 0 && synced,
                     onClick = { editing = directory }) { RowChevron() }
                 ListRow(null, stringResource(R.string.device_dirs_authorize),
                     stringResource(if (synced) R.string.device_dirs_synced else R.string.device_dirs_not_synced)) {
-                    MikaSwitch(directory.allowed, { allowed ->
+                    DjiniSwitch(directory.allowed, { allowed ->
                         updateAuthorization(directory, allowed, directory.includeSubdirectories)
                     })
                 }
                 if (directory.allowed) {
                     ListRow(null, stringResource(R.string.device_dirs_recursive)) {
-                        MikaSwitch(directory.includeSubdirectories, { include ->
+                        DjiniSwitch(directory.includeSubdirectories, { include ->
                             updateAuthorization(directory, true, include)
                         })
                     }
@@ -103,7 +103,7 @@ fun DeviceDirectoriesScreen(store: DeviceDirectoryStore, hub: HelperHub, onBack:
         var description by remember(original, adding) { mutableStateOf(original?.description.orEmpty()) }
         var error by remember(original, adding) { mutableStateOf(false) }
         fun close() { adding = false; editing = null }
-        MikaDialog(onDismissRequest = ::close, title = { Text(stringResource(R.string.device_dirs_edit)) }, text = {
+        DjiniDialog(onDismissRequest = ::close, title = { Text(stringResource(R.string.device_dirs_edit)) }, text = {
             Column {
                 OutlinedTextField(name, { name = it.take(100) }, label = { Text(stringResource(R.string.device_dirs_name)) }, modifier = Modifier.fillMaxWidth())
                 OutlinedTextField(path, { path = it.take(1024) }, label = { Text(stringResource(R.string.device_dirs_path)) }, modifier = Modifier.fillMaxWidth())

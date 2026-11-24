@@ -68,7 +68,7 @@ class GoogleGroundingSearchTest {
             apiKey = " gk-test ",
             model = "models/gemini-2.5-flash",
             client = client,
-            headers = mapOf("User-Agent" to "MikaTest/1.0"),
+            headers = mapOf("User-Agent" to "DjiniTest/1.0"),
         )
         val result = search.search("latest kotlin release", count = 2) as WebSearchResult.Success
 
@@ -76,7 +76,7 @@ class GoogleGroundingSearchTest {
         assertEquals("POST", req.method)
         assertEquals("/v1beta/models/gemini-2.5-flash:generateContent", req.path)
         assertEquals("gk-test", req.getHeader("x-goog-api-key"))
-        assertEquals("MikaTest/1.0", req.getHeader("User-Agent"))
+        assertEquals("DjiniTest/1.0", req.getHeader("User-Agent"))
         assertNull(req.getHeader("Authorization"))
 
         val sent = Json.parseToJsonElement(req.body.readUtf8()).jsonObject

@@ -5,7 +5,7 @@
 ```kotlin
 if (shown.value == 0f) repeat(SETTLE_FRAMES) { withFrameNanos { } }   // 帧停 → 永久挂起
 opened()                                                                // cardOut=true、syncWindowVisibility
-shown.animateTo(1f, tween(CARD_IN_MS, easing = MikaMotion.Decelerate)) // 帧停 → 卡在中间值
+shown.animateTo(1f, tween(CARD_IN_MS, easing = DjiniMotion.Decelerate)) // 帧停 → 卡在中间值
 ```
 
 卡片窗口的 `onOpened` 回调把 `cardOut` 置 true（边窗 `CapsuleOverlay` 据此不再画那颗胶囊）并同步窗口可见性。帧停在 SETTLE 阶段 → `opened()` 不执行 → 边上的胶囊继续画（#323 里「藏在后面的悬浮球」）、窗口状态卡在 opening；帧停在 animateTo 阶段 → 卡片停在 0.6–1.0 之间的缩放、`transformOrigin` 指向停靠边（症状：画面不全、贴右缩小）。边窗自己（`CapsuleOverlay`，恒 `open = true`）的同一处 SETTLE 等待同理，帧停则胶囊永远不出现。

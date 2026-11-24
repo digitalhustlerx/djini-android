@@ -8,13 +8,13 @@ import tempfile
 import unittest
 from pathlib import Path
 
-import test_mika_cli
-from test_mika_cli import DISCOVERY, SCRIPT, SNAPSHOT, TOKEN, api
-from test_mika_desk import desk, request
+import test_djini_cli
+from test_djini_cli import DISCOVERY, SCRIPT, SNAPSHOT, TOKEN, api
+from test_djini_desk import desk, request
 
 
 class TaskFilesTest(unittest.TestCase):
-    invoke = test_mika_cli.CliTest.invoke
+    invoke = test_djini_cli.CliTest.invoke
 
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()

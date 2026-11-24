@@ -55,8 +55,8 @@
     <string name="browser_home">Halaman awal</string>
     <string name="share">Bagikan</string>
     <string name="more">Lainnya</string>
-    <string name="browser_login_for_mika">Masuk untuk Djini</string>
-    <string name="browser_login_for_mika_sub">" · membuka versi %1$s yang dipakai Djini untuk tugas; setelah Anda masuk, Djini juga bisa memakainya"</string>
+    <string name="browser_login_for_djini">Masuk untuk Djini</string>
+    <string name="browser_login_for_djini_sub">" · membuka versi %1$s yang dipakai Djini untuk tugas; setelah Anda masuk, Djini juga bisa memakainya"</string>
     <string name="browser_mobile">Seluler</string>
     <string name="browser_copy_link">Salin tautan</string>
     <string name="browser_open_outside">Buka di browser lain</string>

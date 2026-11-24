@@ -29,7 +29,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import com.wangzan101.djini.browser.PageAskMode
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import com.wangzan101.djini.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.DjiniDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
@@ -69,7 +69,7 @@ import com.wangzan101.djini.browser.UserBrowser
 import com.wangzan101.djini.core.cap.web.WebUrlPolicy
 import com.wangzan101.djini.core.uistate.PageDialog
 import com.wangzan101.djini.ui.components.PageBackground
-import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.DjiniType
 
 /**
  * 浏览器页(侧栏「浏览器」):没有打开的网页时是起始页([BrowserStart]:搜索框、常用网站、最近打开),
@@ -423,13 +423,13 @@ private fun chooserMimeTypes(params: WebChromeClient.FileChooserParams): Array<S
 
 @Composable
 private fun WebPermissionDialog(site: String, what: String, onAllow: () -> Unit, onDeny: () -> Unit) {
-    MikaDialog(
+    DjiniDialog(
         onDismissRequest = onDeny,
         title = { Text(site) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 Text(tr(R.string.browser_permission_ask))
-                Text(what, style = MikaType.BodyStrong)
+                Text(what, style = DjiniType.BodyStrong)
             }
         },
         confirmButton = { TextButton(onClick = onAllow) { Text(tr(R.string.browser_permission_allow)) } },
@@ -462,7 +462,7 @@ private fun openOutside(context: Context, url: String): String? = try {
 private fun PageDialogBox(d: PageDialog, answer: (Boolean, String?) -> Unit) {
     var input by remember(d) { mutableStateOf(d.defaultText.orEmpty()) }
     val leave = d.kind == PageDialog.BEFORE_UNLOAD
-    MikaDialog(
+    DjiniDialog(
         onDismissRequest = { answer(false, null) },
         title = { Text(if (leave) tr(R.string.browser_leave_q) else tr(R.string.browser_page_says)) },
         text = {

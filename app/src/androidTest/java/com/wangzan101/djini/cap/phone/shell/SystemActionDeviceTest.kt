@@ -42,7 +42,7 @@ class SystemActionDeviceTest {
     }
 
     @Test
-    fun alarmListOpensOnMikasScreenOnly() = runBlocking<Unit> {
+    fun alarmListOpensOnDjinisScreenOnly() = runBlocking<Unit> {
         val h = handlers(SystemAction.ShowAlarms)
         assumeTrue("no clock app takes SHOW_ALARMS", h.isNotEmpty())
         val shell = DeviceSupport.shell()

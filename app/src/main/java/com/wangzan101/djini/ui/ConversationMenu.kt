@@ -47,11 +47,11 @@ import com.wangzan101.djini.R
 import com.wangzan101.djini.chat.Project
 import com.wangzan101.djini.ui.components.GlassBlurSupported
 import com.wangzan101.djini.ui.components.floatShadow
-import com.wangzan101.djini.ui.theme.MikaIcons
-import com.wangzan101.djini.ui.theme.MikaShapes
-import com.wangzan101.djini.ui.theme.MikaSize
+import com.wangzan101.djini.ui.theme.DjiniIcons
+import com.wangzan101.djini.ui.theme.DjiniShapes
+import com.wangzan101.djini.ui.theme.DjiniSize
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.DjiniType
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
@@ -96,17 +96,17 @@ internal fun ConversationMenu(
     LongPressMenu(
         bounds, progress, pane = stringResource(R.string.drawer_actions), tag = "drawer-menu",
         entries = listOfNotNull(
-            MenuEntry(stringResource(R.string.drawer_select), MikaIcons.ListChecks, "drawer-menu-select", onClick = onSelect),
-            if (item.archived) null else MenuEntry(stringResource(if (item.pinned) R.string.unpin else R.string.pin), MikaIcons.Pin, "drawer-menu-pin", onClick = onPin),
+            MenuEntry(stringResource(R.string.drawer_select), DjiniIcons.ListChecks, "drawer-menu-select", onClick = onSelect),
+            if (item.archived) null else MenuEntry(stringResource(if (item.pinned) R.string.unpin else R.string.pin), DjiniIcons.Pin, "drawer-menu-pin", onClick = onPin),
             when {
-                item.archived -> MenuEntry(stringResource(R.string.drawer_unarchive), MikaIcons.Archive, "drawer-menu-unarchive", onClick = onUnarchive)
-                item.saved && !item.running -> MenuEntry(stringResource(R.string.drawer_archive), MikaIcons.Archive, "drawer-menu-archive", onClick = onArchive)
+                item.archived -> MenuEntry(stringResource(R.string.drawer_unarchive), DjiniIcons.Archive, "drawer-menu-unarchive", onClick = onUnarchive)
+                item.saved && !item.running -> MenuEntry(stringResource(R.string.drawer_archive), DjiniIcons.Archive, "drawer-menu-archive", onClick = onArchive)
                 else -> null
             },
-            MenuEntry(stringResource(R.string.drawer_rename), MikaIcons.Edit, "drawer-menu-rename", onClick = onRename),
-            MenuEntry(stringResource(R.string.terminal_open), MikaIcons.Terminal, "drawer-menu-terminal", onClick = onTerminal),
-            MenuEntry(stringResource(R.string.export_conversation), MikaIcons.Share, "drawer-menu-export", onClick = onExport),
-            MenuEntry(stringResource(R.string.confirm_delete), MikaIcons.Trash, "drawer-menu-delete", c.bad, onDelete),
+            MenuEntry(stringResource(R.string.drawer_rename), DjiniIcons.Edit, "drawer-menu-rename", onClick = onRename),
+            MenuEntry(stringResource(R.string.terminal_open), DjiniIcons.Terminal, "drawer-menu-terminal", onClick = onTerminal),
+            MenuEntry(stringResource(R.string.export_conversation), DjiniIcons.Share, "drawer-menu-export", onClick = onExport),
+            MenuEntry(stringResource(R.string.confirm_delete), DjiniIcons.Trash, "drawer-menu-delete", c.bad, onDelete),
         ),
         onDismiss = onDismiss,
     ) { LiftedRow(item) }
@@ -128,10 +128,10 @@ internal fun ProjectMenu(
     LongPressMenu(
         bounds, progress, pane = stringResource(R.string.drawer_project_actions), tag = "drawer-project-menu",
         entries = listOf(
-            MenuEntry(stringResource(R.string.drawer_project_new_chat), MikaIcons.New, "project-menu-new-chat", onClick = onNewChat),
-            MenuEntry(stringResource(R.string.drawer_project_rename_title), MikaIcons.Edit, "project-menu-rename", onClick = onRename),
-            MenuEntry(stringResource(R.string.terminal_open), MikaIcons.Terminal, "project-menu-terminal", onClick = onTerminal),
-            MenuEntry(stringResource(R.string.confirm_delete), MikaIcons.Trash, "project-menu-delete", c.bad, onDelete),
+            MenuEntry(stringResource(R.string.drawer_project_new_chat), DjiniIcons.New, "project-menu-new-chat", onClick = onNewChat),
+            MenuEntry(stringResource(R.string.drawer_project_rename_title), DjiniIcons.Edit, "project-menu-rename", onClick = onRename),
+            MenuEntry(stringResource(R.string.terminal_open), DjiniIcons.Terminal, "project-menu-terminal", onClick = onTerminal),
+            MenuEntry(stringResource(R.string.confirm_delete), DjiniIcons.Trash, "project-menu-delete", c.bad, onDelete),
         ),
         onDismiss = onDismiss,
     ) {
@@ -143,8 +143,8 @@ internal fun ProjectMenu(
                 .padding(horizontal = 14.dp, vertical = 10.dp),
         ) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(8.dp)) {
-                Icon(MikaIcons.Folder, null, Modifier.size(16.dp), tint = c.ink2)
-                Text(project.name, style = MikaType.Body, color = c.ink, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                Icon(DjiniIcons.Folder, null, Modifier.size(16.dp), tint = c.ink2)
+                Text(project.name, style = DjiniType.Body, color = c.ink, maxLines = 1, overflow = TextOverflow.Ellipsis)
             }
         }
     }
@@ -246,9 +246,9 @@ private fun LiftedRow(item: DrawerConversation) {
 private fun MenuCard(content: @Composable () -> Unit) {
     val c = DjiniTheme.colors
     Column(
-        Modifier.floatShadow(c, MikaShapes.Card).clip(MikaShapes.Card)
+        Modifier.floatShadow(c, DjiniShapes.Card).clip(DjiniShapes.Card)
             .background(c.surface)
-            .border(0.5.dp, c.edge, MikaShapes.Card)
+            .border(0.5.dp, c.edge, DjiniShapes.Card)
             .semantics { popup() },
     ) { content() }
 }
@@ -262,8 +262,8 @@ private fun MenuItem(text: String, icon: ImageVector, tag: String, color: Color,
             .padding(horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Text(text, Modifier.weight(1f), style = MikaType.Body, color = color, maxLines = 1, overflow = TextOverflow.Ellipsis)
-        Icon(icon, null, Modifier.padding(start = 12.dp).size(MikaSize.Icon), tint = color)
+        Text(text, Modifier.weight(1f), style = DjiniType.Body, color = color, maxLines = 1, overflow = TextOverflow.Ellipsis)
+        Icon(icon, null, Modifier.padding(start = 12.dp).size(DjiniSize.Icon), tint = color)
     }
 }
 

@@ -28,10 +28,10 @@ import androidx.compose.ui.unit.dp
 import com.wangzan101.djini.R
 import com.wangzan101.djini.i18n.tr
 import com.wangzan101.djini.task.QueuedFollowUp
-import com.wangzan101.djini.ui.theme.MikaIcons
-import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniIcons
+import com.wangzan101.djini.ui.theme.DjiniShapes
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.DjiniType
 
 /** 输入栏上方的补充消息:运行中可点箭头引导,没任务时可从第一件开始。 */
 @Composable
@@ -56,12 +56,12 @@ fun FollowUpTray(
             Row(Modifier.fillMaxWidth().padding(start = 4.dp, end = 4.dp), verticalAlignment = Alignment.CenterVertically) {
                 Text(
                     tr(R.string.follow_up_count, items.size) + " · " + tr(R.string.follow_up_idle_hint),
-                    Modifier.weight(1f), style = MikaType.Hint, color = c.ink3, maxLines = 1, overflow = TextOverflow.Ellipsis,
+                    Modifier.weight(1f), style = DjiniType.Hint, color = c.ink3, maxLines = 1, overflow = TextOverflow.Ellipsis,
                 )
                 Text(
-                    tr(R.string.follow_up_start_now), Modifier.clip(MikaShapes.Pill)
+                    tr(R.string.follow_up_start_now), Modifier.clip(DjiniShapes.Pill)
                         .clickable(role = Role.Button, onClick = onStartNow).padding(horizontal = 8.dp, vertical = 4.dp),
-                    style = MikaType.Hint, color = c.accent,
+                    style = DjiniType.Hint, color = c.accent,
                 )
             }
         }
@@ -86,19 +86,19 @@ private fun PendingRow(
         Text(
             ChatCopy.plainTitle(item.text),
             Modifier.weight(1f, fill = false).testTag("follow-up-bubble")
-                .background(c.accent.copy(alpha = 0.14f), MikaShapes.UserBubble).clip(MikaShapes.UserBubble)
+                .background(c.accent.copy(alpha = 0.14f), DjiniShapes.UserBubble).clip(DjiniShapes.UserBubble)
                 .combinedClickable(
                     onLongClickLabel = stringResource(R.string.drawer_actions),
                     onLongClick = { onActions(item) },
                     onClick = {},
                 )
                 .padding(horizontal = 14.dp, vertical = 10.dp),
-            style = MikaType.Body, color = c.ink, maxLines = 3, overflow = TextOverflow.Ellipsis,
+            style = DjiniType.Body, color = c.ink, maxLines = 3, overflow = TextOverflow.Ellipsis,
         )
         if (canGuide) {
             Box(
                 Modifier.size(40.dp).testTag("follow-up-steer")
-                    .clip(MikaShapes.Pill)
+                    .clip(DjiniShapes.Pill)
                     .clickable(
                         role = Role.Button,
                         onClickLabel = stringResource(R.string.follow_up_steer),
@@ -106,7 +106,7 @@ private fun PendingRow(
                 contentAlignment = Alignment.Center,
             ) {
                 Icon(
-                    MikaIcons.Forward, stringResource(R.string.follow_up_steer),
+                    DjiniIcons.Forward, stringResource(R.string.follow_up_steer),
                     Modifier.size(18.dp), tint = c.ink3,
                 )
             }

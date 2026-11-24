@@ -74,16 +74,16 @@ import com.wangzan101.djini.i18n.uiLocale
 import com.wangzan101.djini.ui.components.ButtonKind
 import com.wangzan101.djini.ui.components.ButtonSize
 import com.wangzan101.djini.ui.components.KeyboardDismissArea
-import com.wangzan101.djini.ui.components.MikaButton
-import com.wangzan101.djini.ui.components.MikaDialog
-import com.wangzan101.djini.ui.components.MikaSwitch
+import com.wangzan101.djini.ui.components.DjiniButton
+import com.wangzan101.djini.ui.components.DjiniDialog
+import com.wangzan101.djini.ui.components.DjiniSwitch
 import com.wangzan101.djini.ui.components.SegmentedControl
 import com.wangzan101.djini.ui.components.keepsKeyboard
-import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniIcons
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
-import com.wangzan101.djini.ui.theme.MikaRadius
-import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniType
+import com.wangzan101.djini.ui.theme.DjiniRadius
+import com.wangzan101.djini.ui.theme.DjiniShapes
 import kotlinx.coroutines.launch
 import java.time.DayOfWeek
 import java.time.Instant
@@ -166,7 +166,7 @@ fun PlanEditorDialog(
         )
     }
 
-    MikaDialog(
+    DjiniDialog(
         onDismissRequest = onDismiss,
         title = {
             val title = when {
@@ -225,7 +225,7 @@ fun PlanEditorDialog(
                             tr(R.string.plans_edit_label), "plan-editor-first-at",
                             trailing = {
                                 FieldIconButton(
-                                    MikaIcons.Calendar, tr(R.string.plans_pick_time), "plan-editor-first-at-pick",
+                                    DjiniIcons.Calendar, tr(R.string.plans_pick_time), "plan-editor-first-at-pick",
                                 ) { pickingDate = true }
                             },
                         )
@@ -245,7 +245,7 @@ fun PlanEditorDialog(
                             placeholder = "08:00, 12:30, 20:00",
                             trailing = {
                                 FieldIconButton(
-                                    MikaIcons.Plus, tr(R.string.plans_add_time), "plan-editor-clock-add-icon",
+                                    DjiniIcons.Plus, tr(R.string.plans_add_time), "plan-editor-clock-add-icon",
                                 ) { pickingTime = TimeTarget.Clock(null) }
                             },
                         )
@@ -264,7 +264,7 @@ fun PlanEditorDialog(
                     if (draft.repeat == PlanRepeat.Weekly) {
                         FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                             (1..7).forEach { day ->
-                                MikaButton(
+                                DjiniButton(
                                     DayOfWeek.of(day).getDisplayName(TextStyle.SHORT, uiLocale()),
                                     onClick = {
                                         draft = draft.copy(weekdays = draft.weekdays.toMutableSet().apply {
@@ -311,13 +311,13 @@ fun PlanEditorDialog(
 
                     preview?.let { plan ->
                         Spacer(Modifier.height(8.dp))
-                        Text(tr(R.string.plans_preview), style = MikaType.Caption, color = DjiniTheme.colors.ink3)
+                        Text(tr(R.string.plans_preview), style = DjiniType.Caption, color = DjiniTheme.colors.ink3)
                         val zone = plan.calendarZone ?: draft.zone
                         upcoming(plan, System.currentTimeMillis(), 3).forEachIndexed { index, at ->
                             Text(
                                 "${index + 1}  ${formatPlanEditorTime(at, zone)} ($zone)",
                                 Modifier.testTag("plan-editor-preview-$index"),
-                                style = MikaType.Caption,
+                                style = DjiniType.Caption,
                                 color = DjiniTheme.colors.ink3,
                             )
                         }
@@ -328,7 +328,7 @@ fun PlanEditorDialog(
                         Text(
                             reason?.let { planValidationText(it) } ?: tr(R.string.op_failed),
                             Modifier.testTag("plan-editor-error"),
-                            style = MikaType.Caption,
+                            style = DjiniType.Caption,
                             color = DjiniTheme.colors.bad,
                         )
                     }
@@ -403,7 +403,7 @@ private fun ClockChips(
     ) {
         entries.forEachIndexed { index, time ->
             Row(
-                Modifier.height(32.dp).background(c.fill, MikaShapes.Card).clip(MikaShapes.Card),
+                Modifier.height(32.dp).background(c.fill, DjiniShapes.Card).clip(DjiniShapes.Card),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Row(
@@ -411,11 +411,11 @@ private fun ClockChips(
                         .padding(start = 12.dp, end = 4.dp).testTag("plan-editor-clock-$index"),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Icon(MikaIcons.Clock, null, Modifier.size(14.dp), tint = c.ink3)
+                    Icon(DjiniIcons.Clock, null, Modifier.size(14.dp), tint = c.ink3)
                     Spacer(Modifier.width(5.dp))
                     Text(
                         formatPlanClock(time),
-                        style = MikaType.Caption,
+                        style = DjiniType.Caption,
                         color = c.ink2,
                     )
                 }
@@ -423,10 +423,10 @@ private fun ClockChips(
                     Modifier.fillMaxHeight().width(32.dp).clickable(role = Role.Button) { onRemove(index) }
                         .testTag("plan-editor-clock-remove-$index"),
                     contentAlignment = Alignment.Center,
-                ) { Icon(MikaIcons.Close, tr(R.string.plans_remove_time), Modifier.size(13.dp), tint = c.ink3) }
+                ) { Icon(DjiniIcons.Close, tr(R.string.plans_remove_time), Modifier.size(13.dp), tint = c.ink3) }
             }
         }
-        MikaButton(
+        DjiniButton(
             "＋ " + tr(R.string.plans_add_time),
             onAdd,
             modifier = Modifier.testTag("plan-editor-clock-add"),
@@ -472,7 +472,7 @@ private fun PlanDatePickerDialog(initial: LocalDate, onDismiss: () -> Unit, onPi
 private fun PlanTimePickerDialog(initial: LocalTime, title: String, onDismiss: () -> Unit, onPicked: (LocalTime) -> Unit) {
     var hour by remember(initial) { mutableIntStateOf(initial.hour) }
     var minute by remember(initial) { mutableIntStateOf(initial.minute) }
-    MikaDialog(
+    DjiniDialog(
         onDismissRequest = onDismiss,
         title = { Text(title) },
         text = {
@@ -484,7 +484,7 @@ private fun PlanTimePickerDialog(initial: LocalTime, title: String, onDismiss: (
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     NumberWheel(24, hour, "plan-time-hour", { hour = it }, Modifier.weight(1f))
-                    Text(":", style = MikaType.Title, color = DjiniTheme.colors.ink3, modifier = Modifier.padding(horizontal = 6.dp))
+                    Text(":", style = DjiniType.Title, color = DjiniTheme.colors.ink3, modifier = Modifier.padding(horizontal = 6.dp))
                     NumberWheel(60, minute, "plan-time-minute", { minute = it }, Modifier.weight(1f))
                 }
             }
@@ -522,7 +522,7 @@ private fun NumberWheel(count: Int, initial: Int, tag: String, onValueChange: (I
     }
     LaunchedEffect(selected) { onValueChange(selected) }
     Box(modifier.height(WheelItem * 5f), contentAlignment = Alignment.Center) {
-        Box(Modifier.fillMaxWidth().height(WheelItem).background(c.fill, MikaShapes.Tile))
+        Box(Modifier.fillMaxWidth().height(WheelItem).background(c.fill, DjiniShapes.Tile))
         Column(
             Modifier.fillMaxSize().verticalScroll(scroll).testTag(tag),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -531,14 +531,14 @@ private fun NumberWheel(count: Int, initial: Int, tag: String, onValueChange: (I
             repeat(count) { index ->
                 Box(
                     Modifier.fillMaxWidth().height(WheelItem)
-                        .clip(MikaShapes.Tile)
+                        .clip(DjiniShapes.Tile)
                         .clickable { scope.launch { scroll.animateScrollTo(index * itemPx) } }
                         .testTag("$tag-$index"),
                     contentAlignment = Alignment.Center,
                 ) {
                     Text(
                         "%02d".format(java.util.Locale.ROOT, index),
-                        style = MikaType.Title.copy(fontFeatureSettings = "tnum"),
+                        style = DjiniType.Title.copy(fontFeatureSettings = "tnum"),
                         fontWeight = if (index == selected) FontWeight.SemiBold else FontWeight.Normal,
                         color = if (index == selected) c.ink else c.ink3,
                     )
@@ -556,8 +556,8 @@ private fun PlanSwitch(label: String, checked: Boolean, onChange: (Boolean) -> U
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
-        Text(label, style = MikaType.Body, color = DjiniTheme.colors.ink2)
-        MikaSwitch(checked, onChange, Modifier.testTag(tag))
+        Text(label, style = DjiniType.Body, color = DjiniTheme.colors.ink2)
+        DjiniSwitch(checked, onChange, Modifier.testTag(tag))
     }
 }
 

@@ -148,9 +148,9 @@ import com.wangzan101.djini.ui.components.ButtonKind
 import com.wangzan101.djini.ui.components.ButtonSize
 import com.wangzan101.djini.ui.components.GlassBackdrop
 import com.wangzan101.djini.ui.components.GlassBar
-import com.wangzan101.djini.ui.components.MikaButton
-import com.wangzan101.djini.ui.components.MikaCard
-import com.wangzan101.djini.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.DjiniButton
+import com.wangzan101.djini.ui.components.DjiniCard
+import com.wangzan101.djini.ui.components.DjiniDialog
 import com.wangzan101.djini.ui.components.PageBackground
 import com.wangzan101.djini.ui.components.ScrollToBottomButton
 import com.wangzan101.djini.ui.components.TopBar
@@ -159,14 +159,14 @@ import com.wangzan101.djini.ui.components.floatShadow
 import com.wangzan101.djini.ui.components.glassSource
 import com.wangzan101.djini.ui.components.rememberGlassBackdrop
 import com.wangzan101.djini.ui.components.scrollListToBottom
-import com.wangzan101.djini.ui.theme.MikaIcons
-import com.wangzan101.djini.ui.theme.MikaMotion
-import com.wangzan101.djini.ui.theme.MikaShapes
-import com.wangzan101.djini.ui.theme.MikaSize
+import com.wangzan101.djini.ui.theme.DjiniIcons
+import com.wangzan101.djini.ui.theme.DjiniMotion
+import com.wangzan101.djini.ui.theme.DjiniShapes
+import com.wangzan101.djini.ui.theme.DjiniSize
 import com.wangzan101.djini.ui.theme.DjiniTheme
 import com.wangzan101.djini.ui.viewer.FileViewer
-import com.wangzan101.djini.ui.theme.MikaType
-import com.wangzan101.djini.ui.theme.MikaRadius
+import com.wangzan101.djini.ui.theme.DjiniType
+import com.wangzan101.djini.ui.theme.DjiniRadius
 import com.wangzan101.djini.voice.HoldToTalk
 import com.wangzan101.djini.voice.VoicePlayback
 import com.wangzan101.djini.voice.VoiceSource
@@ -403,7 +403,7 @@ fun ChatScreen(
     val lift = remember { Animatable(0f) }
     LaunchedEffect(menu) {
         if (menu != null) {
-            if (reduceMotion) lift.snapTo(1f) else lift.animateTo(1f, tween(MENU_IN_MS, easing = MikaMotion.Decelerate))
+            if (reduceMotion) lift.snapTo(1f) else lift.animateTo(1f, tween(MENU_IN_MS, easing = DjiniMotion.Decelerate))
         }
     }
     LaunchedEffect(ui.pendingSharedDraft, ui.sharedDraft) {
@@ -423,7 +423,7 @@ fun ChatScreen(
     fun closeMenu(then: () -> Unit = {}) {
         then()
         scope.launch {
-            if (reduceMotion) lift.snapTo(0f) else lift.animateTo(0f, tween(MENU_OUT_MS, easing = MikaMotion.Decelerate))
+            if (reduceMotion) lift.snapTo(0f) else lift.animateTo(0f, tween(MENU_OUT_MS, easing = DjiniMotion.Decelerate))
             menu = null
         }
     }
@@ -480,13 +480,13 @@ fun ChatScreen(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
-                    GlassSurface(modifier = Modifier.size(MikaSize.IconButton), backdrop = backdrop, shape = CircleShape) {
+                    GlassSurface(modifier = Modifier.size(DjiniSize.IconButton), backdrop = backdrop, shape = CircleShape) {
                         Box(
                             Modifier.fillMaxSize().clip(CircleShape)
                                 .clickable(onClickLabel = stringResource(R.string.chat_menu), onClick = onOpenDrawer),
                             contentAlignment = Alignment.Center,
                         ) {
-                            DirectionalIcon(MikaIcons.Menu, stringResource(R.string.chat_menu), Modifier.size(MikaSize.Icon), tint = c.ink)
+                            DirectionalIcon(DjiniIcons.Menu, stringResource(R.string.chat_menu), Modifier.size(DjiniSize.Icon), tint = c.ink)
                             // 别的对话里还有任务在跑(并行时):右上角一个小圆点,侧栏「进行中」里能切过去
                             if (others.isNotEmpty()) {
                                 Box(
@@ -500,17 +500,17 @@ fun ChatScreen(
                         Row(Modifier.clickable(role = Role.Button, onClickLabel = stringResource(R.string.chat_usage_title)) { showUsage = true }
                             .testTag("chat-usage-title").padding(horizontal = 14.dp, vertical = 8.dp),
                             verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                            Text(ChatCopy.APP_TITLE, style = MikaType.Title, color = c.ink, maxLines = 1)
+                            Text(ChatCopy.APP_TITLE, style = DjiniType.Title, color = c.ink, maxLines = 1)
                         }
                     }
-                    GlassSurface(modifier = Modifier.size(MikaSize.IconButton), backdrop = backdrop, shape = CircleShape) {
+                    GlassSurface(modifier = Modifier.size(DjiniSize.IconButton), backdrop = backdrop, shape = CircleShape) {
                         Box(
                             Modifier.fillMaxSize().clip(CircleShape)
                                 .clickable(enabled = vm.canSwitch(), onClickLabel = stringResource(R.string.chat_new), onClick = { vm.newConversation() })
                                 .alpha(if (vm.canSwitch()) 1f else 0.35f),
                             contentAlignment = Alignment.Center,
                         ) {
-                            Icon(MikaIcons.New, stringResource(R.string.chat_new), Modifier.size(MikaSize.Icon), tint = c.ink)
+                            Icon(DjiniIcons.New, stringResource(R.string.chat_new), Modifier.size(DjiniSize.Icon), tint = c.ink)
                         }
                     }
                 }
@@ -525,8 +525,8 @@ fun ChatScreen(
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.spacedBy(5.dp),
                             ) {
-                                Icon(MikaIcons.Folder, stringResource(R.string.chat_project_shared), Modifier.size(12.dp), tint = c.ink2)
-                                Text(currentProject.name, style = MikaType.Hint, color = c.ink2, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                                Icon(DjiniIcons.Folder, stringResource(R.string.chat_project_shared), Modifier.size(12.dp), tint = c.ink2)
+                                Text(currentProject.name, style = DjiniType.Hint, color = c.ink2, maxLines = 1, overflow = TextOverflow.Ellipsis)
                             }
                         }
                     }
@@ -763,7 +763,7 @@ fun ChatScreen(
     }
 
     retryFailures?.takeIf { it.first == ui.conversationId }?.let { (_, details) ->
-        MikaDialog(
+        DjiniDialog(
             onDismissRequest = { retryFailures = null },
             title = { Text(stringResource(R.string.chat_branch_attachments_skipped)) },
             text = { Text(details) },
@@ -785,7 +785,7 @@ fun ChatScreen(
         }
     }
     pendingChecklistDraft?.let { text ->
-        MikaDialog(
+        DjiniDialog(
             onDismissRequest = { pendingChecklistDraft = null },
             title = { Text(stringResource(R.string.chat_example_replace_title)) },
             text = { Text(stringResource(R.string.share_draft_replace_body)) },
@@ -822,7 +822,7 @@ fun ChatScreen(
     }
 
     pendingExample?.let { example ->
-        MikaDialog(
+        DjiniDialog(
             onDismissRequest = { pendingExample = null },
             title = { Text(stringResource(R.string.chat_example_replace_title)) },
             text = { Text(stringResource(R.string.chat_example_replace_body)) },
@@ -837,7 +837,7 @@ fun ChatScreen(
     }
 
     if (ui.pendingSharedDraft != null) {
-        MikaDialog(
+        DjiniDialog(
             onDismissRequest = vm::cancelPendingSharedDraft,
             title = { Text(stringResource(R.string.chat_example_replace_title)) },
             text = { Text(stringResource(R.string.share_draft_replace_body)) },
@@ -882,7 +882,7 @@ private fun EmptyState(conversation: String?, tasks: List<RecommendedTask>, modi
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-        Text(ChatCopy.greeting(hour), style = MikaType.LargeTitle, color = c.ink, textAlign = TextAlign.Center)
+        Text(ChatCopy.greeting(hour), style = DjiniType.LargeTitle, color = c.ink, textAlign = TextAlign.Center)
         Text(ChatCopy.EMPTY_VALUE, Modifier.padding(top = 11.dp), style = EmptyLead, color = c.ink2, textAlign = TextAlign.Center)
         if (tasks.isNotEmpty()) {
             Spacer(Modifier.height(28.dp))
@@ -902,7 +902,7 @@ private fun SuggestionChip(text: String, onClick: () -> Unit) {
     val c = DjiniTheme.colors
     Text(
         text,
-        Modifier.clip(MikaShapes.Pill).background(c.surface, MikaShapes.Pill).border(0.5.dp, c.edge, MikaShapes.Pill)
+        Modifier.clip(DjiniShapes.Pill).background(c.surface, DjiniShapes.Pill).border(0.5.dp, c.edge, DjiniShapes.Pill)
             .clickable(role = Role.Button, onClick = onClick)
             .padding(horizontal = 14.dp, vertical = 8.dp),
         style = SuggestionText,
@@ -920,7 +920,7 @@ private fun JumpHighlight(active: Boolean, reduceMotion: Boolean, content: @Comp
     val alpha by animateFloatAsState(if (active) 1f else 0f, if (reduceMotion) snap() else tween(260), label = "jump-highlight")
     Box(
         Modifier.fillMaxWidth()
-            .background(c.accent.copy(alpha = 0.12f * alpha), MikaShapes.Card),
+            .background(c.accent.copy(alpha = 0.12f * alpha), DjiniShapes.Card),
     ) { content() }
 }
 
@@ -1029,12 +1029,12 @@ internal fun UserBubble(text: String, conversationId: String?, note: String? = n
                 CompositionLocalProvider(LocalTextSelectionColors provides TextSelectionColors(colors.accent, colors.accent.copy(alpha = 0.3f))) {
                     MessageArea(
                         key, QuoteMessage.From.You, words, "selectable-user",
-                        Modifier.widthIn(max = max).background(bubble, MikaShapes.UserBubble),
-                        lifted = { LiftedMessage(MikaShapes.UserBubble, bubble) { UserBubbleText(words) } },
+                        Modifier.widthIn(max = max).background(bubble, DjiniShapes.UserBubble),
+                        lifted = { LiftedMessage(DjiniShapes.UserBubble, bubble) { UserBubbleText(words) } },
                     ) { UserBubbleText(words) }
                 }
             }
-            note?.let { Text(it, Modifier.padding(top = 3.dp, end = 4.dp), style = MikaType.Hint, color = DjiniTheme.colors.ink3) }
+            note?.let { Text(it, Modifier.padding(top = 3.dp, end = 4.dp), style = DjiniType.Hint, color = DjiniTheme.colors.ink3) }
         }
     }
 }
@@ -1099,7 +1099,7 @@ private fun AnswerArea(key: String, answer: String, modifier: Modifier, content:
     MessageArea(
         key, QuoteMessage.From.Djini, plain, "selectable-answer", modifier,
         lifted = {
-            LiftedMessage(MikaShapes.AnswerBubble, DjiniTheme.colors.surface) {
+            LiftedMessage(DjiniShapes.AnswerBubble, DjiniTheme.colors.surface) {
                 MarkdownText(answer, AnswerText.copy(color = DjiniTheme.colors.ink), Modifier.padding(horizontal = 14.dp, vertical = 12.dp), streaming = false)
             }
         },
@@ -1109,7 +1109,7 @@ private fun AnswerArea(key: String, answer: String, modifier: Modifier, content:
 /** Djini 回答的底:很淡的灰,左下尾角。 */
 @Composable
 private fun Modifier.answerSurface(): Modifier =
-    background(DjiniTheme.colors.answer, MikaShapes.AnswerBubble).padding(horizontal = 14.dp, vertical = 12.dp)
+    background(DjiniTheme.colors.answer, DjiniShapes.AnswerBubble).padding(horizontal = 14.dp, vertical = 12.dp)
 
 // ---------- 进度 ----------
 
@@ -1141,12 +1141,12 @@ internal fun WorkBlock(ex: Exchange, steers: List<String>, reduceMotion: Boolean
         // 跑的时候就能进运行过程(页面按秒接着长);结束后收进「做了 N 步 · 查看过程」那一行
         ex.recordedRun?.let { id ->
             Row(
-                Modifier.padding(top = 2.dp).clip(MikaShapes.Pill).clickable(role = Role.Button) { openRun(id) }
+                Modifier.padding(top = 2.dp).clip(DjiniShapes.Pill).clickable(role = Role.Button) { openRun(id) }
                     .padding(horizontal = 4.dp, vertical = 4.dp).testTag("work-view-process"),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(stringResource(R.string.chat_view_process), style = DoneText, color = c.ink3)
-                DirectionalIcon(MikaIcons.Chevron, null, Modifier.size(12.dp), tint = c.ink3)
+                DirectionalIcon(DjiniIcons.Chevron, null, Modifier.size(12.dp), tint = c.ink3)
             }
         }
         if (backgroundNote) {
@@ -1154,7 +1154,7 @@ internal fun WorkBlock(ex: Exchange, steers: List<String>, reduceMotion: Boolean
                 Modifier.padding(top = 10.dp), verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(6.dp),
             ) {
-                Icon(MikaIcons.Eye, null, Modifier.size(15.dp), tint = c.ink3)
+                Icon(DjiniIcons.Eye, null, Modifier.size(15.dp), tint = c.ink3)
                 Text(ChatCopy.BACKGROUND_NOTE, style = NoteText, color = c.ink3)
             }
         }
@@ -1188,7 +1188,7 @@ private fun GoalChecklistRow(goals: GoalChecklist, runId: String?) {
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(StatusCopy.goals(goals), style = NoteText, color = c.ink2)
-            Icon(MikaIcons.Chevron, null, Modifier.size(16.dp).rotate(if (expanded) -90f else 90f), tint = c.ink3)
+            Icon(DjiniIcons.Chevron, null, Modifier.size(16.dp).rotate(if (expanded) -90f else 90f), tint = c.ink3)
         }
         if (expanded) goals.items.forEachIndexed { i, goal ->
             Text("${if (i + 1 in goals.confirmed) "✓" else "○"}  $goal", style = NoteText, color = c.ink2)
@@ -1294,18 +1294,18 @@ private fun StepItem(
                 },
                 maxLines = 2, overflow = TextOverflow.Ellipsis,
             )
-            if (subtitle.isNotEmpty()) Text(subtitle, style = MikaType.Hint, color = c.ink3, maxLines = 2, overflow = TextOverflow.Ellipsis)
+            if (subtitle.isNotEmpty()) Text(subtitle, style = DjiniType.Hint, color = c.ink3, maxLines = 2, overflow = TextOverflow.Ellipsis)
             // 点开:这一步实际做的几件事,一件一行「做了什么 · 对什么 · 结果」,说法和运行过程页一样
             if (open) actions.forEach { a ->
                 Text(
                     ChatCopy.actionLine(a), Modifier.padding(top = 2.dp),
-                    style = MikaType.Hint, color = if (a.failed) c.bad else c.ink3, maxLines = 2, overflow = TextOverflow.Ellipsis,
+                    style = DjiniType.Hint, color = if (a.failed) c.bad else c.ink3, maxLines = 2, overflow = TextOverflow.Ellipsis,
                 )
             }
         }
         // 能点开的只有有动作的那些:右边一个小箭头,点开时朝下
         if (actions.isNotEmpty()) DirectionalIcon(
-            MikaIcons.Chevron, null,
+            DjiniIcons.Chevron, null,
             Modifier.padding(start = 6.dp).size(12.dp).graphicsLayer { rotationZ = if (open) if (rtl) -90f else 90f else 0f },
             tint = c.ink3,
         )
@@ -1430,7 +1430,7 @@ private fun StatusCard(
             NeedCard(
                 stringResource(R.string.input_title), stringResource(R.string.chat_input_body, status.prompt, note),
                 options = if (options.isEmpty()) null else ({
-                    options.forEach { o -> MikaButton(o, { vm.answer(o) }, Modifier.fillMaxWidth(), kind = ButtonKind.Tonal, size = ButtonSize.Medium) }
+                    options.forEach { o -> DjiniButton(o, { vm.answer(o) }, Modifier.fillMaxWidth(), kind = ButtonKind.Tonal, size = ButtonSize.Medium) }
                 }),
             ) {
                 if (options.isEmpty()) CardButton(stringResource(R.string.action_cancel_task), onClick = vm::cancel)
@@ -1457,9 +1457,9 @@ private fun StatusCard(
                     status.unverifiedLine?.let { line ->
                         Row(Modifier.padding(bottom = 8.dp), horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
                             Box(Modifier.size(18.dp).background(DjiniTheme.colors.warnSoft, CircleShape), contentAlignment = Alignment.Center) {
-                                Icon(MikaIcons.Exclaim, null, Modifier.size(11.dp), tint = DjiniTheme.colors.warn)
+                                Icon(DjiniIcons.Exclaim, null, Modifier.size(11.dp), tint = DjiniTheme.colors.warn)
                             }
-                            Text(line, style = MikaType.Caption, fontWeight = FontWeight.SemiBold, color = DjiniTheme.colors.ink2)
+                            Text(line, style = DjiniType.Caption, fontWeight = FontWeight.SemiBold, color = DjiniTheme.colors.ink2)
                         }
                     }
                     MarkdownText(status.answer, AnswerText.copy(color = DjiniTheme.colors.ink))
@@ -1474,7 +1474,7 @@ private fun StatusCard(
         is ExchangeStatus.Failed -> Column(Modifier.fillMaxWidth().padding(start = 2.dp, end = 2.dp, bottom = 12.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 Box(Modifier.size(8.dp).background(DjiniTheme.colors.bad, CircleShape))
-                Text(stringResource(R.string.chat_not_done), style = MikaType.BodyStrong, color = DjiniTheme.colors.ink)
+                Text(stringResource(R.string.chat_not_done), style = DjiniType.BodyStrong, color = DjiniTheme.colors.ink)
             }
             MarkdownText(status.reason, AnswerText.copy(color = DjiniTheme.colors.ink), Modifier.fillMaxWidth().padding(top = 6.dp).answerSurface())
             RecoveryActions(runId, recover)
@@ -1482,9 +1482,9 @@ private fun StatusCard(
         }
         // 停止后补上的交代当作这一轮的回答,排在「已停止」下面;还在写时一行小字
         is ExchangeStatus.Cancelled -> Column(Modifier.fillMaxWidth().padding(bottom = 10.dp)) {
-            Text(stringResource(R.string.chat_stopped), Modifier.padding(start = 2.dp), style = MikaType.Body, color = DjiniTheme.colors.ink2)
+            Text(stringResource(R.string.chat_stopped), Modifier.padding(start = 2.dp), style = DjiniType.Body, color = DjiniTheme.colors.ink2)
             if (status.summarizing) Text(
-                StatusCopy.STOP_SUMMARIZING, Modifier.padding(start = 2.dp, top = 4.dp), style = MikaType.Caption, color = DjiniTheme.colors.ink3,
+                StatusCopy.STOP_SUMMARIZING, Modifier.padding(start = 2.dp, top = 4.dp), style = DjiniType.Caption, color = DjiniTheme.colors.ink3,
             )
             status.summary?.let { summary ->
                 Box(Modifier.padding(top = 8.dp)) {
@@ -1515,18 +1515,18 @@ private fun ReadAloudIcon(answer: String, vm: ChatViewModel) {
     val c = DjiniTheme.colors
     Row(Modifier.padding(top = 8.dp), verticalAlignment = Alignment.CenterVertically) {
         Row(
-            Modifier.clip(MikaShapes.Pill).clickable(role = Role.Button) { if (playing) vm.stopSpeaking() else vm.speak(answer) }
+            Modifier.clip(DjiniShapes.Pill).clickable(role = Role.Button) { if (playing) vm.stopSpeaking() else vm.speak(answer) }
                 .padding(horizontal = 8.dp, vertical = 5.dp),
             verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(5.dp),
         ) {
-            Icon(MikaIcons.Sound, null, Modifier.size(14.dp), tint = if (playing) c.accent else c.ink3)
+            Icon(DjiniIcons.Sound, null, Modifier.size(14.dp), tint = if (playing) c.accent else c.ink3)
             Text(
                 stringResource(if (playing) R.string.chat_stop_speaking else R.string.chat_read_aloud),
-                style = MikaType.Caption, color = if (playing) c.accent else c.ink3,
+                style = DjiniType.Caption, color = if (playing) c.accent else c.ink3,
             )
         }
         (playback as? VoicePlayback.Error)?.let {
-            Text(it.message, Modifier.padding(start = 8.dp), style = MikaType.Caption, color = c.bad)
+            Text(it.message, Modifier.padding(start = 8.dp), style = DjiniType.Caption, color = c.bad)
         }
     }
 }
@@ -1540,13 +1540,13 @@ private fun GeneratedAudioCards(audios: List<com.wangzan101.djini.core.chat.Gene
     Column(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 2.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         audios.forEach { a ->
             Row(
-                Modifier.fillMaxWidth().cardSurface(c, MikaShapes.Card).clip(MikaShapes.Card)
+                Modifier.fillMaxWidth().cardSurface(c, DjiniShapes.Card).clip(DjiniShapes.Card)
                     .clickable(role = Role.Button) { if (playing) vm.stopSpeaking() else vm.playAudio(a.path) }
                     .padding(horizontal = 14.dp, vertical = 12.dp),
                 verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 Box(Modifier.size(36.dp).background(c.neutralSoft, FileTileShape), contentAlignment = Alignment.Center) {
-                    Icon(MikaIcons.Sound, null, Modifier.size(20.dp), tint = c.ink)
+                    Icon(DjiniIcons.Sound, null, Modifier.size(20.dp), tint = c.ink)
                 }
                 Column(Modifier.weight(1f)) {
                     Text(
@@ -1608,23 +1608,23 @@ private fun ReplyActions(
             if (answer != null) {
                 ReadAloudIcon(answer, vm)
                 Spacer(Modifier.width(4.dp))
-                ReplyIcon(MikaIcons.Copy, stringResource(R.string.chat_copy)) { copyAnswer(context, answer) }
+                ReplyIcon(DjiniIcons.Copy, stringResource(R.string.chat_copy)) { copyAnswer(context, answer) }
                 Spacer(Modifier.width(4.dp))
-                ReplyIcon(MikaIcons.Share, stringResource(R.string.share)) { onShare() }
+                ReplyIcon(DjiniIcons.Share, stringResource(R.string.share)) { onShare() }
                 Spacer(Modifier.width(8.dp))
                 Box(Modifier.width(0.5.dp).height(18.dp).background(c.hair))
                 Spacer(Modifier.width(8.dp))
             }
             if (runId != null) {
-                ReplyIcon(MikaIcons.Clock, stringResource(R.string.chat_view_process)) { openRun(runId) }
+                ReplyIcon(DjiniIcons.Clock, stringResource(R.string.chat_view_process)) { openRun(runId) }
                 if (hasSource) {
                     Spacer(Modifier.width(4.dp))
-                    ReplyIcon(MikaIcons.Link, sourceLabel(source)) { openSource(runId, evidence) }
+                    ReplyIcon(DjiniIcons.Link, sourceLabel(source)) { openSource(runId, evidence) }
                 }
                 Spacer(Modifier.width(4.dp))
-                ReplyIcon(MikaIcons.Doc, stringResource(R.string.report_title)) { openReport(runId) }
+                ReplyIcon(DjiniIcons.Doc, stringResource(R.string.report_title)) { openReport(runId) }
                 Spacer(Modifier.width(4.dp))
-                ReplyIcon(MikaIcons.Play, stringResource(R.string.playback_title)) { openPlayback(runId) }
+                ReplyIcon(DjiniIcons.Play, stringResource(R.string.playback_title)) { openPlayback(runId) }
             }
         }
     }
@@ -1634,7 +1634,7 @@ private fun ReplyActions(
 @Composable
 private fun ReplyIcon(icon: ImageVector, label: String, tint: Color = DjiniTheme.colors.ink2, onClick: () -> Unit) {
     Box(
-        Modifier.size(30.dp).clip(MikaShapes.Tile).clickable(onClickLabel = label, role = Role.Button, onClick = onClick),
+        Modifier.size(30.dp).clip(DjiniShapes.Tile).clickable(onClickLabel = label, role = Role.Button, onClick = onClick),
         contentAlignment = Alignment.Center,
     ) {
         Icon(icon, label, Modifier.size(17.dp), tint = tint)
@@ -1661,7 +1661,7 @@ private fun NeedCard(
     buttons: (@Composable RowScope.() -> Unit)? = null,
 ) {
     val c = DjiniTheme.colors
-    MikaCard(Modifier.padding(top = 8.dp, bottom = 12.dp)) {
+    DjiniCard(Modifier.padding(top = 8.dp, bottom = 12.dp)) {
         Column(Modifier.padding(horizontal = 16.dp, vertical = 14.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 Box(Modifier.size(8.dp).background(c.warnSolid, CircleShape))
@@ -1681,7 +1681,7 @@ private fun NeedCard(
 
 @Composable
 private fun RowScope.CardButton(text: String, primary: Boolean = false, onClick: () -> Unit) {
-    MikaButton(
+    DjiniButton(
         text, onClick, Modifier.weight(1f),
         kind = if (primary) ButtonKind.Primary else ButtonKind.Tonal, size = ButtonSize.Medium,
     )
@@ -1689,7 +1689,7 @@ private fun RowScope.CardButton(text: String, primary: Boolean = false, onClick:
 
 @Composable
 private fun TextLink(text: String, onClick: () -> Unit) {
-    Text(text, Modifier.clip(MikaShapes.Pill).clickable(onClick = onClick).padding(4.dp), style = MikaType.Caption, color = DjiniTheme.colors.ink3)
+    Text(text, Modifier.clip(DjiniShapes.Pill).clickable(onClick = onClick).padding(4.dp), style = DjiniType.Caption, color = DjiniTheme.colors.ink3)
 }
 
 /** 导出到「下载/Djini」的文件:小卡片,名字、大小和存放处;点了能看的在 App 里打开([FileViewer]),其余交给系统里能打开它的 App。 */
@@ -1700,14 +1700,14 @@ private fun FileCards(files: List<SharedFile>) {
     Column(Modifier.fillMaxWidth().padding(bottom = 12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         for (f in files) {
             Row(
-                Modifier.fillMaxWidth().cardSurface(c, MikaShapes.Card).clip(MikaShapes.Card)
+                Modifier.fillMaxWidth().cardSurface(c, DjiniShapes.Card).clip(DjiniShapes.Card)
                     .clickable(onClickLabel = stringResource(R.string.chat_open), role = Role.Button) { openShared(context, f) }
                     .padding(horizontal = 14.dp, vertical = 12.dp),
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Box(Modifier.size(36.dp).background(c.neutralSoft, FileTileShape), contentAlignment = Alignment.Center) {
-                    Icon(MikaIcons.Doc, null, Modifier.size(20.dp), tint = c.ink)
+                    Icon(DjiniIcons.Doc, null, Modifier.size(20.dp), tint = c.ink)
                 }
                 Column(Modifier.weight(1f)) {
                     Text(f.name, style = FileName, color = c.ink, maxLines = 1, overflow = TextOverflow.Ellipsis)
@@ -1716,7 +1716,7 @@ private fun FileCards(files: List<SharedFile>) {
                         style = FileMeta, color = c.ink3, maxLines = 1, overflow = TextOverflow.Ellipsis,
                     )
                 }
-                DirectionalIcon(MikaIcons.Chevron, null, Modifier.size(MikaSize.SmallIcon), tint = c.ink3)
+                DirectionalIcon(DjiniIcons.Chevron, null, Modifier.size(DjiniSize.SmallIcon), tint = c.ink3)
             }
         }
     }
@@ -1873,7 +1873,7 @@ internal fun Composer(
             if (attachments.isNotEmpty()) PendingTray(attachments, onRemove, Modifier.padding(bottom = 2.dp))
             if (importing || rejected.isNotEmpty() || overLimit > 0) {
                 Column(Modifier.fillMaxWidth().padding(start = 4.dp, bottom = 6.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                    if (importing) Text(AttachCopy.IMPORTING, style = MikaType.Caption, color = c.ink3)
+                    if (importing) Text(AttachCopy.IMPORTING, style = DjiniType.Caption, color = c.ink3)
                     if (rejected.isNotEmpty() || overLimit > 0) {
                         val why = listOfNotNull(
                             rejected.takeIf { it.isNotEmpty() }?.map { failure ->
@@ -1888,7 +1888,7 @@ internal fun Composer(
                             overLimit.takeIf { it > 0 }?.let(AttachCopy::overLimit),
                         ).joinToString("\n")
                         Row(verticalAlignment = Alignment.CenterVertically) {
-                            Text(why, Modifier.weight(1f), style = MikaType.Caption, color = c.warn)
+                            Text(why, Modifier.weight(1f), style = DjiniType.Caption, color = c.warn)
                             TextLink(stringResource(R.string.ok_got_it), onDismissRejected)
                         }
                     }
@@ -1905,7 +1905,7 @@ internal fun Composer(
                     val label = if (panel == Panel.Open) AttachCopy.CLOSE else AttachCopy.ADD
                     val blockedHint = stringResource(R.string.attach_blocked_running)
                     Box(
-                        Modifier.size(MikaSize.IconButton).background(c.greySoft, CircleShape).clip(CircleShape)
+                        Modifier.size(DjiniSize.IconButton).background(c.greySoft, CircleShape).clip(CircleShape)
                             .clickable(enabled = !importing, onClickLabel = label, onClick = {
                                 if (attachBlocked) {
                                     Toast.makeText(context, blockedHint, Toast.LENGTH_SHORT).show()
@@ -1913,14 +1913,14 @@ internal fun Composer(
                             }),
                         contentAlignment = Alignment.Center,
                     ) {
-                        Icon(MikaIcons.Plus, label, Modifier.size(20.dp).graphicsLayer { rotationZ = turn }, tint = c.ink)
+                        Icon(DjiniIcons.Plus, label, Modifier.size(20.dp).graphicsLayer { rotationZ = turn }, tint = c.ink)
                     }
                 }
                 Box(Modifier.weight(1f).padding(start = if (showAttach) 2.dp else 12.dp, end = 4.dp, top = 6.dp, bottom = 6.dp)) {
                     val converting = vState is HoldToTalk.State.Converting
                     if (text.isEmpty() && !converting) {
                         if (vh != null) VoicePlaceholder(mode)
-                        else Text(ChatCopy.placeholder(mode, hasHistory), style = MikaType.Body, color = c.ink3, maxLines = 1)
+                        else Text(ChatCopy.placeholder(mode, hasHistory), style = DjiniType.Body, color = c.ink3, maxLines = 1)
                     }
                     BasicTextField(
                         shownValue,
@@ -1932,7 +1932,7 @@ internal fun Composer(
                                 fieldFocused = it.isFocused
                                 if (it.isFocused && panel == Panel.Open) panel = Panel.Yielding
                             },
-                        textStyle = MikaType.Body.copy(color = c.ink, textDirection = TextDirection.Content),
+                        textStyle = DjiniType.Body.copy(color = c.ink, textDirection = TextDirection.Content),
                         cursorBrush = SolidColor(c.accent),
                         maxLines = 5,
                         keyboardOptions = if (sendFromIme) KeyboardOptions(imeAction = ImeAction.Send) else KeyboardOptions.Default,
@@ -1951,31 +1951,31 @@ internal fun Composer(
                 if (fieldFocused && vh != null) {
                     val hint = stringResource(R.string.voice_hold_to_talk)
                     Box(
-                        Modifier.size(MikaSize.IconButton).testTag("composer-mic").holdToTalk(vh) { vh.toast = hint },
+                        Modifier.size(DjiniSize.IconButton).testTag("composer-mic").holdToTalk(vh) { vh.toast = hint },
                         contentAlignment = Alignment.Center,
                     ) {
-                        Icon(MikaIcons.Mic, hint, Modifier.size(MikaSize.Icon), tint = c.ink)
+                        Icon(DjiniIcons.Mic, hint, Modifier.size(DjiniSize.Icon), tint = c.ink)
                     }
                 }
                 // 任务在跑时没字就停止;写了字停止让位给发送,发出去的话交给当前任务
                 if (busy && !canSend) {
                     Box(
-                        Modifier.size(MikaSize.IconButton).background(c.ink, CircleShape).clip(CircleShape)
+                        Modifier.size(DjiniSize.IconButton).background(c.ink, CircleShape).clip(CircleShape)
                             .clickable(onClickLabel = stringResource(R.string.chat_stop), onClick = onStop),
                         contentAlignment = Alignment.Center,
                     ) {
-                        Icon(MikaIcons.Stop, stringResource(R.string.chat_stop), Modifier.size(26.dp), tint = c.bg)
+                        Icon(DjiniIcons.Stop, stringResource(R.string.chat_stop), Modifier.size(26.dp), tint = c.bg)
                     }
                 }
                 if (!busy || canSend) {
                     Box(
-                        Modifier.size(MikaSize.IconButton)
+                        Modifier.size(DjiniSize.IconButton)
                             .background(if (canSend) c.accent else c.greySoft, CircleShape)
                             .clip(CircleShape)
                             .clickable(enabled = canSend, onClickLabel = stringResource(R.string.chat_send)) { panel = Panel.Closed; onSend() },
                         contentAlignment = Alignment.Center,
                     ) {
-                        Icon(MikaIcons.Up, stringResource(R.string.chat_send), Modifier.size(20.dp), tint = if (canSend) c.onAccent else c.ink3)
+                        Icon(DjiniIcons.Up, stringResource(R.string.chat_send), Modifier.size(20.dp), tint = if (canSend) c.onAccent else c.ink3)
                     }
                 }
             }
@@ -1998,7 +1998,7 @@ internal fun Composer(
                                 stringResource(R.string.teach_menu),
                                 Modifier.fillMaxWidth().clickable { panel = Panel.Closed; onTeach() }
                                     .padding(horizontal = 16.dp, vertical = 10.dp).testTag("teach-djini"),
-                                color = c.accent, style = MikaType.Body,
+                                color = c.accent, style = DjiniType.Body,
                             )
                         }
                         Box(Modifier.weight(1f)) { attachPanel() }
@@ -2022,27 +2022,27 @@ private const val JUMP_HIGHLIGHT_MS = 1_800L
 /** 竖线的位置(从左边算起);步骤点、转圈的中心都在这条线上。 */
 private val StepRail = 8.dp
 
-private val FileTileShape = MikaShapes.Tile
-private val EmptyLead = MikaType.Value
-private val ExampleText = MikaType.Value
-private val SuggestionText = MikaType.Body.copy(fontWeight = FontWeight.Medium)
-private val BubbleText = MikaType.Body
+private val FileTileShape = DjiniShapes.Tile
+private val EmptyLead = DjiniType.Value
+private val ExampleText = DjiniType.Value
+private val SuggestionText = DjiniType.Body.copy(fontWeight = FontWeight.Medium)
+private val BubbleText = DjiniType.Body
 /** 回答:正文字号,行距放宽到 1.7。 */
-private val AnswerText = MikaType.Body
-private val NowText = MikaType.Value
-private val TurnNameText = MikaType.Label.copy(fontWeight = FontWeight.SemiBold)
-private val ClockText = MikaType.Hint.copy(fontFeatureSettings = "tnum")
-private val StepText = MikaType.Caption
-private val StepCurrentText = MikaType.Caption.copy(fontWeight = FontWeight.Medium)
+private val AnswerText = DjiniType.Body
+private val NowText = DjiniType.Value
+private val TurnNameText = DjiniType.Label.copy(fontWeight = FontWeight.SemiBold)
+private val ClockText = DjiniType.Hint.copy(fontFeatureSettings = "tnum")
+private val StepText = DjiniType.Caption
+private val StepCurrentText = DjiniType.Caption.copy(fontWeight = FontWeight.Medium)
 /** 插话收成的小字:14sp,比正文淡一点点。 */
 private val SupplementText = TextStyle(fontSize = 14.sp, lineHeight = 20.sp, fontWeight = FontWeight.Normal)
 /** 干活中插话的右侧胶囊:比用户气泡小一圈,右下尾角。 */
 private val SteerPillShape = RoundedCornerShape(14.dp, 14.dp, 5.dp, 14.dp)
-private val NoteText = MikaType.Hint
-private val DoneText = MikaType.Caption
-private val NeedTitle = MikaType.Value.copy(fontWeight = FontWeight.SemiBold)
-private val CardBody = MikaType.Body
-private val PillText = MikaType.Caption
-private val ChipText = MikaType.Hint.copy(fontWeight = FontWeight.Medium)
-private val FileName = MikaType.Body.copy(fontWeight = FontWeight.Medium)
-private val FileMeta = MikaType.Hint
+private val NoteText = DjiniType.Hint
+private val DoneText = DjiniType.Caption
+private val NeedTitle = DjiniType.Value.copy(fontWeight = FontWeight.SemiBold)
+private val CardBody = DjiniType.Body
+private val PillText = DjiniType.Caption
+private val ChipText = DjiniType.Hint.copy(fontWeight = FontWeight.Medium)
+private val FileName = DjiniType.Body.copy(fontWeight = FontWeight.Medium)
+private val FileMeta = DjiniType.Hint

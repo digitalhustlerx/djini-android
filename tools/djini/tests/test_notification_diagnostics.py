@@ -9,7 +9,7 @@ import unittest
 from unittest.mock import patch
 
 SCRIPTS = Path(__file__).resolve().parents[1] / "scripts"
-spec = importlib.util.spec_from_file_location("mika_notifications", SCRIPTS / "mika_notifications.py")
+spec = importlib.util.spec_from_file_location("djini_notifications", SCRIPTS / "djini_notifications.py")
 diagnostics = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(diagnostics)
 
@@ -162,7 +162,7 @@ class NotificationDiagnosticsTest(unittest.TestCase):
                 diagnostics.validate(name, [], None, 0)
 
     def test_cli_does_not_connect_to_task_api(self):
-        cli_spec = importlib.util.spec_from_file_location("diagnostic_cli", SCRIPTS / "mika_cli.py")
+        cli_spec = importlib.util.spec_from_file_location("diagnostic_cli", SCRIPTS / "djini_cli.py")
         cli = importlib.util.module_from_spec(cli_spec)
         cli_spec.loader.exec_module(cli)
         adb = FakeAdb()
@@ -171,7 +171,7 @@ class NotificationDiagnosticsTest(unittest.TestCase):
         args = types.SimpleNamespace(command="notification-doctor", url=None, token_file=None, adb="adb",
                                      device="test-device", package=SOURCE, dependency=[], listener=LISTENER, user=0)
         with patch.object(cli, "Adb", return_value=adb), patch.object(cli, "connection", side_effect=AssertionError("Unexpected API")), \
-                patch.dict(sys.modules, {"mika_notifications": diagnostics}):
+                patch.dict(sys.modules, {"djini_notifications": diagnostics}):
             self.assertEqual(cli.execute(args, [])["source"]["package"], SOURCE)
 
 

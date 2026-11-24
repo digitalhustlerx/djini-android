@@ -11,7 +11,7 @@
     <string name="web_manage">Yönet</string>
     <string name="web_logout_all_title">Tümünden çık ve web verilerini temizle</string>
     <string name="web_you_signed_in">Bu sitede Djini içinde oturum açtınız.</string>
-    <string name="web_mika_visited">Djini bu siteyi ziyaret etti.</string>
+    <string name="web_djini_visited">Djini bu siteyi ziyaret etti.</string>
     <string name="web_open_login">Oturum açmayı aç</string>
     <string name="web_cleared">%1$s için çerezler ve web depolama temizlendi; yeniden oturum açmanız gerekecek. Bazı veriler kalabilir; her şeyi temizlemek için \“Tümünden çık\”ı kullanın.</string>
     <string name="web_signed_out">%1$s oturumundan çıkıldı. %2$s</string>

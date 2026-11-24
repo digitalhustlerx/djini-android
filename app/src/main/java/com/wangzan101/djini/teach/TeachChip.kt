@@ -26,8 +26,8 @@ import com.wangzan101.djini.cap.phone.a11y.OverlayWindow
 import com.wangzan101.djini.cap.phone.a11y.ScreenAccessibility
 import com.wangzan101.djini.core.teach.TeachPhase
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
-import com.wangzan101.djini.ui.theme.MikaRadius
+import com.wangzan101.djini.ui.theme.DjiniType
+import com.wangzan101.djini.ui.theme.DjiniRadius
 import kotlinx.coroutines.flow.MutableStateFlow
 
 /**
@@ -85,13 +85,13 @@ private fun TeachChipBar(
     DjiniTheme {
         val c = DjiniTheme.colors
         Row(
-            Modifier.testTag("teach-chip").clip(RoundedCornerShape(MikaRadius.Bubble)).background(c.ink).padding(horizontal = 12.dp, vertical = 8.dp),
+            Modifier.testTag("teach-chip").clip(RoundedCornerShape(DjiniRadius.Bubble)).background(c.ink).padding(horizontal = 12.dp, vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             Text(
                 stringResource(if (recording) R.string.teach_learning else R.string.teach_paused),
-                style = MikaType.Body,
+                style = DjiniType.Body,
                 color = c.bg,
             )
             ChipAction(stringResource(if (recording) R.string.teach_pause else R.string.teach_resume)) {
@@ -107,7 +107,7 @@ private fun ChipAction(label: String, onClick: () -> Unit) {
     Text(
         label,
         Modifier.clickable(role = Role.Button, onClick = onClick).padding(vertical = 4.dp),
-        style = MikaType.Body,
+        style = DjiniType.Body,
         color = DjiniTheme.colors.bg,
     )
 }

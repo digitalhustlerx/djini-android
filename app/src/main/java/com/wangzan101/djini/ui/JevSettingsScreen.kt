@@ -33,11 +33,11 @@ import com.wangzan101.djini.ui.components.GroupCard
 import com.wangzan101.djini.ui.components.GroupLabel
 import com.wangzan101.djini.ui.components.InputRow
 import com.wangzan101.djini.ui.components.ListRow
-import com.wangzan101.djini.ui.components.MikaButton
-import com.wangzan101.djini.ui.components.MikaSwitch
+import com.wangzan101.djini.ui.components.DjiniButton
+import com.wangzan101.djini.ui.components.DjiniSwitch
 import com.wangzan101.djini.ui.components.PageScaffold
 import com.wangzan101.djini.ui.components.SelectChip
-import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniIcons
 import com.wangzan101.djini.ui.theme.DjiniTheme
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
@@ -176,8 +176,8 @@ fun JevSettingsContent(
     var showKey by remember { mutableStateOf(false) }
     PageScaffold(stringResource(R.string.jev_title), onBack, Modifier.imePadding()) {
         GroupCard {
-            ListRow(MikaIcons.Route, stringResource(R.string.jev_enabled), first = true) {
-                MikaSwitch(config.enabled, { onConfig(config.copy(enabled = it)) }, Modifier.testTag("jev-enabled"), enabled = !busy)
+            ListRow(DjiniIcons.Route, stringResource(R.string.jev_enabled), first = true) {
+                DjiniSwitch(config.enabled, { onConfig(config.copy(enabled = it)) }, Modifier.testTag("jev-enabled"), enabled = !busy)
             }
         }
         FooterNote(stringResource(R.string.jev_privacy), Modifier.testTag("jev-privacy"))
@@ -214,9 +214,9 @@ fun JevSettingsContent(
             )
         }
         FooterNote(stringResource(R.string.jev_apply_note))
-        MikaButton(stringResource(R.string.save), onSave, Modifier.fillMaxWidth().testTag("jev-save"), enabled = canSave && !busy)
+        DjiniButton(stringResource(R.string.save), onSave, Modifier.fillMaxWidth().testTag("jev-save"), enabled = canSave && !busy)
         Spacer(Modifier.height(10.dp))
-        MikaButton(stringResource(R.string.jev_test), onTest,
+        DjiniButton(stringResource(R.string.jev_test), onTest,
             Modifier.fillMaxWidth().testTag("jev-test"), kind = ButtonKind.Secondary, enabled = canTest && !busy)
         Spacer(Modifier.height(10.dp))
         FooterNote(stringResource(R.string.jev_test_note))

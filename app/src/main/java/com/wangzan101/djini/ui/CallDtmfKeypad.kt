@@ -23,9 +23,9 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.wangzan101.djini.R
 import com.wangzan101.djini.calls.CallActionResult
-import com.wangzan101.djini.ui.theme.MikaShapes
+import com.wangzan101.djini.ui.theme.DjiniShapes
 import com.wangzan101.djini.ui.theme.DjiniTheme
-import com.wangzan101.djini.ui.theme.MikaType
+import com.wangzan101.djini.ui.theme.DjiniType
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 
@@ -75,7 +75,7 @@ internal fun CallDtmfKeypadDialog(
     }
 
     Dialog(onDismissRequest = onDismiss) {
-        Surface(shape = MikaShapes.Card, color = colors.surface) {
+        Surface(shape = DjiniShapes.Card, color = colors.surface) {
             Column(
                 Modifier.fillMaxWidth()
                     .heightIn(max = (LocalConfiguration.current.screenHeightDp - 48).coerceAtLeast(160).dp)
@@ -83,7 +83,7 @@ internal fun CallDtmfKeypadDialog(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                    Text(stringResource(R.string.calls_dtmf_title), Modifier.weight(1f), style = MikaType.Title)
+                    Text(stringResource(R.string.calls_dtmf_title), Modifier.weight(1f), style = DjiniType.Title)
                     TextButton(onClick = onDismiss, modifier = Modifier.heightIn(min = 48.dp).testTag("call-dtmf-close")) {
                         Text(stringResource(R.string.calls_dtmf_close))
                     }
@@ -91,7 +91,7 @@ internal fun CallDtmfKeypadDialog(
                 if (blocked || feedback != null) {
                     Text(
                         text = if (blocked) stringResource(R.string.calls_dtmf_sending) else feedback?.message.orEmpty(),
-                        style = MikaType.Caption,
+                        style = DjiniType.Caption,
                         color = if (feedback?.ok == false) MaterialTheme.colorScheme.error else colors.ink2,
                         modifier = Modifier.fillMaxWidth().semantics { liveRegion = LiveRegionMode.Polite }.testTag("call-dtmf-status"),
                     )
@@ -102,7 +102,7 @@ internal fun CallDtmfKeypadDialog(
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                        Text(stringResource(R.string.calls_dtmf_batch), Modifier.weight(1f), style = MikaType.Body)
+                        Text(stringResource(R.string.calls_dtmf_batch), Modifier.weight(1f), style = DjiniType.Body)
                         Switch(
                             checked = batch,
                             enabled = !blocked,
@@ -112,7 +112,7 @@ internal fun CallDtmfKeypadDialog(
                     }
                     Text(
                         stringResource(if (batch) R.string.calls_dtmf_batch_hint else R.string.calls_dtmf_hint),
-                        style = MikaType.Caption, color = colors.ink2,
+                        style = DjiniType.Caption, color = colors.ink2,
                     )
                     if (batch) {
                         OutlinedTextField(
@@ -145,7 +145,7 @@ internal fun CallDtmfKeypadDialog(
                                     contentPadding = PaddingValues(horizontal = 0.dp, vertical = 4.dp),
                                     modifier = Modifier.weight(1f).heightIn(min = 56.dp).testTag("call-dtmf-key-$digit"),
                                 ) {
-                                    Text(digit.toString(), style = MikaType.LargeTitle, textAlign = TextAlign.Center)
+                                    Text(digit.toString(), style = DjiniType.LargeTitle, textAlign = TextAlign.Center)
                                 }
                             }
                         }

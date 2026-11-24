@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.wangzan101.djini.R
 import com.wangzan101.djini.calls.*
 import com.wangzan101.djini.ui.components.*
-import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniIcons
 import com.wangzan101.djini.ui.theme.DjiniTheme
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
@@ -55,16 +55,16 @@ internal fun CallVoiceProfilesScreen(runtime: CallRuntime, onBack: () -> Unit) {
         profiles.forEach { profile ->
             val selected = profile.id == config.activeVoiceProfileId
             val audioVerified = runtime.voiceProfiles.isAudioVerified(profile.id, config.audioMode)
-            MikaCard(Modifier.fillMaxWidth().testTag("call-voice-profile-${profile.id}")) {
+            DjiniCard(Modifier.fillMaxWidth().testTag("call-voice-profile-${profile.id}")) {
                 ListRow(
-                    MikaIcons.Mic,
+                    DjiniIcons.Mic,
                     profile.name,
                     stringResource(R.string.calls_voice_profile_subtitle, profile.model,
                         if (audioVerified) stringResource(R.string.calls_voice_audio_verified) else stringResource(R.string.calls_voice_audio_unverified)),
                     first = true,
                     onClick = { editing = profile },
                 ) {
-                    if (selected) Icon(MikaIcons.Check, stringResource(R.string.calls_voice_selected), tint = DjiniTheme.colors.accent)
+                    if (selected) Icon(DjiniIcons.Check, stringResource(R.string.calls_voice_selected), tint = DjiniTheme.colors.accent)
                     else RowChevron()
                 }
                 Text(

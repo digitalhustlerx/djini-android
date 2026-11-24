@@ -63,14 +63,14 @@ import com.wangzan101.djini.ui.components.FooterNote
 import com.wangzan101.djini.ui.components.GroupCard
 import com.wangzan101.djini.ui.components.GroupLabel
 import com.wangzan101.djini.ui.components.ListRow
-import com.wangzan101.djini.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.DjiniDialog
 import com.wangzan101.djini.ui.components.PageBackground
 import com.wangzan101.djini.ui.components.PageScaffold
 import com.wangzan101.djini.ui.components.RowChevron
 import com.wangzan101.djini.ui.components.TopBar
-import com.wangzan101.djini.ui.theme.MikaIcons
-import com.wangzan101.djini.ui.theme.MikaRadius
-import com.wangzan101.djini.ui.theme.MikaSpace
+import com.wangzan101.djini.ui.theme.DjiniIcons
+import com.wangzan101.djini.ui.theme.DjiniRadius
+import com.wangzan101.djini.ui.theme.DjiniSpace
 import com.wangzan101.djini.ui.theme.DjiniTheme
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -285,7 +285,7 @@ fun ProactiveLearnScreen(onBack: () -> Unit) {
     }
 
     if (confirmClearAll) {
-        MikaDialog(
+        DjiniDialog(
             onDismissRequest = { confirmClearAll = false },
             title = { Text(stringResource(R.string.proactive_learn_clear_all)) },
             text = { Text(stringResource(R.string.proactive_learn_clear_all_body)) },
@@ -300,7 +300,7 @@ fun ProactiveLearnScreen(onBack: () -> Unit) {
     }
     editRelation?.let { c ->
         // 关系由用户设:列出几种关系和「不确定」;「交回给 Djini 判断」是清掉用户设的
-        MikaDialog(
+        DjiniDialog(
             onDismissRequest = { editRelation = null },
             title = { Text(stringResource(R.string.proactive_learn_relation_title, c.name)) },
             text = {
@@ -319,7 +319,7 @@ fun ProactiveLearnScreen(onBack: () -> Unit) {
                     }
                 }
             },
-            // 点一项就设好并关掉,所以只有「取消」一个按钮。它要放在 confirmButton 上:MikaDialog 总会画出那一格,
+            // 点一项就设好并关掉,所以只有「取消」一个按钮。它要放在 confirmButton 上:DjiniDialog 总会画出那一格,
             // 放在 dismissButton 上的话旁边会多出一个没有字的蓝色按钮(和「应用访问」里改分类的弹窗同一个写法)
             confirmButton = { TextButton({ editRelation = null }) { Text(stringResource(R.string.cancel)) } },
         )
@@ -331,7 +331,7 @@ fun ProactiveLearnScreen(onBack: () -> Unit) {
         // 手指落下去的那一行可能已经换成了别的话题,而点一下就并了、分不开。中途没了的话题从列表里去掉
         val order = remember(t.id) { TopicPool.mergeCandidates(t, topics, System.currentTimeMillis()).map { it.id } }
         val others = remember(order, topics) { topics.associateBy { it.id }.let { now -> order.mapNotNull(now::get) } }
-        MikaDialog(
+        DjiniDialog(
             onDismissRequest = { merging = null },
             title = { Text(stringResource(R.string.proactive_learn_topic_merge_title, t.label)) },
             text = {
@@ -352,7 +352,7 @@ fun ProactiveLearnScreen(onBack: () -> Unit) {
         )
     }
     confirmClearApp?.let { pkg ->
-        MikaDialog(
+        DjiniDialog(
             onDismissRequest = { confirmClearApp = null },
             title = { Text(stringResource(R.string.proactive_learn_clear_app, label(pkg))) },
             text = { Text(stringResource(R.string.proactive_learn_clear_app_body, label(pkg))) },
@@ -374,11 +374,11 @@ fun ProactiveLearnScreen(onBack: () -> Unit) {
 private fun LazyPage(title: String, onBack: () -> Unit, state: LazyListState, content: LazyListScope.() -> Unit) {
     PageBackground {
         Column(Modifier.fillMaxSize()) {
-            TopBar(title, MikaIcons.Back, onBack, stringResource(R.string.back))
+            TopBar(title, DjiniIcons.Back, onBack, stringResource(R.string.back))
             LazyColumn(
                 Modifier.weight(1f).fillMaxWidth().windowInsetsPadding(WindowInsets.navigationBars),
                 state = state,
-                contentPadding = PaddingValues(start = MikaSpace.Page, end = MikaSpace.Page, top = MikaSpace.S4, bottom = MikaSpace.S24),
+                contentPadding = PaddingValues(start = DjiniSpace.Page, end = DjiniSpace.Page, top = DjiniSpace.S4, bottom = DjiniSpace.S24),
                 content = content,
             )
         }
@@ -403,7 +403,7 @@ private class CardRows {
 
 /** 一张卡拆成懒加载的行时,每行的圆角:首行上圆、末行下圆。 */
 private fun cardRowShape(i: Int, n: Int): RoundedCornerShape {
-    val r = MikaRadius.Card
+    val r = DjiniRadius.Card
     return RoundedCornerShape(
         topStart = if (i == 0) r else 0.dp, topEnd = if (i == 0) r else 0.dp,
         bottomStart = if (i == n - 1) r else 0.dp, bottomEnd = if (i == n - 1) r else 0.dp,

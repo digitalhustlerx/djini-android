@@ -29,7 +29,7 @@
     <string name="export_filename_fallback">Djini 对话</string>
 
     <string name="export_label_user">用户</string>
-    <string name="export_label_mika">Djini</string>
+    <string name="export_label_djini">Djini</string>
     <string name="export_label_steer">任务中途的话</string>
     <string name="export_label_answer">回答</string>
     <string name="export_label_tool_steps">工具步骤</string>

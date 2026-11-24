@@ -34,9 +34,9 @@ import androidx.compose.ui.unit.dp
 import com.wangzan101.djini.R
 import com.wangzan101.djini.calls.*
 import com.wangzan101.djini.ui.components.*
-import com.wangzan101.djini.ui.theme.MikaIcons
-import com.wangzan101.djini.ui.theme.MikaShapes
-import com.wangzan101.djini.ui.theme.MikaSpace
+import com.wangzan101.djini.ui.theme.DjiniIcons
+import com.wangzan101.djini.ui.theme.DjiniShapes
+import com.wangzan101.djini.ui.theme.DjiniSpace
 import com.wangzan101.djini.ui.theme.DjiniTheme
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
@@ -181,18 +181,18 @@ private fun CallSettingsWorkspace(
 
     PageBackground(Modifier.testTag("call-settings")) {
         Column(Modifier.fillMaxSize().navigationBarsPadding().imePadding()) {
-            if (standalone) TopBar(stringResource(R.string.app_name), MikaIcons.Gear, ::openDeviceSettings,
+            if (standalone) TopBar(stringResource(R.string.app_name), DjiniIcons.Gear, ::openDeviceSettings,
                 stringResource(R.string.calls_tab_settings), right = {
-                    BarIconButton(MikaIcons.Info, stringResource(R.string.about_check), onAbout, badge = updateAvailable)
+                    BarIconButton(DjiniIcons.Info, stringResource(R.string.about_check), onAbout, badge = updateAvailable)
                 })
-            else TopBar(stringResource(R.string.calls_title), MikaIcons.Back, onBack, stringResource(R.string.back))
+            else TopBar(stringResource(R.string.calls_title), DjiniIcons.Back, onBack, stringResource(R.string.back))
             if (!idle) {
                 val callId = state.callId
                 CurrentCallCard(
                     state = state, feedback = feedback,
                     canAnswer = ready && !busy && !controlBusy && callId != null && state.canAnswer,
                     canControl = !controlBusy && callId != null,
-                    modifier = Modifier.padding(horizontal = MikaSpace.Page),
+                    modifier = Modifier.padding(horizontal = DjiniSpace.Page),
                     onAnswer = { callId?.let { perform { runtime.answer(it) } } },
                     onHangup = { callId?.let { perform(priority = true) { runtime.hangup(it) } } },
                     onTakeover = {
@@ -239,7 +239,7 @@ private fun CallSettingsWorkspace(
                 }
                 Column(
                     Modifier.weight(1f).fillMaxWidth().verticalScroll(scroll)
-                        .padding(horizontal = MikaSpace.Page).padding(top = 8.dp, bottom = 24.dp)
+                        .padding(horizontal = DjiniSpace.Page).padding(top = 8.dp, bottom = 24.dp)
                         .testTag("call-page-" + tab.name.lowercase()),
                 ) {
                     val visibleFeedback = feedback?.takeIf {
@@ -454,11 +454,11 @@ internal fun CurrentCallCard(
         CallAutoAnswerStage.ANSWERING -> stringResource(R.string.calls_auto_answering)
         else -> if (state.aiActive) stringResource(R.string.calls_ai_active) else phaseLabel(state.phase)
     }
-    MikaCard(modifier.padding(bottom = 6.dp).testTag("call-current")) {
+    DjiniCard(modifier.padding(bottom = 6.dp).testTag("call-current")) {
         Column(Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 8.dp),
             verticalArrangement = Arrangement.spacedBy(4.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                IconTile(MikaIcons.Phone, if (state.aiActive || cancelAuto) TileTone.Accent else TileTone.Neutral)
+                IconTile(DjiniIcons.Phone, if (state.aiActive || cancelAuto) TileTone.Accent else TileTone.Neutral)
                 Column(Modifier.weight(1f)) {
                     Text(phase, style = MaterialTheme.typography.titleSmall, maxLines = 2, overflow = TextOverflow.Ellipsis)
                     val party = state.number?.let { "\u2066$it\u2069" }
@@ -470,7 +470,7 @@ internal fun CurrentCallCard(
                 }
                 if (state.aiActive || state.liveTranscript.isNotEmpty()) {
                     IconButton(onClick = onTranscript, modifier = Modifier.testTag("call-current-transcript")) {
-                        Icon(MikaIcons.Message, contentDescription = stringResource(R.string.calls_live_transcript),
+                        Icon(DjiniIcons.Message, contentDescription = stringResource(R.string.calls_live_transcript),
                             tint = DjiniTheme.colors.accent)
                     }
                 }
@@ -496,7 +496,7 @@ internal fun CurrentCallCard(
                         }
                         Button(onClick = action.second, enabled = if (cancelManual || showTakeover) canControl else canAnswer,
                             modifier = Modifier.weight(1.25f).heightIn(min = 48.dp).testTag(action.third),
-                            shape = MikaShapes.Button, contentPadding = PaddingValues(horizontal = 7.dp, vertical = 6.dp),
+                            shape = DjiniShapes.Button, contentPadding = PaddingValues(horizontal = 7.dp, vertical = 6.dp),
                             colors = ButtonDefaults.buttonColors(containerColor = DjiniTheme.colors.accent, contentColor = DjiniTheme.colors.onAccent),
                         ) { Text(stringResource(action.first), textAlign = TextAlign.Center) }
                     }
@@ -572,7 +572,7 @@ private fun CallReceivePage(
             Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 14.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp), verticalAlignment = Alignment.CenterVertically,
         ) {
-            IconTile(MikaIcons.Bell, when (state.autoAnswerStage) {
+            IconTile(DjiniIcons.Bell, when (state.autoAnswerStage) {
                 CallAutoAnswerStage.STANDBY -> TileTone.Ok
                 CallAutoAnswerStage.PAUSED, CallAutoAnswerStage.BLOCKED -> TileTone.Warn
                 else -> TileTone.Neutral
@@ -581,7 +581,7 @@ private fun CallReceivePage(
                 Text(autoLabel, style = MaterialTheme.typography.titleMedium)
                 Text(autoAnswerSummary(config, state), style = MaterialTheme.typography.bodySmall, color = DjiniTheme.colors.ink3)
             }
-            MikaSwitch(
+            DjiniSwitch(
                 config.autoAnswer, onToggle,
                 modifier = Modifier.testTag("call-auto-answer").semantics { contentDescription = autoLabel },
                 enabled = controlsEnabled && (config.autoAnswer || canTurnOn),
@@ -589,7 +589,7 @@ private fun CallReceivePage(
         }
         if (!ready || !config.audioVerified) {
             HorizontalDivider()
-            ListRow(MikaIcons.Gear, stringResource(R.string.calls_device_and_permissions),
+            ListRow(DjiniIcons.Gear, stringResource(R.string.calls_device_and_permissions),
                 stringResource(if (!ready) R.string.calls_needs_setup else R.string.calls_verify_note),
                 onClick = onSetup) { RowChevron() }
         }
@@ -600,7 +600,7 @@ private fun CallReceivePage(
 
     GroupLabel(stringResource(R.string.calls_rules))
     GroupCard(Modifier.testTag("call-incoming-rules")) {
-        CallFoldRow(MikaIcons.Phone, stringResource(R.string.calls_rule_scope), scopeOpen,
+        CallFoldRow(DjiniIcons.Phone, stringResource(R.string.calls_rule_scope), scopeOpen,
             "call-rules-scope", subtitle = rulesSummary(config)) { scopeOpen = !scopeOpen }
         if (scopeOpen) {
             FooterNote(stringResource(R.string.calls_rule_delay_summary, config.autoAnswerDelaySeconds))
@@ -609,7 +609,7 @@ private fun CallReceivePage(
             }
         }
         HorizontalDivider()
-        CallFoldRow(MikaIcons.Heart, stringResource(R.string.calls_bypass_title), importantOpen,
+        CallFoldRow(DjiniIcons.Heart, stringResource(R.string.calls_bypass_title), importantOpen,
             "call-rules-important", subtitle = if (config.bypassIncomingNumbers.isEmpty()) stringResource(R.string.calls_bypass_empty)
             else stringResource(R.string.calls_bypass_count, config.bypassIncomingNumbers.size)) { importantOpen = !importantOpen }
         if (importantOpen) {
@@ -620,7 +620,7 @@ private fun CallReceivePage(
         }
         HorizontalDivider()
         val paused = state.autoAnswerStage == CallAutoAnswerStage.PAUSED
-        CallFoldRow(MikaIcons.Clock, stringResource(R.string.calls_rule_pause), pauseOpen,
+        CallFoldRow(DjiniIcons.Clock, stringResource(R.string.calls_rule_pause), pauseOpen,
             "call-rules-pause", subtitle = if (paused) autoAnswerSummary(config, state) else null) { pauseOpen = !pauseOpen }
         if (pauseOpen) {
             if (!config.autoAnswer && !paused) {
@@ -645,7 +645,7 @@ private fun CallReceivePage(
         }
     }
     GroupCard {
-        ListRow(MikaIcons.Doc, stringResource(R.string.calls_instructions_entry), first = true, onClick = onInstructions) {
+        ListRow(DjiniIcons.Doc, stringResource(R.string.calls_instructions_entry), first = true, onClick = onInstructions) {
             RowChevron()
         }
     }
@@ -675,28 +675,28 @@ private fun CallPreferencesPage(
         }
     }
     GroupCard {
-        ListRow(MikaIcons.Phone, stringResource(R.string.calls_enable),
+        ListRow(DjiniIcons.Phone, stringResource(R.string.calls_enable),
             stringResource(if (config.enabled) R.string.calls_enabled_summary else R.string.calls_system_default), first = true) {
-            MikaSwitch(config.enabled, { checked -> if (checked) onPrepare() else onStop() },
+            DjiniSwitch(config.enabled, { checked -> if (checked) onPrepare() else onStop() },
                 enabled = canConfigure || config.enabled, modifier = Modifier.testTag("call-enabled"))
         }
     }
 
     GroupLabel(stringResource(R.string.calls_settings_voice_group))
     GroupCard {
-        ListRow(MikaIcons.Mic, stringResource(R.string.calls_voice_service),
+        ListRow(DjiniIcons.Mic, stringResource(R.string.calls_voice_service),
             "${profile.name} · " + stringResource(when {
                 !profile.credentialsConfigured -> R.string.calls_key_missing
                 !profile.connectionTested -> R.string.calls_voice_status_untested
                 else -> R.string.calls_voice_status_tested
             }), first = true, onClick = onVoiceProfiles.takeIf { canConfigure }) { RowChevron() }
-        ListRow(MikaIcons.Message, stringResource(R.string.calls_profile),
+        ListRow(DjiniIcons.Message, stringResource(R.string.calls_profile),
             stringResource(R.string.calls_model_label, profile.model), onClick = onProfile.takeIf { canConfigure }) { RowChevron() }
     }
 
     GroupLabel(stringResource(R.string.calls_settings_device_group))
     GroupCard {
-        CallFoldRow(MikaIcons.Gear, stringResource(R.string.calls_device_and_permissions), deviceOpen, "call-settings-device",
+        CallFoldRow(DjiniIcons.Gear, stringResource(R.string.calls_device_and_permissions), deviceOpen, "call-settings-device",
             subtitle = stringResource(readinessSummary(config, ready))) { deviceOpen = !deviceOpen }
         if (deviceOpen) {
             CallPermissionRows(device, state.shellConnected, canConfigure, onHelperSetup)
@@ -720,7 +720,7 @@ private fun CallPreferencesPage(
     }
 
     GroupCard {
-        CallFoldRow(MikaIcons.Bell, stringResource(R.string.calls_background_settings), backgroundOpen, "call-settings-background",
+        CallFoldRow(DjiniIcons.Bell, stringResource(R.string.calls_background_settings), backgroundOpen, "call-settings-background",
             subtitle = stringResource(backgroundStandbyStatus(config, state))) { backgroundOpen = !backgroundOpen }
         if (backgroundOpen) {
             if (config.autoAnswer) {
@@ -763,7 +763,7 @@ private fun CallPreferencesPage(
             preferred != null -> stringResource(R.string.calls_sim_unavailable)
             else -> stringResource(R.string.calls_sim_ask_each_time)
         }
-        CallFoldRow(MikaIcons.Phone, stringResource(R.string.calls_default_sim_settings), simOpen, "call-settings-sim",
+        CallFoldRow(DjiniIcons.Phone, stringResource(R.string.calls_default_sim_settings), simOpen, "call-settings-sim",
             subtitle = summary) { simOpen = !simOpen }
         if (simOpen) {
             HorizontalDivider()
@@ -777,10 +777,10 @@ private fun CallPreferencesPage(
     }
 
     GroupCard {
-        CallFoldRow(MikaIcons.Gear, stringResource(R.string.calls_advanced), advancedOpen, "call-settings-advanced",
+        CallFoldRow(DjiniIcons.Gear, stringResource(R.string.calls_advanced), advancedOpen, "call-settings-advanced",
             subtitle = stringResource(R.string.calls_advanced_summary)) { advancedOpen = !advancedOpen }
         if (advancedOpen) {
-            ListRow(MikaIcons.Mic, stringResource(R.string.calls_audio_route),
+            ListRow(DjiniIcons.Mic, stringResource(R.string.calls_audio_route),
                 stringResource(if (config.audioMode == CallAudioMode.DIRECT) R.string.calls_audio_direct else R.string.calls_audio_redirect),
                 first = true, onClick = onProfile.takeIf { canConfigure }) { RowChevron() }
             FooterNote(stringResource(R.string.calls_advanced_note))
@@ -789,7 +789,7 @@ private fun CallPreferencesPage(
 
     GroupLabel(stringResource(R.string.calls_settings_data_group))
     GroupCard {
-        ListRow(MikaIcons.Clock, stringResource(R.string.calls_tab_history),
+        ListRow(DjiniIcons.Clock, stringResource(R.string.calls_tab_history),
             stringResource(R.string.calls_history_entry_summary), first = true, onClick = onRecords) { RowChevron() }
     }
 }
@@ -891,7 +891,7 @@ internal fun CallFoldRow(
 @Composable
 internal fun CallExpandIcon(expanded: Boolean) {
     Icon(
-        MikaIcons.Chevron, null, Modifier.size(16.dp).rotate(if (expanded) -90f else 90f), tint = DjiniTheme.colors.ink3,
+        DjiniIcons.Chevron, null, Modifier.size(16.dp).rotate(if (expanded) -90f else 90f), tint = DjiniTheme.colors.ink3,
     )
 }
 
@@ -899,7 +899,7 @@ internal fun CallExpandIcon(expanded: Boolean) {
 internal fun CallPrimaryButton(text: String, enabled: Boolean, onClick: () -> Unit, modifier: Modifier = Modifier) {
     Button(
         onClick = onClick, enabled = enabled, modifier = modifier.fillMaxWidth().heightIn(min = 48.dp),
-        shape = MikaShapes.Button,
+        shape = DjiniShapes.Button,
         colors = ButtonDefaults.buttonColors(containerColor = DjiniTheme.colors.accent, contentColor = DjiniTheme.colors.onAccent),
     ) { Text(text) }
 }

@@ -285,7 +285,7 @@ class RecoveryPermissionsTest {
     }
 
     @Test
-    fun unpairLeavesAloneWhatMikaNeverTurnedOn() = runTest {
+    fun unpairLeavesAloneWhatDjiniNeverTurnedOn() = runTest {
         // 用户自己在系统里开的无障碍、自己加的电池白名单,不是这里给的,解除配对不去动
         val shell = FakeShell(a11y = "$djini:$other")
         val p = RecoveryPermissions({ shell }, Store(), pkg)
@@ -355,7 +355,7 @@ class RecoveryPermissionsTest {
     }
 
     @Test
-    fun restartAccessibilityWhenMikaIsTheOnlyService() = runTest {
+    fun restartAccessibilityWhenDjiniIsTheOnlyService() = runTest {
         val shell = FakeShell(a11y = djini)
         assertEquals(PermissionResult.Done, RecoveryPermissions({ shell }, Store(), pkg).restartAccessibility(0))
         assertEquals(PermissionCommands.writeAccessibility("") + PermissionCommands.writeAccessibility(djini), shell.ran)

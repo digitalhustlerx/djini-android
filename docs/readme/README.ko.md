@@ -1,4 +1,4 @@
-<!-- translated-from: README.md @ 7b09b8113580 -->
+<!-- translated-from: README.md @ 20c5c76dfefd -->
 <div align="center">
 
 <img src="../media/logo.png" alt="Djini" width="88" />
@@ -9,7 +9,7 @@
 
 보이지 않는 백그라운드 화면에서 일하기 때문에, 그동안에도 휴대폰은 평소처럼 쓰면 됩니다.
 
-<a href="https://github.com/digitalhustlerx/djini-android"><img src="../media/star-banner-v2.png" alt="Mika가 마음에 들면 Star를 —— 오른쪽 위 Star 버튼을 클릭" width="620" /></a>
+<a href="https://github.com/digitalhustlerx/djini-android"><img src="../media/star-banner-v2.png" alt="Djini가 마음에 들면 Star를 —— 오른쪽 위 Star 버튼을 클릭" width="620" /></a>
 
 <br/>
 <a href="https://github.com/digitalhustlerx/djini-android/releases/latest"><img src="https://img.shields.io/badge/APK%20%EB%8B%A4%EC%9A%B4%EB%A1%9C%EB%93%9C-Android%2011%2B-2ea043?style=for-the-badge&logo=android&logoColor=white" alt="APK 다운로드" /></a> <a href="https://github.com/digitalhustlerx/djini-android"><img src="https://img.shields.io/github/stars/digitalhustlerx/djini-android?style=for-the-badge&logo=github&label=Star&color=FFD700&logoColor=white" alt="Star this repo" /></a>
@@ -32,9 +32,9 @@
 
 <br/>
 
-<img src="../media/wechat-send-side.gif" alt="한마디에 Mika가 백그라운드 화면에서 WeChat을 열고, 상대를 찾아 메시지를 보내는 모습" width="640" />
+<img src="../media/wechat-send-side.gif" alt="한마디에 Djini가 백그라운드 화면에서 WeChat을 열고, 상대를 찾아 메시지를 보내는 모습" width="640" />
 
-<sub>"파일 전송 도우미에게 메시지 보내 줘" 한마디: 왼쪽은 Mika와의 대화, 오른쪽은 백그라운드 화면에서 진행한 모든 단계(4배속, 채팅 목록은 모자이크 처리)</sub>
+<sub>"파일 전송 도우미에게 메시지 보내 줘" 한마디: 왼쪽은 Djini와의 대화, 오른쪽은 백그라운드 화면에서 진행한 모든 단계(4배속, 채팅 목록은 모자이크 처리)</sub>
 
 </div>
 
@@ -66,9 +66,9 @@
 
 </details>
 
-<sub>데모에 나오는 WeChat은 메신저 앱이고, 샤오훙수(RED)는 라이프스타일 SNS입니다. Mika는 특정 앱 전용이 아니라 휴대폰에 있는 어떤 앱이나 사이트에서도 동작합니다.</sub>
+<sub>데모에 나오는 WeChat은 메신저 앱이고, 샤오훙수(RED)는 라이프스타일 SNS입니다. Djini는 특정 앱 전용이 아니라 휴대폰에 있는 어떤 앱이나 사이트에서도 동작합니다.</sub>
 
-## 왜 Mika인가
+## 왜 Djini인가
 
 | | |
 |---|---|
@@ -88,7 +88,7 @@
 이제 말을 걸어 보세요: "내일 아침 9시 40분이랑 10시에 알람 맞춰 줘", "매일 아침 8시에 날씨 보고 비 올 때만 알려 줘".
 
 > 💡 컴퓨터가 옆에 있나요? 이 문장을 컴퓨터의 AI 에이전트에게 보내면 대신 설치해 줍니다:<br/>
-> `https://github.com/digitalhustlerx/djini-android/blob/main/docs/install-with-agent.en.md 의 단계에 따라, USB로 연결된 Android 휴대폰에 Mika를 설치해 줘.`
+> `https://github.com/digitalhustlerx/djini-android/blob/main/docs/install-with-agent.en.md 의 단계에 따라, USB로 연결된 Android 휴대폰에 Djini를 설치해 줘.`
 
 ## 할 수 있는 일
 
@@ -96,12 +96,12 @@
 |---|---|
 | **앱 조작** | 긴 목록과 대화 기록 읽기, 탭과 입력, 앱으로 텍스트 공유. 로그인, 인증 코드, 결제는 사용자에게 넘깁니다 |
 | **웹 사용** | 로그인 상태가 유지되는 PC 버전 내장 브라우저로 페이지를 읽고, 다운로드와 업로드도 합니다. 페이지는 적당한 속도로 넘기고, 차단 페이지가 나오면 사용자에게 넘깁니다 |
-| **지금 보고 있는 화면** | 플로팅 캡슐을 두 번 탭하면 보고 있는 화면을 Mika에게 보냅니다: "이거 뭐라고 답하지?", "이거 기록해 둬" |
+| **지금 보고 있는 화면** | 플로팅 캡슐을 두 번 탭하면 보고 있는 화면을 Djini에게 보냅니다: "이거 뭐라고 답하지?", "이거 기록해 둬" |
 | **예약과 조건** | "내일 아침 9시에 알려 줘", "매주 금요일에 이거 해 줘". 시간이 되면 원래 대화에서 실행합니다 |
 | **언제든 끼어들고, 언제든 멈추기** | 작업 중에도 계속 말해서 요구 사항을 더할 수 있고, 아직 반영되지 않은 말은 길게 눌러 취소하거나 수정할 수 있습니다. 멈추면 어디까지 했는지 알려 주고, "계속"이라고 하면 이어서 합니다 |
 | **눌러서 말하기** | 입력창을 누른 채 말하면 글자가 들어가고, 고친 뒤 보낼 수 있습니다. 플로팅 캡슐은 길게 눌러 말하고 손을 떼면 바로 보냅니다. 휴대폰의 음성 인식을 쓰고, 없으면 제공자의 음성 모델을 고를 수 있습니다 |
 | **파일과 계산** | 대화마다 Linux 샌드박스가 있어 Python, Node, 셸로 보내 준 파일을 처리합니다(arm64) |
-| **컴퓨터에서도 사용** | 컴퓨터의 AI 도구가 CLI + Skill 또는 MCP로 Mika에게 일을 맡길 수 있습니다([컴퓨터에서 Djini 쓰기](../computer.en.md)) |
+| **컴퓨터에서도 사용** | 컴퓨터의 AI 도구가 CLI + Skill 또는 MCP로 Djini에게 일을 맡길 수 있습니다([컴퓨터에서 Djini 쓰기](../computer.en.md)) |
 
 기본값은 **확인 모드**입니다. 돈이 드는 일(주문, 결제)만 먼저 물어보고 나머지는 끝까지 해냅니다. **자율 모드**로 바꿀 수도 있습니다. 자세한 내용은 [확인 모드와 자율 모드](../modes.en.md)를 보세요.
 
@@ -142,15 +142,15 @@ API 키 없이 ChatGPT(Plus / Pro), xAI / Grok, OpenRouter 계정으로 로그�
 <details>
 <summary><b>자주 묻는 질문</b></summary>
 
-**무선 디버깅이 저절로 꺼져요?** Android는 Wi-Fi를 바꾸거나 재부팅하면 무선 디버깅을 끕니다. 허용해 두면 Mika가 알아서 다시 켭니다. 그래도 연결되지 않으면 "Set up phone control"로 돌아가 다시 페어링하세요.
+**무선 디버깅이 저절로 꺼져요?** Android는 Wi-Fi를 바꾸거나 재부팅하면 무선 디버깅을 끕니다. 허용해 두면 Djini가 알아서 다시 켭니다. 그래도 연결되지 않으면 "Set up phone control"로 돌아가 다시 페어링하세요.
 
 **무선 디버깅 메뉴가 안 보여요?** 이 항목이 아예 없는 휴대폰도 있습니다. 그럴 땐 컴퓨터에서 USB로 휴대폰 도우미를 실행할 수 있습니다. [설정 가이드](../setup-guide.en.md)를 보세요.
 
-**읽지 못하거나 캡처되지 않는 화면이 있어요?** 결제나 비밀번호 입력 같은 화면은 스크린샷이 막혀 있어서, Mika가 직접 처리해 달라고 요청합니다.
+**읽지 못하거나 캡처되지 않는 화면이 있어요?** 결제나 비밀번호 입력 같은 화면은 스크린샷이 막혀 있어서, Djini가 직접 처리해 달라고 요청합니다.
 
 **내 컴퓨터에서 돌리는 모델도 쓸 수 있나요?** 네. 제공업체로 "Custom"을 고르고 로컬 네트워크 주소를 입력하면 됩니다.
 
-**앱이 한국어를 지원하나요?** 네. 앱 화면은 한국어와 영어, 아랍어, 중국어 간체, 중국어 번체, 일본어, 스페인어, 포르투갈어, 러시아어, 인도네시아어로 제공되며 시스템 언어를 따라갑니다(설정 › 언어에서도 바꿀 수 있습니다). Mika에게는 한국어로 말하면 됩니다. 내장된 앱·사이트 지식은 중국어로 쓰여 있지만 모델이 문제없이 읽습니다.
+**앱이 한국어를 지원하나요?** 네. 앱 화면은 한국어와 영어, 아랍어, 중국어 간체, 중국어 번체, 일본어, 스페인어, 포르투갈어, 러시아어, 인도네시아어로 제공되며 시스템 언어를 따라갑니다(설정 › 언어에서도 바꿀 수 있습니다). Djini에게는 한국어로 말하면 됩니다. 내장된 앱·사이트 지식은 중국어로 쓰여 있지만 모델이 문제없이 읽습니다.
 
 **업데이트는 어디서 받나요?** 이 저장소의 [Releases](https://github.com/digitalhustlerx/djini-android/releases)에서만 배포합니다. 앱의 Djini 정보 › 업데이트 확인에서도 바로 업데이트할 수 있습니다.
 
@@ -166,7 +166,7 @@ API 키 없이 ChatGPT(Plus / Pro), xAI / Grok, OpenRouter 계정으로 로그�
 - **문제 신고**: [Issue 열기](https://github.com/digitalhustlerx/djini-android/issues/new/choose). 앱의 Djini 정보 › 의견 보내기에서 진단 정보를 첨부할 수 있습니다
 - **기여하기**: 앱이나 사이트의 사용 지식을 보태 주세요(일반 텍스트라 코드를 몰라도 됩니다). 코드 기여도 환영합니다. [기여 가이드](../../.github/CONTRIBUTING.md)를 보세요
 
-<p align="center">⭐ Mika가 시간을 아껴 줬다면 Star를 눌러 더 많은 사람에게 알려 주세요.</p>
+<p align="center">⭐ Djini가 시간을 아껴 줬다면 Star를 눌러 더 많은 사람에게 알려 주세요.</p>
 
 ## Star History
 
@@ -179,7 +179,7 @@ API 키 없이 ChatGPT(Plus / Pro), xAI / Grok, OpenRouter 계정으로 로그�
 
 ## 기여자
 
-Mika에 함께해 주신 모든 분께 감사드립니다:
+Djini에 함께해 주신 모든 분께 감사드립니다:
 
 <a href="https://github.com/digitalhustlerx/djini-android/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=digitalhustlerx/djini-android&max=100&columns=12" alt="Contributors" />

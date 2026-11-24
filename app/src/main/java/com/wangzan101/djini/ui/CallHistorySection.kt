@@ -26,7 +26,7 @@ import com.wangzan101.djini.calls.CallRecord
 import com.wangzan101.djini.calls.CallTranscriptLine
 import com.wangzan101.djini.calls.SummaryStatus
 import com.wangzan101.djini.ui.components.*
-import com.wangzan101.djini.ui.theme.MikaIcons
+import com.wangzan101.djini.ui.theme.DjiniIcons
 import com.wangzan101.djini.ui.theme.DjiniTheme
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
@@ -141,12 +141,12 @@ internal fun CallHistorySection(
         }
     }
     if (history.isEmpty()) {
-        GroupCard { ListRow(MikaIcons.Clock, stringResource(R.string.calls_history_empty), first = true) }
+        GroupCard { ListRow(DjiniIcons.Clock, stringResource(R.string.calls_history_empty), first = true) }
     } else {
         OutlinedTextField(
             query, { query = it; showAll = false }, singleLine = true,
             label = { Text(stringResource(R.string.calls_history_search)) },
-            leadingIcon = { Icon(MikaIcons.Search, contentDescription = null) },
+            leadingIcon = { Icon(DjiniIcons.Search, contentDescription = null) },
             modifier = Modifier.fillMaxWidth().testTag("call-history-search"),
         )
         FlowRow(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -159,7 +159,7 @@ internal fun CallHistorySection(
             }
         }
         if (results.isEmpty()) {
-            GroupCard { ListRow(MikaIcons.Search, stringResource(R.string.calls_history_no_match), first = true) }
+            GroupCard { ListRow(DjiniIcons.Search, stringResource(R.string.calls_history_no_match), first = true) }
         } else GroupCard {
             val visible = if (showAll) results else results.take(3)
             visible.forEachIndexed { index, record ->
@@ -173,7 +173,7 @@ internal fun CallHistorySection(
                         },
                         onDelete = { pendingDelete = record.id },
                         onSaveDraft = onSaveDraft?.let { save -> { text -> save(record.id, text) } },
-                        onRetrySummary = { change("摘要已更新", summaryFailure) { onRetrySummary(record.id) } },
+                        onRetrySummary = { change("Summary updated", summaryFailure) { onRetrySummary(record.id) } },
                         onReuse = if (record.number != null && record.task != null && onReuseTask != null) {
                             { onReuseTask(record.number, record.task) }
                         } else null,
@@ -254,7 +254,7 @@ private fun CallHistoryItem(
     val name = record.number?.let { "\u2066$it\u2069" } ?: stringResource(R.string.calls_unknown_number)
     val expansion = stringResource(if (expanded) R.string.calls_collapse else R.string.calls_transcript)
     Column(Modifier.fillMaxWidth().semantics { stateDescription = expansion }) {
-        ListRow(MikaIcons.Clock, record.task?.goal ?: name,
+        ListRow(DjiniIcons.Clock, record.task?.goal ?: name,
             if (record.task != null) "$name · $direction · $start" else "$direction · $start",
             first = first, detail = "$status · ${record.result}",
             onClick = onExpand) { CallExpandIcon(expanded) }

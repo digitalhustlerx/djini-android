@@ -174,7 +174,7 @@ class ManifestProvidersTest {
         assertTrue(!service.contains("Icon.createWithResource(this, R.mipmap.ic_launcher)"))
     }
 
-    @Test fun capsuleTileLongPressOpensMikaInsteadOfAppDetails() {
+    @Test fun capsuleTileLongPressOpensDjiniInsteadOfAppDetails() {
         val doc = DocumentBuilderFactory.newInstance().apply { isNamespaceAware = true }
             .newDocumentBuilder().parse(File("src/main/AndroidManifest.xml"))
         val activities = doc.getElementsByTagName("activity")

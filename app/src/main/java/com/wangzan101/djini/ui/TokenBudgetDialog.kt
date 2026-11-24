@@ -12,7 +12,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.wangzan101.djini.R
 import com.wangzan101.djini.core.usage.TokenBudgetLimits
-import com.wangzan101.djini.ui.components.MikaDialog
+import com.wangzan101.djini.ui.components.DjiniDialog
 import com.wangzan101.djini.ui.components.RadioRow
 import com.wangzan101.djini.ui.theme.DjiniTheme
 import java.text.NumberFormat
@@ -38,7 +38,7 @@ internal fun TokenBudgetDialog(
     unlimited: Boolean = true,
 ) {
     val customValue = custom.toLongOrNull()?.takeIf(TokenBudgetLimits::valid)
-    MikaDialog(
+    DjiniDialog(
         onDismissRequest = onDismiss,
         title = { Text(title) },
         text = {

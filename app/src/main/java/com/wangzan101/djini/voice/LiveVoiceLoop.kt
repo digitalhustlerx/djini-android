@@ -93,13 +93,27 @@ class LiveVoiceLoop(
                     }
                     is SpeechEvent.Failed -> {
                         val why = ev.why
-                        if (why == null && isActive) {
-                            // Silence / nothing heard: gently re-listen
-                            startListening()
-                        } else {
-                            stop()
-                            onError(why?.toString() ?: "Voice input failed")
+                        stop()
+                        val msg = when (why) {
+                            SpeechFailure.NoPermission -> "Microphone permission is required for Live Voice. Hold the mic once to grant it."
+                            is SpeechFailure.Unavailable -> when (why.why) {
+                                SpeechEngineSpec.Why.SystemGone -> "No system speech service found. Enable Google/Samsung voice typing or pick a Speech-to-Text provider in Settings."
+                                SpeechEngineSpec.Why.SystemNoResponse,
+                                SpeechEngineSpec.Why.SystemFailed -> "System speech service didn't respond. Try switching Speech-to-Text in Settings."
+                                SpeechEngineSpec.Why.Off,
+                                SpeechEngineSpec.Why.NoSystemNoModel -> "No speech-to-text engine configured. Set one in Settings › Models › Speech to text."
+                                SpeechEngineSpec.Why.DoubaoNotConfigured,
+                                SpeechEngineSpec.Why.BailianNotConfigured,
+                                SpeechEngineSpec.Why.ProviderGone -> "Selected speech-to-text provider isn't configured in Settings."
+                            }
+                            SpeechFailure.MicUnavailable -> "Microphone is busy or unavailable."
+                            SpeechFailure.AudioError -> "Audio recording failed — check mic permission."
+                            SpeechFailure.Network -> "Network error during speech recognition."
+                            SpeechFailure.Busy -> "Speech recognizer is busy; try again."
+                            is SpeechFailure.ServiceNoPermission -> "Speech service needs microphone permission."
+                            is SpeechFailure.Provider -> why.error.message ?: "Speech provider error."
                         }
+                        onError(msg)
                     }
                     SpeechEvent.Converting -> Unit
                 }

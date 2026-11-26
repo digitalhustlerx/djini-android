@@ -1,6 +1,6 @@
-# 只读 Web 控制台：手机端只读端点（Mika Anywhere P0）
+# 只读 Web 控制台：手机端只读端点（Djini Anywhere P0）
 
-这是「Mika Anywhere」的第一阶段。本文只讲**手机端**：给 Web 控制台用的三个只读接口。浏览器页面和网关会话在另一个变更里；设计与分期讨论见上游 issue #372，网关侧见 PR #374（`tools/relay` 的另一个变更）。
+这是「Djini Anywhere」的第一阶段。本文只讲**手机端**：给 Web 控制台用的三个只读接口。浏览器页面和网关会话在另一个变更里；设计与分期讨论见上游 issue #372，网关侧见 PR #374（`tools/relay` 的另一个变更）。
 
 只读——不派工、不回答、不取消，也不碰手机上的任何设置。
 
@@ -96,8 +96,8 @@
 
 ```sh
 # Kotlin 只读 API 与 App 读取
-./gradlew :core:test --tests "com.wangzan101.mika.core.remote.CompanionApiTest" \
-  :app:testDebugUnitTest --tests "com.wangzan101.mika.chat.RemoteConversationReaderTest"
+./gradlew :core:test --tests "com.wangzan101.djini.core.remote.CompanionApiTest" \
+  :app:testDebugUnitTest --tests "com.wangzan101.djini.chat.RemoteConversationReaderTest"
 
 # 编译
 ./gradlew :app:compileDebugKotlin

@@ -32,8 +32,8 @@
 
 ## Impact
 
-- 代码：`app/src/main/java/com/wangzan101/mika/task/DeviceStateWatcher.kt`（仅 `LockState` 轮询与注释）。
-- 测试：`app/src/test/java/com/wangzan101/mika/task/LockStateTest.kt`（改 1 个用例、新增 2 个）。
+- 代码：`app/src/main/java/com/wangzan101/djini/task/DeviceStateWatcher.kt`（仅 `LockState` 轮询与注释）。
+- 测试：`app/src/test/java/com/wangzan101/djini/task/LockStateTest.kt`（改 1 个用例、新增 2 个）。
 - 代价：熄屏且有人等待时每 500ms 多两次系统查询（isInteractive 本地缓存、isDeviceLocked 一次 binder 调用），
   仅发生在「任务暂停等待解锁」期间，可接受。
 - 风险：真锁屏下暂停最多推迟一个轮询周期（≤0.5s），无功能影响；若 ROM 的 `isDeviceLocked`

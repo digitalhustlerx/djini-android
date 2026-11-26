@@ -41,7 +41,7 @@ main `b63f358d`（产出引用，尚未随版本发布）有两个缺口，真�
 
 ## Impact
 
-- `app/src/main/java/com/wangzan101/mika/ui/MarkdownModel.kt`（workspaceRefs 一处，约 +10 行）
+- `app/src/main/java/com/wangzan101/djini/ui/MarkdownModel.kt`（workspaceRefs 一处，约 +10 行）
 - `app/src/test/.../MarkdownModelTest.kt`、`WorkspaceRefTest.kt`（新增用例）
 - 下游 `WorkspaceRef.kt`/`ChatAttachments.kt`/`AttachSources.openSent` 无需改动，拿到解码后
   路径即恢复显示与打开。

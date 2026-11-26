@@ -1,7 +1,7 @@
 ---
 name: info-research
-display: 查清一件事
-description: 在网上把一件事查清楚:找方向、读原始出处、多方核对,写明出处和时间
+display: Research a Topic
+description: Research topics online, cross-check sources, and cite URLs
 aliases: ["调研", "查一下", "帮我了解"]
 apps: ["xiaohongshu", "zhihu", "bilibili", "weibo"]
 sites: ["zhihu.com", "tieba.baidu.com", "weibo.com", "douban.com"]

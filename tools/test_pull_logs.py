@@ -13,7 +13,7 @@ spec = importlib.util.spec_from_file_location("pull_logs", SCRIPT)
 pull_logs = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(pull_logs)
 
-PRESENT = b"/data/user/0/com.wangzan101.mika.logs\n"
+PRESENT = b"/data/user/0/com.wangzan101.djini.logs\n"
 
 
 def answered(returncode=0, stderr=b""):
@@ -49,7 +49,7 @@ class PullLogsTest(unittest.TestCase):
     def setUp(self):
         self.temporary_directory = tempfile.TemporaryDirectory()
         self.addCleanup(self.temporary_directory.cleanup)
-        self.output = Path(self.temporary_directory.name) / "mika-logs.tar"
+        self.output = Path(self.temporary_directory.name) / "djini-logs.tar"
 
     def export(self, adb):
         argv = ["pull-logs.py", "--device", "SERIAL", "--output", str(self.output)]
@@ -89,7 +89,7 @@ class PullLogsTest(unittest.TestCase):
     def test_silent_exit_one_still_means_no_records_yet(self):
         # `test -d` reports an absent directory this way, so it must not become an error.
         adb = FakeAdb(run_as=(0, PRESENT))
-        self.assertEqual("No records yet. Run a task in Mika Logs first.", self.message(adb))
+        self.assertEqual("No records yet. Run a task in Djini Logs first.", self.message(adb))
 
     def test_a_failed_transfer_names_adb_instead_of_a_traceback(self):
         # The phone can drop off while tar streams the export. Every other failure in this tool

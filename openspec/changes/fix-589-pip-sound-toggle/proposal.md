@@ -23,10 +23,10 @@
 
 ## Impact
 
-- `app/src/main/java/com/wangzan101/mika/task/AppMuter.kt`：新增 `muteAgain` 与 `userUnmuted` StateFlow。
-- `app/src/main/java/com/wangzan101/mika/task/TaskRun.kt`：`unmute()` 改为切换开关，新增小窗声音状态流。
-- `app/src/main/java/com/wangzan101/mika/takeover/Takeover.kt` / `TakeoverPort`：接管路径补关方向。
-- `app/src/main/java/com/wangzan101/mika/ui/`：`ChatViewModel`（动作与状态）、`ChatScreen`/`MainActivity`（接线）、`AgentPip.kt`（按钮状态化）。
+- `app/src/main/java/com/wangzan101/djini/task/AppMuter.kt`：新增 `muteAgain` 与 `userUnmuted` StateFlow。
+- `app/src/main/java/com/wangzan101/djini/task/TaskRun.kt`：`unmute()` 改为切换开关，新增小窗声音状态流。
+- `app/src/main/java/com/wangzan101/djini/takeover/Takeover.kt` / `TakeoverPort`：接管路径补关方向。
+- `app/src/main/java/com/wangzan101/djini/ui/`：`ChatViewModel`（动作与状态）、`ChatScreen`/`MainActivity`（接线）、`AgentPip.kt`（按钮状态化）。
 - `app/src/main/res/values*/strings_chat.xml`：新增 `pip_mute`。
-- `app/src/test/java/com/wangzan101/mika/task/AppMuterTest.kt`：新增用例。
+- `app/src/test/java/com/wangzan101/djini/task/AppMuterTest.kt`：新增用例。
 - 风险：反向静音仍是按包静音（同一包在主屏的另一份实例会一起没声）——与既有自动静音同一机制，收尾统一还原；显式用户意图优先，与 `unmute` 对称。

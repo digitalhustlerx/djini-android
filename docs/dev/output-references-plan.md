@@ -32,8 +32,8 @@
 ### Task 1: 抽出 Markdown 里的 `/workspace` 引用（纯逻辑）
 
 **Files:**
-- Modify: `app/src/main/java/com/wangzan101/mika/ui/MarkdownModel.kt`
-- Test: `app/src/test/java/com/wangzan101/mika/ui/MarkdownModelTest.kt`（若已存在则追加）
+- Modify: `app/src/main/java/com/wangzan101/djini/ui/MarkdownModel.kt`
+- Test: `app/src/test/java/com/wangzan101/djini/ui/MarkdownModelTest.kt`（若已存在则追加）
 
 **Interfaces:**
 - Produces: `fun MarkdownModel.workspaceRefs(markdown: String): List<String>` — 返回 Markdown 里所有 `Image`/`Link` 节点的 `destination` 中以 `/workspace` 开头的路径（按出现顺序，去重，保留原样含 `/workspace` 前缀）。
@@ -57,7 +57,7 @@
 
 - [ ] **Step 2: 跑测试确认失败**
 
-Run: `./gradlew :app:testDebugUnitTest --tests "com.wangzan101.mika.ui.MarkdownModelTest"`
+Run: `./gradlew :app:testDebugUnitTest --tests "com.wangzan101.djini.ui.MarkdownModelTest"`
 Expected: 编译失败 / `workspaceRefs` 未定义
 
 - [ ] **Step 3: 实现 `MarkdownModel.workspaceRefs(markdown: String): List<String>`**
@@ -72,7 +72,7 @@ Expected: PASS
 - [ ] **Step 5: Commit**
 
 ```bash
-git add app/src/main/java/com/wangzan101/mika/ui/MarkdownModel.kt app/src/test/java/com/wangzan101/mika/ui/MarkdownModelTest.kt
+git add app/src/main/java/com/wangzan101/djini/ui/MarkdownModel.kt app/src/test/java/com/wangzan101/djini/ui/MarkdownModelTest.kt
 git commit -m "feat(markdown): 抽出回复里的 /workspace 引用"
 ```
 
@@ -81,8 +81,8 @@ git commit -m "feat(markdown): 抽出回复里的 /workspace 引用"
 ### Task 2: 把引用解析成「类型 + 宿主文件」
 
 **Files:**
-- Create: `app/src/main/java/com/wangzan101/mika/ui/WorkspaceRef.kt`（或并入现有 attachment 文件，见下）
-- Test: `app/src/test/java/com/wangzan101/mika/ui/WorkspaceRefTest.kt`
+- Create: `app/src/main/java/com/wangzan101/djini/ui/WorkspaceRef.kt`（或并入现有 attachment 文件，见下）
+- Test: `app/src/test/java/com/wangzan101/djini/ui/WorkspaceRefTest.kt`
 
 **Interfaces:**
 - Consumes: `MarkdownModel.workspaceRefs(markdown)`（Task 1）
@@ -105,7 +105,7 @@ git commit -m "feat(markdown): 抽出回复里的 /workspace 引用"
 
 - [ ] **Step 2: 跑测试确认失败**
 
-Run: `./gradlew :app:testDebugUnitTest --tests "com.wangzan101.mika.ui.WorkspaceRefTest"`
+Run: `./gradlew :app:testDebugUnitTest --tests "com.wangzan101.djini.ui.WorkspaceRefTest"`
 Expected: FAIL（类型/函数未定义）
 
 - [ ] **Step 3: 实现 `resolveWorkspaceRefs`**

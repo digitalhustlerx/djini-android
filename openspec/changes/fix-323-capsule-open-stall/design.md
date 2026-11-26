@@ -5,7 +5,7 @@
 ```kotlin
 if (shown.value == 0f) repeat(SETTLE_FRAMES) { withFrameNanos { } }   // 帧停 → 永久挂起
 opened()                                                                // cardOut=true、syncWindowVisibility
-shown.animateTo(1f, tween(CARD_IN_MS, easing = MikaMotion.Decelerate)) // 帧停 → 卡在中间值
+shown.animateTo(1f, tween(CARD_IN_MS, easing = DjiniMotion.Decelerate)) // 帧停 → 卡在中间值
 ```
 
 卡片窗口的 `onOpened` 回调把 `cardOut` 置 true（边窗 `CapsuleOverlay` 据此不再画那颗胶囊）并同步窗口可见性。帧停在 SETTLE 阶段 → `opened()` 不执行 → 边上的胶囊继续画（#323 里「藏在后面的悬浮球」）、窗口状态卡在 opening；帧停在 animateTo 阶段 → 卡片停在 0.6–1.0 之间的缩放、`transformOrigin` 指向停靠边（症状：画面不全、贴右缩小）。边窗自己（`CapsuleOverlay`，恒 `open = true`）的同一处 SETTLE 等待同理，帧停则胶囊永远不出现。
@@ -41,7 +41,7 @@ shown.animateTo(1f, tween(CARD_IN_MS, easing = MikaMotion.Decelerate)) // 帧停
    `CapsuleOverlay` 的 `OverlayMotion(open = true, …, onClosed = {})` 与卡片共用 composable，守卫放在 `OverlayMotion` 内部则两处自动同时受益，不需要在调用点分别改。超时兜底对该分支表现为：胶囊直接以全尺寸出现（snap 过的头），可接受——它本来就该一直显示。
 
 5. **真机取证用现有像素测试 + 新增几何断言，不新增依赖。**
-   `CapsuleWindowDeviceTest` 已有经 Mika 自身无障碍服务找浮层节点、`UiAutomation.takeScreenshot` 比像素的完整模式。展开态几何断言按同一模式：点开卡片后，从无障碍树取 `capsule-card` 节点 bounds，断言（a）节点在屏内、左右留边对称（水平居中，容差按 density 换算）；（b）可见高度达到该缩放档位的预期范围。这条断言防的是 #323 第 1 点一类的「半开/裁切」回归，不依赖复现帧停。
+   `CapsuleWindowDeviceTest` 已有经 Djini 自身无障碍服务找浮层节点、`UiAutomation.takeScreenshot` 比像素的完整模式。展开态几何断言按同一模式：点开卡片后，从无障碍树取 `capsule-card` 节点 bounds，断言（a）节点在屏内、左右留边对称（水平居中，容差按 density 换算）；（b）可见高度达到该缩放档位的预期范围。这条断言防的是 #323 第 1 点一类的「半开/裁切」回归，不依赖复现帧停。
 
 ## Risks / Trade-offs
 

@@ -56,8 +56,8 @@
     <string name="browser_home">صفحهٔ شروع</string>
     <string name="share">اشتراک‌گذاری</string>
     <string name="more">بیشتر</string>
-    <string name="browser_login_for_mika">ورود برای میکا</string>
-    <string name="browser_login_for_mika_sub">" · نسخهٔ %1$s را که میکا برای کارها استفاده می‌کند باز می‌کند؛ پس از ورود، میکا نیز می‌تواند از آن استفاده کند"</string>
+    <string name="browser_login_for_djini">ورود برای میکا</string>
+    <string name="browser_login_for_djini_sub">" · نسخهٔ %1$s را که میکا برای کارها استفاده می‌کند باز می‌کند؛ پس از ورود، میکا نیز می‌تواند از آن استفاده کند"</string>
     <string name="browser_mobile">موبایل</string>
     <string name="browser_copy_link">کپی پیوند</string>
     <string name="browser_open_outside">باز کردن در مرورگری دیگر</string>

@@ -131,7 +131,7 @@ Fun-ASR 的服务端在一段话说得长、中间没有停顿（VAD 还没切�
 `FunAsrProtocolTest`、`PartialStitchTest`、`BailianProtocolTest`、`LiveSpeechTest`、`LiveAsrTransportTest`、`LiveSpeechSettingsTest` 覆盖：两家的消息样例（自建服务的样例取自真实服务的回应，含一段 40 多秒不停顿的话的全部回应 `app/src/test/resources/voice/funasr-long-utterance.jsonl`：预览去掉标点后每一份都是终结果的开头）、地址规范化、确认前不送音频、整份替换、尾包、只在结束事件后给 `Final`、断开和超时失败、取消、试连、请求头、握手被拒不带原话、Key 加密存取与删除、选择读写与坏数据退回自动、「部署说明」指向仓库里的文档、设置页的说法。WebSocket 测试只连本机 MockWebServer。
 
 ```sh
-./gradlew :app:testDebugUnitTest --tests 'com.wangzan101.mika.voice.*'
+./gradlew :app:testDebugUnitTest --tests 'com.wangzan101.djini.voice.*'
 ```
 
 真机上验证过：自建（局域网里的 Fun-ASR-Nano 实时服务）按住说话边说边出字、松开后文字进输入框；百炼北京填 Key 和业务空间 ID 后试连通过，按住说话同样出字。百炼的收费、延迟和准确率以账号实际为准。

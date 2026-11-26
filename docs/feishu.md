@@ -2,17 +2,17 @@
 
 简体中文 | [English](feishu.en.md)
 
-在飞书私聊机器人派任务、回答追问、收取结果。连接器在电脑运行，规划与执行仍由手机上的 Mika 完成，不需要公网 Webhook 服务。
+在飞书私聊机器人派任务、回答追问、收取结果。连接器在电脑运行，规划与执行仍由手机上的 Djini 完成，不需要公网 Webhook 服务。
 
 ## 安装
 
-需要 Python 3.10+、pipx、开启机器人能力的**飞书企业自建应用**，以及提供 task API v1 的 Mika 手机端（APK v0.1.23 起）。本版支持飞书，不支持国际版 Lark。电脑和手机需通过局域网或 Tailscale 等可信私有 VPN 互访。
+需要 Python 3.10+、pipx、开启机器人能力的**飞书企业自建应用**，以及提供 task API v1 的 Djini 手机端（APK v0.1.23 起）。本版支持飞书，不支持国际版 Lark。电脑和手机需通过局域网或 Tailscale 等可信私有 VPN 互访。
 
 在源码目录执行：
 
 ```bash
-pipx install ./tools/mika-feishu
-mika-feishu setup
+pipx install ./tools/djini-feishu
+djini-feishu setup
 ```
 
 手机打开「设置 › 连接电脑 › 网络访问」，复制该连接的令牌。地址填手机私网地址，例如 `http://100.64.1.2:8765`，端口以手机显示为准。USB 专用令牌、模型 API Key、Tailscale Auth Key 都不能代替它。本版通过私网直连，不负责 USB/ADB 启动。
@@ -25,7 +25,7 @@ mika-feishu setup
 2. **关联已有应用**：输入已有 App ID，或留空后在飞书授权页选择应用。核对变更后再授权，只关联自己有权管理的应用。
 3. **手动填写**：输入已有 App ID 和 App Secret，密钥输入不回显；在开发者后台完成以下权限和事件设置。
 
-也可以直接使用 `mika-feishu setup --mode create`、`--mode existing` 或 `--mode manual`。加 `--no-browser` 不自动打开浏览器，仍显示二维码和链接。授权拒绝、过期、返回信息不全时不覆盖原配置。二维码链接是临时授权材料，不要分享。
+也可以直接使用 `djini-feishu setup --mode create`、`--mode existing` 或 `--mode manual`。加 `--no-browser` 不自动打开浏览器，仍显示二维码和链接。授权拒绝、过期、返回信息不全时不覆盖原配置。二维码链接是临时授权材料，不要分享。
 
 扫码使用官方 SDK 的 `register_app` 和最小模板（`preset: false`），只声明以下两个应用身份权限和一个事件：
 
@@ -44,8 +44,8 @@ mika-feishu setup
 ## 检查、绑定与运行
 
 ```bash
-mika-feishu doctor
-mika-feishu run
+djini-feishu doctor
+djini-feishu run
 ```
 
 `doctor` 分别检查手机 API 版本及能力、飞书应用认证和本地绑定。它不派任务、不发消息，不能证明事件订阅或真实任务已经验收，报告会标明未核实部分。
@@ -73,11 +73,11 @@ mika-feishu run
 
 ## 配置和升级
 
-macOS/Linux 配置默认放在 `$XDG_CONFIG_HOME/mika-feishu/config.json` 或 `~/.config/mika-feishu/config.json`，Windows 放在 `%LOCALAPPDATA%\mika-feishu\config.json`。覆盖路径时将 `--config 路径` 放在子命令前。凭据是本机明文：POSIX 文件权限 600、目录 700；Windows 依赖用户目录的私有 NTFS 权限。不要提交或分享配置目录。任务和结果经过飞书传递。
+macOS/Linux 配置默认放在 `$XDG_CONFIG_HOME/djini-feishu/config.json` 或 `~/.config/djini-feishu/config.json`，Windows 放在 `%LOCALAPPDATA%\djini-feishu\config.json`。覆盖路径时将 `--config 路径` 放在子命令前。凭据是本机明文：POSIX 文件权限 600、目录 700；Windows 依赖用户目录的私有 NTFS 权限。不要提交或分享配置目录。任务和结果经过飞书传递。
 
 SQLite 按「应用 + 手机地址」保存账号绑定、消息去重、任务/对话关联，可能包含任务文字。换应用或手机地址后需重新绑定，单独轮换令牌不影响绑定。重新 `setup` 或 `unpair` 前先停止连接器，进程锁会防止同配置多开。
 
-连接器安装更新不覆盖用户配置，也不要求修改或重编译 Mika。源码更新后运行 `pipx install --force ./tools/mika-feishu`，再做 `doctor` 和一次只读任务验收。每次写操作前检查公开 API 版本 1 和能力：允许新增响应字段，未知 API 版本、任务状态或缺失能力会停止对应操作。未来发生不兼容的协议变更需要更新适配器，不做静默回退。
+连接器安装更新不覆盖用户配置，也不要求修改或重编译 Djini。源码更新后运行 `pipx install --force ./tools/djini-feishu`，再做 `doctor` 和一次只读任务验收。每次写操作前检查公开 API 版本 1 和能力：允许新增响应字段，未知 API 版本、任务状态或缺失能力会停止对应操作。未来发生不兼容的协议变更需要更新适配器，不做静默回退。
 
 消息 ID 持久化去重，手机写操作响应丢失时**不自动重发**；处理中崩溃会阻止新写入，直到主人核对手机并发送 `/reset checked`。手机 API 当前没有幂等提交键，因此不承诺整个链路恰好执行一次。手机重启导致旧任务 ID 消失时只提示，不重新创建任务。通知使用确定的飞书 UUID 减少重复回复。
 
@@ -92,4 +92,4 @@ SQLite 按「应用 + 手机地址」保存账号绑定、消息去重、任务/
 | SDK 不支持扫码 | 升级工具/SDK，或选择手动配置。 |
 | 手机重启后旧任务查不到 | 核对手机后 `/reset checked`，不要自动重发。 |
 
-解除本机绑定：先停进程，再运行 `mika-feishu unpair`。手动配置的固定 `allowed_open_ids` 不受影响；这不会撤销飞书应用本身，也不会取消手机任务。
+解除本机绑定：先停进程，再运行 `djini-feishu unpair`。手动配置的固定 `allowed_open_ids` 不受影响；这不会撤销飞书应用本身，也不会取消手机任务。

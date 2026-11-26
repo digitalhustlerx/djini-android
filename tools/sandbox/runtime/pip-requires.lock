@@ -1,5 +1,5 @@
 {
-  "spec": "mika.pip-requires/v1",
+  "spec": "djini.pip-requires/v1",
   "note": "Pinned pip wheels baked into the Linux sandbox rootfs. Build re-downloads ONLY these exact files and verifies SHA-256; any deviation fails the build. Regenerate by running the same selector on PyPI current releases.",
   "python": "cp312",
   "arch": "aarch64",

@@ -7,17 +7,17 @@ map $http_upgrade $mika_connection_upgrade {
 server {
     listen 80;
     listen [::]:80;
-    server_name mika.example.com;
+    server_name djini.example.com;
     access_log off;
-    return 308 https://mika.example.com$request_uri;
+    return 308 https://djini.example.com$request_uri;
 }
 
 server {
     listen 443 ssl;
     listen [::]:443 ssl;
-    server_name mika.example.com;
-    ssl_certificate /etc/ssl/mika/fullchain.pem;
-    ssl_certificate_key /etc/ssl/mika/privkey.pem;
+    server_name djini.example.com;
+    ssl_certificate /etc/ssl/djini/fullchain.pem;
+    ssl_certificate_key /etc/ssl/djini/privkey.pem;
     ssl_protocols TLSv1.2 TLSv1.3;
     access_log off;
     client_max_body_size 2m;

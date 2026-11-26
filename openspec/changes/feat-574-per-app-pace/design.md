@@ -16,7 +16,7 @@
 
 痛点：careful 名单（8 个内置 App）对用户不可见不可改；全局「快」时 `AppPacing.Off` 让 careful 判定一并失效；单 App 无法独立放慢/放快。
 
-先例：`AppAccessStore`（JSON 文件 + StateFlow）是按应用设置的存储先例；`AppAccessScreen` 是按应用列表页先例（`launchableApps` 列 App + 搜索 + ListRow/MikaDialog）；`SettingsScreen` 用 `SettingsPage` 枚举路由子页。
+先例：`AppAccessStore`（JSON 文件 + StateFlow）是按应用设置的存储先例；`AppAccessScreen` 是按应用列表页先例（`launchableApps` 列 App + 搜索 + ListRow/DjiniDialog）；`SettingsScreen` 用 `SettingsPage` 枚举路由子页。
 
 ## Goals / Non-Goals
 
@@ -64,7 +64,7 @@ seed 后 capped 只来源于用户覆盖，内置 8 App 预置 HUMAN → 行为�
 
 ### D6：UI——设置子页 + 添加对话框
 
-`SettingsPage` 加 `AppPace`，从 `DuringWorkScreen` 操作节奏组下新入口进入。子页复用 AppAccessScreen 的形态：覆盖项 ListRow（label + 档位，点击弹 快/标准/像人/删除 四选），「添加」进 MikaDialog（launchableApps + 搜索，排除已覆盖项）。新字符串补齐全部 11 个语言目录。
+`SettingsPage` 加 `AppPace`，从 `DuringWorkScreen` 操作节奏组下新入口进入。子页复用 AppAccessScreen 的形态：覆盖项 ListRow（label + 档位，点击弹 快/标准/像人/删除 四选），「添加」进 DjiniDialog（launchableApps + 搜索，排除已覆盖项）。新字符串补齐全部 11 个语言目录。
 
 ## Risks / Trade-offs
 

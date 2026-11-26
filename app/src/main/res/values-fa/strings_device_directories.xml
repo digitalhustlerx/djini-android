@@ -27,5 +27,5 @@
     <string name="device_dirs_entry_sub">به میکا کمک کنید فایل‌های دانلودشده را پیدا کند</string>
     <string name="device_dirs_source_preset">پیش‌فرض</string>
     <string name="device_dirs_source_user">ویرایش‌شده توسط شما</string>
-    <string name="device_dirs_source_mika">ویرایش‌شده توسط میکا</string>
+    <string name="device_dirs_source_djini">ویرایش‌شده توسط میکا</string>
 </resources>

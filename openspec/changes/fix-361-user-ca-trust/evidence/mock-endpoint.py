@@ -31,7 +31,7 @@ class Handler(BaseHTTPRequestHandler):
             length = int(self.headers.get("Content-Length") or 0)
             req = json.loads(self.rfile.read(length) or b"{}") if length else {}
             has_tools = bool(req.get("tools"))
-            # Mika 的「测试并保存」要求模型会调用工具:请求里带 tools 时回一个 tool_call
+            # djini 的「测试并保存」要求模型会调用工具:请求里带 tools 时回一个 tool_call
             message = (
                 {"role": "assistant", "content": None, "tool_calls": [{
                     "id": "call_1", "type": "function",
@@ -53,7 +53,7 @@ class Handler(BaseHTTPRequestHandler):
         pass
 
 ctx = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
-ctx.load_cert_chain("/tmp/mika-ca/server.crt", "/tmp/mika-ca/server.key")
+ctx.load_cert_chain("/tmp/djini-ca/server.crt", "/tmp/djini-ca/server.key")
 httpd = HTTPServer(("127.0.0.1", 8443), Handler)
 httpd.socket = ctx.wrap_socket(httpd.socket, server_side=True)
 print("serving on 127.0.0.1:8443", flush=True)

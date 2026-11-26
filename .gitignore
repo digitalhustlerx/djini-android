@@ -24,3 +24,10 @@ __pycache__/
 
 # plugin build output
 plugins/dist/
+
+# Large runtime assets (consider Git LFS)
+app/src/main/assets/runtime/rootfs.tar.xz
+app/src/main/jniLibs/**/*.so
+
+# Generated resource caches
+app/src/main/res/generated/

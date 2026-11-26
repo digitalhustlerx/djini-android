@@ -1,7 +1,7 @@
 ---
 name: skill-authoring
-display: 写技能
-description: 用户要新建、导入或修改一份技能(做一类事的固定做法)时用:怎么写、怎么查重、怎么存下
+display: Author Skills
+description: Create, import, deduplicate, and save reusable skills
 aliases: ["创建技能", "新建技能", "写个技能", "保存技能", "导入技能", "改技能", "skill"]
 terms: ["技能", "做法", "流程", "步骤", "模板", "以后都这样做", "存成技能", "导入", "改写"]
 ---

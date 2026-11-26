@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <!-- 按住说话时录音，转成文字；用户浏览器里的网页要麦克风时也用它。 -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <!-- 用户浏览器里的网页要摄像头（Mika 自己拍照走系统相机，不用这个权限）；网页请求时先弹框问用户。 -->
+    <!-- 用户浏览器里的网页要摄像头（Djini 自己拍照走系统相机，不用这个权限）；网页请求时先弹框问用户。 -->
     <uses-permission android:name="android.permission.CAMERA" />
     <!-- 用户浏览器里的网页要定位；网页请求时先弹框问用户。 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -29,6 +29,10 @@
         android:name="android.permission.MANAGE_ONGOING_CALLS"
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission
+        android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <!-- 批量日程经安卓日历提供方一次写入；用户未授权时退回系统日历的新建页。 -->
     <uses-permission android:name="android.permission.READ_CALENDAR" />
@@ -50,7 +54,7 @@
         tools:ignore="ProtectedPermissions" />
 
     <!-- 对话页附件可以拍照(走系统相机),声明用到相机、但不是必需:没有相机的设备照常安装。
-         有的系统按 APK 特征给应用分类,不声明时 Mika 可能被当成游戏、限制刷新率;这条声明要留着 -->
+         有的系统按 APK 特征给应用分类,不声明时 Djini 可能被当成游戏、限制刷新率;这条声明要留着 -->
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
@@ -112,7 +116,7 @@
     </queries>
 
     <application
-        android:name=".MikaApp"
+        android:name=".DjiniApp"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:supportsRtl="true"
@@ -126,13 +130,13 @@
             android:enableOnBackInvokedCallback="true"
             android:exported="true"
             android:launchMode="singleTask"
-            android:theme="@style/Theme.Mika"
+            android:theme="@style/Theme.Djini"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <!-- 覆盖磁贴长按的系统默认应用详情页，直接回到 Mika。 -->
+            <!-- 覆盖磁贴长按的系统默认应用详情页，直接回到 Djini。 -->
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -173,7 +177,7 @@
             android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden|keyboard|uiMode|density"
             android:exported="false"
             android:windowSoftInputMode="adjustResize"
-            android:theme="@style/Theme.Mika" />
+            android:theme="@style/Theme.Djini" />
 
         <!-- 用户自己打开的终端:只从 App 内进,不导出;转屏不重建,输入法调窗口高度 -->
         <activity
@@ -181,7 +185,7 @@
             android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden|keyboard|uiMode|density"
             android:exported="false"
             android:windowSoftInputMode="adjustResize"
-            android:theme="@style/Theme.Mika" />
+            android:theme="@style/Theme.Djini" />
 
         <!-- 网页接管:把后台的网页标签(同一个 WebView)拿到主屏给用户处理 -->
         <activity
@@ -193,7 +197,7 @@
             android:taskAffinity=""
             android:windowSoftInputMode="adjustResize" />
 
-        <!-- 兼容性自检在 Mika 虚拟屏上操作的测试页。对外开放只为让内置助手(shell)按组件名把它开到 Mika 的屏上:
+        <!-- 兼容性自检在 Djini 虚拟屏上操作的测试页。对外开放只为让内置助手(shell)按组件名把它开到 Djini 的屏上:
              调用方必须持有 INTERACT_ACROSS_USERS_FULL,shell 有,普通 App 没有;没有 intent-filter。单独一个任务,不进最近任务 -->
         <activity
             android:name=".selfcheck.SelfCheckTargetActivity"
@@ -217,7 +221,7 @@
         </service>
 
         <service
-            android:name=".a11y.MikaAccessibilityService"
+            android:name=".a11y.DjiniAccessibilityService"
             android:exported="true"
             android:label="@string/app_name"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
@@ -258,7 +262,7 @@
 
         <!-- 通话:Telecom 绑定伴侣 InCallService,系统电话仍用自己的通话界面;前台服务在锁屏时撑住进程。 -->
         <service
-            android:name=".calls.MikaInCallService"
+            android:name=".calls.DjiniInCallService"
             android:exported="true"
             android:permission="android.permission.BIND_INCALL_SERVICE">
             <intent-filter>
@@ -354,7 +358,7 @@
                 android:resource="@xml/report_files" />
         </provider>
 
-        <!-- 走网络代理时 Mika 自己下的更新安装包:只读交给系统安装器,不对外导出,安装时临时授权 -->
+        <!-- 走网络代理时 Djini 自己下的更新安装包:只读交给系统安装器,不对外导出,安装时临时授权 -->
         <provider
             android:name=".about.UpdateFilesProvider"
             android:authorities="${applicationId}.updatefiles"
@@ -405,10 +409,24 @@
             android:name=".task.ExternalScheduleReceiver"
             android:exported="true">
             <intent-filter>
-                <action android:name="com.wangzan101.mika.SCHEDULE" />
+                <action android:name="com.wangzan101.djini.SCHEDULE" />
             </intent-filter>
         </receiver>
         <receiver android:name=".teach.TeachReceiver" android:exported="false" />
+        <receiver android:name=".buddy.BuddyNightlyReceiver" android:exported="false" />
+
+        <!-- Djini Pulse live home-screen widget -->
+        <receiver
+            android:name=".buddy.DjiniPulseWidgetProvider"
+            android:exported="true"
+            android:label="Djini Pulse">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/djini_pulse_widget_info" />
+        </receiver>
     </application>
 
 </manifest>

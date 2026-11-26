@@ -1,5 +1,5 @@
 #!/bin/sh
-# 主机侧 pty 验证（Linux，不是安卓）：编译 mikarun 的 host 版本，在 PRoot 里跑一个 shell，
+# 主机侧 pty 验证（Linux，不是安卓）：编译 djinarun 的 host 版本，在 PRoot 里跑一个 shell，
 # 检查 tty、窗口大小（含运行中改大小）、输出转发和 Ctrl+C。只用于开发，不进 APK。
 # 用法（在 Alpine 容器里）：
 #   docker run --rm --cap-add=SYS_PTRACE --security-opt seccomp=unconfined \
@@ -8,12 +8,12 @@ set -eu
 
 SRC="${SRC:-/src}"
 CC="${CC:-gcc}"
-BIN=/tmp/mikarun
+BIN=/tmp/djinarun
 
 apk add --no-cache build-base linux-headers python3 >/dev/null 2>&1
 # proot 不在 3.22 的 main/community 里，用 edge/community 的 5.4.0（和本仓库同一个上游版本）。
 apk add --no-cache --repository=https://dl-cdn.alpinelinux.org/alpine/edge/community proot >/dev/null 2>&1
-"$CC" -O2 -Wall -Wextra -Werror -DMIKARUN_HOST_API_LEVEL=30 -o "$BIN" "$SRC/app/src/main/cpp/mikarun/mikarun.c"
+"$CC" -O2 -Wall -Wextra -Werror -DDJINARUN_HOST_API_LEVEL=30 -o "$BIN" "$SRC/app/src/main/cpp/djinarun/djinarun.c"
 echo "COMPILE_OK"
 
 "$BIN" --self-test
@@ -22,7 +22,7 @@ python3 - "$BIN" <<'PY'
 import queue, re, subprocess, sys, threading, time
 
 bin = sys.argv[1]
-size_path = "/tmp/mika-pty-size"
+size_path = "/tmp/djini-pty-size"
 with open(size_path, "w") as f:
     f.write("80 24")
 cmd = [bin, "--pty", "--pty-cols", "80", "--pty-rows", "24", "--pty-size", size_path, "--net", "on",

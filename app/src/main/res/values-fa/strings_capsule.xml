@@ -2,7 +2,7 @@
 <resources>
     <string name="card_approve_once">فقط این بار تأیید کن</string>
     <string name="card_see_process">برای مشاهدهٔ روند کامل به میکا برگردید</string>
-    <string name="card_back_to_mika">بازگشت به میکا</string>
+    <string name="card_back_to_djini">بازگشت به میکا</string>
     <string name="card_continue_last">ادامهٔ آخرین گفتگو</string>
     <string name="card_screen">صفحهٔ پس‌زمینه؛ برای بزرگ کردن بزنید</string>
     <string name="card_screen_label">پس‌زمینه</string>

@@ -14,17 +14,17 @@
 目标：跑 `CapsuleWindowDeviceTest`（收起残帧回归 + 新增的展开几何断言）。**未能执行，环境受阻**，经过如实记录：
 
 1. 首次 `connectedDebugAndroidTest`（class 过滤 CapsuleWindowDeviceTest）：两个用例均以
-   `IllegalStateException: Mika accessibility service is not enabled`（DeviceSupport.kt:50）失败。
+   `IllegalStateException: Djini accessibility service is not enabled`（DeviceSupport.kt:50）失败。
    与 DeviceSupport 的文档一致：instrumentation 启动强停 App，无障碍服务被记为已崩溃不再自动重绑，
    正常应由 `rebindAccessibility()` 的「摘下再放回」触发重绑。
 2. 手工重绑尝试（均无效）：
    - `settings put secure enabled_accessibility_services` 写回——注意第一次误写成短形式
-     `com.wangzan101.mika/.a11y.MikaAccessibilityService`，后改完整形式
-     `com.wangzan101.mika/com.wangzan101.mika.a11y.MikaAccessibilityService`（DeviceSupport 按完整形式做字符串匹配）；
+     `com.wangzan101.djini/.a11y.DjiniAccessibilityService`，后改完整形式
+     `com.wangzan101.djini/com.wangzan101.djini.a11y.DjiniAccessibilityService`（DeviceSupport 按完整形式做字符串匹配）；
    - 摘下→force-stop→放回；完整 off/on 循环；拉长间隔（5s/15s）循环；
-   - 走系统设置 UI（截图 + 视觉模型导航）：无障碍 → 已下载的服务 → Mika（状态「服务已停止」）→
-     「使用 Mika」开关 → 系统确认弹窗「是否允许 Mika 使用无障碍服务？」→ 允许。
-3. 系统状态一直停在 `Bound services:{} / Binding services:{com.wangzan101.mika/...MikaAccessibilityService}`，
+   - 走系统设置 UI（截图 + 视觉模型导航）：无障碍 → 已下载的服务 → Djini（状态「服务已停止」）→
+     「使用 Djini」开关 → 系统确认弹窗「是否允许 Djini 使用无障碍服务？」→ 允许。
+3. 系统状态一直停在 `Bound services:{} / Binding services:{com.wangzan101.djini/...DjiniAccessibilityService}`，
    `Crashed services:{}` 为空；App 进程存活（`dumpsys activity services` 无该服务的 ServiceRecord，
    即绑定从未到达应用侧），logcat 无重试迹象。
 4. 恢复手段评估：重启大概率可清掉挂起绑定，但本机带 PIN 锁、adb 解不开（AGENTS.md 已知），
@@ -33,7 +33,7 @@
    首次失败发生在任何源码改动安装之前的新装包上；且改动不触碰无障碍/服务路径）。
 6. 过程中定位并修复了一个测试基建 bug（随本 PR）：App 自己的恢复逻辑
    （`core/shell/RecoveryPermissions.kt` 的 `PermissionCommands.accessibilityService`）写
-   `enabled_accessibility_services` 用的是短形式（`包名/.a11y.MikaAccessibilityService`），而
+   `enabled_accessibility_services` 用的是短形式（`包名/.a11y.DjiniAccessibilityService`），而
    `DeviceSupport.rebindAccessibility()` 只按完整形式做字符串匹配——凡是 App 自动修复跑过的机器，
    重绑都被静默跳过（本机 SPMN 日志证实 App 启动即改写；维护者在 41468b39 也提过「该像素测试尚未在
    所需无障碍环境完成运行」，疑同因）。已让 DeviceSupport 两种写法都认（移除时两种都剔）。

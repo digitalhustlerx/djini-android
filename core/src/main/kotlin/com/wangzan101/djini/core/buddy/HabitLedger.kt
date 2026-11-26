@@ -269,7 +269,7 @@ class HabitLedger(
             }
         }
         val span = days.coerceIn(1, MAX_DAYS)
-        val today = LocalDate.ofInstant(Instant.ofEpochMilli(nowMs), zone())
+        val today = Instant.ofEpochMilli(nowMs).atZone(zone()).toLocalDate()
         val todayIso = today.toString()
         val series = (span - 1 downTo 0).map { offset ->
             val d = today.minusDays(offset.toLong()).toString()
@@ -445,7 +445,7 @@ class HabitLedger(
     }
 
     private fun dateKey(nowMs: Long): String =
-        LocalDate.ofInstant(Instant.ofEpochMilli(nowMs), zone()).toString()
+        Instant.ofEpochMilli(nowMs).atZone(zone()).toLocalDate().toString()
 
     private fun loadConfig(): BuddyConfig = runCatching {
         if (configFile.isFile) json.decodeFromString<BuddyConfig>(configFile.readText()) else BuddyConfig()
